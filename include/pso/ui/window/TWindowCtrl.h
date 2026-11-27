@@ -4,6 +4,7 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
+#include "pso/ui/chat/ChatShortcut.h"
 #include "pso/ui/window/WindowCtrlCallback.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 
@@ -78,7 +79,7 @@ struct TWindowCtrl : public TObject {
     static void set_timer_window_time(u32 secs);
     static void close_timer_window();
     static void create_alt_timer();
-    static char *skip_name_prefix(void *self, char *s);
+    char *skip_name_prefix(char *s);
     void get_speaker_balloon_anchor(u16 speaker, f32 *height, char **name);
     s32 find_farthest_balloon_slot(u16 speaker);
     f32 get_squared_distance_to_entity(TObjBase *from, u16 id);
@@ -137,7 +138,7 @@ struct TWindowCtrl : public TObject {
     static s32 get_flag_bit4();
     static s32 get_flag_bit5();
     static s32 get_display_flag();
-    static TWindowMessageLog *get_field44();
+    static TWindowMessageLog *get_message_log();
     static void set_flag_active();
     static void clear_flag_8();
     static void set_flag_bit0();
@@ -148,7 +149,6 @@ struct TWindowCtrl : public TObject {
     static void set_window_id(u16 id);
     static u16 get_window_id();
     void update_party_status_rows();
-    int is_flag_2_set();
 };
 
 LAYOUT_ASSERT(WindowCtrlTradeRequestOffset, offsetof(TWindowCtrl, trade_request) == 0x40);
@@ -159,14 +159,14 @@ LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
 extern u16 short_mail_flags;
 
 void close_window_if_active(s32 client);
+s32 is_com_card_window_open(void);
 void update_timer_window(TWindowCtrl *ctrl);
 void complete_actor_speech_balloons(u16 id);
 s32 is_actor_speech_balloon_done(u16 id);
-saddr get_party_member_name(s32 n);
+const char *get_party_member_name(s32 n);
 s32 is_chat_flag2_clear(const TWindowChat *chat);
 void destroy_com_card_window(void);
 s32 is_player_input_active(s32 client);
-bool is_com_card_window_open(void);
 void send_card_window_state();
 
 #endif

@@ -8,7 +8,7 @@ struct NJS_MOTION;
 struct NJS_OBJECT;
 
 struct TObjLazerFenceExtra : public TObjCollidable {
-    TObjLazerFenceExtra(TObject *parent, void *set_data);
+    TObjLazerFenceExtra(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjLazerFenceExtra();
     void update_wait_switch();
     void reset_by_door();
@@ -27,7 +27,7 @@ struct TObjLazerFenceExtra : public TObjCollidable {
     NJS_MOTION *beam_motion;
     void *beam_part_models[4];  // models of the beam's child nodes, retextured for scale_level
     s32 size_valid;  // 1 when set_params[2] is a valid fence size (0 or 1); 0 hides it
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjLazerFenceExtra_size, sizeof(TObjLazerFenceExtra) == 0xDC);

@@ -14,10 +14,10 @@ struct RlcDirectoryEntry {
 };
 
 struct RlcHeader {
-    u8 m_00[0x10];
+    u8 pad_00[0x10];
     s8 chunk_count_be[4];
     s8 directory_offset_be[4];
-    u8 m_18[8];
+    u8 pad_18[8];
 
     u32 get_directory_offset();
     u32 get_chunk_count();

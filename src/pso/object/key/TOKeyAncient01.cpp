@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/key/TOKeyAncient01.h"
@@ -13,7 +13,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/system/NinjaTypes.h"
 #include "pso/math/MatrixReflect.h"
 
 const char *bm_fd_obj_n_switch_model_names[] = {"fd_obj_n_switch.gj", NULL};
@@ -31,13 +30,13 @@ struct NJS_TEXLIST;
 
 NJS_TEXLIST **key_ancient01_texture_lists;
 
-void TOKeyAncient01::vfunc_25() {}
+void TOKeyAncient01::debug_draw_key_extra() {}
 
 void TOKeyAncient01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         if (is_on != 1) {
             draw_ginja_model_with_motion(model, motion, animation_frame);
@@ -63,14 +62,14 @@ void TOKeyAncient01::update_switch_on() {
     submit_cursor_target();
 }
 
-void *TOKeyAncient01::create(void *set_data) {
+void *TOKeyAncient01::create(ObjectSetData *set_data) {
     return new TOKeyAncient01(tl_05, set_data);
 }
 
 void TOKeyAncient01::free_shared_resources() {
     if (key_ancient01_texture_lists != NULL) {
         for (s32 i = 1; i < 4; i++) {
-            TObjPlayer::free_if_valid(key_ancient01_texture_lists[i]);
+            free_if_valid(key_ancient01_texture_lists[i]);
         }
         if (key_ancient01_texture_lists != NULL) {
             mem_free(key_ancient01_texture_lists);
@@ -98,7 +97,7 @@ TOKeyAncient01::~TOKeyAncient01() {
     free_collision_body_parts(this);
 }
 
-TOKeyAncient01::TOKeyAncient01(TObject *parent, void *set_data) : TOKey(parent) {
+TOKeyAncient01::TOKeyAncient01(TObject *parent, ObjectSetData *set_data) : TOKey(parent) {
     m_name = key_ancient01_class_name;
     apply_object_set_data(set_data);
     init_switch_id();

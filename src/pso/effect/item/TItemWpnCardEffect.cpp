@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -15,7 +14,7 @@
 #include "pso/system/vector.h"
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -35,7 +34,7 @@ const char *TItemWpnCardEffect::class_name = "TItemWpnCardEffect";
 
 #pragma fp_contract on
 
-void TObjPlayer::create_network_object(s32 item_id, u32 *hit, saddr direction) {
+void create_network_object(s32 item_id, u32 *hit, saddr direction) {
     if ((hit != NULL) && ((u32) *hit != 0U)) {
         new TItemWpnCardEffect(tl_05, (ActorBodyHit *)hit, (f32 *)direction, 0, item_id);
     }
@@ -45,7 +44,7 @@ void start_wall_card(s32 item_id, f32 *position, f32 *direction) {
     new TItemWpnCardEffect(tl_05, position, direction, 0, item_id);
 }
 
-void TObjPlayer::create_aux_object(s32 item_id, u32 *hit, f32 *direction) {
+void create_aux_object(s32 item_id, u32 *hit, f32 *direction) {
     if ((hit != NULL) && ((u32) *hit != 0U)) {
         new TItemWpnCardEffect(tl_05, (ActorBodyHit *)hit, direction, 0xFFFF0000, item_id);
     }
@@ -55,7 +54,7 @@ void start_red_wall_card(s32 item_id, f32 *position, f32 *direction) {
     new TItemWpnCardEffect(tl_05, position, direction, 0xFFFF0000, item_id);
 }
 
-void TObjPlayer::start_guardianna_hit_card(s32 item_id, u32 *hit, f32 *direction) {
+void start_guardianna_hit_card(s32 item_id, u32 *hit, f32 *direction) {
     if ((hit != NULL) && ((u32) *hit != 0U)) {
         new TItemWpnCardEffect(tl_05, (ActorBodyHit *)hit, direction, -0x100, item_id);
     }
@@ -71,7 +70,7 @@ TItemWpnCardEffect::TItemWpnCardEffect(TObject *parent, ActorBodyHit *hit, f32 *
     copy_actor_body_hit(&hit_target, hit);
     VecCopy(&this->direction, (const Vec *)direction);
     VecCopy(&position, &hit->target->bodies[hit->body].center);
-    rotation[1] = (65536.0 / (2.0 * 3.141592f)) * atan2_float(direction[0], direction[2]);
+    rotation.y = (65536.0 / (2.0 * 3.141592f)) * atan2_float(direction[0], direction[2]);
     this->tint = tint;
     init();
 }
@@ -83,7 +82,7 @@ TItemWpnCardEffect::TItemWpnCardEffect(TObject *parent, f32 *position, f32 *dire
     this->item_id = item_id;
     VecCopy(&this->direction, (const Vec *)direction);
     VecCopy(&this->position, (const Vec *)position);
-    rotation[1] = (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(direction[0], direction[2]));
+    rotation.y = (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(direction[0], direction[2]));
     this->tint = tint;
     init();
 }
@@ -96,8 +95,8 @@ void TItemWpnCardEffect::init() {
     particles[0] = NULL;
     particles[1] = NULL;
     particles[2] = NULL;
-    rotation[0] = 0;
-    rotation[2] = 0;
+    rotation.x = 0;
+    rotation.z = 0;
     normalize_vector(&direction);
     if (target_id != 0xFFFF) {
         radius = hit_target.target->bodies[hit_target.body].radius;
@@ -131,7 +130,7 @@ void TItemWpnCardEffect::run_task() {
     anchor_card_effect();
     for (i = 0; i != 3; i++) {
         if (particles[i] != NULL) {
-            ((TParticleCtrl *)particles[i])->set_position((u8 *)&position);
+            ((TParticleCtrl *)particles[i])->set_position(&position);
         }
     }
     if (age == 0) {
@@ -149,7 +148,7 @@ void TItemWpnCardEffect::run_task() {
 #pragma push
 #pragma fp_contract on
 void TItemWpnCardEffect::start_card_effect_flash() {
-    particles[0] = spawn_particle_effect_with_rotation(&position, rotation, 0x1B9, 0x104);
+    particles[0] = spawn_particle_effect_with_rotation(&position, &rotation, 0x1B9, 0x104);
     if (particles[0] != NULL) {
         ((TParticleCtrl *)particles[0])->set_scale(1.5f, 1.5f);
         if (tint != 0) {
@@ -189,12 +188,12 @@ void TItemWpnCardEffect::anchor_card_effect() {
         }
     }
 }
-void TObjPlayer::create_and_init_effect(s32 item_id, u32 *hit, f32 *direction) {
+void create_and_init_effect(s32 item_id, u32 *hit, f32 *direction) {
     if ((hit != NULL) && ((u32) *hit != 0U)) {
         new TItemWpnCardModelEffect(tl_05, (ActorBodyHit *)hit, direction, 0, item_id);
     }
 }
-void TObjPlayer::alloc_and_init(s32 item_id, f32 *position, f32 *direction) {
+void alloc_and_init(s32 item_id, f32 *position, f32 *direction) {
     new TItemWpnCardModelEffect(tl_05, position, direction, 0, item_id);
 }
 TItemWpnCardModelEffect::TItemWpnCardModelEffect(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id)
@@ -248,7 +247,7 @@ void TItemWpnCardModelEffect::render() {
                 set_texlist(equipped_item->get_texlist());
                 push_matrix();
                 post_translate_matrix(&position.x);
-                rotate_matrix_y(NULL, rotation[1]);
+                rotate_matrix_y(NULL, rotation.y);
                 scale_current_matrix(&scale.x);
                 draw_ginja_object(model);
                 pop_matrix();
@@ -291,6 +290,6 @@ void TItemWeaponGuardianna::emit_marker_effects() {
 }
 void TItemWeaponGuardianna::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->particle = 0x176;
-    desc->hit_effect = TObjPlayer::start_guardianna_hit_card;
-    desc->wall_effect = start_guardianna_wall_card;
+    desc->hit_effect = (void *)start_guardianna_hit_card;
+    desc->wall_effect = (void *)start_guardianna_wall_card;
 }

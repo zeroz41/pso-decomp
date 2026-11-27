@@ -6,7 +6,7 @@
 
 class TOHangceilingCave01Normal : public TOHangceilingCaveBase {
 public:
-    TOHangceilingCave01Normal(TObject *parent, void *set_data);
+    TOHangceilingCave01Normal(TObject *parent, ObjectSetData *set_data);
     virtual ~TOHangceilingCave01Normal();
     virtual void begin_wait();
     virtual void update_state();

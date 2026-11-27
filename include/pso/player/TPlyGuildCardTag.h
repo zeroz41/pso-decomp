@@ -12,6 +12,8 @@
  * Contains a tag triplet + guild card number.
  */
 
+class TObjPlayer;
+
 struct gc_tag {
     gc_tag() { init(); };
     ~gc_tag() {};
@@ -25,8 +27,10 @@ struct gc_tag {
     };
     // Out-of-line copy for the action palette tags (TPlyDispConfigSmth rows).
     void bswap_disp_config_field();
+    // As an action palette tag: whether player can use the action of kind tag0, index tag1.
+    s32 can_use_palette_action_for_entry(TObjPlayer *player);
 
-    u8 tag0;
+    s8 tag0;
     u8 tag1;
     u16 tag2;
 };

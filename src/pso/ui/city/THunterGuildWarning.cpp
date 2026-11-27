@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/city/THunterGuildSeqOnline.h"
@@ -18,6 +17,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #define PSO_SDK_COMPACT_MATH
 #include "pso/render/NinjaUtil.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 #undef PSO_SDK_COMPACT_MATH
 
 #pragma readonly_strings on
@@ -26,13 +26,13 @@ const char *hunter_guild_warning_name = "THunterGuildWarning";
 THunterGuildWarning *THunterGuildWarning::instance;
 
 void THunterGuildWarning::queue_destruction() {
-    if ((TRaderMapCore::is_not_split_screen() == 1) && (THunterGuildWarning::instance != NULL) && (THunterGuildWarning::instance->all_parents_unqueued_for_destruction() != 0)) {
+    if ((is_not_split_screen() == 1) && (THunterGuildWarning::instance != NULL) && (THunterGuildWarning::instance->all_parents_unqueued_for_destruction() != 0)) {
         THunterGuildWarning::instance->TObject::queue_destruction();
     }
 }
 
 void THunterGuildWarning::create_instance(s32 mode) {
-    if ((TRaderMapCore::is_not_split_screen() == 1) && (THunterGuildWarning::instance == NULL)) {
+    if ((is_not_split_screen() == 1) && (THunterGuildWarning::instance == NULL)) {
         new THunterGuildWarning(tl_05, mode);
     }
 }
@@ -193,7 +193,7 @@ s32 THunterGuildWarning::get_party_not_ready_reason(s32 id) {
 #include "pso/quest/TQuestListOnline.h"
 
 
-int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_quest_id(); }
+int get_selected_quest_id() { return TQuestListOnline::get_selected_quest_id(); }
 
 
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -225,15 +225,15 @@ s32 get_guild_quest_list_stage(void) {
 
 
 
-s32 handle_main_phase(TObjPlayer *player) {
+void *handle_main_phase(TObjPlayer *player) {
     if (get_main_phase() == 0xE) {
-        return (saddr)THunterGuildSeqOffline::create(player);
+        return THunterGuildSeqOffline::create(player);
     }
     if (get_main_phase() == 0xF) {
         if ((s32) local_client_id == (s32) designated_client_id) {
-            return (saddr)TLobby::create_tl05_object(player);
+            return TLobby::create_tl05_object(player);
         }
-        return (saddr)create_lobby_object_05(player);
+        return create_lobby_object_05(player);
     }
     return 0;
 }
@@ -246,11 +246,11 @@ extern "C" {
 // TCameraCtrl::get_nth_view_player_id, whose u16 return this caller does not see: it extends the id at every use.
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
 }
-s32 is_in_hunter_guild(s32 client_id) {
+int is_in_hunter_guild(int client_id) {
     s32 kind;
     s32 player;
     if (get_main_phase() == 14) {
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (is_not_split_screen() == 1) {
             if (get_game_play_mode() == 0) {
                 return 1;
             }
@@ -297,6 +297,7 @@ s32 is_in_hunter_guild(s32 client_id) {
 
 
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 
 
 void update_hunter_guild_phase(void) {
@@ -305,20 +306,20 @@ void update_hunter_guild_phase(void) {
         THunterGuildSeqOffline::clear_instance_table();
     }
     if (get_main_phase() == 0xF) {
-        THunterGuildSeqOffline::clear_slots();
-        THunterGuildSeqOffline::clear_slot_flags();
-        TQuestListOnline::release_resources();
+        clear_slots();
+        clear_slot_flags();
+        release_resources();
     }
 }
 
-void TLobby::update_guild_or_quest_phase() {
+void update_guild_or_quest_phase() {
     if (get_main_phase() == 0xE) {
         clear_offline_instance_table();
         clear_guild_warning_on_quest_exit();
     }
     if (get_main_phase() == 0xF) {
-        TQuestListOnline::init_download_buffers();
-        THunterGuildSeqOffline::zero_four_slots();
+        init_quest_list_online_buffers();
+        zero_four_slots();
         clear_online_client_instance_table();
     }
 }

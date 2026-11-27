@@ -5,11 +5,11 @@
 #include "pso/object/base/TObjMapObject.h"
 
 struct TOMonitorMachine01 : public TObjMapObject {
-    TOMonitorMachine01(void *set_data);
+    TOMonitorMachine01(ObjectSetData *set_data);
     virtual ~TOMonitorMachine01();
     virtual void run_task();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void reset_static_state();
     static void load_resources();
     u8 pad_C8[0x4];

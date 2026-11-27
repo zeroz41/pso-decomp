@@ -33,5 +33,6 @@ struct TWindowSubAreaMapDisp : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowSubAreaMapDisp_size, sizeof(TWindowSubAreaMapDisp) == 0x78);
 
+int get_window_count_ratio_value(void);
 
 #endif

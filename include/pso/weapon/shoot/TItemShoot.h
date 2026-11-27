@@ -2,6 +2,7 @@
 #define PSO_WEAPON_SHOOT_TITEMSHOOT_H
 
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 class TEffStarLight2D;
 struct TItemWeapon;
@@ -11,9 +12,7 @@ class TItemShoot : public TObject {
 public:
  static const char *class_name;
  Vec m_pos;
- s32 rot_x;
- s32 rot_y;
- s32 rot_z;
+ Angle3 rot;
  f32 m_life;
  Vec m_dir;
  Vec end_pos;
@@ -21,7 +20,7 @@ public:
  s32 m_owner_item_id; // the owner item's get_item_id(); find_equipped_item(id) == NULL ends the shot
 
 public:
-    TItemShoot(void* owner, const Vec* pos, const Vec* dir, f32 life);
+    TItemShoot(TItemWeapon *owner, const Vec* pos, const Vec* dir, f32 life);
     virtual ~TItemShoot();
     virtual void hook();
     virtual void run_task();

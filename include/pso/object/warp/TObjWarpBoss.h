@@ -12,7 +12,7 @@ struct NJS_OBJECT;
 
 // Same field layout as TObjCityMainWarpChallenge up to 0x178.
 struct TObjWarpBoss : public TObjAreaWarp {
-    TObjWarpBoss(TObject *parent, void *set_data);
+    TObjWarpBoss(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjWarpBoss();
     void close_windows();
     void update();
@@ -32,7 +32,7 @@ struct TObjWarpBoss : public TObjAreaWarp {
     void update_warp_confirmation();
     void render();
     void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     f32 frame;  // motion frame: run_task steps it by 4 and wraps at the motion's frame count
     u8 pad_c8[0x8];
     NJS_OBJECT *model;        // optional animated warp model

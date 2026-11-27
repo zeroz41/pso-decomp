@@ -18,7 +18,7 @@
 #include "pso/effect/particle/ParticleRadial.h"
 #include "pso/system/THeap.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/player/TObjPlayer.h"
 
 #include "pso/effect/TEffIndirectSampler.h"
@@ -34,18 +34,20 @@
 #include "pso/effect/sprite/TQuadSpriteSclColRot.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/TextureState.h"
+#include "pso/effect/particle/ParticleBallistic.h"
+#include "pso/effect/particle/ParticleOrbit.h"
 
 THeap *TParticleCtrl::heap;
 
-TParticle *TParticleCtrl::generate_child_default(ParticleParam *param, Vec *pos, TObject *parent) {
-    ParticleAngles dir = {0, 0, 0};
+TParticle *generate_child_default(ParticleParam *param, Vec *pos, TObject *parent) {
+    Angle3 dir = {0, 0, 0};
     return alloc_child_particle(param, pos, &dir, parent);
 }
 
 #pragma readonly_strings on
 ParticleGenerator particle_ctrl_generator_table[] = {
-    {"EMIT", TParticleCtrl::create_random_spread},
-    {"SPAIRAL", TParticleCtrl::generate_child_default},
+    {"EMIT", create_random_spread},
+    {"SPAIRAL", generate_child_default},
     {"VACUUM", create_random_particle},
 };
 #pragma readonly_strings reset
@@ -174,7 +176,7 @@ void TParticle::draw_particle_refraction_quad() {
     if (is_split_screen() != 0) {
         return;
     }
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     uv = particle_definitions[sprite_index].uvs[cell];
     p.x = sprite.pos.x + sprite.offset.x;
     p.y = sprite.pos.y + sprite.offset.y;
@@ -201,7 +203,7 @@ void TParticle::draw_particle_refraction_quad() {
     reset_particle_tev();
     reset_indirect_tev(1);
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TParticle::mark_active() {
@@ -248,7 +250,7 @@ void TParticleBallistic::draw_sprite_quad(s32 kind) {
     x = screen_projection.center_x;
     cy = screen_projection.center_y;
     sx = sy * (480.0f / (480.0f * screen_projection.width));
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     begin_screen_draw(1);
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(particle_definitions[kind].texlist));
     set_draw_texture_and_color(particle_definitions[kind].texture, particle_definitions[kind].color);
@@ -302,7 +304,7 @@ void TParticleBallistic::draw_sprite_quad(s32 kind) {
         draw_rotated_quad(&quad.x);
     }
     end_screen_draw();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     set_default_alpha_blend();
 }
 #pragma pop

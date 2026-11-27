@@ -19,6 +19,7 @@ public:
     virtual void tick_lifetime();
     virtual void spawn_effects(Vec *pos);
     virtual void play_cast_sound();
+    TechniqueContactList *find_area_technique_contact(TObjCollidable *target, CollisionBody *body, TObjBase *player);
     TechniqueContactList *find_area_contact(TObjBase *player);
     TechniqueContactList *collect_body_contacts(TObjCollidable *target, CollisionBody *body, TObjBase *player);
     TechniqueContactList *collect_body_contacts_for_target(TObjBase *player);
@@ -28,7 +29,7 @@ public:
     virtual void render();
     virtual void run_task();
     f32 lifetime;  // tick_lifetime destroys it once age passes this
-    s32 m_74;
+    s32 pad_74;
     s16 level;
     s16 band;  // get_technique_level_tier(level)
     Vec target;  // where the circle travels to before it spreads
@@ -38,7 +39,6 @@ public:
     CollisionBody *contact;  // the body of the target being hit
     CollisionBody collisionBody;
     TObjCollidable *collidable;
-    TechniqueContactList *find_area_technique_contact(TObjCollidable *target, CollisionBody *body, TObjBase *player);
 };
 LAYOUT_ASSERT(TTecCircleSize, sizeof(TTecCircle) == 0xEC);
 

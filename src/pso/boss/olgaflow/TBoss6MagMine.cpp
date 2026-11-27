@@ -1,6 +1,5 @@
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/boss/olgaflow/TBoss6MagMine.h"
 #include "pso/system/vector.h"
@@ -214,7 +213,7 @@ void TBoss6MagMine::state_0() {
 
 void TBoss6MagMine::run_task() {
     s32 color;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         return;
     }
     if (TBoss6PlotFalz::is_boss_active() == 0) {
@@ -276,7 +275,7 @@ TBoss6MagMine::TBoss6MagMine(TObject *parent, Boss6MagMineSetData *set_data) : T
     VecCopy(&position, &set_data->origin);
     VecCopy(&destination, &set_data->destination);
     add_flags_2e4(8);
-    apply_set_data(set_data);
+    apply_set_data(&set_data->placement);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
         record.damage = 0;
@@ -335,12 +334,12 @@ void TBoss6MagMine::spawn_mag_mine_at(const Vec *origin, const Vec *destination)
     if (boss == NULL || boss->get_scene_state() != 6) {
         return;
     }
-    copy_set_entry(&set_data, boss->get_set_entry());
+    copy_set_entry(&set_data.placement, boss->get_set_entry());
     VecCopy(&set_data.origin, origin);
     VecCopy(&set_data.destination, destination);
-    set_data.flags = 1;
-    VecCopy(&set_data.position, &set_data.origin);
-    if (boss->get_next_point(&set_data.set_index, &set_data.entity_id) != 0) {
+    set_data.placement.room = 1;
+    VecCopy(&set_data.placement.position, &set_data.origin);
+    if (boss->get_next_point(&set_data.placement.enemy_index, &set_data.placement.id) != 0) {
         create(&set_data);
     }
 }

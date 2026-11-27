@@ -23,9 +23,10 @@ const char *TAdChrMoveEffectGC::class_name = "TAdChrMoveEffectGC";
 
 struct ChrMoveEffectParamsWords { u32 w[8]; };
 
-
 extern "C" {
 void copy_effect_data__18TAdChrMoveEffectGCFPvPv(ChrMoveEffectParamsWords *dest, ChrMoveEffectParamsWords *source);
+}
+
 #pragma push
 #pragma fp_contract on
 void TAdChrMoveEffectGC::draw_entries() {
@@ -66,14 +67,11 @@ void TAdChrMoveEffectGC::draw_entries() {
 }
 #pragma pop
 
-}
-
 #pragma pop
 
 #pragma push
 
 TAdChrMoveEffectGC *chr_move_effect_instance;
-extern "C" {
 
 void TAdChrMoveEffectGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); draw_entries(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
 
@@ -186,7 +184,6 @@ void TAdChrMoveEffectGC::run_task() {
 }
 #pragma pop
 
-}
 TAdChrMoveEffectGC::~TAdChrMoveEffectGC() {
     if (chr_move_effect_instance != NULL) {
         chr_move_effect_instance = NULL;

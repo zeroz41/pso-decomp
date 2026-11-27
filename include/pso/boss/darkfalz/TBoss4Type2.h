@@ -51,7 +51,6 @@ public:
     virtual void apply_paralysis();
     virtual void apply_poison_status();
     static TBoss4Type2 *create(TBoss4FormSetData *set_data);
-    static s32 is_active();
     static TBoss4Zanzo *create_zanzo(TObject *parent, TBoss4ZanzoParams *params);
     static TObjDFJisin *create_jisin(TObject *parent, s32 angle);
     static s32 pick_weighted_random(s32 n, f32 *weights, s32 *values);
@@ -125,7 +124,7 @@ public:
     u16 target_player;               // 0xFFFF, or the player TObjDFRecover::create gets
     u8 pad_3c6[0x2];
     s32 anim;                        // row of TBoss4Type2__attack_pattern_table
-    s32 unk_3cc;
+    s32 pad_3cc;
     f32 anim_frame;
     f32 anim_speed;
     s32 anim_looped;
@@ -155,11 +154,12 @@ LAYOUT_ASSERT(TBoss4Type2_parts, offsetof(TBoss4Type2, parts) == 0x42C);
 LAYOUT_ASSERT(TBoss4Type2_size, sizeof(TBoss4Type2) == 0x474);
 
 // Dark Falz's fade-in and fade-out draws bracket their models with these.
-extern const f32 alpha_blend_color;
 extern const u32 alpha_blend_render_flags;
 extern const f32 alpha_blend_alpha_bias;
 void begin_alpha_blend(f32 alpha);
 void end_alpha_blend();
+// Half a turn in angle units, compute_wave_offset's scale.
+extern const f32 boss4_half_turn_scale;
 
 // One row of boss4_type2_action_table: the state name and its handlers.
 struct TBoss4Type2Action {
@@ -172,9 +172,5 @@ struct TBoss4Type2Action {
 
 // Where spawn_bishi_around_players puts its three TBoss4Bishi round each player.
 struct BishiSpawnOffset { f32 x, z; };
-
-extern const f32 boss4_float_one;
-extern const f32 boss4_float_half;
-extern const f32 boss4_half_turn_scale;
 
 #endif

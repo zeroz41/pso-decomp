@@ -7,7 +7,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/audio/SoundRequests.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/ambient/TObjRainCtrl.h"
 #include "pso/map/FloorWaveEvents.h"
 

@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/TextureState.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 
@@ -86,7 +86,7 @@ TWindowPartyStatus::~TWindowPartyStatus() {
 }
 
 TWindowPartyStatus::TWindowPartyStatus(s32 slot, u8 *descriptor)
-    : TWindowSimpleStatus((void *)get_window_layout_position(0xAB), local_client_id, descriptor) {
+    : TWindowSimpleStatus(get_window_layout_position(0xAB), local_client_id, descriptor) {
     m_name = TWindowPartyStatus::class_name;
     client_index = (s16)slot;
 }

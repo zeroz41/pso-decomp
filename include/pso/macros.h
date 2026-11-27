@@ -77,18 +77,6 @@
     o(tl_particle, TL_PARTICLE) \
     TL_PARTICLE_MODEL_OBJECTS
 
-#define FOREACH_NODE(type, first, varname) \
-    for (type *varname = (type *)(first); varname != NULL; varname = (type *)(varname->m_next))
-
-#define FOREACH_NODE_NODECL(type, first, varname) \
-    for (varname = (type *)(first); varname != NULL; varname = (type *)(varname->m_next))
-
-#define FOREACH_NODE_MULTI_ITER(type, first, varname, ...) \
-    for (type *varname = (type *)(first); varname != NULL; varname = (type *)(varname->m_next), __VA_ARGS__)
-
-#define FOREACH_NODE_NODECL_MULTI_ITER(type, first, varname, ...) \
-    for (varname = (type *)(first); varname != NULL; varname = (type *)(varname->m_next), __VA_ARGS__)
-
 #define __packed__
 
 #define WEAK_FUNC __declspec(weak)

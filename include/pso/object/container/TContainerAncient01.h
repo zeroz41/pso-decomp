@@ -5,10 +5,12 @@
 #include <stddef.h>
 #include "pso/object/base/TObjChara.h"
 
+struct QuestObjectEntry;
+
 struct BmlResource;
 
 struct TContainerAncient01 : public TObjChara {
-    TContainerAncient01(TObject *parent, void *set_data);
+    TContainerAncient01(TObject *parent, ObjectSetData *set_data);
     virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
     virtual ~TContainerAncient01();
     virtual int calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float);
@@ -18,7 +20,7 @@ struct TContainerAncient01 : public TObjChara {
     void open_container();
     void update_spawning();
     void update_blast();  // the open blast (sounds, effects, attack_nearby_players) until active_limit
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual s32 try_start_action(TObjChara *, s32, f32);
     virtual void apply_knockback_from_attacker(TObjBase *, f32);
     virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
@@ -36,7 +38,7 @@ struct TContainerAncient01 : public TObjChara {
     void init_state_vectors();
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void release_static_resource();
     static void load_resources();
     static s32 is_global_state_in_table();

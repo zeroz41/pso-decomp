@@ -58,7 +58,7 @@ void TAdChrSelPlayerGC::init_selection_model(s32 window_offset_index) {
     this->status_index = 0;
     layout_mode = window_offset_index;
     preview_data = NULL;
-    this->joint_matrices = mem_alloc(0xC00);
+    this->joint_matrices = static_cast<Mtx34 *>(mem_alloc(0xC00));
     TAdPlyStatusGC::get_instance(this, window_offset_index);
     place_model_for_mode(layout_mode);
 }
@@ -78,9 +78,9 @@ void TAdChrSelPlayerGC::place_model_for_mode(s32) {
         position.x = 17.0f;
         position.y = -10.5f;
         position.z = -40.0f;
-        rotation_x = 0;
-        rotation_y = 0xF3D5;
-        rotation_z = 0;
+        rotation.x = 0;
+        rotation.y = 0xF3D5;
+        rotation.z = 0;
         spin_model = 1;
         break;
     case 1:
@@ -88,26 +88,26 @@ void TAdChrSelPlayerGC::place_model_for_mode(s32) {
         position.x = 0.0f;
         position.y = -10.5f;
         position.z = -40.0f;
-        rotation_x = 0;
-        rotation_y = 0xF3D5;
-        rotation_z = 0;
+        rotation.x = 0;
+        rotation.y = 0xF3D5;
+        rotation.z = 0;
         spin_model = 1;
         break;
     case 3:
         position.x = 28.0f * formation_index + -14.0f;
         position.y = -10.0f;
         position.z = -110.0f;
-        rotation_x = 0;
-        rotation_y = 182.04445f * (7.25f - 14.5f * formation_index);
-        rotation_z = 0;
+        rotation.x = 0;
+        rotation.y = 182.04445f * (7.25f - 14.5f * formation_index);
+        rotation.z = 0;
         break;
     case 4:
         position.x = 19.0f * formation_index + -19.0f;
         position.y = -10.0f;
         position.z = -110.0f;
-        rotation_x = 0;
-        rotation_y = 182.04445f * (9.8f - 9.8f * formation_index);
-        rotation_z = 0;
+        rotation.x = 0;
+        rotation.y = 182.04445f * (9.8f - 9.8f * formation_index);
+        rotation.z = 0;
         break;
     case 5: {
         f32 xs[4] = { -21.5f, -8.0f, 7.0f, 23.5f };
@@ -116,9 +116,9 @@ void TAdChrSelPlayerGC::place_model_for_mode(s32) {
         position.x = xs[formation_index];
         position.y = -10.0f;
         position.z = zs[formation_index];
-        rotation_x = 0;
-        rotation_y = 182.04445f * rs[formation_index];
-        rotation_z = 0;
+        rotation.x = 0;
+        rotation.y = 182.04445f * rs[formation_index];
+        rotation.z = 0;
         break;
     }
     }
@@ -190,19 +190,19 @@ void TAdChrSelPlayerGC::run_task() {
             copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
-            rotation_y = 0xF3D5;
+            rotation.y = 0xF3D5;
             break;
         case 1:
             copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_entry(status_index)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
-            rotation_y = 0xF3D5;
+            rotation.y = 0xF3D5;
             break;
         case 2:
             copy_player_visual_record((PlayerVisualRecord *)&visual_record, (PlayerVisualRecord *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
-            rotation_y = 0xF3D5;
+            rotation.y = 0xF3D5;
             break;
         case 3:
         case 4:
@@ -238,7 +238,7 @@ void TAdChrSelPlayerGC::run_task() {
             pending_state = 0;
         } else {
             if (spin_model == 1) {
-                rotation_y = rotation_y - 0x100;
+                rotation.y = rotation.y - 0x100;
             }
             animation_ticks = animation_ticks + 1;
             t = animation_ticks;
@@ -294,26 +294,26 @@ void TAdChrSelPlayerGC::render() {
 void TAdChrSelPlayerGC::update_chara_making() {
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     set_texture_list(preview_data->get_status_sub());
-    draw_model_with_arg((NJS_OBJECT *)preview_data->get_body_model());
+    draw_model_with_arg(preview_data->get_body_model());
     push_matrix_from(get_joint_matrix(0x3A));
     set_texture_list(preview_data->get_status_data());
-    TObjPlayer::play_phase_transition_sound(preview_data->get_attachment_model());
+    TObjPlayer::draw_part_model(preview_data->get_attachment_model());
     pop_matrix();
-    if (preview_data->get_head_model() != 0U) {
+    if (preview_data->get_head_model() != NULL) {
         push_matrix_from(get_joint_matrix(0x3B));
         set_texture_list(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
-        TObjPlayer::play_phase_transition_sound(preview_data->get_head_model());
+        TObjPlayer::draw_part_model(preview_data->get_head_model());
         TCharaMaking::clear_flag_bit0();
         pop_matrix();
     }
-    if (preview_data->get_hair_model() != 0U) {
+    if (preview_data->get_hair_model() != NULL) {
         push_matrix_from(get_joint_matrix(0x3B));
         set_texture_list(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
-        draw_model_tinted_opaque(this, preview_data->get_hair_model(), &visual_record);
+        draw_model_tinted_opaque(preview_data->get_hair_model(), &visual_record);
         TCharaMaking::clear_flag_bit0();
         pop_matrix();
     }
@@ -326,11 +326,11 @@ void TAdChrSelPlayerGC::draw_model_with_arg(NJS_OBJECT *model) {
     draw_saving_joints_checked();
 }
 
-void draw_model_tinted_opaque(void * _w0, int _w1, void * _w2) {
-    ((s32 (*)(f32))draw_model_tinted)(1.0f);
+void TAdChrSelPlayerGC::draw_model_tinted_opaque(NJS_OBJECT *model, CharacterAppearanceFields *appearance) {
+    draw_model_tinted(model, appearance, 1.0f);
 }
 
-void draw_model_tinted(long long child, CharacterAppearanceFields *appearance, f32 alpha) {
+void TAdChrSelPlayerGC::draw_model_tinted(NJS_OBJECT *model, CharacterAppearanceFields *appearance, f32 alpha) {
   NJS_ARGB color;
   int one;
   saved_model_render_flags = model_render_flags;
@@ -347,14 +347,14 @@ void draw_model_tinted(long long child, CharacterAppearanceFields *appearance, f
   color.g = 0.003921569f * ((f32) appearance->green);
   color.b = 0.003921569f * ((f32) appearance->blue);
   set_constant_material(&color);
-  TObjPlayer::play_phase_transition_sound(child);
+  TObjPlayer::draw_part_model(model);
   chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
   chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
   model_render_flags = saved_model_render_flags;
 }
 
-extern "C" bool is_player_model_shown(TAdChrSelPlayerGC *player) {
-    return player->state == 3;
+BOOL is_player_model_shown(TAdChrSelPlayerGC *player) {
+    return player->state == 3 ? TRUE : FALSE;
 }
 
 void enable_spin_model(TAdChrSelPlayerGC *player) { player->spin_model = 1; }

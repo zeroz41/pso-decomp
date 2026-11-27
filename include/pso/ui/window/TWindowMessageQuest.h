@@ -25,5 +25,7 @@ struct DefaultQuestMessageExtent {
     f32 reserved;
 };
 
+TWindowMessageQuest *create_quest_message_window_at(const NJS_POINT2 *position, const NJS_POINT2 *extent);
+int dispatch_message_window_text(TWindowMessageQuest *window, const char *text, s32 flags);
 
 #endif

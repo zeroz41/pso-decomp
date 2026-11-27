@@ -25,7 +25,8 @@ public:
     void move_technique_projectile();
     virtual void run_task();
     virtual void render();
-    virtual void spawn_impact_effect();
+    // Runs when the shot ends on a wall or without a character to hit.
+    virtual void spawn_miss_effect();
     virtual void debug_print_tech_params();
     virtual void apply_to_target(TObjChara *);
     void advance_lifetime_or_destroy();

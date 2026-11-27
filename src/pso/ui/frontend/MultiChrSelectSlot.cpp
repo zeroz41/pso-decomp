@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/charcreate/CreationInput.h"
 #include "pso/ui/frontend/MultiChrSelectSlot.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/charcreate/CreationInput.h"

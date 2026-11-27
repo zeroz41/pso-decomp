@@ -6,7 +6,8 @@
 
 struct WindowDrawContext;
 
-// Allocated by the status, shortcut and card-list windows.
+// Allocated by the status, shortcut and card-list windows. handle_flip_input
+// and draw share this layout.
 struct PageIndicator {
     s8 page;
     s8 count;
@@ -21,7 +22,7 @@ struct PageIndicator {
     s32 reset(s8 new_count);
     // Turns to new_page, starting the arrow slide toward it; 0 when already there.
     s32 turn_to(s8 new_page);
-    void draw(WindowDrawContext *r);
+    void draw(WindowDrawContext *context);
     void decay_arrow_offset();
     s32 handle_flip_input();
 };

@@ -9,7 +9,7 @@
 #include "pso/player/LocalClientId.h"
 #include "pso/render/TextureState.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
@@ -120,7 +120,6 @@ void FloorTransition::set_next_floor(s32 floor, s32) {
 #pragma fp_contract on
 s32 select_area_entrance(FloorTransition *transition) {
     s32 floor_delta;
-    s32 temp_r3;
     if ((s32) transition->previous_floor > 0x11) {
         return 4;
     }
@@ -202,23 +201,18 @@ void run_area_scene_cleanup(FloorTransition *transition) {
 }
 
 
-void load_area_scene_and_init(FloorTransition *transition) {
+s32 load_area_scene_and_init(FloorTransition *transition) {
     FloorMapSelection selection;
     FloorMapSelection *selection_ptr;
-    s32 value;
     FloorTransition *trans;
     trans = transition;
-    value = transition->current_floor;
-    set_current_floor_area((value));
-    value = trans->current_map;
-    TScene::set_scene(value);
-    value = trans->current_floor;
+    set_current_floor_area(transition->current_floor);
+    TScene::set_scene(trans->current_map);
     selection_ptr = &selection;
-    if (lookup_floor_map_selection(value, selection_ptr) != 0) {
-        area_initializer_dispatch_table[selection.area].init();
-        return;
+    if (lookup_floor_map_selection(trans->current_floor, selection_ptr) != 0) {
+        return area_initializer_dispatch_table[selection.area].init();
     }
-    area_initializer_dispatch_table[trans->current_floor].init();
+    return area_initializer_dispatch_table[trans->current_floor].init();
 }
 
 void promote_area_floor(FloorTransition *transition) {

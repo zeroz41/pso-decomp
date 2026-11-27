@@ -24,7 +24,7 @@ struct ItemToolPmt {
 struct TItemObject : public TItem {
     TItemObject(TObject *parent, u8 *item);
     virtual ~TItemObject();
-    virtual void *get_center();
+    virtual Vec *get_center();
     virtual void update_owned();
     virtual void write_item_data(TItemData *data);
     virtual void use();
@@ -58,6 +58,7 @@ LAYOUT_ASSERT(ItemObjectSize, sizeof(TItemObject) == 0x104);
 
 // The action palette slot a usable tool goes to (0..12), -1 for none.
 s32 get_tool_palette_index(TItem *item);
+
 
 void handle_6x66_use_star_atomizer(G_UseStarAtomizer_6x66 *packet);
 

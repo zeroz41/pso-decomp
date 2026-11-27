@@ -18,7 +18,7 @@ public:
     virtual void update_switch_on();
     virtual void update_switch_off();
     virtual void update_armed_switch();
-    virtual void vfunc_25();
+    virtual void debug_draw_key_extra();
     // The floor's looping sensor sound while off / on.
     void play_off_loop_sound();
     void play_on_loop_sound();

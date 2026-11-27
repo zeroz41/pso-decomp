@@ -21,6 +21,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/render/gjSystem.h"
 #include "pso/network/TTcpSocketTypes.h"
+#include "libc/ctype.h"
 
 // Game code; structure adapted from pso-gc-reference, verified against PsoV3.dol.
 
@@ -269,10 +270,6 @@ int TTcpSocket::open() {
 
 // Adapted from pso-gc-reference (mrb0nk500) for GPOE8P (MWCC 2.6)
 
-extern "C" {
-s32 get_csn_group_flags(s32);
-}
-
 int TSocket::is_empty() {
     if (all_parents_unqueued_for_destruction()) {
         return !m_size;
@@ -318,7 +315,7 @@ int TSocket::resolve_domain(const char *domain) {
     start = buf;
     memset(start, 0, 0x20);
     strncpy(start, domain, 0x1F);
-    if (get_csn_group_flags(buf[0]) != 0) {
+    if (is_alpha(buf[0]) != 0) {
         handle = dns_open_addr(start, (s8)NetStringLength(start), 4);
         if (handle >= 0) {
             addr.family = 4;
@@ -422,4 +419,8 @@ u16 to_le_uint16_t(u16 val) {
 
 TSocket::~TSocket() {
 
+}
+
+int is_alpha(int c) {
+    return __ctype_map[(u8)c] & __letter;
 }

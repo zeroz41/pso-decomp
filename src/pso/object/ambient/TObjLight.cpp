@@ -1,10 +1,9 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/MatrixStack.h"
@@ -148,11 +147,11 @@ TObjLight::~TObjLight() {
 }
 
 
-TObjLight::TObjLight(TObject *parent, u8 *set_data) : TObjBase(parent) {
+TObjLight::TObjLight(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     TObjLight *light = this;
     light->m_name = light_class_name;
     (light)->apply_object_set_data(set_data);
-    light->light_room = (s32) ((ObjectSetData *)set_data)->room;
+    light->light_room = (s32) set_data->room;
     light->actor_color.a = 0.5f;
     light->actor_color.r = (f32) light->scale.x;
     light->actor_color.g = (f32) light->scale.y;
@@ -170,9 +169,9 @@ TObjLight::TObjLight(TObject *parent, u8 *set_data) : TObjBase(parent) {
     light->disallow_rendering();
 }
 
-void *TObjLight::create(void *set_data) {
+void *TObjLight::create(ObjectSetData *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    return new TObjLight(tl_05, (u8 *)set_data);
+    return new TObjLight(tl_05, set_data);
 }

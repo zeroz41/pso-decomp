@@ -8,7 +8,7 @@ struct NetworkInfoLoadState {
     void *caller_buffer;
     s32 request_kind;
     s32 phase;
-    s32 field_0C;
+    s32 pad_0C;
     s32 file_handle;
     s32 result;
     s32 card_channel;

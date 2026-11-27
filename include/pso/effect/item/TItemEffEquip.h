@@ -13,7 +13,7 @@ class TItemEffEquipAnchor : public TObjCollidable {
 public:
     TItemEffEquipAnchor(TObject *parent, u16 client_id, s32 node);
     virtual ~TItemEffEquipAnchor();
-    virtual void *get_center();
+    virtual Vec *get_center();
     virtual void run_task();
 
     u16 client_id;  // the player it follows (get_player_by_client_id)

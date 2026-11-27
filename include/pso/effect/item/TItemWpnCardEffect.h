@@ -30,7 +30,7 @@ public:
     Vec direction;      // normalized by init
     Vec anchor_offset;  // direction times the hit body's radius: position is the body's center less this
     u32 tint;           // the particles' tint colour, 0 for none
-    s32 rotation[3];    // x, y, z angles; y faces direction
+    Angle3 rotation;    // x, y, z angles; y faces direction
     s32 item_id;        // the card, looked up with find_item_by_id
     Vec position;
 };
@@ -57,5 +57,10 @@ LAYOUT_ASSERT(TItemWpnCardModelEffect_size, sizeof(TItemWpnCardModelEffect) == 0
 void start_guardianna_wall_card(s32 item_id, f32 *position, f32 *direction);
 void start_red_wall_card(s32 item_id, f32 *position, f32 *direction);
 void start_wall_card(s32 item_id, f32 *position, f32 *direction);
+void alloc_and_init(s32 item_id, f32 *position, f32 *direction);
+void create_and_init_effect(s32 item_id, u32 *hit, f32 *direction);
+void start_guardianna_hit_card(s32 item_id, u32 *hit, f32 *direction);
+void create_aux_object(s32 item_id, u32 *hit, f32 *direction);
+void create_network_object(s32 item_id, u32 *hit, saddr direction);
 
 #endif

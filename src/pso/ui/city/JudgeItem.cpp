@@ -7,6 +7,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/city/TShopItemListWindow.h"
+#include "pso/item/item_create.h"
 
 // Grind/percentage steps picked by the JudgeItem appraisal rolls.
 static const s8 item_appraisal_adjust_table[] = {-10, -5, -3, -2, -1, 0, 1, 2, 3, 5, 10, 0};
@@ -146,10 +147,10 @@ void adjust_appraisal_special(TItemData *obj) {
     if (r != -1) {
         switch (item_appraisal_adjust_table[r]) {
         case -1:
-            obj->data1.data_u8[4] = TObjPlayer::find_adjacent_matching_slot(obj->data1.data_u8[4]);
+            obj->data1.data_u8[4] = find_adjacent_matching_slot(obj->data1.data_u8[4]);
             break;
         case 1:
-            obj->data1.data_u8[4] = TObjPlayer::get_next_matching_special_index(obj->data1.data_u8[4]);
+            obj->data1.data_u8[4] = get_next_matching_special_index(obj->data1.data_u8[4]);
             break;
         }
     }

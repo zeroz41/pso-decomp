@@ -1,5 +1,4 @@
 #include "pso/npc/ChaoNpcSpawn.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
@@ -24,6 +23,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/npc/ChaoNpcSpawn.h"
 
 
 extern const char *bm_ply_photon_chair_model_names[3];
@@ -66,13 +66,13 @@ void TPlyPhotonChair::render() {
         position.x = node_pos.x;
         position.y = node_pos.y - 4.6f;
         position.z = node_pos.z;
-        copy_xyz(&rotation_x, &player->rotation_x);
+        copy_xyz(&rotation, &player->rotation);
         if (player->is_inactive() != 0) {
             save_model_draw_state(&marker);
             set_texture_list(texlist);
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(NULL, rotation_y);
+            rotate_matrix_y(NULL, rotation.y);
             scale_current_matrix(&scale.x);
             if (TMainTask::get_render_pass() != 0) {
                 begin_constant_color_draw(&marker, &color);
@@ -138,7 +138,7 @@ TPlyPhotonChair::TPlyPhotonChair(s32 owner_id, TObject *parent) : TObjBase(paren
     TObjPlayer *player;
     m_name = class_name;
     set_owner_id(owner_id);
-    m_92 = 0;
+    pad_92 = 0;
     owner_dismounted = 0;
     player = get_player_by_client_id((u16)owner_id);
     if (player == NULL) {
@@ -192,6 +192,7 @@ TDrawableModel::TDrawableModel() {
 }
 
 void TDrawableModel::reset() { model = NULL; }
+
 
 void TPlyPhotonChair::free_instance() {
     if (chao_npc_instance_handle != NULL) {

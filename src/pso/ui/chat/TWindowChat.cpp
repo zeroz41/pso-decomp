@@ -1,8 +1,6 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/ControllerInput.h"
@@ -30,6 +28,19 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/chat/ChatShortcuts.h"
+
+void TWindowChat::close_and_clear_flag() {
+    close_all_children();
+    flags &= ~2;
+    open_next_input_window();
+}
+
+void TWindowChat::set_keyboard_flag62_bit4() {
+    TWindowKeyBoardBase *keyboard = static_cast<TWindowKeyBoardBase *>(composer);
+    if (keyboard != NULL) {
+        keyboard->set_flag62_bit4();
+    }
+}
 
 #pragma push
 #pragma readonly_strings on
@@ -148,7 +159,7 @@ void TWindowChat::open_input() {
 }
 
 void TWindowChat::handle_dpad_shortcuts() {
-    void *pad;
+    ControllerInputContext *pad;
     if (flags & 8) {
         return;
     }
@@ -270,7 +281,7 @@ void TWindowChat::handle_chat_input() {
     if (flags & 2)
     {
       context = &controller_input_state.controllers[0];
-      if ((test_pressed_buttons_packed(((void *) context), 0x200) != 0) && (test_previous_buttons_packed((context), get_control_button_mask(local_client_id)) == 0))
+      if ((test_pressed_buttons_packed(context, 0x200) != 0) && (test_previous_buttons_packed((context), get_control_button_mask(local_client_id)) == 0))
       {
         flags = (u16) (flags & 0xFFFFFFFD);
         close_all_children();
@@ -460,4 +471,3 @@ s32 TWindowChat::closes_after_send() {
 }
 
 void TWindowKeyBoardSoft::set_flag60_bit1() { state_flags |= 0x2; }
-

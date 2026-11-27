@@ -8,9 +8,9 @@
 // scale.y or scale.z by the side of the plane through the object with the
 // facing `normal` (set param 5 turns it).
 struct TObjRoomId : public TObjBase {
-    TObjRoomId(TObject *parent, void *set_data);
+    TObjRoomId(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjRoomId();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     virtual void render();
     virtual void run_task();
     s32 is_player_in_range(u16 id, f32 range_squared);
@@ -23,9 +23,7 @@ u16 get_entity_id_kind(u16 entity_id);
 
 LAYOUT_ASSERT(TObjRoomId_size, sizeof(TObjRoomId) == 0x9C);
 
-extern "C" {
-bool is_item_light_interaction_blocked(void);
-}
+BOOL is_item_light_interaction_blocked(void);
 // TRUE when `object` is the room id object whose debug lines are drawn.
 s32 is_current_room(void *object);
 

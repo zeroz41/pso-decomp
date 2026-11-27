@@ -23,17 +23,17 @@ NJS_TEXLIST *TObjKabochaLobby::lobby_texlist;
 
 void TObjKabochaLobby::render() {
     if (state != 0 && lobby_texlist != 0 && update_object_view_visibility(view_range, model_radius) != 0) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if (state != 3) {
             scale_matrix(NULL, scale, 1.0f, scale);
         }
         draw_ginja_object(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -67,7 +67,7 @@ void TObjKabochaLobby::run_task() {
     }
 }
 
-void *TObjKabochaLobby::create(void *set_data) {
+void *TObjKabochaLobby::create(ObjectSetData *set_data) {
     return new TObjKabochaLobby(tl_05, set_data);
 }
 
@@ -85,7 +85,7 @@ void TObjKabochaLobby::load_resources() {
 
 TObjKabochaLobby::~TObjKabochaLobby() {}
 
-TObjKabochaLobby::TObjKabochaLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjKabochaLobby::TObjKabochaLobby(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = obj_kabocha_lobby_class_name;
     apply_object_set_data(set_data);
     if (TLobby::get_filtered_event_theme() == 5) {

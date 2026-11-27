@@ -1,7 +1,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
 #include "pso/ui/frontend/TAdEndText.h"
@@ -31,7 +30,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowCallBack.h"
 
-#include "pso/ui/window/WindowMenuFactory.h"
+#include "pso/ui/window/TWindowMenu.h"
 
 #include "pso/ui/font/MenuFontGlyphs.h"
 
@@ -45,7 +44,6 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/MenuText.h"
-#include "pso/unk/ConnectionInputBuffers.h"
 
 
 // show_message_window: position and size of the message window it opens.
@@ -54,9 +52,9 @@ const f32 enter_base_message_window_position[2] = {46.0f, 110.0f};
 const f32 enter_base_message_window_size[2] = {548.0f, 120.0f};
 
 // create_default_callback: the two rects passed to TAdEnterSerialAccessGC::create_callback.
-const f32 enter_base_callback_position[2] = {73.0f, 220.0f};
+const NJS_POINT2 enter_base_callback_position = {73.0f, 220.0f};
 
-const f32 enter_base_callback_size[2] = {494.0f, 60.0f};
+const NJS_POINT2 enter_base_callback_size = {494.0f, 60.0f};
 
 // create_parts: TAdSelectCurGC rects; entry mode 3 starts at the third position and the second size.
 const TAdEnterBaseGC::Position enter_base_cursor_positions[4] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
@@ -194,7 +192,7 @@ char *TAdEnterSerialAccessGC::serial_to_hex_string(const char *serial) {
     return serial_access_hex_string_buf;
 }
 
-void TAdEnterSerialAccessGC::store_serial_access_key(saddr serial, saddr access_key, saddr password) {
+void store_serial_access_key(saddr serial, saddr access_key, saddr password) {
     CharacterFile *instance;
 
     instance = TAdSinglePlyChrSelectGC::get_instance();
@@ -218,7 +216,7 @@ void clear_state(void) {
     }
 }
 
-void TAdEnterSerialAccessGC::clear_serial_buffer() {
+void clear_serial_buffer() {
     CharacterFile *instance;
 
     instance = TAdSinglePlyChrSelectGC::get_instance();
@@ -260,14 +258,14 @@ u8 *TAdEnterSerialAccessGC::get_serial_text(TObject *owner, s32 field) {
     return (u8 *)"";
 }
 
-TWindowBase *TAdEnterSerialAccessGC::show_message_window(void *owner, s32 message_index) {
+TWindowBase *show_message_window(void *owner, s32 message_index) {
     TWindowMessage *window = create_message_window_for_size((NJS_POINT2 *)enter_base_message_window_position, (NJS_POINT2 *)enter_base_message_window_size);
     window->append_line(get_localized_text_entry(0x17, message_index), 1);
     return window;
 }
 
 TWindowCallBack *TAdEnterBaseGC::create_default_callback() {
-    return TAdEnterSerialAccessGC::create_callback((void *)enter_base_callback_position, (void *)enter_base_callback_size, render_entry_window);
+    return TAdEnterSerialAccessGC::create_callback(&enter_base_callback_position, &enter_base_callback_size, render_entry_window);
 }
 
 TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(TObject *parent, s32 field) {
@@ -352,4 +350,3 @@ void draw_masked_password_field(saddr context) {
     }
 }
 
-#undef TOBJECT_OUT_OF_LINE_HELPERS

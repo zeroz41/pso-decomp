@@ -1,5 +1,4 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
@@ -10,7 +9,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/TAdSystemFileCheckGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
@@ -26,6 +25,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/audio/MusicControl.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 // Message text by id: table_a holds the English text, table_b the Japanese.
 const char *multi_chg_game_mode_text_table_a[11] = {
@@ -357,7 +357,7 @@ void TAdSystemFileCheckGC::enter_state_3() {
     create_back_objects();
 }
 void TAdSystemFileCheckGC::update_mode_selection() {
-    if ((handle_mode_selection() == 0) && (TAdPlayerLoadGC::get_instance() == 0)) {
+    if ((handle_mode_selection() == 0) && (get_card_load_sequence_state() == 0)) {
         set_state(2);
     }
 }
@@ -383,7 +383,7 @@ s32 TAdSystemFileCheckGC::handle_mode_selection() {
     return 0;
 }
 void TAdSystemFileCheckGC::run_state_7() {
-    if ((handle_mode_selection() == 0) && (TAdPlayerLoadGC::get_instance() == 0)) {
+    if ((handle_mode_selection() == 0) && (get_card_load_sequence_state() == 0)) {
         set_state(8);
     }
 }
@@ -404,7 +404,7 @@ void TAdSystemFileCheckGC::check_player_load_result() {
     if (handle_mode_selection() != 0) {
         return;
     }
-    if (TAdPlayerLoadGC::get_instance() != 0) {
+    if (get_card_load_sequence_state() != 0) {
         return;
     }
     switch (check_slot_a_card_save()) {
@@ -445,7 +445,7 @@ void TAdSystemFileCheckGC::set_state(s32 new_state) {
     }
 }
 
-s32 TAdSinglePlyChrSelectGC::check_system_file_status() {
+s32 TAdSystemFileCheckGC::check_system_file_status() {
     if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
         return 1;
     }
@@ -468,7 +468,7 @@ void TAdSystemFileCheckGC::confirm_mode_selection() { if (((int)handle_mode_sele
 void TAdSystemFileCheckGC::enter_state_0() { close_window_30(); open_message_window(4); }
 
 void TAdSystemFileCheckGC::run_task() {
-    this->status = TAdSinglePlyChrSelectGC::check_system_file_status();
+    this->status = check_system_file_status();
     if (this->status & 1) {
         set_state(9);
     }
@@ -492,7 +492,7 @@ TAdSystemFileCheckGC::TAdSystemFileCheckGC(TObject *object) : TObject(object) {
     menu_window = 0;
     back = 0;
     back_text = 0;
-    this->status = ((s32 (*)(void *))TAdSinglePlyChrSelectGC::check_system_file_status)(this);
+    this->status = check_system_file_status();
     if (this->status & 1) {
         set_state(0);
     } else {

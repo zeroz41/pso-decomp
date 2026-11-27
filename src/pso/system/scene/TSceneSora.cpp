@@ -9,7 +9,7 @@
 #include "pso/map/FloorMapSelection.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/render/TextureState.h"
 #include "pso/system/MatrixStack.h"
@@ -27,6 +27,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/FileExtension.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 #pragma readonly_strings on
@@ -37,26 +38,20 @@ TSceneSora *TSceneSora::instance;
 BmlResource *TSceneSora::sky_bml_resource;
 s32 TSceneSora::has_sky_motion;
 
-extern "C" {
-extern char sky_model_ext_s_njm[];
-extern char sky_model_ext_sm_gj[];
-extern char sky_model_ext_s_gj[];
-}
-
 
 void TSceneSora::render() {
     if ((s32) TSceneSora::sky_active_flag != 0) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(get_bml_texlist(sky_bml_resource, 0));
         push_matrix();
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         if (sky_motion != NULL) {
             draw_ginja_model_with_motion(sky_model, sky_motion, motion_frame);
         } else {
             draw_ginja_object(sky_model);
         }
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -70,7 +65,7 @@ void TSceneSora::run_task() {
         switch (get_current_floor_area()) {
         case AREA_FOREST1:
         case AREA_FOREST2:
-            rotation_y++;
+            rotation.y++;
             break;
         }
     }
@@ -127,7 +122,7 @@ void TSceneSora::load_sky_resources() {
         ok = 0;
         tbl = (SceneTableEntry *)get_floor_scene_table(ref.area);
         replace_file_extension(name1, tbl[ref.terrain].name, sky_model_ext_s_njm);
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (is_not_split_screen() == 1) {
             replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_sm_gj);
             ok = get_resource_file_size(name2);
         }

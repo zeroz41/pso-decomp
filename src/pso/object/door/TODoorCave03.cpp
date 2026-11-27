@@ -102,11 +102,11 @@ void TODoorCave03::render() {
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         node = model;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x10;
         set_constant_material(&light_color);
@@ -122,12 +122,12 @@ void TODoorCave03::render() {
         draw_ginja_model(node->model);
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
 
-void *TODoorCave03::create(void *set_data) {
+void *TODoorCave03::create(ObjectSetData *set_data) {
     return new TODoorCave03(tl_05, set_data);
 }
 
@@ -154,7 +154,7 @@ TODoorCave03::~TODoorCave03() {
     free_collision_body_parts(this);
 }
 
-TODoorCave03::TODoorCave03(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorCave03::TODoorCave03(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = door_cave03_class_name;
     apply_object_set_data(set_data);
     model = bml_resource->models[0].model;

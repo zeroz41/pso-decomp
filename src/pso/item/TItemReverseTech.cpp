@@ -1,22 +1,20 @@
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/system/ResourceFile.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include <string.h>
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/item/TItemReverseTechBG.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemReverseTechPart2.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/render_util.h"
 #include "pso/item/TItemReverseTechPart1.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/SmallFontMetrics.h"
 #include "pso/item/TItemReverseTech.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/MusicControl.h"
 #include <stddef.h>
@@ -39,6 +37,8 @@
 #include "pso/system/AsyncFileRead.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/ui/frontend/TTitleBackground.h"
+#include "pso/ui/TCharSaveSequence.h"
 
 
 
@@ -73,8 +73,8 @@ TItemReverseTechSceneHook TItemReverseTech::cleanup_callback_table[7] = {
 
 
 void activate_uraending_code(void) {  }
-void activate_reverse_rotation_code(void) { TLobby::set_global_flags(1); }
-void activate_fast_rotation_code(void) { TLobby::set_global_flags(2); }
+void activate_reverse_rotation_code(void) { set_global_flags(1); }
+void activate_fast_rotation_code(void) { set_global_flags(2); }
 
 TItemReverseTechPicture::TItemReverseTechPicture() {
     u1 = 1.0f;
@@ -105,7 +105,7 @@ void TItemReverseTech::init_scene() {
     set_active_camera_pose(&eye, &at);
     set_fallback_main_phase(2);
     set_queued_main_phase(2);
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     TItemReverseTech::create();
     render_tick();
 }
@@ -137,11 +137,11 @@ void TItemReverseTech::run_frame() {
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
-    TAdSinglePlyChrSelectGC::noop();
+    noop();
     if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         request_main_phase(0);
     }
     render_tick();

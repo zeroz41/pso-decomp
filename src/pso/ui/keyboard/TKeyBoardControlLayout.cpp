@@ -47,8 +47,7 @@ void TKeyBoardControl::set_depth(f32 depth) {
     m_base->set_depth(depth);
 }
 
-void TKeyBoardControl::set_position(void *pos) {
-    const NJS_POINT2 *point = (const NJS_POINT2 *)pos;
+void TKeyBoardControl::set_position(NJS_POINT2 *point) {
 
     m_base->target_position[0] = point->x - 4.0f;
     m_base->target_position[1] = point->y - 10.0f;

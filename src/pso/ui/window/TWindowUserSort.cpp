@@ -56,7 +56,7 @@ TWindowUserSort::~TWindowUserSort() {}
 TWindowUserSort::TWindowUserSort(saddr position, GuildCardRecord *record) : TWindowBase((u8 *)&window_user_sort_settings, (s16)4, (u8 *)position) {
     m_name = TWindowUserSort::class_name;
     this->record = record;
-    ((TWindowSubStatusDisp *)&entry_list)->fill_card_text_entries(record);
+    entry_list.fill_card_text_entries(record);
 }
 
 void TWindowMainMenu1P::on_submenu_closed() { if (close_active_submenu() != 0) { this->create_char_select_slot(); } }

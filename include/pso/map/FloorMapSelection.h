@@ -15,10 +15,14 @@ LAYOUT_ASSERT(FloorMapSelectionTerrainOffset, offsetof(FloorMapSelection, terrai
 
 void reset_floor_map_registry(void);
 
-// The story-select state TLobby::reset_story_select clears to -1.
+// The story-select state reset_story_select clears to -1.
 extern s32 story_select_pending_state;
 // The episode select_episode last picked.
 extern int selected_episode;
+// The model file suffixes TSceneSora::load_sky_resources puts on a floor's sky name.
+extern const char sky_model_ext_s_njm[];
+extern const char sky_model_ext_sm_gj[];
+extern const char sky_model_ext_s_gj[];
 // Picks episode 0 or 1 and resets the floor map registry for it.
 void select_episode(s32 episode);
 // Copies the game variations' (terrain, entities) pairs into the floor map registry.
@@ -39,5 +43,7 @@ struct TLobbyIds { s32 w[18]; };
 struct GetBossWarpDestinationTable { s32 w[2][18]; };
 
 void reset_story_select_state();
+void backup_story_select();
+void sync_story_select();
 
 #endif

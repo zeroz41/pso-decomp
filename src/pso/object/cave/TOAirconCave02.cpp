@@ -21,14 +21,14 @@ void TOAirconCave02::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         draw_ginja_object(object);
         pop_matrix();
     }
 }
 
-void *TOAirconCave02::create(void *set_data) {
+void *TOAirconCave02::create(ObjectSetData *set_data) {
     return new TOAirconCave02(tl_05, set_data);
 }
 
@@ -46,7 +46,7 @@ void TOAirconCave02::load_shared_resource() {
 
 TOAirconCave02::~TOAirconCave02() {}
 
-TOAirconCave02::TOAirconCave02(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TOAirconCave02::TOAirconCave02(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = TOAirconCave02_class_name;
     apply_object_set_data(set_data);
     model = aircon_cave02_bml_resource->models[0].model;

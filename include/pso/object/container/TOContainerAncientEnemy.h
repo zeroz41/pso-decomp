@@ -5,18 +5,21 @@
 #include "pso/object/container/TObjContainerBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
+struct QuestObjectEntry;
+
 struct TOContainerAncientEnemy : public TObjContainerBase {
-    TOContainerAncientEnemy(void *set_data);
+    TOContainerAncientEnemy(ObjectSetData *set_data);
     virtual ~TOContainerAncientEnemy();
     virtual void debug_print_item_box_info();
     virtual void draw_model();
     virtual void update_state();
     virtual void spawn_break_effects() const;
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual f32 receive_physical_attack(TObjChara *, f32);
 };
 
 LAYOUT_ASSERT(TOContainerAncientEnemy_size, sizeof(TOContainerAncientEnemy) == 0x368);
+void load_ancient_container_resources(void);
 void free_ancient_container_resources(void);
 
 struct AncientContainerBml {

@@ -71,6 +71,9 @@ extern s32 hunter_guild_online_client_instance_table[4];
 
 void set_random_enemies_mode(TObject *fade);
 void reset_random_enemies_mode(TObject *fade);
+void clear_slots();
+void clear_slot_flags();
+void zero_four_slots();
 
 // --- C functions defined in THunterGuildSeqOnline.cpp ---
 void clear_online_client_instance_table(void);

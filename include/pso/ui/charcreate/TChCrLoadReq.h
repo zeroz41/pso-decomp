@@ -13,10 +13,10 @@ class TChCrLoadAfs;
 
 struct CharacterPreviewLoadArgs {
     CharacterAppearanceFields *appearance;
-    u32 *completion_flags;
+    s32 *completion_flags;
     s32 load_slot;
-    s32 *body_model;
-    s32 *part_models;
+    NJS_OBJECT **body_model;
+    NJS_OBJECT **part_models;
     NJS_TEXLIST *body_textures;
     NJS_TEXLIST *other_textures;
     NJS_TEXLIST *head_textures;
@@ -43,7 +43,7 @@ public:
 public:
     u8 pad_1C[0x38 - 0x1C];
     CharacterPreviewLoadArgs inputs;
-    s32 *head_model_slot;  // the slot of part_models that receives the head model
+    NJS_OBJECT **head_model_slot;  // the slot of part_models that receives the head model
     CharacterClassAppearance *class_appearance;
     s32 state;
     s32 timer;
@@ -55,7 +55,7 @@ public:
     void update_load_progress();
 public:
     void reset_request();
-    static void *create(void *parent);
+    static void *create(TObjPlayer *parent);
     s32 sample_indices[3];  // the proportion samples the preview blends
     TChCrLoadAfs *sample_loads[6];  // 0-2 head samples, 3-5 body samples
     s32 holds_load_slot;

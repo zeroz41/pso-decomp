@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/PhotonBlastRequests.h"
 #include "pso/player/PlayerState.h"
@@ -21,6 +20,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/memory.h"
+#include "pso/system/CxxRuntime.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/player/TPlyInventory.h"
@@ -39,7 +39,7 @@
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/object/base/TObjBase.h"
@@ -57,7 +57,7 @@
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/item/TItemList.h"
 #include "pso/system/vector.h"
-#include "pso/player/PlayerParticleEmitters.h"
+#include "pso/effect/particle/TPlyFollowParticleCtrl.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/enemy/wolf/TObjEneBm5Wolf.h"
 #include "pso/player/PlayerLevelTable.h"
@@ -177,7 +177,7 @@ int TObjPlayer::is_action_active() { return (this->state_flags >> 1) & 0x1; }
 void PlayerSyncRecord::set_class_flag_2(u8 v) { inventory.items[15].m_present[3] = v; }
 u8 TObjPlayer::get_battle_mode() { return battle_mode; }
 void PlayerSyncRecord::set_class_flag_1(u8 v) { inventory.items[14].m_present[3] = v; }
-u8 TObjPlayer::get_byte_339() { return this->class_flag_1; }
+u8 TObjPlayer::get_class_flag_1() { return this->class_flag_1; }
 void PlayerSyncRecord::set_class_flag_0(u8 v) { inventory.items[13].m_present[3] = v; }
 u8 TObjPlayer::get_mag_level() { return mag_level; }
 void PlayerSyncRecord::set_luck_materials_used(u8 v) { inventory.items[12].m_present[3] = v; }
@@ -888,7 +888,6 @@ u8 get_item_count_max() { return 255; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-extern "C" void __copy(void *, void *, int);
 
 void PlayerTechniqueState::enable_techniques() { flags.clear(2); }
 
@@ -1392,10 +1391,6 @@ G_InterLevelWarp_6x21 &G_InterLevelWarp_6x21::operator=(const G_InterLevelWarp_6
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ItemDataWords { u32 w[5]; };
-
-struct InventoryEntryLayout { u8 a; u8 b; u8 c; u8 d; s32 e; ItemDataWords f; };
-
 
 void G_InterLevelWarp_6x21::init() {
     floor = 0;
@@ -1481,16 +1476,14 @@ u16 LockOnNearestTarget::get_published_target_id() { return published_target_id;
 
 s32 TDeathTintFade::get_viewport_index() { return viewport_index; }
 
-TPlyInventoryItem *copy_inventory_item(TPlyInventoryItem *destination, const TPlyInventoryItem *source) {
-    InventoryEntryLayout *dst = (InventoryEntryLayout *)destination;
-    const InventoryEntryLayout *src = (const InventoryEntryLayout *)source;
-    dst->a = src->a;
-    dst->b = src->b;
-    dst->c = src->c;
-    dst->d = src->d;
-    dst->e = src->e;
-    dst->f = src->f;
-    return destination;
+TPlyInventoryItem *copy_inventory_item(TPlyInventoryItem *dst, const TPlyInventoryItem *src) {
+    dst->m_present[0] = src->m_present[0];
+    dst->m_present[1] = src->m_present[1];
+    dst->m_present[2] = src->m_present[2];
+    dst->m_present[3] = src->m_present[3];
+    dst->m_flags = src->m_flags;
+    __memcpy(&dst->m_data, &src->m_data, sizeof(TItemData));
+    return dst;
 }
 
 int TPlyDispConfig::is_primary_first_bank() { return m_smth.is_first_bank(); }
@@ -1498,7 +1491,7 @@ int TPlyDispConfig::is_primary_first_bank() { return m_smth.is_first_bank(); }
 int TPlyDispConfigSmth::is_first_bank() { return bank == 0; }
 
 s32 TPlyDispConfigSmth::is_channel_active_at(s32 row, s32 index) {
-    return ((TMainCursor *)(get_row(row) + index))->is_channel_active();
+    return ::is_channel_active(get_row(row) + index);
 }
 
 gc_tag *TPlyDispConfigSmth::get_row(s32 row) {
@@ -1518,7 +1511,7 @@ void TPlyDispConfigSmth::set_tag(s32 row, s32 index, s32 mode, u16 slot) {
     set_action_palette_tag_slot(tag, static_cast<u8>(slot));
 }
 
-void TPlyDispConfigSmth::set_tag_slot(s32 row, s32 index, s32 slot) {
+void TPlyDispConfigSmth::set_tag_slot(s32 row, s32 index, u16 slot) {
     set_action_palette_tag_slot(get_row(row) + index, static_cast<u8>(slot));
 }
 

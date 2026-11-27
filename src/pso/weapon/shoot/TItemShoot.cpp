@@ -7,7 +7,6 @@
 // The vtables come out RotZ, Gun, Particle, Model, Shoot (the .text order), so
 // the file is built with deferred code generation and written from its last
 // function back (configure.py).
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "types.h"
 #include "pso/weapon/shoot/TItemShoot.h"
@@ -17,7 +16,7 @@
 #include "pso/weapon/shoot/TItemShootGun.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemLoad.h"
@@ -67,7 +66,7 @@ void TItemShootGun::set_texture_id(s32 id) {
 TItemShootModelRotZ::~TItemShootModelRotZ() {}
 
 TItemShoot *spawn_shoot_particle_9f(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
-    TItemShootParticle *particle = TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+    TItemShootParticle *particle = TItemShootParticle::spawn_shoot_particle(owner, pos, dir, life);
     if (particle != NULL) {
         particle->set_particle_flags(4);
         particle->spawn_slot_emitter(0x9F, 0);
@@ -76,8 +75,8 @@ TItemShoot *spawn_shoot_particle_9f(TItemWeapon *owner, const Vec *pos, const Ve
 }
 
 TItemShoot *create_shoot_model_with_particles(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
-    TItemShoot *model = TObjPlayer::create_shoot_model(owner, pos, dir, life);
-    TItemShootParticle *particle = TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+    TItemShoot *model = TItemShootModel::create_shoot_model(owner, pos, dir, life);
+    TItemShootParticle *particle = TItemShootParticle::spawn_shoot_particle(owner, pos, dir, life);
     if (model != NULL && particle != NULL) {
         ((TItemShootModel *)model)->ang = 0x4000;
         particle->spawn_slot_emitter(0x1BB, 0);
@@ -88,8 +87,8 @@ TItemShoot *create_shoot_model_with_particles(TItemWeapon *owner, const Vec *pos
 }
 
 TItemShoot *TItemShoot::spawn_shoot_particle_attached(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
-    TItemShoot *model = TObjPlayer::create_shoot_model(owner, pos, dir, life);
-    TItemShootParticle *particle = TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+    TItemShoot *model = TItemShootModel::create_shoot_model(owner, pos, dir, life);
+    TItemShootParticle *particle = TItemShootParticle::spawn_shoot_particle(owner, pos, dir, life);
     if (model != NULL && particle != NULL) {
         particle->spawn_slot_emitter(0x1BD, 0);
         particle->set_parent(model);
@@ -98,14 +97,14 @@ TItemShoot *TItemShoot::spawn_shoot_particle_attached(TItemWeapon *owner, const 
 }
 
 TItemShoot *TItemShoot::spawn_shoot_particle(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
-    TItemShootParticle *particle = TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+    TItemShootParticle *particle = TItemShootParticle::spawn_shoot_particle(owner, pos, dir, life);
     if (particle != NULL) {
         particle->spawn_slot_emitter(0x12, 0);
     }
     return particle;
 }
 
-TItemShoot::TItemShoot(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShoot::TItemShoot(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life)
     : TObject(tl_05) {
     m_name = TItemShoot::class_name;
     VecCopy(&m_pos, pos);
@@ -118,10 +117,10 @@ TItemShoot::TItemShoot(void *owner, const Vec *pos, const Vec *dir, f32 life)
     m_dir.x *= scale;
     m_dir.y *= scale;
     m_dir.z *= scale;
-    rot_y = (s32)(RADIANS_TO_ANGLE * atan2_float(m_dir.x, m_dir.z));
-    direction_to_rotation_xz((u8 *)&m_dir, &rot_x, &rot_z);
+    rot.y = (s32)(RADIANS_TO_ANGLE * atan2_float(m_dir.x, m_dir.z));
+    direction_to_rotation_xz((u8 *)&m_dir, &rot.x, &rot.z);
     star_light = NULL;
-    m_owner_item_id = ((TItem *)owner)->get_item_id();
+    m_owner_item_id = owner->get_item_id();
     disallow_rendering();
 }
 
@@ -155,7 +154,7 @@ s32 TItemShootModel::is_owner_alive() {
     return all_parents_unqueued_for_destruction() != 0 ? 1 : 0;
 }
 
-TItemShoot *TObjPlayer::create_shoot_model(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
+TItemShoot *TItemShootModel::create_shoot_model(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
     TItemShootModel *model = NULL;
     if (0.0f != life && owner != NULL) {
         model = new TItemShootModel(owner, pos, dir, life);
@@ -163,21 +162,21 @@ TItemShoot *TObjPlayer::create_shoot_model(TItemWeapon *owner, const Vec *pos, c
     return model;
 }
 
-TItemShootModel::TItemShootModel(void *owner, const Vec *pos, const Vec *dir, f32 life)
-    : TItemShoot(owner, pos, dir, life) {
+TItemShootModel::TItemShootModel(TItemWeapon *weapon, const Vec *pos, const Vec *dir, f32 life)
+    : TItemShoot(weapon, pos, dir, life) {
     m_name = TItemShootModel::class_name;
-    model = ((TItemWeapon *)owner)->second_model;
-    texture_list = (NJS_TEXLIST *)((TObjBase *)owner)->get_texlist();
+    model = weapon->second_model;
+    texture_list = weapon->get_texlist();
     if (0.0f != m_dir.y) {
         f32 horiz = newton_sqrtf(m_dir.x * m_dir.x + m_dir.z * m_dir.z);
-        rot_x = -(s32)(RADIANS_TO_ANGLE * atan2_float(m_dir.y, horiz));
-        rot_z = 0;
+        rot.x = -(s32)(RADIANS_TO_ANGLE * atan2_float(m_dir.y, horiz));
+        rot.z = 0;
     } else {
-        rot_z = 0;
-        rot_x = 0;
+        rot.z = 0;
+        rot.x = 0;
     }
-    m_68 = 0;
-    m_64 = 0;
+    pad_68 = 0;
+    pad_64 = 0;
     ang = 0;
 }
 
@@ -185,26 +184,26 @@ void TItemShootModel::render() {
     if (is_owner_alive()) {
         if (model != NULL) {
             set_texlist(texture_list);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
-            rotate_matrix_by_node_angles(&rot_x, 1);
+            rotate_matrix_by_node_angles(&rot.x, 1);
             rotate_matrix_by_node_angles(&ang, 1);
             draw_ginja_object(model);
             pop_matrix();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
     }
 }
 
-TItemShootParticle *TObjPlayer::spawn_shoot_particle(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
+TItemShootParticle *TItemShootParticle::spawn_shoot_particle(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
     if (0.0f != life && owner != NULL) {
         return new TItemShootParticle(owner, pos, dir, life);
     }
     return NULL;
 }
 
-TItemShootParticle::TItemShootParticle(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootParticle::TItemShootParticle(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShoot(owner, pos, dir, life) {
     s32 i;
     m_name = item_shoot_particle_class_name;
@@ -231,7 +230,7 @@ s32 TItemShootParticle::spawn_slot_emitter(s32 effect_id, s32 slot) {
     if (slot >= 0 && slot < 2) {
         offset = slot * 4 + 0x58;
         TParticleCtrl::release(*(TParticleCtrl **)((u8 *)this + offset));
-        *(TParticleCtrl **)((u8 *)this + offset) = (TParticleCtrl *)spawn_particle_effect_with_rotation(&m_pos, &rot_x, effect_id, (u16)(m_effect_flags | 0x40));
+        *(TParticleCtrl **)((u8 *)this + offset) = (TParticleCtrl *)spawn_particle_effect_with_rotation(&m_pos, &rot, effect_id, (u16)(m_effect_flags | 0x40));
         return *(s32 *)((u8 *)this + offset);
     }
     return 0;
@@ -267,7 +266,7 @@ TItemShoot *TItemShootGun::create(TItemWeapon *owner, const Vec *pos, const Vec 
 }
 
 TItemShootGun::TItemShootGun(void *owner, const Vec *pos, const Vec *endpoint, f32 life)
-    : TItemShootModel(owner, pos, endpoint, life) {
+    : TItemShootModel((TItemWeapon *)owner, pos, endpoint, life) {
     TItemWeapon *weapon = (TItemWeapon *)owner;
     m_name = item_shoot_gun_class_name;
     NJS_ARGB color = weapon->get_weapon_color();
@@ -294,13 +293,13 @@ void TItemShootGun::render() {
         if (model != NULL) {
             set_ginja_model_texture_slot(model->model, texture_id & 0xFFFF);
             set_texlist(texture_list);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
-            rotate_matrix_by_node_angles(&rot_x, 1);
+            rotate_matrix_by_node_angles(&rot.x, 1);
             draw_ginja_object(model);
             pop_matrix();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
     }
 }
@@ -313,26 +312,26 @@ TItemShoot *create_shoot_model_rot_z(TItemWeapon *owner, const Vec *pos, const V
     return model;
 }
 
-TItemShootModelRotZ::TItemShootModelRotZ(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootModelRotZ::TItemShootModelRotZ(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
     m_name = item_shoot_model_rot_z_class_name;
 }
 
 void TItemShootModelRotZ::hook() {
-    rot_z += 0xCCC;
+    rot.z += 0xCCC;
 }
 
 void TItemShootModelRotZ::render() {
     if (is_owner_alive()) {
         if (model != NULL) {
             set_texlist(texture_list);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             push_matrix();
             post_translate_matrix(&m_pos.x);
-            rotate_matrix_by_node_angles(&rot_x, 1);
+            rotate_matrix_by_node_angles(&rot.x, 1);
             draw_ginja_object(model);
             pop_matrix();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
     }
 }

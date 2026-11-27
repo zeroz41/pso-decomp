@@ -16,21 +16,21 @@ void mult_vec_array_sr(MtxP matrix, Vec *src, Vec *dst, u32 count) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 extern "C" {
-void blend_quaternions_nlerp(const Quaternion *a, const Quaternion *b, Quaternion *out, f32 t) {
+void blend_quaternions_nlerp(const f32 *a, const f32 *b, f32 t, f32 *out) {
     f32 x, y, z, w;
     f32 inv;
     f32 ax, ay, az, aw, bx, by, bz, bw;
     f32 s;
     f32 mag;
 
-    ax = a->x;
-    ay = a->y;
-    az = a->z;
-    aw = a->w;
-    bx = b->x;
-    by = b->y;
-    bz = b->z;
-    bw = b->w;
+    ax = a[0];
+    ay = a[1];
+    az = a[2];
+    aw = a[3];
+    bx = b[0];
+    by = b[1];
+    bz = b[2];
+    bw = b[3];
     s = (1.0f) - t;
 
     if (aw * bw + (az * bz + (ax * bx + ay * by)) > (0.0f)) {
@@ -55,10 +55,10 @@ void blend_quaternions_nlerp(const Quaternion *a, const Quaternion *b, Quaternio
         mag = r;
     }
     inv = (1.0f) / mag;
-    out->x = x * inv;
-    out->y = y * inv;
-    out->z = z * inv;
-    out->w = w * inv;
+    out[0] = x * inv;
+    out[1] = y * inv;
+    out[2] = z * inv;
+    out[3] = w * inv;
 }
 }
 #pragma pop

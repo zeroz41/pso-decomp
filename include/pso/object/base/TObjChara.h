@@ -88,9 +88,13 @@ public:
     void adjust_atp_range(int);
     s16 get_base_dfp();
     void adjust_dfp(int);
+    // Thunder and ice resistance (element_resist 1 and 2), named as in the item help window.
+    s16 get_eth();
+    s16 get_eic();
     s32 recalc_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats, f32 xscale, f32 yscale);
     s32 set_motion_params(player_stats *base_stats);
     void show_miss_popup(Vec *pos);
+    void show_miss_for_collider(s32 collider);
     void try_apply_damage(const Vec *pos, s32 damage);
     s32 subtract_actor_tp(s32);
     // Spends dmg of its TP (subtract_actor_tp) unless it is in state 2; 0 when it cannot act.
@@ -121,6 +125,9 @@ public:
     void spawn_confusion_feedback_effect(s32 play_sound);
     void play_shock_feedback(s32 play_sound);
     s16 clamp_hp();
+    // Clamps *value to 0..hpmax; 1 when it was already in range.
+    s32 clamp_hp_value(s16 *value);
+    void set_hp_clamped(s16 value);
     void spawn_freeze_shell_effect(CollisionBody *body, s32 play_sound);
     s32 check_heavy_damage_flag(f32);
     virtual s32 add_actor_exp(s32);
@@ -152,6 +159,8 @@ public:
     virtual s32 update_shock_clock();
     virtual s32 update_attack_stat_status();
     virtual s32 update_defense_stat_status();
+    // Under a status cleanse (actor flag 0x40) clears every harmful status and
+    // returns 1, which skips the other status updates.
     virtual s32 update_evp_status();
     virtual void apply_poison_status();
     virtual void apply_paralysis();
@@ -194,13 +203,15 @@ public:
     virtual void gain_photon_blast_chain_charge(f32 amount);
     virtual void send_status_effect_add(StatStatusReceipt effect);
     void request_box_item_drop(const Vec *position, s32 random_item);
-    virtual void *get_center();
+    virtual Vec *get_center();
     virtual void reset_motion_fields();
     u16 get_attack_credit_slot(s32 index);
     void set_attack_credit_slot(s32 index, u16 id);
     void clear_attack_credit_slot(s32 index);
     void set_model_param(s16 v);
     void set_model_id(s16 v);
+    s16 get_special_kind();
+    s16 get_special_power();
     // The union and its byte view are kept: dropping these two anonymous types
     // renumbers the compiler's local statics in every includer.
     union {
@@ -209,7 +220,7 @@ public:
             u8 pad_FC[0x8];
         } credit_slot_bytes;
     };
-    u8 pad_104[0xC];
+    Vec pad_104;
     WeaponAttribute attack_attributes[3];  // the equipped weapon's special attributes
     s16 special_kind;  // the special attack it hits with (set_model_id); Epsilon is immune to one kind
     s16 special_power;  // that attack's strength (set_model_param)
@@ -269,10 +280,6 @@ public:
     s16 hp;
     s16 tp;
     u32 low_game_flags;  // the enemy's status effect bits (actorFlags & 0x3F) the 6x9C packet last sent
-    u16 enemy_nearest_visible_player_sq(f32 range);
-    u16 enemy_find_nearest_player_in_range(f32 range);
-    u16 enemy_nearest_visible_enemy_sq(f32 range);
-    u16 enemy_nearest_visible_enemy(f32 range);
 };
 
 LAYOUT_ASSERT(TObjCharaHpMaxOffset, offsetof(TObjChara, hpmax) == 0x2B8);
@@ -299,7 +306,6 @@ s32 add_actor_tp(TObjChara *actor, s16 amount);
 s32 add_actor_hp_bonus(TObjChara *actor, s32 amount);
 s32 add_actor_tp_bonus(TObjChara *actor, s32 amount);
 
-void obj_copyVec2_0(u8 *d, u8 *s);
-s16 obj_getS16_118(u8 *p);
+void obj_copyVec2_0(StatStatusReceipt *d, StatStatusReceipt *s);
 
 #endif

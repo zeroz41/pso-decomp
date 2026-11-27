@@ -18,9 +18,9 @@ struct MerillLiaBehaviorParams {
 };
 
 struct TObjEneMerillLia : public TObjEneBeastBase {
-    TObjEneMerillLia(TObject *parent, void *setData);
+    TObjEneMerillLia(TObject *parent, EnemyPlacement *setData);
     virtual ~TObjEneMerillLia();
-    static void *create(void *setData);
+    static void *create(EnemyPlacement *setData);
     virtual void beast_idle_update();
     virtual void beast_update_hurt();
     virtual void run_task();

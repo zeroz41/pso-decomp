@@ -14,15 +14,6 @@
 #include "pso/network/client_id.h"
 
 
-struct RebuildPlayersForStageChr {
-    u8 pad0[0x31];
-    u8 f31;
-    u8 pad32[0x34 - 0x32];
-    u32 f34;
-    u8 pad38[0x50 - 0x38];
-};
-
-
 s32 client_cleared_stages(s32 client, s32 slot) {
     s32 *list;
     s32 n;
@@ -46,7 +37,7 @@ s32 client_cleared_stages(s32 client, s32 slot) {
 extern "C" {
 void TObjPlayer::rebuild_players_for_stage(s32 stage) {
     Vec pos;
-    RebuildPlayersForStageChr chr;
+    disp_data_part2 chr;
     s32 i;
     TObjPlayer *p;
     ChallengeStageStart *t;
@@ -65,7 +56,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
             copy_player_visual_record((PlayerVisualRecord *)&chr, (PlayerVisualRecord *)&p->appearance);
             hdr.copy_from(&p->guild_card_tag);
             delete p;
-            switch (chr.f34 & 0xe0) {
+            switch (chr.v1_flags & 0xe0) {
             case 0x20:
                 t = &hunter_stage_start_parameters[stage];
                 break;
@@ -83,7 +74,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
                 TPlyCharData cd;
                 copy_player_visual_record((PlayerVisualRecord *)&cd.m_disp_part2, (PlayerVisualRecord *)&chr);
                 TObjPlayer::begin_action_state(&cd);
-                TNpcPlayer::send_command(chr.f31, t->item_count, (const TPlyInventoryItem *)t->items, t->level, &cd);
+                TNpcPlayer::send_command(chr.char_class, t->item_count, (const TPlyInventoryItem *)t->items, t->level, &cd);
                 if (i == local_client_id) {
                     p = create_player_object(i, 0, &cd);
                 } else {

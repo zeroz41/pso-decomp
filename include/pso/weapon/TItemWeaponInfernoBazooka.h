@@ -15,4 +15,7 @@ public:
     s32 recoil_state;     // 1 after a shot, 2 while returning, 0 at rest
 };
 
+void spawn_weapon_casing(TObject *parent, TItem *item, Vec *pos, Vec *velocity, s32 *angle);
+void launch_weapon_casing(TObject *parent, TItemWeapon *item, s32 joint, Vec *velocity, s32 *angle);
+
 #endif

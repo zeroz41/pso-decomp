@@ -10,7 +10,7 @@ struct TWindowMessageYesNo;
 
 struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     static const char *class_name;
-    TObjCityMainWarpChallenge(TObject *parent, void *set_data);
+    TObjCityMainWarpChallenge(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjCityMainWarpChallenge();
     void update_warp_dialogs();
     void close_windows();
@@ -50,7 +50,7 @@ struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     s32 warp_effect_timer;  // 300 when trigger_warp_effect starts the player's warp effect
     u8 pad_178[0x4];
     s32 state_timer;  // 150 when update_area_transfer starts; at 0 it moves on without a player
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjCityMainWarpChallenge_size, sizeof(TObjCityMainWarpChallenge) == 0x180);

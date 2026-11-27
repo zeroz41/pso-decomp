@@ -37,22 +37,22 @@ void TObjCurtainLobby::demo_step() {}
 
 void TObjCurtainLobby::render() {
     if (state != 0 && texlist != NULL) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if (state != 3) {
             scale_matrix(NULL, scale, 1.0f, scale);
         }
         draw_ginja_object(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
 void TObjCurtainLobby::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         demo_step();
     }
     switch (state) {
@@ -84,7 +84,7 @@ void TObjCurtainLobby::run_task() {
     }
 }
 
-void *TObjCurtainLobby::create(void *set_data) {
+void *TObjCurtainLobby::create(ObjectSetData *set_data) {
     return new TObjCurtainLobby(tl_05, set_data);
 }
 
@@ -102,7 +102,7 @@ void TObjCurtainLobby::load_resources() {
 
 TObjCurtainLobby::~TObjCurtainLobby() {}
 
-TObjCurtainLobby::TObjCurtainLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjCurtainLobby::TObjCurtainLobby(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = obj_curtain_lobby_class_name;
     apply_object_set_data(set_data);
     if (get_lobby_theme_clamped() == 12) {

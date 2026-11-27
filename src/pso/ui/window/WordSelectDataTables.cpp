@@ -13,19 +13,16 @@ extern "C" void push_recent_id(s16 id) {
     }
 }
 void clear_window_dd_nodes(void) {
-    if (ws_recent_state.a == NULL || ws_recent_state.b == NULL) {
+    if (ws_recent_state.data_base == NULL || ws_recent_state.data_table == NULL) {
         return;
     }
-    ws_recent_state.a->count = ws_recent_state.n;
-    ws_recent_state.b->count = ws_recent_state.n;
-    ws_recent_state.a = NULL;
-    ws_recent_state.b = NULL;
-    ws_recent_state.a0 = 0;
-    ws_recent_state.b0 = 0;
+    ws_recent_state.data_base->count = ws_recent_state.entry_count;
+    ws_recent_state.data_table->count = ws_recent_state.entry_count;
+    ws_recent_state.data_base = NULL;
+    ws_recent_state.data_table = NULL;
+    ws_recent_state.data_base_values = 0;
+    ws_recent_state.data_table_values = 0;
 }
-
-// lookup_item_category's id lists: an id found in a list gives that entry's category.
-struct ItemCategoryIds { const s32 *ids; s32 count; s32 category; };
 
 // Indexed [category][column] by get_word_select_type_state.
 static const s32 word_select_type_state_table[6][2] = {
@@ -48,11 +45,11 @@ void init_ws_data_tables() {
     for (i = 0; i < 16; i++) {
         ws_recent_state.ids[i] = -1;
     }
-    ws_recent_state.a = a;
-    ws_recent_state.b = b;
-    ws_recent_state.a0 = a->values;
-    ws_recent_state.b0 = b->values;
-    if (ws_recent_state.a0 == 0 || ws_recent_state.b0 == 0) {
+    ws_recent_state.data_base = a;
+    ws_recent_state.data_table = b;
+    ws_recent_state.data_base_values = a->values;
+    ws_recent_state.data_table_values = b->values;
+    if (ws_recent_state.data_base_values == 0 || ws_recent_state.data_table_values == 0) {
         return;
     }
     x = a->count;
@@ -60,7 +57,7 @@ void init_ws_data_tables() {
     if (x < 1 || y < 1 || x != y) {
         return;
     }
-    ws_recent_state.n = x;
+    ws_recent_state.entry_count = x;
 }
 
 s32 get_word_select_type_state(s32 state, s32 item) {

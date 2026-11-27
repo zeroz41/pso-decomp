@@ -29,7 +29,7 @@ s32 lbl_805D5A94;
 s32 lbl_805D5A98;
 s32 sensor_texture_table_index;
 
-void TOSensorAncient01::vfunc_25() {}
+void TOSensorAncient01::debug_draw_key_extra() {}
 
 void TOSensorAncient01::update_pulse_value() {
     if (pulse_flags & 1) {
@@ -69,12 +69,12 @@ void TOSensorAncient01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(ancient_sensor_resource_pair_table[set_params[2]].red);
         object = model;
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         object = object->child;
         if ((f32)lamp_timer < 30.0f) {
@@ -99,14 +99,14 @@ void TOSensorAncient01::render() {
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         push_matrix();
         object = object->sibling;
         post_translate_matrix(object->pos);
         rotate_matrix_y(NULL, spin_angle);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model(object->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         push_matrix();
         object = object->child;
         translate_matrix(0, object->pos[0] + pulse_offset, object->pos[1], object->pos[2]);
@@ -132,15 +132,15 @@ void TOSensorAncient01::render() {
     }
 }
 
-void *TOSensorAncient01::create(void *set_data) {
+void *TOSensorAncient01::create(ObjectSetData *set_data) {
     return new TOSensorAncient01(tl_05, set_data);
 }
 
 void TOSensorAncient01::destroy() {
     if (ancient_sensor_resource_pair_table != NULL) {
-        TObjPlayer::free_if_valid(ancient_sensor_resource_pair_table[0].red);
-        TObjPlayer::free_if_valid(ancient_sensor_resource_pair_table[1].plain);
-        TObjPlayer::free_if_valid(ancient_sensor_resource_pair_table[1].red);
+        free_if_valid(ancient_sensor_resource_pair_table[0].red);
+        free_if_valid(ancient_sensor_resource_pair_table[1].plain);
+        free_if_valid(ancient_sensor_resource_pair_table[1].red);
         if (ancient_sensor_resource_pair_table != NULL) {
             mem_free(ancient_sensor_resource_pair_table);
             ancient_sensor_resource_pair_table = NULL;
@@ -168,7 +168,7 @@ void TOSensorAncient01::load_resources() {
 
 TOSensorAncient01::~TOSensorAncient01() {}
 
-TOSensorAncient01::TOSensorAncient01(TObject *parent, void *set_data) : TOSensor(parent) {
+TOSensorAncient01::TOSensorAncient01(TObject *parent, ObjectSetData *set_data) : TOSensor(parent) {
     m_name = sensor_ancient01_class_name;
     apply_object_set_data(set_data);
     init_switch_id();

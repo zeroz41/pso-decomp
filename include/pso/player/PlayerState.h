@@ -12,6 +12,8 @@ struct PlayerMarkerPosition : Vec {
     PlayerMarkerPosition();
 };
 
+struct TItem;
+
 // TObjPlayer::equipped_items: the item held in each of the 13 equip slots.
 struct EquippedItems {
     TItem *items[13];

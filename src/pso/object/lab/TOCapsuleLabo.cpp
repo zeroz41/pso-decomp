@@ -26,7 +26,7 @@ const char *TOCapsuleLabo::class_name = "TOCapsuleLabo";
 BmlResource *TOCapsuleLabo::model_resource;
 NJS_OBJECT *TOCapsuleLabo::light_node;
 
-void *TOCapsuleLabo::create(void *set_data) {
+void *TOCapsuleLabo::create(ObjectSetData *set_data) {
     return new TOCapsuleLabo(tl_05, set_data);
 }
 
@@ -66,7 +66,7 @@ void TOCapsuleLabo::render() {
         body = model;
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         post_translate_matrix(body->pos);
         draw_ginja_model(body->model);
         lid = body->child;
@@ -75,10 +75,10 @@ void TOCapsuleLabo::render() {
         rotate_matrix_y(NULL, spin_angle);
         draw_ginja_model(lid->model);
         light = lid->child;
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         post_translate_matrix(light->pos);
         draw_ginja_object(light);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         pop_matrix();
     }
@@ -94,7 +94,7 @@ TOCapsuleLabo::~TOCapsuleLabo() {
 }
 
 // Episode II's online mode and split screen do without the capsule.
-TOCapsuleLabo::TOCapsuleLabo(TObject *parent, void *set_data) : TOQuestTalkBase(parent) {
+TOCapsuleLabo::TOCapsuleLabo(TObject *parent, ObjectSetData *set_data) : TOQuestTalkBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(model_resource, 0);

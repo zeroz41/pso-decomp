@@ -66,15 +66,15 @@ void TOSwitchTimer::init_from_set_data() {
 
     this->state = 0;
     this->timer = 0;
-    this->mode = (u32)this->rotation_x;
+    this->mode = (u32)this->rotation.x;
     if (this->mode >= 2) {
         this->mode = 1;
     }
-    this->tick_sound = this->rotation_y;
+    this->tick_sound = this->rotation.y;
     if ((s32)this->tick_sound > 1) {
         this->tick_sound = 0;
     }
-    this->duration = this->rotation_z;
+    this->duration = this->rotation.z;
     if ((s32)this->duration < 0) {
         this->duration = 0;
     }
@@ -103,7 +103,7 @@ const char *switch_timer_name = "TOSwitchTimer";
 
 
 void TOSwitchTimer::render() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         NJS_ARGB color;
         color.a = 0.3f;
         color.r = 0.6f;
@@ -152,7 +152,7 @@ void TOSwitchTimer::run_task() {
 }
 
 
-void *TOSwitchTimer::create(void *set_data) {
+void *TOSwitchTimer::create(ObjectSetData *set_data) {
     void *o = new TOSwitchTimer(tl_05, set_data);
     return o;
 }
@@ -164,7 +164,7 @@ TOSwitchTimer::~TOSwitchTimer() {
         clear_floor_switch_flag(this->trigger_switch, (s16) this->floor);
     }
 }
-TOSwitchTimer::TOSwitchTimer(TObject *parent, void *set_data) : TObjBase(parent) {
+TOSwitchTimer::TOSwitchTimer(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = switch_timer_name;
     apply_object_set_data(set_data);
     init_from_set_data();

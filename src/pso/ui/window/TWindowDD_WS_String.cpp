@@ -2,6 +2,7 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowHelpItem.h"
@@ -9,7 +10,6 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/vector.h"
-#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/WindowDrawContext.h"
 
 #pragma readonly_strings on

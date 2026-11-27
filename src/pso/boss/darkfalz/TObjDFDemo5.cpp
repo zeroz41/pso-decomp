@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/ModelNodePositionCapture.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
@@ -45,7 +44,7 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     m_name = TObjDFDemo5::name;
     VecCopy(&this->pos, pos);
     this->angle = angle;
-    res = TBoss4Uro::get_instance_count();
+    res = TBoss4DarkFalz::get_dat_resource();
     for (i = 0; i < 3; i++) {
         id = boss4_type3_model_ids[i];
         parts[i].model = get_bml_model(res, id);
@@ -62,7 +61,7 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     activate_camera_mode(5);
     {
         CameraPlayback playback = {0, 4, 0, 0.0f, 0.5f};
-        CameraAngles angles = {0, this->angle, 0};
+        Angle3 angles = {0, this->angle, 0};
         set_scripted_camera_origin(&this->pos, &this->pos, &angles);
         playback.play(0x416C);
     }

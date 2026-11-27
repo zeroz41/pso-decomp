@@ -100,6 +100,8 @@ struct TelepipeState {
  void reset();
  void init_fields(u16 owner);
  s32 get_floor();
+ // Places the pipe: owner, floor, room and position, facing the way its owner faces.
+ void write_telepipe_record(u16 owner, s16 floor_index, const Vec *position, s32 room);
 };
 
 #endif

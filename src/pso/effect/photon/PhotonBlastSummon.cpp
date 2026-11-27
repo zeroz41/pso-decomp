@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "types.h"
 #include "pso/system/MatrixStack.h"
@@ -7,7 +6,7 @@
 #include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/enemy/berura/ChunkModelNodeCallback.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/system/vector.h"
 #include "pso/system/scene/TSceneSora.h"
 #include "pso/player/TObjPlayer.h"
@@ -130,7 +129,7 @@ void TPhotonBlastSummon::begin_photon_summon_camera(s8 script) {
         TCameraCtrl::select_active_controller(5);
     }
     playback.play(0x4222);
-    set_scripted_camera_origin(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
+    set_scripted_camera_origin(&this->position, &this->position, &this->rotation);
     camera_state = 1;
 }
 
@@ -170,7 +169,7 @@ void spawn_photon_blast_opening_effects(s32 kind, s32 owner_id) {
     for (i = 0; i < count; i++) {
         copy_effect_params(&effect, &effects[i]);
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, owner->rotation_y);
+        rotate_matrix_y(0, owner->rotation.y);
         matrix_mult_vec(0, &effect.offset, &pos);
         pop_matrices(1);
         pos.x += owner->position.x;
@@ -245,7 +244,7 @@ void TPhotonBlastSummon::spawn_photon_blast_attachment_effects(s32 kind) {
             params.id = def->effect_id;
             copy_xyz(angles, def->angles);
             s32 flags = def->flags;
-            s32 rot[3];
+            Angle3 rot;
             Vec dir = attachment_up;
             if (angles[2] || angles[0] || angles[1]) {
                 push_matrix_from(identity_matrix);
@@ -255,17 +254,17 @@ void TPhotonBlastSummon::spawn_photon_blast_attachment_effects(s32 kind) {
                 matrix_mult_vec(0, &dir, &dir);
                 pop_matrices(1);
                 push_matrix_from(identity_matrix);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_y(0, rotation.y);
                 matrix_mult_vec(0, &dir, &dir);
                 pop_matrices(1);
-                direction_to_rotation_xz((u8 *)&dir, &rot[0], &rot[2]);
-                rot[1] = 0;
+                direction_to_rotation_xz((u8 *)&dir, &rot.x, &rot.z);
+                rot.y = 0;
             } else {
-                rot[0] = 0;
-                rot[1] = 0;
-                rot[2] = 0;
+                rot.x = 0;
+                rot.y = 0;
+                rot.z = 0;
             }
-            attachments[i].obj = create_timed_particle_emitter_with_angles(&position, rot, params.id, params.delay, params.duration, flags);
+            attachments[i].obj = create_timed_particle_emitter_with_angles(&position, &rot, params.id, params.delay, params.duration, flags);
             attachments[i].joint = def->joint;
             copy_xyz(attachments[i].angles, angles);
         }
@@ -344,7 +343,7 @@ void TPhotonBlastSummon::setup_photon_blast_camera() {
     player = get_player_by_client_id(local_client_id);
     if (player != 0) {
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, player->rotation_y);
+        rotate_matrix_y(0, player->rotation.y);
         matrix_mult_vec(0, &position, &position);
         matrix_mult_vec(0, &position_goal, &position_goal);
         matrix_mult_vec(0, &target, &target);

@@ -176,11 +176,11 @@ TWindowSoundBalance::TWindowSoundBalance(const NJS_POINT2 *position)
     this->selection = 0;
     this->music_gain = 1;
     this->sound_effect_gain = 1;
-    e = (WindowTextEntry *)get_array_entry(0);
+    e = static_cast<WindowTextEntry *>(get_array_entry(0));
     char *label = e->get_text();
     e->x = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);
-    e = (WindowTextEntry *)get_array_entry(1);
+    e = static_cast<WindowTextEntry *>(get_array_entry(1));
     label = e->get_text();
     e->x = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);

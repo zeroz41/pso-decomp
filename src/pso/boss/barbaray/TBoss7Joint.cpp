@@ -118,7 +118,7 @@ void TBoss7Joint::run_hit_reaction() {
 }
 
 void TBoss7Joint::run_task() {
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         VecCopy(&position, source_position);
         update_status_effects();
         store_position();

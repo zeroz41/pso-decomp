@@ -12,7 +12,7 @@ CollisionBody TEneParticleCtrl::collision_body = {{0.0f, 0.0f, 0.0f}, 20.0f, 0.0
 
 const char *TEneParticleCtrl::class_name = "TEneParticleCtrl";
 
-void *TEneParticleCtrl::get_center() { return get_position_ptr(); }
+Vec *TEneParticleCtrl::get_center() { return get_position_ptr(); }
 
 void TEneParticleCtrl::set_param(s32 index) { if (particle) particle->set_param_ptr(index); }
 void TEneParticleCtrl::free_particle_ctrl() { if (particle) particle->enable(); }
@@ -40,4 +40,4 @@ TEneParticleCtrl::TEneParticleCtrl(TObjChara *owner, s32 effect_index) : TObjCol
     }
 }
 
-void *TEneParticleCtrl::get_position_ptr() { return &position; }
+Vec *TEneParticleCtrl::get_position_ptr() { return &position; }

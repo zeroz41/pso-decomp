@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/enemy/nanodrago/TObjNanoDragoSingleBeam.h"
@@ -125,7 +124,7 @@ void TObjNanoDragoSingleBeam::run_task() {
     if (shooter != NULL) {
         for (i = 0; i < registered_player_count + registered_enemy_count; i++) {
             player = TObjPlayer::get_player_data(i);
-            if (player != NULL && TObjPlayer::is_valid_and_active(player) != 0) {
+            if (player != NULL && TObjCollidable::is_valid_and_active(player) != 0) {
                 hit_object_in_radius(player, shooter);
             }
         }

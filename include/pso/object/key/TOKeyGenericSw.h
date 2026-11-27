@@ -9,13 +9,13 @@
 // jungle and seabed floors load the _j models.
 class TOKeyGenericSw : public TOKey {
 public:
-    TOKeyGenericSw(TObject *parent, void *set_data);
+    TOKeyGenericSw(TObject *parent, ObjectSetData *set_data);
     virtual ~TOKeyGenericSw();
     virtual void render();
     virtual void update_switch_on();
     virtual void update_switch_off();
-    virtual void vfunc_25();
-    static void *create(void *set_data);
+    virtual void debug_draw_key_extra();
+    static void *create(ObjectSetData *set_data);
     static void free_shared_resources();
     static void load_resources();
 

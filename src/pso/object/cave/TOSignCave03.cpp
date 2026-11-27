@@ -26,7 +26,7 @@ void TOSignCave03::render() {
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         node = model;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
@@ -34,7 +34,7 @@ void TOSignCave03::render() {
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
@@ -45,13 +45,13 @@ void TOSignCave03::render() {
         draw_ginja_model(node->model);
         pop_matrix();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         push_matrix();
         node = model->child->sibling;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
@@ -62,25 +62,25 @@ void TOSignCave03::render() {
         draw_ginja_model(node->model);
         pop_matrix();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         push_matrix();
         node = model->child->sibling->sibling;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         push_matrix();
         node = model->child->sibling->sibling->sibling;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
         draw_ginja_model(node->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         node = node->child;
         translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
@@ -91,13 +91,13 @@ void TOSignCave03::render() {
         draw_ginja_model(node->model);
         pop_matrix();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         pop_matrix();
     }
 }
 
-void *TOSignCave03::create(void *set_data) {
+void *TOSignCave03::create(ObjectSetData *set_data) {
     return new TOSignCave03(tl_05, set_data);
 }
 
@@ -115,7 +115,7 @@ void TOSignCave03::load_shared_resource() {
 
 TOSignCave03::~TOSignCave03() {}
 
-TOSignCave03::TOSignCave03(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TOSignCave03::TOSignCave03(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = sign_cave03_class_name;
     apply_object_set_data(set_data);
     model = sign_cave03_bml_resource->models[0].model;

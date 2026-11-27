@@ -2,6 +2,7 @@
 #define PSO_BOSS_TBOSS6ROCKMARKER_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx.h>
 
 struct NJS_OBJECT;

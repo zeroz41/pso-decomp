@@ -16,7 +16,6 @@ class TChCrTagPlBack;
 
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/network/TradeSession.h"
@@ -52,7 +51,7 @@ TWindowSubTrade::TWindowSubTrade(TWindowMainMenu *parent, s32 client) : TObject(
 
 TWindowSubTrade::~TWindowSubTrade() {
     release_trade_sub_window(this);
-    TLobby::check_flags_and_proceed();
+    check_flags_and_proceed();
     if (this->m_confirm_prompt != NULL) {
         this->m_confirm_prompt->close();
         this->m_confirm_prompt = NULL;
@@ -126,7 +125,7 @@ void TWindowSubTrade::run_task() {
     case 6:
         if ((test_pressed_buttons_packed(&controller_input_state.controllers[controller_index], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
-            TLobby::cancel_trade();
+            cancel_trade();
             this->state = 1U;
         }
         break;

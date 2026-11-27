@@ -15,6 +15,9 @@ void end_particle_draw() {
     end_primitive_draw();
 }
 
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(4)
 void emit_particle_strip_vertices(ParticleStripVertex *vertices, s32 count) {
     s32 i;
     GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT4, count);
@@ -28,18 +31,16 @@ void emit_particle_strip_vertices(ParticleStripVertex *vertices, s32 count) {
         z = vertices->z;
         y = vertices->y;
         x = vertices->x;
-        GXWGFifo.f32 = x;
-        GXWGFifo.f32 = y;
-        GXWGFifo.f32 = z;
+        GXPosition3f32(x, y, z);
         color = vertices->color;
-        GXWGFifo.u32 = ((color & 0xFFFFFF) << 8) | ((color & 0xFF000000) >> 24);
+        GXColor1u32(((color & 0xFFFFFF) << 8) | ((color & 0xFF000000) >> 24));
         v = vertices->v;
         u = vertices->u;
-        GXWGFifo.f32 = u;
-        GXWGFifo.f32 = v;
+        GXTexCoord2f32(u, v);
         vertices++;
     }
 }
+#pragma pop
 
 void setup_particle_draw(s32 blended) {
     load_camera_view_matrix();

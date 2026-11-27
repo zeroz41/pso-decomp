@@ -47,7 +47,7 @@ extern s32 lbl_805D7880;
 extern s32 lbl_805D7884;
 extern s32 quest_download_free_list_ready_flag;
 extern s16 lbl_805D78E0;
-extern s32 lbl_805D78E4;
+extern s32 japanese_punctuation_enabled;
 void convert_input_range(s32 start, s32 inputEnd, s32 mode, s32 selectedLength);
 extern "C" {
 s32 set_input_text(u32 input_address);
@@ -66,7 +66,7 @@ extern "C" {
 extern u8 quest_download_scratch_storage[0x28] ATTRIBUTE_ALIGN(4);
 extern u16 quest_download_buffer_storage[0x64] ATTRIBUTE_ALIGN(4);
 extern s32 quest_download_state;
-extern s32 lbl_805D7848;
+extern s32 text_input_mode;
 extern u8 *input_code_end;
 extern u8 *input_code_cursor;
 extern s32 quest_text_end;
@@ -106,7 +106,7 @@ s32 convert_quest_text_u8_to_u16(u16 *, const u8 *, int);
 }
 s32 write_entry_group_text(s32 start, s32 count, QuestDownloadTextNode *node, u16 *buf);
 s32 store_name_record(char *, QuestDownloadRequest *, s32);
-extern s32 lbl_805D7900;
+extern s32 ask_learning_enabled;
 s32 store_name_entry(QuestDownloadRequest *req);
 void relocate_name_record(s32 id);
 void clear_record_values(u8 *p);

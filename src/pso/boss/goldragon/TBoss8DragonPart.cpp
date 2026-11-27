@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8DragonPart.h"
@@ -15,7 +14,7 @@ void TBoss8DragonPart::run_task() {
     s32 state;
     s32 old_state;
     s32 teammate_state;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }
@@ -91,7 +90,7 @@ void TBoss8DragonPart::run_task() {
 
 TBoss8DragonPart::~TBoss8DragonPart() {}
 
-TBoss8DragonPart::TBoss8DragonPart(TObject *parent, void *set_data, s32 hp) : TBoss8Dragon(parent, set_data) {
+TBoss8DragonPart::TBoss8DragonPart(TObject *parent, EnemyPlacement *set_data, s32 hp) : TBoss8Dragon(parent, set_data) {
     this->flags |= 0x40;
     this->finalHpThreshold = -1;
     this->hp = hp;

@@ -8,10 +8,10 @@
 
 struct TWindowChoiceSetting : public TWindowMenuInfomation {
     static const char *class_name;
-    TWindowChoiceSetting(void *parent, s32 rows);
+    TWindowChoiceSetting(const NJS_POINT2 *position, s32 rows);
     virtual ~TWindowChoiceSetting();
     void update_scroll_tween();
-    s16 get_field_74();
+    s16 get_index();
     void begin_scroll(f32 height);
     void shrink_to_selected_entry();
     static TWindowChoiceSetting *create_choice_setting_window(

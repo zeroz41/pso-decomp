@@ -14,7 +14,7 @@ struct NJS_CNK_MODEL;
 // with two bubble emitters for the fish tank and the computer screens'
 // scrolling UVs.
 struct TObjLobbyMain : public TObjMapObject {
-    TObjLobbyMain(TObject *parent, void *set_data);
+    TObjLobbyMain(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjLobbyMain();
     void demo_step();
     void resolve_theme_index();
@@ -35,7 +35,7 @@ struct TObjLobbyMain : public TObjMapObject {
     TParticleCtrl *emitter1;
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_resources();
     static void load_resources();
 

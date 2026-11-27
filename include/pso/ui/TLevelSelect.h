@@ -24,8 +24,6 @@ public:
 
 LAYOUT_ASSERT(TLevelSelect_size, sizeof(TLevelSelect) == 0x28);
 
-extern "C" {
 extern s32 game_difficulty_selection;
-}
 
 #endif

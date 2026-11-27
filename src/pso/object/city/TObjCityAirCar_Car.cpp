@@ -1,10 +1,9 @@
 #include "pso/system/BmlResource.h"
 #include "pso/render/StripBufferPair.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/ChunkModelDraw.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/SoundEffect.h"
@@ -14,7 +13,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/city/TObjCityAirCar_Car.h"
 #include "pso/object/city/TObjCityAirCar_Ctrl.h"
-#include "pso/boss/goldragon/ChunkStripGrid.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -238,7 +237,7 @@ TObjCityAirCar_Car::TObjCityAirCar_Car(TObject *parent, s32 lane, s32 model_type
     light_blink = 0;
     light = NULL;
     update_path_motion();
-    rotation_z = 0;
+    rotation.z = 0;
 }
 
 TObjCityAirCar_Car::~TObjCityAirCar_Car() {
@@ -269,10 +268,10 @@ s32 TObjCityAirCar_Car::update_path_motion() {
     position.y *= 0.5f;
     position.z *= 0.5f;
     ang = 10430.38043493439 * atan2_float(b.x - a.x, b.z - a.z);
-    d = angle_diff_s16(rotation_y, ang);
-    rotation_y = ang;
-    p = rotation_z;
-    r = rotation_x;
+    d = angle_diff_s16(rotation.y, ang);
+    rotation.y = ang;
+    p = rotation.z;
+    r = rotation.x;
     if (d > 0x30) {
         if (r > 0) {
             r = 0;
@@ -307,8 +306,8 @@ s32 TObjCityAirCar_Car::update_path_motion() {
             p = 0;
         }
     }
-    rotation_z = p;
-    rotation_x = r;
+    rotation.z = p;
+    rotation.x = r;
     return ok;
 }
 void TObjCityAirCar_Car::run_task() {
@@ -347,8 +346,8 @@ void TObjCityAirCar_Car::run_task() {
                 scale = 10.0f;
             }
             VecCopy(&v, &position);
-            v.x -= scale * sin_table_lookup(rotation_y);
-            v.z -= scale * cos_table_lookup(rotation_y);
+            v.x -= scale * sin_table_lookup(rotation.y);
+            v.z -= scale * cos_table_lookup(rotation.y);
             light->set_position(&v);
         }
     }
@@ -360,16 +359,16 @@ void TObjCityAirCar_Car::render() {
     u32 texture_index;
     NJS_TEXNAME *texture_entries;
     if (this->update_object_view_visibility(800.0f, 50.0f) != 0) {
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         if (model_type != 0) {
-            rotate_matrix_z(0, this->rotation_z);
+            rotate_matrix_z(0, this->rotation.z);
         }
         set_texture_list(city_common_texture_list);
         draw_chunk_object(get_city_common_model(city_aircar_model_indices[model_type]));
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_object(get_city_common_model(city_air_car_model_index_table[model_type]));
         if (city_air_car_model_resource != NULL) {
             texture_entries = city_air_car_model_handle->textures;
@@ -383,6 +382,6 @@ void TObjCityAirCar_Car::render() {
             city_air_car_model_handle->textures[2].global_index = texture_index;
         }
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }

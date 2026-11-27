@@ -41,7 +41,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/MusicControl.h"
 
-static const ParticleAngles radial_particle_zero_angles = { 0, 0, 0 };
+static const Angle3 radial_particle_zero_angles = { 0, 0, 0 };
 
 
 TParticle *create_radial_particle(ParticleParam *entry, Vec *position, TObject *parent, u16 flags,
@@ -134,7 +134,7 @@ void TParticleRadial::run_task() {
             queue_destruction();
             return;
         }
-        Vec *center = (Vec *)target_obj->get_center();
+        Vec *center = target_obj->get_center();
         sprite.offset.x = center->x - origin.x;
         sprite.offset.y = center->y - origin.y;
         sprite.offset.z = center->z - origin.z;
@@ -191,7 +191,7 @@ void TParticleRadial::render() {
     draw_flags = flags;
     if (draw_flags & 0x200) {
         if (((is_split_screen() == 0) || !(flags & 0x400)) && (texlist != NULL) && (model != NULL)) {
-            ParticleAngles angles = radial_particle_zero_angles;
+            Angle3 angles = radial_particle_zero_angles;
             Vec at;
             direction_to_rotation_xz((u8 *)&step, &angles.x, &angles.z);
             if (param->flags & 4) {
@@ -212,7 +212,7 @@ void TParticleRadial::render() {
             if ((flags & 0x1000) && (camera_ctrl_instance != NULL)) {
                 rotate_matrix_y(0, camera_ctrl_instance->yaw);
             }
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             if (flags & 0x400) {
                 load_projected_texture_matrix(1.33f);
             }
@@ -241,7 +241,7 @@ void TParticleRadial::render() {
             } else {
                 model_render_flags = saved_model_render_flags;
             }
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             pop_matrix();
         }
     } else {

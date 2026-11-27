@@ -14,8 +14,8 @@ void wait_for_vi_retrace(void) {
     VIWaitForRetrace();
 }
 
-void gcrna_bridge_init_buffers(void) {
-    adx_rna_set_buffer_storage();
+void gcrna_bridge_init_buffers(u8 *buffer, u32 size, s32 count) {
+    adx_rna_set_buffer_storage(buffer, size, count);
 }
 
 void adx_bridge_set_loop_flag(AdxtPlayer *player, s32 enabled) {

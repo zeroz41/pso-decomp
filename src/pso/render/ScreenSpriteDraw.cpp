@@ -104,7 +104,7 @@ void draw_shadow_quad(NJS_SPRITE *sprite, s32 frame, s32 flags) {
 
 extern "C" {
 int current_line_width = 12;
-s32 lbl_805D3584 = 1;
+s32 debug_text_render_enabled = 1;
 f32 viewport_scissor_origin_x = 320.0f;
 f32 camera_viewport_center_y = 240.0f;
 }
@@ -383,7 +383,7 @@ void *read_ninja_chunk(const u8 *file, u32 *offset, u32 *type, void *destination
         goto bad;
     }
     if (destination == NULL) {
-        buf = (void *)TQuestVmDownLoadServer::alloc(size);
+        buf = (void *)alloc(size);
     } else {
         buf = destination;
     }
@@ -485,16 +485,16 @@ void TObjPlayer::render_tree(NJS_OBJECT *model) {
 
 
 void render_tick(void) {
-    TKeyBoardControl::run_tasks();
-    TParticleCtrl::begin_effect_render();
+    run_tasks();
+    begin_effect_render();
     GXSetZMode(GX_TRUE, GX_ALWAYS, GX_FALSE);
     TCameraCtrl::restore_full_screen_view();
     set_cull_none();
-    render_debug_text(lbl_805D3584);
+    render_debug_text(debug_text_render_enabled);
     GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
     GXSetViewport((0.0f), (0.0f), (6.4e+02f), (4.8e+02f), (0.0f), (1.0f));
     set_cull_none();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     copy_efb_to_framebuffer();
     present_frame();
     run_end_of_render_tasks();

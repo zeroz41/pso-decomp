@@ -1,10 +1,9 @@
 #include "pso/system/TLanguage.h"
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowTextEntry.h"
-#include "pso/ui/window/TWindowSubComCardEntries.h"
+#include "pso/ui/window/TWindowSubComCard_CardSlots.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/player/GuildCardEntry.h"
@@ -22,10 +21,8 @@
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/TObjLuker.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/network/client_id.h"
-#include "pso/ui/window/WindowTextEntry.h"
 
 
 ComCardLayout com_card_layout_entries = {
@@ -119,7 +116,7 @@ TWindowComCard *TWindowSubComCard::create_com_card_window(const NJS_POINT2 *posi
 }
 
 TWindowComCard *TWindowComCard::create(const NJS_POINT2 *position, s32 index) {
-    GuildCardEntry *entry = TWindowSubComCard::get_card_entry(index);
+    GuildCardSlot *entry = TWindowSubComCard::get_card_entry(index);
     if (entry == NULL) {
         return NULL;
     }
@@ -152,17 +149,17 @@ void update_com_card_display(WindowLayoutEntries *entries, GuildCardEntry *card)
     WindowTextEntry *t4;
     WindowTextEntry *t14;
     WindowTextEntry *t0;
-    void *tC;
-    void *t8;
-    void *t10;
+    WindowTextEntry *tC;
+    WindowTextEntry *t8;
+    WindowTextEntry *t10;
     void **s;
     s32 n;
     s32 id;
     s = entries->items;
     t0 = (WindowTextEntry *)s[0];
-    tC = s[3];
-    t8 = s[2];
-    t10 = s[4];
+    tC = (WindowTextEntry *)s[3];
+    t8 = (WindowTextEntry *)s[2];
+    t10 = (WindowTextEntry *)s[4];
     t4 = (WindowTextEntry *)s[1];
     t14 = (WindowTextEntry *)s[5];
     set_text_entry_string(t0, card->get_name(), 0x220);
@@ -180,7 +177,7 @@ void update_com_card_display(WindowLayoutEntries *entries, GuildCardEntry *card)
     if (n > 0xA) {
         n = 0xA;
     }
-    TWindowDuelResult::set_default_status(t10, TObjLuker::get_stat_table_entry(n));
+    TWindowDuelResult::set_default_status(t10, get_section_id_name(n));
     if (card->is_own_card() != 0) {
         id = card->get_card_id();
         if (id == 0) {

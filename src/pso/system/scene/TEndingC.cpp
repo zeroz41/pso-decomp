@@ -13,9 +13,9 @@
 #include "pso/system/scene/TEndingPic.h"
 #include "pso/system/scene/TEndingAB.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 
 __declspec(section ".rodata") extern char ending_c_texture_ed_128al[] = "ed_128al";
 __declspec(section ".rodata") extern char ending_c_texture_ed_512kabe_c[] = "ed_512kabe_C";

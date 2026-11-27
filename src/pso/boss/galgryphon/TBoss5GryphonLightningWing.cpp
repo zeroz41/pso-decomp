@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include <dolphin/mtx.h>
 #include "pso/map/CsnQuery.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningWing.h"

@@ -1,7 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/object/container/ContainerBreakEffects.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/vector.h"
@@ -12,7 +11,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/container/TObjContainerJungEnemy.h"
 #include "pso/object/container/TObjContainerIdo.h"
-#include "pso/item/TUnk_804B97C0.h"
+#include "pso/object/container/TObjContainerIdoBase.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/object/container/TContainerAncient01R.h"
 #include "types.h"
@@ -42,6 +41,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 #pragma readonly_strings on
 
@@ -139,7 +139,7 @@ NJS_TEXLIST *TObjContainerJungEx::get_textures(s32 index) {
     return 0;
 }
 
-TObjContainerJung::TObjContainerJung(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerJung::TObjContainerJung(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_jung_name;
     mode = 0;
     actorFlags |= 0x60000000;
@@ -174,12 +174,12 @@ void TObjContainerJung::draw_model() {
             set_texture_list(jungle_container_textures);
             push_matrix();
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             scale_matrix(0, 0.85f, 0.85f, 0.85f);
             draw_ginja_object(get_bml_model(jungle_container_archive, 0));
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_object(get_bml_model(jungle_container_archive, 3));
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             pop_matrix();
             break;
         case 1:
@@ -188,9 +188,9 @@ void TObjContainerJung::draw_model() {
     }
 }
 
-void TObjContainerJung::apply_saved_state(s16 *state, s32 live) {
+void TObjContainerJung::apply_saved_state(QuestObjectEntry *state, s32 live) {
     if (live != 0) {
-        if ((s16) *state == 1) {
+        if (state->flags == 1) {
             this->spawn_break_effects();
             request_box_item_drop(&position, 1);
             this->clear_player_status_flag(0, 1);
@@ -198,7 +198,7 @@ void TObjContainerJung::apply_saved_state(s16 *state, s32 live) {
             this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *state == 1) {
+    } else if (state->flags == 1) {
         this->clear_player_status_flag(0, 1);
         this->set_flag8();
         this->queue_destruction();
@@ -257,7 +257,7 @@ void TObjContainerJung::release() {
     jungle_container_textures = NULL;
 }
 
-void *TObjContainerJung::create(void *set_data) {
+void *TObjContainerJung::create(ObjectSetData *set_data) {
     return new TObjContainerJung(tl_05, set_data);
 }
 
@@ -272,7 +272,7 @@ NJS_TEXLIST *TObjContainerJung::get_textures(s32) {
     return jungle_container_textures;
 }
 
-TObjContainerJungEx::TObjContainerJungEx(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerJungEx::TObjContainerJungEx(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_jung_ex_name;
     mode = 0;
     actorFlags |= 0x60000000;
@@ -307,28 +307,28 @@ void TObjContainerJungEx::draw_model() {
         set_texture_list(TObjContainerJungEx::get_textures(0));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         scale_matrix(0, 0.85f, 0.85f, 0.85f);
         draw_ginja_object(TObjContainerJungEx::get_model(0));
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_object(TObjContainerJungEx::get_model(3));
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     case 1:
         return;
     }
 }
 
-void TObjContainerJungEx::apply_saved_state(s16 *state, s32 live) {
+void TObjContainerJungEx::apply_saved_state(QuestObjectEntry *state, s32 live) {
     if (live != 0) {
-        if ((s16) *state == 1) {
+        if (state->flags == 1) {
             this->spawn_break_effects();
             request_configured_item_drop(this);
             this->set_flag8();
             this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *state == 1) {
+    } else if (state->flags == 1) {
         this->set_flag8();
         this->queue_destruction();
         this->mode = 1;
@@ -372,11 +372,11 @@ void TObjContainerJungEx::spawn_break_effects() const {
 }
 #pragma pop
 
-void *TObjContainerJungEx::create(void *set_data) {
+void *TObjContainerJungEx::create(ObjectSetData *set_data) {
     return new TObjContainerJungEx(tl_05, set_data);
 }
 
-TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_jung_enemy_name;
     load_models();
     mode = 0;
@@ -393,7 +393,7 @@ TObjContainerJungEnemy::~TObjContainerJungEnemy() {
     free_collision_body_parts(this);
 }
 
-void *TObjContainerJungEnemy::create(void *set_data) {
+void *TObjContainerJungEnemy::create(ObjectSetData *set_data) {
     return new TObjContainerJungEnemy(tl_05, set_data);
 }
 
@@ -446,12 +446,12 @@ void TObjContainerJungEnemy::draw_model() {
         set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         scale_matrix(0, 0.85f, 0.85f, 0.85f);
         draw_ginja_object(this->body_model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_object(this->light_model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     case 1:
         return;
@@ -467,10 +467,10 @@ void TObjContainerJungEnemy::debug_print_item_box_info() {
 }
 
 f32 TObjContainerJungEnemy::receive_physical_attack(TObjChara *, f32) {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     G_FloorEvent_6x67 pkt;
     if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&saved_state, 1) != 0)) {
-        saved_state = 1;
+        saved_state.flags = 1;
         access_object_saved_state(&saved_state, 0);
         send_object_state_update(&saved_state);
         pkt.init();
@@ -522,16 +522,16 @@ void TObjContainerJungEnemy::spawn_break_effects() const {
 }
 #pragma pop
 
-void TObjContainerJungEnemy::apply_saved_state(s16 *state, s32 live) {
+void TObjContainerJungEnemy::apply_saved_state(QuestObjectEntry *state, s32 live) {
     if (live != 0) {
-        if ((s16) *state == 1) {
+        if (state->flags == 1) {
             this->spawn_break_effects();
             this->clear_player_status_flag(0, 1);
             this->set_flag8();
             this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *state == 1) {
+    } else if (state->flags == 1) {
         this->clear_player_status_flag(0, 1);
         this->set_flag8();
         this->queue_destruction();

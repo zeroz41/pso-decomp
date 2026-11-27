@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/technique/TFireExplosion.h"
@@ -31,14 +30,8 @@
 
 
 static const Vec zonde_bolt_direction = {0.0f, -1.0f, 0.0f};
-static const InwardOrbitDir inward_orbit_particle_dir = {0, 0, 0x4000};
+static const Angle3 inward_orbit_particle_dir = {0, 0, 0x4000};
 
-
-struct WeaponSpecialStrike {
-    Vec pos;
-    Vec dir;
-    f32 len;
-};
 
 
 extern "C" {
@@ -154,7 +147,7 @@ TMirrorPairParticle::TMirrorPairParticle(TObject *parent, Vec *pos, s32 start_an
     angle = start_angle - 0x4000;
     frames_left = 10;
     update_inward_orbit_point();
-    InwardOrbitDir dir = inward_orbit_particle_dir;
+    Angle3 dir = inward_orbit_particle_dir;
     particle = (TParticleCtrl *)spawn_continuous_particle_with_direction(&point, &dir, 10);
 }
 #pragma pop
@@ -397,8 +390,8 @@ void spawn_mirror_pair(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase
         spawn_particle_effect(&player->body_center, 0x69);
     }
     if (phase == 1) {
-        new TMirrorPairParticle(tl_05, pos, target->rotation_y);
-        new TMirrorPairParticle(tl_05, pos, target->rotation_y - 0x8000);
+        new TMirrorPairParticle(tl_05, pos, target->rotation.y);
+        new TMirrorPairParticle(tl_05, pos, target->rotation.y - 0x8000);
     }
 }
 

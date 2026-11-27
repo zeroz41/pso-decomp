@@ -19,7 +19,14 @@ void update_periodic_tick();
 void start_quest_mission(void);
 void change_floor_reload_area(void);
 void reload_lobby_floor_scene(void);
+int online_lobby_check_stub(void);
 
-struct UdpTestGameEntry { s32 f0; s32 f4; };
+// One peer of the UDP test game (start_udp_test_game): its address, and the
+// copy bswap_udp_test_header byte-swaps into the ip_addr a join entry takes.
+struct UdpTestGameEntry {
+    u32 address;
+    u32 ip_addr;
+    void bswap_udp_test_header();
+};
 
 #endif

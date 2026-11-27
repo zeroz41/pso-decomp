@@ -13,12 +13,17 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/network/client_id.h"
 
 __declspec(section ".rodata") extern const char lens_flare_class_name_string[] = "TEF_LensFlare";
 const char *TEF_LensFlare::class_name = lens_flare_class_name_string;
@@ -36,6 +41,20 @@ LensFlareElement lens_flare_reflected_element_descriptors[10] = {
     {6, 1.8f, 1.5f, 0.0f, 0.7f, -10.8f},
     {2, 0.0f, 4.0f, 2.0f, 0.4f, -10.9f},
 };
+
+int TEF_LensFlare::is_player_out_of_range(f32 range_sq) {
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if (player == NULL) {
+        return 0;
+    }
+    return (u32) __cntlzw(horizontal_distance_squared(&player->position, &position) < range_sq) >> 5;
+}
+void *TEF_LensFlare::create(ObjectSetData *set_data) {
+    if (is_split_screen() != 0) {
+        return NULL;
+    }
+    return new TEF_LensFlare(tl_05, set_data);
+}
 
 TEF_LensFlare::~TEF_LensFlare() {
 
@@ -67,7 +86,7 @@ void TEF_LensFlare::render() {
                 return;
             }
         }
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         Vec dir;
         dir.x = position.x - camera_ctrl_instance->pos.x;
         dir.y = position.y - camera_ctrl_instance->pos.y;
@@ -229,13 +248,13 @@ void TEF_LensFlare::render() {
             }
             restore_saved_depth_alpha_state();
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 #pragma pop
 
 
-TEF_LensFlare::TEF_LensFlare(TObject *parent, void *set_data) : TObjBase(parent) {
+TEF_LensFlare::TEF_LensFlare(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     elements = lens_flare_reflected_element_descriptors;

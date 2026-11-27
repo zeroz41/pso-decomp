@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 
+struct QuestObjectEntry;
+
 struct TOTrap : public TObjChara {
     static const char *class_name;
     TOTrap(TObject *parent);
@@ -20,7 +22,7 @@ struct TOTrap : public TObjChara {
     virtual void run_demo();
     virtual void vfunc_89();
     virtual f32 receive_physical_attack(TObjChara *, f32);
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual void run_task();
     virtual void render();
     // Attacks from anyone but the held player count as a plain physical hit.

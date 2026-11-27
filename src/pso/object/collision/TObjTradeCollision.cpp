@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/collision/TObjTradeCollision.h"
 #include "pso/network/TradeSession.h"
@@ -36,14 +35,14 @@ TObjTradeCollision::~TObjTradeCollision() {
 }
 
 
-TObjTradeCollision::TObjTradeCollision(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjTradeCollision::TObjTradeCollision(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     m_name = trade_collision_name;
     apply_object_set_data(set_data);
     trade_radius = this->scale.x;
-    ((TObject *)(((u8 *)this)))->disallow_rendering();
+    disallow_rendering();
 }
 
-void *TObjTradeCollision::create(void *set_data) {
+void *TObjTradeCollision::create(ObjectSetData *set_data) {
     void *o = new TObjTradeCollision(tl_05, set_data);
     return o;
 }

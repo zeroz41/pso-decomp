@@ -62,7 +62,7 @@ struct TBoss2Mine : public TObjEneDD {
     s32 pulse_phase;           // 0 brightening, 1 fading, 2 waiting, 3 off
     s32 step;
     s32 timer;
-    s32 m_3d0;
+    s32 pad_3d0;
     u8 pad_3D4[0x4];
     s32 tilt;
     union {
@@ -79,11 +79,5 @@ struct TBoss2Mine : public TObjEneDD {
     static const char *name;
 };
 LAYOUT_ASSERT(TBoss2Mine_size, sizeof(TBoss2Mine) == 0x3F0);
-
-// The mine's attack template: state_explode copies it, sets the power from the boss and
-// hands it to setup_attack_at_owner, whose setup_instance installs the collision radius.
-struct TBoss2MineCollisionWords {
-    s32 w[5];
-};
 
 #endif

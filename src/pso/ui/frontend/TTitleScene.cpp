@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/TScreenFadeOut.h"
 #include "pso/system/TScreenFadeIn.h"
 #include "types.h"
@@ -10,7 +9,7 @@
 #include "pso/ui/TTitleLogo.h"
 #include "pso/ui/TTitleMenu.h"
 #include "pso/unk/TTitleScene.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/ui/frontend/TTitleBackground.h"
@@ -44,7 +43,7 @@ s8 lobby_server_choice_stub(void) { return 0; }
 
 s32 TTitleScene::start_offline_seq() {
     if (!(transition_flags & 2)) {
-        new TScreenFadeOut(tl_fade, TLobby::queue_destruction_and_cleanup);
+        new TScreenFadeOut(tl_fade, queue_destruction_and_cleanup);
         transition_flags |= 2;
     }
     return transition_flags & 4;
@@ -150,57 +149,54 @@ NJS_TEXANIM title_sprite_frames[46] = {
 };
 
 // Title screen sprites; get_record hands one to draw_with_camera.
-// The Ninja sprite table references the Ginja texture list at its original address.
-#define TITLE_SPRITE_TEXTURE_LIST reinterpret_cast<NJS_TEXLIST *>(&title_texture_list)
 NJS_SPRITE lobby_record_table[46] = {
-    {{0.0f, -16.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{0.0f, 240.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{256.0f, -16.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{256.0f, 240.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{512.0f, -16.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{512.0f, 112.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{512.0f, 240.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{512.0f, 368.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{96.0f, 172.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{352.0f, 172.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{193.0f, 338.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{193.0f, 300.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{193.0f, 332.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{193.0f, 364.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{193.0f, 396.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{192.0f, 308.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{192.0f, 340.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{192.0f, 372.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{192.0f, 404.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{208.0f, 308.0f, 0.0f}, 14.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{208.0f, 340.0f, 0.0f}, 14.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{208.0f, 372.0f, 0.0f}, 14.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{208.0f, 404.0f, 0.0f}, 14.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{432.0f, 308.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{432.0f, 340.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{432.0f, 372.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{432.0f, 404.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{192.0f, 308.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{192.0f, 340.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{192.0f, 372.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{192.0f, 404.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{208.0f, 308.0f, 0.0f}, 14.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{208.0f, 340.0f, 0.0f}, 14.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{208.0f, 372.0f, 0.0f}, 14.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{208.0f, 404.0f, 0.0f}, 14.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{432.0f, 308.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{432.0f, 340.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{432.0f, 372.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{432.0f, 404.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{259.0f, 415.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{208.0f, 418.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{224.0f, 418.0f, 0.0f}, 12.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{416.0f, 418.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{192.0f, 418.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{208.0f, 418.0f, 0.0f}, 12.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
-    {{432.0f, 418.0f, 0.0f}, 1.0f, 1.0f, 0, TITLE_SPRITE_TEXTURE_LIST, title_sprite_frames},
+    {{0.0f, -16.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{0.0f, 240.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{256.0f, -16.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{256.0f, 240.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{512.0f, -16.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{512.0f, 112.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{512.0f, 240.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{512.0f, 368.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{96.0f, 172.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{352.0f, 172.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{193.0f, 338.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{193.0f, 300.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{193.0f, 332.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{193.0f, 364.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{193.0f, 396.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{192.0f, 308.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{192.0f, 340.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{192.0f, 372.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{192.0f, 404.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{208.0f, 308.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{208.0f, 340.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{208.0f, 372.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{208.0f, 404.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{432.0f, 308.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{432.0f, 340.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{432.0f, 372.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{432.0f, 404.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{192.0f, 308.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{192.0f, 340.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{192.0f, 372.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{192.0f, 404.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{208.0f, 308.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{208.0f, 340.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{208.0f, 372.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{208.0f, 404.0f, 0.0f}, 14.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{432.0f, 308.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{432.0f, 340.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{432.0f, 372.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{432.0f, 404.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{259.0f, 415.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{208.0f, 418.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{224.0f, 418.0f, 0.0f}, 12.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{416.0f, 418.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{192.0f, 418.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{208.0f, 418.0f, 0.0f}, 12.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
+    {{432.0f, 418.0f, 0.0f}, 1.0f, 1.0f, 0, &title_texture_list, title_sprite_frames},
 };
-#undef TITLE_SPRITE_TEXTURE_LIST
 
 // Texture archive per language (Japanese, then English for the others);
 // initialize_lobby_title_scene copies the whole table before indexing it.
@@ -213,21 +209,17 @@ TTitleScene *title_scene_instance;
 int lobby_game_mode_state;
 NJS_TEXLIST *lobby_title_texture_list;
 
-extern "C" {
-u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
-}
-
 // Read as const here: Language.h's non-const declaration changes the load scheduling.
 extern const s32 current_language;
 
-void TLobby::queue_destruction_and_cleanup(TObject *fade) {
+void queue_destruction_and_cleanup(TObject *fade) {
     fade->queue_destruction();
     if (title_scene_instance != NULL) {
         hide_title_layers_and_release(title_scene_instance);
     }
 }
 
-void TLobby::destroy_download_server(TObject *fade) {
+void destroy_download_server(TObject *fade) {
     fade->queue_destruction();
     if (title_scene_instance != NULL) {
         title_scene_instance->set_flag_and_clear_download();
@@ -329,7 +321,7 @@ TTitleScene::~TTitleScene() {
 TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
 
     title_scene_instance = this;
-    m_30 = 0;
+    pad_30 = 0;
     attract_tick = 0;
     auxiliary_window = NULL;
     transition_flags = 0;
@@ -346,7 +338,7 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
     title_layer = new TTitleBackground(this);
     transition_controller = new TTitleMenu(this);
     overlay_layer = new TTitleLogo(tl_clipout);
-    m_28 = 0;
+    pad_28 = 0;
     if (transition_controller != NULL) {
         transition_controller->suspend_update();
     }
@@ -370,13 +362,12 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
         transition_children[1] = create_particle_controller(&v, 0x1E4, 1);
         transition_children[2] = create_particle_controller(&v, 0x1E5, 1);
     }
-    new TScreenFadeIn(tl_fade, TLobby::destroy_download_server);
+    new TScreenFadeIn(tl_fade, destroy_download_server);
     TItemReverseTechCtrl::create(this);
 }
 
-void TLobby::destroy_global_object() {
-    u32 value;
-    value = (u32) call_funcs_reverse__6TLobbyFPvUi(lobby_load_callback_table, sizeof(lobby_load_callback_table));
+void destroy_global_object() {
+    call_funcs_reverse(lobby_load_callback_table, sizeof(lobby_load_callback_table));
     if (lobby_title_texture_list != NULL) {
         release_texture_list(lobby_title_texture_list);
         lobby_title_texture_list = NULL;

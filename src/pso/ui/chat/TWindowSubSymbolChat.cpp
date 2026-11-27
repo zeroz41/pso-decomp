@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
@@ -86,7 +85,7 @@ void SymbolChatPreset::set_flag_bit2() {
 #include "types.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -139,29 +138,6 @@ s32 add__16SymbolChatPresetFlllll(int, int, int, int, int, int);
 void draw_second_window_arrow(TWindowSubSymbolChat *window);
 
 }
-#pragma pop
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-
-
-#pragma pop
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma pop
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-
-#pragma pop
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma pop
 
 #pragma push

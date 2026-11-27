@@ -4,23 +4,19 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
-extern saddr item_nj_chunk_buffer_table[];
-
 void TItemBuff::free_all_and_init() {
     s32 i;
-    saddr *table;
-    s32 zero;
+    char **table;
     s32 index;
 
     free_item_buff();
     index = 0;
-    zero = index;
     i = 0;
     table = item_nj_chunk_buffer_table;
     do {
-        mem_free((void *)table[index]);
+        mem_free(table[index]);
         i += 1;
-        table[index] = zero;
+        table[index] = NULL;
         index += 1;
     } while (i != 2);
 }

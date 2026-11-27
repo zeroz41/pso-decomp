@@ -1,7 +1,6 @@
 #include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TechniqueBandSound.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
@@ -89,25 +88,25 @@ void TTecBarta::update_technique_by_state() {
 
 
 void TTecBarta::create_particle_emitters() {
-    s32 angles[3];
-    s32 reverse[3];
+    Angle3 angles;
+    Angle3 reverse;
     u32 i;
     const TechniqueEmitterSourceRow *row;
     u32 flags;
-    angles[0] = this->angles[0];
-    angles[1] = 0;
-    angles[2] = this->angles[2];
+    angles.x = this->angles[0];
+    angles.y = 0;
+    angles.z = this->angles[2];
     this->emitters = (TechniqueParticleEmitter **)mem_alloc(barta_emitter_bands[this->band].count * 4);
     for (i = 0; i < barta_emitter_bands[this->band].count; i++) {
         row = &barta_emitter_bands[this->band].rows[i];
         flags = row->flags;
         if (flags & 2) {
-            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction(&position, angles, row->entry);
+            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction(&position, &angles, row->entry);
         } else if (flags & 1) {
-            reverse[0] = this->angles[0] + 0x8000;
-            reverse[1] = 0;
-            reverse[2] = this->angles[2];
-            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction(&position, reverse, barta_emitter_bands[this->band].rows[i].entry);
+            reverse.x = this->angles[0] + 0x8000;
+            reverse.y = 0;
+            reverse.z = this->angles[2];
+            this->emitters[i] = (TechniqueParticleEmitter *)spawn_continuous_particle_with_direction(&position, &reverse, barta_emitter_bands[this->band].rows[i].entry);
         } else {
             this->emitters[i] = (TechniqueParticleEmitter *)create_particle_emitter(&position, row->entry);
         }
@@ -125,11 +124,11 @@ void TTecBarta::create_particle_emitters() {
 void TTecBarta::init_parameters() {
     TechniqueParams *scaled = calc_technique_parameters(3, level, 0xFFFF);
     params.copy(scaled);
-    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+    if (level >= 15 && is_technique_ready() == 0) {
         params.power = (f32)(tech_high_level_linear_power_table[3].base + tech_high_level_linear_power_table[3].per_level * level);
     } else {
         params.power = params.power + (f32)(params.power_per_level * level);
-        if (TTecCtrl::is_technique_ready() != 0) {
+        if (is_technique_ready() != 0) {
             params.power = params.power * technique_scale_table[3].power;
         }
     }
@@ -196,7 +195,7 @@ void TTecBarta::run_task() {
         }
     }
     if (this->band == 5) {
-        TechniqueParticleEmitter *e = (TechniqueParticleEmitter *)create_timed_particle_emitter(&this->position.x, 0x18A, 0x14, 1);
+        TechniqueParticleEmitter *e = (TechniqueParticleEmitter *)create_timed_particle_emitter(&this->position, 0x18A, 0x14, 1);
         if (e != NULL) {
             attach_particle_model(reinterpret_cast<TParticleCtrl *>(e), get_bml_model(technique_effect_bml, 5), technique_texture_list, 0, 0, 1.0f);
         }
@@ -244,7 +243,7 @@ TTecBarta::TTecBarta(TObjBase *source, Vec *pos, s32 angle, s32 level)
     }
 }
 
-void TTecShot::spawn_impact_effect() {  }
+void TTecShot::spawn_miss_effect() {  }
 struct TechniqueParticleEmitter;
 void TTecCircle::apply_technique_to_area_targets() {
     TechniqueContactList *list;
@@ -264,7 +263,7 @@ void TTecCircle::apply_technique_to_area_targets() {
         list = collect_body_contacts_for_target(source);
     }
     for (i = 0; i < list->count; i++) {
-        if (TObjPlayer::is_valid_and_active(list->actors[i]) != 0) {
+        if (TObjCollidable::is_valid_and_active(list->actors[i]) != 0) {
             target = (TObjChara *)list->actors[i];
             contact = list->bodies[i];
             apply_to_target(target);

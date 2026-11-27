@@ -6,7 +6,7 @@
 
 struct TObjCityMapWarp : public TObjMapWarp {
     static const char *class_name;
-    TObjCityMapWarp(TObject *parent, void *set_data);
+    TObjCityMapWarp(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjCityMapWarp();
     virtual void open_confirm_window(s32 client_id);
     virtual void draw_debug_destinations();
@@ -14,7 +14,7 @@ struct TObjCityMapWarp : public TObjMapWarp {
     virtual void run_task();
     int is_field88_zero();
     void clamp_destination_index();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     f32 animation_frame;
 };
 

@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
-s32 to_upper_latin1(s32 c);
-}
+char to_upper_latin1(char c);
 
 #endif

@@ -35,23 +35,9 @@ struct TBoss3VoloptP01Params {
     s32 values[1];
 };
 
-struct TBoss3VoloptP01CollisionPart {
-    s32 pad_0;
-    f32 pad_4;
-    s32 pad_8;
-    f32 pad_c;
-    s32 pad_10;
-    s32 pad_14;
-    s32 pad_18;
-    s32 pad_1c;
-    s32 pad_20;
-    s32 pad_24;
-    s32 pad_28;
-};
-
 struct TBoss3VoloptP01 : public TObjEnemyCustom {
     TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 group);
-    TBoss3VoloptP01(TObject *parent, void *set_data);
+    TBoss3VoloptP01(TObject *parent, EnemyPlacement *set_data);
     virtual ~TBoss3VoloptP01();
     virtual void run_task();
     virtual void render();
@@ -76,7 +62,7 @@ struct TBoss3VoloptP01 : public TObjEnemyCustom {
     void dispatch_state();
     static void destroy();
     static void init_breakup_effect();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     void init_params();
     s32 get_shared_value(s32 index);
     void load_model(s32 index);

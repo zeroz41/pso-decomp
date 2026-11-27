@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
@@ -8,7 +7,7 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/system/SoundEffect.h"
@@ -42,12 +41,13 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/DebugFont.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 
 
 s16 TObjPlayer::get_atp() { return this->atp; }
@@ -64,22 +64,22 @@ void TObjEneDimedian::run_demo_task() {  }
 
 void TObjEneDimedian::play_group_chase_sound() {
     play_sound_effect(remap_sound_for_area(0x4003AD40), &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x100);
+    play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::play_death_sound() {
     play_sound_effect(remap_sound_for_area(0x4003AD3D), &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x100);
+    play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::play_hurt_sound() {
     play_sound_effect(remap_sound_for_area(0x4003A83E), &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x100);
+    play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::play_attack_sound() {
     play_sound_effect(remap_sound_for_area(0x4003A83F), &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x100);
+    play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::play_alert_sound() {
@@ -91,12 +91,12 @@ void TObjEneDimedian::play_alert_sound() {
         sound = remap_sound_for_area(0x4003B23C);
         play_sound_effect(sound, &position, 0, 0);
     }
-    TObjPlayer::play_effect_if_v2(-0x100);
+    play_effect_if_v2(-0x100);
 }
 
 void TObjEneDimedian::spawn_death_effect() {
     s32 area;
-    TDeadSpot::spawn_kind0_scale7_5(&position, 0);
+    spawn_dead_spot_kind0_scale7_5(&position, 0);
     create_particle_emitter_pair(&body_center);
     area = get_current_floor_area();
     if ((area == AREA_VR_TEMPLE_ALPHA) || (area == AREA_VR_TEMPLE_BETA)) {
@@ -134,7 +134,7 @@ void TObjEneDimedian::update_attack_trail() {
     push_matrix();
     set_matrix_identity(0);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     matrix_mult_vec_array(NULL, e, &a, 2);
     pop_matrix();
     eff = attack_trails[idx];
@@ -224,15 +224,15 @@ void TObjEneDimedian::render() {
     set_texture_list(texlist);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
-    if (TObjPlayer::check_demo_mode() == 1) {
+    rotate_matrix_y(0, rotation.y);
+    if (check_demo_mode() == 1) {
         draw_chunk_object(model);
     } else {
         switch (mode) {
         case 0:
         case 1:
         case 8: {
-            s16 *strip = ((NJS_CNK_MODEL *)model->child->sibling->model)->polygon_list;
+            s16 *strip = model->child->sibling->chunk_model->polygon_list;
             saved = strip[3];
             strip[3] = (u8)strip[3];
             break;
@@ -276,12 +276,12 @@ void TObjEneDimedian::render() {
                 camera_fades[camera].clear_flag_and_notify();
             }
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         switch (mode) {
         case 0:
         case 1:
         case 8:
-            ((NJS_CNK_MODEL *)model->child->sibling->model)->polygon_list[3] = saved;
+            model->child->sibling->chunk_model->polygon_list[3] = saved;
             break;
         }
     }
@@ -364,7 +364,7 @@ CollisionBody dimedian_collision_body_table[3] = {
     {{0.0f, 15.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-void *TObjEneDimedian::create(void *set_data) {
+void *TObjEneDimedian::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjEneDimedian(control, set_data);
 }
@@ -373,7 +373,6 @@ player_stats **dimedian_boss_object_buf;
 AttackParams **dimedian_attack_stat_table;
 ActorParamBlock **dimedian_boss_objects;
 f32 **dimedian_buffer_ptr;
-extern BmlResource *dimedian_resource_ptr;
 
 void TObjEneDimedian::free_boss_objects() {
     if (dimedian_boss_object_buf != NULL) {
@@ -407,7 +406,7 @@ void TObjEneDimedian::free_boss_objects() {
 }
 
 
-void TLobby::load_dimedian_resources() {
+void TObjEneDimedian::load_resources() {
     BmlModelEntry *models;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
@@ -416,9 +415,9 @@ void TLobby::load_dimedian_resources() {
         dimedian_resource_ptr = new BmlResource(1, &dimedian_resource_descriptor, 0, 0, NULL);
     }
     models = dimedian_resource_ptr->models;
-    dimedian_resource_handles[0] = (saddr)((NJS_CNK_MODEL *)models[0].model->child->sibling->sibling->model)->polygon_list;
-    dimedian_resource_handles[1] = (saddr)((NJS_CNK_MODEL *)models[1].model->child->sibling->sibling->model)->polygon_list;
-    dimedian_resource_handles[2] = (saddr)((NJS_CNK_MODEL *)models[2].model->child->sibling->sibling->model)->polygon_list;
+    dimedian_resource_handles[0] = (saddr)models[0].model->child->sibling->sibling->chunk_model->polygon_list;
+    dimedian_resource_handles[1] = (saddr)models[1].model->child->sibling->sibling->chunk_model->polygon_list;
+    dimedian_resource_handles[2] = (saddr)models[2].model->child->sibling->sibling->chunk_model->polygon_list;
     dimedian_last_draw_tick[0] = 0;
     dimedian_last_draw_tick[1] = 0;
     dimedian_last_draw_tick[2] = 0;
@@ -469,7 +468,7 @@ void TObjEneDimedian::load_dimedian_param_entry(s32 i) {
     texlist = dimedian_resource_ptr->models[i].texlist;
 }
 
-TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TObjEneBeastBase(parent) {
+TObjEneDimedian::TObjEneDimedian(TObject *parent, EnemyPlacement *set_data) : TObjEneBeastBase(parent) {
     s32 color;
     s32 i;
     m_name = TObjEneDimedian_name_ref;

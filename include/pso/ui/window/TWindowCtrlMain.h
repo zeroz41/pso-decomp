@@ -27,7 +27,7 @@ struct TWindowCtrlMain : public TObject {
     void render();
     void run_task();
     static void free_all_windows();
-    static void reset_all(void* _w0);
+    static void reset_all(s32);
     static saddr get_instance();
     static void free_window();
     static void release_ptr(TObject **ptr);

@@ -1,5 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
-
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/EnemyBmlResource.h"
 #include <stddef.h>
@@ -49,7 +47,7 @@
 #include "pso/math/AngleUnits.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
@@ -124,7 +122,7 @@ static player_stats *gee_boss_stat_handle_table[3];
 static AttackParams *gee_shared_handler_b_table[3];
 static ActorParamBlock *gee_object_handle_table[3];
 static TObjEneMe1GeeParams *gee_shared_handler_a_table[3];
-static f32 gee_camera_ctrl_vec[4];
+static Vec gee_camera_ctrl_vec;
 
 
 
@@ -134,8 +132,8 @@ void TObjEneMe1Gee::load_resources() {
     s32 i;
     TBreakUpMdlData *p;
     Vec *v;
-    v = (Vec *)gee_camera_ctrl_vec;
-    gee_camera_ctrl_vec[0] = 0.0f;
+    v = &gee_camera_ctrl_vec;
+    gee_camera_ctrl_vec.x = 0.0f;
     v->y = 0.0f;
     v->z = 0.0f;
     if (is_split_screen() != 0) {
@@ -156,7 +154,7 @@ void TObjEneMe1Gee::load_resources() {
     gee_leader_breakup_model = p;
     p = new TBreakUpMdlData(me1_gee_resource_bundle->models->model);
     gee_breakup_model = p;
-    gee_node4_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(me1_gee_resource_bundle->models->model, 4)->model)->polygon_list + 2);
+    gee_node4_diffuse = (s32 *)(find_model_node(me1_gee_resource_bundle->models->model, 4)->chunk_model->polygon_list + 2);
     init_alt_model();
     {
         NpcAnimationBinding params = { NULL, me1_gee_motion_parameters, 0, 0, 4 };
@@ -165,7 +163,7 @@ void TObjEneMe1Gee::load_resources() {
     }
 }
 
-void *TObjEneMe1Gee::create(void *set_data) {
+void *TObjEneMe1Gee::create(EnemyPlacement *set_data) {
     return new TObjEneMe1Gee(tl_04, set_data, 0);
 }
 
@@ -189,7 +187,7 @@ void TObjEneMe1Gee::free_globals() {
     TObjEneMe1Gee_NEEDLE::free_global();
 }
 
-TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, void *set_data, s32 kind) : TObjEneDD_ST(parent) {
+TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, EnemyPlacement *set_data, s32 kind) : TObjEneDD_ST(parent) {
     m_name = me1_gee_class_name;
     invoke_initialization_hook(set_data);
     status_flags = 0;
@@ -208,7 +206,7 @@ TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, TObjEneMe1Gee *leader, Vec *pos, u
     set_index = index;
     this->leader->calc_position(&position);
     VecCopy(&position, pos);
-    rotation_y = this->leader->rotation_y;
+    rotation.y = this->leader->rotation.y;
     status_flags = 0;
     this->kind = 1;
     init_state();
@@ -290,7 +288,7 @@ TObjEneMe1Gee::~TObjEneMe1Gee() {
 }
 
 void TObjEneMe1Gee::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }
@@ -450,8 +448,8 @@ void TObjEneMe1Gee::climb_to_hover_height() {
 }
 
 void TObjEneMe1Gee::update_angle() {
-    this->rotation_y = approach_angle_limited(this->rotation_y, (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z)), 0x400);
-    this->rotation_y = (s32) (s16) this->rotation_y;
+    this->rotation.y = approach_angle_limited(this->rotation.y, (s32) (RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z)), 0x400);
+    this->rotation.y = (s32) (s16) this->rotation.y;
 }
 
 void TObjEneMe1Gee::update() { if (this->enemy_has_live_target() != 0) { this->enemy_copy_target_destination(); this->update_velocity(); this->update_angle(); } }
@@ -1166,7 +1164,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
                 this->advance_animation();
                 push_matrix_from(identity_matrix);
                 post_translate_matrix(&this->position.x);
-                rotate_matrix_y(0, this->rotation_y);
+                rotate_matrix_y(0, this->rotation.y);
                 set_motion_packed_rotation();
                 this->calc_joint_matrices(this->stage_timer);
                 clear_motion_packed_rotation();
@@ -1455,7 +1453,7 @@ void TObjEneMe1Gee::state_orbit(s32 mode) {
                     c = normalize_vector_xz(&v);
                     this->move_to_wall_clamped_destination(v.x, v.z, c);
                 }
-                this->rotation_y = (s32)(RADIANS_TO_ANGLE * atan2_float(dir->x, dir->z)) + 0x8000;
+                this->rotation.y = (s32)(RADIANS_TO_ANGLE * atan2_float(dir->x, dir->z)) + 0x8000;
                 break;
             }
             case 0:
@@ -1664,8 +1662,8 @@ void TObjEneMe1Gee::state_dead(s32 msg) {
             this->leader = (TObjEneMe1Gee *)find_entity_by_id(this->leader_id);
             this->leader->remove_member(this);
         }
-        TBoss3Volopt::create_breakup_mdl(gee_breakup_model, NULL,
-                           this->texlist, &this->body_center, this->rotation_y);
+        create_breakup_mdl(gee_breakup_model, NULL,
+                           this->texlist, &this->body_center, this->rotation.y);
         play_sound_effect(this->handle_message(0x3A843), &this->position, 0, 0);
         this->status_flags |= 0x400000;
         this->actorFlags |= 0x01000000;
@@ -1709,8 +1707,8 @@ void TObjEneMe1Gee::state_move_forward(s32 msg) {
     case 4:
         this->requested_action = 0;
         this->hover_y = this->position.y + this->hover_height;
-        this->work_speed = sin_table_lookup(this->rotation_y);
-        this->orbit_radius = cos_table_lookup(this->rotation_y);
+        this->work_speed = sin_table_lookup(this->rotation.y);
+        this->orbit_radius = cos_table_lookup(this->rotation.y);
         return;
     case 0:
         advance_animation();
@@ -1730,12 +1728,12 @@ void TObjEneMe1Gee::advance_camera_ctrl_step(NJS_OBJECT *) {
     case 4:
         pos = gee_camera_ctrl_step_ptr;
         gee_camera_ctrl_step_ptr = pos + 1;
-        forward_transform_to_view((const Vec *)gee_camera_ctrl_vec, pos);
+        forward_transform_to_view(&gee_camera_ctrl_vec, pos);
         break;
     case 7:
         pos = gee_camera_ctrl_step_ptr;
         gee_camera_ctrl_step_ptr = pos + 1;
-        forward_transform_to_view((const Vec *)gee_camera_ctrl_vec, pos);
+        forward_transform_to_view(&gee_camera_ctrl_vec, pos);
         break;
     }
     me1_gee_render_node_index += 1;
@@ -1745,7 +1743,7 @@ void TObjEneMe1Gee::render() {
     s32 detail;
     s32 draw_now;
 
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->render_demo();
         return;
     }
@@ -1771,7 +1769,7 @@ void TObjEneMe1Gee::render() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         translate_matrix(0, 0.0f, this->hover_offset, 0.0f);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         draw_now = 1;
         if ((this->mode == 1) || (this->mode == 0xC)) {
             this->fade.set_flags_and_apply_damage_color();
@@ -1795,7 +1793,7 @@ void TObjEneMe1Gee::render() {
                 }
                 set_chunk_model_node_callback(NULL);
             } else {
-                rotate_matrix_z(NULL, this->rotation_z);
+                rotate_matrix_z(NULL, this->rotation.z);
                 me1_gee_render_node_index = -1;
                 gee_camera_ctrl_step_ptr = this->node_points;
                 set_chunk_model_node_callback(TObjEneMe1Gee::advance_camera_ctrl_step);
@@ -1807,7 +1805,7 @@ void TObjEneMe1Gee::render() {
             this->fade.clear_flag_and_notify();
         }
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         model_render_flags = saved_model_render_flags;
         this->update_primary_light();
         return;
@@ -1848,11 +1846,11 @@ void TObjEneMe1Gee::render_demo() {
         set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         TObjEneDD::clear_global_flag_400();
         draw_chunk_object(this->model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 #pragma pop
@@ -1860,7 +1858,7 @@ void TObjEneMe1Gee::render_demo() {
 TObjEneMe1GeeLeader::~TObjEneMe1GeeLeader() {}
 
 void TObjEneMe1GeeLeader::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }
@@ -1912,7 +1910,7 @@ void TObjEneMe1GeeLeader::spawn_members() {
         n = 1;
     }
     a = this->entity_id + 1;
-    angle = this->rotation_y;
+    angle = this->rotation.y;
     b = this->set_index + 1;
     for (i = 0; i < n; i++) {
         v.x = 40.0f * sin_table_lookup(angle);
@@ -2152,8 +2150,8 @@ void TObjEneMe1GeeLeader::state_rise(s32 msg) {
 void TObjEneMe1GeeLeader::state_dead(s32 msg) {
     switch (msg) {
     case 4:
-        TBoss3Volopt::create_breakup_mdl(gee_leader_breakup_model, NULL,
-                           this->texlist, &this->body_center, this->rotation_y);
+        create_breakup_mdl(gee_leader_breakup_model, NULL,
+                           this->texlist, &this->body_center, this->rotation.y);
         this->status_flags |= 0x400000;
         refresh_lobby_state();
         return;

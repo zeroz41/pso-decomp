@@ -16,7 +16,7 @@ void TItemWeaponTechnicalCrozier::emit_marker_effects() {
     }
     get_joint_position(0, &pos);
     if (is_mode_two_and_ready() != 0) {
-        TTecBarta::create_ex(owner, &owner->position, owner->rotation_y, 3);
+        TTecBarta::create_ex(owner, &owner->position, owner->rotation.y, 3);
         return;
     }
     update_active_game_effect();

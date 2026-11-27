@@ -11,7 +11,7 @@ struct BmlResource;
 struct TObjEneRecon;
 
 struct TObjEneRecobox : public TObjEneDD_ST {
-    TObjEneRecobox(TObject *parent, void *set_data);
+    TObjEneRecobox(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneRecobox();
     virtual void run_task();
     virtual void render();
@@ -49,7 +49,8 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     static u32 remap_area_sound_id(u32 id);
     static void release_static_instance();
     static void load_resources();
-    static void *create(void *set_data);
+    Vec *get_position_ptr();
+    static void *create(EnemyPlacement *set_data);
     static BmlResource *get_bml_resource();
     static EnemyMoveParams movement;
     f32 get_recon_rotate_rad();
@@ -74,7 +75,7 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     s32 spawn_timer;              // frames since the last spawn (update_child_spawn)
     s32 spawn_interval;           // frames between spawns (30)
     s32 pad_4E0[4];
-    f32 m_4f0;
+    f32 pad_4f0;
 };
 
 LAYOUT_ASSERT(TObjEneRecobox_size, sizeof(TObjEneRecobox) == 0x4F4);

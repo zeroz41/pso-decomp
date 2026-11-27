@@ -61,7 +61,7 @@ TODragonfly::~TODragonfly() {}
 void TODragonfly::run_task() {
     bob_angle = bob_angle + bob_angle_step;
     bob_offset = bob_height * sin_table_lookup(bob_angle);
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         update_demo();
         return;
     }
@@ -87,7 +87,7 @@ void TODragonfly::render() {
         push_matrix();
         translate_matrix(0, 0.0f, bob_offset, 0.0f);
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         draw_ginja_model_with_motion(model, motion, animation_frame);
         pop_matrix();
@@ -171,7 +171,7 @@ s32 TODragonfly::pick_random_destination(f32 height) {
     if (normalize_if_nonzero(&scratch_vec) == 1) {
         object_state = 1;
         wait_timer = 0;
-        rotation_y = (32768.0 / 3.141592f) * atan2_float(scratch_vec.x, scratch_vec.z);
+        rotation.y = (32768.0 / 3.141592f) * atan2_float(scratch_vec.x, scratch_vec.z);
         step.x = scratch_vec.x * scale.z;
         step.y = scratch_vec.y * scale.z;
         step.z = scratch_vec.z * scale.z;
@@ -182,7 +182,7 @@ s32 TODragonfly::pick_random_destination(f32 height) {
 
 void TODragonfly::update_demo() {}
 
-TODragonflyCave01::TODragonflyCave01(void *set_data) {
+TODragonflyCave01::TODragonflyCave01(ObjectSetData *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = model_resource->models->model;
@@ -226,6 +226,6 @@ void TODragonflyCave01::release_static_instance() {
     }
 }
 
-void *TODragonflyCave01::create(void *set_data) {
+void *TODragonflyCave01::create(ObjectSetData *set_data) {
     return new TODragonflyCave01(set_data);
 }

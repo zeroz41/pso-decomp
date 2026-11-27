@@ -26,7 +26,7 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os.h>
 #include "pso/player/LocalClientId.h"
-#include "pso/network/NetworkConnectTypes.h"
+#include "pso/ui/frontend/TAdEnterPPPPassGC.h"
 #undef PSO_SDK_COMPACT_MATH
 
 s32 lobby_local_ip_addr;
@@ -39,13 +39,13 @@ s32 lobby_dhcp_renew_time;
 s32 lobby_dhcp_rebind_time;
 s32 connect_pending_flags;
 s32 lobby_default_gateway;
-uaddr avetcp_work_area;
+u8 *avetcp_work_area;
 s32 net_session_mode;
 int phone_number_index;
 s32 dns_initialized;
 s32 lobby_connect_active_flag;
 s32 lbl_805D5714;
-s32 lbl_805D5718;
+s32 blocking_vsync_render_only;
 
 extern "C" {
 s16 if_config(s16, void *);
@@ -311,9 +311,9 @@ void cleanup() {
         avetcp_term();
         connect_pending_flags &= 0xFFFFFFF7;
     }
-    if ((u32) avetcp_work_area != 0U) {
-        xfree((void*)avetcp_work_area);
-        avetcp_work_area = 0U;
+    if (avetcp_work_area != NULL) {
+        xfree(avetcp_work_area);
+        avetcp_work_area = NULL;
     }
 }
 s32 init_network_and_connect() {
@@ -325,9 +325,9 @@ s32 init_network_and_connect() {
     params.tcp_buffer_size = 0x1000;
     params.thread_stack_size = 0x3000;
     AT_SetInitParam(&params);
-    avetcp_work_area = (uaddr)xmalloc(size);
-    if (avetcp_work_area != 0) {
-        AT_SetWorkArea((u8 *)avetcp_work_area, size);
+    avetcp_work_area = (u8 *)xmalloc(size);
+    if (avetcp_work_area != NULL) {
+        AT_SetWorkArea(avetcp_work_area, size);
     }
     avetcp_init();
     connect_pending_flags |= 8;
@@ -546,8 +546,6 @@ void teardown_dns() {
 }
 
 
-extern PppPasswordBuffer ppp_password_buffer;
-
 s32 set_dns_servers() {
     NetworkAddress req;
     s16 r1;
@@ -717,7 +715,7 @@ s32 connect_modem(s32 idx, s16 id) {
     cfg.transport_settings[2] = 0;
     cfg.transport_settings[3] = 3;
     cfg.transport_settings[4] = 1;
-    if (TLobby::is_tone_dialing() != 0) {
+    if (is_tone_dialing() != 0) {
         cfg.modem.type = 0;
     } else {
         cfg.modem.type = 1;
@@ -855,5 +853,5 @@ void set_network_lease_time(s32 seconds) { network_lease_time = seconds; }
 
 void clear_network_lease_time(void) { network_lease_time = 0; }
 char *get_ppp_password_buffer(void) {
-    return (char *)&ppp_password_buffer.value;
+    return ppp_password_buffer;
 }

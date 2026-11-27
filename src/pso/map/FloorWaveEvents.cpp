@@ -88,7 +88,7 @@ FloorSceneEntry floor_scene_table[36] = { { floor_map_set_acity00, 1 }, { floor_
 const char *forest_rel_filename_table[6] = { "SetDataTableOff.rel", "SetDataTableOffUlti.rel", "SetDataTableOn.rel", "SetDataTableOnUlti.rel", "SetDataTable_TGS2001.rel", 0 };
 
 
-void TLobby::reset_story_select() { select_episode(0); story_select_pending_state = -1; }
+void reset_story_select() { select_episode(0); story_select_pending_state = -1; }
 
 s32 TLobby::is_scene_ready() {
     s32 status;
@@ -119,8 +119,8 @@ saddr get_floor_scene_table(s32 area) {
 }
 
 
-void TLobby::reset_story_select(void* p) { TLobby::reset_story_select(); }
-void reset_online_story_select(void) { TLobby::reset_story_select(); }
+void reset_reload_story_select(void) { reset_story_select(); }
+void reset_online_story_select(void) { reset_story_select(); }
 
 s32 init_object_set_data(ObjectSetData *set) {
     s32 r;
@@ -165,16 +165,15 @@ s32 run_floor_initialize_callbacks(s32 floor) {
 }
 
 s32 TLobby::update_key_machine() { return run_floor_initialize_callbacks(get_current_floor_area()); }
-void bswap_enemy_set_row(void *row_ptr) {
-    EnemySetRecord *row = (EnemySetRecord *)row_ptr;
+void bswap_enemy_set_row(EnemySetRecord *row) {
     bswap_16((u16 *)&row->type);
     bswap_enemy_set_row_fields(&row->placement);
 }
 
 void bswap_enemy_set_row_fields(EnemyPlacement *placement) {
     bswap_16((u16 *)&placement->child_count);
-    bswap_16((u16 *)&placement->unknown04[0]);
-    bswap_16((u16 *)&placement->unknown0c[0]);
+    bswap_16((u16 *)&placement->pad_04);
+    bswap_16((u16 *)&placement->pad_0c[0]);
     bswap_16((u16 *)&placement->room);
     bswap_16((u16 *)&placement->wave);
     bswap_32((u32 *)&placement->position.x);
@@ -292,7 +291,7 @@ void load_item_data() {
 
     forest_rel_set_data_table = 0;
     forest_rel_module = NULL;
-    buffer = TQuestVmDownLoadServer::alloc(0x24B8);
+    buffer = alloc(0x24B8);
     forest_rel_work_buffer = buffer;
     if (buffer != NULL) {
         drop_item_mode = get_drop_item_mode();

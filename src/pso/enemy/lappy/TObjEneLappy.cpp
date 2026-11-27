@@ -1,6 +1,6 @@
 #include "pso/system/memory.h"
 #include "pso/render/psoLoadTexture.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -29,6 +29,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/TObjControl.h"
+#include "pso/object/TObjRoomId.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/map/CsnQuery.h"
@@ -167,8 +168,8 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 
 #include <stddef.h>
 #include "pso/enemy/AreaSoundRemap.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/npc/TargetPlayerLookup.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 
 
 
@@ -177,11 +178,7 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-// Kept here: the owner headers (TObjCharaHelpers.h, text_800FD930.h)
-// give get_entity_id a u16 and is_item_light_interaction_blocked a bool
-// return, and these callers zero-extend an int result.
 extern "C" {
-s32 is_item_light_interaction_blocked();
 s32 lappy_variant_id;
 }
 BmlResource *rappy_bml_resource;
@@ -257,9 +254,7 @@ s32 TObjEneLappy::advance_flee_step() {
         } else {
             dir = 1;
         }
-        tries = 0;
-        angle = 0;
-        while (1) {
+        for (tries = 0, angle = 0; tries < 0xF; tries++, angle += 0x1000) {
             if (tries == 0) {
                 VecCopy(&step, &velocity);
             } else {
@@ -276,12 +271,8 @@ s32 TObjEneLappy::advance_flee_step() {
                 subtract_vector(&velocity, &prev_position);
                 return 1;
             }
-            tries += 1;
-            angle += 0x1000;
-            if (tries >= 0xF) {
-                return 0;
-            }
         }
+        return 0;
     }
     if (project_actor_to_ground(this, &next, 0) == 1) {
         VecCopy(&position, &next);
@@ -315,7 +306,7 @@ void TObjEneLappy::render() {
             toggle_particle_effect();
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             if (this->lappy_flags & 0x400) {
                 scale_matrix(0, 2.0f, 1.5f, 2.0f);
                 lappy_render_scale_stub(0.6666667f);
@@ -339,7 +330,7 @@ void TObjEneLappy::render() {
             }
             pop_matrix();
             restore_scene_lighting();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             if (!(this->actorFlags & 0x800) && (test_actor_flags(0x800000) != 0)) {
                 this->TObjEnemy::draw_ground_shadow(0, 0);
             }
@@ -469,7 +460,7 @@ void TObjEneLappy::update_attacking() {
         enemy_turn_toward_dest(movementParameters->turn_speed);
         apply_actor_gravity(this, NULL, 0.0f);
         if (is_passing_frame(11.0f) != 0) {
-            enemy_set_heading_velocity(movementParameters->move_speed, this, rotation_y);
+            enemy_set_heading_velocity(movementParameters->move_speed, this, rotation.y);
             velocity.y = 0.0f;
             phase = 1;
         }
@@ -596,7 +587,7 @@ void TObjEneLappy::update_moving() {
         case 2:
             break;
         case 3:
-            rotation_y = lerp_angle_half(rotation_y, flee_heading);
+            rotation.y = lerp_angle_half(rotation.y, flee_heading);
             if (action_flags == 1U) {
                 actorFlags &= 0xFBFFFFFF;
                 move_phase = 4;
@@ -608,15 +599,15 @@ void TObjEneLappy::update_moving() {
             break;
         case 4:
             if (flags == 1U) {
-                enemy_set_heading_velocity(3.5f * movementParameters->move_speed, this, rotation_y);
+                enemy_set_heading_velocity(3.5f * movementParameters->move_speed, this, rotation.y);
                 flee_turn_timer++;
-                if (((f32)flee_turn_timer > 15.0f) && (find_nearest_visible_player(this, &probe, 300.0f) != 0xFFFFU) && (angle_difference_abs(rotation_y, (s32)(10430.38043493439 * atan2_float(probe.x, probe.z))) < 0xAAA)) {
+                if (((f32)flee_turn_timer > 15.0f) && (find_nearest_visible_player(this, &probe, 300.0f) != 0xFFFFU) && (angle_difference_abs(rotation.y, (s32)(10430.38043493439 * atan2_float(probe.x, probe.z))) < 0xAAA)) {
                     if (random_ratio() >= 0.5f) {
                         turn = -0x4000;
                     } else {
                         turn = 0x4000;
                     }
-                    rotation_y = rotation_y + turn;
+                    rotation.y = rotation.y + turn;
                     flee_turn_timer = 0;
                 }
                 if (advance_flee_step() == 0) {
@@ -828,7 +819,7 @@ void TObjEneLappy::refresh_target() {
 
 void TObjEneLappy::run_task() {
     set_flag_1();
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         apply_variant_speeds();
         run_task_stub();
         return;
@@ -889,7 +880,7 @@ void TObjEneLappy::run_task() {
 
 
 
-void *TObjEneLappy::create(void *set) {
+void *TObjEneLappy::create(EnemyPlacement *set) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjEneLappy(control, set);
 }
@@ -1049,8 +1040,7 @@ int TObjEneLappy::test_flag_256() { return 0; }
 
 #define CLAMP(x, lo, hi) ((x) < (lo) ? (lo) : ((x) < (hi) ? (x) : (hi)))
 
-TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) {
-    LappySetData *set = (LappySetData *)set_data;
+TObjEneLappy::TObjEneLappy(TObject *parent, EnemyPlacement *set) : TObjEnemy(parent) {
     s32 i;
     f32 scale;
 
@@ -1058,7 +1048,7 @@ TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) 
     apply_set_data(set);
     motion_list = rappy_bml_resource->motions;
     VecCopy(&position, &set->position);
-    copy_xyz(&rotation_x, set->rotation);
+    copy_xyz(&rotation, set->rotation);
     for (i = 0; i < 5; i++) {
         parameters[i] = set->parameters[i];
     }

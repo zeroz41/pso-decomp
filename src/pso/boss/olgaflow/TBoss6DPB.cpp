@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma defer_codegen on
 #include "pso/boss/olgaflow/TBoss6DPB.h"
 #include "pso/effect/photon/TDPBShower.h"
@@ -117,7 +116,7 @@ void TBoss6DPB::spawn_shower() {
 }
 #pragma pop
 
-void* create_TDPBShower(TObject *parent, const Vec *position) {
+TDPBShower *create_TDPBShower(TObject *parent, const Vec *position) {
     return new TDPBShower(parent, position);
 }
 

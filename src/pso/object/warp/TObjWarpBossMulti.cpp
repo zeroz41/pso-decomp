@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/task/TMainTask.h"
@@ -30,7 +29,7 @@
 #include <string.h>
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/render/DebugFont.h"
 
 #include "pso/player/TObjPlayer.h"
@@ -62,6 +61,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 #pragma defer_codegen on
@@ -169,17 +169,17 @@ void release_boss_warp_resources(void) {
     }
 }
 
-void *TObjWarpBoss::create(void *set_data) {
-    if ((TRaderMapCore::is_not_split_screen() == 0) && (get_main_phase() == 0xE)) {
+void *TObjWarpBoss::create(ObjectSetData *set_data) {
+    if ((is_not_split_screen() == 0) && (get_main_phase() == 0xE)) {
         return TObjWarpBossMulti::create(set_data);
     }
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         return TObjWarpBossMulti::create(set_data);
     }
     return new TObjWarpBoss(tl_05, set_data);
 }
 
-TObjWarpBoss::TObjWarpBoss(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjWarpBoss::TObjWarpBoss(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     int i;
     m_name = warp_boss_name;
     frame = 0.0f;
@@ -223,7 +223,7 @@ TObjWarpBoss::~TObjWarpBoss() {
 }
 
 void TObjWarpBoss::run_task() {
-    if (TObjPlayer::check_demo_mode() != 1) {
+    if (check_demo_mode() != 1) {
         if (!(state_flags & 1) && (state != next_state)) {
             if (state_step != -1) {
                 state_step = -1;
@@ -253,14 +253,14 @@ void TObjWarpBoss::render() {
     }
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     set_texture_list(boss_warp_base_textures);
     draw_ginja_object(boss_warp_base_model);
     if (model != NULL) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(boss_warp_effect_textures);
         draw_ginja_model_with_motion(model, motion, frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
     pop_matrix();
 }
@@ -409,11 +409,11 @@ void TObjWarpBoss::update_warp_occupants() {
     pl2 = get_player_by_client_id(local_client_id);
     if (pl2 != NULL && pl2->get_floor() == get_current_floor()) {
         if (xz_distance_squared(&pl2->position, &position) <= (25.0f + warp_range) * (25.0f + warp_range)) {
-            if (TObjWarpBossMulti::is_flag_clear(pl2) != 0) {
+            if (pl2->is_flag_clear() != 0) {
                 local_player_in_range = 1;
                 pl2->set_flag_4096();
             }
-        } else if (TObjWarpBossMulti::is_flag_clear(pl2) == 0 && local_player_in_range != 0) {
+        } else if (pl2->is_flag_clear() == 0 && local_player_in_range != 0) {
             local_player_in_range = 0;
             pl2->clear_flag_4096();
         }
@@ -782,7 +782,7 @@ void TObjWarpBoss::update_warp_boss_visibility() {
     }
 }
 
-TObjWarpBossMulti::TObjWarpBossMulti(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjWarpBossMulti::TObjWarpBossMulti(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     int i;
     m_name = warp_boss_multi_name;
     dest_floor = get_boss_warp_destination();
@@ -790,14 +790,10 @@ TObjWarpBossMulti::TObjWarpBossMulti(TObject *parent, void *set_data) : TObjArea
     register_entity_by_id(this);
     update();
     init_warp_params();
-    if (TRaderMapCore::is_not_split_screen() == 1) {
-        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
-        if (p != NULL) {
-            p = p->init(&position, 19.0f);
-        }
-        vi_config = p;
+    if (is_not_split_screen() == 1) {
+        party_check = new WarpPartyCheck(&position, 19.0f);
     } else {
-        vi_config = NULL;
+        party_check = NULL;
     }
     warp_range = 19.0f;
     for (i = 0; i < 4; i++) {
@@ -819,11 +815,11 @@ void TObjWarpBossMulti::run_task() {
         if (pl != NULL && pl->is_locally_controlled() != 0) {
             if (pl->get_floor() == get_current_floor()) {
                 if (xz_distance_squared(&pl->position, &position) <= (r = 25.0f + warp_range) * r) {
-                    if (TObjWarpBossMulti::is_flag_clear(pl) != 0) {
+                    if (pl->is_flag_clear() != 0) {
                         player_in_range[i] = 1;
                         pl->set_flag_4096();
                     }
-                } else if (TObjWarpBossMulti::is_flag_clear(pl) == 0) {
+                } else if (pl->is_flag_clear() == 0) {
                     if (player_in_range[i] != 0) {
                         player_in_range[i] = 0;
                         pl->clear_flag_4096();
@@ -866,10 +862,10 @@ void TObjWarpBossMulti::render() {
     }
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     set_texture_list(model_handle);
     draw_ginja_object(base_model);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     set_texture_list(effect_textures);
     switch (state) {
     case 0:
@@ -879,7 +875,7 @@ void TObjWarpBossMulti::render() {
         draw_ginja_model_with_motion(warp_model, bml_motion, frame);
         break;
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -925,6 +921,6 @@ void TObjWarpBossMulti::init_warp_params() {
     frame_step = 4.0f;
 }
 
-void *TObjWarpBossMulti::create(void *set_data) {
+void *TObjWarpBossMulti::create(ObjectSetData *set_data) {
     return new TObjWarpBossMulti(tl_05, set_data);
 }

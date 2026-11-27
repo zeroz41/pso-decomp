@@ -2,6 +2,7 @@
 #define PSO_OBJECT_CITY_CITYTRAFFIC_H
 
 #include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 struct NJS_MOTION;
 struct Vec;

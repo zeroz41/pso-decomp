@@ -3,7 +3,7 @@
 #include <dolphin/gx/GXStruct.h>
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_803DA038.h"
+#include "pso/ui/frontend/TextureNameExtension.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/render/GvmTextureArchive.h"
@@ -16,11 +16,10 @@
 #include "pso/render/TextureLoad.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MemoryMove.h"
 
-s32 gvm_stream_cursor;
+u8 *gvm_stream_cursor;
 
 // The texture loaders load_texture_entry picks from an entry's format bits.
 s32 (*texture_loaders[4])(NJS_TEXLIST *, s32) = {
@@ -63,7 +62,7 @@ s32 load_texture_entry(NJS_TEXLIST *list, s32 index) {
     return texture_loaders[loader](list, index);
 }
 
-s32 gvm_stream_base;
+u8 *gvm_stream_base;
 
 #pragma push
 #pragma optimize_for_size off
@@ -76,9 +75,9 @@ s32 read_gvrt_file_header(NJS_TEXLIST *list, s32 index) {
     GvrTextureDesc desc;
     char name[32];
     DVDFileInfo file;
-    u32 chunk;
+    u8 *chunk;
     s32 r;
-    uaddr header = (uaddr)gvrt_header_read_buffer;
+    u8 *header = gvrt_header_read_buffer;
     DVDFileInfo *pfile;
     u32 size;
     reset_texture_error();
@@ -93,12 +92,12 @@ s32 read_gvrt_file_header(NJS_TEXLIST *list, s32 index) {
         return -1;
     }
     size = (file.length + 0x1F) & ~0x1F;
-    if (DVDReadPrio(pfile, (void *)header, 0x20, 0, 2) == -1) {
+    if (DVDReadPrio(pfile, header, 0x20, 0, 2) == -1) {
         DVDClose(pfile);
         return -1;
     }
-    chunk = (uaddr)find_gvrt_texture_chunk((TLobby *)&desc, (u32 *)&global_index, (u32 *)header);
-    if (chunk == 0) {
+    chunk = (u8 *)find_gvrt_texture_chunk(&desc, (u32 *)&global_index, (u32 *)header);
+    if (chunk == NULL) {
         DVDClose(pfile);
         return -1;
     }
@@ -110,8 +109,7 @@ s32 read_gvrt_file_header(NJS_TEXLIST *list, s32 index) {
         DVDClose(pfile);
         return r;
     }
-    chunk -= header;
-    DVDReadPrio(pfile, texture_states[slot].surface->header.pixels, size - chunk, chunk, 2);
+    DVDReadPrio(pfile, texture_states[slot].surface->header.pixels, size - (chunk - header), chunk - header, 2);
     DVDClose(pfile);
     return 1;
 }
@@ -124,23 +122,23 @@ s32 load_texture_from_memory(NJS_TEXLIST *list, s32 index) {
     s32 slot;
     GvrTextureDesc desc;
     s32 r;
-    u32 chunk;
+    const void *chunk;
     GinjaTextureInput *input;
     reset_texture_error();
     r = resolve_texlist_entry((s32 *)list, index, &id, (u32 *)&tlut_name);
     if (r != 0) {
         return r;
     }
-    chunk = (uaddr)find_gvrt_texture_chunk((TLobby *)&desc, (u32 *)&global_index, (u32 *)list->textures[index].filename);
+    chunk = find_gvrt_texture_chunk(&desc, (u32 *)&global_index, (u32 *)list->textures[index].filename);
     if (chunk == 0) {
-        chunk = (uaddr)find_gvrt_texture_chunk((TLobby *)&desc, (u32 *)&global_index,
+        chunk = find_gvrt_texture_chunk(&desc, (u32 *)&global_index,
                                                (u32 *)reinterpret_cast<GinjaTextureInput *>(list->textures[index].filename)->data);
         if (chunk == 0) {
             input = reinterpret_cast<GinjaTextureInput *>(list->textures[index].filename);
             desc.width = input->width;
             desc.height = input->height;
             desc.format = input->format;
-            chunk = (uaddr)input->data;
+            chunk = input->data;
         }
     }
     if ((u32)id != 0xFFFFFFFF) {
@@ -246,13 +244,13 @@ void bswap32_in_place(u32 *p) {
 }
 #pragma pop
 
-void gvm_stream_begin(s32 buf) {
-    gvm_stream_base = buf;
-    gvm_stream_cursor = buf;
+void gvm_stream_begin(void *buf) {
+    gvm_stream_base = (u8 *)buf;
+    gvm_stream_cursor = (u8 *)buf;
 }
 
-saddr gvm_stream_read(s32 stride) {
-    s32 prevCursor;
+void *gvm_stream_read(s32 stride) {
+    u8 *prevCursor;
     prevCursor = gvm_stream_cursor;
     gvm_stream_cursor = prevCursor + stride;
     return prevCursor;
@@ -399,7 +397,7 @@ s32 load_gvm_texture_archive(void *buf, NJS_TEXLIST *list) {
     s32 r;
     s32 i;
     s32 k;
-    s32 data;
+    void *data;
     GvmTextureHeader *header;
     s32 n;
     tlut_name = -1;
@@ -408,7 +406,7 @@ s32 load_gvm_texture_archive(void *buf, NJS_TEXLIST *list) {
         texture_error.code = 1;
         return -1;
     }
-    gvm_stream_begin((saddr)buf);
+    gvm_stream_begin(buf);
     header = (GvmTextureHeader *)gvm_stream_read(sizeof(GvmTextureHeader));
     bswap32_in_place(&header->magic);
     bswap32_in_place(&header->size);

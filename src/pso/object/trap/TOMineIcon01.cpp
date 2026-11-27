@@ -17,7 +17,7 @@ const char *mine_icon01_name = "TOMineIcon01";
 
 void TOMineIcon01::vfunc_84() {  }
 
-void *TOMineIcon01::create(void *set_data) {
+void *TOMineIcon01::create(ObjectSetData *set_data) {
     return new TOMineIcon01(tl_05, set_data);
 }
 
@@ -28,7 +28,7 @@ TOMineIcon01::~TOMineIcon01() {
 
 #pragma push
 #pragma fp_contract on
-TOMineIcon01::TOMineIcon01(TObject *parent, void *set_data) : TOMine(parent) {
+TOMineIcon01::TOMineIcon01(TObject *parent, ObjectSetData *set_data) : TOMine(parent) {
     m_name = mine_icon01_name;
     apply_object_set_data(set_data);
     init_position_vectors();

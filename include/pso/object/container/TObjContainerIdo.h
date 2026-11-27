@@ -2,18 +2,18 @@
 #define PSO_OBJECT_CONTAINER_TOBJCONTAINERIDO_H
 
 #include "types.h"
-#include "pso/item/TUnk_804B97C0.h"
+#include "pso/object/container/TObjContainerIdoBase.h"
 #include "pso/render/RenderFadeState.h"
 
-struct TObjContainerIdo : public TUnk_804B97C0 {
-    TObjContainerIdo(TObject *parent, void *set);
+struct TObjContainerIdo : public TObjContainerIdoBase {
+    TObjContainerIdo(TObject *parent, ObjectSetData *set);
     virtual ~TObjContainerIdo();
     virtual s32 update_object_view_visibility(f32 far_depth, f32 radius);
     virtual void render();
     virtual void run_task();
     static void free_resources();
     static void load_resources();
-    static void *create(void *set);
+    static void *create(ObjectSetData *set);
     Vec spawn_position;    // a copy of the set position; nothing here reads it
     // The set position: the rail is drawn there and the lift's travel is measured from it (name inferred).
     Vec home_position;

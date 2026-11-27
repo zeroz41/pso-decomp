@@ -6,7 +6,7 @@
 
 struct TObjCityDoor_Warp : public TObjCityDoorBase {
     static const char *class_name;
-    TObjCityDoor_Warp(TObject *parent, void *set);
+    TObjCityDoor_Warp(TObject *parent, ObjectSetData *set);
     virtual ~TObjCityDoor_Warp();
     s32 is_rader_map_active();
     virtual void city_door_play_close_sound();
@@ -14,7 +14,7 @@ struct TObjCityDoor_Warp : public TObjCityDoorBase {
     virtual void city_door_play_open_sound();
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjCityDoor_Warp_size, sizeof(TObjCityDoor_Warp) == 0xBC);

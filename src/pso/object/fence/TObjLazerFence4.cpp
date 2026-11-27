@@ -101,7 +101,7 @@ void TObjLazerFence4::draw() {
     set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_ginja_object(this->post_model);
     pop_matrix();
 }
@@ -111,18 +111,18 @@ void TObjLazerFence4::draw_model() {
   i = 0;
   do
   {
-    set_ginja_model_texture_slot(reinterpret_cast<void *>(beam_nodes[i]), color_slot);
+    set_ginja_model_texture_slot(beam_nodes[i], color_slot);
     i += 1;
   }
   while (i < 0xC);
   set_texture_list(lazer_fence_norm_texture_list);
   push_matrix();
   post_translate_matrix(&this->position.x);
-  rotate_matrix_y(0, this->rotation_y);
+  rotate_matrix_y(0, this->rotation.y);
   draw_ginja_object(this->post_model);
-  TParticleCtrl::begin_effect_render();
+  begin_effect_render();
   draw_ginja_model_with_motion(this->beam_model, motion, animation_frame);
-  TParticleCtrl::end_effect_render();
+  end_effect_render();
   pop_matrix();
 }
 
@@ -177,7 +177,7 @@ void TObjLazerFence4::run_task() {
 
 
 
-void *TObjLazerFence4::create(void *set_data) {
+void *TObjLazerFence4::create(ObjectSetData *set_data) {
     return new TObjLazerFence4((TObject *)tl_05, set_data);
 }
 TObjLazerFence4::~TObjLazerFence4() {
@@ -186,7 +186,7 @@ TObjLazerFence4::~TObjLazerFence4() {
 }
 
 
-TObjLazerFence4::TObjLazerFence4(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjLazerFence4::TObjLazerFence4(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     s32 i;
     m_name = lazer_fence4_class_name;
     apply_object_set_data(set_data);

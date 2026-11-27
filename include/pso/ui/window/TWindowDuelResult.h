@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 
 struct PageIndicator;
+class WindowTextEntry;
 
 struct TWindowDuelResult : public TWindowBase {
     static const char *class_name;
@@ -23,7 +24,7 @@ struct TWindowDuelResult : public TWindowBase {
     f32 scale_x;
     f32 scale_y;
     PageIndicator *page_indicator;
-    static int set_default_status(void *p, const char *text);
+    static void set_default_status(WindowTextEntry *entry, const char *text);
 };
 
 LAYOUT_ASSERT(TWindowDuelResult_size, sizeof(TWindowDuelResult) == 0x6C);

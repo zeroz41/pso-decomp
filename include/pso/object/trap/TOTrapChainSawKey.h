@@ -10,7 +10,7 @@ struct NJS_OBJECT;
 // The chainsaw that sets its floor switch when it touches a player; its light
 // model glows while the switch is on.
 struct TOTrapChainSawKey : public TOTrapChainSaw {
-    TOTrapChainSawKey(TObject *parent, void *set_data);
+    TOTrapChainSawKey(TObject *parent, ObjectSetData *set_data);
     virtual ~TOTrapChainSawKey();
     virtual void update_state();
     virtual void decode_params();
@@ -25,7 +25,7 @@ struct TOTrapChainSawKey : public TOTrapChainSaw {
     NJS_MOTION *light_motion;
     f32 light_frame;
     f32 light_frame_step;
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     // The model draw callback: the light nodes draw with the effect blend.
     static void draw_node_callback(NJS_OBJECT *node);
 };

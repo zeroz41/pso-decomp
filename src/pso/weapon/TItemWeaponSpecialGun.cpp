@@ -9,7 +9,7 @@
 TItemWeaponSpecialGun::~TItemWeaponSpecialGun() {}
 
 TItemWeaponSpecialGun::TItemWeaponSpecialGun(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+    impact_callback = spawn_weapon_impact_effect;
 }
 
 

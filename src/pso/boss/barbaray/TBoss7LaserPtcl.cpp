@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/vector.h"
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
@@ -50,7 +49,7 @@ void TBoss7LaserImpact::run_task() {
     reset_global_table();
     collect_player_body_contacts(&hit_set);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
-        ActorBodyHit *hit = (ActorBodyHit *)TObjOnlineEnding::get_attack_entry(i);
+        ActorBodyHit *hit = TObjOnlineEnding::get_attack_entry(i);
         static_cast<TBoss7DeRolLeC *>(m_up)->emit_hit_effect(&hit->target->position);
     }
     reset_global_table();
@@ -61,13 +60,13 @@ void TBoss7LaserImpact::run_task() {
 
 void TBoss7LaserImpact::render() {  }
 
-TBoss7LaserPtcl::TBoss7LaserPtcl(TObject *parent, TBoss7LaserPtclVector *origin, TBoss7LaserPtclVector *target) : TObject(parent) {
+TBoss7LaserPtcl::TBoss7LaserPtcl(TObject *parent, Vec *origin, Vec *target) : TObject(parent) {
     m_name = TBoss7LaserPtcl::class_name;
     travel_distance = (f32) 8e+01f;
     yaw = 0;
     state = 0;
-    VecCopy(&position, (const Vec *)origin);
-    VecCopy(&direction, (const Vec *)target);
+    VecCopy(&position, origin);
+    VecCopy(&direction, target);
     update_position();
     particles[0] = spawn_continuous_particle_effect_with_flags(origin, 0x204, 0x40);
     particles[1] = spawn_continuous_particle_effect_with_flags(origin, 0x205, 0x40);
@@ -83,7 +82,7 @@ TBoss7LaserPtcl::~TBoss7LaserPtcl() {
 void TBoss7LaserPtcl::run_task() {
     Vec step;
     Vec point;
-    Boss7LaserAngles angles;
+    Angle3 angles;
     TParticleCtrl **particle;
     s32 i;
     s32 n;

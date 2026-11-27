@@ -2,6 +2,7 @@
 #define PSO_MAP_TSETEVTDESTROY_H
 
 #include "pso/system/task/TObject.h"
+#include "pso/map/FloorWaveEvents.h"
 #include "types.h"
 #include "pso/map/FloorWaveEvents.h"
 

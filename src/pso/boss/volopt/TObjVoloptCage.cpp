@@ -22,7 +22,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include <stdlib.h>
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
@@ -68,10 +68,10 @@ void TObjVoloptCage::update_breakup() {
         break;
     case 0:
         play_sound_effect(0x4001C112, &position, 0, 0);
-        TBoss3Volopt::create_breakup_mdl(volopt_cage_breakup_model, &volopt_cage_breakup_params,
-                           volopt_cage_textures, &body_center, rotation_y);
-        TBoss3Volopt::create_breakup_mdl(volopt_cage_breakup_model, &volopt_cage_breakup_params,
-                           volopt_cage_textures, &body_center, rotation_y);
+        create_breakup_mdl(volopt_cage_breakup_model, &volopt_cage_breakup_params,
+                           volopt_cage_textures, &body_center, rotation.y);
+        create_breakup_mdl(volopt_cage_breakup_model, &volopt_cage_breakup_params,
+                           volopt_cage_textures, &body_center, rotation.y);
         trigger_dell_biter_events(&body_center);
         timer = 12;
         disallow_rendering();
@@ -181,7 +181,7 @@ void TObjVoloptCage::render() {
         push_matrix();
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_chunk_object(volopt_cage_model);
         pop_matrix();
     }
@@ -205,7 +205,7 @@ void TObjVoloptCage::update_state() {
 }
 
 void TObjVoloptCage::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_demo_task();
         return;
     }

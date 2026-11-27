@@ -28,7 +28,7 @@ LAYOUT_ASSERT(NpcEnemyEntryTextureOffset, offsetof(TObjNpcEnemyEntry, texlist) =
 LAYOUT_ASSERT(NpcEnemyEntryAnimationOffset, offsetof(TObjNpcEnemyEntry, animation) == 0x14);
 
 struct TObjNpcEnemy : public TObjNpcBase {
-    TObjNpcEnemy(TObject *parent, void *set_data);
+    TObjNpcEnemy(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjNpcEnemy();
     virtual void draw_debug_info();
     virtual void request_action(s32);
@@ -47,7 +47,7 @@ struct TObjNpcEnemy : public TObjNpcBase {
     void set_npc_data(TObjNpcEnemyEntry *data);
     void update_state();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
 
     static const char *name;
     static CollisionBody collision_body_parts;

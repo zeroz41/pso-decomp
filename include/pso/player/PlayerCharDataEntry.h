@@ -30,4 +30,11 @@ struct PlayerCharDataEntry {
 
 LAYOUT_ASSERT(PlayerCharDataEntrySize, sizeof(PlayerCharDataEntry) == 0x42C);
 
+// The constructor and destructor by symbol, for the lobby's character-slot array allocation (C++ cannot take a
+// constructor's or destructor's address).
+extern "C" {
+void *__ct__19PlayerCharDataEntryFv(void *object);
+void __dt__19PlayerCharDataEntryFv(void *object, s16 flags);
+}
+
 #endif

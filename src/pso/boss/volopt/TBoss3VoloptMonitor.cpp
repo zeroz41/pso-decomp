@@ -134,7 +134,7 @@ void TObjEnemyCustom::set_flags_30() {
     actorFlags |= 0x04040000;
 }
 
-TBoss3VoloptMonitor::TBoss3VoloptMonitor(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+TBoss3VoloptMonitor::TBoss3VoloptMonitor(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     m_name = TBoss3VoloptMonitor_name;
     apply_set_data(set_data);
     variant = 0;
@@ -155,11 +155,11 @@ TBoss3VoloptMonitor::TBoss3VoloptMonitor(TObjBase *parent, u16 id, s32 index, s3
     variant = slot_index & 3;
     timer = start_timer;
     init_params();
-    rotation_y = 182.04445f * (f32)((slot_index / 4) * 60);
+    rotation.y = 182.04445f * (f32)((slot_index / 4) * 60);
     set_model(volopt_monitor_models[0][variant]);
     push_matrix();
     set_matrix_identity(NULL);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     matrix_mult_vec(NULL, &volopt_monitor_offsets[variant], &position);
     pop_matrix();
     VecCopy(&volopt_slot_positions[slot], &position);
@@ -190,7 +190,7 @@ void TBoss3VoloptMonitor::init_params() {
     clear_lobby_object_state();
 }
 
-void *TBoss3VoloptMonitor::create(void *set_data) {
+void *TBoss3VoloptMonitor::create(EnemyPlacement *set_data) {
     return new TBoss3VoloptMonitor(tl_04, set_data);
 }
 
@@ -201,7 +201,7 @@ void TBoss3VoloptMonitor::load_resources() {
     clear_texlist_names(&volopt_monitor_texture_table);
     psoLoadTexturePvmFile("fe_obj_vo_momitor.gvm", volopt_monitor_textures);
     for (i = 0; i < 4; i++) {
-        volopt_monitor_screen_meshes[i] = static_cast<GinjaModel *>(get_bml_model(volopt_monitor_resources, volopt_monitor_models[2][i])->model);
+        volopt_monitor_screen_meshes[i] = get_bml_model(volopt_monitor_resources, volopt_monitor_models[2][i])->ginja_model;
     }
     volopt_monitor_stats = (BossStats *)register_boss(0x23);
     volopt_monitor_stats_b = dispatch_shared_handler_b(0x23);
@@ -220,7 +220,7 @@ void TBoss3VoloptMonitor::run_task() {
     s32 i;
     s32 in_zone;
     s32 base;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_demo_task();
         return;
     }
@@ -326,7 +326,7 @@ void TBoss3VoloptMonitor::render() {
         set_draw_list_mask(3);
         push_matrix();
         model_render_flags &= ~0x400;
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_ginja_object(model);
         pop_matrix();
         restore_draw_list_mask();
@@ -438,11 +438,11 @@ void TBoss3VoloptMonitor::damage_player_if_aligned() {
 }
 
 void TBoss3VoloptMonitor::spawn_effects() {
-    s32 angle[3];
-    angle[0] = 0;
-    angle[1] = rotation_y;
-    angle[2] = 0;
-    spawn_directional_particle(&body_center, angle, (slot & 3) == 0 ? 0x62 : 0x61);
+    Angle3 angle;
+    angle.x = 0;
+    angle.y = rotation.y;
+    angle.z = 0;
+    spawn_directional_particle(&body_center, &angle, (slot & 3) == 0 ? 0x62 : 0x61);
     spawn_particle_effect(&body_center, 0x45);
 }
 

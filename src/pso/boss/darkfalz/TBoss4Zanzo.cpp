@@ -20,7 +20,7 @@
 #include "pso/unk/ModelNodeTables.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/PadRumble.h"
-#include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
+#include "pso/boss/darkfalz/DarkFalzUtil.h"
 #include "pso/boss/darkfalz/TBoss4Zanzo.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
 #include "pso/system/MatrixStack.h"
@@ -73,7 +73,6 @@
 #include "pso/camera/TCameraFollow.h"
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/render/model_render_state.h"
-#include "pso/boss/darkfalz/DrainPlayerHp.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -143,11 +142,11 @@ TBoss4Type2::TBoss4Type2(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     owner = set_data->owner;
     apply_set_data(&set_data->entry);
     clear_lobby_object_state();
-    archive = TBoss4Uro::get_instance_count();
+    archive = TBoss4DarkFalz::get_dat_resource();
     texlist = 0;
     model = 0;
     VecCopy(&position, &boss4_type2_start_position);
-    rotation_y = 0;
+    rotation.y = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, boss4_type2_collision_body_parts, 1);
     VecCopy(&body_center, &position);
@@ -157,7 +156,7 @@ TBoss4Type2::TBoss4Type2(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     referenceHp = hp;
     register_by_id();
     set_param(0x2F);
-    unk_3cc = 0;
+    pad_3cc = 0;
     anim = 0;
     anim_looped = 0;
     anim_speed = 0.4f;
@@ -291,10 +290,10 @@ void TBoss4Type2::init_hanger() {
     toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     draw_hanger();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 #pragma push
@@ -384,14 +383,14 @@ void TBoss4Type2::update_orbit_position() {
     radius = 300.0f;
     height = -50.0f;
     if (beam_ratio > 0.0f) {
-        f32 w = TBoss4Type3::compute_wave_offset(beam_ratio);
+        f32 w = ::compute_wave_offset(beam_ratio);
         radius = 30.0f * w + 300.0f;
         height = -45.0f * w + -50.0f;
     }
     position.x = radius * sin_table_lookup(angle);
     position.y = height;
     position.z = -radius * cos_table_lookup(angle);
-    rotation_y = -angle;
+    rotation.y = -angle;
 }
 #pragma pop
 
@@ -615,17 +614,17 @@ void TBoss4Type2::spawn_bishi_around_players() {
     s32 i;
     s32 j;
     TObjPlayer *pl;
-    copy_set_entry(&b.set_index, &dark_falz_set_entry);
+    copy_set_entry(&b.entry, &dark_falz_set_entry);
     b.owner = owner;
-    b.unk_0C = 1;
+    b.entry.room = 1;
     for (i = 0; i < registered_player_count; i++) {
         pl = TObjPlayer::get_player_data(i);
         if (pl != 0 && is_player_in_boss_area(pl->get_entity_id()) != 0) {
             for (j = 0; j < 3; j++) {
-                if (owner->alloc_child_ids(&b.set_index, &b.entity_id) != 0) {
-                    VecCopy(&b.position, &pl->position);
-                    b.position.x += bishi_spawn_offset_table[j].x;
-                    b.position.z += bishi_spawn_offset_table[j].z;
+                if (owner->alloc_child_ids(&b.entry.enemy_index, &b.entry.id) != 0) {
+                    VecCopy(&b.entry.position, &pl->position);
+                    b.entry.position.x += bishi_spawn_offset_table[j].x;
+                    b.entry.position.z += bishi_spawn_offset_table[j].z;
                     TBoss4Bishi::create(&b);
                 }
             }
@@ -637,7 +636,7 @@ void TBoss4Type2::spawn_afterimages() {
     TBoss4ZanzoParams z;
     s32 i;
     VecCopy(&z.pos, &position);
-    z.rotation_y = rotation_y;
+    z.rotation_y = rotation.y;
     z.frame = anim_frame;
     z.fade_start = 0.75f;
     z.fade_end = 0.0f;

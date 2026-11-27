@@ -13,6 +13,8 @@
 #include "pso/system/AsyncFileRead.h"
 #include "pso/ui/charcreate/CreationResourceFree.h"
 #include "pso/audio/MusicControl.h"
+#include "pso/ui/TCharSaveSequence.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 void exit_main_menu_scene(void) {
     s32 *task;
@@ -44,11 +46,11 @@ void run_main_frame(void) {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
-    TAdSinglePlyChrSelectGC::noop();
+    noop();
     if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         task = NULL;
         request_main_phase(0);
     }

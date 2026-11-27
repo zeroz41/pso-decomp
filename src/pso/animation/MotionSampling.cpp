@@ -1,8 +1,8 @@
 #include "pso/animation/MotionContext.h"
 #include "types.h"
+#include "pso/math/QuaternionBlend.h"
 #include "pso/system/NinjaTypes.h"
 
-extern "C" void blend_quaternions_nlerp(const f32 *a, const f32 *b, f32 rate, f32 *out);
 
 #pragma push
 #pragma use_lmw_stmw off

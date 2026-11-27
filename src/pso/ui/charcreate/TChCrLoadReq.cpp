@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/charcreate/TCMCharacter.h"
 #include "pso/system/NinjaTypes.h"
@@ -51,8 +50,8 @@ s32 is_node_tree_valid(NJS_OBJECT *object) {
 
 s32 chr_select_load_slot_count;
 
-void *TChCrLoadReq::create(void *parent) {
-    return new TChCrLoadReq((TObjPlayer *)parent);
+void *TChCrLoadReq::create(TObjPlayer *parent) {
+    return new TChCrLoadReq(parent);
 }
 
 TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadArgs *args) {
@@ -62,10 +61,10 @@ TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadA
 TChCrLoadReq::TChCrLoadReq(TObjPlayer *player) : TObject(player) {
     m_name = TChCrLoadReq::name;
     inputs.appearance = &player->appearance;
-    inputs.completion_flags = (u32 *)&player->model_load_flags;
+    inputs.completion_flags = &player->model_load_flags;
     inputs.load_slot = player->get_entity_id();
-    inputs.body_model = (s32 *)&player->model;
-    inputs.part_models = (s32 *)&player->hair_model;
+    inputs.body_model = &player->model;
+    inputs.part_models = &player->hair_model;
     inputs.body_textures = &player->body_textures.list;
     inputs.other_textures = &player->attachment_textures.list;
     inputs.head_textures = &player->head_textures.list;
@@ -201,7 +200,7 @@ void TChCrLoadReq::request_model_loads() {
     reset_character_load_buffer(inputs.load_slot);
     *inputs.body_model = 0;
     body.name = class_appearance->bodyModel;
-    body.model_out = (NJS_OBJECT **)inputs.body_model;
+    body.model_out = inputs.body_model;
     body.load_slot = inputs.load_slot;
     body.completion_mask = 0x40;
     body.completion_flags = inputs.completion_flags;
@@ -211,7 +210,7 @@ void TChCrLoadReq::request_model_loads() {
     names = class_appearance->capModels;
     if (names != NULL && (name = names[index]) != NULL) {
         cap.name = name;
-        cap.model_out = (NJS_OBJECT **)&inputs.part_models[1];
+        cap.model_out = &inputs.part_models[1];
         cap.load_slot = inputs.load_slot;
         cap.completion_mask = 8;
         cap.completion_flags = inputs.completion_flags;
@@ -223,7 +222,7 @@ void TChCrLoadReq::request_model_loads() {
     names = class_appearance->hairModels;
     if (names != NULL && (name = names[index]) != NULL) {
         hair.name = name;
-        hair.model_out = (NJS_OBJECT **)&inputs.part_models[0];
+        hair.model_out = &inputs.part_models[0];
         hair.load_slot = inputs.load_slot;
         hair.completion_mask = 0x10;
         hair.completion_flags = inputs.completion_flags;
@@ -233,7 +232,7 @@ void TChCrLoadReq::request_model_loads() {
     }
     inputs.part_models[2] = 0;
     head.name = class_appearance->headModels[inputs.appearance->head];
-    head.model_out = (NJS_OBJECT **)&inputs.part_models[2];
+    head.model_out = &inputs.part_models[2];
     head.load_slot = inputs.load_slot;
     head.completion_mask = 0x20;
     head.completion_flags = inputs.completion_flags;
@@ -248,7 +247,7 @@ void TChCrLoadReq::request_texture_loads() {
 
     body.textures = inputs.body_textures;
     body.completion_mask = 4;
-    body.completion_flags = (s32 *)inputs.completion_flags;
+    body.completion_flags = inputs.completion_flags;
     body.display_index = display;
     if (TChCrLoadAfsTextureReq::create(this, &body) == NULL) {
         return;
@@ -256,7 +255,7 @@ void TChCrLoadReq::request_texture_loads() {
     if (class_appearance->hairModels != NULL || class_appearance->capModels != NULL) {
         head.textures = inputs.head_textures;
         head.completion_mask = 1;
-        head.completion_flags = (s32 *)inputs.completion_flags;
+        head.completion_flags = inputs.completion_flags;
         head.display_index = display;
         if (TChCrLoadAfsTextureReq::create(this, &head) == NULL) {
             return;
@@ -266,7 +265,7 @@ void TChCrLoadReq::request_texture_loads() {
     }
     other.textures = inputs.other_textures;
     other.completion_mask = 2;
-    other.completion_flags = (s32 *)inputs.completion_flags;
+    other.completion_flags = inputs.completion_flags;
     other.display_index = display;
     if (TChCrLoadAfsTextureReq::create(this, &other) == NULL) {
         return;
@@ -315,8 +314,8 @@ void TChCrLoadReq::load_preview_models() {
         }
     }
     models.appearance = inputs.appearance;
-    models.head = reinterpret_cast<NJS_OBJECT *>(*head_model_slot);
-    models.body = reinterpret_cast<NJS_OBJECT *>(*inputs.body_model);
+    models.head = *head_model_slot;
+    models.body = *inputs.body_model;
     for (i = 0; i < 3; i++) {
         models.sample_indices[i] = sample_indices[i];
         models.head_samples[i] = bufs[i];

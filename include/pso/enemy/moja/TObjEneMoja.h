@@ -9,11 +9,8 @@ struct BmlResource;
 
 extern BmlResource *moja_bml_resource;
 
-struct MojaParticleAngles {
-    s32 x, y, z;
-};
 struct TObjEneMoja : public TObjEnemy {
-    TObjEneMoja(TObject *parent, void *setData);
+    TObjEneMoja(TObject *parent, EnemyPlacement *setData);
     virtual ~TObjEneMoja();
     void clamp_stat_354();
     static void load_resources();
@@ -40,7 +37,7 @@ struct TObjEneMoja : public TObjEnemy {
     f32 jumpChance;
     TAttackTraceStrip *attack_trace;
     RenderFadeState camera_fades[4];
-    static void *create(void *setData);
+    static void *create(EnemyPlacement *setData);
     static void free_resources();
     s32 calc_technique_level();
     void select_rare_variant();

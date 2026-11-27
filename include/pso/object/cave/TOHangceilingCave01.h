@@ -3,10 +3,12 @@
 
 #include "types.h"
 
+struct ObjectSetData;
+
 struct TOHangceilingCave01
 {
     static void destroy_instance();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 void load_turiten_singo_resources(void);

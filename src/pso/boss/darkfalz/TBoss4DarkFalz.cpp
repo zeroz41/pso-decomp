@@ -46,7 +46,7 @@
 #include "pso/network/client_id.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
+#include "pso/boss/darkfalz/DarkFalzUtil.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/enemy/TObjEnemyCustom.h"
@@ -307,9 +307,9 @@ u16 TBoss4Type3::pick_random_target_player() {
 }
 
 
-TBoss4DarkFalzSetEntry dark_falz_set_entry;
+EnemyPlacement dark_falz_set_entry;
 
-s32 TBoss4DarkFalz::alloc_child_ids(s16 *set_index_out, s16 *entity_id_out) {
+s32 TBoss4DarkFalz::alloc_child_ids(s16 *set_index_out, u16 *entity_id_out) {
     s32 n = next_child_index;
     if ((n < 1) || (n > 0x1FE)) {
         return 0;
@@ -441,8 +441,8 @@ void TBoss4DarkFalz::spawn_zako_rings() {
     p.owner = this;
     r = 28.571428f;
     dr = 57.142857f;
-    copy_set_entry(&p.set_index, &dark_falz_set_entry);
-    p.unk_0C = 1;
+    copy_set_entry(&p.entry, &dark_falz_set_entry);
+    p.entry.room = 1;
     if (game_difficulty_selection == 3) {
         r *= 1.25f;
         dr *= 1.25f;
@@ -452,12 +452,12 @@ void TBoss4DarkFalz::spawn_zako_rings() {
         ang = 0;
         step = 0x10000 / n;
         for (i = 0; i < n; i++) {
-            if (alloc_child_ids(&p.set_index, &p.entity_id) == 0) {
+            if (alloc_child_ids(&p.entry.enemy_index, &p.entry.id) == 0) {
                 return;
             }
-            VecCopy(&p.position, &dark_falz_zako_ring_origin_vec);
-            p.position.x += r * sin_table_lookup(ang);
-            p.position.z += r * cos_table_lookup(ang);
+            VecCopy(&p.entry.position, &dark_falz_zako_ring_origin_vec);
+            p.entry.position.x += r * sin_table_lookup(ang);
+            p.entry.position.z += r * cos_table_lookup(ang);
             TBoss4Zako::create(&p);
             ang += step;
         }
@@ -483,12 +483,12 @@ void copy_set_entry(void *arg0p, void *arg1p) {
   o->set_index = s->set_index;
   dest_second = (dest_first = o);
   dest_second->kind = s->kind;
-  o->unknown_04 = s->unknown_04;
+  o->pad_04 = s->pad_04;
   dest_first->entity_id = s->entity_id;
   o->room = s->room;
   o->wave = s->wave;
-  dest_first->unknown_0C = s->unknown_0C;
-  o->unknown_0E = s->unknown_0E;
+  dest_first->pad_0C = s->pad_0C;
+  o->pad_0E = s->pad_0E;
   dest_first->position = s->position;
   o->rotation = s->rotation;
   *dc = *sc;
@@ -541,7 +541,7 @@ void TBoss4DarkFalz::handle_defeat() {
         record.flags = 0x800;
         send_6x0A_enemy_state(&record);
         exchange_object_state(&record, 0);
-        apply_enemy_state(&record.flags);
+        apply_enemy_state(&record);
     }
     send_entity_set_flags();
     queue_destruction();
@@ -585,7 +585,7 @@ void TBoss4DarkFalz::place_players_on_ring() {
             v.z += 2.5e+02f * cos_table_lookup(ang);
             p->set_position_from(&v);
             p->save_previous_position();
-            p->get_rotation()->yaw = ang + 0x8000;
+            p->get_rotation()->y = ang + 0x8000;
             p->refresh_equipment_slot();
             if (p->is_locally_controlled() != 0) {
                 reset_cameras_to_actor(p, 0);
@@ -612,7 +612,7 @@ void TBoss4DarkFalz::place_players_for_demo() {
             v.z += 12.5f * cos_table_lookup(ang);
             p->set_position_from(&v);
             p->save_previous_position();
-            p->get_rotation()->yaw = 0x8000;
+            p->get_rotation()->y = 0x8000;
             p->refresh_equipment_slot();
             if (p->is_locally_controlled() != 0) {
                 reset_cameras_to_actor(p, 0);
@@ -687,7 +687,7 @@ void TBoss4DarkFalz::update_roar_sound_timer() {
 void TBoss4DarkFalz::render() {  }
 
 void TBoss4DarkFalz::run_task() {
-    if ((state_index != 0) && (TObjPlayer::check_demo_mode() != 0)) {
+    if ((state_index != 0) && (check_demo_mode() != 0)) {
         change_state(0);
     }
     if (TObjEneDD::query_teammate_state() == 0) {
@@ -744,16 +744,16 @@ TBoss4DarkFalz::~TBoss4DarkFalz() {
 }
 
 
-TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data) : TObjEnemy(parent) {
+TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, EnemyPlacement *set_data) : TObjEnemy(parent) {
     m_name = TBoss4DarkFalz::name;
     reset_child_ids();
-    if (set_data->kind != 0x200) {
+    if (set_data->child_count != 0x200) {
         return;
     }
     dark_falz_controller_instance = this;
     apply_set_data(set_data);
     copy_set_entry(&dark_falz_set_entry, set_data);
-    dark_falz_set_entry.kind = 0;
+    dark_falz_set_entry.child_count = 0;
     clear_lobby_object_state();
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     VecCopy(&body_center, &position);
@@ -848,10 +848,10 @@ void TBoss4DarkFalz::load_resources() {
     }
 }
 
-void *TBoss4DarkFalz::create(void *set_data) {
-    return new TBoss4DarkFalz(new TObjControl(tl_04), (TBoss4DarkFalzSetEntry *)set_data);
+void *TBoss4DarkFalz::create(EnemyPlacement *set_data) {
+    return new TBoss4DarkFalz(new TObjControl(tl_04), set_data);
 }
 
 s32 TBoss4DarkFalz::get_phase() { return state_index; }
 
-BmlResource *TBoss4Uro::get_instance_count() { return darkfalz_dat_resource; }
+BmlResource *TBoss4DarkFalz::get_dat_resource() { return darkfalz_dat_resource; }

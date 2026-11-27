@@ -28,7 +28,7 @@ struct TObjEneMe1GeeParams {
 
 struct TObjEneMe1Gee : public TObjEneDD_ST {
     TObjEneMe1Gee(TObject *parent, TObjEneMe1Gee *leader, Vec *pos, u16 id, s32 index);
-    TObjEneMe1Gee(TObject *parent, void *set_data, s32 kind);
+    TObjEneMe1Gee(TObject *parent, EnemyPlacement *set_data, s32 kind);
     virtual ~TObjEneMe1Gee();
     virtual s32 acquire_target(f32);
     virtual void dispatch_action(u32 state, s32 reason);
@@ -128,7 +128,7 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     void approach_upper_hover_height();
     static void free_globals();
     static TObjEneMe1Gee *create(TObjEneMe1Gee *leader, Vec *pos, u16 id, s32 index);
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     void order_attack();
     void order_activation(TObjChara *target, s32 delay);
     void update();

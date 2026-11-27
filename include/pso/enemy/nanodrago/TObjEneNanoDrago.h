@@ -14,7 +14,7 @@ struct NanoDragoBehaviorParams {
 };
 
 struct TObjEneNanoDrago : public TObjEnemyCustom {
-    TObjEneNanoDrago(TObject *parent, void *setData);
+    TObjEneNanoDrago(TObject *parent, EnemyPlacement *setData);
     virtual ~TObjEneNanoDrago();
     virtual void run_task();
     virtual void render();
@@ -55,7 +55,7 @@ struct TObjEneNanoDrago : public TObjEnemyCustom {
     void update_circling_state();
     static void load_resources();
     static void free_resources();
-    static void *create(void *setData);
+    static void *create(EnemyPlacement *setData);
 
     s16 growth_count;
     Vec moveDestination;
@@ -86,6 +86,5 @@ extern f32 nano_drago_beam_homing;      // the beam's starting steering pull
 extern f32 nano_drago_beam_homing_gain; // added to the pull every frame in flight
 extern s32 nano_drago_beam_power;       // the direct attack's power
 
-struct BeamRotation { s32 x, y, z; };
 
 #endif

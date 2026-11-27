@@ -5,18 +5,17 @@
 //
 // Built -inline off,deferred: the functions come out last to first, so the
 // file is written from the end of the unit's .text back.
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/seabed/TObjSuisoChip.h"
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
 #include "pso/object/seabed/TObjSeabedSuiso_CH.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/render/TextureState.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -248,7 +247,7 @@ NJS_MOTION *TObjSeabedSuisoBrakable::get_bml_motion_by_index(s32 index) {
 }
 
 
-TObjSeabedSuiso_CH::TObjSeabedSuiso_CH(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjSeabedSuiso_CH::TObjSeabedSuiso_CH(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     init_kind_params();
@@ -308,12 +307,12 @@ TObjSeabedSuiso_CH::~TObjSeabedSuiso_CH() {
 
 void TObjSeabedSuiso_CH::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         update_state();
         set_texture_list(TObjSeabedSuisoBrakable::get_texlist(0));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if (motion != NULL) {
             draw_ginja_model_with_motion(kind_model, motion, animation_frame);
         } else {
@@ -344,7 +343,7 @@ void TObjSeabedSuiso_CH::scroll_kind2_uvs() {
         if (node != NULL && node->model != NULL) {
             entry = TObjSeabedSuisoBrakable::get_texture_entry(0);
             if (entry != -1) {
-                scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 1, 0, entry, 1);
+                scroll_ginja_mesh_uvs(node->ginja_model, 1, 0, entry, 1);
             }
         }
         last_uv_scroll_tick = actor_frame_tick;
@@ -384,12 +383,12 @@ void TObjSeabedSuiso_CH::update_switch_lock() {
         entry = TObjSeabedSuisoBrakable::get_texture_entry(4);
         node = TObjSeabedSuisoBrakable::get_model13_node(2);
         if (node != NULL && entry != -1) {
-            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 0, 1, entry, 1);
+            scroll_ginja_mesh_uvs(node->ginja_model, 0, 1, entry, 1);
         }
         entry = TObjSeabedSuisoBrakable::get_texture_entry(3);
         node = TObjSeabedSuisoBrakable::get_model13_node(0);
         if (node != NULL && entry != -1) {
-            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 0, 3, entry, 1);
+            scroll_ginja_mesh_uvs(node->ginja_model, 0, 3, entry, 1);
         }
         last_uv_scroll_tick = actor_frame_tick;
     }
@@ -401,20 +400,20 @@ void TObjSeabedSuiso_CH::run_task() {
     }
 }
 
-void *TObjSeabedSuiso_CH::create(void *set_data) {
+void *TObjSeabedSuiso_CH::create(ObjectSetData *set_data) {
     return new TObjSeabedSuiso_CH(tl_05, set_data);
 }
 
 void TObjSeabedSuisoBrakable::notify_break(NJS_OBJECT *node) {
     if (get_model12_node(0) == node || get_model12_node(1) == node || get_model12_node(2) == node) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         return;
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 
-TObjSeabedSuisoBrakable::TObjSeabedSuisoBrakable(void *set_data) {
+TObjSeabedSuisoBrakable::TObjSeabedSuisoBrakable(ObjectSetData *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     kind = (s32)fabs_float((f32)set_params[1]);
@@ -435,7 +434,7 @@ TObjSeabedSuisoBrakable::~TObjSeabedSuisoBrakable() {
     free_collision_body_parts(this);
 }
 
-void *TObjSeabedSuisoBrakable::create_instance(void *set_data) {
+void *TObjSeabedSuisoBrakable::create_instance(ObjectSetData *set_data) {
     return new TObjSeabedSuisoBrakable(set_data);
 }
 
@@ -496,7 +495,7 @@ void TObjSeabedSuisoBrakable::pre_draw() {
             if (node != NULL && node->model != NULL) {
                 entry = get_texture_entry(1);
                 if (entry != -1) {
-                    scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 0, 1, entry, 1);
+                    scroll_ginja_mesh_uvs(node->ginja_model, 0, 1, entry, 1);
                 }
             }
             last_uv_scroll_tick = actor_frame_tick;
@@ -508,7 +507,7 @@ void TObjSeabedSuisoBrakable::pre_draw() {
             if (node != NULL && node->model != NULL) {
                 entry = get_texture_entry(2);
                 if (entry != -1) {
-                    scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 0, 1, entry, 1);
+                    scroll_ginja_mesh_uvs(node->ginja_model, 0, 1, entry, 1);
                 }
             }
             last_uv_scroll_tick = actor_frame_tick;
@@ -521,7 +520,7 @@ TObjSuisoChip::TObjSuisoChip(TObjBase *owner, TObjChipParams *params) : TObjChip
     m_name = class_name;
     if (owner != NULL) {
         VecCopy(&origin, &owner->position);
-        rotation_y = owner->rotation_y;
+        rotation_y = owner->rotation.y;
     } else {
         origin.y = 0.0f;
         origin.y = 0.0f;
@@ -536,7 +535,7 @@ TObjSuisoChip::TObjSuisoChip(TObjBase *owner, TObjChipSpawnParams *params) : TOb
     m_name = class_name;
     if (owner != NULL) {
         VecCopy(&origin, &owner->position);
-        rotation_y = owner->rotation_y;
+        rotation_y = owner->rotation.y;
     } else {
         origin.y = 0.0f;
         origin.y = 0.0f;

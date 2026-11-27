@@ -12,12 +12,12 @@ struct NJS_TEXLIST;
 // the floor. Its head turns all the time.
 class TOSensorGeneral01 : public TOSensor {
 public:
-    TOSensorGeneral01(TObject *parent, void *set_data);
+    TOSensorGeneral01(TObject *parent, ObjectSetData *set_data);
     virtual ~TOSensorGeneral01();
     virtual void render();
     virtual void update_switch_on();
     virtual void update_switch_off();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_assets();
     static void load_assets();
 

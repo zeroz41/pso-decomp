@@ -10,7 +10,6 @@
 #include "pso/system/THeap.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/render/CameraCapture.h"
@@ -18,7 +17,7 @@
 #include "pso/render/render_util.h"
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/render/GinjaTextureMatrices.h"
-#include "pso/system/task/DestructorChain.h"
+#include "pso/system/CxxRuntime.h"
 
 
 // 0 while the scene tree is drawn for geometry, particles and UI; 1 during
@@ -58,15 +57,7 @@ u32 old_render_flags;
 u32 render_shadow_flags;
 u32 old_render_shadow_flags;
 
-extern "C" {
 void __sinit_TObject_cpp();
-TMainTask *__ct__9TMainTaskFv(TMainTask *);
-TObject *__ct__7TObjectFP7TObject(TObject *, TObject *);
-// The runtime calls a registered destructor as void (*)(void *, short).
-void __dt__9TMainTaskFv(void *, s16);
-void __dt__7TObjectFv(void *, s16);
-void *__register_global_object(void *, void (*)(void *, s16), void *);
-}
 __declspec(section ".ctors") static void *const object_global_initializer = (void *)__sinit_TObject_cpp;
 
 #pragma defer_codegen on
@@ -108,7 +99,7 @@ void TObject::delete_children() {
 }
 
 void TObject::queue_destruction_for_each_node() {
-    FOREACH_NODE(TObject, this->m_down, child) {
+    for (TObject *child = this->m_down; child != NULL; child = child->m_next) {
         child->queue_destruction();
         child->queue_destruction_for_each_node();
     }
@@ -145,7 +136,7 @@ void TObject::run_tasks() {
 }
 
 void TObject::render_nodes() {
-    FOREACH_NODE(TObject, this->m_down, child) {
+    for (TObject *child = this->m_down; child != NULL; child = child->m_next) {
         if (!(child->m_flags & DISALLOW_RENDER)) {
             child->render();
             child->render_nodes();
@@ -154,7 +145,7 @@ void TObject::render_nodes() {
 }
 
 void TObject::render_shadows_for_each_node() {
-    FOREACH_NODE(TObject, this->m_down, child) {
+    for (TObject *child = this->m_down; child != NULL; child = child->m_next) {
         if (!(child->m_flags & DISALLOW_RENDER_SHADOWS)) {
             child->render_shadows();
             child->render_shadows_for_each_node();
@@ -163,7 +154,7 @@ void TObject::render_shadows_for_each_node() {
 }
 
 void TObject::render_deferred_nodes() {
-    FOREACH_NODE(TObject, this->m_down, child) {
+    for (TObject *child = this->m_down; child != NULL; child = child->m_next) {
         if (child->m_flags & DEFER_RENDER) {
             child->render();
             child->clear_render_deferred();
@@ -204,7 +195,7 @@ void TObject::log(const char *str) {
 int TObject::get_node_count() {
     TObject *child;
     int node_count = 0;
-    FOREACH_NODE_NODECL(TObject, this->m_down, child) {
+    for (child = this->m_down; child != NULL; child = child->m_next) {
         node_count += child->get_node_count() + 1;
     }
     return node_count;

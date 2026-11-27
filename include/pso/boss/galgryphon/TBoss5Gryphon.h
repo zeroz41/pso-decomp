@@ -9,6 +9,8 @@
 #include <stddef.h>
 
 struct NJS_OBJECT;
+struct NJS_TEXLIST;
+struct NJS_MOTION;
 
 class AreaAttackHistory;
 class TParticleCtrl;
@@ -50,7 +52,7 @@ struct Boss5GryphonLightningWork {
 };
 
 struct TBoss5Gryphon : public TObjEneDD_ST {
-    TBoss5Gryphon(TObject *parent, void *data);
+    TBoss5Gryphon(TObject *parent, EnemyPlacement *data);
     virtual ~TBoss5Gryphon();
     int get_flag_bit6();
     static TBoss5Gryphon *get_instance();  // the gryphon of the running fight, NULL without one
@@ -127,7 +129,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     s32 flight_mode;  // 0 ground, 2 low flight, 3 offscreen (the enter_*_mode setters), 1 enter_flight_mode
     Vec body_points[10];  // update_local_colliders_from_world turns them into body offsets
     Vec sound_origin;  // projected from the camera each frame; sounds play from it
-    Vec pad_56C;
+    Vec last_body_center;  // body_center, copied at the end of each run_task
     AreaAttackHistory *attack_history;
     TBoss5GryphonColli *collider;
     RenderFadeState renderFadeStates[4];
@@ -182,7 +184,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void play_se(s32 se_id);
     void shift_position_history();
     static void cleanup();
-    static void *create(void *data);
+    static void *create(EnemyPlacement *data);
     void set_random_param(Boss5GryphonMotionEntry *motion);  // the seed of the next lightning or dive
     void calc_params(Boss5GryphonMotionEntry *motion, Boss5GryphonActionStep *step);  // fills the circle view
     void calc_product_and_ratio(Boss5GryphonMotionEntry *motion, Boss5GryphonActionStep *step);  // fills the flight turn and speed
@@ -249,12 +251,9 @@ LAYOUT_ASSERT(TBoss5Gryphon_action_scripts, offsetof(TBoss5Gryphon, action_scrip
 LAYOUT_ASSERT(TBoss5Gryphon_fade, offsetof(TBoss5Gryphon, renderFadeStates) == 0x580);
 LAYOUT_ASSERT(TBoss5Gryphon_work, offsetof(TBoss5Gryphon, work) == 0x6DC);
 LAYOUT_ASSERT(TBoss5Gryphon_particles, offsetof(TBoss5Gryphon, particles) == 0x724);
-// Loads the textures, particle ids and effect ids the Gryphon fight uses.
-void load_boss5_gryphon_resources(void);
 
-// Defined in TBoss5Gryphon.cpp.
+void load_boss5_gryphon_resources(void);
 const Vec *get_arena_center(void);
 void attach_particle_model(TParticleCtrl *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist,
                            NJS_MOTION *motion, s32 loop, f32 frame);
-
 #endif

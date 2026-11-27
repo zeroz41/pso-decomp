@@ -54,7 +54,7 @@ struct NJS_TEXLIST;
 static NJS_TEXLIST **barrier_energy_texlists;
 static NJS_OBJECT *barrier_energy_model;
 
-TOBarrierEnergy01::TOBarrierEnergy01(TObject *parent, void *set_data) : TODoorBase(parent) {
+TOBarrierEnergy01::TOBarrierEnergy01(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = TOBarrierEnergy01_name;
     apply_object_set_data(set_data);
     model = get_bml_model(barrier_energy_shared_bml_archive, 1);
@@ -87,7 +87,7 @@ void TOBarrierEnergy01::load_resources() {
 
 void TOBarrierEnergy01::free_resources() {
     if (barrier_energy_texlists != NULL) {
-        TObjPlayer::free_if_valid(barrier_energy_texlists[0]);
+        free_if_valid(barrier_energy_texlists[0]);
         if (barrier_energy_texlists != NULL) {
             mem_free(barrier_energy_texlists);
             barrier_energy_texlists = NULL;
@@ -99,7 +99,7 @@ void TOBarrierEnergy01::free_resources() {
     }
 }
 
-void *TOBarrierEnergy01::create(void *set_data) {
+void *TOBarrierEnergy01::create(ObjectSetData *set_data) {
     return new TOBarrierEnergy01(tl_05, set_data);
 }
 
@@ -107,11 +107,11 @@ void TOBarrierEnergy01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(model, motion, animation_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(barrier_energy_texlists[2]));
         draw_ginja_object(barrier_energy_model);
         pop_matrix();

@@ -5,14 +5,14 @@
 
 struct TObjPlayer;
 
-// The NPC placed by the quest opcode npc_talk_pl (TLobby::create_npc): while
+// The NPC placed by the quest opcode npc_talk_pl (create_npc): while
 // the local player is within scale.x of it, a TNpcPlayerSpawner brings the
 // NPC player into npc_slot; once that player is inactive again and the local
 // player has left, the NPC player is removed. set_params[0] is the NPC record,
 // set_params[1] the spawn mode and set_params[2] the id npc_talk_kill names.
 class TNpcTalkTrigger : public TObjCollidable {
 public:
-    TNpcTalkTrigger(TObject *parent, void *set_data);
+    TNpcTalkTrigger(TObject *parent, ObjectSetData *set_data);
     virtual ~TNpcTalkTrigger();
     virtual void render();
     virtual void run_task();
@@ -34,5 +34,6 @@ void set_player_quest_control_flag(TObjPlayer *player);
 // The quest opcodes p_noncol and p_col.
 void clear_hashi_versus2_flag(void);
 void set_hashi_versus2_flag(void);
+void *create_npc(ObjectSetData *set_data);
 
 #endif

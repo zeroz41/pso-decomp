@@ -1,0 +1,59 @@
+#include "types.h"
+#include "pso/boss/olgaflow/Boss6SubordinateActions.h"
+#include "pso/boss/olgaflow/TBoss6Type2.h"
+#include <stdlib.h>
+#include "pso/effect/item/TItemEffOrgaFlowShot.h"
+
+
+void send_subordinate_actions_group0(const s32 *ids, s32 cnt, s32 force) {
+    send_subordinate_actions(0, ids, cnt, force);
+}
+
+// The two packet flag bits are loaded from .sdata2 ahead of the function's float literals: file constants
+// read through inlined references, emitted at their first user (the TBoss6Type2.cpp form).
+static const u8 random_action_flag = 0x40;
+static const u8 forced_action_flag = 0x20;
+
+inline const u8 &get_random_action_flag() { return random_action_flag; }
+inline const u8 &get_forced_action_flag() { return forced_action_flag; }
+
+void send_6xAD_grid_positions(s32 index, Vec *points, s32 count) {
+    u8 a;
+    u8 b;
+    u8 buf[0x44];
+    Vec *p;
+    s32 j;
+    s32 i;
+    if (count < 0 || count > 3) {
+        return;
+    }
+    clear_6xAD_action_buffer((s8 *)buf);
+    buf[0] = index;
+    p = points;
+    j = 1;
+    for (i = 0; i < count; i++, p++, j += 2) {
+        TBoss6Type2::world_to_grid_pos(p, (s8 *)&a, (s8 *)&b);
+        buf[j] = a;
+        buf[j + 1] = b;
+    }
+    send_6xAD_olga_flow_subordinate_boss_actions((buf));
+}
+
+void send_subordinate_actions(s32 kind, const s32 *ids, s32 n, s32 force) {
+    u8 actions[0x40];
+    s32 i;
+
+    clear_6xAD_action_buffer((s8 *)actions);
+    for (i = 0; i < n; i++) {
+        s32 off = ids[i] + 7;
+        u8 flags = 0;
+        if (3.0517578125e-05f * (f32)rand() > 0.5f) {
+            flags = get_random_action_flag();
+        }
+        if (force != 0 || 3.0517578125e-05f * (f32)rand() < 0.25f) {
+            flags |= get_forced_action_flag();
+        }
+        actions[off] = flags | (s8)kind;
+    }
+    send_6xAD_olga_flow_subordinate_boss_actions(actions);
+}

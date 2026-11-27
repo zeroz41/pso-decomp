@@ -15,7 +15,7 @@ struct TButterfly : public TObjBase {
     static void load_resources();
     static void destroy_instance();
     void draw_model();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 
     Vec home_position; // where it spawned; y is the height it hovers around
     Vec velocity;

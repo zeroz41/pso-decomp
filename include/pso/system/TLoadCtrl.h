@@ -19,7 +19,7 @@ struct TLoadCtrl : public TObject {
     static void start_loading(u32 mode);
     static void poll_default();
     static void step();
-    static void set_field1C(s32 poll_input);
+    static void set_poll_input(s32 poll_input);
     // Whether a loader is running.
     static BOOL is_loading();
 

@@ -23,6 +23,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/render/render_util.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 // The default constant-material colour (owner unit not split yet; 27 files
 // declare it with their own types, see the lane report).
@@ -49,7 +50,7 @@ BmlResource *key_cave01_resource_bundle;
 NJS_TEXLIST **key_cave01_texture_lists;
 s32 key_cave_render_state;
 
-void TOKeyCave01::vfunc_25() {}
+void TOKeyCave01::debug_draw_key_extra() {}
 
 // Pressed while a player stands on it (in once mode, latched once on).
 s32 TOKeyCave01::is_confirm_pressed() {
@@ -171,7 +172,7 @@ void TOKeyCave01::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(key_cave01_texture_lists[is_on]));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         object = model;
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);
@@ -181,7 +182,7 @@ void TOKeyCave01::render() {
             model_render_flags = flags | 0x10;
             set_constant_material(&glow_color);
         }
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         object = object->child;
         push_matrix();
         switch (key_cave_render_state) {
@@ -200,7 +201,7 @@ void TOKeyCave01::render() {
         draw_ginja_model(object->model);
         pop_matrix();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         if (is_on != 1) {
             set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
@@ -209,13 +210,13 @@ void TOKeyCave01::render() {
     }
 }
 
-void *TOKeyCave01::create(void *set_data) {
+void *TOKeyCave01::create(ObjectSetData *set_data) {
     return new TOKeyCave01(tl_05, set_data);
 }
 
 void TOKeyCave01::free_objects() {
     if (key_cave01_texture_lists != NULL) {
-        TObjPlayer::free_if_valid(key_cave01_texture_lists[0]);
+        free_if_valid(key_cave01_texture_lists[0]);
         if (key_cave01_texture_lists != NULL) {
             mem_free(key_cave01_texture_lists);
             key_cave01_texture_lists = NULL;
@@ -250,7 +251,7 @@ void TOKeyCave01::load_resources() {
 
 TOKeyCave01::~TOKeyCave01() {}
 
-TOKeyCave01::TOKeyCave01(TObject *parent, void *set_data) : TOKey(parent) {
+TOKeyCave01::TOKeyCave01(TObject *parent, ObjectSetData *set_data) : TOKey(parent) {
     m_name = key_cave01_class_name;
     apply_object_set_data(set_data);
     init_switch_id();
@@ -259,7 +260,7 @@ TOKeyCave01::TOKeyCave01(TObject *parent, void *set_data) : TOKey(parent) {
     view_range = 400.0f;
     model_radius = 20.0f;
     activate_range = 10.0f;
-    if (get_main_phase() == 0xF || TRaderMapCore::is_not_split_screen() == 1) {
+    if (get_main_phase() == 0xF || is_not_split_screen() == 1) {
         if (mode != KEY_MODE_NONE && set_params[1] < 0) {
             mode = KEY_MODE_TOGGLE;
         } else {

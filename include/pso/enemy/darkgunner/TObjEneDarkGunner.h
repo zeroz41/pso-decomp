@@ -17,9 +17,9 @@ struct TObjEneDarkGunnerBehaviorParams {
 };
 
 struct TObjEneDarkGunner : public TObjEnemyCustom {
-    TObjEneDarkGunner(TObject *parent, void *set_data);
+    TObjEneDarkGunner(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneDarkGunner();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     void update_wait();     // mode 0: wait motion (upside down on the ceiling with behavior_flags bit 16)
     void update_move();     // mode 1: drop, spin and glide (drop/move motions)
     void update_attack();   // mode 2: attack/await/pullback, fires the thunder shots

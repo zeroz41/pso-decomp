@@ -107,7 +107,7 @@ void handle_6x8A_show_challenge_time_records_window(G_ShowChallengeTimeRecordsWi
     challenge_task->set_challenge_record_page(command->which);
 }
 
-void TLobby::send_challenge_with_value(TChallenge *challenge, s32 window_mode) {
+void send_challenge_with_value(TChallenge *challenge, s32 window_mode) {
     G_ShowChallengeTimeRecordsWindow_6x8A packet;
     build_6x8A_packet(&packet);
     packet.which = window_mode;

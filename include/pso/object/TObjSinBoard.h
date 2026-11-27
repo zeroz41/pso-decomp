@@ -5,11 +5,11 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjSinBoard : public TObjBase {
-    TObjSinBoard(TObject *parent, void *set_data);
+    TObjSinBoard(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjSinBoard();
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjSinBoard_size, sizeof(TObjSinBoard) == 0x90);
@@ -24,5 +24,7 @@ s32 is_signboard_texture_buffer_missing(void);
 void load_memcard_file(void);
 void clear_signboard_texture_buffer_pointer(void);
 extern const char *memcard_file_099_name;
+
+void free_global_buffer();
 
 #endif

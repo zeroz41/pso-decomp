@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/quest/TQuestThread.h"
@@ -12,7 +11,6 @@
 #include "pso/ui/window/TWindowMenu.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx.h>
-#include "pso/ui/window/WindowMenuFactory.h"
 #undef PSO_SDK_COMPACT_MATH
 
 
@@ -34,7 +32,7 @@ TObject *TAdMcCheckGC::create(s32 message) {
     menu = create_window_menu_default(&mc_check_window_positions[this->card_slot], 1);
     menu->add_text_entry(get_localized_text_entry(0x16, message), 0x20, 0);
     menu->disable_input();
-    TQuestThread::set_status_flag_80(menu);
+    menu->set_status_flag_80();
     menu->calc_layout_height(190.0f);
     return menu;
 }

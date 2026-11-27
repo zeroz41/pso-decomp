@@ -25,7 +25,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 
@@ -33,8 +33,8 @@
 
 // Poses the player for ending picture `picture`: equips the picture's item and starts its animation.
 void TObjEndingPlayer::set_animation_from_data(s32 picture) {
-    s16 *entry = (s16 *)get_anim_table_entry(picture);
-    trade_item_by_group_kind(entry[0], entry[1]);
+    const PlayerAnimTableEntry *entry = get_anim_table_entry(picture);
+    trade_item_by_group_kind(entry->group, entry->kind);
     set_animation_default(picture);
 }
 
@@ -78,7 +78,7 @@ void TObjPlayer::trade_item_by_group_kind(s16 group, s16 kind) {
 }
 
 BmlMotionEntry **player_ending_motion_object;
-int TObjEndingPlayer::set_position_from(void *pos) { return TObjBase::set_position_from(pos); }
+Vec *TObjEndingPlayer::set_position_from(const Vec *pos) { return TObjBase::set_position_from(pos); }
 void TObjEndingPlayer::set_animation_default(s16 index) { set_animation(index); }
 
 TObjEndingPlayer *TObjEndingPlayer::create(TPlyCharData *data) {
@@ -96,7 +96,7 @@ void TObjEndingPlayer::render() {
         select_actor_lighting(this);
         push_matrix();
         translate_matrix_vec3(0, (u8 *)&position);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         render_material_state.save();
         apply_material_color_override();
         set_texture_list(&body_textures.list);
@@ -112,8 +112,8 @@ void TObjEndingPlayer::render() {
     }
     push_matrix();
     translate_matrix_vec3(0, (u8 *)&position);
-    rotate_matrix_y(0, rotation_y);
-    calc_joint_matrices(current_motion, frame, (saddr)joint_matrices);
+    rotate_matrix_y(0, rotation.y);
+    calc_joint_matrices(current_motion, frame, joint_matrices);
     pop_matrix();
 }
 
@@ -138,16 +138,16 @@ TObjEndingPlayer::TObjEndingPlayer(TObject *parent, EndingPlayerRecord *src) : T
     set_floor_index(1);
     set_floor_index(1);
     VecCopy(&position, src->pose.get_pos());
-    rotation_y = src->pose.get_heading();
+    rotation.y = src->pose.get_heading();
     select_class_action_provider();
-    joint_matrices = shared_model_buffer + this->get_entity_id() * 0xC00;
+    joint_matrices = shared_model_buffer[this->get_entity_id()];
     init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), *player_ending_motion_object, 1);
     frame = src->motion.frame;
     pause_motion();
     push_matrix();
     translate_matrix_vec3(0, (u8 *)&position);
-    rotate_matrix_y(0, rotation_y);
-    calc_joint_matrices(current_motion, 0.0f, (saddr)joint_matrices);
+    rotate_matrix_y(0, rotation.y);
+    calc_joint_matrices(current_motion, 0.0f, joint_matrices);
     pop_matrix();
     assign_lobby_slot_if_flagged(&src->equipment.items[0]);
     assign_lobby_slot_if_flagged(&src->equipment.items[1]);

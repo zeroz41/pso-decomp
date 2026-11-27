@@ -10,7 +10,7 @@ struct SoundRequestVoice {
     SoundRequestVoice();
     ~SoundRequestVoice();
 
-    void set_field0(SoundControlState *owner);
+    void set_owner(SoundControlState *owner);
     void clamp_reverb(f32 scale);
     void clamp_params();
     void update();

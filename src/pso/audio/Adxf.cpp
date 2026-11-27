@@ -174,7 +174,7 @@ inline s32 adxf_stop_logged(AdxfHandle *adxf) {
     stop_adx_stream(adxf->stream);
     get_adx_stream_position(adxf->stream, &position);
     adxf->sectors_read = position;
-    if (adxf->buffer != NULL && adxf->f2 == 0) {
+    if (adxf->buffer != NULL && adxf->external_buffer == 0) {
         if (adxf_invalidate_cache_flag == 1) {
             adx_invalidate_cache(adxf->read_destination, adxf->read_buffer_size);
         }
@@ -229,7 +229,7 @@ void adxf_exec_server(void) {
             p->sectors_read = position;
             if (p->state == 3 || p->state == 4) {
                 p->sector_position += p->sectors_read;
-                if (p->buffer != NULL && p->f2 == 0) {
+                if (p->buffer != NULL && p->external_buffer == 0) {
                     if (adxf_invalidate_cache_flag == 1) {
                         adx_invalidate_cache(p->read_destination, p->read_buffer_size);
                     }
@@ -312,7 +312,7 @@ s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
     } else {
         adxf->buffer = sj;
     }
-    adxf->f2 = 0;
+    adxf->external_buffer = 0;
     adx_unlock();
     log_adxf_command(4, 1, adxf_log_header.read_sequence, adxf, nsct, buf);
     return rqsct;
@@ -379,7 +379,7 @@ inline AdxfHandle *alloc_adxf_handle(void) {
     s->read_sector_count = 0;
     s->sectors_read = 0;
     s->requested_read_sectors = 0x200;
-    s->f2 = 0;
+    s->external_buffer = 0;
     s->buffer = 0;
     s->used = 1;
     return s;

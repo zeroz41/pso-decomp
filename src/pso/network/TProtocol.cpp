@@ -7,7 +7,7 @@
 #include "pso/network/PSOV3EncryptionTCP.h"
 #include "pso/player/TPlySmth.h"
 #include "pso/quest/TQuestListOnline.h"
-#include "pso/ui/window/TWindowSubComCardEntries.h"
+#include "pso/ui/window/TWindowSubComCard_CardSlots.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TPlyClientConfig.h"
 #include "pso/network/protocol/packet_classes.h"
@@ -15,6 +15,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/network/TPlyMeetUserExtension.h"
 #include "pso/system/memory.h"
+#include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 
 LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D4_trade_result_packet) == 0xBC9C);
 LAYOUT_ASSERT(TradeAdvanceCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D1_advance_trade_state_packet) == 0xBCA0);
@@ -34,7 +35,7 @@ void TProtocol::send_keepalive() {
 
 void TProtocol::handle_cmd_AC(packet &pkt) {
     if (pkt.pkt.header.flags == 0) {
-        TQuestListOnline::handle_quest_ready();
+        handle_quest_ready();
         return;
     }
     m_is_invalid_packet = 1;
@@ -799,7 +800,7 @@ void TProtocol::send_create_game(char *name, char *password, u8 difficulty, u8 b
 	}
 }
 
-void TProtocol::send_find_user(TPlyGuildCardTag &tag, u32 gc_num) {
+void TProtocol::send_find_user(TPlyGuildCardTag tag, u32 gc_num) {
 	if (m_connected) {
 		TFindUser tmp;
 		memset(&tmp, 0, sizeof(tmp));

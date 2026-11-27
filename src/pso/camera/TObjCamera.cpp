@@ -1,10 +1,9 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/camera/TObjCamera.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -76,7 +75,7 @@ void TObjCamera::init_sound_events() {
     for (i = 0; i < 8; i++) {
         sound_events[i] = camera_sound_events[i];
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         matrix_mult_vec(0, &sound_events[i].position, &sound_events[i].position);
         pop_matrix();
         vec3_add_to(&sound_events[i].position, &position);
@@ -131,7 +130,7 @@ void TObjCamera::render() {
         set_texture_list(get_bml_texlist(model_resource, 0));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         node_scan_index = 0;
         set_model_node_callback(TObjCamera::record_lamp_positions);
         draw_ginja_model_with_motion(get_bml_model(model_resource, 0),
@@ -187,7 +186,7 @@ void TObjCamera::run_task() {
 
 TObjCamera::~TObjCamera() {}
 
-TObjCamera::TObjCamera(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjCamera::TObjCamera(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     s32 i;
     m_name = obj_camera_class_name;
     StarLightParameters params = camera_lamp_params;
@@ -208,7 +207,7 @@ TObjCamera::TObjCamera(TObject *parent, void *set_data) : TObjMapObject(parent) 
     init_sound_events();
 }
 
-void *TObjCamera::create(void *set_data) {
+void *TObjCamera::create(ObjectSetData *set_data) {
     return new TObjCamera(tl_05, set_data);
 }
 

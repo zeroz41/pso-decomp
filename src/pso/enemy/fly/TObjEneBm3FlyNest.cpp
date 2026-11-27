@@ -1,6 +1,5 @@
 #include "pso/enemy/EnemyPlacement.h"
 #include "pso/system/SoundEffect.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -43,7 +42,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
@@ -52,6 +51,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 
 #pragma readonly_strings on
 
@@ -173,7 +173,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
             height = 30.0f;
         }
         play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), this, origin, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x400);
+        play_effect_if_v2(-0x400);
         break;
     case 1:
         offset.y += 1.0f;
@@ -182,7 +182,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
             velocity.y = 0.5f * distance;
         }
         play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), this, origin, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x400);
+        play_effect_if_v2(-0x400);
         break;
     case 2:
         spd = distance;
@@ -191,7 +191,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
         if (v < 0.5f * -spd) {
             spawn_particle_effect(target, 0xC8);
             play_sound_effect(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003AB27), target, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x400);
+            play_effect_if_v2(-0x400);
             queue_destruction();
             break;
         }
@@ -201,7 +201,7 @@ void TObjEneBm3FlyNest_CarryFly::run_task() {
         offset.x = velocity.x * v;
         offset.z = velocity.z * v;
         play_persistent_sound(((TObjEneBm3FlyNest *)m_up)->copy_target_state(0x4003A828), this, target, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x400);
+        play_effect_if_v2(-0x400);
         break;
     }
 }
@@ -251,8 +251,8 @@ void TObjEneBm3FlyNest::load_resources() {
     }
 }
 
-void *TObjEneBm3FlyNest::create(void *set_data) {
-    return new TObjEneBm3FlyNest((TObject *)tl_04, static_cast<EnemyPlacement *>(set_data));
+void *TObjEneBm3FlyNest::create(EnemyPlacement *set_data) {
+    return new TObjEneBm3FlyNest((TObject *)tl_04, set_data);
 }
 
 void TObjEneBm3FlyNest::free_fly() {
@@ -335,7 +335,7 @@ TObjEneBm3FlyNest::~TObjEneBm3FlyNest() {
 #pragma push
 #pragma fp_contract on
 void TObjEneBm3FlyNest::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         init();
         return;
     }
@@ -475,7 +475,7 @@ void TObjEneBm3FlyNest::spawn_child() {
             spawned_count++;
             spawn_particle_effect(&attachment_points[1], 0xC8);
             play_sound_effect(remap_sound_for_area(0x4003AB27), &position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x400);
+            play_effect_if_v2(-0x400);
         }
     }
 }
@@ -716,7 +716,7 @@ void TObjEneBm3FlyNest::update_down_state(s32 reason) {
         if (is_passing_frame(9.0f) != 0) {
             spawn_particle_effect(&position, 0xF0);
         } else if (is_passing_frame(27.0f) != 0) {
-            angle = rotation_y - 0x4000;
+            angle = rotation.y - 0x4000;
             VecCopy(&pos, &position);
             pos.x += 16.0f * sin_table_lookup(angle);
             pos.z += 16.0f * cos_table_lookup(angle);
@@ -795,8 +795,8 @@ void TObjEneBm3FlyNest::handle_motion_event(s32 reason) {
     switch (reason) {
     case 4:
         clear_intangible();
-        ((TBoss8Dragon *)this)->noop();
-        debug_effect_hook(this, 0xF1);
+        this->noop();
+        debug_effect_hook(0xF1);
         play_sound_effect(remap_sound_for_area(0x4003A829), &position, 0, 0);
         if (fallen != 0) {
             requested_action = 6;
@@ -864,9 +864,9 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 v.x = -10.0f;
                 v.y = 0.0f;
                 v.z = -8.0f;
-                rotate_xz_pair_by_angle(&v.x, &v.z, rotation_y);
+                rotate_xz_pair_by_angle(&v.x, &v.z, rotation.y);
                 vec3_add_to(&v, &position);
-                TDeadSpot::spawn_kind2_scale15(&v, 0x32);
+                spawn_dead_spot_kind2_scale15(&v, 0x32);
                 create_dead_spot_e4(&v, 0x46, 10.0f);
             }
             if (frame < 25.0f) {
@@ -974,7 +974,7 @@ void TObjEneBm3FlyNest::render() {
     s32 res;
     s32 visible;
     f32 t;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         render_with_state_debug();
         return;
     }
@@ -1030,7 +1030,7 @@ void TObjEneBm3FlyNest::render() {
                 } else {
                     set_chunk_model_node_callback(TObjEneBm3FlyNest::capture_attachment);
                 }
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_y(0, rotation.y);
                 TObjEneDD::clear_global_flag_400();
                 toggle_particle_effect();
                 if (res == 1) {
@@ -1038,7 +1038,7 @@ void TObjEneBm3FlyNest::render() {
                 } else {
                     draw_motion_model();
                 }
-                TParticleCtrl::end_effect_render();
+                end_effect_render();
                 set_chunk_model_node_callback(NULL);
                 pop_matrix();
             }
@@ -1096,18 +1096,18 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         translate_matrix(0, 0.0f, -5.0f, 0.0f);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();
         set_motion_packed_rotation();
         draw_model_motion(this->model, motion, motion_frame);
         clear_motion_packed_rotation();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     translate_matrix(0, this->parameters[2], this->parameters[3], this->parameters[4]);
     draw_chunk_object(debug_chunk_object);
     pop_matrix();

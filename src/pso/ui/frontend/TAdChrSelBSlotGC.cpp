@@ -1,11 +1,10 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/save/CardFileInfo.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/task/TMainTask.h"
@@ -26,7 +25,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
-#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
 // Plate positions of the four entries
@@ -65,7 +65,7 @@ PlayerSlotLabel *TAdChrSelBSlotGC::build_slot_entry(s32 index, s32 slot, const C
 
 void TAdChrSelBSlotGC::run_state_29() {  }
 void TAdChrSelBSlotGC::set_load_state() {
-    if (TAdPlayerLoadGC::get_instance() == 0) {
+    if (get_card_load_sequence_state() == 0) {
         state = 0x1D;
     }
 }
@@ -75,7 +75,7 @@ void TAdChrSelBSlotGC::init() {
     state = 0x1C;
 }
 void TAdChrSelBSlotGC::reset_load_state() {
-    if (TAdPlayerLoadGC::get_instance() == 0) {
+    if (get_card_load_sequence_state() == 0) {
         state = 0;
     }
 }
@@ -87,7 +87,7 @@ void TAdChrSelBSlotGC::reset_slot_state() {
 }
 void TAdChrSelBSlotGC::run_state_24() {  }
 void TAdChrSelBSlotGC::update_load_state() {
-    if (TAdPlayerLoadGC::get_instance() == 0) {
+    if (get_card_load_sequence_state() == 0) {
         if ((u32) (TAdPlayerLoadGC::get_load_result(1) + 0x10000) == 0xFF83U) {
             state = 0x18;
             return;

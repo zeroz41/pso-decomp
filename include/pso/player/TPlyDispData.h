@@ -28,9 +28,9 @@ struct disp_data_part2 {
     u8 extra_model;
     u8 padding[15];
     u32 name_colour_checksum;
-    u8 section_id;
+    s8 section_id;
     u8 char_class;
-    u8 v2_flags;
+    s8 v2_flags;
     u8 version;
     u32 v1_flags;
     union {

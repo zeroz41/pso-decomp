@@ -11,7 +11,7 @@ void TItemWeaponHandgun::update_weapon() {
 }
 
 TItemWeaponSuppressedGun::TItemWeaponSuppressedGun(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+    impact_callback = spawn_weapon_impact_effect;
 }
 
 TItem *TItemWeaponSuppressedGun::create(u8 *item) {
@@ -22,7 +22,7 @@ TItem *TItemWeaponSuppressedGun::create(u8 *item) {
 }
 
 TItemWeaponHandgun::TItemWeaponHandgun(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+    impact_callback = spawn_weapon_impact_effect;
     if (item[2] >= 5U) {
         set_color_node(-1);
     }

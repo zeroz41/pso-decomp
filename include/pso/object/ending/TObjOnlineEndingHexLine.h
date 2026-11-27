@@ -31,7 +31,7 @@ public:
 
     void step_line();
     static s32 calc_rotated_hex_point(NJS_POINT2 *out, EndingHexPoint *point);
-    static void *create(TObject *parent, EndingHexPoint *start);
+    static TObjOnlineEndingHexLine *create(TObject *parent, EndingHexPoint *start);
 
     // The live line parameters; TObjOnlineEndingHexMove eases them toward
     // online_ending_hex_line_param.
@@ -47,7 +47,7 @@ void reset_hex_line_params(void);
 
 struct NJS_TEXLIST;
 // The f512_multiplay texture list register_texture_f512_multiplay loads for the
-// game start screens; TAdGameStartSubGC::destroy_instance releases it.
+// game start screens; release_texture_f512_multiplay releases it.
 extern NJS_TEXLIST *multiplay_texture_f512_handle;
 // multiplay_texture_f512_handle as an integer.
 saddr get_multiplay_texture_list();

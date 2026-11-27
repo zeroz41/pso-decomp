@@ -9,8 +9,11 @@ void clear_episode1_quest_availability(void *unusedDifficulty);
 void refresh_story_quest_availability(void *p);
 s32 should_record_episode1_quest_completion(void);
 
-struct ShouldRecordEpisode1QuestCompletionInduction { u8 bytes[0x8]; };
-
-struct AreAllStoryQuestsCompletePair { s32 a; s32 b; };
+// A story quest's two story flags: apply_story_quest_unlock_rules sets available_flag when the
+// quest opens and tests cleared_flag (available_flag + 1) for the quests it requires.
+struct StoryQuestFlagPair {
+    s32 available_flag;
+    s32 cleared_flag;
+};
 
 #endif

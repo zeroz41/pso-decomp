@@ -6,9 +6,9 @@
 
 struct TOContainerAncientEnemyRare : public TOContainerAncientEnemy {
     static const char *class_name;
-    TOContainerAncientEnemyRare(void *set_data);
+    TOContainerAncientEnemyRare(ObjectSetData *set_data);
     virtual ~TOContainerAncientEnemyRare();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TOContainerAncientEnemyRare_size, sizeof(TOContainerAncientEnemyRare) == 0x368);

@@ -50,11 +50,11 @@ void TOComputerMachine01::render() {
         }
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         body = model;
         draw_ginja_model(body->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         screen = body->child;
         draw_ginja_model(screen->model);
         screen = screen->sibling;
@@ -62,12 +62,12 @@ void TOComputerMachine01::render() {
         screen = screen->sibling;
         draw_ginja_model(screen->model);
         draw_ginja_model(screen->sibling->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
 
-void *TOComputerMachine01::create(void *set_data) {
+void *TOComputerMachine01::create(ObjectSetData *set_data) {
     return new TOComputerMachine01(set_data);
 }
 
@@ -88,10 +88,10 @@ void TOComputerMachine01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_kenkyu_com_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
     screen = ((NJS_OBJECT *)resource->models->model)->child;
-    screen_meshes[3] = static_cast<GinjaModel *>(screen->model);
-    screen_meshes[2] = static_cast<GinjaModel *>(screen->sibling->model);
-    screen_meshes[1] = static_cast<GinjaModel *>(screen->sibling->sibling->model);
-    screen_meshes[0] = static_cast<GinjaModel *>(screen->sibling->sibling->sibling->model);
+    screen_meshes[3] = screen->ginja_model;
+    screen_meshes[2] = screen->sibling->ginja_model;
+    screen_meshes[1] = screen->sibling->sibling->ginja_model;
+    screen_meshes[0] = screen->sibling->sibling->sibling->ginja_model;
     last_scroll_frame = 0;
 }
 
@@ -100,7 +100,7 @@ TOComputerMachine01::~TOComputerMachine01() {
     unregister_object_by_id();
 }
 
-TOComputerMachine01::TOComputerMachine01(void *set_data) : TOQuestTalkBase(tl_05) {
+TOComputerMachine01::TOComputerMachine01(ObjectSetData *set_data) : TOQuestTalkBase(tl_05) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = model_resource->models->model;

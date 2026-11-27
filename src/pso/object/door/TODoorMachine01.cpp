@@ -148,7 +148,7 @@ void TODoorMachine01::draw_switch_light(NJS_OBJECT *node, s32 lit) {
         model_render_flags = flags | 0x10;
         set_constant_material(&light_color);
     }
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
     draw_ginja_model(node->model);
@@ -158,7 +158,7 @@ void TODoorMachine01::draw_switch_light(NJS_OBJECT *node, s32 lit) {
     draw_ginja_model(child->model);
     pop_matrix();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     if (lit != 1) {
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
@@ -171,7 +171,7 @@ void TODoorMachine01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if (object_state == DOOR_CLOSED) {
             node = model->child;
             lit = (door_flags >> LIGHT_LIT_SHIFT) & 1;
@@ -210,13 +210,13 @@ void TODoorMachine01::render() {
     }
 }
 
-void *TODoorMachine01::create(void *set_data) {
+void *TODoorMachine01::create(ObjectSetData *set_data) {
     return new TODoorMachine01(tl_05, set_data);
 }
 
 void TODoorMachine01::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid(texture_lists[0]);
+        free_if_valid(texture_lists[0]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;
@@ -248,7 +248,7 @@ TODoorMachine01::~TODoorMachine01() {
     free_collision_body_parts(this);
 }
 
-TODoorMachine01::TODoorMachine01(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorMachine01::TODoorMachine01(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = door_machine01_class_name;
     apply_object_set_data(set_data);
     model = bml_resource->models[0].model;

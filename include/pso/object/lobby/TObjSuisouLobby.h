@@ -12,7 +12,7 @@ struct BmlResource;
 // lobby connects and out when a lobby object takes over, with bubbles rising
 // in front of and behind it while it is not fully shown.
 struct TObjSuisouLobby : public TObjMapObject {
-    TObjSuisouLobby(TObject *parent, void *set_data);
+    TObjSuisouLobby(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjSuisouLobby();
     virtual void render();
     virtual void run_task();
@@ -24,7 +24,7 @@ struct TObjSuisouLobby : public TObjMapObject {
     void demo_step();
     void update_particle();
     void init_stub();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_resources();
     static void load_resources();
 

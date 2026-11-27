@@ -45,13 +45,13 @@ void TORainbowCave01::render() {
     NJS_ARGB color;
     u32 flags;
     if (update_object_view_visibility(view_range, model_radius) != 0 && -1.0f < fade) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(texlist);
         flags = model_render_flags;
         saved_model_render_flags = flags;
         model_render_flags = flags | 0x20;
         color.b = color.g = color.r = 0.0f;
-        if (TObjPlayer::check_demo_mode() == 1) {
+        if (check_demo_mode() == 1) {
             color.a = 0.0f;
         } else {
             color.a = fade;
@@ -59,13 +59,13 @@ void TORainbowCave01::render() {
         set_constant_material(&color);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         scale_current_matrix(&model_scale.x);
         draw_ginja_object(model);
         pop_matrix();
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -88,7 +88,7 @@ void TORainbowCave01::run_task() {
     TObjMapObject::run_task();
 }
 
-void *TORainbowCave01::create(void *set_data) {
+void *TORainbowCave01::create(ObjectSetData *set_data) {
     return new TORainbowCave01(tl_05, set_data);
 }
 
@@ -106,7 +106,7 @@ void TORainbowCave01::load_resource_instance() {
 
 TORainbowCave01::~TORainbowCave01() {}
 
-TORainbowCave01::TORainbowCave01(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TORainbowCave01::TORainbowCave01(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = rainbow_cave01_class_name;
     apply_object_set_data(set_data);
     model = rainbow_cave01_bml_resource->models[0].model;

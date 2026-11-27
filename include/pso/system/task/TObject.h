@@ -132,6 +132,7 @@ public:
     virtual void render_shadows();
     void suspend_update();
     void clear_update_suspension();
+    int is_update_suspended();
 
     void *operator new(size_t size);
     void  operator delete(void *ptr);
@@ -149,9 +150,17 @@ public:
     void log(const char *str);
     int  get_node_count();
     int  all_parents_unqueued_for_destruction();
+    // 1 when object is set and all_parents_unqueued_for_destruction() holds.
+    static s32 is_parents_unqueued(TObject *object);
     int defer_render();
 public:
 };
 
+// TObject's constructor and destructor by symbol, for code that builds a TObject in place and for the
+// static initializers that register a global one (C++ cannot take a constructor's or destructor's address).
+extern "C" {
+void *__ct__7TObjectFP7TObject(void *object, TObject *parent);
+void __dt__7TObjectFv(void *object, s16 flags);
+}
 
 #endif

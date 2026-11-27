@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponSBerillsHands.h"
@@ -24,6 +23,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 // Built with -inline off,deferred: functions are written last to first.
 
@@ -44,7 +44,7 @@ void start_ending_sequence(void) {
     render_tick();
 }
 
-void TKeyBoardControl::run_main_frame() {
+void update_ending_sequence() {
     begin_gx_frame();
     controller_stuff();
     update_keyboard_input_frame();
@@ -56,13 +56,13 @@ void TKeyBoardControl::run_main_frame() {
     if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         request_main_phase(0);
     }
     render_tick();
 }
 
-void TAdEndText::cleanup() { ending_sequence_active = 0; main_task.delete_layer_children(); free_ending_callback(); free_keyboard_soft_resources(); TAdEndText::free_resources(); render_tick(); }
+void exit_ending_sequence() { ending_sequence_active = 0; main_task.delete_layer_children(); free_ending_callback(); free_keyboard_soft_resources(); TAdEndText::free_resources(); render_tick(); }
 
 TEndingMovie::TEndingMovie() : TObject(tl_04) {
     ending_movie_active_flag = 0;

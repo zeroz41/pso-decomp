@@ -6,7 +6,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowStatus : public TWindowSimpleStatus {
-    TWindowStatus(void *position, s32 client, u8 *descriptor);
+    TWindowStatus(const NJS_POINT2 *position, s32 client, u8 *descriptor);
     virtual ~TWindowStatus();
     static const char *class_name;
     virtual void render();

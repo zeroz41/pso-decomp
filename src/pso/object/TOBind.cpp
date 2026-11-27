@@ -7,7 +7,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/BmlResourceLoad.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -45,7 +45,7 @@ void TOBind::update_motion() {
 }
 
 void TOBind::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_task_stub();
         return;
     }
@@ -69,20 +69,20 @@ void TOBind::render() {
     if (this->update_object_view_visibility(draw_distance, this->visibility_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         if ((s32) this->triggered != 1) {
             set_texture_list(animated_textures);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model_with_motion(animated_model, motion, motion_frame);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         pop_matrix();
     }
 }
 
-void *TOBind::create(void *set_data) {
+void *TOBind::create(ObjectSetData *set_data) {
     return new TOBind(set_data);
 }
 
@@ -103,7 +103,7 @@ TOBind::~TOBind() {
     free_collision_body_parts(this);
 }
 
-TOBind::TOBind(void *set_data) : TObjCollidable(tl_05) {
+TOBind::TOBind(ObjectSetData *set_data) : TObjCollidable(tl_05) {
     m_name = class_name;
     apply_object_set_data(set_data);
     triggered = 0;

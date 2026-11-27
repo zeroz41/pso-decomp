@@ -34,7 +34,7 @@ struct ModelNodePositionCaptureState {
     s32 node_index;
     const ModelNodePositionEntry *entries;
     Vec *positions;
-    s32 unknown_0c;
+    s32 pad_0C;
 };
 
 #endif

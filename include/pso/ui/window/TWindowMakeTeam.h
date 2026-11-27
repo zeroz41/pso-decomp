@@ -30,7 +30,7 @@ struct TWindowMakeTeam : public TObject {
     const char *get_name();
     const char *get_comment();
     u8 read_mode();
-    s32 get_field_20();
+    s32 get_kind();
     int test_flag_1d_bit1();
     int test_flag_1d_bit0();
     void set_state(s32 state);

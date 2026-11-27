@@ -1,7 +1,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "types.h"
 #include "pso/ui/window/SmallFontText.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include <stddef.h>
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -9,7 +9,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/SmallFontMetrics.h"
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/collision/TObjFogCollisionPoison.h"

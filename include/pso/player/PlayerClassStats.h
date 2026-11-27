@@ -12,14 +12,14 @@ struct PlayerProfessionStatFactors { f32 hp; f32 tp; };
 // Record types of the class/motion tables; layouts from the original bytes and
 // the accessors' strides, field meanings unknown.
 struct PlayerAnimTableEntry {
-    s16 unk0;
-    s16 unk2;
+    s16 group;  // item the player holds in the ending picture (trade_item_by_group_kind)
+    s16 kind;
 };
 
 struct PlayerCastMotionRecord {
-    f32 unk0;
-    f32 unk4;
-    f32 unk8;
+    f32 pad_0;
+    f32 pad_4;
+    f32 pad_8;
     f32 release_frame;  // the motion frame at which the cast is released (TObjPlayer cast phase 2 -> 3)
     s32 hand_joint;  // the animation node the cast effect starts from (get_hand_joint_position)
 };

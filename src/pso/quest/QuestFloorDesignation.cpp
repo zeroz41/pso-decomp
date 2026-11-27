@@ -27,13 +27,13 @@ void convert_quest_object_rows(struct ConvertQuestObjectRowsQuestObjRow *rows, u
 s16 quest_floor_designations[0x14];
 u8 *quest_dat_buffer;
 
-void TLobby::refresh_quest_list(const char *path) {
+void refresh_quest_list(const char *path) {
     u8 *quest;
     s32 size;
 
     size = get_resource_file_size(path);
     if (size >= 0) {
-        quest = (u8 *)TQuestVmDownLoadServer::alloc(size);
+        quest = (u8 *)alloc(size);
         if (quest != NULL) {
             read_disc_file(path, quest);
             TLobby::rebuild_all(quest);
@@ -43,12 +43,12 @@ void TLobby::refresh_quest_list(const char *path) {
 }
 
 void TLobby::bswap_enemy_set_rows(u32 size) {
-    BswapEnemySetRowsEntry* p = (BswapEnemySetRowsEntry*)this;
-    u32 n = size / sizeof(BswapEnemySetRowsEntry);
+    EnemySetRecord *p = (EnemySetRecord *)this;
+    u32 n = size / sizeof(EnemySetRecord);
     u32 i;
     for (i = 0; i < n; i++, p++) {
         bswap_enemy_set_row(p);
-        p->b = 0;
+        p->flags = 0;
     }
 }
 
@@ -163,7 +163,7 @@ void clear_quest_floor_designations(void) {
 void populate_quest_floor_sets(void) {
     s32 i;
     FloorMapSelection sel;
-    TLobby::init_handle(0x8000);
+    init_handle(0x8000);
     for (i = 0; i < 18; i++) {
         switch (quest_floor_designations[i]) {
         case 0:
@@ -191,7 +191,7 @@ void populate_quest_floor_sets(void) {
     }
     TLobby::init_sub_state();
     TLobby::rebuild_entry();
-    TLobby::free_data_60F0();
+    free_data_60F0();
 }
 
 bool load_quest_encounter_section(s32 floor) {
@@ -243,7 +243,7 @@ s32 TLobby::handle_msg_type2(s32 floor) {
             if ((type == 2) && (record_floor == floor)) {
                 lobby = (u8 *)(record + 1);
                 ((TLobby *)lobby)->bswap_enemy_set_rows(size);
-                reserve_enemy_set_actor_ids((DestroyEventShuffleTableSpawnRecord *)lobby, (u32) size / 72U, get_floor_area(record_floor));
+                reserve_enemy_set_actor_ids(lobby, (u32) size / 72U, get_floor_area(record_floor));
                 TLobby::init_floor_enemy_count(record_floor, lobby, size);
                 return 1;
             }
@@ -292,14 +292,14 @@ s32 TLobby::handle_msg_type1(s32 floor) {
 }
 
 
-void TLobby::setup_quest_list() {
+void setup_quest_list() {
     map_set_object_id_counter = 0;
     next_enemy_set_actor_id = 0;
     map_object_id_counter = 0;
     map_set_enemy_id_counter = 0;
     switch ((s32) evt2_random_enemies_mode) {
     case 1:
-        TLobby::open_session(get_offline_quest_filename_buffer_b());
+        open_session(get_offline_quest_filename_buffer_b());
         break;
     case 2:
         TLobby::update_and_reset(TQuestListOnline::get_quest_list_flag());
@@ -311,7 +311,7 @@ void TLobby::setup_quest_list() {
         TLobby::rebuild_all(TQuestListOnline::get_quest_list_flag());
         break;
     case 5:
-        TLobby::refresh_quest_list(get_offline_quest_filename_buffer_b());
+        refresh_quest_list(get_offline_quest_filename_buffer_b());
         break;
     }
     advance_object_id_counter((u16) map_object_id_counter);
@@ -319,7 +319,7 @@ void TLobby::setup_quest_list() {
     object_condition_count = map_set_object_id_counter;
     enemy_condition_count = next_enemy_set_actor_id;
     get_total_object_set_count();
-    TLobby::sum_floor_enemy_counts();
+    sum_floor_enemy_counts();
 }
 
 void TLobby::update_and_reset(u8 *quest) {
@@ -332,14 +332,13 @@ void TLobby::update_and_reset(u8 *quest) {
 
 #include "pso/player/TObjPlayer.h"
 
-
-void TLobby::open_session(const char *path) {
+void open_session(const char *path) {
     u8 *quest;
     s32 size;
 
     size = get_resource_file_size(path);
     if (size >= 0) {
-        quest = (quest_dat_buffer = (u8 *)TQuestVmDownLoadServer::alloc(size));
+        quest = (quest_dat_buffer = (u8 *)alloc(size));
         if (quest != NULL) {
             read_disc_file(path, quest);
             populate_quest_floor_sets();
@@ -365,3 +364,6 @@ void TLobby::init_id_tables() {
     }
 }
 
+u8 *TQuestListVM::get_quest_dat() { return quest_data_output_cursor; }
+
+u8 *TQuestListOnline::get_quest_list_flag() { return online_quest_dat_buffer; }

@@ -43,7 +43,7 @@ void draw_shape_motion_node_tree(NJS_OBJECT *node) {
         push_matrix();
         compose_motion_node_matrix(node);
         if (!(node->evalflags & 0x80)) {
-            model = (NJS_CNK_MODEL *)node->model;
+            model = node->chunk_model;
             if (model != NULL && !(node->evalflags & 8)) {
                 sample_shape_node_vertices(&model->vertex_list, &vertices);
                 saved = model->vertex_list;
@@ -293,7 +293,9 @@ void sample_shape_node_vertices(void **src, void **dst) {
 
 #pragma push
 #pragma use_lmw_stmw off
-void draw_chunk_color_tex_strips(s16 *list, ChunkColorVertex *verts, u32 flags, s32 big) {
+#pragma dont_inline off
+#pragma inline_depth(4)
+void draw_chunk_color_tex_strips(s16 *list, ChunkCachedVertex *verts, u32 flags, s32 big) {
     s32 draw;
     u32 count;
     s32 extra;
@@ -330,7 +332,7 @@ void draw_chunk_color_tex_strips(s16 *list, ChunkColorVertex *verts, u32 flags, 
             GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT0, n);
         }
         do {
-            ChunkColorVertex *v = &verts[list[0]];
+            ChunkCachedVertex *v = &verts[list[0]];
             u32 c;
             s16 s = list[1];
             s16 t = list[2];
@@ -339,16 +341,13 @@ void draw_chunk_color_tex_strips(s16 *list, ChunkColorVertex *verts, u32 flags, 
                 f32 x;
                 f32 y;
                 f32 z;
-                z = v->z;
-                y = v->y;
-                x = v->x;
-                GXWGFifo.f32 = x;
-                GXWGFifo.f32 = y;
-                GXWGFifo.f32 = z;
+                z = v->pos.z;
+                y = v->pos.y;
+                x = v->pos.x;
+                GXPosition3f32(x, y, z);
                 c = v->color;
-                GXWGFifo.u32 = ((c & 0xFFFFFF) << 8) | ((c & 0xFF000000) >> 24);
-                GXWGFifo.s16 = s;
-                GXWGFifo.s16 = t;
+                GXColor1u32(((c & 0xFFFFFF) << 8) | ((c & 0xFF000000) >> 24));
+                GXTexCoord2s16(s, t);
             }
             list += extra;
         } while (--n != 0);

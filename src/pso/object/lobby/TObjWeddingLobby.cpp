@@ -3,7 +3,7 @@
 #include "pso/object/lobby/TObjWeddingLobby.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyEventTheme.h"
 #include "pso/render/TextureState.h"
@@ -29,24 +29,24 @@ void TObjWeddingLobby::demo_step() {}
 
 void TObjWeddingLobby::render() {
     if (fade_state != 0 && lobby_texlist != 0) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(lobby_texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if (fade_state != 3) {
             scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
         draw_ginja_object(get_bml_model(resource_bundle, 0));
         draw_ginja_model_with_motion(get_bml_model(resource_bundle, 1), get_bml_motion(resource_bundle, 0), (f32)animation_frame);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
 void TObjWeddingLobby::run_task() {
     f32 last;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         demo_step();
     }
     switch (fade_state) {
@@ -83,7 +83,7 @@ void TObjWeddingLobby::run_task() {
     }
 }
 
-void *TObjWeddingLobby::create(void *set_data) {
+void *TObjWeddingLobby::create(ObjectSetData *set_data) {
     return new TObjWeddingLobby(tl_05, set_data);
 }
 
@@ -101,7 +101,7 @@ void TObjWeddingLobby::load_resources() {
 
 TObjWeddingLobby::~TObjWeddingLobby() {}
 
-TObjWeddingLobby::TObjWeddingLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjWeddingLobby::TObjWeddingLobby(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = obj_wedding_lobby_class_name;
     apply_object_set_data(set_data);
     if (TLobby::get_filtered_event_theme() == 10) {

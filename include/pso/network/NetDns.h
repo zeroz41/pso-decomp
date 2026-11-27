@@ -123,7 +123,7 @@ typedef struct DnsQuery {
 
 typedef struct DnsResolverState {
     s16 next_id;                /* 0x00: transaction id of the next query */
-    s16 f2;
+    s16 max_label;              /* 0x02: longest name label (63) */
     s16 max_name;               /* 0x04 */
     s16 msg_size;               /* 0x06 */
     s16 f8;

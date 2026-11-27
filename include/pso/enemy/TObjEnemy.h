@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjChara.h"
 
 struct player_stats;
+struct EnemyPlacement;
 
 // The movement row an enemy keeps in TObjEnemy::movementParameters: the radius it looks for a
 // target in (find_nearest_visible_player), its walking speed and its largest turn per frame.
@@ -23,7 +24,7 @@ struct TObjEnemy : public TObjChara {
     void draw_motion_model();
     s32 calc_joint_matrices(f32);
     s32 enemy_turn_toward_dest(s32);
-    void send_6x0A_enemy_state(EnemyStateRecord *);
+    void send_6x0A_enemy_state(EnemyStateRecord *state_in);
     s32 bind_enemy_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats);
     void set_param(s32);
     s32 get_rt_index();
@@ -37,14 +38,14 @@ struct TObjEnemy : public TObjChara {
     void award_enemy_experience(u16 client);
     void distribute_experience();
     // send_6x60_standard_drop_item_request for this enemy.
-    int query_lobby_state();
+    void query_lobby_state();
     // distribute_experience, then query_lobby_state; the death reactions call it.
     void refresh_lobby_state();
     void send_6x9C_enemy_low_game_flags(s32);
     void draw_ground_shadow(const Vec *scale, s32 forceDraw);
-    virtual void apply_enemy_state(s32 *);
-    virtual void apply_hit_message_flags(void *);
-    virtual void apply_set_data(void *);
+    virtual void apply_enemy_state(EnemyStateRecord *);
+    virtual void apply_hit_message_flags(EnemyStateRecord *);
+    virtual void apply_set_data(EnemyPlacement *set_data);
     virtual void clear_lobby_object_state();
     virtual s32 sync_enemy_state(s32 status);
     s32 exchange_object_state(EnemyStateRecord *record, s16 mode);

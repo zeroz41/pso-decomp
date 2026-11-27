@@ -5,10 +5,12 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/render/RenderFadeState.h"
 
+struct QuestObjectEntry;
+
 struct TOVS2Wall01 : public TObjChara {
-    TOVS2Wall01(void *set_data);
+    TOVS2Wall01(ObjectSetData *set_data);
     virtual ~TOVS2Wall01();
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     f32 view_range;
     f32 model_radius;
     u32 hits_left;
@@ -27,7 +29,7 @@ struct TOVS2Wall01 : public TObjChara {
     virtual void apply_knockback_from_attacker(TObjBase *, f32);
     virtual s32 try_start_action(TObjChara *, s32, f32);
     virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void release_model();
     static void load_resources();
     void break_wall();

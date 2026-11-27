@@ -8,7 +8,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/system/task/TObject.h"
 
 NJS_TEXNAME chr_select_ad_pic_2_texnames[8] = {
@@ -81,7 +81,7 @@ TAdBackGC::TAdBackGC(TObject *parent) : TObject(parent) {
 
 NJS_TEXLIST *chr_select_ad_pic_texture;
 
-void TAdSinglePlyChrSelectGC::free_global() {
+void free_global() {
     if (chr_select_ad_pic_texture != NULL) {
         release_texture_list(chr_select_ad_pic_texture);
         chr_select_ad_pic_texture = NULL;

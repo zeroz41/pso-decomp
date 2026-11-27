@@ -8,13 +8,14 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 u8 quest_story_flags_by_difficulty[4][128];
 
 void save_quest_story_flags(void) {
     CharacterSaveRecord *character_save_record;
 
-    if ((get_main_phase() != 0xF) && (TRaderMapCore::is_not_split_screen() != 1)) {
+    if ((get_main_phase() != 0xF) && (is_not_split_screen() != 1)) {
         if (is_quest_active() != 0) {
             THunterGuildSeqOffline::notify_quest_thread();
         }
@@ -113,7 +114,7 @@ void set_story_flag_in_bank(s32 bank, s32 flag) {
 
 void set_story_flag_in_bank_or_send_quest_flag(s32 bank, s32 flag) {
     if (get_main_phase() == 0xF) {
-        TLobby::send_6x75_quest_flag(flag, 0, bank);
+        send_6x75_quest_flag(flag, 0, bank);
         return;
     }
     set_story_flag_in_bank(bank, flag);
@@ -137,7 +138,7 @@ void set_story_flag(s32 flag) {
 
 void set_story_flag_or_send_quest_flag(s32 flag) {
     if (get_main_phase() == 0xF) {
-        TLobby::send_6x75_quest_flag_cur_difficulty(flag, 0);
+        send_6x75_quest_flag_cur_difficulty(flag, 0);
         return;
     }
     set_story_flag(flag);
@@ -146,7 +147,7 @@ void set_story_flag_or_send_quest_flag(s32 flag) {
 const s32 lobby_story_flag_clear_list[6] = { 151, 152, 153, 154, -1, 0 };
 
 void load_view_player_story_flags(void) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         load_quest_story_flags(TCameraCtrl::get_nth_view_player_id(0));
     }
 }

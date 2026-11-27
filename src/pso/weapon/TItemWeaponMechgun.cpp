@@ -43,12 +43,12 @@ void TItemWeaponMechgun::draw_held_model() {
 
 TItemWeaponMechgun::TItemWeaponMechgun(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     this->set_weapon_flags(0x203);
-    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+    impact_callback = spawn_weapon_impact_effect;
     this->effectJoint = -1;
     this->effectAngle = 0;
     this->effectScaleJoint = -1;
     this->effectFrame = 0;
-    switch ((s32) item[2]) {
+    switch (item[2]) {
     case 6:
         break;
     case 5:
@@ -58,7 +58,7 @@ TItemWeaponMechgun::TItemWeaponMechgun(TObject *parent, u8 *item) : TItemWeapon(
         this->effectJoint = 2;
         break;
     }
-    if ((u8) item[2] >= 5U) {
+    if (item[2] >= 5) {
         set_color_node(-1);
     }
 }

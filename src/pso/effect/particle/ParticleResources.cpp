@@ -20,7 +20,7 @@ const char *bm_tec_regurar_model_names[4] = {"eff_f_foie.gj", "eff_sinowahamon.g
 BmlResourceDescriptor particle_regular_bml_descriptor = {"bm_tec_regurar.bml", bm_tec_regurar_model_names, bm_tec_regurar_motion_names, 3, 0};
 const char *particle_entry_path = "particleentry.dat";
 
-void TParticleCtrl::free_system() { mem_free(particle_global_entry_table); particle_global_entry_table = 0; }
+void free_system() { mem_free(particle_global_entry_table); particle_global_entry_table = 0; }
 
 void TParticleCtrl::free_all() {
     mem_free(particle_area_entry_table);
@@ -36,7 +36,7 @@ void TParticleCtrl::free_all() {
     }
 }
 
-void TParticleCtrl::init_particle_buffer() {
+void init_particle_buffer() {
     s32 size;
     particle_global_entry_table = reinterpret_cast<ParticleParam *>(mem_alloc(0x13000));
     size = read_disc_file(particle_entry_path, particle_global_entry_table);

@@ -3,7 +3,7 @@
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/MenuText.h"
 #include "pso/object/warp/TObjWarpString.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/TextureState.h"
 #include "types.h"
@@ -12,7 +12,7 @@
 #include "pso/ui/charcreate/TObjCMAssignMenu.h"
 #include "pso/network/TLobby.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/ui/Language.h"
 
 // Built with -inline off,deferred: .text comes out last function first, so the functions are written

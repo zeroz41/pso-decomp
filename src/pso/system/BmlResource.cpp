@@ -126,7 +126,7 @@ void *BmlResource::allocate_bml_chunk(u8 *file, u32 *offset, u32 *tag) {
 void BmlResource::LoadTextureSub(const char *filename, s32 index) {
     char buf[0x20];
     s32 size;
-    change_file_extension(buf, const_cast<char *>(filename), const_cast<char *>("gvm"));
+    change_file_extension(buf, const_cast<char *>(filename), "gvm");
     size = TGStream::gsSctLoadFile(buf, lobby_download_buffer);
     if (size > 0x40000) {
         file_debug_printf("LoadTextureSub: %s too large.", buf);
@@ -224,7 +224,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             reset_read_state();
             switch ((s8) bml_load_state) {
             case 1: {
-                u8 *p = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(bml_header_record_ptr->rawSize));
+                u8 *p = static_cast<u8 *>(alloc(bml_header_record_ptr->rawSize));
                 if (p != NULL) {
                     prs_decompress_buffer(lobby_bml_read_buffer, p);
                     LoadBinModelSub(bml, bml_header_record_ptr->rawSize, bml->loaded_models++, p);
@@ -276,7 +276,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             reset_read_state();
             switch ((s8) bml_load_state) {
             case 1: {
-                u8 *p = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(bml_header_record_ptr->rawSize));
+                u8 *p = static_cast<u8 *>(alloc(bml_header_record_ptr->rawSize));
                 if (p != NULL) {
                     prs_decompress_buffer(lobby_bml_read_buffer, p);
                     LoadBinMotionSub(bml, bml->loaded_models++, p);
@@ -303,7 +303,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             }
         }
         if (bml_load_entry_index < bml->model_count) {
-            change_file_extension(NULL, bml_header_record_ptr->name, (char *)"gvm");
+            change_file_extension(NULL, bml_header_record_ptr->name, "gvm");
             lobby_bml_file_handle = ADXF_Open(bml_header_record_ptr->name, 0);
             if (lobby_bml_file_handle != 0) {
                 n = ADXF_GetFsizeSct(lobby_bml_file_handle);
@@ -370,7 +370,7 @@ void free_chr_select_data() {
 }
 void init_download_buffers() {
     bml_load_buffer = static_cast<u8 *>(xmalloc(0x4000));
-    lobby_download_buffer = (u8 *)TQuestVmDownLoadServer::alloc(0x40000);
+    lobby_download_buffer = (u8 *)alloc(0x40000);
     reset_gstream_globals();
     tmp_buf_in_use_flag = 1;
     tmp_buf_name[0] = 0;
@@ -429,7 +429,7 @@ void LoadBinModelCallBack(BmlModelLoadRequest *request) {
             *slot = (NJS_TEXLIST *)data;
             params.resource = request->resource;
             params.entry = request->entry;
-            change_file_extension(name, (char *)request->name, (char *)"gvm");
+            change_file_extension(name, (char *)request->name, "gvm");
             r = create_file_load_entry(name, *slot, increment_ref_and_set_flag, &params, &handle);
             if (r >= 0) {
                 request->resource->add_resource_handle(handle);
@@ -647,7 +647,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                 }
                 switch (bml_load_state) {
                 case 1:
-                    buf = TQuestVmDownLoadServer::alloc(size + 0x800);
+                    buf = alloc(size + 0x800);
                     if (buf != NULL) {
                         disc_read_filename = (const char *)descriptor->archive_filename;
                         st.read_data(buf, size);
@@ -672,7 +672,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                     if (e->texlist != NULL) {
                         s32 tsize = rec->texSize;
                         if (tsize != 0) {
-                            void *tbuf = TQuestVmDownLoadServer::alloc(tsize + 0x800);
+                            void *tbuf = alloc(tsize + 0x800);
                             st.read_data(tbuf, tsize);
                             st.align_read_offset(blk);
                             prs_decompress_buffer(tbuf, resource_decompress_buffer);
@@ -699,7 +699,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                 }
                 switch (bml_load_state) {
                 case 1: {
-                    void *mb = TQuestVmDownLoadServer::alloc(sz + 0x800);
+                    void *mb = alloc(sz + 0x800);
                     st.read_data(mb, sz);
                     st.align_read_offset(blk);
                     prs_decompress_buffer(mb, resource_decompress_buffer);
@@ -730,7 +730,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
         loaded_motions = 0;
         loaded_models = 0;
         load_state = 0;
-        unknown_14 = 0;
+        pad_14 = 0;
         add_named_entry(this, descriptor->archive_filename);
     }
 }

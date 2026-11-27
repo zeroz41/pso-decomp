@@ -1,3 +1,4 @@
+#include "pso/weapon/shoot/TItemShootModel.h"
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/weapon/TItemWeaponDrillLauncher.h"
 #include "pso/weapon/TItemWeaponEvilCurst.h"
@@ -14,7 +15,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
@@ -46,8 +47,8 @@ void TItemShootDrillLauncher::render() {
             push_matrix();
             set_texlist(this->texture_list);
             post_translate_matrix(&this->m_pos.x);
-            rotate_matrix_y(0, this->rot_y);
-            rotate_matrix_x(0, this->rot_x - 0x4000);
+            rotate_matrix_y(0, this->rot.y);
+            rotate_matrix_x(0, this->rot.x - 0x4000);
             draw_ginja_object((this->model));
             pop_matrix();
             render_node->scl[0] = (f32) 1.0f;
@@ -57,7 +58,7 @@ void TItemShootDrillLauncher::render() {
 
 void TItemShootDrillLauncher::hook() {  }
 
-TItemShootDrillLauncher::TItemShootDrillLauncher(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootDrillLauncher::TItemShootDrillLauncher(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {}
 
 TItemShoot *drill_launcher_create_shot(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
@@ -67,7 +68,7 @@ TItemShoot *drill_launcher_create_shot(TItemWeapon *owner, const Vec *pos, const
     if (owner != NULL) {
         shot = new TItemShootDrillLauncher(owner, pos, dir, life);
     }
-    particle = TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+    particle = TItemShootParticle::spawn_shoot_particle(owner, pos, dir, life);
     if (particle != NULL) {
         particle->spawn_slot_emitter(0x1BB, 0);
     }
@@ -174,6 +175,6 @@ void drill_launcher_return_timer(void *weapon) {
 }
 
 void PlayerAttackController::increment_burst_count() {
-    burst_count = burst_count + 1;
+    burst_count++;
 }
 s32 PlayerAttackController::get_burst_count() { return burst_count; }

@@ -27,4 +27,7 @@ extern NJS_TEXLIST *logo_texture_e_handle;
 void register_texture_logo_e(void);
 
 extern int sega_logo_done_flag;
+
+void free_held_object();
+
 #endif

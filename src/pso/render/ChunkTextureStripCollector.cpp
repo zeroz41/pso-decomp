@@ -15,7 +15,7 @@ s32 plist_texture_matches_filter;
 
 void StripBufferPair::collect_model_strips_by_texture(NJS_OBJECT *node, s32 texture_filter) {
     do {
-        NJS_CNK_MODEL *model = static_cast<NJS_CNK_MODEL *>(node->model);
+        NJS_CNK_MODEL *model = node->chunk_model;
         if (model != NULL && model->polygon_list != NULL) {
             collect_plist_strips_by_texture(model->polygon_list, texture_filter);
         }
@@ -76,7 +76,7 @@ void StripBufferPair::collect_plist_strips_by_texture(s16 *plist, s32 texture_fi
 
 void StripBufferPair::count_model_strips_by_texture(NJS_OBJECT *node, s32 texture_filter) {
     do {
-        NJS_CNK_MODEL *model = static_cast<NJS_CNK_MODEL *>(node->model);
+        NJS_CNK_MODEL *model = node->chunk_model;
         if (model != NULL && model->polygon_list != NULL) {
             count_plist_strips_by_texture(model->polygon_list, texture_filter);
         }

@@ -1,5 +1,5 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -41,6 +41,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 BmlResource *trap_ancient01_bml_resource;
@@ -68,7 +69,7 @@ f32 TObjCollidable::get_body_radius(s32 body) {
 
 #pragma push
 #pragma fp_contract on
-TOTrapAncient01::TOTrapAncient01(TObject *parent, void *set_data) : TOTrap(parent) {
+TOTrapAncient01::TOTrapAncient01(TObject *parent, ObjectSetData *set_data) : TOTrap(parent) {
     s32 i;
     m_name = trap_ancient01_class_name;
     apply_object_set_data(set_data);
@@ -135,7 +136,7 @@ void TOTrapAncient01::release_static_resource() {
     }
 }
 
-void *TOTrapAncient01::create(void *set_data) {
+void *TOTrapAncient01::create(ObjectSetData *set_data) {
     return new TOTrapAncient01(tl_05, set_data);
 }
 
@@ -163,8 +164,8 @@ void TOTrapAncient01::render() {
         }
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
-        if (TObjPlayer::check_demo_mode() != 1 && scale.y <= 0.0f) {
+        rotate_matrix_y(NULL, rotation.y);
+        if (check_demo_mode() != 1 && scale.y <= 0.0f) {
             v.x = 0.1f * (3.0517578125e-05f * (f32)rand()) - 0.05f;
             v.y = 0.0f;
             v.z = 0.1f * (3.0517578125e-05f * (f32)rand()) - 0.05f;
@@ -179,9 +180,9 @@ void TOTrapAncient01::render() {
         n = n->child;
         push_matrix();
         post_translate_matrix(n->pos);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model(n->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         pop_matrix();
         pop_matrix();
@@ -389,7 +390,7 @@ void TOTrapAncient01::play_sounds() {
 
 void TOTrapAncient01::release_trapped_player() {
     TObjPlayer *player;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         if (target != NULL) {
             player = get_player_by_client_id(target->get_entity_id());
             if (player != NULL) {
@@ -410,8 +411,8 @@ void TOTrapAncient01::release_trapped_player() {
     }
 }
 
-void TOTrapAncient01::apply_saved_state(s16 *state, s32 live) {
-    if ((s16) *state == 4) {
+void TOTrapAncient01::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    if (state->flags == 4) {
         if (live == 1) {
             this->play_sounds();
         }

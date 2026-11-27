@@ -8,7 +8,7 @@
 // collision bodies get enabled), 3 done.
 class TObjHashiBase : public TObjMapObject {
 public:
-    TObjHashiBase(TObject *parent, void *set_data);
+    TObjHashiBase(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjHashiBase();
     virtual void run_task();
     virtual void render();

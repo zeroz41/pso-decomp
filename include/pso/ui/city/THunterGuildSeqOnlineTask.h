@@ -2,7 +2,13 @@
 #define PSO_UI_CITY_THUNTERGUILDSEQONLINETASK_H
 
 #include "pso/system/task/TObject.h"
+#include <stddef.h>
 #include "types.h"
+
+class TRecvDownload;
+class TRecvDownloadHead;
+template <size_t size> struct TPlyText;
+typedef TPlyText<288> OnlineQuestInfo;
 
 class THunterGuildSeqOnlineTask : public TObject {
 public:
@@ -22,13 +28,13 @@ void handle_6x73_exit_quest(void);
 // Clears the online quest download windows and download state.
 void reset_globals(void);
 
-struct OnlineQuestFileChunk {
-    u8 f0;
-    u8 chunk;
-    u8 pad2[2];
-    char name[0x10];
-    u8 data[0x400];
-    u32 size;
-};
+
+void close_windows_and_reset();
+void release_resources();
+void handle_quest_ready();
+void init_quest_list_online_buffers();
+void handle_quest_download_chunk(TRecvDownload &download);
+void begin_file_download(TRecvDownloadHead &file);
+void receive_quest_info(OnlineQuestInfo &info);
 
 #endif

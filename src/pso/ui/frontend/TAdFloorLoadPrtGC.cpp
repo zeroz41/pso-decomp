@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdFloorLoadPrtGC.h"
 #include "pso/system/vector.h"
@@ -25,7 +24,7 @@ const Vec floor_load_particle_positions[12] = {
     { 0.0f, -86.2f, 49.8f },
     { 0.0f, -49.8f, 86.2f },
 };
-const ParticleAngles TAdFloorLoadPrtGC::emitter_angles[12] = {
+const Angle3 TAdFloorLoadPrtGC::emitter_angles[12] = {
     { 0x0, 0x0, 0x0 },
     { 0x1555, 0x0, 0x0 },
     { 0x2AAA, 0x0, 0x0 },
@@ -40,7 +39,7 @@ const ParticleAngles TAdFloorLoadPrtGC::emitter_angles[12] = {
     { 0xEAAA, 0x0, 0x0 },
 };
 const Vec origin_particle_position[1] = { { 0.0f, 0.0f, 0.0f } };
-const ParticleAngles origin_particle_angles[1] = { { 0x0, 0x0, 0x4000 } };
+const Angle3 origin_particle_angles[1] = { { 0x0, 0x0, 0x4000 } };
 const char *TAdFloorLoadPrtGC::class_name = "TAdFloorLoadPrtGC";
 
 TAdFloorLoadPrtGC::~TAdFloorLoadPrtGC() {
@@ -66,7 +65,7 @@ TAdFloorLoadPrtGC::TAdFloorLoadPrtGC(TObject *parent) : TObject(parent) {
         VecCopy(&emitters[i].position, &floor_load_particle_positions[i]);
         copy_xyz(&emitters[i].angles, (void *)&TAdFloorLoadPrtGC::emitter_angles[i]);
         emitters[i].particle = (TObject *)create_particle_controller_with_angles(
-            &floor_load_particle_positions[i], (void *)&TAdFloorLoadPrtGC::emitter_angles[i], 0x65, 1, 0x40);
+            &floor_load_particle_positions[i], const_cast<Angle3 *>(&TAdFloorLoadPrtGC::emitter_angles[i]), 0x65, 1, 0x40);
     }
-    origin_particle = (TObject *)create_particle_controller_with_angles(origin_particle_position, (void *)origin_particle_angles, 0x2F, 1, 0x40);
+    origin_particle = (TObject *)create_particle_controller_with_angles(origin_particle_position, const_cast<Angle3 *>(origin_particle_angles), 0x2F, 1, 0x40);
 }

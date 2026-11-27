@@ -129,7 +129,7 @@ union long_game_command_union {
 
 // A command that carries only a text. 1A and D5: the text TProtocol::recv_text and handle_cmd_D5 pass to
 // TLobby::open_scroll_text_window. A3 and A5 (288 characters): the quest description that
-// TProtocol::recv_quest_menu_info and recv_quest_info pass to TQuestListOnline::receive_quest_info and
+// TProtocol::recv_quest_menu_info and recv_quest_info pass to receive_quest_info and
 // show_card_list_message. D9 (172 characters): the info board text the client sends
 // (TProtocol::send_text_packet_D9). C7 (512 characters): the auto-reply the client sends
 // (TProtocol::send_text_packet_c7). TPlyJoinData takes header.flags of the client's copy as
@@ -208,6 +208,9 @@ public:
 };
 LAYOUT_ASSERT(TRecvGenerateIDSize, sizeof(TRecvGenerateID) == 0x10);
 
+// The lobby's 80 handler; it ignores the packet.
+void handle_generate_id(TRecvGenerateID gen_id);
+
 // 81: simple mail. TProtocol::send_simple_mail sends it (0x220 bytes); TProtocol::recv_chat_message passes
 // it to receive_short_mail.
 class TChatMessage {
@@ -268,13 +271,16 @@ LAYOUT_ASSERT(TRecvDownloadSize, sizeof(TRecvDownload) == 0x418);
 
 // 44 and A6: the start of a file download: the file's name and size. TProtocol::recv_download_head and
 // recv_vm_download_head acknowledge it with a TSendDownloadHead of the same command and pass it to
-// TQuestListOnline::begin_file_download and TQuestVmDownLoadServer::begin_file_download.
+// begin_file_download and TQuestVmDownLoadServer::begin_file_download.
+// download_kind (A6 only, not byte-swapped) says which files make up the download:
+// 0 = .dat and .bin, 1 = .dat, .bin and .pvr, 2 = .gba.
 class TRecvDownloadHead {
 public:
     packet_header header;
     char path[32];
     u16 unused;
-    u16 flags;
+    char download_kind;
+    u8 pad_27;
     char filename[16];
     u32 file_size;
 public:

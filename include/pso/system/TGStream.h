@@ -45,5 +45,6 @@ extern u8 gstream_sector_buffer[0x2000];
 
 void close_gsl_archive(void);
 void open_gsl_archive(char *name);
+void read_data_sync(AdxfHandle *handle, s32 sector_count, void *destination);
 
 #endif

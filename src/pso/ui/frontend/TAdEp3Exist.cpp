@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
 #include "pso/ui/window/TWindowCallBack.h"
@@ -8,7 +7,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdEp3Exist.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
 
 #include "pso/ui/TLevelSelect.h"
@@ -29,14 +28,13 @@
 const f32 ep3_exist_cursor_pos[2] = { 89.0f, 394.0f };
 const f32 ep3_exist_cursor_size[2] = { 462.0f, 18.0f };
 const char *TAdEp3Exist::name = "TAdEp3Exist";
-const f32 serial_access_window_pos[2] = { 85.0f, 384.0f };
-const f32 serial_access_window_size[2] = { 470.0f, 32.0f };
+const NJS_POINT2 serial_access_window_pos = { 85.0f, 384.0f };
+const NJS_POINT2 serial_access_window_size = { 470.0f, 32.0f };
 
 TWindowCallBack *TAdEp3Exist::create_callback_window() {
-    return TAdEnterSerialAccessGC::create_callback((void *)serial_access_window_pos, (void *)serial_access_window_size, draw_message_window);
+    return TAdEnterSerialAccessGC::create_callback(&serial_access_window_pos, &serial_access_window_size, draw_message_window);
 }
 
-extern "C" {
 
 
 void TAdEp3Exist::draw_message_window(void *window, void *frame_context) {
@@ -106,14 +104,13 @@ void TAdEp3Exist::run_task() {
     }
 }
 
-}
 TAdEp3Exist::~TAdEp3Exist() {
     if (callback_window != NULL) { callback_window->queue_destruction(); callback_window = NULL; }
     if (cursor != NULL) { cursor->queue_destruction(); cursor = NULL; }
 }
 
 TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
-    s8 flag[16];
+    char flag[16];
     u8 save[16];
     s32 res;
     bool ok;
@@ -126,7 +123,7 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     state = 0;
     next_state = 0;
     flag[0] = 0;
-    res = ((TAdSinglePlyChrSelectGC *)flag)->load_and_verify_character_save((char *)save);
+    res = load_and_verify_character_save(flag, (char *)save);
     ok = false;
     if (res != 0) {
         if (flag[0] != 0) {

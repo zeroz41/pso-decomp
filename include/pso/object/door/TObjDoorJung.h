@@ -5,7 +5,7 @@
 #include "pso/object/door/TODoorBase.h"
 
 struct TObjDoorJung : public TODoorBase {
-    TObjDoorJung(TObject *parent, void *set_data);
+    TObjDoorJung(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjDoorJung();
     void clamp_state();
     virtual void update_door_switch_state();
@@ -13,7 +13,7 @@ struct TObjDoorJung : public TODoorBase {
     virtual void render();
     s32 active_light_count;
     static void free_buffers();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjDoorJung_size, sizeof(TObjDoorJung) == 0xD8);

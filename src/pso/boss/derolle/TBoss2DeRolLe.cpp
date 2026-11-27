@@ -1,9 +1,8 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/animation/MotionContext.h"
 
@@ -24,7 +23,6 @@ struct NJS_OBJECT;
 #include "pso/network/protocol/protocol.h"
 #include "pso/object/TObjControl.h"
 
-#include "pso/system/NinjaTypes.h"
 
 #include "types.h"
 #include "clib/fp_convert.h"
@@ -115,6 +113,7 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2RaftSplash.h"
 
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 
@@ -266,7 +265,7 @@ f32 boss2_derolle_particle_limits[3] = {32.0f, 30.0f, 30.0f};
 const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 
 #include <stddef.h>
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/TSceneAmbientLight.h"
 #include "pso/quest/QuestStoryFlags.h"
@@ -493,14 +492,14 @@ void TBoss2DeRolLe::load_resources() {
     // The shell segments' material colour words (just past each chunk list's first 8 bytes).
     n = res->models[2].model->child;
     for (i = 0; i < 10; i++) {
-        derolle_segment_joint_node_offsets[i] = (uaddr)(((NJS_CNK_MODEL *)n->model)->polygon_list + 4);
-        boss2_derolle_segment_color_targets[i] = (u32 *)(((NJS_CNK_MODEL *)n->child->model)->polygon_list + 4);
+        derolle_segment_joint_node_offsets[i] = (uaddr)(n->chunk_model->polygon_list + 4);
+        boss2_derolle_segment_color_targets[i] = (u32 *)(n->child->chunk_model->polygon_list + 4);
         n = n->sibling;
     }
-    boss2_derolle_primary_color_targets[0] = (u32 *)(((NJS_CNK_MODEL *)n->model)->polygon_list + 4);
+    boss2_derolle_primary_color_targets[0] = (u32 *)(n->chunk_model->polygon_list + 4);
     m = n->sibling;
-    boss2_derolle_primary_color_targets[1] = (u32 *)(((NJS_CNK_MODEL *)m->model)->polygon_list + 4);
-    boss2_derolle_primary_color_targets[2] = (u32 *)(((NJS_CNK_MODEL *)m->sibling->model)->polygon_list + 4);
+    boss2_derolle_primary_color_targets[1] = (u32 *)(m->chunk_model->polygon_list + 4);
+    boss2_derolle_primary_color_targets[2] = (u32 *)(m->sibling->chunk_model->polygon_list + 4);
     derolle_breakup_node = find_model_node(res->models[2].model, 0x4D);
     derolle_breakup_node_child = derolle_breakup_node->child;
     for (m2 = 0; m2 < 11; m2++) {
@@ -530,7 +529,7 @@ void TBoss2DeRolLe::load_resources() {
     TWindowCtrl::suppress_all_slots();
 }
 
-void *TBoss2DeRolLe::create(void *set_data) {
+void *TBoss2DeRolLe::create(EnemyPlacement *set_data) {
     return new TBoss2DeRolLe(tl_04, set_data);
 }
 
@@ -555,7 +554,7 @@ void TBoss2DeRolLe::reset_parts() {
 #pragma auto_inline off
 #pragma dont_inline off
 
-TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(parent), part_group(NULL) {
+TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent), part_group(NULL) {
     u16 id;
     s32 set;
     s32 i;
@@ -571,7 +570,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     state_flags = 0;
     {
         EnemyStateRecord record;
-        if (exchange_object_state(&record, 1) != 0 && ((u32)record.flags & 0x12008) == 0x12008) {
+        if (exchange_object_state(&record, 1) != 0 && (record.flags & 0x12008) == 0x12008) {
             state_flags |= 0x8000;
         }
     }
@@ -1022,7 +1021,7 @@ s32 TBoss2DeRolLe::get_shell_max_hp() {
 void TBoss2DeRolLe::set_position_index(s32 index) {
     VecCopy(&position, &TBoss2DeRolLe::position_point_table[index]);
     height_offset = 0.0f;
-    rotation_z = 0;
+    rotation.z = 0;
 }
 
 #pragma push
@@ -1042,10 +1041,10 @@ void TBoss2DeRolLe::set_move_target_point(s32 index) {
 void TBoss2DeRolLe::set_move_direction(s32) {
     if (position_index == 0) {
         position.x = -100.0f;
-        rotation_z = 0x500;
+        rotation.z = 0x500;
     } else {
         position.x = 100.0f;
-        rotation_z = -0x500;
+        rotation.z = -0x500;
     }
     position.z = 10.0f;
     height_offset = 4.0f;
@@ -1493,7 +1492,7 @@ void TBoss2DeRolLe::advance_action_sequence() {
 
 void TBoss2DeRolLe::update_particle_ctrls() {
     Vec t;
-    s32 ang[3];
+    Angle3 ang;
     s32 ok;
     s32 j;
     s32 i;
@@ -1504,10 +1503,10 @@ void TBoss2DeRolLe::update_particle_ctrls() {
     ok = 1;
     for (i = 0; i < 6; i++) {
         if (splash_ctrls[i] == NULL) {
-            ang[2] = 0;
-            ang[1] = 0;
-            ang[0] = 0;
-            p = create_particle_controller_with_angles(joint_positions, ang, 0x120, 1, 0x40);
+            ang.z = 0;
+            ang.y = 0;
+            ang.x = 0;
+            p = create_particle_controller_with_angles(joint_positions, &ang, 0x120, 1, 0x40);
             if (p != NULL) {
                 splash_ctrls[i] = p;
                 splash_ctrls[i]->set_flags(2);
@@ -1561,7 +1560,7 @@ void TBoss2DeRolLe::update_particle_ctrls() {
 #pragma pop
 
 void TBoss2DeRolLe::release_splash_particles(TParticleCtrl *ctrl) {
-    TObjBoss2Tunnel::release_splash_children(ctrl);
+    TObjBoss2RaftSplash::release_splash_children(ctrl);
 }
 
 void TBoss2DeRolLe::spawn_ceil_junk(Vec *pos) {
@@ -1814,7 +1813,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
         state_flags &= ~0x100;
         position.x = 70.0f;
         height_offset = 0.0f;
-        rotation_z = 0;
+        rotation.z = 0;
         state_step = 1;
         state_ints[0] = 0;
         state_ints[1] = 0;
@@ -1872,7 +1871,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
                 position.y = 7.0f;
                 position.z = -190.0f;
                 height_offset = 0.0f;
-                rotation_z = 0;
+                rotation.z = 0;
             }
             break;
         case 1:
@@ -1962,7 +1961,7 @@ void TBoss2DeRolLe::handle_debug_pad_input(u32 reason) {
         state_flags &= ~4;
         state_flags |= 0x100;
         height_offset = 0.0f;
-        rotation_z = 0;
+        rotation.z = 0;
         state_ints[0] = 1;
         state_ints[1] = 0;
         state_step = 0;
@@ -2735,7 +2734,7 @@ void TBoss2DeRolLe::handle_bite_state(u32 reason, s32 side) {
                 f32 w = u * (h * u);
                 position.z = state_floats[6] + w;
             }
-            rotation_z = state_floats[7] * t;
+            rotation.z = state_floats[7] * t;
             break;
         }
         case 6:
@@ -2909,7 +2908,7 @@ void TBoss2DeRolLe::handle_roll_dive_state(u32 reason, s32 side) {
             if ((f32)state_ints[4] >= 16384.0f) {
                 state_ints[4] = 0x4000;
             }
-            rotation_z = (s32)((f32)state_ints[4] * -state_floats[1]);
+            rotation.z = (s32)((f32)state_ints[4] * -state_floats[1]);
             if (state_ints[0] == 0 && state_ints[4] >= 0x2200) {
                 state_ints[0] = 1;
                 play_sound(0x4003AD12, &sound_origins[0]);
@@ -2991,7 +2990,7 @@ void TBoss2DeRolLe::handle_ceiling_pass_state(u32 reason) {
                 state_step = 2;
                 requested_action = 2;
                 position.z = -1200.0f;
-                rotation_z = 0x8000;
+                rotation.z = 0x8000;
                 height_offset = 93.0f;
             }
             break;
@@ -3039,7 +3038,7 @@ void TBoss2DeRolLe::handle_ceiling_pass_state(u32 reason) {
                 requested_action = 1;
                 position_index = 1;
                 set_position_index(position_index);
-                rotation_z = 0;
+                rotation.z = 0;
                 height_offset = -137.0f;
                 TObjBoss2Tunnel::set_global_flag_400();
             }
@@ -3470,7 +3469,7 @@ void TBoss2DeRolLe::handle_deep_sink_state(u32 reason) {
         state_flags = state_flags | 4;
         state_flags = state_flags & 0xFFFFFEFF;
         set_all_intangible();
-        rotation_x = 0;
+        rotation.x = 0;
         height_offset = 0.0f;
         return;
     case 9:
@@ -3520,7 +3519,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
         requested_action = 0x10;
         position_index = 3;
         set_position_index(position_index);
-        rotation_x = 0;
+        rotation.x = 0;
         height_offset = 0.0f;
         state_step = 0;
         state_ints[0] = 0;
@@ -3537,7 +3536,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
         cam.frame_step = 0.7f;
         activate_camera_mode(5);
         cam.play(0x2AAA);
-        set_scripted_camera_origin(&position, &position, (CameraAngles *)&rotation_x);
+        set_scripted_camera_origin(&position, &position, &rotation);
         break;
     case 2:
         if (debug_pad->pressed_buttons & 0x400) {
@@ -3740,13 +3739,13 @@ void TBoss2DeRolLe::render() {
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     TObjEneDD::clear_global_flag_400();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     post_translate_matrix(&position.x);
     translate_matrix(0, 0.0f, height_offset, 0.0f);
-    rotate_matrix_y(0, rotation_y);
-    rotate_matrix_x(0, rotation_x);
-    rotate_matrix_z(0, rotation_z);
+    rotate_matrix_y(0, rotation.y);
+    rotate_matrix_x(0, rotation.x);
+    rotate_matrix_z(0, rotation.z);
     {
         Vec sc = {2.0f, 2.0f, 2.0f};
         scale_current_matrix(&sc.x);
@@ -3783,7 +3782,7 @@ void TBoss2DeRolLe::render() {
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     model_render_flags = saved_model_render_flags;
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     {
     Vec v;
     out = joint_positions;
@@ -3829,9 +3828,9 @@ void TBoss2DeRolLe::render_body() {
     TObjEneDD::clear_global_flag_400();
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, this->rotation_y);
-    rotate_matrix_x(0, this->rotation_x);
-    rotate_matrix_z(0, this->rotation_z);
+    rotate_matrix_y(0, this->rotation.y);
+    rotate_matrix_x(0, this->rotation.x);
+    rotate_matrix_z(0, this->rotation.z);
     Vec scale = {2.0f, 2.0f, 2.0f};
     TObjEneDD::check_v2_mode();
     scale_current_matrix(&scale.x);

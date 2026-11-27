@@ -14,7 +14,7 @@ BmlResourceDescriptor secretary_body_resource_descriptor = { "bm_n_hisyo_i_body.
 const char *TObjNpcSecretaryBase::name = "TObjNpcSecretaryBase";
 BmlResource *TObjNpcSecretaryBase::static_model_resource;
 
-void *TObjNpcSecretaryBase::create(void *set_data) {
+void *TObjNpcSecretaryBase::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcSecretaryBase(control, set_data);
 }
@@ -33,7 +33,7 @@ void TObjNpcSecretaryBase::load_static_data() {
 
 TObjNpcSecretaryBase::~TObjNpcSecretaryBase() {}
 
-TObjNpcSecretaryBase::TObjNpcSecretaryBase(TObject *parent, void *set_data) : TObjNpcFemale(parent) {
+TObjNpcSecretaryBase::TObjNpcSecretaryBase(TObject *parent, EnemyPlacement *set_data) : TObjNpcFemale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

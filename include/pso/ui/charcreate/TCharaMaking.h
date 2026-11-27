@@ -28,13 +28,13 @@ struct TCharaMaking : public TObject {
     u32 light_pitch;
     u32 light_yaw;
     static s32 query_state();
-    static void setup_from_data(s32 model, CharacterAppearanceFields *appearance);
+    static void setup_from_data(NJS_OBJECT *model, CharacterAppearanceFields *appearance);
     static void clear_flag_bit0();
     static void enable_making();
     static s32 is_end();
     void update_light_direction();
     virtual void run_task();
-    static void *create(void *parent, void *appearance);
+    static void *create(TObject *parent, void *appearance);
     s32 update_main_menu();
 };
 

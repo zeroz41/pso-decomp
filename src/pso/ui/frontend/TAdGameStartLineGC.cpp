@@ -2,7 +2,7 @@
 #include "pso/ui/frontend/TAdGameStartLineGC.h"
 #include "pso/render/TextureState.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"

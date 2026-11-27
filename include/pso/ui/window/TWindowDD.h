@@ -9,6 +9,7 @@
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 s32 is_verb_word(s32 value);
 
+class WindowTextEntry;
 class TWindowDD_WS_Word;
 class TWindowDD_WS_String;
 class TWindowDD_WS_ScrollBar;
@@ -75,7 +76,6 @@ struct TWindowDD : public TObject
     s32 pad_104;
     static s32 apply_both_choices(void *unused, saddr buttons);
     static s32 check_all_ready(s32 floor);
-    void update_com_card();
     void enter_state_19();
     void enter_state_18();
     void enter_state_9();
@@ -151,7 +151,6 @@ struct TWindowDD : public TObject
     static s32 count_chars_since_newline(const char *buf, s32 *pos);
     static void append_char(s8 c, char *buf, s32 *pos);
     static void append_string(const char *str, char *buf, s32 *pos);
-    static s32 get_draw_count(const NJS_TEXLIST *textures);
     static TWindowDDValueList *get_entry(s32 index);
     void handle_confirm_input();
     void update_selection_state();
@@ -191,7 +190,7 @@ LAYOUT_ASSERT(WindowListSize, sizeof(TWindowDDValueList) == 8);
 LAYOUT_ASSERT(WindowListCountOffset, offsetof(TWindowDDValueList, count) == 4);
 
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
-void measure_message_text_width_default(void *entry);
+void measure_message_text_width_default(WindowTextEntry *entry);
 s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index);
 void load_word_select_data(void);
 void clear_window_dd_nodes(void);
@@ -266,11 +265,11 @@ void handle_6x74_word_select(G_WordSelect_6x74 *cmd);
 // Recent word-select ids (push_recent_id) and the two ws data tables init_ws_data_tables checked.
 struct WsRecentState {
     s16 ids[16];
-    TWindowDDValueList *a;
-    TWindowDDValueList *b;
-    s16 *a0;
-    s16 *b0;
-    s32 n;
+    TWindowDDValueList *data_base;  // TWindowDD::ws_data_base
+    TWindowDDValueList *data_table; // TWindowDD::ws_data_table
+    s16 *data_base_values;
+    s16 *data_table_values;
+    s32 entry_count; // both lists' count, restored by clear_window_dd_nodes
 };
 
 extern WsRecentState ws_recent_state;
@@ -356,6 +355,13 @@ extern const f32 word_cursor_depth;
 extern const f32 mode_window_depth;
 
 void init_ws_data_tables();
+
+// lookup_item_category's id lists: an id found in a list gives that entry's category.
+struct ItemCategoryIds {
+    const s32 *ids;
+    s32 count;
+    s32 category;
+};
 
 s32 lookup_item_category(s32 item);
 

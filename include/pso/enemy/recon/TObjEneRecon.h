@@ -65,7 +65,6 @@ struct TObjEneRecon : public TObjEneDD_ST {
     static void release_static_instance();
     static TObjEneRecon *create(TObjEneRecobox *owner, u16 id, s32 index, Vec *pos, Vec *dir);
     static void load_resources();
-    void*get_field_38_ptr();
     s32 calc_scaled_value();
     void handle_message(s32 message);
     void retarget();

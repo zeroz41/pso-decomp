@@ -11,13 +11,13 @@ class TParticleCtrl;
 // gets 9 HP and 9 TP a frame until it is back up.
 struct TOHealGeneral : public TObjMapObject {
     // The object factories' create() passes its own r3, the set entry, on.
-    TOHealGeneral(void *set_data);
+    TOHealGeneral(ObjectSetData *set_data);
     virtual ~TOHealGeneral();
     virtual void run_task();
     virtual void render();
-    virtual void *get_center();
+    virtual Vec *get_center();
 
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void unload_resources();
     static void load_resources();
 

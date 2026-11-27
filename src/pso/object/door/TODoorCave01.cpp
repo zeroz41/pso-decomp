@@ -30,6 +30,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/GameModeQueries.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 const char *fs_obj_do_doa01_model_names[] = {"fs_obj_do_doa01.gj", NULL};
 const char *fs_obj_do_doa01_motion_names[] = {"fs_obj_do_doa01.njm", NULL};
@@ -75,8 +76,8 @@ void TODoorCave01::send_state(QuestObjectEntry *saved_state) {
     }
 }
 
-void TODoorCave01::apply_saved_state(s16 *state, s32) {
-    if (*state == 1) {
+void TODoorCave01::apply_saved_state(QuestObjectEntry *state, s32) {
+    if (state->flags == 1) {
         door_flags |= LIGHT_LIT_MASK | 1;
     }
 }
@@ -88,7 +89,7 @@ s32 TODoorCave01::init_door_switch_binding() {
     } else if (switch_id < 0) {
         lock_mode = 1;
     } else if (set_params[2] < 0) {
-        if (get_main_phase() == 0xF || TRaderMapCore::is_not_split_screen() == 1) {
+        if (get_main_phase() == 0xF || is_not_split_screen() == 1) {
             lock_mode = 3;
         } else {
             lock_mode = 2;
@@ -198,7 +199,7 @@ void TODoorCave01::draw_switch_light(NJS_OBJECT *node, s32 lit) {
         model_render_flags = flags | 0x10;
         set_constant_material(&light_color);
     }
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     translate_matrix(0, child->pos[0], child->pos[1], child->pos[2]);
     draw_ginja_model(child->model);
@@ -208,7 +209,7 @@ void TODoorCave01::draw_switch_light(NJS_OBJECT *node, s32 lit) {
     draw_ginja_model(child->model);
     pop_matrix();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     if (lit != 1) {
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
@@ -222,7 +223,7 @@ void TODoorCave01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if ((s32)object_state == DOOR_CLOSED) {
             i = 0;
             node = model->child;
@@ -239,13 +240,13 @@ void TODoorCave01::render() {
     }
 }
 
-void *TODoorCave01::create(void *set_data) {
+void *TODoorCave01::create(ObjectSetData *set_data) {
     return new TODoorCave01(tl_05, set_data);
 }
 
 void TODoorCave01::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid(texture_lists[0]);
+        free_if_valid(texture_lists[0]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;
@@ -277,7 +278,7 @@ TODoorCave01::~TODoorCave01() {
     free_collision_body_parts(this);
 }
 
-TODoorCave01::TODoorCave01(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorCave01::TODoorCave01(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = door_cave01_class_name;
     apply_object_set_data(set_data);
     model = bml_resource->models[0].model;

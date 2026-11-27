@@ -9,7 +9,7 @@ struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 struct TObjGoalWarpAncient : public TObjAreaWarp {
-    TObjGoalWarpAncient(TObject *parent, void *set_data);
+    TObjGoalWarpAncient(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjGoalWarpAncient();
     virtual void debug_print_area_num();
     void render();
@@ -30,7 +30,7 @@ struct TObjGoalWarpAncient : public TObjAreaWarp {
     NJS_TEXLIST *naka_textures;             // get_archive_textures(5)
     NJS_MOTION *beam_motion;  // motion 0, de_obj2_swarp_beam.njm
     NJS_MOTION *naka_motion;  // motion 2, fe_obj3_swarp_naka.njm
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjGoalWarpAncient_size, sizeof(TObjGoalWarpAncient) == 0xEC);

@@ -18,7 +18,7 @@ struct IllGillAttackBehavior {
 };
 
 struct TObjEneIllGill : public TObjEnemy {
-    TObjEneIllGill(TObject *parent, void *setData);
+    TObjEneIllGill(TObject *parent, EnemyPlacement *setData);
     virtual ~TObjEneIllGill();
     virtual s32 is_target_in_attack_range();
     s32 project_step_to_ground(s32);
@@ -65,7 +65,7 @@ struct TObjEneIllGill : public TObjEnemy {
     void move_toward_dest_with_detour();
     void render();
     void run_task();
-    static void *create(void *setData);
+    static void *create(EnemyPlacement *setData);
     static void free_effect();
     static void load_shared_resources();
 };
@@ -76,6 +76,5 @@ LAYOUT_ASSERT(IllGillEffectsOffset, offsetof(TObjEneIllGill, primaryEffect) == 0
 LAYOUT_ASSERT(IllGillBehaviorSize, sizeof(IllGillAttackBehavior) == 0x20);
 LAYOUT_ASSERT(TObjEneIllGill_size, sizeof(TObjEneIllGill) == 0x420);
 
-struct IllGillEffectRotation { s32 x, y, z; };
 
 #endif

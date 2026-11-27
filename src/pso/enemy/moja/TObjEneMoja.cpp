@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/system/memory.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -53,19 +52,20 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/network/client_id.h"
 #include "pso/render/model_render_state.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/shark/TObjEneShark.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 extern "C" {
 f32 enemy_pursue_point(void *, s32, Vec *, void *, f32, f32);
 s32 select_enemy_destination(void *, Vec *, int);
@@ -155,7 +155,7 @@ static const s32 moja_hittable_body_flags = 0x8001;
 
 // The file is compiled -inline off,deferred, which emits the functions in the
 // reverse of the order they are written in.
-TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
+TObjEneMoja::TObjEneMoja(TObject *parent, EnemyPlacement *setData) : TObjEnemy(parent) {
     m_name = moja_name;
     apply_set_data(setData);
     init_position_vectors();
@@ -288,7 +288,7 @@ void TObjEneMoja::free_resources() {
     }
 }
 
-void *TObjEneMoja::create(void *setData) {
+void *TObjEneMoja::create(EnemyPlacement *setData) {
     TObjControl *parent = new TObjControl(tl_04);
     return new TObjEneMoja(parent, setData);
 }
@@ -297,7 +297,7 @@ void TObjEneMoja::run_task() {
     u16 id;
     TObjPlayer *player;
     TObjChara *t;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         moja_run_task_stub(this);
         return;
     }
@@ -403,8 +403,8 @@ void TObjEneMoja::render() {
         push_matrix();
         translate_matrix(0, 0.0f, sinkOffset, 0.0f);
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
-        if (TObjPlayer::check_demo_mode() == 1) {
+        rotate_matrix_y(0, rotation.y);
+        if (check_demo_mode() == 1) {
             draw_chunk_object(model);
         } else {
             toggle_particle_effect();
@@ -413,7 +413,7 @@ void TObjEneMoja::render() {
             } else {
                 draw_motion_model();
             }
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         pop_matrix();
         clear_motion_packed_rotation();
@@ -613,7 +613,7 @@ void TObjEneMoja::update_appearance_jump() {
         off.y = -500.0f;
         off.z = 200.0f;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         rotate_vector_by_matrix(0, &off, &off);
         pop_matrices(1);
         VecCopy(&tmp, &home_position);
@@ -626,7 +626,7 @@ void TObjEneMoja::update_appearance_jump() {
         VecCopy(&move_origin, &position);
         VecCopy(&delta, &move_destination);
         subtract_vector(&delta, &position);
-        rotation_y = (s32)(10430.38043493439 * atan2_float(delta.x, delta.z));
+        rotation.y = (s32)(10430.38043493439 * atan2_float(delta.x, delta.z));
         jumpSpeed = newton_sqrtf(delta.x * delta.x + delta.z * delta.z);
         ticks = 12.0f / play_speed;
         jumpSpeed = jumpSpeed / ticks;
@@ -667,7 +667,7 @@ void TObjEneMoja::update_appearance_jump() {
         spawn_particle_effect(&position, 0xCB);
         spawn_particle_effect(&position, 0xF0);
         play_sound_effect(remap_sound_for_area(0x3AD03), &position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x300);
+        play_effect_if_v2(-0x300);
         break;
     case 2:
         apply_actor_gravity(this, 0, 0.0f);
@@ -695,10 +695,10 @@ void TObjEneMoja::update_appearance_drop() {
     default:
         VecCopy((Vec *)&scratch_vec, &home_position);
         subtract_vector(&scratch_vec, &position);
-        rotation_y = approach_angle_limited(rotation_y,
+        rotation.y = approach_angle_limited(rotation.y,
             (s32)(10430.38043493439 * atan2_float(scratch_vec.x, scratch_vec.z)),
             movementParameters->turn_speed);
-        if (rotation_y >= movementParameters->turn_speed) {
+        if (rotation.y >= movementParameters->turn_speed) {
             return;
         }
         requested_action = 5;
@@ -747,7 +747,7 @@ void TObjEneMoja::update_appearance_drop() {
         spawn_particle_effect(&position, 0xCB);
         spawn_particle_effect(&position, 0xF0);
         play_sound_effect(remap_sound_for_area(0x3AD03), &position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x300);
+        play_effect_if_v2(-0x300);
         break;
     case 2:
         apply_actor_gravity(this, 0, 0.0f);
@@ -790,7 +790,7 @@ void TObjEneMoja::update_approach_state() {
         apply_actor_gravity(this, 0, 0.0f);
         if (is_passing_frame(0.0f) != 0) {
             play_sound_effect(remap_sound_for_area(0x3AD0A), &position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x200);
+            play_effect_if_v2(-0x200);
         }
         if (action_flags != 0x20U) {
             set_override_speed(moja_behavior_params[variant]->values.floats[3]);
@@ -823,7 +823,7 @@ void TObjEneMoja::update_approach_state() {
         }
         if (is_passing_frame(4.0f) != 0 || is_passing_frame(19.0f) != 0) {
             play_sound_effect(remap_sound_for_area(0x3A801), &position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x400);
+            play_effect_if_v2(-0x400);
         }
         break;
     }
@@ -844,7 +844,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
     if (this->mode > 1 && (t = this->target) != NULL &&
         this->attack_params != NULL && !(t->actorFlags & 0x02000800)) {
         dist = calc_xz_distance_sq(this, t, &d);
-        angd = angle_difference_abs(this->rotation_y,
+        angd = angle_difference_abs(this->rotation.y,
                                     (s32)(10430.38043493439 * atan2_float(d.x, d.z)));
         c = this->target->bodies;
         if (c != NULL) {
@@ -943,7 +943,7 @@ void TObjEneMoja::update_punch_attack() {
         advance_animation();
         if (is_passing_frame(9.0f) != 0) {
             play_sound_effect(remap_sound_for_area(0x3AD04), &position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x300);
+            play_effect_if_v2(-0x300);
         }
         if (is_passing_frame(12.0f) != 0) {
             t = test_actor_flags(0x10);
@@ -971,7 +971,7 @@ void TObjEneMoja::update_punch_attack() {
                 push_matrix();
                 set_matrix_identity(0);
                 post_translate_matrix(&position.x);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_y(0, rotation.y);
                 matrix_mult_vec_array(NULL, e, trail, 2);
                 pop_matrix();
                 trace = attack_trace;
@@ -999,7 +999,7 @@ void TObjEneMoja::update_punch_attack() {
         advance_animation();
         if ((is_passing_frame(0.0f) != 0) && (roar == 1)) {
             play_sound_effect(remap_sound_for_area(0x3AD0A), &position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x200);
+            play_effect_if_v2(-0x200);
         }
         if (action_flags != 0x20U) {
             if ((f32)--timer < 0.0f) {
@@ -1026,7 +1026,7 @@ void TObjEneMoja::update_punch_attack() {
 void TObjEneMoja::update_technique_state() {
     Vec dir;
     Vec pos;
-    MojaParticleAngles ang;
+    Angle3 ang;
     s32 ang2;
     void *obj;
     TObjPlayer *p;
@@ -1061,7 +1061,7 @@ void TObjEneMoja::update_technique_state() {
                 Vec cur = body_center;
                 copy_position_if_valid((saddr)this, (saddr)&cur);
                 a = enemy_turn_toward_dest(movementParameters->turn_speed);
-                enemy_set_heading_velocity(movementParameters->move_speed, this, rotation_y);
+                enemy_set_heading_velocity(movementParameters->move_speed, this, rotation.y);
                 move_with_wall_slide(this);
             } else {
                 VecCopy(&dir, (const Vec *)&target->body_center);
@@ -1082,7 +1082,7 @@ void TObjEneMoja::update_technique_state() {
             pos.y = 3.0f;
             pos.z = 17.0f;
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             rotate_vector_by_matrix(0, &pos, &pos);
             pop_matrices(1);
             vec3_add_to(&pos, &body_center);
@@ -1099,7 +1099,7 @@ void TObjEneMoja::update_technique_state() {
                     if (ang2 < attack_params->get_attack_angle() / 2 && target != NULL) {
                         TTecMegid::create(this, &pos, &target->body_center, calc_technique_level());
                     } else {
-                        TTecMegid::create_ex(this, &pos, rotation_y, calc_technique_level());
+                        TTecMegid::create_ex(this, &pos, rotation.y, calc_technique_level());
                     }
                     play_sound_effect(0x4002A60B, &pos, 0, 0);
                     break;
@@ -1111,7 +1111,7 @@ void TObjEneMoja::update_technique_state() {
                             dir.y = dir.x = 0.0f;
                             dir.z = 1.0f;
                             push_matrix_from(identity_matrix);
-                            rotate_matrix_y(0, rotation_y);
+                            rotate_matrix_y(0, rotation.y);
                             rotate_vector_by_matrix(0, &dir, &dir);
                             pop_matrix();
                         }
@@ -1125,7 +1125,7 @@ void TObjEneMoja::update_technique_state() {
                         dir.y = dir.x = 0.0f;
                         dir.z = 1.0f;
                         push_matrix_from(identity_matrix);
-                        rotate_matrix_y(0, rotation_y);
+                        rotate_matrix_y(0, rotation.y);
                         rotate_vector_by_matrix(0, &dir, &dir);
                         pop_matrix();
                     }
@@ -1136,20 +1136,20 @@ void TObjEneMoja::update_technique_state() {
             } else {
                 switch (variant) {
                 case 1:
-                    TTecGiBarta::create_ex(this, &pos, rotation_y, calc_technique_level());
+                    TTecGiBarta::create_ex(this, &pos, rotation.y, calc_technique_level());
                     break;
                 default:
                     if (ang2 < attack_params->get_attack_angle() / 2 && target != NULL) {
                         TTecFoie::create_ex(this, &pos, &target->body_center, calc_technique_level());
                     } else {
-                        TTecFoie::create(this, &pos, rotation_y, calc_technique_level());
+                        TTecFoie::create(this, &pos, rotation.y, calc_technique_level());
                     }
                     break;
                 }
                 dir.y = dir.x = 0.0f;
                 dir.z = 1.0f;
                 push_matrix_from(identity_matrix);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_y(0, rotation.y);
                 rotate_vector_by_matrix(0, &dir, &dir);
                 pop_matrices(1);
                 {
@@ -1245,7 +1245,7 @@ void TObjEneMoja::update_attack_jump() {
             spawn_particle_effect(&position, 0xCB);
             spawn_particle_effect(&position, 0xF0);
             play_sound_effect(remap_sound_for_area(0x3AD03), &position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x300);
+            play_effect_if_v2(-0x300);
         }
         break;
     case 2:
@@ -1320,7 +1320,7 @@ void TObjEneMoja::update_ground_effect() {
     advance_animation();
     if (is_passing_frame(0.0f) != 0) {
         play_sound_effect(remap_sound_for_area(0x3A807), &position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x300);
+        play_effect_if_v2(-0x300);
     }
     velocity.z = 0.0f;
     velocity.x = 0.0f;
@@ -1358,14 +1358,14 @@ void TObjEneMoja::update_death_state() {
         v.y = 10.0f;
         v.z = 0.5f * this->stat_block->proportions;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         rotate_vector_by_matrix(0, &v, &v);
         pop_matrix();
         vec3_add_to(&v, &position);
         play_sound_effect(remap_sound_for_area(0x3AD03), &v, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x300);
+        play_effect_if_v2(-0x300);
         spawn_particle_effect(&v, 0xF0);
-        TDeadSpot::spawn_kind2_scale15(&v, 0x14);
+        spawn_dead_spot_kind2_scale15(&v, 0x14);
         spawn_effect_at_ground(&v, 0x32);
     }
     if (this->frame < 0.5f * (30.0f * this->play_speed)) {

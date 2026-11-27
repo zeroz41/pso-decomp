@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/SoundEffect.h"
 #include "pso/system/memory.h"
 #include "pso/technique/TechniqueBandSound.h"
@@ -100,7 +99,7 @@ void TTecMegid::spawn_particle_emitters() {
   u32 i;
   long long model_index;
   s32 mode;
-  ParticleAngles dir;
+  Angle3 dir;
   dir.x = angles[0];
   dir.y = 0;
   dir.z = angles[2];
@@ -141,11 +140,11 @@ void TTecMegid::spawn_particle_emitters() {
 void TTecMegid::init_parameters() {
     TechniqueParams *scaled = calc_technique_parameters(18, level, 0xFFFF);
     params.copy(scaled);
-    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+    if (level >= 15 && is_technique_ready() == 0) {
         params.power = (f32)(tech_high_level_linear_power_table[18].base + tech_high_level_linear_power_table[18].per_level * level);
     } else {
         params.power = params.power + (f32)(params.power_per_level * level);
-        if (TTecCtrl::is_technique_ready() != 0) {
+        if (is_technique_ready() != 0) {
             params.power = params.power * technique_scale_table[18].power;
         }
     }

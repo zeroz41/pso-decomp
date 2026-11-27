@@ -147,7 +147,6 @@ struct TBoss4Type3 : public TObjEnemy {
     s32 get_action_state();
     void get_defeat_params(u16 *a, u16 *b, u16 *out);
     static TObjDFYutai *create_yutai(TObject *parent, s32 kind, u16 player_id);
-    static f32 compute_wave_offset(f32 wave);
     static u16 pick_random_target_player();
     static TObjDFHorming *create_horming(TObject *parent, const Vec *position, u16 target_id);
     void copy_positions_to_parts();

@@ -1,5 +1,4 @@
 #include "pso/system/ResourceFile.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 
 #include "types.h"
@@ -382,7 +381,7 @@ void TEffIndirectCtrl::copy_and_flush_texture(u8 *source) {
 }
 
 void TEffIndirectCtrl::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0 || paused == 0) {
+    if (check_demo_mode() != 0 || paused == 0) {
         horizontal_phase += recipe->horizontal_step;
         vertical_phase += recipe->vertical_step;
         horizontal_amplitude = recipe->horizontal_amplitude;
@@ -493,7 +492,7 @@ void clear_indirect_effect_ctrl_table() {
     for (i = 0; i < 6; i++) indirect_effect_ctrl_table[i] = 0;
 }
 
-void TObjPlayer::play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 alternate, s32 unused, s32 second) {
+void play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 alternate, s32 unused, s32 second) {
     s32 indirect_effect_ctrl;
 
     indirect_effect_ctrl = (s32)(s8) find_indirect_effect_ctrl(kind);
@@ -512,7 +511,7 @@ s8 find_indirect_effect_ctrl(s32 kind) {
         if (indirect_effect_ctrl_table[i] != 0) {
             u8 id = indirect_effect_ctrl_table[i]->get_indirect_kind();
             if (id == (u8)kind) {
-                if (TObjPlayer::check_demo_mode() == 0) {
+                if (check_demo_mode() == 0) {
                     indirect_effect_ctrl_table[i]->resume_indirect_effect();
                 }
                 return i;
@@ -538,7 +537,7 @@ TEffIndirect::~TEffIndirect() {
 }
 
 void enable_indirect_tev(TEffIndirect *effect, s32 sampler, s32 scale, s32 mode) {
-    TObjPlayer::play_particle_at_active_slot(effect->kind, sampler, scale, 0, mode, 0);
+    play_particle_at_active_slot(effect->kind, sampler, scale, 0, mode, 0);
 }
 
 void disable_indirect_tev(TEffIndirect *effect, s32 direct) {

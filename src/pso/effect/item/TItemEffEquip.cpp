@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/item/TItemEffEquip.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -48,7 +47,7 @@ void TItemEffEquipAnchor::run_task() {
     }
 }
 
-void *TItemEffEquipAnchor::get_center() {
+Vec *TItemEffEquipAnchor::get_center() {
     TObjPlayer *player = get_player_by_client_id(client_id);
     if (player != NULL) {
         player->get_anim_node_position(node, &position);

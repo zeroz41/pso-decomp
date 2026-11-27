@@ -37,10 +37,11 @@ const char *TFogCtrl_EOR_name = "TFogCtrl_EOR";
 }
 
 extern "C" {
-extern const f32 TFogCtrl__data_805DA948 = 0.0f;
-extern const f32 TFogCtrl__data_805DA94C = 640.0f;
-#define FOG_ZERO (*(const f32 *)&TFogCtrl__data_805DA948)
-#define FOG_MAX (*(const f32 *)&TFogCtrl__data_805DA94C)
+extern const f32 fog_ctrl_zero = 0.0f;
+// The fog range-adjust width limit on a full screen (a split-screen view clamps to 320).
+extern const f32 fog_range_adjust_max_width = 640.0f;
+#define FOG_ZERO (*(const f32 *)&fog_ctrl_zero)
+#define FOG_MAX (*(const f32 *)&fog_range_adjust_max_width)
 }
 
 s32 area_fog_row_table[36] = {
@@ -77,7 +78,7 @@ void init_scene_fog_system(void) {
     for (i = 0; i < 4; i++) {
         TFogCtrl::fog_instance_table[i] = NULL;
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     TFogCtrl::create_instance();
     TObjFogCollisionPoison::clear_state_array();
 }
@@ -92,7 +93,7 @@ void TFogCtrl::reset() {
     set_scene_fog_color(0xFFFFFFFF);
     set_scene_fog_distances((1e+03f), (1e+04f));
     reset_scene_fog();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
 }
 
 void create_area_fog_ctrl(void) {
@@ -127,7 +128,7 @@ void TFogCtrl::update_fog_entries() {
             fog_instance_table[i]->on_entries_loaded();
         }
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TFogCtrl::on_entries_loaded() { }
@@ -180,7 +181,7 @@ TFogCtrl::TFogCtrl(TObject *parent, s32 index) : TObject(parent) {
 
 TFogCtrl::~TFogCtrl() {
     reset_scene_fog();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     if (index >= 0 && index < 4) {
         fog_instance_table[index] = NULL;
     }
@@ -450,7 +451,7 @@ void TFogCtrl::apply_fog_entry() {
         GXInitFogAdjTable(&tbl, width, scene_projection_state.matrix);
         GXSetFogRangeAdj(1, 0xA0, &tbl);
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 #pragma pop
 

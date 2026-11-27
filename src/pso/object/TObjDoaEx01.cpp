@@ -144,14 +144,14 @@ void TObjDoaEx01::draw_object_tree(NJS_OBJECT *obj) {
     }
     if (!(flags & 8) && obj->model != 0) {
         if (obj == doa_ex01_alpha_model_node || obj == doa_ex01_alpha_model_sibling) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             saved_model_render_flags = model_render_flags;
             model_render_flags = model_render_flags | 0x10;
             set_constant_material(&glow_color);
             draw_ginja_model(obj->model);
             set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         } else {
             draw_ginja_model(obj->model);
         }
@@ -175,7 +175,7 @@ void TObjDoaEx01::try_open() {
         set_texture_list(get_bml_texlist(doa_ex01_resource_bundle, 0));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         this->draw_object_tree(bml_model);
         pop_matrix();
     }
@@ -190,7 +190,7 @@ void TObjDoaEx01::draw_model() {
         set_texture_list(get_bml_texlist(doa_ex01_resource_bundle, 0));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, (this->rotation_y));
+        rotate_matrix_y(0, (this->rotation.y));
         animation_frame = this->animation_frame;
         if (animation_frame > 0.0f) {
             draw_ginja_model_with_motion(get_bml_model(doa_ex01_resource_bundle, 0), get_bml_motion(doa_ex01_resource_bundle, 0), animation_frame);
@@ -233,8 +233,8 @@ TObjDoaEx01::TObjDoaEx01(TObject *parent, ObjectSetData *placement) : TODoorBase
     this->glow_color.b = 1.0f;
 }
 
-void *TObjDoaEx01::create(void *set_data) {
-    return new TObjDoaEx01(tl_05, static_cast<ObjectSetData *>(set_data));
+void *TObjDoaEx01::create(ObjectSetData *set_data) {
+    return new TObjDoaEx01(tl_05, set_data);
 }
 
 void TObjDoaEx01::free_resource() {

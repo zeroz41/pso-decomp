@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/EnemyPlacement.h"
 
 struct TObjEneSlimeOne;
 
@@ -11,21 +12,15 @@ struct SlimeChildSlot {
     TObjEneSlimeOne *slime;
 };
 
+// The spawner's placement; the split slimes get copies numbered up from its enemy_index
+// and id, with child_count 0. Copied whole, as 0x40 bytes.
 union SlimeSpawnTemplate {
-    struct {
-        s16 set_index;    // the split slimes' set indices count up from the spawner's
-        s16 child_count;  // the spawner's child_limit (1..4); 0 for the split slimes
-        u8 pad_04[0x2];
-        u16 entity_id;    // the split slimes' entity ids count up from the spawner's
-        u8 pad8[8];
-        Vec position;
-        u8 rest[0x40 - 0x1C];
-    } entry;
+    EnemyPlacement entry;
     u8 bytes[0x40];
 };
 
 struct TObjEneSlime : public TObjEnemy {
-    TObjEneSlime(TObject *parent, u8 *set_data);
+    TObjEneSlime(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneSlime();
     virtual void run_death_reaction();
     SlimeSpawnTemplate spawn_template;
@@ -34,13 +29,14 @@ struct TObjEneSlime : public TObjEnemy {
     s32 try_spawn_child(Vec *position);
     void release_child_slot(s32 id);
     void release_split_slimes();
+    // 1 when no child slot holds a live slime (state 1).
+    s32 has_no_active_slot();
     virtual void render();
     virtual void run_task();
     static void free_instance();
     static void spawn_pair();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     void init_slots();
-    s32 has_no_active_slot();  // every child slot is free or finished
     s32 spawn_slime_in_slot(s32 index, Vec *position, Vec *velocity);
 };
 

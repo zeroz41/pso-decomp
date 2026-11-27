@@ -1,5 +1,5 @@
 #include "pso/ui/frontend/TAdTitleGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/ui/frontend/TitleMenuText.h"
@@ -8,7 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/TextureState.h"
 #include "pso/ui/frontend/OpeningMovie.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
@@ -125,7 +125,7 @@ void TAdTitleGC::render() {
     draw_title_layer(title, 0x1FFFFFFF);
     set_color_blending_mode(0, 8);
     set_color_blending_mode(1, 6);
-    draw_title_text((saddr)this, (u8 *)text_pos, title, (alpha << 0x18) | 0xFF0000 | 0xFFFF, get_localized_text_entry(0x13, title));
+    draw_title_text(this, text_pos, title, (alpha << 0x18) | 0xFF0000 | 0xFFFF, get_localized_text_entry(0x13, title));
     if (render_direct == 0) {
         restore_saved_depth_alpha_state();
     }

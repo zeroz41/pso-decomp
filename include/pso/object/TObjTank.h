@@ -11,7 +11,7 @@ struct TObjTank : public TObjCollidable {
     virtual void run_task();
     static void free_globals();
     static void load_globals();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjTank_size, sizeof(TObjTank) == 0xAC);

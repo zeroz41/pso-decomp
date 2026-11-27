@@ -21,7 +21,7 @@
 #include "pso/technique/TTecGiZonde.h"
 #include "pso/render/TextureState.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/boss/volopt/TObjVoloptShutter.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
@@ -29,21 +29,18 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/math/MatrixReflect.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/DebugFont.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/BattleParamTables.h"
-
-extern "C" {
-void init_collision_body_parts(void *obj, void *parts, s32 count);
-}
 
 // TBoss3Volopt.cpp defines these; its header does not declare them yet.
 
@@ -71,7 +68,7 @@ static TObjMotionAction volopt_p01_action_table[6] = {
     { 2, 2, 0xC, 1.0f, 0x0 },
 };
 static EnemyMoveParams volopt_p01_movement = {150.0f, 0.5555555f, 0x400, { 0x1E0000, 0, 1, 0 }};
-static TBoss3VoloptP01CollisionPart volopt_p01_collision_parts = { 0, 18.0f, 0, 8.0f, 0, 0, 0x8003, 0, 0, 0, 0 };
+static CollisionBody volopt_p01_collision_parts = { {0.0f, 18.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f };
 static BreakUpParamRow volopt_p01_breakup_params = { 0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f };
 void TObjVoloptShutter::open() {
     state = 2;
@@ -110,7 +107,7 @@ void clear_target_cursor_list(TargetCursorList *list) {
     list->count = 0;
 }
 
-TBoss3VoloptP01::TBoss3VoloptP01(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+TBoss3VoloptP01::TBoss3VoloptP01(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     m_name = TBoss3VoloptP01_class_name;
     apply_set_data(set_data);
     init_params();
@@ -133,7 +130,7 @@ TBoss3VoloptP01::TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 gr
     position.x = 76.0f * cos_table_lookup(angle) + boss3_volopt_spawn_pos.x;
     position.z = 76.0f * sin_table_lookup(angle) + boss3_volopt_spawn_pos.z;
     position.y = 0.0f;
-    rotation_y = -0x4000 - angle;
+    rotation.y = -0x4000 - angle;
     shutter = new TObjVoloptShutter(index);
 }
 #pragma pop
@@ -169,7 +166,7 @@ TBoss3VoloptP01::~TBoss3VoloptP01() {
     free_collision_body_parts(this);
 }
 
-void *TBoss3VoloptP01::create(void *set_data) {
+void *TBoss3VoloptP01::create(EnemyPlacement *set_data) {
     return new TBoss3VoloptP01(tl_04, set_data);
 }
 
@@ -181,7 +178,7 @@ void TBoss3VoloptP01::init_breakup_effect() {
     volopt_p01_shared_handler_b = dispatch_shared_handler_b(0x22);
     volopt_p01_object_handle = register_object(0x22);
     volopt_p01_shared_handler_handle = (TBoss3VoloptP01Params *)dispatch_shared_handler_a(0x22);
-    volopt_p01_breakup_color_ptr = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(volopt_p01_chunk_list->model)->polygon_list);
+    volopt_p01_breakup_color_ptr = reinterpret_cast<u8 *>(volopt_p01_chunk_list->chunk_model->polygon_list);
 }
 
 void TBoss3VoloptP01::destroy() {
@@ -193,7 +190,7 @@ void TBoss3VoloptP01::run_task() {
     f32 y;
     s32 angle;
 
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_demo_task();
         return;
     }
@@ -248,13 +245,13 @@ void TBoss3VoloptP01::render() {
         select_actor_lighting(this);
         toggle_particle_effect();
         push_matrix();
-        if (TObjPlayer::check_demo_mode() == 1) {
+        if (check_demo_mode() == 1) {
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             draw_chunk_object(model);
         } else {
             translate_matrix(0, position.x, position.y + y_offset, position.z);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             flags = behavior_flags;
             if (flags & 0x40000) {
                 draw_chunk_model(((TBoss3VoloptP01Model *)model)->pieces->root);
@@ -273,7 +270,7 @@ void TBoss3VoloptP01::render() {
         }
         pop_matrix();
         restore_scene_lighting();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -358,8 +355,8 @@ void TBoss3VoloptP01::update_breakup() {
         advance_animation();
         timer--;
         if (timer < 0) {
-            TBoss3Volopt::create_breakup_mdl(TBoss3VoloptP01::breakup_model, &volopt_p01_breakup_params,
-                               texlist, &body_center, rotation_y);
+            create_breakup_mdl(TBoss3VoloptP01::breakup_model, &volopt_p01_breakup_params,
+                               texlist, &body_center, rotation.y);
             trigger_dell_biter_events(&body_center);
             behavior_flags |= 0x40000;
             play_sound_effect(0x4003AD07, &position, 0, 0);
@@ -673,7 +670,7 @@ void TBoss3VoloptP01::enter_state_machine() {
 void TBoss3VoloptP01::get_node_position(s32 node, Vec *out) {
     push_matrix_from(identity_matrix);
     translate_matrix(0, position.x, position.y + y_offset, position.z);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     calc_joint_matrices(frame);
     pop_matrix();
     Vec origin = volopt_p01_node_origin;

@@ -1,5 +1,4 @@
 #include "pso/player/TargetCursorList.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecZarua.h"
@@ -55,7 +54,7 @@ void TTecZarua::run_task() {
     if (has_targets != 0) {
         for (i = 0; i < targets.count; i++) {
             target = find_entity_by_id(targets.records[i].id);
-            if (TTecLuker::is_parents_unqueued(target) != 0) {
+            if (TObject::is_parents_unqueued(target) != 0) {
                 apply_to_target((TObjChara *)target);
             }
         }

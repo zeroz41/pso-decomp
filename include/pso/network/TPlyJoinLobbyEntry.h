@@ -26,9 +26,8 @@ extern TAdScrollWinGC *lobby_scroll_text_window;
 // The idle-timeout warning window TLobby::update_idle_timeout opens.
 extern TWindowMessage *lobby_idle_timeout_window;
 
-void handle_generate_id(void);
 void handle_lobby_text(const char *text);
-void handle_server_message(const char *text);
+void handle_server_message(const char *text, u8 unused);
 void handle_error(const char *text);
 void update_state_with_location(void);
 void lobby_init_hook(void);
@@ -43,14 +42,15 @@ u8 *init_idle_timeout_timer(u8 *timer, TObject *parent);
 void queue_join_entry_exit_on_input(TObject *task);
 void show_join_entry_message(s32 id);
 void show_dialog_value_line(const char *text);
+// The join records' constructors and destructor by symbol, for TLobby's static initializer, which builds
+// lobby_join_entries and game_join_player_records (C++ cannot take a constructor's or destructor's address).
 extern "C" {
-void *__ct__17TPlyJoinLobbyDataFv(void *self);
-void *__ct__13GameListEntryFv(void *entry);
-void *__ct__18TPlyJoinLobbyEntryFv(void *self);
-void *__dt__18TPlyJoinLobbyEntryFv(void *self, s16 del);
+void *__ct__17TPlyJoinLobbyDataFv(void *object);
+void *__ct__18TPlyJoinLobbyEntryFv(void *object);
+void __dt__18TPlyJoinLobbyEntryFv(void *object, s16 flags);
 }
 void bswap_and_send_extended_subcommand(void *p, u32 size);
-void bswap_extended_subcommand_header(extended_game_command_header *p);
+void bswap_extended_subcommand_header(extended_game_command_header *header);
 void handle_6x6F_set_quest_flags_v2(G_SetQuestFlags_V2_V3_6x6F *pkt);
 void handle_6x71_unblock_game_join(void);
 void handle_6x72_done_loading_into_game(void);

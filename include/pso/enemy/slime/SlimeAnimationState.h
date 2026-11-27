@@ -2,7 +2,6 @@
 #define PSO_ENEMY_SLIMEANIMATIONSTATE_H
 
 #include "types.h"
-#include "pso/animation/ActorAnimationState.h"
 #include "pso/system/NinjaTypes.h"
 
 struct NJS_TEXLIST;

@@ -47,6 +47,9 @@ extern void *item_buff_buffer;
 
 void spawn_item_attacker(TObject *parent, const Vec *position, s32 frames, DelayedWeaponHit *attack_record);
 void *create_item_buff(s32 size);
-saddr get_item_chunk_buffer(int a0);
+// Two 0x200-byte scratch buffers (init_item_chunk_buffers allocates them) used for item name and
+// description text.
+extern char *item_nj_chunk_buffer_table[];
+char *get_item_chunk_buffer(int index);
 
 #endif

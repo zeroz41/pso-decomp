@@ -1,7 +1,6 @@
 #include "pso/player/PlayerClassStats.h"
 #include "pso/player/PhotonBlastRequests.h"
 #include "pso/system/SoundEffect.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlayerReadyCallback.h"
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/object/TActorLight.h"
@@ -63,12 +62,11 @@
 #include "pso/player/CapturedTargetList.h"
 #include "pso/weapon/TItemWeaponHeavenPunisher.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/player/Palettex.h"
 #include "pso/player/TForceOperate.h"
-#include "pso/ui/charcreate/PaletteCursorAction.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/math/ScratchVectors.h"
@@ -83,40 +81,10 @@
 
 #pragma readonly_strings on
 
-
-
-
-#pragma push
-#pragma inline_depth(1)
-#pragma dont_inline off
-#pragma pop
-
-
-#pragma push
-#pragma inline_depth(1)
-#pragma dont_inline off
-#pragma pop
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 extern "C" {
-s32 draw_player_status(void *, void *, const char *);
-u16 get_action_palette_mode(void *, s32);
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
 s32 get_run_action__10TObjPlayerFv(void *);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
-u8 get_cast_technique_level(void *techs, s16 tech);
 }
 int is_android_player(TObjPlayer *p);
 void remove_photon_blast_participant(s32 id);
@@ -137,7 +105,7 @@ void handle_6xB0_turn_or_move_lobby_chair(G_TurnOrMoveLobbyChair_6xAF_6xB0 *comm
         p = get_player_by_client_id(m.header.client_id);
         if ((p != NULL) && (p->is_in_tl03_state() != 0)) {
             p->update_lobby_chair(m.angle);
-            calc_direction_vector(p->rotation_y, &p->velocity, 1.0f);
+            calc_direction_vector(p->rotation.y, &p->velocity, 1.0f);
         }
     }
 }
@@ -168,12 +136,12 @@ void TObjPlayer::update_state_group() {
 void TObjPlayer::turn_toward_chair_seat() {
     s32 step;
     f32 length;
-    this->rotation_y = this->interpolate_angle(this->rotation_y, this->get_chair_target_angle(), &step);
+    this->rotation.y = this->interpolate_angle(this->rotation.y, this->get_chair_target_angle(), &step);
     length = normalize_vector_safe(&this->velocity) - 0.04f;
     if (length < 0.04f) {
         clear_velocity();
     } else {
-        calc_direction_vector(this->rotation_y, &this->velocity, length);
+        calc_direction_vector(this->rotation.y, &this->velocity, length);
     }
     if (this->resolve_move_collision() == 0U) {
         this->apply_velocity();
@@ -196,7 +164,7 @@ void TObjPlayer::start_action_18() {
     }
     set_chair_seated();
     this->phase = 0;
-    get_chair_state(this->rotation_y);
+    get_chair_state(this->rotation.y);
     create_photon_chair();
     this->set_action_state(0x18, start_action18_sub());
 }
@@ -752,7 +720,7 @@ void handle_6x56_set_player_position_and_angle(G_SetPlayerPositionAndAngle_6x56 
     if (validate_6x56_set_player_position_and_angle(&m) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
-            p->rotation_y = m.angle_y;
+            p->rotation.y = m.angle_y;
             p->set_position_from(&m.pos);
             p->calc_attach_pos();
             p->run_action_state_phase(0x15, 0);
@@ -764,7 +732,7 @@ void TObjPlayer::send_position_update() {
     if (this == NULL || this->obj_isState2_324() == 0) {
         pkt.init();
         pkt.header.client_id = get_entity_id();
-        pkt.angle_y = rotation_y;
+        pkt.angle_y = rotation.y;
         VecCopy(&pkt.pos, &position);
         pkt.send();
     }
@@ -830,7 +798,7 @@ void TObjPlayer::update_warp_relocation() {
         if (fade_out_alpha < 0.0f) {
             fade_out_alpha = 0.0f;
             this->phase = 3;
-            this->rotation_y = intra_map_warp.yaw;
+            this->rotation.y = intra_map_warp.yaw;
             this->set_position_from(&intra_map_warp.destination);
             refresh_equipment_slot();
             this->set_flag_4000();
@@ -839,8 +807,8 @@ void TObjPlayer::update_warp_relocation() {
                 this->play_sound_if_on_floor(0x40003206);
             }
             if (this->is_locally_controlled() != 0) {
-                calc_circle_offset_pos(this->rotation_y + 0x8000, this->get_position_ptr(), &pos, 10.0f);
-                send_6x3e_to_all_players(&pos, this->rotation_y);
+                calc_circle_offset_pos(this->rotation.y + 0x8000, this->get_position_ptr(), &pos, 10.0f);
+                send_6x3e_to_all_players(&pos, this->rotation.y);
                 reset_cameras_to_actor(this, 1);
             }
         }
@@ -909,7 +877,7 @@ void TObjPlayer::send_warp_position() {
     if (this == NULL || obj_isState2_324() == 0) {
         packet.init();
         packet.header.client_id = this->get_entity_id();
-        packet.angle_y = rotation_y;
+        packet.angle_y = rotation.y;
         VecCopy(&packet.from_pos, &position);
         VecCopy(&packet.pos, &position);
         packet.send();
@@ -1138,7 +1106,7 @@ void TObjPlayer::enter_service_hold_action() {
     this->action_state = 0x10;
     run_action_state_phase(this->mode, 6);
     this->requested_action = anim_state.get_animation();
-    this->rotation_y = anim_state.get_angle();
+    this->rotation.y = anim_state.get_angle();
     this->set_action_state(0x10, (s16)get_no_action());
 }
 
@@ -1550,7 +1518,7 @@ void TObjPlayer::enter_death_state() {
         this->set_action_state(0xF, this->get_model_field_m25());
     }
     this->photon_blast_gauge.clear_photon_blast_state();
-    if (TTecCtrl::is_technique_ready() != 0) {
+    if (is_technique_ready() != 0) {
         entity = reinterpret_cast<TObjCollidable *>(find_entity_by_id(this->get_attacker_id()));
         if (entity != NULL) {
             if (entity->check_value_equals(TObjPlayer_name) != 0) {
@@ -1575,7 +1543,7 @@ void TObjPlayer::enter_death_state() {
             play_duel_result_stream("death.adx", 0x96);
         }
     }
-    if ((this->is_locally_controlled() != 0) && (TObjPlayer::is_camera_mode_active() == 0) && (TTecCtrl::is_technique_ready() == 0)) {
+    if ((this->is_locally_controlled() != 0) && (TObjPlayer::is_camera_mode_active() == 0) && (is_technique_ready() == 0)) {
         if (TObjPlayer::is_single_screen() != 0) {
             character_save_record = get_character_save_record((u16)(this->get_entity_id()));
             character_save_record->death_count += 1;
@@ -1657,7 +1625,7 @@ void TObjPlayer::check_reopen_return_city_window() {
   {
     this->return_city_window = 0U;
   }
-  if (((((pad_binding.is_button_pressed(4) != 0) && (TObjPlayer::is_camera_mode_active() == 0)) && (TTecCtrl::is_technique_ready() == 0)) && ((TObjPlayer::check_camera_mode() == 0) || ((TObjPlayer::check_camera_mode() != 0) && (get_main_phase() == 0xF)))) && (is_controls_locked() == 0))
+  if (((((pad_binding.is_button_pressed(4) != 0) && (TObjPlayer::is_camera_mode_active() == 0)) && (is_technique_ready() == 0)) && ((TObjPlayer::check_camera_mode() == 0) || ((TObjPlayer::check_camera_mode() != 0) && (get_main_phase() == 0xF)))) && (is_controls_locked() == 0))
   {
     this->create_return_city_window();
   }
@@ -1746,7 +1714,7 @@ void TObjPlayer::start_action_0e() {
     this->clear_actor_flags(0x10000);
     this->play_sound_if_on_floor(0x4000AD13);
     if (this->obj_isState2_324() != 0) {
-        this->TObjChara::trigger_switch_attack((const Vec *)this->get_center());
+        this->TObjChara::trigger_switch_attack(this->get_center());
     }
     this->phase = 0;
     this->set_action_state(0xE, this->get_action_animation());
@@ -1765,7 +1733,7 @@ void handle_6x4C_hit_by_enemy(G_HitByEnemy_6x4C *command) {
         if (p != NULL && p->test_action_mask(0x8000) == 0) {
             p->set_hp_clamped(m.current_hp);
             if (p->is_in_tl03_state() != 0 && p->reset_volopt_state() != 0) {
-                p->rotation_y = m.angle;
+                p->rotation.y = m.angle;
                 p->velocity.x = m.velocity.xz[0];
                 p->velocity.z = m.velocity.xz[1];
                 p->run_action_state_phase(0xE, 0);
@@ -1784,7 +1752,7 @@ void TObjPlayer::begin_fall_reaction() {
     z = this->velocity.z;
     x = this->velocity.x;
     if (newton_sqrtf(x * x + z * z) > 1e-05f) {
-        this->rotation_y = (s32) ((s32) (player_radians_to_angle_scale * atan2_float(x, z)) + 0x8000);
+        this->rotation.y = (s32) ((s32) (player_radians_to_angle_scale * atan2_float(x, z)) + 0x8000);
     }
     if (test_actor_flags(0x800) != 0) {
         drop_items_on_death();
@@ -1793,7 +1761,7 @@ void TObjPlayer::begin_fall_reaction() {
     if ((this == NULL) || (obj_isState2_324() == 0)) {
         pkt.init();
         pkt.header.client_id = this->get_entity_id();
-        pkt.angle = (s16) this->rotation_y;
+        pkt.angle = (s16) this->rotation.y;
         pkt.current_hp = this->hp;
         pkt.velocity.xz[0] = x;
         pkt.velocity.xz[1] = z;
@@ -1873,14 +1841,14 @@ void TObjPlayer::end_freeze_action() {
     this->action_state = 0xD;
     this->run_action_state_phase(this->mode, 6);
     VecCopy(&this->velocity, &saved_velocity);
-    if (TTecCtrl::is_technique_ready() != 0) {
+    if (is_technique_ready() != 0) {
         this->protection.set_frames(0x1E);
     } else {
         this->protection.set_frames(this->get_hurt_protection_ticks());
     }
     this->play_sound_if_on_floor(0x4000AD12);
     if (this->obj_isState2_324() != 0) {
-        this->TObjChara::trigger_switch_attack((const Vec *)this->get_center());
+        this->TObjChara::trigger_switch_attack(this->get_center());
     }
     this->clear_actor_flags(0x10000);
     this->set_action_state(0xD, this->call_model_m24());
@@ -1899,7 +1867,7 @@ void handle_6x4B_hit_by_enemy(G_HitByEnemy_6x4B *command) {
         if (p != NULL && p->test_action_mask(0x8000) == 0) {
             p->set_hp_clamped(m.current_hp);
             if (p->is_in_tl03_state() != 0 && p->reset_volopt_state() != 0) {
-                p->rotation_y = m.angle;
+                p->rotation.y = m.angle;
                 p->velocity.x = m.velocity.xz[0];
                 p->velocity.z = m.velocity.xz[1];
                 p->run_action_state_phase(0xD, 0);
@@ -1913,7 +1881,7 @@ void TObjPlayer::send_6x4B_hurt_reaction() {
     if (this == NULL || this->obj_isState2_324() == 0) {
         pkt.init();
         pkt.header.client_id = this->get_entity_id();
-        pkt.angle = this->rotation_y;
+        pkt.angle = this->rotation.y;
         pkt.current_hp = this->hp;
         pkt.velocity.xz[0] = this->velocity.x;
         pkt.velocity.xz[1] = this->velocity.z;
@@ -1992,7 +1960,7 @@ void TObjPlayer::send_6x51_set_player_angle() {
     if (this == NULL || this->obj_isState2_324() == 0) {
         pkt.init();
         pkt.header.client_id = this->get_entity_id();
-        pkt.angle_y = this->rotation_y;
+        pkt.angle_y = this->rotation.y;
         pkt.send();
     }
 }
@@ -2067,7 +2035,7 @@ void handle_6x50_switch_interaction(G_SwitchInteraction_6x50 *command) {
     if (validate_6x50_switch_interaction(&packet.header)) {
         TObjPlayer *player = get_player_by_client_id(packet.header.client_id);
         if (player && player->is_in_tl03_state() && !player->test_action_mask(0x8200)) {
-            player->rotation_y = packet.angle_y;
+            player->rotation.y = packet.angle_y;
             player->run_action_state_phase(12, 0);
         }
     }
@@ -2079,7 +2047,7 @@ void TObjPlayer::send_6x50_switch_interaction() {
     if (this == NULL || this->obj_isState2_324() == 0) {
         pkt.init();
         pkt.header.client_id = get_entity_id();
-        pkt.angle_y = this->rotation_y;
+        pkt.angle_y = this->rotation.y;
         pkt.send();
     }
 }
@@ -2428,7 +2396,7 @@ void TObjPlayer::exit_photon_blast_action() {
 }
 
 void TObjPlayer::update_photon_blast_action() {
-  this->rotation_y = lerp_angle_half((int) (this->rotation_y), (int) (this->target_heading));
+  this->rotation.y = lerp_angle_half((int) (this->rotation.y), (int) (this->target_heading));
   switch (this->phase)
   {
     case 2:
@@ -2500,7 +2468,7 @@ void TObjPlayer::enter_photon_blast_action() {
         }
     }
     if (id == 0xFFFF) {
-        this->target_heading = this->rotation_y;
+        this->target_heading = this->rotation.y;
     } else {
         this->target_heading = calc_angle_to(this->get_position_ptr(), photon_blast_aim.get_position());
     }
@@ -2689,7 +2657,7 @@ void TObjPlayer::update_cursor(s32 parameter) {
     TLockOnCursor *cursor;
 
     cursor = this->lock_on_cursor;
-    if ((cursor != NULL) && (canSetMenuCursorAction((PaletteCursorOverride *)&cursor->palette_override, this, 3, (u8) parameter) != 0)) {
+    if ((cursor != NULL) && (canSetMenuCursorAction(&cursor->palette_override, this, 3, (u8) parameter) != 0)) {
         set_action_palette_tag_mode(&lock_on_cursor->palette_override, 3);
         set_action_palette_tag_slot(&lock_on_cursor->palette_override, static_cast<u8>(parameter));
         set_action_channel_active(&this->lock_on_cursor->palette_override);
@@ -2816,13 +2784,13 @@ s32 TObjPlayer::can_start_technique(s32 tech) {
         this->test_actor_flags(0x20006) != 0 ||
         this->test_actor_flags(0x2000000) != 0 ||
         this->test_action_mask(0x11E) == 0 ||
-        (tech == 0xE && TObjWarpBossMulti::is_flag_clear(this) == 0) ||
+        (tech == 0xE && is_flag_clear() == 0) ||
         (tech == 0x11 && TObjPlayer::is_camera_mode_active() != 0) ||
         TObjPlayer::validate_and_clear_slot(&this->technique_state, tech) != 0 ||
         this->reset_volopt_state() == 0) {
         return 0;
     }
-    return this->tp - calc_technique_parameters(tech, get_cast_technique_level(&this->technique_state, tech), this->get_entity_id())->tp_cost >= 0 ? 1 : 0;
+    return this->tp - calc_technique_parameters(tech, this->technique_state.get_cast_technique_level(tech), this->get_entity_id())->tp_cost >= 0 ? 1 : 0;
 }
 
 void TObjPlayer::exit_technique_cast() {
@@ -2838,7 +2806,7 @@ void TObjPlayer::exit_technique_cast() {
 void TObjPlayer::update_technique_cast() {
     s16 phase;
     const PlayerCastMotionRecord *cast_record;
-    this->rotation_y = lerp_angle_half((int) (this->rotation_y), (int) (this->target_heading));
+    this->rotation.y = lerp_angle_half((int) (this->rotation.y), (int) (this->target_heading));
     cast_record = get_cast_motion_record();
     phase = this->phase;
     switch (phase) {
@@ -2904,7 +2872,7 @@ void TObjPlayer::enter_technique_cast() {
     target = td->entity_id;
     if (target == 0xFFFF || target == (u16)get_entity_id() ||
         technique_state.get_section_clamped() == 0) {
-        target_heading = rotation_y;
+        target_heading = rotation.y;
     } else {
         actor = find_entity_by_id(target);
         if (actor == 0) {
@@ -2955,7 +2923,7 @@ void handle_6x47_cast_technique(G_CastTechnique_6x47 *command) {
     p->technique_state.set_technique_id(technique);
     e = cmd.params.level;
     n = p->technique_state.get_valid_technique();
-    if (TObjPlayer::is_valid_technique_slot((u8)n) == 0) {
+    if (is_valid_technique_slot((u8)n) == 0) {
         n = 0;
     }
     if (e == 14) {
@@ -3005,7 +2973,7 @@ void TObjPlayer::request_technique_cast() {
         ((TLockOnCursor *)lock_on_cursor)->set_cursor_pos(td->entity_id, td->index);
     }
     tech = technique_state.get_technique_id();
-    TObjPlayer::split_capped_value(get_cast_technique_level(&technique_state, tech), &hi, &lo);
+    TObjPlayer::split_capped_value(technique_state.get_cast_technique_level(tech), &hi, &lo);
     if (this == NULL || obj_isState2_324() == 0) {
         m1.init();
         m1.header.client_id = get_entity_id();
@@ -3132,7 +3100,7 @@ void TObjPlayer::send_attack_stage3_request() {
             position = this->get_position_ptr();
             angle = calc_angle_to(position, &target->bodies[this->lock_on_cursor->target_part.collider].center);
         } else {
-            angle = this->rotation_y;
+            angle = this->rotation.y;
         }
         heading = calc_scaled_value(angle);
         if ((this == NULL) || (this->obj_isState2_324() == 0)) {
@@ -3255,7 +3223,7 @@ void TObjPlayer::send_attack_stage2_request() {
             position = this->get_position_ptr();
             angle = calc_angle_to(position, &target->bodies[this->lock_on_cursor->target_part.collider].center);
         } else {
-            angle = this->rotation_y;
+            angle = this->rotation.y;
         }
         heading = calc_scaled_value(angle);
         if ((this == NULL) || (this->obj_isState2_324() == 0)) {
@@ -3447,14 +3415,14 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             sound.collider = collider;
             play_weapon_hit_sound(&sound);
         } else {
-            switch (obj_getS16_116()) {
+            switch (get_special_kind()) {
             case 4:
             case 5:
             case 6:
             case 9:
             case 10:
             case 13:
-                ((TObjPlayer *)target)->show_miss_for_collider(collider);
+                target->show_miss_for_collider(collider);
                 break;
             default:
                 switch (attack_state.get_validated_attack_kind()) {
@@ -3476,11 +3444,11 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                         sound.collider = collider;
                         play_weapon_hit_sound(&sound);
                     } else {
-                        ((TObjPlayer *)target)->show_miss_for_collider(collider);
+                        target->show_miss_for_collider(collider);
                     }
                     break;
                 default:
-                    ((TObjPlayer *)target)->show_miss_for_collider(collider);
+                    target->show_miss_for_collider(collider);
                     break;
                 }
                 break;
@@ -3525,14 +3493,14 @@ void TObjPlayer::send_attack_target_packet() {
 
 s32 TObjPlayer::select_attack_palette_slot() {
     s32 r = -1;
-    if (get_action_palette_mode(((u8 *)this), 1) == 2 && pad_binding.is_button_pressed(4) != 0) {
+    if (get_action_palette_mode(this, 1) == 2 && pad_binding.is_button_pressed(4) != 0) {
         r = 1;
     }
-    if (get_action_palette_mode(((u8 *)this), 2) == 2 && pad_binding.is_button_pressed(0x400) != 0 &&
+    if (get_action_palette_mode(this, 2) == 2 && pad_binding.is_button_pressed(0x400) != 0 &&
         is_palettex_activated(this->get_entity_id()) == 0) {
         r = 2;
     }
-    if (get_action_palette_mode(((u8 *)this), 3) == 2 && pad_binding.is_button_pressed(2) != 0) {
+    if (get_action_palette_mode(this, 3) == 2 && pad_binding.is_button_pressed(2) != 0) {
         r = 3;
     }
     return this->check_mode_action((u16)this->get_action_palette_entry(r)) != 0 ? r : -1;
@@ -3622,7 +3590,7 @@ void TObjPlayer::update_anim_action() {
 void TObjPlayer::update_attack_stage() {
     s32 timer;
 
-    this->rotation_y = lerp_angle_half(this->rotation_y, this->target_heading);
+    this->rotation.y = lerp_angle_half(this->rotation.y, this->target_heading);
     switch (this->phase) {
     case 0:
         this->start_attack_preparation();
@@ -3700,7 +3668,7 @@ void TObjPlayer::request_normal_attack_stage1() {
         if (this->attack_state.get_first_target_position(&target_pos) != 0) {
             angle = calc_angle_to(get_position_ptr(), &target_pos);
         } else {
-            angle = this->rotation_y;
+            angle = this->rotation.y;
         }
         heading = calc_scaled_value(angle);
         if ((this == NULL) || (obj_isState2_324() == 0)) {
@@ -3811,8 +3779,8 @@ void TObjPlayer::update_run_movement() {
     s32 ang;
     f32 dist;
     target_heading = calc_angle_to(get_position_ptr(), &move_target);
-    rotation_y = approach_angle_adaptive(rotation_y, target_heading);
-    ang = lerp_angle_half(rotation_y, target_heading);
+    rotation.y = approach_angle_adaptive(rotation.y, target_heading);
+    ang = lerp_angle_half(rotation.y, target_heading);
     velocity.x = move_speed.get_speed() * sin_table_lookup(ang);
     velocity.y = 0.0f;
     velocity.z = move_speed.get_speed() * cos_table_lookup(ang);
@@ -4065,8 +4033,8 @@ void TObjPlayer::update_walk_movement() {
     s32 ang;
     f32 dist;
     target_heading = calc_angle_to(get_position_ptr(), &move_target);
-    rotation_y = approach_angle_adaptive(rotation_y, target_heading);
-    ang = lerp_angle_half(rotation_y, target_heading);
+    rotation.y = approach_angle_adaptive(rotation.y, target_heading);
+    ang = lerp_angle_half(rotation.y, target_heading);
     velocity.x = move_speed.get_speed() * sin_table_lookup(ang);
     velocity.y = 0.0f;
     velocity.z = move_speed.get_speed() * cos_table_lookup(ang);
@@ -4276,7 +4244,7 @@ void handle_6x3F_set_position(G_SetPosition_6x3F *command) {
             if (m.room >= 0) {
                 p->set_room(m.room);
             }
-            p->rotation_y = m.angle;
+            p->rotation.y = m.angle;
             if (m.is_near_enemy != 1) {
                 p->clear_actor_flags((u32)0x100000);
             } else {
@@ -4305,7 +4273,7 @@ void handle_6x3E_stop_at_position(G_StopAtPosition_6x3E *command) {
         p->set_floor(m.floor);
         p->set_floor_index(get_floor_area(m.floor));
     }
-    p->rotation_y = m.angle;
+    p->rotation.y = m.angle;
     if (p->is_in_tl03_state() == 0 || p->test_action_mask(0x8100) != 0 ||
         (p->test_action_mask(0x200) != 0 && p->phase <= 2) ||
         (p->test_action_mask(0x4000) != 0 && p->phase == 0)) {
@@ -4326,7 +4294,7 @@ void handle_6x3E_stop_at_position(G_StopAtPosition_6x3E *command) {
 }
 extern "C" {
 
-void TObjPlayer::update_position_from_target() { send_6x3F_set_position(&position, rotation_y); }
+void TObjPlayer::update_position_from_target() { send_6x3F_set_position(&position, rotation.y); }
 
 void TObjPlayer::send_6x3F_set_position(const Vec *pos, s32 angle) {
     G_SetPosition_6x3F m;
@@ -4352,7 +4320,7 @@ void TObjPlayer::send_6x3E_stop_at_position() {
         m.init();
         m.header.client_id = get_entity_id();
         m.is_near_enemy = near_enemy;
-        m.angle = rotation_y;
+        m.angle = rotation.y;
         sync_current_floor();
         sync_current_area();
         m.floor = get_floor();
@@ -4738,7 +4706,7 @@ void G_SetPlayerPositionAndAngle_6x56::bswap() {
 G_SetPlayerPositionAndAngle_6x56 &G_SetPlayerPositionAndAngle_6x56::operator=(G_SetPlayerPositionAndAngle_6x56 &src) {
     copy_subcommand_header(this, &src);
     angle_y = src.angle_y;
-    *(ByteBlock_C *)&pos = *(ByteBlock_C *)&src.pos;
+    __memcpy(&pos, &src.pos, sizeof(pos));
     return *this;
 }
 extern int fold_flush_9;

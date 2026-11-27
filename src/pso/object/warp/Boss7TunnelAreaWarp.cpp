@@ -19,10 +19,10 @@ void TObjAreaWarpBoss7Tunnel::run_task() {
 
 TObjAreaWarpBoss7Tunnel::~TObjAreaWarpBoss7Tunnel() {}
 
-TObjAreaWarpBoss7Tunnel::TObjAreaWarpBoss7Tunnel(TObject *parent, void *set_data) : TObjAreaWarpForest(parent, set_data) {
+TObjAreaWarpBoss7Tunnel::TObjAreaWarpBoss7Tunnel(TObject *parent, ObjectSetData *set_data) : TObjAreaWarpForest(parent, set_data) {
     visible = 0;
 }
 
-void *TObjAreaWarpBoss7Tunnel::create(void *set_data) {
+void *TObjAreaWarpBoss7Tunnel::create(ObjectSetData *set_data) {
     return new TObjAreaWarpBoss7Tunnel(tl_05, set_data);
 }

@@ -10,6 +10,7 @@ class TAdSelectCurGC;
 class TKeyBoardControl;
 class TWindowBase;
 struct TWindowCallBack;
+struct WindowDrawContext;
 
 struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static const char *name;
@@ -31,7 +32,7 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static s32 get_serial_seed();
     static s32 get_serial_result();
     static void draw_screen(void *window, void *context);
-    static void draw_serial_chars(void *context);
+    static void draw_serial_chars(WindowDrawContext *context);
     static void draw_serial_separators();
     static void draw_serial_plates();
     static void format_dashed_serial(char *dst, const char *src, u32 count, const u32 *lengths);
@@ -48,10 +49,7 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     void update_access_key_input();
     void update_serial_input();
     static void set_entered_value(u32 value, s32 field);
-    static TWindowCallBack *create_callback(void *position, void *scale, WindowCallback callback);
-    static TWindowBase *show_message_window(void *owner, s32 message_index);
-    static void clear_serial_buffer();
-    static void store_serial_access_key(saddr serial, saddr access_key, saddr password);
+    static TWindowCallBack *create_callback(const NJS_POINT2 *position, const NJS_POINT2 *scale, WindowCallback callback);
     static char *serial_to_hex_string(const char *serial);
     static int forward_input(void *screen, s32 field, const char *text);
     // 1 when text is a valid entry for field `mode`: 0 serial and 1 access key take digits, 2 password letters and digits.
@@ -75,5 +73,7 @@ char *format_saved_serial(void);
 char *format_entered_access_key(void);
 char *format_entered_serial(void);
 void *create_callback_at_zero_vec2(WindowCallback callback);
+void clear_serial_buffer();
+void store_serial_access_key(saddr serial, saddr access_key, saddr password);
 
 #endif

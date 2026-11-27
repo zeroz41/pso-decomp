@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlAccessors.h"
 #pragma defer_codegen on
 
@@ -31,7 +30,7 @@
 #pragma readonly_strings on
 
 const char *TObjDFDemo2::name = "TObjDFDemo2";
-__declspec(section ".rodata") CameraAngles df_demo2_zero_camera_angles = {0, 0, 0};
+__declspec(section ".rodata") Angle3 df_demo2_zero_camera_angles = {0, 0, 0};
 __declspec(section ".data") s32 TObjDFDemo2::motion_index_table[2] = {0x12, 0x11};
 CameraPlayback df_demo2_camera_playback = {0, 0, 0, 0.0f, 0.5f};
 
@@ -51,7 +50,7 @@ TObjDFDemo2::TObjDFDemo2(TObject *parent, const Vec *position, s32 angle, s32 va
     VecCopy(&this->camera_position, position);
     this->angle = angle;
     this->variant = variant;
-    archive = TBoss4Uro::get_instance_count();
+    archive = TBoss4DarkFalz::get_dat_resource();
     for (i = 0; i < 2; i++) {
         s32 t = boss4_zanzo_bml_index_table[i];
         k = t;
@@ -62,8 +61,8 @@ TObjDFDemo2::TObjDFDemo2(TObject *parent, const Vec *position, s32 angle, s32 va
     this->frame = -0.5f;
     activate_camera_mode(5);
     {
-        CameraAngles p = df_demo2_zero_camera_angles;
-        p.yaw = this->angle;
+        Angle3 p = df_demo2_zero_camera_angles;
+        p.y = this->angle;
         set_scripted_camera_origin(&this->camera_position, &this->camera_position, &p);
     }
     df_demo2_camera_playback.play(0x4444);

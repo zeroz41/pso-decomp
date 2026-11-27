@@ -14,12 +14,12 @@ struct NJS_OBJECT;
 // fs_obj_door07_m_01_g.gvm. Like TODoorAncient06/07 it draws its first three
 // model nodes detached while it is not moving.
 struct TODoorAncient05 : public TODoorBase {
-    TODoorAncient05(TObject *parent, void *set_data);
+    TODoorAncient05(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorAncient05();
     virtual void update_open();
     virtual void update_closed();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_resources();
     static void load_resources();
 

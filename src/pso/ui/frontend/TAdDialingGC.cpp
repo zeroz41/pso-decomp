@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
@@ -12,7 +11,6 @@
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/network/PppApi.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/ConnectionInputBuffers.h"
 #include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"

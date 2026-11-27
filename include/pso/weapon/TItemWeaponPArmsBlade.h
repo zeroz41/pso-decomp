@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Weapon class made by TItemWeaponPArmsBlade::create.
+// Weapon class, made by TItemWeaponPArmsBlade::create.
 class TItemWeaponPArmsBlade : public TItemWeapon {
 public:
     virtual ~TItemWeaponPArmsBlade();

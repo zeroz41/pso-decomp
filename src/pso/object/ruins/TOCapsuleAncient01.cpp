@@ -34,26 +34,26 @@ void TOCapsuleAncient01::render() {
     if (visible == 1) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         body = model;
         translate_matrix(0, body->pos[0], body->pos[1], body->pos[2]);
         draw_ginja_model(body->model);
         if (active == 1) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             lid = body->child;
             push_matrix();
             translate_matrix(0, lid->pos[0], lid->pos[1], lid->pos[2]);
             rotate_matrix_y(NULL, spin_angle);
             draw_ginja_model(lid->model);
             pop_matrix();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         pop_matrix();
     }
 }
 
-void *TOCapsuleAncient01::create(void *set_data) {
+void *TOCapsuleAncient01::create(ObjectSetData *set_data) {
     return new TOCapsuleAncient01(tl_05, set_data);
 }
 
@@ -75,7 +75,7 @@ TOCapsuleAncient01::~TOCapsuleAncient01() {
 }
 
 // Episode II's online mode and split screen do without the capsule.
-TOCapsuleAncient01::TOCapsuleAncient01(TObject *parent, void *set_data) : TOQuestTalkBase(parent) {
+TOCapsuleAncient01::TOCapsuleAncient01(TObject *parent, ObjectSetData *set_data) : TOQuestTalkBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = model_resource->models->model;

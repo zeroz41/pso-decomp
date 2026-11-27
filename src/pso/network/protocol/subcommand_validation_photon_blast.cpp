@@ -51,5 +51,5 @@ s32 validate_6x8D_set_technique_level_override(G_SetTechniqueLevelOverride_6x8D 
     if (validate_subcommand_client(&packet->header) == 0) {
         return 0;
     }
-    return TObjPlayer::is_valid_technique_slot(packet->level_upgrade) != 0 ? 1 : 0;
+    return is_valid_technique_slot(packet->level_upgrade) != 0 ? 1 : 0;
 }

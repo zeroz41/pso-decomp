@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/save/CardFileInfo.h"
 #include "pso/item/item_create.h"
 #include "pso/item/InventoryEntryCopy.h"
@@ -9,7 +8,7 @@
 #include "pso/item/TItem.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/GameModeQueries.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/armor/TItemProShield.h"
@@ -38,11 +37,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
-
-
-extern "C" {
-void *__construct_new_array(void *block, void (*ctor)(void *), void (*dtor)(void *), u32 size, u32 n);
-}
+#include "pso/system/CxxRuntime.h"
 
 const char *TItemList::class_name = "TItemList";
 const char *TPlyItem::class_name = "TPlyItem";
@@ -575,13 +570,11 @@ InventorySortEntry::InventorySortEntry() {
     val = NULL;
 }
 
-extern "C" void __ct__18InventorySortEntryFv(void *entry);
-
 InventorySortBuffer::InventorySortBuffer(s32 n) {
     count = n;
     // The runtime stores a 0x10-byte array cookie before the records.
     items = reinterpret_cast<InventorySortEntry *>(__construct_new_array(
-        mem_alloc(count * sizeof(*items) + 0x10), __ct__18InventorySortEntryFv, 0, sizeof(*items), count));
+        mem_alloc(count * sizeof(*items) + 0x10), __ct__18InventorySortEntryFv, NULL, sizeof(*items), count));
 }
 
 InventorySortBuffer::~InventorySortBuffer() {
@@ -750,7 +743,7 @@ void remove_list_entry_by_id(s32 id) {
 }
 
 s32 check_player_action_allowed() {
-    if ((get_main_phase() == 0xE) || (TTecCtrl::is_technique_ready() != 0) || ((is_quest_active() == 1) && (get_game_play_mode() == 1))) {
+    if ((get_main_phase() == 0xE) || (is_technique_ready() != 0) || ((is_quest_active() == 1) && (get_game_play_mode() == 1))) {
         return 0;
     }
     return TAdSinglePlyChrSelectGC::get_game_mode();
@@ -779,7 +772,7 @@ TPlacementSearch::TPlacementSearch(TObject *parent, TObjBase *source, const Vec 
     } else {
         this->client_id = source->get_entity_id();
         this->room = source->get_room();
-        this->heading = source->rotation_y;
+        this->heading = source->rotation.y;
     }
     VecCopy(&this->origin, pos);
     this->slot = slot;
@@ -816,7 +809,7 @@ void *TPlacementSearch::find_obstruction(CollisionBodySet *probe) {
                 b.colliders = a->bodies;
                 b.count = a->body_count;
                 VecCopy(&b.position, &a->position);
-                b.facing = a->rotation_y;
+                b.facing = a->rotation.y;
                 r = refresh_actor_body_spheres(*probe, b);
                 if (r != 0) {
                     return r;
@@ -1108,3 +1101,13 @@ PlacementPosition::PlacementPosition() { pos.x = pos.y = pos.z = 0.0f; }
 PlacementQueue::PlacementQueue() { count = 0; }
 
 TItemList::~TItemList() {}
+
+int TAdSinglePlyChrSelectGC::get_game_mode() {  return chr_select_game_mode; }
+
+s32 TItemData::is_frame() {
+    bool result = false;
+    if (data1.data_u8[0] == 1 && data1.data_u8[1] == 1) {
+        result = true;
+    }
+    return result;
+}

@@ -6,8 +6,8 @@
 
 // A forest area warp that stays hidden until the Boss7 tunnel (TObjBoss7Tunnel::has_stopped) has stopped.
 struct TObjAreaWarpBoss7Tunnel : public TObjAreaWarpForest {
-    TObjAreaWarpBoss7Tunnel(TObject *parent, void *set_data);
-    static void *create(void *set_data);
+    TObjAreaWarpBoss7Tunnel(TObject *parent, ObjectSetData *set_data);
+    static void *create(ObjectSetData *set_data);
     virtual ~TObjAreaWarpBoss7Tunnel();
     virtual void run_task();
     virtual void render();

@@ -9,7 +9,7 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/charcreate/CreationInput.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
@@ -23,6 +23,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PlayerCharacterRecord.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -150,9 +151,9 @@ void TSaveChCr::set_message_by_index(s32 message) {
     open_message_window(get_localized_text_entry(text->group, text->entry));
 }
 void TSaveChCr::open_message_window(const char *text) {
-    if (this->owned_window == NULL) {
-        this->owned_window = create_message_window_for_size((NJS_POINT2 *)&save_ch_cr_message_window_pos, (NJS_POINT2 *)&save_ch_cr_message_window_size);
-        if (this->owned_window != NULL) {
+    if (owned_window == NULL) {
+        owned_window = create_message_window_for_size((NJS_POINT2 *)&save_ch_cr_message_window_pos, (NJS_POINT2 *)&save_ch_cr_message_window_size);
+        if (owned_window != NULL) {
             if (text != NULL) {
                 owned_window->append_line(text, 3);
             }
@@ -176,7 +177,7 @@ void TSaveChCr::create_backgrounds() {
 
 s32 TSaveChCr::load_card_character() { return TAdSinglePlyChrSelectGC::load_character_from_card(0); }
 s32 TSaveChCr::save_character() {
-    TObjPlayer::begin_action_from_char_select();
+    begin_action_from_char_select();
     return TAdSinglePlyChrSelectGC::load_character_from_card(1);
 }
 

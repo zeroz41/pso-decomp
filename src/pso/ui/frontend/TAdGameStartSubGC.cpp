@@ -9,7 +9,7 @@
 #include "pso/system/vector.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 __declspec(section ".rodata") extern const char TAdGameStartSubGC_class_name_string[] = "TAdGameStartSubGC";
 extern const char *game_start_sub_class_name[2];

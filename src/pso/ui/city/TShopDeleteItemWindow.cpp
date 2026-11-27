@@ -30,12 +30,6 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/GameModeQueries.h"
 
-extern "C" {
-s16 get_player_entity_id__15TShopWindowBaseFv(void *);
-// Called by its mangled name: a new-expression allocates the entity id in a different register.
-TWindowInputNumber *__ct__18TWindowInputNumberFPC10NJS_POINT2llls(void *, const NJS_POINT2 *, int, s32, int, int);
-}
-
 const char *shop_delete_item_window_name = "TShopDeleteItemWindow";
 TShopDeleteItemWindow::TShopDeleteItemWindow(TObject *parent, TShopWindowBase *owner, TObjPlayer *player) : TShopWindowBase(parent) {
     m_name = shop_delete_item_window_name;
@@ -177,8 +171,6 @@ void TShopDeleteItemWindow::update_item_select() {
     s32 count;
     s32 base;
     s32 cursor;
-    TWindowInputNumber *p;
-    s32 id;
     base = get_split_screen_slot();
     if (item_list != NULL) {
         cursor = item_list->get_cursor_value();
@@ -194,19 +186,13 @@ void TShopDeleteItemWindow::update_item_select() {
     } else if (is_decide_pressed() != 0) {
         if (copy_bank_item_with_stack_limit(item_list->get_cursor_value(), &item, &count, base) != 0) {
             if (item.data1.data_u8[0] == 3 && count > 1) {
-                p = (TWindowInputNumber *)TObject::operator new(0x7C);
-                if (p != NULL) {
-                    id = get_player_entity_id__15TShopWindowBaseFv(this);
-                    p = __ct__18TWindowInputNumberFPC10NJS_POINT2llls(p, get_window_layout_position(0x2B), 1, count, 1, id);
-                }
-                number_input = p;
+                number_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, count, 1, get_player_entity_id());
                 if (number_input != NULL && is_camera_ctrl_active() > 2) {
                     number_input->set_scale(0.75f, 0.75f);
                 }
                 set_state(2);
             } else {
-                id = player->get_entity_id();
-                confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
+                confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), player->get_entity_id(), NULL, NULL);
                 confirm_menu->set_ready_flag();
                 confirm_menu->set_selected_index(1);
                 confirm_menu->set_position_xy(get_scale(), get_scale());

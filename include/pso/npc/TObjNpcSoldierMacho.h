@@ -8,11 +8,11 @@ struct BmlResource;
 struct BmlResourceDescriptor;
 
 struct TObjNpcSoldierMacho : public TObjNpcMale {
-    TObjNpcSoldierMacho(TObject *parent, void *set_data);
+    TObjNpcSoldierMacho(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjNpcSoldierMacho();
     static void unload_static_data();
     static void load_shared_resource();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static BmlResourceDescriptor body_resource_desc;
     static const char *name;
     static BmlResource *shared_model_resource;

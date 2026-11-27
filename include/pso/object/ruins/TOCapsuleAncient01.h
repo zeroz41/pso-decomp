@@ -7,12 +7,12 @@
 
 // The Ruins' message capsule: its lid spins while it is active.
 struct TOCapsuleAncient01 : public TOQuestTalkBase {
-    TOCapsuleAncient01(TObject *parent, void *set_data);
+    TOCapsuleAncient01(TObject *parent, ObjectSetData *set_data);
     virtual ~TOCapsuleAncient01();
     virtual void animate();
     virtual void render();
 
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void unload_resources();
     static void load_resources();
 

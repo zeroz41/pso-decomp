@@ -18,4 +18,10 @@ void draw_number_digits(u32 color, s16 value, u16 digits, f32 x, f32 y, f32 scal
 void free_ending_callback();
 void set_ending_callback();
 
+struct GlyphMetrics {
+    f32 width;
+    f32 y_offset;
+};
+extern GlyphMetrics *small_font_metrics_table_ptr;
+
 #endif

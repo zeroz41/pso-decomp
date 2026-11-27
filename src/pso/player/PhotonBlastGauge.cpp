@@ -136,11 +136,11 @@ void PhotonBlastGauge::reset_targets() {
     check_flag_at_40();
 }
 
-void handle_6x38_donate_to_photon_blast(saddr src) {
+void handle_6x38_donate_to_photon_blast(G_DonateToPhotonBlast_6x38 *src) {
     G_DonateToPhotonBlast_6x38 cmd;
     TObjPlayer *player;
     cmd.init_subcommand_6x38();
-    cmd.copy_packet_header_6x38((void *)src);
+    cmd.copy_packet_header_6x38(src);
     cmd.bswap_fields();
     if (validate_6x38_donate_to_photon_blast(&cmd) != 0) {
         player = get_player_by_client_id(cmd.header.client_id);
@@ -262,10 +262,6 @@ void PhotonBlastGauge::reset_state() {
 
 
 
-extern "C" {
-f32 damage_weight(DamageStatSlot *slot, saddr attacker, s32 amount);
-s32 accumulate_damage_stats(u8 *slotp, s32 attacker, s32 amount);
-}
 
 PhotonBlastGauge::PhotonBlastGauge() {
     donation.init_reset_fields();
@@ -312,7 +308,12 @@ void G_SetPhotonBlastReadyFlag_6x39::init() { header.subcommand = 57; header.siz
 void G_SetPhotonBlastReadyFlag_6x39::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 void G_DonateToPhotonBlast_6x38::bswap_fields() { header.bswap(); bswap_16(&target_client_id); bswap_16((u16 *)&unused); }
 
-void *G_DonateToPhotonBlast_6x38::copy_packet_header_6x38(void *src) { G_DonateToPhotonBlast_6x38 *s = (G_DonateToPhotonBlast_6x38 *)src; copy_subcommand_header(this, src); target_client_id = s->target_client_id; unused = s->unused; return this; }
+void *G_DonateToPhotonBlast_6x38::copy_packet_header_6x38(G_DonateToPhotonBlast_6x38 *src) {
+    copy_subcommand_header(this, src);
+    target_client_id = src->target_client_id;
+    unused = src->unused;
+    return this;
+}
 
 void G_DonateToPhotonBlast_6x38::init_subcommand_6x38() {
     target_client_id = 0xFFFF;
@@ -324,7 +325,6 @@ void G_DonateToPhotonBlast_6x38::init_subcommand_6x38() {
 void G_DonateToPhotonBlast_6x38::send_state() { bswap_fields(); send_subcommand(this); }
 G_SetPhotonBlastReadyFlag_6x39 &G_SetPhotonBlastReadyFlag_6x39::operator=(const G_SetPhotonBlastReadyFlag_6x39 &src) { copy_subcommand_header(this, &src); return *this; }
 
-extern "C" {
 PlayerSubObjectSlots::PlayerSubObjectSlots() {
     s32 i;
     for (i = 0; i < 4; i++) {
@@ -334,13 +334,12 @@ PlayerSubObjectSlots::PlayerSubObjectSlots() {
     score = 0;
 }
 
-s32 accumulate_damage_stats(u8 *slotp, s32 attacker, s32 amount) {
+s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *target, s32 amount) {
   f32 value;
   f32 weighted;
-  DamageStatSlot *slot = (DamageStatSlot *)slotp;
   value = (f32) amount;
   slot->accumulated = slot->accumulated + value;
-  value = damage_weight(slot, attacker, amount);
+  value = damage_weight(slot, target, amount);
   weighted = value;
   slot->total = slot->total + weighted;
   return (s32) weighted;
@@ -348,15 +347,13 @@ s32 accumulate_damage_stats(u8 *slotp, s32 attacker, s32 amount) {
 
 // amount weighted by the slot's per-target-kind factor: the bonus weight for
 // enemies flagged 0x10000000 (test_actor_flags), the normal weight otherwise.
-f32 damage_weight(DamageStatSlot *slot, saddr attacker, s32 amount) {
+f32 damage_weight(DamageStatSlot *slot, TObject *target, s32 amount) {
     f32 v;
     f32 k = (f32)amount;
 
     v = slot->normal_weight;
-    if (((TObjCollidable *)attacker)->test_actor_flags(0x10000000) != 0) {
+    if (static_cast<TObjCollidable *>(target)->test_actor_flags(0x10000000) != 0) {
         v = slot->bonus_weight;
     }
     return k * v;
-}
-
 }

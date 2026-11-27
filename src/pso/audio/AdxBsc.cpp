@@ -297,11 +297,11 @@ s32 adxb_decode_header(AdxbDecoder *adxb, u8 *hdr, s32 size) {
 }
 
 s32 ADXB_DecodeHeaderAdx(AdxbDecoder *adxb, u8 *hdr, s32 size) {
-    s32 delay_ends;
-    s32 delay_middle;
+    u16 first_delays[2];
+    u16 second_delays[2];
     s16 header_size;
     u8 *buffer;
-    adxb->m_02 = 1;
+    adxb->header_decode_started = 1;
     if (adx_parse_header_info(hdr, size, &header_size, (u8 *)&adxb->encoding_type, &adxb->bits, &adxb->block_bytes, (u8 *)&adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples) < 0) {
         return 0;
     }
@@ -318,24 +318,24 @@ s32 ADXB_DecodeHeaderAdx(AdxbDecoder *adxb, u8 *hdr, s32 size) {
         if (adx_parse_header_cutoff(hdr, size, (u16 *)&adxb->cutoff) < 0) {
             return 0;
         }
-        if (adx_parse_header_loop_points(hdr, size, (u16 *)&delay_ends, (u16 *)&delay_middle) < 0) {
+        if (adx_parse_header_loop_points(hdr, size, first_delays, second_delays) < 0) {
             return 0;
         }
         adxb->channel->calc_adx_coeffs_at_offset(adxb->rate, adxb->cutoff);
-        adx_decoder_channel_set_delay(adxb->channel, (u8 *)&delay_ends, (s16 *)&delay_middle);
+        adx_decoder_channel_set_delay(adxb->channel, (u8 *)first_delays, (s16 *)second_delays);
         adx_parse_header_loop(hdr, size, &adxb->loop_enabled, &adxb->loop_type, &adxb->loop_count, &adxb->loop_start_sample, &adxb->loop_start_byte, &adxb->loop_end_sample, &adxb->loop_end_byte);
         adxb->format = 0;
     }
-    buffer = adxb->m_4C;
+    buffer = adxb->pad_4C;
     adxb->stream_channels = adxb->channels;
     adxb->stream_block_bytes = adxb->block_bytes;
     adxb->stream_block_samples = adxb->block_samples;
     adxb->buf = adxb->output_buffer;
     adxb->bufLen = adxb->wrap_len;
     adxb->rOff = adxb->wrap_offset;
-    adxb->m_7C = adxb->m_48;
-    adxb->m_7E = adxb->m_4A;
-    adxb->m_80 = buffer;
+    adxb->pad_7C = adxb->pad_48;
+    adxb->pad_7E = adxb->pad_4A;
+    adxb->pad_80 = buffer;
     adxb->write_pos = 0;
     memset(buffer, 0, 4);
     return header_size;

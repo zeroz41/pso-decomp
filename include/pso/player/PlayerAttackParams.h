@@ -29,12 +29,12 @@ struct AttackParams {
     s32 get_attack_angle();
     f32 get_damage_radius();
 
-    void sub_ata(s32 amount);
-    void sub_atp_max(s32 amount);
-    void sub_atp_min(s32 amount);
-    void add_ata(s32 amount);
-    void add_atp_max(s32 amount);
-    void add_atp_min(s32 amount);
+    void sub_ata(s16 amount);
+    void sub_atp_max(s16 amount);
+    void sub_atp_min(s16 amount);
+    void add_ata(s16 amount);
+    void add_atp_max(s16 amount);
+    void add_atp_min(s16 amount);
 };
 
 LAYOUT_ASSERT(AttackParamsRangeOffset, offsetof(AttackParams, attack_range) == 0x8);

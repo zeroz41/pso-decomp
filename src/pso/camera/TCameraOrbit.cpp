@@ -51,7 +51,7 @@ void TCameraOrbit::reset_behind_player() {
     TObjPlayer *player;
     player = get_player_by_client_id(0);
     if (player != NULL) {
-        yaw = player->rotation_y;
+        yaw = player->rotation.y;
         offset.x = 0.0f;
         offset.y = 0.0f;
         offset.z = distance;

@@ -10,6 +10,7 @@
 #include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/weapon/TItemWeaponInfernoBazooka.h"
 
 
 // Yasminkov 7000V (inferred)
@@ -41,14 +42,14 @@ void TItemWeaponYasminkov7000V::update_weapon() {
         break;
     case 3:
         this->state = 1;
-        angle = this->owner->rotation_y - 0x4000;
+        angle = this->owner->rotation.y - 0x4000;
         casing_velocity.x = sin_table_lookup(angle);
         casing_velocity.y = 1.0f;
         casing_velocity.z = cos_table_lookup(angle);
         casing_angles[0] = 0x4000;
-        casing_angles[1] = this->owner->rotation_y;
+        casing_angles[1] = this->owner->rotation.y;
         casing_angles[2] = 0;
-        TObjPlayer::launch_weapon_casing(tl_05, this, 2, &casing_velocity, &casing_angles[0]);
+        launch_weapon_casing(tl_05, this, 2, &casing_velocity, &casing_angles[0]);
         break;
     }
 }
@@ -67,7 +68,7 @@ TItemWeaponYasminkov7000V::~TItemWeaponYasminkov7000V() {
 
 TItemWeaponYasminkov7000V::TItemWeaponYasminkov7000V(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     shot_callback = NULL;
-    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+    impact_callback = spawn_weapon_impact_effect;
     shot_speed = 20.0f;
     state = 0;
     model_offset.z = 0.0f;

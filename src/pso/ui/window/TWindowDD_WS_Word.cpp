@@ -3,6 +3,7 @@
 
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/WindowVertexBufferAbi.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
@@ -12,7 +13,6 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/math/BinomialCoefficient.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
@@ -179,7 +179,7 @@ void TWindowDD_WS_Word::free_child() {
     visible_entry_count = 0;
 }
 
-void TWindowDD_WS_Word::init_and_mark_field8C() {
+void TWindowDD_WS_Word::init_and_mark_text_refresh() {
     init_layout_entries();
     load_element_list();
     needs_text_refresh = 1;
@@ -339,7 +339,7 @@ void TWindowDD_WS_Word::draw_word_row_strips(WindowDrawContext *rect) {
     f32 bottom;
     f32 step;
 
-    // TWindowDD::get_draw_count(hud_texlist), read inline here
+    // get_draw_count(hud_texlist), read inline here
     tex = hud_texlist->textures[2].texture->surface->id;
     if (rect->open_tick < 0) {
         return;

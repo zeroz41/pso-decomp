@@ -14,8 +14,8 @@
 #include "pso/player/PlayerActionProvider.h"
 
 
-s32 validate_attack_target_entry(void *parameters) {
-    return ((u32) *(s16 *)((s8 *)parameters + 2) >> 0x1FU) ^ 1;
+s32 validate_attack_target_entry(CapturedTarget *target) {
+    return ((u32)target->collider_index >> 0x1FU) ^ 1;
 }
 
 s32 validate_6x45_attack(G_Attack_6x43_6x44_6x45 *packet) {

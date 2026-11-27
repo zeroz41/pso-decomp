@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6GravBall.h"
@@ -353,7 +352,7 @@ void TBoss6GravBall::update_state() {
 }
 
 void TBoss6GravBall::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         return;
     }
     if (TObjEneDD::query_teammate_state() != 0) {

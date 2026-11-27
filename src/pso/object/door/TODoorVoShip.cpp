@@ -69,7 +69,7 @@ void TODoorVoShip::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0 && (light_flags & SEAL_LIGHTS)) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         draw_chunk_model_with_shape_motion(model, motion, (NJS_MOTION *)shape_motion, (f32)animation_frame);
         set_texture_list(light_texlist);
@@ -77,7 +77,7 @@ void TODoorVoShip::render() {
         saved_model_render_flags = flags;
         model_render_flags = flags | 0x20;
         set_constant_material(&light_color);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         node = light_model;
         push_matrix();
         post_translate_matrix(node->pos);
@@ -103,14 +103,14 @@ void TODoorVoShip::render() {
             pop_matrix();
         }
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
         pop_matrix();
     }
 }
 
-void *TODoorVoShip::create(void *set_data) {
+void *TODoorVoShip::create(ObjectSetData *set_data) {
     return new TODoorVoShip(tl_05, set_data);
 }
 
@@ -131,7 +131,7 @@ TODoorVoShip::~TODoorVoShip() {
     free_collision_body_parts(this);
 }
 
-TODoorVoShip::TODoorVoShip(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TODoorVoShip::TODoorVoShip(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = door_vo_ship_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(bml_resource, 1);

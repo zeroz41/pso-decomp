@@ -1,5 +1,4 @@
 #pragma readonly_strings on
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/item/TItemEffFlame.h"
 #include "pso/weapon/TItemAttacker.h"

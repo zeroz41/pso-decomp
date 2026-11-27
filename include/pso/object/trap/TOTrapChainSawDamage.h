@@ -7,7 +7,7 @@
 struct TOTrapChainSawEdge;
 
 struct TOTrapChainSawDamage : public TOTrapChainSaw {
-    TOTrapChainSawDamage(TObject *parent, void *set_data);
+    TOTrapChainSawDamage(TObject *parent, ObjectSetData *set_data);
     virtual ~TOTrapChainSawDamage();
     virtual void select_model();
     virtual void hit_player(TObjPlayer *player);
@@ -22,7 +22,7 @@ struct TOTrapChainSawDamage : public TOTrapChainSaw {
     f32 damage;                     // scale.y: the attack power before scale_by_level
     s32 tick;                       // frames since the run started; the edges start at 5 and 10
     TOTrapChainSawEdge *edges[2];
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TOTrapChainSawDamage_size, sizeof(TOTrapChainSawDamage) == 0x10C);

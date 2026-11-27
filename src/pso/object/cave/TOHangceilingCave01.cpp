@@ -35,6 +35,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 
 
@@ -84,7 +85,7 @@ s32 TOHangceilingCaveBase::select_melee_contact_body(TObjChara *, f32) {
     return 1;
 }
 
-TOHangceilingCaveBase::TOHangceilingCaveBase(TObject *parent, void *set_data) : TObjChara(parent) {
+TOHangceilingCaveBase::TOHangceilingCaveBase(TObject *parent, ObjectSetData *set_data) : TObjChara(parent) {
     apply_object_set_data(set_data);
     model = get_bml_model(hangceiling_cave01_model_archive, turiten_singo_key_model_index);
     current_motion = get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
@@ -135,8 +136,8 @@ void load_turiten_singo_resources(void) {
 
 void TOHangceilingCave01::destroy_instance() {
     if (turiten_singo_texture_lists != NULL) {
-        TObjPlayer::free_if_valid(turiten_singo_texture_lists[1]);
-        TObjPlayer::free_if_valid(turiten_singo_texture_lists[0]);
+        free_if_valid(turiten_singo_texture_lists[1]);
+        free_if_valid(turiten_singo_texture_lists[0]);
         if (turiten_singo_texture_lists != NULL) {
             mem_free(turiten_singo_texture_lists);
             turiten_singo_texture_lists = NULL;
@@ -148,9 +149,9 @@ void TOHangceilingCave01::destroy_instance() {
     }
 }
 
-void *TOHangceilingCave01::create(void *set_data) {
+void *TOHangceilingCave01::create(ObjectSetData *set_data) {
     if (set_data != NULL) {
-        switch (((ObjectSetData *)set_data)->set_params[2]) {
+        switch (set_data->set_params[2]) {
         case 0:
             return new TOHangceilingCave01Normal(tl_05, set_data);
         case 1:
@@ -180,7 +181,7 @@ s32 TOHangceilingCaveBase::is_in_view() {
 }
 
 void TOHangceilingCaveBase::run_task() {
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         update_state();
         play_mode_sound();
         if (is_in_view() != 0 && mode != 3 && is_passing_frame(8.0f) != 0) {
@@ -196,16 +197,16 @@ void TOHangceilingCaveBase::render() {
     s32 lit1;
     s32 lit2;
 
-    if (is_in_view() != 0 || TObjPlayer::check_demo_mode() == 1) {
+    if (is_in_view() != 0 || check_demo_mode() == 1) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[2]));
         if (model != NULL && current_motion != NULL) {
             draw_ginja_model_with_motion(model, current_motion, frame);
         }
         if (hangceiling_cave01_model_root != NULL) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             if (display_mode == 0) {
                 level = wait_timer;
                 step = wait_interval;
@@ -240,7 +241,7 @@ void TOHangceilingCaveBase::render() {
                 }
                 draw_ginja_object(hangceiling_cave01_model_root);
             }
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         pop_matrix();
     }
@@ -341,12 +342,12 @@ void TOHangceilingCaveBase::play_mode_sound() {
 }
 
 void TOHangceilingCaveBase::set_mode(s32 new_mode) {
-    s16 saved;
+    QuestObjectEntry saved;
 
     if (new_mode != mode) {
         mode = new_mode;
         if (access_object_saved_state(&saved, 1) != 0) {
-            saved = mode;
+            saved.flags = mode;
         }
         switch (mode) {
         case 0:
@@ -396,7 +397,7 @@ f32 TOHangceilingCaveBase::calc_damage(f32 power) {
     return power * scale.by_difficulty[game_difficulty_selection];
 }
 
-TOHangceilingCave01Normal::TOHangceilingCave01Normal(TObject *parent, void *set_data)
+TOHangceilingCave01Normal::TOHangceilingCave01Normal(TObject *parent, ObjectSetData *set_data)
     : TOHangceilingCaveBase(parent, set_data) {
     m_name = hangceiling_cave01_normal_class_name;
     init_geometry();
@@ -450,7 +451,7 @@ void TOHangceilingCave01Normal::begin_wait() {
     frame_count = (f32)current_motion->nbFrame - 1.0f;
 }
 
-TOHangceilingCave01Key::TOHangceilingCave01Key(TObject *parent, void *set_data)
+TOHangceilingCave01Key::TOHangceilingCave01Key(TObject *parent, ObjectSetData *set_data)
     : TOHangceilingCaveBase(parent, set_data) {
     m_name = hangceiling_cave01_key_class_name;
     init_geometry();
@@ -500,7 +501,7 @@ void TOHangceilingCave01Key::begin_wait() {
     clear_hit_players();
 }
 
-TOHangceilingCave01KeyQuick::TOHangceilingCave01KeyQuick(TObject *parent, void *set_data)
+TOHangceilingCave01KeyQuick::TOHangceilingCave01KeyQuick(TObject *parent, ObjectSetData *set_data)
     : TOHangceilingCaveBase(parent, set_data) {
     m_name = hangceiling_cave01_key_quick_class_name;
     init_geometry();

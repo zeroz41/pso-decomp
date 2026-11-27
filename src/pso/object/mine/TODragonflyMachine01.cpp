@@ -104,10 +104,10 @@ void TODragonflyMachine01::render() {
         switch (yaw_animation_state) {
         case 3:
         case 4:
-            rotate_matrix_y(NULL, rotation_y - animation_yaw);
+            rotate_matrix_y(NULL, rotation.y - animation_yaw);
             break;
         default:
-            rotate_matrix_y(NULL, rotation_y);
+            rotate_matrix_y(NULL, rotation.y);
             break;
         }
         set_texture_list(texlist);
@@ -123,7 +123,7 @@ void TODragonflyMachine01::render() {
 void TODragonflyMachine01::run_task() {
     bob_angle = (s32) (bob_angle + bob_angle_step);
     bob_offset = (f32) (bob_height * sin_table_lookup(bob_angle));
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         update_demo();
         return;
     }
@@ -146,7 +146,7 @@ void TODragonflyMachine01::run_task() {
     }
 }
 
-void *TODragonflyMachine01::create(void *set_data) {
+void *TODragonflyMachine01::create(ObjectSetData *set_data) {
     return new TODragonflyMachine01(set_data);
 }
 
@@ -171,7 +171,7 @@ void TODragonflyMachine01::load_resources() {
 
 TODragonflyMachine01::~TODragonflyMachine01() {}
 
-TODragonflyMachine01::TODragonflyMachine01(void *set_data) {
+TODragonflyMachine01::TODragonflyMachine01(ObjectSetData *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (NJS_OBJECT *)model_resource->models->model;

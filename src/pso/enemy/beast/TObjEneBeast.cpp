@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/system/memory.h"
@@ -47,7 +46,7 @@
 
 #include <stddef.h>
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
@@ -59,8 +58,9 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/audio/SoundRequests.h"
 
 extern SampledMotionPoints *beast_claw_trail_instance;
 extern SampledMotionPoints *boss4_type3_instance;
@@ -70,19 +70,19 @@ void TObjEneBeast::play_group_chase_sound() {
 }
 void TObjEneBeast::play_death_sound() {
     play_sound_effect(0x4003AB2D, &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x200);
+    play_effect_if_v2(-0x200);
 }
 void TObjEneBeast::play_hurt_sound() {
     play_sound_effect(0x4003A32E, &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x100);
+    play_effect_if_v2(-0x100);
 }
 void TObjEneBeast::play_attack_sound() {
     play_sound_effect(0x4003A62F, &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x100);
+    play_effect_if_v2(-0x100);
 }
 void TObjEneBeast::play_alert_sound() {
     play_sound_effect(0x4003A82C, &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x200);
+    play_effect_if_v2(-0x200);
 }
 
 void TObjEneBeast::spawn_death_effect() {
@@ -91,12 +91,12 @@ void TObjEneBeast::spawn_death_effect() {
     stack.y = 1e+01f;
     stack.z = 0.5f * this->stat_block->proportions;
     push_matrix_from(&identity_matrix);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     rotate_vector_by_matrix(0, &stack, &stack);
     pop_matrix();
     vec3_add_to(&stack, &this->position);
     spawn_effect_at_ground(&stack, 0x23);
-    TDeadSpot::spawn_kind2_scale7_5(&stack, 0xF);
+    spawn_dead_spot_kind2_scale7_5(&stack, 0xF);
 }
 
 void TObjEneBeast::update_attack_trail() {
@@ -123,7 +123,7 @@ void TObjEneBeast::update_attack_trail() {
             push_matrix();
             set_matrix_identity(0);
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             matrix_mult_vec_array(NULL, entry, &pos, 2);
             pop_matrix();
             eff = attack_trails[idx];
@@ -210,8 +210,8 @@ void TObjEneBeast::render() {
     push_matrix();
     translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
-    if (TObjPlayer::check_demo_mode() == 1) {
+    rotate_matrix_y(0, rotation.y);
+    if (check_demo_mode() == 1) {
         draw_chunk_object(model);
     } else {
         toggle_particle_effect();
@@ -229,7 +229,7 @@ void TObjEneBeast::render() {
                 draw_motion_model();
             }
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         if (fade != 0) {
             camera_fades[cam].clear_flag_and_notify();
         }
@@ -290,7 +290,7 @@ CollisionBody beast_collision_body_table[3] = {
     {{0.0f, 15.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-void *TObjEneBeast::create(void *set_data) {
+void *TObjEneBeast::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjEneBeast(control, set_data);
 }
@@ -401,7 +401,7 @@ void TObjChara::init_position_vectors() {
 void TObjEneBeastBase::request_stand_action() { this->requested_action = 0; }
 int TObjEneBeastBase::test_flag_256() { return 0; }
 void TObjEneBeastBase::select_post_attack_mode() {  }
-TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TObjEneBeastBase(parent) {
+TObjEneBeast::TObjEneBeast(TObject *parent, EnemyPlacement *set_data) : TObjEneBeastBase(parent) {
     s32 i;
 
     m_name = beast_class_name;
@@ -422,7 +422,7 @@ TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TObjEneBeastBase(p
     referenceHp = hp;
     update_prev_position();
     copy_position();
-    ((TObjPlayer *)this)->register_object_by_id();
+    register_object_by_id();
     move_timer = (s32)(182.04445f * (3.6e+02f * random_ratio()));
     resetTimer = 0xF;
     timer = resetTimer;

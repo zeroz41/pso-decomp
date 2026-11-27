@@ -9,6 +9,7 @@ class TWindowMenuIconLine;
 struct TWindowMenu;
 class TWindowHelpItem;
 #include "pso/system/task/TObject.h"
+#include "pso/ui/chat/ChatShortcut.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 
 struct TWindowMainMenu;

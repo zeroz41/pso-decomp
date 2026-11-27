@@ -37,8 +37,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/PlayerLevelTable.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/player/PrsTextureLoad.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/system/scene/OfflineGameScene.h"
 #include "pso/system/scene/TEnding.h"
 #include "pso/ui/TCharSaveSequence.h"
@@ -48,13 +48,14 @@
 #include "pso/ui/frontend/EndingSequence.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/FloorWaveEvents.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
@@ -75,13 +76,15 @@
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/audio/MusicControl.h"
+#include "pso/render/CameraCapture.h"
+#include "pso/ui/keyboard/MainMenuScene.h"
 
 GXLightObj gx_default_light_obj[4];
 MainPhaseState main_phase_state;
 
 GinjaTextureState *texture_state_buffer;
 GinjaSurfaceState *texture_surface_buffer;
-saddr player_matrix_stack_buffer;
+void *player_matrix_stack_buffer;
 DebugTextRecord *keyboard_input_buffer;
 u8 *resource_decompress_buffer;
 s32 memcard_access_active;
@@ -97,8 +100,8 @@ void poll_input_devices_frame(void) {
     reset_state_byte();
 }
 
-void TKeyBoardControl::run_tasks() {
-    TObjPlayer::clear_shadow_pass_request();
+void run_tasks() {
+    clear_shadow_pass_request();
     update_global_sound_frame();
     if (sound_requests_enabled != 0) {
         update_music_sequencer();
@@ -127,8 +130,8 @@ void shutdown_and_reset_system(void) {
     init_depth_alpha_state();
     release_blob_shadow_texture();
     free_banner_buffers();
-    TParticleCtrl::free_system();
-    TParticleCtrl::reset_emitter_table();
+    free_system();
+    reset_emitter_table();
     free_effect_resources();
     free_menu_font();
     free_ply_level_tbl();
@@ -147,7 +150,7 @@ void shutdown_and_reset_system(void) {
     xfree(resource_decompress_buffer);
     xfree(motion_blend_buffer);
     xfree(anim_model_matrix_array);
-    xfree((void *)player_matrix_stack_buffer);
+    xfree(player_matrix_stack_buffer);
     VISetBlack(TRUE);
     VIFlush();
     VIWaitForRetrace();
@@ -175,7 +178,7 @@ s32 switch_to_fallback_main_phase(void) {
     return main_phase_state.next = main_phase_state.fallback;
 }
 
-s32 TKeyBoardControl::get_input() {
+s32 get_input() {
     return keyboard_input_flag;
 }
 
@@ -187,8 +190,8 @@ void clear_keyboard_input_flag(void) {
     keyboard_input_flag = 0;
 }
 
-bool is_keyboard_active(void) {
-    return keyboard_active_flag != 0;
+BOOL is_keyboard_active(void) {
+    return keyboard_active_flag ? TRUE : FALSE;
 }
 
 void activate_keyboard(void) {
@@ -199,7 +202,7 @@ void deactivate_keyboard(void) {
     keyboard_active_flag = 0;
 }
 
-s32 TKeyBoardControl::get_key_state() {
+s32 get_key_state() {
     return keyboard_key_state;
 }
 
@@ -249,9 +252,9 @@ void init_gx_lighting_defaults(void) {
 void init_game_systems(void) {
     VideoSystemConfig cfg;
     uaddr lo;
-    uaddr hi;
+    u8 *hi;
     u32 size;
-    uaddr start;
+    u8 *start;
 
     PADSetSpec(5);
     OSInit();
@@ -260,7 +263,7 @@ void init_game_systems(void) {
     PADInit();
     reset_projection_state();
     lo = (uaddr)OSGetArenaLo();
-    hi = (uaddr)OSGetArenaHi();
+    hi = (u8 *)OSGetArenaHi();
     cfg.render_mode = NULL;
     cfg.render_mode = &GXNtsc480IntDf;
     cfg.present_interval = 2;
@@ -269,12 +272,12 @@ void init_game_systems(void) {
     cfg.fifo_size = 0x40000;
     cfg.draw_framebuffer = cfg.display_framebuffer + size;
     cfg.fifo_buffer = cfg.draw_framebuffer + size;
-    cfg.heap = (u8 *)OSInitAlloc(cfg.fifo_buffer + 0x40000, (void *)hi, 2);
+    cfg.heap = (u8 *)OSInitAlloc(cfg.fifo_buffer + 0x40000, hi, 2);
     cfg.heap_size = 0x518000;
-    start = (uaddr)cfg.heap + 0x518000;
-    init_system_heap_and_global_allocator((u8 *)start, (s32)(hi - start));
+    start = cfg.heap + 0x518000;
+    init_system_heap_and_global_allocator(start, hi - start);
     init_video_and_gx(&cfg);
-    OSSetArenaLo((void *)hi);
+    OSSetArenaLo(hi);
     texture_state_buffer = (GinjaTextureState *)xmalloc(0x4560);
     texture_surface_buffer = (GinjaSurfaceState *)xmalloc(0x73A0);
     init_texture_tables(texture_state_buffer, 0x2E4, texture_surface_buffer, 0x2E4);
@@ -285,11 +288,11 @@ void init_game_systems(void) {
     anim_model_matrix_array = (Mtx34 *)xmalloc(0x14A0);
     init_chunk_draw((ChunkCachedVertex *)resource_decompress_buffer, 0x2000);
     set_frame_update_callback(poll_input_devices_frame);
-    player_matrix_stack_buffer = (saddr)xmalloc(0x600);
+    player_matrix_stack_buffer = xmalloc(0x600);
     init_matrix_stack(player_matrix_stack_buffer, 0x20);
     set_matrix_identity(0);
     init_pad_slots_and_read(0, 0, 0);
-    TObjBoss2Tunnel::enable_and_trigger();
+    enable_display_copy_filter();
     init_pad_rumble();
     init_pad_state();
     set_shape_vertex_buffer((u32 *)motion_blend_buffer);
@@ -299,7 +302,7 @@ void init_game_systems(void) {
     set_debug_text_scale(0xC);
     init_gx_lighting_defaults();
     install_depth_alpha_state();
-    TKeyBoardControl::alloc_buffer();
+    alloc_buffer();
     reset_main_phase_state();
     hardware_keyboard_state.reset_input();
     init_buffers();
@@ -321,7 +324,7 @@ void init_game_systems(void) {
     request_chara_making_archives();
     load_effect_resources();
     init_particle_sprite_atlas();
-    TParticleCtrl::init_particle_buffer();
+    init_particle_buffer();
     GXSetPixelFmt(GX_PF_RGBA6_Z24, GX_ZC_LINEAR);
     init_disc_error_messages();
     init_keyboard_buffer();
@@ -330,7 +333,7 @@ void init_game_systems(void) {
     init_account_entries();
     load_ha_u032_kage();
     system_init_stub();
-    TLobby::reset_story_select();
+    reset_story_select();
     gba_init();
     load_ply_level_tbl();
     verify_game_file_integrity();
@@ -340,23 +343,23 @@ void init_game_systems(void) {
 MainPhaseEntry main_phase_table[] = {
     { NULL, NULL, NULL },
     { TLogo::init_logo_scene, TLogo::run_frame, TLogo::exit_logo_scene },
-    { TAdMultiChgGameModeGC::init_title_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC::init_title_phase, run_game_mode_select_frame, release_scene_resources },
     { init_movie_phase, update_movie_phase, exit_movie_phase },
-    { TAdMultiChgGameModeGC::init_dialing_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { TKeyBoardControl::update_main_menu_scene, run_main_frame, exit_main_menu_scene },
-    { TAdMultiChgGameModeGC::init_story_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { TAdMultiChgGameModeGC::init_multi_save_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { start_ending_sequence, TKeyBoardControl::run_main_frame, TAdEndText::cleanup },
-    { TAdMultiChgGameModeGC::init_time_set_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { TAdMultiChgGameModeGC::init_trial_agreement_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { TAdMultiChgGameModeGC::init_enter_password_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC::init_dialing_select_phase, run_game_mode_select_frame, release_scene_resources },
+    { update_main_menu_scene, run_main_frame, exit_main_menu_scene },
+    { TAdMultiChgGameModeGC::init_story_select_phase, run_game_mode_select_frame, release_scene_resources },
+    { TAdMultiChgGameModeGC::init_multi_save_phase, run_game_mode_select_frame, release_scene_resources },
+    { start_ending_sequence, update_ending_sequence, exit_ending_sequence },
+    { TAdMultiChgGameModeGC::init_time_set_phase, run_game_mode_select_frame, release_scene_resources },
+    { TAdMultiChgGameModeGC::init_trial_agreement_phase, run_game_mode_select_frame, release_scene_resources },
+    { TAdMultiChgGameModeGC::init_enter_password_phase, run_game_mode_select_frame, release_scene_resources },
     { TEnding::set_flag_and_advance, run_game_frame, release_ending_scene },
-    { TAdMultiChgGameModeGC::init_level_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { init_offline_game_scene, dispatch_offline_main_frame, TLobby::teardown_scene },
+    { TAdMultiChgGameModeGC::init_level_select_phase, run_game_mode_select_frame, release_scene_resources },
+    { init_offline_game_scene, dispatch_offline_main_frame, teardown_scene },
     { run_online_lobby_scene, update_camera_state, cleanup_online_lobby_scene },
     { TEnding::start_ending_scene, run_game_frame, release_ending_scene },
     { NULL, NULL, NULL },
-    { init_single_player_char_select_scene, TAdSinglePlyChrSelectGC::run_frame, release_single_ply_chr_select_scene },
+    { init_single_player_char_select_scene, run_single_player_char_select_frame, release_single_ply_chr_select_scene },
     { TAdTrialModemChkGC::init_modem_check_phase, TAdTrialModemChkGC::check_modem_result, TAdTrialModemChkGC::exit_modem_check_phase },
     { NULL, NULL, NULL },
     { TItemReverseTech::init_scene, TItemReverseTech::run_frame, TItemReverseTech::run_cleanup_callbacks },

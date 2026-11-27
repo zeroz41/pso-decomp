@@ -1,12 +1,11 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/TextureState.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
@@ -26,7 +25,7 @@ NJS_TEXLIST *player_ad_texture_list_ptr;
 // their address order.
 #pragma fp_contract on
 
-void TLobby::update_menu_cursor_selection() {
+void update_menu_cursor_selection() {
     update_menu_cursor();
     const char *names[5] = {
         "f128_player_ad", "f128_player_ad_eng", "f128_player_ad_eng",
@@ -41,7 +40,7 @@ void TLobby::update_menu_cursor_selection() {
     load_streamed_prs_texture(names[current_language], list);
 }
 
-void TLobby::free_global_object() {
+void free_global_object() {
     if (player_ad_texture_list_ptr != NULL) {
         release_texture_list(player_ad_texture_list_ptr);
         player_ad_texture_list_ptr = NULL;

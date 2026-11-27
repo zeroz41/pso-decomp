@@ -5,9 +5,9 @@
 #include "pso/object/TOVS2.h"
 
 struct TOVS2Wreck03 : public TOVS2 {
-    TOVS2Wreck03(void *set_data);
+    TOVS2Wreck03(ObjectSetData *set_data);
     virtual ~TOVS2Wreck03();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TOVS2Wreck03_size, sizeof(TOVS2Wreck03) == 0xD0);

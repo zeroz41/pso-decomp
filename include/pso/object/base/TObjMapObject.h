@@ -2,7 +2,7 @@
 #define PSO_OBJECT_BASE_TOBJMAPOBJECT_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 
 // The base of the map objects (TOKey, TODoor*, TOSign*, TOAircon* and the
 // other TO* set objects): a collidable that loops one model motion and draws

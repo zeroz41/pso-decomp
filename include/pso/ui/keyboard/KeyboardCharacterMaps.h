@@ -3,7 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 extern u8 keyboard_jp_unshifted_map[128];
 extern u8 keyboard_jp_shifted_map[128];
 extern u16 keyboard_jp_fullwidth_unshifted_map[128];
@@ -22,6 +21,5 @@ extern u8 keyboard_de_alternate_map[128];
 extern u8 keyboard_es_unshifted_map[128];
 extern u8 keyboard_es_shifted_map[128];
 extern u8 keyboard_es_alternate_map[128];
-}
 
 #endif

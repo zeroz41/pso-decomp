@@ -14,7 +14,7 @@ BmlResourceDescriptor bm_n_nurse_i_body_resource_descriptor = { "bm_n_nurse_i_bo
 const char *TObjNpcNurseBase::name = "TObjNpcNurseBase";
 BmlResource *TObjNpcNurseBase::shared_model_resource;
 
-void *TObjNpcNurseBase::create(void *set_data) {
+void *TObjNpcNurseBase::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcNurseBase(control, set_data);
 }
@@ -33,7 +33,7 @@ void TObjNpcNurseBase::load_shared_data() {
 
 TObjNpcNurseBase::~TObjNpcNurseBase() {}
 
-TObjNpcNurseBase::TObjNpcNurseBase(TObject *parent, void *set_data) : TObjNpcFemale(parent) {
+TObjNpcNurseBase::TObjNpcNurseBase(TObject *parent, EnemyPlacement *set_data) : TObjNpcFemale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

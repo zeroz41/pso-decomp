@@ -16,7 +16,7 @@ void TBoss3VoloptParticleSpray::run_task() {
         f32 distance = spread * (3.0517578e-05f * (f32)rand());
         at.x += distance * cos_table_lookup(angle);
         at.z += distance * sin_table_lookup(angle);
-        spawn_directional_particle(&at, rotation, effect_id);
+        spawn_directional_particle(&at, &rotation, effect_id);
         pending -= 1.0f;
     }
     if (--lifetime <= 0) {
@@ -33,11 +33,11 @@ TBoss3VoloptParticleSpray::TBoss3VoloptParticleSpray(Vec *pos, s32 effect_id, s3
     this->lifetime = lifetime;
     this->rate = rate;
     if (rotation != NULL) {
-        copy_xyz(this->rotation, rotation);
+        copy_xyz(&this->rotation, rotation);
     } else {
-        this->rotation[0] = 0;
-        this->rotation[1] = 0;
-        this->rotation[2] = 0;
+        this->rotation.x = 0;
+        this->rotation.y = 0;
+        this->rotation.z = 0;
     }
     pending = 0.0f;
     this->spread = spread;

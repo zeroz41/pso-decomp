@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/flower/TObjEneRe2FlowerShared.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "types.h"
@@ -12,7 +11,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -20,6 +19,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerCommands.h"
+#include "pso/audio/SoundRequests.h"
 
 
 void TObjEneRe2Flower::state_destroy(s32 reason) {
@@ -42,11 +42,11 @@ void TObjEneRe2Flower::state_die(s32 reason) {
         clear_child_flags();
         flags &= ~8;
         refresh_and_send_entity_flags();
-        debug_effect_hook(this, 0xF2);
+        debug_effect_hook(0xF2);
         state_step = 0;
-        sink_depth = lbl_805D9FAC;
+        sink_depth = re2_flower_zero;
         play_sound_effect(remap_sound_for_variant(0x4003A812), &position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x200);
+        play_effect_if_v2(-0x200);
         return;
     case 3:
         if (state_step == 2) {
@@ -60,17 +60,17 @@ void TObjEneRe2Flower::state_die(s32 reason) {
             advance_animation();
             if (get_flag_b4() != 0) {
                 state_step = 1;
-                x = lbl_805D9FC4 * sin_table_lookup(rotation_y);
-                effect_pos.y = lbl_805D9FAC;
+                x = re2_flower_ten * sin_table_lookup(rotation.y);
+                effect_pos.y = re2_flower_zero;
                 effect_pos.x = x;
-                effect_pos.z = lbl_805D9FC4 * cos_table_lookup(rotation_y);
+                effect_pos.z = re2_flower_ten * cos_table_lookup(rotation.y);
                 vec3_add_to(&effect_pos, &position);
                 if (is_tower_variant() != 0) {
-                    TDeadSpot::spawn_kind0_scale7_5(&effect_pos, 0x32);
+                    spawn_dead_spot_kind0_scale7_5(&effect_pos, 0x32);
                     create_particle_emitter_pair(&effect_pos);
                     appear_fade.init_death_params();
                 } else {
-                    TDeadSpot::spawn_kind1_scale2_5(&effect_pos, 0x32);
+                    spawn_dead_spot_kind1_scale2_5(&effect_pos, 0x32);
                     spawn_ground_effect(&effect_pos, 0x46);
                 }
             }
@@ -106,9 +106,9 @@ void TObjEneRe2Flower::state_damaged(s32 reason) {
         clear_intangible();
         clear_child_flags();
         flags &= ~8;
-        debug_effect_hook(this, 0xF2);
+        debug_effect_hook(0xF2);
         play_sound_effect(remap_sound_for_variant(0x4003AB13), &position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x200);
+        play_effect_if_v2(-0x200);
         break;
     case 3:
         if (get_flag_b4() != 0) {
@@ -163,7 +163,7 @@ void TObjEneRe2Flower::state_curse(s32 reason) {
                 current_target = (TObjChara *)t;
                 state_timer = 1;
                 play_sound_effect(remap_sound_for_variant(0x4003A50F), &position, 0, 0);
-                TObjPlayer::play_effect_if_v2(-0x200);
+                play_effect_if_v2(-0x200);
             }
         } else if (state_step == 0x19 && state_timer != 0 && current_target->is_alive() != 0) {
             if (is_tower_variant() != 0) {
@@ -187,9 +187,9 @@ void TObjEneRe2Flower::state_curse(s32 reason) {
     }
 }
 
-__declspec(section ".sdata2") extern const f32 lbl_805D9FD4 = 3.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805D9FD8 = 15.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805D9FDC = 12.0f;
+__declspec(section ".sdata2") extern const f32 re2_flower_three = 3.0f;
+__declspec(section ".sdata2") extern const f32 re2_flower_fifteen = 15.0f;
+__declspec(section ".sdata2") extern const f32 re2_flower_twelve = 12.0f;
 __declspec(section ".sdata2") extern const f32 re2_flower_lose_target_distance = 300.0f;
 __declspec(section ".sdata2") extern const f32 re2_flower_attack_distance = 50.0f;
 __declspec(section ".sdata2") extern const f32 re2_flower_track_timeout = 100.0f;

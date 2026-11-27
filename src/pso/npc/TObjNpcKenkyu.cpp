@@ -16,7 +16,7 @@
 
 #pragma readonly_strings on
 
-void *TObjNpcKenkyu::create(void *set_data) {
+void *TObjNpcKenkyu::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcKenkyu(control, set_data);
 }
@@ -39,7 +39,7 @@ void TObjNpcKenkyu::load_shared_resource() {
 
 TObjNpcKenkyu::~TObjNpcKenkyu() {}
 
-TObjNpcKenkyu::TObjNpcKenkyu(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+TObjNpcKenkyu::TObjNpcKenkyu(TObject *parent, EnemyPlacement *set_data) : TObjNpcMale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

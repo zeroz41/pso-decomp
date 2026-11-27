@@ -10,7 +10,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/TObjCollidable.h"
 struct BmlMotionEntry;
-struct CameraAngles;
 
 // One entry of TObjMotion::action_table: what an action plays and how.
 struct TObjMotionAction {
@@ -133,7 +132,7 @@ public:
     f32 override_blend_speed;
     TObjMotionAction *action_table;
     BmlMotionEntry *motion_list;
-    void *joint_matrices;   // where draw_saving_joints stores node matrices
+    Mtx34 *joint_matrices;  // where draw_saving_joints stores node matrices
     NJS_MOTION_LINK blend;  // motion[0] blends into motion[1]
     s16 play_mode;          // MOTION_MODE_*
     s16 next_play_mode;     // the play mode after a blend

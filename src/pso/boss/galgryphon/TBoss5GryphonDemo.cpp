@@ -1,6 +1,5 @@
 #include "pso/render/CameraCapture.h"
 #include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -12,7 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/CameraHelpers.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
+#include "pso/boss/goldragon/BossAssetVariant.h"
 
 #pragma readonly_strings on
 

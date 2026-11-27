@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/item/TItemObject.h"
 
+// Tool type 0x14: using it applies the effect its technique byte picks.
 class TItemToolUseEffect : public TItemObject {
 public:
     TItemToolUseEffect(TObject *parent, u8 *item);

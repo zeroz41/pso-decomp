@@ -53,12 +53,11 @@ s16 TObjBase::get_room() {
     return room;
 }
 
-void TObjBase::apply_object_set_data(void *data) {
-    ObjectSetData *src = (ObjectSetData *)data;
+void TObjBase::apply_object_set_data(ObjectSetData *src) {
     s32 i;
     entity_id = src->entity_id;
     VecCopy(&home_position, VecCopy(&position, &src->position));
-    copy_xyz(&rotation_x, src->rotation);
+    copy_xyz(&rotation, src->rotation);
     VecCopy(&scale, &src->scale);
     room = src->room;
     for (i = 0; i < 3; i++) {
@@ -66,7 +65,7 @@ void TObjBase::apply_object_set_data(void *data) {
     }
 }
 
-void TObjBase::apply_saved_state(s16 *, s32) {  }
+void TObjBase::apply_saved_state(QuestObjectEntry *, s32) {  }
 u16 TObjBase::get_or_assign_entity_id(s32 count) {
 
     if (this->entity_id == 0xFFFF) {
@@ -117,7 +116,7 @@ u16 alloc_player_ids(s32 count) {
     return id;
 }
 
-void *TObjBase::get_center() { return &center; }
+Vec *TObjBase::get_center() { return &center; }
 
 #pragma push
 #pragma opt_common_subs off
@@ -255,16 +254,16 @@ void reset_id_counters() {
 }
 
 void TObjBase::reset_motion_fields() {
-    m_20 = 0;
+    pad_20 = 0;
     prev_position.z = 0.0f;
     prev_position.y = 0.0f;
     prev_position.x = 0.0f;
     home_position.z = 0.0f;
     home_position.y = 0.0f;
     home_position.x = 0.0f;
-    rotation_z = 0;
-    rotation_y = 0;
-    rotation_x = 0;
+    rotation.z = 0;
+    rotation.y = 0;
+    rotation.x = 0;
     center.z = 0.0f;
     center.y = 0.0f;
     center.x = 0.0f;
@@ -287,7 +286,7 @@ TObjBase::TObjBase(TObject *parent) : TObject(parent) {
     room = -1;
     set_group = 0;
     set_index = -1;
-    m_20 = 1;
+    pad_20 = 1;
     texlist = 0;
     model = NULL;
     set_entry = NULL;
@@ -296,9 +295,9 @@ TObjBase::TObjBase(TObject *parent) : TObject(parent) {
     position.z = 0.0f;
     VecCopy(&prev_position, &position);
     VecCopy(&home_position, &position);
-    rotation_x = 0;
-    rotation_y = 0;
-    rotation_z = 0;
+    rotation.x = 0;
+    rotation.y = 0;
+    rotation.z = 0;
     scale.x = 1.0f;
     scale.y = 1.0f;
     scale.z = 1.0f;

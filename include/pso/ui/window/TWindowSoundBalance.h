@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/WindowLayoutRecord.h"
 
+
 struct TWindowSoundBalance : public TWindowBase {
     TWindowSoundBalance(const NJS_POINT2 *position);
     virtual ~TWindowSoundBalance();

@@ -2,7 +2,6 @@
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/MatrixStack.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TTecCircle.h"
@@ -117,7 +116,7 @@ void TTecRaFoie::spawn_effects(Vec *) {
     }
     if (m_targets.count != 0) {
         chara = (TObjChara *)find_entity_by_id(m_targets.records[0].id);
-        if (TTecLuker::is_parents_unqueued(chara) != 0 && TObjPlayer::is_valid_and_active(chara) != 0) {
+        if (TObject::is_parents_unqueued(chara) != 0 && TObjCollidable::is_valid_and_active(chara) != 0) {
             Vec point = chara->body_center;
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
@@ -137,11 +136,8 @@ void TTecRaFoie::spawn_effects(Vec *) {
 #include "pso/render/model_render_state.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/render/GinjaMaterial.h"
 
-
-extern "C" {
-void draw_ginja_object(void);
-}
 
 #pragma push
 #pragma opt_common_subs off
@@ -149,12 +145,12 @@ void draw_ginja_object(void);
 void TTecRaFoie::calc_area_parameters() {
     TechniqueParams *scaled = calc_technique_parameters(2, level, 0xFFFF);
     params.copy(scaled);
-    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+    if (level >= 15 && is_technique_ready() == 0) {
         params.power = (f32)(tech_high_level_linear_power_table[2].base + tech_high_level_linear_power_table[2].per_level * level);
         return;
     }
     params.power = params.power + (f32)(params.power_per_level * level);
-    if (TTecCtrl::is_technique_ready()) {
+    if (is_technique_ready()) {
         params.power = params.power * technique_scale_table[2].power;
     }
 }
@@ -169,11 +165,11 @@ void TFireExplosion::render() {
         get_current_floor_area() == AREA_LOBBY) {
         return;
     }
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     id = model_render_flags;
     saved_model_render_flags = id;
     model_render_flags = id | 0x200010;
-    ((void (*)(void *, s32))set_constant_material)(&color, id);
+    set_constant_material(&color);
     if (indirect_effect != 0) {
         enable_indirect_tev(indirect_effect, 2, 0, 0);
     }
@@ -197,8 +193,7 @@ void TFireExplosion::render() {
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(technique_texture_list));
     set_cull_back();
     set_draw_list_mask(3);
-    get_bml_model(technique_effect_bml, 0xB);
-    draw_ginja_object();
+    draw_ginja_object(get_bml_model(technique_effect_bml, 0xB));
     restore_draw_list_mask();
     set_cull_none();
     pop_matrix();
@@ -206,7 +201,7 @@ void TFireExplosion::render() {
     if (indirect_effect != 0) {
         disable_indirect_tev(indirect_effect, 0);
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TFireExplosion::run_task() {
@@ -318,7 +313,7 @@ void TTecRaFoie::run_task() {
         return;
     }
     chara = (TObjChara *)find_entity_by_id(m_targets.records[0].id);
-    if (TTecLuker::is_parents_unqueued(chara) != 0 && TObjPlayer::is_valid_and_active(chara) != 0) {
+    if (TObject::is_parents_unqueued(chara) != 0 && TObjCollidable::is_valid_and_active(chara) != 0) {
         update_detonation(&chara->body_center);
     }
 }

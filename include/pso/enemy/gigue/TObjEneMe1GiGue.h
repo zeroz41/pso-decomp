@@ -17,7 +17,7 @@ struct GiGueParameters {
 class TObjChara;
 
 struct TObjEneMe1GiGue : public TObjEnemyCustom {
-    TObjEneMe1GiGue(TObject *parent, void *set_data);
+    TObjEneMe1GiGue(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneMe1GiGue();
     void move_around_center(const Vec *center, f32 radius);
     void clear_state7_flag(); // update_action_hold_status's hook, as TObjEneNanoDrago's
@@ -38,7 +38,7 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     virtual void run_move_action();
     virtual void run_attack_action();
     virtual void run_idle_action();
-    u16 m_38c;
+    u16 pad_38c;
     Vec moveDestination;
     Vec missileOrigin;
     Vec shotOrigin;
@@ -71,7 +71,7 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     s32 get_barrier_duration();
     s32 get_rotation_y();
     Vec *update_and_get_pos();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void delete_barrier();
     static void load_resources();
     void load_params_from_table(s32 i);

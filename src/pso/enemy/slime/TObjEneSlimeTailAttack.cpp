@@ -129,8 +129,8 @@ const char *bm4_ps_ma_body_motion_names[15] = {
 BmlResourceDescriptor slime_pair_resource_descriptor = {
     bm4_ps_ma_body_bml_filename, slime_model_name_ptr_table, bm4_ps_ma_body_motion_names, 6, 14,
 };
-__declspec(section ".data") void *slime_debug_label_table[2] = {
-    (void *)&slime_type_label_blue, (void *)slime_type_label_red,
+__declspec(section ".data") const char *slime_debug_label_table[2] = {
+    slime_type_label_blue, slime_type_label_red,
 };
 __declspec(section ".data") s32 slime_model_index_by_type[2] = {
     0x4, 0x5,
@@ -221,7 +221,7 @@ const char *slime_tail_attack_name = slime_tail_attack_class_name_string;
 #include "pso/enemy/BattleParamTables.h"
 
 
-void TObjPlayer::push_material_color_override(f32 alpha, f32 r, f32 g, f32 b) {
+void push_material_color_override(f32 alpha, f32 r, f32 g, f32 b) {
     NJS_ARGB color;
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -235,15 +235,15 @@ void TObjPlayer::push_material_color_override(f32 alpha, f32 r, f32 g, f32 b) {
     set_constant_material(&color);
 }
 
-// TObjPlayer::push_material_color_override with a black colour: fades what is drawn next to alpha.
+// push_material_color_override with a black colour: fades what is drawn next to alpha.
 void push_material_fade(f32 alpha) {
-    TObjPlayer::push_material_color_override(alpha, 0.0f, 0.0f, 0.0f);
+    push_material_color_override(alpha, 0.0f, 0.0f, 0.0f);
 }
 
 void TObjPlayer::init_render_globals() { chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask; chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask; model_render_flags = saved_model_render_flags; }
 
-void *TObjEneSlime::create(void *set_data) {
-    return new TObjEneSlime(new TObjControl(tl_04), (u8 *)set_data);
+void *TObjEneSlime::create(EnemyPlacement *set_data) {
+    return new TObjEneSlime(new TObjControl(tl_04), set_data);
 }
 
 void TObjEneSlime::spawn_pair() {
@@ -262,15 +262,15 @@ void TObjEneSlime::free_instance() {
     }
 }
 
-TObjEneSlime::TObjEneSlime(TObject *parent, u8 *set_data) : TObjEnemy(parent) {
+TObjEneSlime::TObjEneSlime(TObject *parent, EnemyPlacement *set_data) : TObjEnemy(parent) {
     m_name = slime_name;
     apply_set_data(set_data);
     clear_lobby_object_state();
     register_by_id();
     copy_set_entry(&spawn_template, set_data);
-    child_limit = ((EnemyPlacement *)set_data)->child_count;
+    child_limit = set_data->child_count;
     if (child_limit < 1) {
-        if (TObjPlayer::check_demo_mode() != 0) {
+        if (check_demo_mode() != 0) {
             child_limit = 3;
         }
     } else if (child_limit > 4) {
@@ -289,11 +289,11 @@ void TObjEneSlime::run_death_reaction() { this->release_split_slimes(); }
 void TObjEneSlime::run_task() {
     EnemyStateRecord enemy_state;
 
-    if ((TObjPlayer::check_demo_mode() == 0) && (this->has_no_active_slot() != 0)) {
+    if ((check_demo_mode() == 0) && (this->has_no_active_slot() != 0)) {
         enemy_state.flags = 0x800;
         send_6x0A_enemy_state(&enemy_state);
         exchange_object_state(&enemy_state, (s16)0);
-        this->apply_enemy_state(&enemy_state.flags);
+        this->apply_enemy_state(&enemy_state);
         send_entity_set_flags();
         queue_destruction();
     }
@@ -304,7 +304,7 @@ void TObjEneSlime::render() {
     s32 model_index;
     s32 deferred;
     deferred = this->defer_render();
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         type_offset = (this->state36C * 4) & 4;
         debug_printf_at(0x130020, "TYPE [0/1] : %s", (int) (*(s32 *)((s8 *)((u8 *)slime_debug_label_table + type_offset) + 0)));
         toggle_particle_effect();
@@ -328,7 +328,7 @@ void TObjEneSlime::render() {
             clear_chunk_render_flags();
         }
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -375,9 +375,9 @@ s32 TObjEneSlime::spawn_slime_in_slot(s32 index, Vec *position, Vec *velocity) {
     }
     t = this->spawn_template;
     n = index + 1;
-    t.entry.set_index = this->spawn_template.entry.set_index + n;
+    t.entry.enemy_index = this->spawn_template.entry.enemy_index + n;
     t.entry.child_count = 0;
-    t.entry.entity_id = this->spawn_template.entry.entity_id + n;
+    t.entry.id = this->spawn_template.entry.id + n;
     if (position == NULL) {
         VecCopy(&t.entry.position, &this->position);
     } else {
@@ -385,9 +385,9 @@ s32 TObjEneSlime::spawn_slime_in_slot(s32 index, Vec *position, Vec *velocity) {
     }
     slot = &this->child_slots[index];
     if (velocity == 0) {
-        slot->slime = TObjEneSlimeOne::create(this, &t);
+        slot->slime = TObjEneSlimeOne::create(this, &t.entry);
     } else {
-        slot->slime = TObjEneSlimeOne::create(this, &t, velocity);
+        slot->slime = TObjEneSlimeOne::create(this, &t.entry, velocity);
     }
     if (slot->slime == NULL) {
         return 0;
@@ -436,14 +436,14 @@ s32 TObjEneSlime::try_spawn_child(Vec *position) {
 }
 
 #pragma push
-TObjEneSlimeOne *TObjEneSlimeOne::create(TObjEneSlime *owner, void *set_data) {
+TObjEneSlimeOne *TObjEneSlimeOne::create(TObjEneSlime *owner, EnemyPlacement *set_data) {
     return new TObjEneSlimeOne(new TObjControl(tl_04), owner, set_data);
 }
 #pragma pop
 
 #pragma push
 
-TObjEneSlimeOne *TObjEneSlimeOne::create(TObjEneSlime *owner, void *set_data, const Vec *velocity) {
+TObjEneSlimeOne *TObjEneSlimeOne::create(TObjEneSlime *owner, EnemyPlacement *set_data, const Vec *velocity) {
     return new TObjEneSlimeOne(new TObjControl(tl_04), owner, set_data, velocity);
 }
 #pragma pop
@@ -451,7 +451,7 @@ TObjEneSlimeOne *TObjEneSlimeOne::create(TObjEneSlime *owner, void *set_data, co
 #pragma push
 
 #pragma opt_common_subs off
-TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set_data)
+TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, EnemyPlacement *set_data)
     : TObjEnemy(parent) {
     EnemyStateRecord state;
     m_name = TObjEneSlimeOne_class_name;
@@ -472,7 +472,7 @@ TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set
 #pragma push
 
 #pragma opt_common_subs off
-TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set_data, const Vec *velocity)
+TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, EnemyPlacement *set_data, const Vec *velocity)
     : TObjEnemy(parent) {
     EnemyStateRecord state;
     m_name = TObjEneSlimeOne_class_name;
@@ -546,7 +546,7 @@ TObjEneSlimeOne::~TObjEneSlimeOne() {
 }
 
 void TObjEneSlimeOne::run_task() {
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         if ((s32)this->state != 13 && (this->parent_slime == 0 || parent_slime->all_parents_unqueued_for_destruction() == 0)) {
             set_state(13);
         }
@@ -573,7 +573,7 @@ void TObjEneSlimeOne::run_task() {
 }
 void TObjEneSlimeOne::render() {
     s32 deferred;
-    if ((TObjPlayer::check_demo_mode() == 0) && !(this->alpha <= 0.0f) && (this->update_object_view_visibility(500.0f, 20.0f) != 0)) {
+    if ((check_demo_mode() == 0) && !(this->alpha <= 0.0f) && (this->update_object_view_visibility(500.0f, 20.0f) != 0)) {
         deferred = this->defer_render();
         if (this->alpha < 1.0f) {
             push_material_fade(this->alpha);
@@ -585,11 +585,11 @@ void TObjEneSlimeOne::render() {
             v.y += this->draw_offset_y;
             post_translate_matrix(&v.x);
         }
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         scale_matrix_vec3(0, (u8 *)&this->draw_scale);
         this->animation->draw(deferred);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         if (this->alpha < 1.0f) {
             TObjPlayer::init_render_globals();
         }
@@ -781,7 +781,7 @@ void TObjEneSlimeOne::update_slide() {
     f32 accel;  // inferred: the per-frame speed-up added to move_speed
     s32 i;
     s32 ang;
-    rotation_y += 0x100;
+    rotation.y += 0x100;
     if (state_value > 0.0f) {
         motion_phase += 0xC00;
         accel = 0.25f * (0.5f * (0.5f + sin_table_lookup(motion_phase)));
@@ -882,11 +882,11 @@ void TObjEneSlimeOne::update_scan() {
     if (f < 0.0f) {
         f = 0.0f;
     }
-    this->rotation_y = f * (f32)this->turn_speed + (f32)this->rotation_y;
+    this->rotation.y = f * (f32)this->turn_speed + (f32)this->rotation.y;
     if (this->target_client_id == 0xFFFF) {
         r = find_nearest_visible_player(this, &to_player, 162.5f);
         if (r != 0xFFFF &&
-            angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(to_player.x, to_player.z))) < 0x1C71) {
+            angle_difference_abs(this->rotation.y, (s32)(10430.38043493439 * atan2_float(to_player.x, to_player.z))) < 0x1C71) {
             this->motion_phase = 0;
             this->target_client_id = r;
         }
@@ -900,7 +900,7 @@ void TObjEneSlimeOne::update_scan() {
             direction.y = 0.0f;
             direction.z = 0.0f;
             TObjPlayer::calc_distance_to_client(this, this->target_client_id, &direction);
-            this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * atan2_float(direction.x, direction.z)), 0x280);
+            this->rotation.y = approach_angle_limited(this->rotation.y, (s32)(10430.38043493439 * atan2_float(direction.x, direction.z)), 0x280);
         }
         if (this->state_timer > n) {
             animation->set_state(0);
@@ -929,11 +929,11 @@ void TObjEneSlimeOne::update_aim_at_enemy() {
     Vec sp;
     s32 r = 0;
     s32 t;
-    this->rotation_y = this->rotation_y + this->turn_speed;
+    this->rotation.y = this->rotation.y + this->turn_speed;
     if (((TObjEneSlimeOne *)this)->find_nearest_enemy_with_flag(&sp, 500.0f) != 0xFFFF) {
         t = (s32) (10430.38043493439 * atan2_float(sp.x, sp.z));
-        if (angle_difference_abs(this->rotation_y, t) < 0x444) {
-            this->rotation_y = t;
+        if (angle_difference_abs(this->rotation.y, t) < 0x444) {
+            this->rotation.y = t;
             r = 1;
         }
     }
@@ -955,8 +955,8 @@ void TObjEneSlimeOne::update_approach() {
         TObjPlayer::calc_distance_to_client(this, static_cast<u16>(target_client_id), &v);
     }
     t = (s32) (10430.38043493439 * atan2_float(v.x, v.z));
-    rotation_y = approach_angle_limited(rotation_y, t, 0x200);
-    if (angle_difference_abs(rotation_y, t) < 0x200) {
+    rotation.y = approach_angle_limited(rotation.y, t, 0x200);
+    if (angle_difference_abs(rotation.y, t) < 0x200) {
         state_timer = 0;
     }
     VecCopy(&prev_position, &position);
@@ -1051,7 +1051,7 @@ void TObjEneSlimeOne::start_tail_attack() {
     this->state_timer = 0x5A;
     animation->set_state(0);
     play_sound_effect(0x4003A318, &this->attack_position, 0, 0);
-    TObjEneSlimeTailAttack::create((saddr)this, &this->attack_position, this->rotation_y, this);
+    TObjEneSlimeTailAttack::create(this, &this->attack_position, this->rotation.y, this);
     set_display_mode(2);
 }
 
@@ -1232,7 +1232,7 @@ void TObjEneSlimeOne::render_trail() {
     if (s < 0.05f || b.x < 0.05f) {
         return;
     }
-    TObjPlayer::push_material_color_override(s, -1.0f, 0.0f, 1.0f);
+    push_material_color_override(s, -1.0f, 0.0f, 1.0f);
     push_matrix();
     post_translate_matrix(&c.x);
     rotate_matrix_y(0, ang);
@@ -1251,10 +1251,10 @@ TObjEneSlimeWaterBomb::TObjEneSlimeWaterBomb(TObjEneSlimeOne *parent, TObjEneSli
     f32 c;
     m_name = slime_water_bomb_name;
     this->owner = owner;
-    this->rotation_y = ((TObjEneSlimeOne *)m_up)->rotation_y;
+    this->rotation.y = ((TObjEneSlimeOne *)m_up)->rotation.y;
     VecCopy(&position, &((TObjEneSlimeOne *)m_up)->position);
-    s = sin_table_lookup(this->rotation_y);
-    c = cos_table_lookup(this->rotation_y);
+    s = sin_table_lookup(this->rotation.y);
+    c = cos_table_lookup(this->rotation.y);
     position.x += 15.0f * s;
     position.y += 20.0f;
     position.z += 15.0f * c;
@@ -1410,7 +1410,7 @@ TObjEneSlimeTailAttack::TObjEneSlimeTailAttack(TObject *parent, const Vec *posit
     requested_action = 6;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    this->rotation_y = angle;
+    this->rotation.y = angle;
     VecCopy(&this->position, position);
     active = 1;
     last_hit_player = 0xFFFF;
@@ -1426,7 +1426,7 @@ TObjEneSlimeTailAttack::~TObjEneSlimeTailAttack() {}
 
 #pragma push
 
-TObjEneSlimeTailAttack *TObjEneSlimeTailAttack::create(saddr, const Vec *position, s32 angle, TObjEneSlimeOne *owner) {
+TObjEneSlimeTailAttack *TObjEneSlimeTailAttack::create(TObjEneSlimeOne *, const Vec *position, s32 angle, TObjEneSlimeOne *owner) {
     return new TObjEneSlimeTailAttack(new TObjControl(tl_04), position, angle, owner);
 }
 #pragma pop
@@ -1543,7 +1543,7 @@ void TObjEneSlimeTailAttack::render() {
 void TObjEneSlimeTailAttack::draw_body() {
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, (int) (this->rotation_y));
+    rotate_matrix_y(0, (int) (this->rotation.y));
     set_texture_list(texlist);
     if (active != 0) {
         reset_slime_tail_node_index();

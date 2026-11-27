@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem.h"
-#include "pso/ui/window/TWindowSubComCardEntries.h"
+#include "pso/ui/window/TWindowSubComCard_CardSlots.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/chat/SymbolChatCommand.h"
 #include "pso/ui/window/HelpWindowToggle.h"
@@ -31,12 +31,11 @@
 
 
 extern "C" {
-u8 get_cast_technique_level(void *, s16);
-}
-
-extern "C" {
 extern const f32 customize_help_window_size[2] = {190.0f, 168.0f};
 }
+
+int TWindowSubCustomSelect::is_cancelled() { return this->state_flags & 0x2; }
+int TWindowSubCustomSelect::is_active() { return this->state_flags & 0x1; }
 
 TCustomizeMenuCtrl::TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client) : TObject(parent) {
     main_menu = parent;
@@ -63,7 +62,7 @@ TCustomizeMenuCtrl::~TCustomizeMenuCtrl() {
     }
     if (custom_equip != NULL) {
         custom_equip->close();
-        custom_equip = 0;
+        custom_equip = NULL;
     }
 }
 
@@ -145,7 +144,7 @@ void TCustomizeMenuCtrl::update_customize_help_text(const PaletteAction *ev) {
         }
         text_builder_append(get_technique_name(ev->slot));
         if (ev->slot != 0x11 && ev->slot != 0xE) {
-            lvl = get_cast_technique_level(&pl->technique_state, ev->slot);
+            lvl = pl->technique_state.get_cast_technique_level(ev->slot);
             if (current_language != LANGUAGE_JAPANESE) {
                 append_text_space();
             }

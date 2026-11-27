@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
@@ -47,11 +46,11 @@ void TPhotonYoulla::reset_material_color(u8 count) {
 
 void TPhotonYoulla::render() {
     if (visible != 0) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         saved_model_render_flags = model_render_flags;
         copy_argb(&saved_model_draw_color, &model_material_color);
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -71,7 +70,7 @@ void TPhotonYoulla::render() {
         copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -116,7 +115,7 @@ TPhotonYoulla::TPhotonYoulla(PhotonSummonParams *params) {
     owner = find_entity_by_id(owner_id);
     owner_object = owner;
     if (owner_object != NULL) {
-        rotation_y = owner_object->rotation_y;
+        rotation.y = owner_object->rotation.y;
     }
     model = photon_blast_shared_resource->models[11].model;
     texlist = photon_blast_shared_resource->models[11].texlist;

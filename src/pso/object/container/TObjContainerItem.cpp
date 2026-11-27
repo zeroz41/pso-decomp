@@ -4,7 +4,6 @@
 #include "pso/object/container/ContainerResources.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/object/container/ContainerBreakEffects.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
@@ -26,7 +25,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/container/TObjContainerBase.h"
 #include "pso/object/container/TObjContainerItem.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/object/container/TObjContainerNoItem.h"
 #include "pso/object/container/TObjContainerEnemy.h"
 #include "pso/object/base/TObjChara.h"
@@ -58,6 +57,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/container/TContainerAncient01R.h"
 #include "pso/system/GameModeQueries.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 struct ItemParamWords { u8 pad[0x30]; s32 data[3]; };
 
@@ -254,7 +254,7 @@ NJS_OBJECT *get_container_breakup_model(s32 index) {
 
 #pragma push
 #pragma fp_contract on
-TObjContainerBase::TObjContainerBase(TObject *parent, void *set_data) : TObjChara(parent) {
+TObjContainerBase::TObjContainerBase(TObject *parent, ObjectSetData *set_data) : TObjChara(parent) {
     m_name = container_base_name;
     apply_object_set_data(set_data);
     view_range = container_item_view_range;
@@ -287,9 +287,9 @@ f32 TObjContainerBase::receive_direct_attack(TObjBase *attacker, DirectAttackPay
 }
 
 f32 TObjContainerBase::receive_physical_attack(TObjChara *, f32) {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     if (((u16) this->entity_id >= 0x1000U) && (set_entry != NULL) && (this->access_object_saved_state(&saved_state, 1) != 0)) {
-        saved_state = 1;
+        saved_state.flags = 1;
         this->access_object_saved_state(&saved_state, 0);
         this->send_object_state_update(&saved_state);
     }
@@ -402,7 +402,7 @@ void TObjContainerBase::request_configured_item_drop(TObjContainerBase *containe
     container->request_box_item_drop(&position, random_item);
 }
 
-TObjContainerItem::TObjContainerItem(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerItem::TObjContainerItem(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_item_name;
     model = get_forest_box_model(1);
     mode = 0;
@@ -419,7 +419,7 @@ TObjContainerItem::~TObjContainerItem() {
     free_collision_body_parts(this);
 }
 
-void *TObjContainerItem::create(void *set_data) {
+void *TObjContainerItem::create(ObjectSetData *set_data) {
     return new TObjContainerItem(tl_05, set_data);
 }
 
@@ -442,7 +442,7 @@ void TObjContainerItem::draw_model() {
             set_texture_list(forest_box_textures);
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
             draw_ginja_box_tree(model);
             pop_matrix();
@@ -473,9 +473,9 @@ void TObjContainerItem::spawn_break_effects() const {
     }
 }
 
-void TObjContainerItem::apply_saved_state(s16 *state, s32 live) {
+void TObjContainerItem::apply_saved_state(QuestObjectEntry *state, s32 live) {
     if (live != 0) {
-        if ((s16) *state == 1) {
+        if (state->flags == 1) {
             this->spawn_break_effects();
             request_box_item_drop(&position, 1);
             this->clear_player_status_flag(0, 1);
@@ -483,7 +483,7 @@ void TObjContainerItem::apply_saved_state(s16 *state, s32 live) {
             this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *state == 1) {
+    } else if (state->flags == 1) {
         this->clear_player_status_flag(0, 1);
         this->set_flag8();
         this->queue_destruction();
@@ -491,7 +491,7 @@ void TObjContainerItem::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TObjContainerEnemy::TObjContainerEnemy(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerEnemy::TObjContainerEnemy(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_enemy_name;
     model = get_forest_box_model(1);
     mode = 0;
@@ -508,7 +508,7 @@ TObjContainerEnemy::~TObjContainerEnemy() {
     free_collision_body_parts(this);
 }
 
-void *TObjContainerEnemy::create(void *set_data) {
+void *TObjContainerEnemy::create(ObjectSetData *set_data) {
     return new TObjContainerEnemy(tl_05, set_data);
 }
 
@@ -533,7 +533,7 @@ void TObjContainerEnemy::draw_model() {
         set_texture_list(forest_box_textures);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
         draw_ginja_box_tree(model);
         pop_matrix();
@@ -551,10 +551,10 @@ void TObjContainerEnemy::debug_print_item_box_info() {
 }
 
 f32 TObjContainerEnemy::receive_physical_attack(TObjChara *, f32) {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     G_FloorEvent_6x67 pkt;
     if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&saved_state, 1) != 0)) {
-        saved_state = 1;
+        saved_state.flags = 1;
         access_object_saved_state(&saved_state, 0);
         send_object_state_update(&saved_state);
         pkt.init();
@@ -587,16 +587,16 @@ void TObjContainerEnemy::spawn_break_effects() const {
     }
 }
 
-void TObjContainerEnemy::apply_saved_state(s16 *state, s32 live) {
+void TObjContainerEnemy::apply_saved_state(QuestObjectEntry *state, s32 live) {
     if (live != 0) {
-        if ((s16) *state == 1) {
+        if (state->flags == 1) {
             this->spawn_break_effects();
             this->clear_player_status_flag(0, 1);
             this->set_flag8();
             this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *state == 1) {
+    } else if (state->flags == 1) {
         this->clear_player_status_flag(0, 1);
         this->set_flag8();
         this->queue_destruction();
@@ -604,7 +604,7 @@ void TObjContainerEnemy::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TObjContainerNoItem::TObjContainerNoItem(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerNoItem::TObjContainerNoItem(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_no_item_name;
     model = get_forest_box_model(1);
     mode = 0;
@@ -621,7 +621,7 @@ TObjContainerNoItem::~TObjContainerNoItem() {
     free_collision_body_parts(this);
 }
 
-void *TObjContainerNoItem::create(void *set_data) {
+void *TObjContainerNoItem::create(ObjectSetData *set_data) {
     return new TObjContainerNoItem(tl_05, set_data);
 }
 
@@ -646,7 +646,7 @@ void TObjContainerNoItem::draw_model() {
         set_texture_list(forest_box_textures);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         scale_matrix(0, container_item_model_scale, container_item_model_scale, container_item_model_scale);
         draw_ginja_box_tree(this->model);
         pop_matrix();
@@ -656,9 +656,9 @@ void TObjContainerNoItem::draw_model() {
 }
 
 f32 TObjContainerNoItem::receive_physical_attack(TObjChara *, f32) {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     if (((u16) this->entity_id >= 0x1000U) && (set_entry != NULL) && (this->access_object_saved_state(&saved_state, 1) != 0)) {
-        saved_state = 1;
+        saved_state.flags = 1;
         this->access_object_saved_state(&saved_state, 0);
         this->send_object_state_update(&saved_state);
     }
@@ -685,16 +685,16 @@ void TObjContainerNoItem::spawn_break_effects() const {
     }
 }
 
-void TObjContainerNoItem::apply_saved_state(s16 *state, s32 live) {
+void TObjContainerNoItem::apply_saved_state(QuestObjectEntry *state, s32 live) {
     if (live != 0) {
-        if ((s16) *state == 1) {
+        if (state->flags == 1) {
             this->spawn_break_effects();
             this->clear_player_status_flag(0, 1);
             this->set_flag8();
             this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *state == 1) {
+    } else if (state->flags == 1) {
         this->clear_player_status_flag(0, 1);
         this->set_flag8();
         this->queue_destruction();
@@ -702,7 +702,7 @@ void TObjContainerNoItem::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TObjContainerAbeItem::TObjContainerAbeItem(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerAbeItem::TObjContainerAbeItem(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_base_name;
     mode = 0;
     actorFlags |= 0x60000000;
@@ -737,7 +737,7 @@ void TObjContainerAbeItem::draw_model() {
             set_texture_list(container_breakup_textures);
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_box_tree(get_container_breakup_model(2));
             pop_matrix();
             break;
@@ -785,27 +785,27 @@ void TObjContainerAbeItem::spawn_break_effects() const {
 
 #pragma pop
 
-void TObjContainerAbeItem::apply_saved_state(s16 *state, s32 live) {
+void TObjContainerAbeItem::apply_saved_state(QuestObjectEntry *state, s32 live) {
     if (live != 0) {
-        if ((s16) *state == 1) {
+        if (state->flags == 1) {
             this->spawn_break_effects();
             request_configured_item_drop(this);
             this->set_flag8();
             this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *state == 1) {
+    } else if (state->flags == 1) {
         this->set_flag8();
         this->queue_destruction();
         this->mode = 1;
     }
 }
 
-void *TObjContainerAbeItem::create(void *set_data) {
+void *TObjContainerAbeItem::create(ObjectSetData *set_data) {
     return new TObjContainerAbeItem(tl_05, set_data);
 }
 
-TObjContainerAbeEnemy::TObjContainerAbeEnemy(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerAbeEnemy::TObjContainerAbeEnemy(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_abe_enemy_name;
     mode = 0;
     actorFlags |= 0x60000000;
@@ -840,7 +840,7 @@ void TObjContainerAbeEnemy::draw_model() {
             set_texture_list(container_breakup_textures);
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_box_tree(get_container_breakup_model(2));
             pop_matrix();
             break;
@@ -858,10 +858,10 @@ void TObjContainerAbeEnemy::debug_print_item_box_info() {
 }
 
 f32 TObjContainerAbeEnemy::receive_physical_attack(TObjChara *, f32) {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     G_FloorEvent_6x67 pkt;
     if ((this->entity_id >= 0x1000U) && (set_entry != NULL) && (access_object_saved_state(&saved_state, 1) != 0)) {
-        saved_state = 1;
+        saved_state.flags = 1;
         access_object_saved_state(&saved_state, 0);
         send_object_state_update(&saved_state);
         pkt.init();
@@ -914,15 +914,15 @@ void TObjContainerAbeEnemy::spawn_break_effects() const {
 
 #pragma pop
 
-void TObjContainerAbeEnemy::apply_saved_state(s16 *state, s32 live) {
+void TObjContainerAbeEnemy::apply_saved_state(QuestObjectEntry *state, s32 live) {
     if (live != 0) {
-        if ((s16) *state == 1) {
+        if (state->flags == 1) {
             this->spawn_break_effects();
             this->set_flag8();
             this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *state == 1) {
+    } else if (state->flags == 1) {
         this->set_flag8();
         this->queue_destruction();
         this->mode = 1;

@@ -45,7 +45,7 @@ static CollisionBody door_ancient09_collision_body[1] = {
 BmlResource *TODoorAncient09::bml_resource;
 NJS_TEXLIST **TODoorAncient09::texture_lists;
 
-TODoorAncient09::TODoorAncient09(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorAncient09::TODoorAncient09(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = door_ancient09_class_name;
     apply_object_set_data(set_data);
     texlist = texture_lists[0];
@@ -64,9 +64,9 @@ TODoorAncient09::TODoorAncient09(TObject *parent, void *set_data) : TODoorBase(p
     init_door_switch_binding();
     extra_switch_id = set_params[0] + 1;
     both_switches_set = 0;
-    m_dc = 0;
+    pad_dc = 0;
     is_open = 0;
-    m_e4 = 0;
+    pad_e4 = 0;
 }
 
 TODoorAncient09::~TODoorAncient09() {
@@ -84,7 +84,7 @@ void TODoorAncient09::load_resources() {
 
 void TODoorAncient09::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid(texture_lists[1]);
+        free_if_valid(texture_lists[1]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;
@@ -96,7 +96,7 @@ void TODoorAncient09::destroy() {
     }
 }
 
-void *TODoorAncient09::create(void *set_data) {
+void *TODoorAncient09::create(ObjectSetData *set_data) {
     return new TODoorAncient09(tl_05, set_data);
 }
 
@@ -173,7 +173,7 @@ void TODoorAncient09::render() {
         case 3:
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(NULL, rotation_y);
+            rotate_matrix_y(NULL, rotation.y);
             set_texture_list(texlist);
             draw_ginja_model_with_motion(model, motion, animation_frame);
             pop_matrix();
@@ -181,7 +181,7 @@ void TODoorAncient09::render() {
         case 2:
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(NULL, rotation_y);
+            rotate_matrix_y(NULL, rotation.y);
             set_texture_list(texlist);
             draw_ginja_model_with_motion(model, motion, animation_end_frame - 1.0f);
             pop_matrix();
@@ -220,10 +220,10 @@ void TODoorAncient09::draw_switch_lights() {
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[0]));
     post_translate_matrix(&position.x);
     post_translate_matrix(root->pos);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     draw_ginja_model(root->model);
     draw_ginja_model(root->child->model);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     for (i = 0; i < 2; i++) {
         if (on[i] != 0) {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[1]));
@@ -240,12 +240,12 @@ void TODoorAncient09::draw_switch_lights() {
         draw_ginja_model(pair[1]->model);
         pop_matrix();
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
 void TODoorAncient09::update_door_switch_state() {
-    s16 state;
+    QuestObjectEntry state;
     switch (lock_mode) {
     case 1:
         play_open_sound();
@@ -266,7 +266,7 @@ void TODoorAncient09::update_door_switch_state() {
             play_open_sound();
             door_flags |= 1;
             if (set_entry != NULL && access_object_saved_state(&state, 1) != 0) {
-                state = 1;
+                state.flags = 1;
                 door_ancient09_sync_state(&state);
                 access_object_saved_state(&state, 0);
             }
@@ -322,16 +322,15 @@ s32 TODoorAncient09::init_door_switch_binding() {
     return switch_id;
 }
 
-void TODoorAncient09::apply_saved_state(s16 *state, s32) {
-    if (*state == 1) {
+void TODoorAncient09::apply_saved_state(QuestObjectEntry *state, s32) {
+    if (state->flags == 1) {
         door_flags |= 1;
     }
 }
 
 // Sends the 6x0B object-state message for the saved state (or src when given).
 
-void TODoorAncient09::door_ancient09_sync_state(void *saved_state) {
-    QuestObjectEntry *source = (QuestObjectEntry *)saved_state;
+void TODoorAncient09::door_ancient09_sync_state(QuestObjectEntry *source) {
     QuestObjectEntry state;
     FloorObjectSetRow *entry;
     if (source != NULL) {

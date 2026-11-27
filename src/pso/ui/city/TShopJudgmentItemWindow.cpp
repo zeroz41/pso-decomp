@@ -1,6 +1,5 @@
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlyDispData.h"
 #include "pso/item/item_create.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -252,7 +251,7 @@ void TShopJudgmentItemWindow::create_result_windows() {
             this->item_list->calc_content_extent();
         }
         if (this->texture_window == NULL) {
-            this->texture_window = TWindowLoadItemTexture::create((void *)get_window_layout_position(0x30), this->player->get_entity_id());
+            this->texture_window = TWindowLoadItemTexture::create(get_window_layout_position(0x30), this->player->get_entity_id());
             this->texture_window->set_mag_slot_state(&judged_item);
         }
         if (this->help_window == NULL) {

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/unk/TQuestManager.h"
@@ -35,7 +34,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/network/client_id.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
@@ -54,6 +53,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/object/CursorAction.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 const char *TObjNpcBase::class_name = "TObjNpcBase";
 
@@ -61,7 +61,7 @@ const char *TObjNpcBase::class_name = "TObjNpcBase";
 void TObjNpcBase::vfunc_92() {  }
 void TObjNpcBase::vfunc_91() {  }
 void TObjNpcBase::draw_debug_info() {
-    home_rotation_y = rotation_y;
+    home_rotation_y = rotation.y;
     uses_area_flags = 0;
     if (1000.0f <= parameters[1]) {
         uses_area_flags = 1;
@@ -152,7 +152,7 @@ void TObjNpcBase::apply_set_params(s32 min_variant, s32 max_variant) {
     }
     set_message_label((s32) parameters[4]);
     set_object_number((s32) parameters[3]);
-    home_rotation_y = rotation_y;
+    home_rotation_y = rotation.y;
     if (object_number > 0) {
         view_distance = 400.0f;
         return;
@@ -190,24 +190,24 @@ void TObjNpcBase::update_conversation() {
             pkt1.send();
             break;
         default:
-            if (angle_difference_abs(rotation_y, ang) < movementParameters->turn_speed) {
+            if (angle_difference_abs(rotation.y, ang) < movementParameters->turn_speed) {
                 phase = 1;
-                rotation_y = ang;
+                rotation.y = ang;
                 request_action(0);
                 pkt2.init();
                 pkt2.header.client_id = target->get_entity_id();
                 VecCopy(&pkt2.pos, &target->position);
-                pkt2.angle = rotation_y + 0x8000;
+                pkt2.angle = rotation.y + 0x8000;
                 pkt2.send();
             } else {
-                rotation_y = approach_angle_limited(rotation_y, ang, movementParameters->turn_speed);
+                rotation.y = approach_angle_limited(rotation.y, ang, movementParameters->turn_speed);
             }
             break;
         }
         break;
     case 1:
         phase = 2;
-        if (TRaderMapCore::is_not_split_screen() == 0) {
+        if (is_not_split_screen() == 0) {
             switch (object_number) {
             case 0x3E9:
                 conversation_camera = create_conversation_camera(7);
@@ -313,7 +313,7 @@ void TObjNpcBase::update_wandering() {
     case 1: {
         f32 r;
         enemy_turn_toward_dest(movementParameters->turn_speed);
-        enemy_set_heading_velocity(movementParameters->move_speed, this, rotation_y);
+        enemy_set_heading_velocity(movementParameters->move_speed, this, rotation.y);
         move_with_wall_slide(this);
         if (is_passing_frame(1.0f) != 0 || is_passing_frame(15.0f) != 0) {
             play_voice();
@@ -344,7 +344,7 @@ void TObjNpcBase::update_wandering() {
 void TObjNpcBase::update_standing() {
     switch (phase) {
     case 0:
-        if (rotation_y != home_rotation_y) {
+        if (rotation.y != home_rotation_y) {
             phase = 2;
             request_action(1);
         } else {
@@ -355,8 +355,8 @@ void TObjNpcBase::update_standing() {
     case 1:
         break;
     case 2:
-        if (rotation_y != home_rotation_y) {
-            rotation_y = approach_angle_limited(rotation_y, home_rotation_y, movementParameters->turn_speed);
+        if (rotation.y != home_rotation_y) {
+            rotation.y = approach_angle_limited(rotation.y, home_rotation_y, movementParameters->turn_speed);
         } else {
             phase = 1;
             request_action(0);
@@ -413,7 +413,7 @@ void TObjNpcBase::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix_from(0);
         translate_matrix_vec3(0, (u8 *) &position);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         set_motion_packed_rotation();
         if (draws_chunk_model != 0) {
             draw_chunk_object(model);
@@ -474,7 +474,7 @@ void TObjNpcBase::run_task() {
     advance_animation();
     update_prev_position();
     copy_position();
-    if (message_label > 0 && TRaderMapCore::is_not_split_screen() == 0) {
+    if (message_label > 0 && is_not_split_screen() == 0) {
         submit_cursor_candidate(this, -1);
     }
     clear_actor_flags(0x1B3FU);
@@ -499,7 +499,7 @@ TObjNpcBase::~TObjNpcBase() {
 
 TObjNpcBase::TObjNpcBase(TObject *parent) : TObjEnemy(parent) {
     m_name = class_name;
-    m_388 = 0;
+    pad_388 = 0;
     visible = 1;
     switch (get_current_floor_area()) {
     case AREA_LOBBY:

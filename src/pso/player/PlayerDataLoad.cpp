@@ -3,7 +3,7 @@
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 
 u8 *player_data_load_buffer;
 u8 *get_player_data_load_buffer() {  return player_data_load_buffer; }
@@ -16,6 +16,6 @@ void free_player_data_load_buffer(void) {
 }
 
 
-void TKeyBoardControl::alloc_buffer() {
+void alloc_buffer() {
     player_data_load_buffer = (u8 *)xmalloc(0x14000);
 }

@@ -21,7 +21,6 @@ struct TLanguage
     static void read_into_buffer(void *destination, s32 length);
     static s32 read_u32_le();
     static s32 read_u16_le();
-    static void load_container_fragment_textures();
 
     // The loaded language's text file: two words, the language text resources and the group table.
     static void **text_resource;

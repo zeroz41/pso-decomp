@@ -57,6 +57,7 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma readonly_strings on
 
@@ -190,7 +191,7 @@ NJS_TEXLIST *TOTrapChainSaw::get_texlist(s32 index) {
     return NULL;
 }
 
-TOTrapChainSaw::TOTrapChainSaw(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TOTrapChainSaw::TOTrapChainSaw(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = trap_chain_saw_name;
     apply_object_set_data(set_data);
     clear_hit_cooldowns();
@@ -314,18 +315,18 @@ void TOTrapChainSaw::check_player_contact() {
     s32 i;
     TObjPlayer *p;
     s32 t;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
             if (p != 0 && consume_counter(p) == 0) {
                 if (p->get_floor() == get_current_floor()) {
-                    t = rotation_y;
-                    rotation_y = t + yaw_offset;
+                    t = rotation.y;
+                    rotation.y = t + yaw_offset;
                     if (check_actor_body_contact(p, 100.0f) != 0) {
                         hit_player(p);
                         set_hit_cooldown_for_player(p);
                     }
-                    rotation_y = t;
+                    rotation.y = t;
                 }
             }
         }
@@ -335,13 +336,13 @@ void TOTrapChainSaw::check_player_contact() {
         q = get_player_by_client_id(local_client_id);
         if (q != 0 && consume_counter(q) == 0) {
             if (q->get_floor() == get_current_floor()) {
-                t2 = rotation_y;
-                rotation_y = t2 + yaw_offset;
+                t2 = rotation.y;
+                rotation.y = t2 + yaw_offset;
                 if (check_actor_body_contact(q, 100.0f) != 0) {
                     hit_player(q);
                     set_hit_cooldown_for_player(q);
                 }
-                rotation_y = t2;
+                rotation.y = t2;
             }
         }
     }
@@ -379,11 +380,11 @@ void TOTrapChainSaw::draw_debug_labels() {  }
 void TOTrapChainSaw::update_demo() {
     s32 base_yaw;
 
-    if (TObjPlayer::check_demo_mode() == 1) {
-        base_yaw = rotation_y;
-        rotation_y = base_yaw + yaw_offset;
+    if (check_demo_mode() == 1) {
+        base_yaw = rotation.y;
+        rotation.y = base_yaw + yaw_offset;
         collision_update_stub();
-        rotation_y = base_yaw;
+        rotation.y = base_yaw;
     }
 }
 
@@ -415,7 +416,7 @@ s32 TOTrapChainSaw::get_area_sound(s32 index) {
 
 const char *TOTrapChainSawDamage_class_name = "TOTrapChainSawDamage";
 
-TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
+TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, ObjectSetData *set_data) : TOTrapChainSaw(parent, set_data) {
     m_name = TOTrapChainSawDamage_class_name;
     decode_params();
     select_model();
@@ -424,7 +425,7 @@ TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *set_data) : TO
     register_object_by_id();
     position.y += 5.0f;
     {
-        ObjectSetData edge_set = *(ObjectSetData *)set_data;
+        ObjectSetData edge_set = *set_data;
         edge_set.position.y += 10.0f;
         edges[0] = new TOTrapChainSawEdge(this, &edge_set);
         edge_set.position.y += 5.0f;
@@ -436,7 +437,7 @@ TOTrapChainSawDamage::~TOTrapChainSawDamage() {
     free_collision_body_parts(this);
 }
 
-void *TOTrapChainSawDamage::create(void *set_data) {
+void *TOTrapChainSawDamage::create(ObjectSetData *set_data) {
     return new TOTrapChainSawDamage(tl_05, set_data);
 }
 
@@ -479,7 +480,7 @@ void TOTrapChainSawDamage::draw_model() {
     push_matrix();
     post_translate_matrix(&position.x);
     push_matrix();
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     rotate_matrix_y(NULL, yaw_offset);
     draw_ginja_model_with_motion(saw_model, motion, animation_end_frame);
     pop_matrix();
@@ -520,7 +521,7 @@ void TOTrapChainSawDamage::reach_far_end() {
 
 const char *trap_chain_saw_key_name = "TOTrapChainSawKey";
 
-TOTrapChainSawKey::TOTrapChainSawKey(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
+TOTrapChainSawKey::TOTrapChainSawKey(TObject *parent, ObjectSetData *set_data) : TOTrapChainSaw(parent, set_data) {
     m_name = trap_chain_saw_key_name;
     decode_params();
     select_model();
@@ -533,7 +534,7 @@ TOTrapChainSawKey::~TOTrapChainSawKey() {
     free_collision_body_parts(this);
 }
 
-void *TOTrapChainSawKey::create(void *set_data) {
+void *TOTrapChainSawKey::create(ObjectSetData *set_data) {
     return new TOTrapChainSawKey(tl_05, set_data);
 }
 
@@ -592,19 +593,19 @@ void TOTrapChainSawKey::draw_model() {
     push_matrix();
     post_translate_matrix(&position.x);
     push_matrix();
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     rotate_matrix_y(NULL, yaw_offset);
     set_model_node_callback(draw_node_callback);
     draw_ginja_motion(saw_model, (NJS_MOTION *)motion, animation_end_frame);
     set_model_node_callback(NULL);
     if (switch_on == 1) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(light_model, light_motion, light_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
     pop_matrix();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TOTrapChainSawKey::check_player_contact() {
@@ -619,23 +620,23 @@ void TOTrapChainSawKey::draw_node_callback(NJS_OBJECT *object) {
     s32 i;
     for (i = 0; i < 5; i++) {
         if (object == chain_saw_sekigai2m_light_nodes[i]) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             return;
         }
     }
     for (i = 0; i < 5; i++) {
         if (object == chain_saw_sekigai4m_light_nodes[i]) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             return;
         }
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 
 const char *TOTrapChainSawEdge_class_name = "TOTrapChainSawEdge";
 
-TOTrapChainSawEdge::TOTrapChainSawEdge(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
+TOTrapChainSawEdge::TOTrapChainSawEdge(TObject *parent, ObjectSetData *set_data) : TOTrapChainSaw(parent, set_data) {
     m_name = TOTrapChainSawEdge_class_name;
     decode_params();
     select_model();
@@ -696,7 +697,7 @@ void TOTrapChainSawEdge::draw_model() {
     push_matrix();
     post_translate_matrix(&position.x);
     push_matrix();
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     rotate_matrix_y(NULL, yaw_offset);
     draw_ginja_model_with_motion(saw_model, motion, animation_end_frame);
     pop_matrix();

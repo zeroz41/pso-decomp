@@ -35,7 +35,7 @@ void TOHangerMachine01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         node = model;
         post_translate_matrix(node->pos);
@@ -57,9 +57,9 @@ void TOHangerMachine01::render() {
         rotate_matrix_z(NULL, node->ang[2]);
         rotate_matrix_x(NULL, node->ang[0]);
         rotate_matrix_y(NULL, node->ang[1] + fan_angle);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model(node->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         node = model->child->sibling->sibling->sibling;
         post_translate_matrix(node->pos);
@@ -70,9 +70,9 @@ void TOHangerMachine01::render() {
         rotate_matrix_z(NULL, node->ang[2]);
         rotate_matrix_x(NULL, node->ang[0]);
         rotate_matrix_y(NULL, node->ang[1] + fan_angle);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model(node->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         node = model->child->sibling->sibling->sibling->sibling;
         if (0.0f < scale.x) {
@@ -83,7 +83,7 @@ void TOHangerMachine01::render() {
     }
 }
 
-void *TOHangerMachine01::create(void *set_data) {
+void *TOHangerMachine01::create(ObjectSetData *set_data) {
     return new TOHangerMachine01(set_data);
 }
 
@@ -104,7 +104,7 @@ TOHangerMachine01::~TOHangerMachine01() {
     free_collision_body_parts(this);
 }
 
-TOHangerMachine01::TOHangerMachine01(void *set_data) : TObjMapObject(tl_05) {
+TOHangerMachine01::TOHangerMachine01(ObjectSetData *set_data) : TObjMapObject(tl_05) {
     m_name = hanger_machine01_class_name;
     apply_object_set_data(set_data);
     model = hanger_machine01_bml_resource->models[0].model;

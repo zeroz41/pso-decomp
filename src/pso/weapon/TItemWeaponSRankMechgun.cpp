@@ -21,7 +21,7 @@ void TItemWeaponSRankMechgun::draw_held_model() {
 
 TItemWeaponSRankMechgun::TItemWeaponSRankMechgun(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     set_weapon_flags(515);
-    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+    impact_callback = spawn_weapon_impact_effect;
 }
 
 TItem *TItemWeaponSRankMechgun::create(u8 *item) {

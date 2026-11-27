@@ -33,7 +33,7 @@ struct TObjNpcBase : public TObjEnemy {
     virtual void refresh_target();
     u8 pad_374[0x10];
     s32 home_rotation_y;        // rotation_y on setup; update_standing turns back to it
-    s32 m_388;
+    s32 pad_388;
     s32 uses_area_flags;        // disp flags >= 1000: read from the area quest's registers
     s32 visible;                // the disp on/off quest registers allow drawing
     s32 draws_chunk_model;      // lobby NPCs draw `model` as a chunk object

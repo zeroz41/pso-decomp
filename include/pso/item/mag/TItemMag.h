@@ -59,7 +59,7 @@ enum {
     MAG_EVENT_BOSS_AREA = 0x80,
 };
 
-// A mag's ItemPMT record (TObjPlayer::get_pmt_record by item group).
+// A mag's ItemPMT record (get_pmt_record by item group).
 struct MagPmtRecord {
     u8 pad_0[0x8];
     s16 feed_table;

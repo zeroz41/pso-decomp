@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5GryphonColli.h"
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
@@ -88,7 +87,7 @@ void TBoss5GryphonColli_C::enable_at(Vec *pos, s32 angle) {
     rotate_matrix_y(NULL, angle);
     matrix_mult_vec(NULL, &this->local_position, &this->position);
     pop_matrix();
-    this->rotation_y = angle;
+    this->rotation.y = angle;
     this->refresh_collision_body_centers();
     this->set_segment_flags();
 }

@@ -1,11 +1,10 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/frontend/TAdChrSelMovePlateGC.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
@@ -15,7 +14,6 @@
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
-#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject.h"
 #include <stdio.h>
@@ -26,6 +24,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 static const ChrSelPlateLayout chr_sel_a_slot_plate_layout = { 180.0f, 38.0f, { 0xDD, 0x90, 0x48, 0x00 }, 0 };
 // Plate positions of the four entries (slot kind 0)
@@ -103,7 +102,7 @@ TWindowBase *TAdChrSelASlotGC::create_format_failed_window(s32 kind) {
     w = create_window_menu_default(&pos, 1);
     w->add_text_entry(get_localized_text_entry(0x16, kind + 0x2B), 0x20, 0);
     w->disable_input();
-    TQuestThread::set_status_flag_80(w);
+    w->set_status_flag_80();
     w->calc_layout_height(190.0f);
     return w;
 }
@@ -122,7 +121,7 @@ TWindowBase *TAdChrSelASlotGC::create_not_formatted_window(s32 kind) {
     w = create_window_menu_default(&pos, 1);
     w->add_text_entry(get_localized_text_entry(0x16, kind + 0x29), 0x20, 0);
     w->disable_input();
-    TQuestThread::set_status_flag_80(w);
+    w->set_status_flag_80();
     w->calc_layout_height(190.0f);
     return w;
 }
@@ -141,7 +140,7 @@ TWindowBase *TAdChrSelASlotGC::create_formatted_window(s32 kind) {
     w = create_window_menu_default(&pos, 1);
     w->add_text_entry(get_localized_text_entry(0x16, kind + 0x27), 0x20, 0);
     w->disable_input();
-    TQuestThread::set_status_flag_80(w);
+    w->set_status_flag_80();
     w->calc_layout_height(190.0f);
     return w;
 }
@@ -236,7 +235,7 @@ TWindowBase *TAdChrSelASlotGC::create_slot_message_window(s32 kind, s32 text) {
     w = create_window_menu_default(&pos, 1);
     w->add_text_entry(get_localized_text_entry(0x16, text), 0x21, 0);
     w->disable_input();
-    TQuestThread::set_status_flag_80(w);
+    w->set_status_flag_80();
     w->calc_layout_height(190.0f);
     return w;
 }
@@ -245,7 +244,7 @@ TWindowBase *TAdChrSelASlotGC::create_slot_message_window(s32 kind, s32 text) {
 void TAdChrSelASlotGC::run_state_20() {}
 void TAdChrSelASlotGC::run_state_19() {}
 void TAdChrSelASlotGC::update_load_state() {
-    if (TAdPlayerLoadGC::get_instance() == 0) {
+    if (get_card_load_sequence_state() == 0) {
         if ((u32) (TAdPlayerLoadGC::get_load_result(0) + 0x10000) == 0xFF81U) {
             this->state = 0x13;
             return;
@@ -259,7 +258,7 @@ void TAdChrSelASlotGC::set_state() {
     this->state = 0x12;
 }
 void TAdChrSelASlotGC::check_load_state() {
-    if (TAdPlayerLoadGC::get_instance() == 0) {
+    if (get_card_load_sequence_state() == 0) {
         this->state = 1;
     }
 }

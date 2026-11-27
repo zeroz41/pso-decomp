@@ -9,6 +9,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/player/PhotonBlastResults.h"
 
 #pragma readonly_strings on
 
@@ -16,7 +17,7 @@
 const char *TObjBoss5FloorGrass::name = "TObjBoss5FloorGrass";
 
 void TObjBoss5FloorGrass::render() {
-    if (TObjPlayer::is_any_teammate_in_state() == 0) {
+    if (is_any_teammate_in_state() == 0) {
         push_matrix();
         set_texture_list(boss5_common_texture_list);
         draw_ginja_object(boss5_common_bml_resource->models[7].model);

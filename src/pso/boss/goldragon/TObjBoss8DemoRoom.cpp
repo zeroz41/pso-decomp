@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/boss/goldragon/TObjBoss8DemoRoom.h"
 #include "pso/render/GinjaUvScroll.h"
@@ -29,7 +28,7 @@ extern "C" {
 void TObjBoss8DemoRoom::render() {
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(*(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 0xC)));
     push_matrix();
-    draw_chunk_object((void *)(*(saddr *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 8)));
+    draw_chunk_object((NJS_OBJECT *)(*(saddr *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom::shared_resource_object + 0x42C)) + 8)));
     set_default_alpha_blend();
     pop_matrix();
 }

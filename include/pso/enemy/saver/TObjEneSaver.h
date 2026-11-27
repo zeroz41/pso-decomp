@@ -40,12 +40,12 @@ struct TObjEneSaver : public TObjEnemy {
     virtual int test_flag_256();
     virtual void run_miss_reaction();
     virtual void run_death_reaction();
-    virtual void *get_center();
+    virtual Vec *get_center();
     virtual void run_idle_action();
     virtual void run_move_action();
     virtual void run_attack_action();
     virtual void run_hit_reaction();
-    TObjEneSaver(TObject *parent, void *set_data);
+    TObjEneSaver(TObject *parent, EnemyPlacement *set_data);
     virtual void refresh_target();
     u32 state_flags;
     s32 parameter_mask;
@@ -67,4 +67,7 @@ LAYOUT_ASSERT(TObjEneSaver_size, sizeof(TObjEneSaver) == 0x3CC);
 LAYOUT_ASSERT(TObjEneSaver_state_flags, offsetof(TObjEneSaver, state_flags) == 0x374);
 LAYOUT_ASSERT(TObjEneSaver_body_fade, offsetof(TObjEneSaver, body_fade) == 0x3A4);
 LAYOUT_ASSERT(TObjEneSaver_attack_traces, offsetof(TObjEneSaver, attack_traces) == 0x3C0);
+void reset_effect_count();
+void step_cutscene_frame(NJS_OBJECT *);
+
 #endif

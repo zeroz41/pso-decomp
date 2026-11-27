@@ -4,6 +4,8 @@
 #include <dolphin/mtx.h>
 #include "pso/system/NinjaTypes.h"
 
+struct QuestObjectEntry;
+
 // What a slicer-type weapon's emit_marker_effects fills in and hands to
 // TTecSlicer::create (0x48 bytes on the stack of TItemWeaponSRankJCutter/4338/5A28/
 // 5B20/64E8/ECDC0 and TItemEffPG_8034EFDC). The fields are the ones
@@ -30,8 +32,7 @@ struct SlicerLaunchState {
 // its literal pool opens with these 1.0/0.0, emitted with the weak copy right
 // after emit_marker_effects, ahead of update_idle's literals.
 #ifndef SLICER_LAUNCH_STATE_OUT_OF_LINE
-inline void init_slicer_launch_state(void *state) {
-    SlicerLaunchState *s = (SlicerLaunchState *)state;
+inline void init_slicer_launch_state(SlicerLaunchState *s) {
     s->player_id = 0xFFFF;
     s->item_id = -1;
     s->texlist = 0;
@@ -45,7 +46,7 @@ inline void init_slicer_launch_state(void *state) {
     s->spin_velocity = -0x2AAA;
 }
 #else
-void init_slicer_launch_state(void *state);
+void init_slicer_launch_state(SlicerLaunchState *state);
 #endif
 
 #endif

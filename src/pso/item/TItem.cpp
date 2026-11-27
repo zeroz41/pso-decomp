@@ -10,7 +10,6 @@
 // emitted before the vtable; the static initializer is followed by this
 // file's copies of header inlines.
 #pragma readonly_strings on
-#define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
 #include <dolphin/mtx.h>
@@ -68,7 +67,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 
 #include "pso/effect/TEffIndirectSampler.h"
 #include "pso/map/FloorMapSelection.h"
@@ -316,12 +315,12 @@ void init_item_system() {
     item_id_counters = new TItemIdCounters;
     TEquippedWeaponDrawTask::create_queue();
     TEquippedItemDrawTask::create_queue();
-    TObjPlayer::init_game_resources();
+    init_game_resources();
     advance_item_system_generation();
 }
 
 void free_item_system() {
-    TObjPlayer::free_item_globals();
+    free_item_globals();
     TEquippedItemDrawTask::destroy_queue();
     TEquippedWeaponDrawTask::destroy_queue();
     if (item_id_counters != NULL) {
@@ -469,9 +468,9 @@ void TItem::place_on_ground(s16 floor, f32 *pos, s32 quiet) {
         destroy();
         return;
     }
-    rotation_x = 0;
-    rotation_z = 0;
-    rotation_y = (s32)(65536.0f * ((1.0f / 32768.0f) * (f32)rand()));
+    rotation.x = 0;
+    rotation.z = 0;
+    rotation.y = (s32)(65536.0f * ((1.0f / 32768.0f) * (f32)rand()));
     snap_to_ground();
     refresh_collision_body_centers();
     if (item_ground_placement_enabled != 0) {
@@ -482,7 +481,7 @@ void TItem::place_on_ground(s16 floor, f32 *pos, s32 quiet) {
 void TItem::update_owned() {}
 
 void TItem::update_timer() {
-    rotation_y += 0x200;
+    rotation.y += 0x200;
     if (has_interactor() != 0) {
         s16 timer = pickup_wait_frames;
         if (timer == 900) {
@@ -910,7 +909,7 @@ int TItem::calc_display_grade() {
 const char *TItem::get_name() {
     TItemData data;
     copy_to_item_data(&data);
-    char *name = (char *)get_item_chunk_buffer(0);
+    char *name = get_item_chunk_buffer(0);
     data.format_item_name(name);
     return name;
 }
@@ -969,7 +968,7 @@ u32 TItem::get_usable_action_flags(u32 mask, TObjPlayer *player) {
 s32 TItem::calc_price() {
     TItemData data;
     copy_to_item_data(&data);
-    return TItemData::calc_price_of(&data);
+    return calc_price_of(&data);
 }
 
 void TItem::destroy() {
@@ -1078,14 +1077,14 @@ void TItem::end_material_color() {
 
 void TItem::begin_effect_render() {
     if (item_render_state.test_flags_any(ITEM_RENDER_EFFECT) == 0) {
-        TParticleCtrl::begin_effect_render();
+        ::begin_effect_render();
         item_render_state.set(ITEM_RENDER_EFFECT);
     }
 }
 
 void TItem::end_effect_render() {
     if (item_render_state.test_flags_any(ITEM_RENDER_EFFECT) != 0) {
-        TParticleCtrl::end_effect_render();
+        ::end_effect_render();
         item_render_state.clear(ITEM_RENDER_EFFECT);
     }
 }
@@ -1416,7 +1415,7 @@ void TItem::notify_owner(s32 sound) {
 }
 
 void scroll_item_model_uvs(NJS_OBJECT *object, s32 du, s32 dv, u16 mesh) {
-    scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(object->model), du, dv, mesh, 1);
+    scroll_ginja_mesh_uvs(object->ginja_model, du, dv, mesh, 1);
     PPCSync();
 }
 
@@ -1481,14 +1480,14 @@ void TItem::render_model() {
     TItemLoad::get_drop_model(drop_model, &model, &texture);
     if (model != NULL) {
         set_draw_list_mask(3);
-        TParticleCtrl::begin_effect_render();
+        ::begin_effect_render();
         set_texlist(texture);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_ginja_object(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        ::end_effect_render();
         set_default_alpha_blend();
         restore_draw_list_mask();
     }
@@ -1507,17 +1506,17 @@ void TItem::render_present_box() {
         copy_argb(&saved_model_draw_color, &model_material_color);
         model_render_flags |= 0x10;
         set_draw_list_mask(3);
-        TParticleCtrl::begin_effect_render();
+        ::begin_effect_render();
         set_texlist(texture);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         set_constant_material(&item_box_primary_colors[box_color]);
         draw_ginja_model(box->model);
         set_constant_material(&item_box_secondary_colors[box_color]);
         draw_ginja_model(box->child->model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        ::end_effect_render();
         set_default_alpha_blend();
         restore_draw_list_mask();
         copy_argb(&model_material_color, &saved_model_draw_color);

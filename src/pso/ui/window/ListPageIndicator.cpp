@@ -2,7 +2,7 @@
 #include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/ListPageIndicator.h"
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/WindowTextDraw.h"
@@ -10,7 +10,7 @@
 #include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/render/TextureState.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TextBuilder.h"
@@ -74,22 +74,22 @@ s32 PageIndicator::turn_to(s8 new_page) {
 #pragma push
 #pragma fp_contract on
 #pragma readonly_strings on
-void PageIndicator::draw(WindowDrawContext *r) {
+void PageIndicator::draw(WindowDrawContext *context) {
     NJS_POINT2 pos;
     f32 scale;
-    if (r->open_tick < 0) {
+    if (context->open_tick < 0) {
         return;
     }
-    pos.x = (r->x + r->w) - 79.0f;
-    pos.y = (r->y + r->h) - 22.0f;
-    scale = (-1.0f) / (0.1495f + r->depth);
+    pos.x = (context->x + context->w) - 79.0f;
+    pos.y = (context->y + context->h) - 22.0f;
+    scale = (-1.0f) / (0.1495f + context->depth);
     begin_screen_draw(1);
     set_texture_list(hud_texlist);
     set_draw_texture_and_color(0, -1);
-    draw_page_arrow_right(r, 40.0f + pos.x, 2.0f + pos.y, scale, arrow_offset);
-    draw_page_arrow_left(r, pos.x - 69.0f, 2.0f + pos.y, scale, arrow_offset);
+    draw_page_arrow_right(context, 40.0f + pos.x, 2.0f + pos.y, scale, arrow_offset);
+    draw_page_arrow_left(context, pos.x - 69.0f, 2.0f + pos.y, scale, arrow_offset);
     end_screen_draw();
-    set_text_draw_params(r, 0, 1, scale, (f32)1e+05f);
+    set_text_draw_params(context, 0, 1, scale, (f32)1e+05f);
     text_builder_reset();
     text_builder_append_int(page + 1);
     pos.x -= (f32)calc_text_width(reinterpret_cast<char *>(get_shared_text_buffer()));
@@ -109,7 +109,7 @@ void PageIndicator::decay_arrow_offset() {
 
 
 s32 PageIndicator::handle_flip_input() {
-    void *pad;
+    ControllerInputContext *pad;
     s8 cur;
     decay_arrow_offset();
     cur = page;

@@ -85,7 +85,7 @@ void TOChatSensor::destroy_global() {
     }
 }
 
-void *TOChatSensor::create(void *set) {
+void *TOChatSensor::create(ObjectSetData *set) {
     if (chat_sensor_folder_instance == NULL) {
         new TOChatSensorFolder(tl_05);
     }
@@ -106,7 +106,7 @@ void TOChatSensor::dispatch_chat_message_to_children(char *message) {
     }
 }
 
-TOChatSensor::TOChatSensor(TObject *parent, void *set_data) : TObjBase(parent) {
+TOChatSensor::TOChatSensor(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     s32 n;
     char **t;
     m_name = chat_sensor_name;
@@ -150,7 +150,7 @@ void TOChatSensor::run_task() {
 }
 
 void TOChatSensor::render() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         NJS_ARGB color;
         color.a = 0.3f;
         color.r = 0.3f;
@@ -163,11 +163,11 @@ void TOChatSensor::init_params() {
     f32 x;
     s32 index;
 
-    this->kind = (u32) this->rotation_x;
+    this->kind = (u32) this->rotation.x;
     if ((u32) this->kind >= 2U) {
         this->kind = 0U;
     }
-    this->match_mode = (u32) this->rotation_y;
+    this->match_mode = (u32) this->rotation.y;
     if ((u32) this->match_mode >= 2U) {
         this->kind = 0U;
     }
@@ -221,10 +221,10 @@ void TOChatSensor::handle_chat_message(char *message) {
     }
 }
 
-void TOChatSensor::set_trigger_text(void *trigger_text) {
+void TOChatSensor::set_trigger_text(const char *trigger_text) {
     s32 i;
-    if (trigger_text != 0) {
-        strncpy(this->trigger_text, (const char *)trigger_text, 0x1F);
+    if (trigger_text != NULL) {
+        strncpy(this->trigger_text, trigger_text, 0x1F);
         this->trigger_text[0x1F] = 0;
         for (i = 0; i < 0x20; i++) {
             if (this->trigger_text[i] == 0xA) {

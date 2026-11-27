@@ -14,11 +14,6 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
-// Defined in CastTechniqueLevel.cpp, which has no header yet.
-u8 get_cast_technique_level(void *levels, s16 technique);
-}
-
 const char *item_pro_unit_class_name = "TItemProUnit";
 
 // The functions below run from the last one in the object back to the first
@@ -61,7 +56,7 @@ TItemProUnit::TItemProUnit(TObject *parent, u8 *item) : TItemEquipBase(parent, i
         effect_amount = 0;
         modifier_limit = 0;
     }
-    modifier = TItemData::get_field6_bswap(item);
+    modifier = TItemData::get_unit_modifier(item);
     if ((modifier <= -10) || (modifier >= 10)) {
         modifier = 0;
     }
@@ -140,7 +135,7 @@ void TItemProUnit::apply_owner_bonuses() {
             if (i == 14 || i == 17) {
                 continue;
             }
-            level = get_cast_technique_level(&owner->technique_state, i);
+            level = owner->technique_state.get_cast_technique_level(i);
             if (level != 0xFF) {
                 // Called with the class byte unextended: this TU saw the
                 // limit lookup as taking two u8s.
@@ -178,7 +173,7 @@ void TItemProUnit::remove_owner_bonuses() {
     i = 0;
     do {
         owner->technique_state.set_learned_level((s16)i,
-                                                 (u8)(get_cast_technique_level(&owner->technique_state, (s16)i) - technique_added[i]));
+                                                 (u8)(owner->technique_state.get_cast_technique_level((s16)i) - technique_added[i]));
         i += 1;
     } while (i != 19);
     memset(technique_added, 0, sizeof(technique_added));

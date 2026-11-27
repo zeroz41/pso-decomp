@@ -5,14 +5,14 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjRaderHideCol : public TObjBase {
-    TObjRaderHideCol(TObject *parent, void *set_data);
+    TObjRaderHideCol(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjRaderHideCol();
     virtual void render();
     virtual void run_task();
 
     f32 hide_radius;
     u32 radar_hidden;
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjRaderHideCol_radius_offset, offsetof(TObjRaderHideCol, hide_radius) == 0x90);

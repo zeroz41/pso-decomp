@@ -17,7 +17,7 @@ void TWindowShop::set_capacity(s32 capacity) { this->capacity = capacity; }
 
 
 void PlayerLevelStats::copy_stat_block(const PlayerLevelStats *src) {
-    *(ByteBlock_16 *)this = *(const ByteBlock_16 *)src;
+    __memcpy(this, src, sizeof(PlayerRequirementStats));
     hp_max = src->hp_max;
     tp_max = src->tp_max;
 }

@@ -1,9 +1,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
-// TObject's helpers are out-of-line functions for this TU (run_task calls
-// TObject::queue_destruction, defined elsewhere).
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include <stdlib.h>
 #include "pso/object/TObjTombstone.h"
 #include "pso/system/vector.h"
@@ -14,7 +11,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/object/TObjLukerNames.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerCommands.h"
@@ -42,13 +39,13 @@
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/ui/window/TObjBagWarnWin.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
-u32 calc_text_width(const char *);
 extern "C" {
 
 
-void draw_menu_font_string(const char *, u32, s32, f32, f32, f32);
 void set_tombstone_position(s32 i, Vec *pos);
 }
 
@@ -149,7 +146,7 @@ void TObjTombstone::setup(s32 client, const TObjTombstoneRecord *src) {
     this->client_id = client;
     this->record = *src;
     VecCopy(&this->position, &this->record.position);
-    this->rotation_y = this->client_id << 0xD;
+    this->rotation.y = this->client_id << 0xD;
     this->local_distance = 0.0f;
     this->label_fade = 0.0f;
     this->outline_fade = 0.0f;
@@ -263,7 +260,7 @@ void TObjTombstone::drop_recovery_items() {
             sum += rate[1];
         }
         if (kind != -1) {
-            s32 angle = rotation_y - ((count - 1) * 0x2000) / 2;
+            s32 angle = rotation.y - ((count - 1) * 0x2000) / 2;
             TItemData item = tombstone_recovery_item_templates[kind];
             s32 dropped = 0;
             s32 step;
@@ -272,7 +269,7 @@ void TObjTombstone::drop_recovery_items() {
                 pos.x += 7.5f * cos_table_lookup(angle);
                 pos.z += 7.5f * sin_table_lookup(angle);
                 pos.y += 10.0f;
-                if (project_actor_to_ground((TObjChara *)this, &pos, 0) != 0) {
+                if (project_actor_to_ground(this, &pos, 0) != 0) {
                     pos.y += 10.0f;
                     item.id = 0xFFFFFFFF;
                     drop_stacked_item(&item, local_client_id, &pos.x);
@@ -450,7 +447,7 @@ void TObjTombstone::update_render_flags() {
 
     if (tombstone_shared_resource_object != NULL) {
         if (tombstone_first_run_flag == 0) {
-            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(model->child->sibling->model), -8, 0, 0, 1);
+            scroll_ginja_mesh_uvs(model->child->sibling->ginja_model, -8, 0, 0, 1);
             tombstone_first_run_flag = 1;
             PPCSync();
         }
@@ -465,7 +462,7 @@ void TObjTombstone::update_render_flags() {
         }
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
@@ -473,8 +470,8 @@ void TObjTombstone::update_render_flags() {
 }
 
 void TObjTombstone::draw_name_labels() {
-    u32 c2;
-    u32 c1;
+    s32 c2;
+    s32 c1;
     NJS_POINT2 screen;
     Vec pos;
     f32 m;
@@ -606,7 +603,7 @@ s32 TObjTombstone::is_other_tombstone_closer() {
 s32 TObjTombstone::check_owner() {
     s32 active;
 
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         active = is_challenge_mode_active();
     } else {
         active = is_challenge_mode();

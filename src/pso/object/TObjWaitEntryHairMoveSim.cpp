@@ -1,10 +1,10 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject.h"
 #include "pso/object/TObjWaitEntryHairMoveSim.h"
 #include "pso/object/T_OWEHMS_Exp.h"
 #include "pso/object/TObjEZBoneRotPlayer.h"
 #include "pso/object/TObjEZBoneRotBase.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/TObjHMS_EZRope_Player.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/object/TObjTailsTailsMove.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
@@ -522,11 +522,11 @@ void TObjWaitEntryHairMoveSim::create_hair_effects() {
     for (e = hair_effect_selection_table; e->class_id >= 0 && e->class_id <= player->appearance.classId; e++) {
         if (player->appearance.classId == e->class_id) {
             if (player->appearance.hair == e->head_model_hair) {
-                model = (NJS_OBJECT *)player->head_model;
+                model = player->head_model;
             } else if (player->appearance.hair == e->hair_model_hair) {
-                model = (NJS_OBJECT *)player->hair_model;
+                model = player->hair_model;
             } else if (player->appearance.head == e->attachment_model_head) {
-                model = (NJS_OBJECT *)player->attachment_model;
+                model = player->attachment_model;
             } else {
                 continue;
             }
@@ -534,7 +534,7 @@ void TObjWaitEntryHairMoveSim::create_hair_effects() {
             if (e->bone_rotation != NULL) {
                 TObjEZBoneRotPlayer::create(player, model, e->bone_rotation);
             } else if (e->rope_spec != NULL) {
-                player->create_hairmove(e->rope_spec, e->collider_spec);
+                TObjHMS_EZRope_Player::create_hairmove(player, e->rope_spec, e->collider_spec);
             }
         }
     }
@@ -577,7 +577,7 @@ void T_OWEHMS_Exp::run_task() {
 void TObjWaitEntryHairMoveSim::hair_model_stub(NJS_OBJECT *model) {  }
 
 void T_OWEHMS_Exp::start_bone_rotation() {
-    NJS_OBJECT *model = (NJS_OBJECT *)player->hair_model;
+    NJS_OBJECT *model = player->hair_model;
     TObjWaitEntryHairMoveSim::hair_model_stub(model);
     TObjEZBoneRotPlayer::create(player, model, &hair_bone_rotation_descriptor[descriptor_index]);
 }

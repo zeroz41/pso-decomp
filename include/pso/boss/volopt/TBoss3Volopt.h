@@ -21,7 +21,7 @@ struct TBoss3VoloptActionPacket {
     s16 action;
     u16 target_id;
     s16 param;
-    s16 param2;
+    s16 moves;
 
     void init();
     void swap();
@@ -64,12 +64,12 @@ struct TBoss3VoloptPositionPacket {
 };
 
 struct TBoss3Volopt : public TObjEnemyCustom {
-    TBoss3Volopt(void *set_data);
+    TBoss3Volopt(EnemyPlacement *set_data);
     virtual ~TBoss3Volopt();
     virtual void render();
     virtual void run_task();
 
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void free_parts();
     static void load_resources();
 
@@ -108,16 +108,13 @@ struct TBoss3Volopt : public TObjEnemyCustom {
 
     // Defined in other units; most are helpers of other classes filed under
     // TBoss3Volopt.
-    static void create_breakup_mdl(TBreakUpMdlData *model, const BreakUpParamRow *params, NJS_TEXLIST *texlist,
-                                    const Vec *position, s32 rotation_y);
-    static s32 remap_area_sound_id(s32 sound_id);
     void create_cage(u16 target_id);
 
     u8 pad_38C[0x18];
     s32 core_slot;
     s32 in_phase2;
     u8 pad_3AC[0x10];
-    u32 m_3bc;
+    u32 pad_3bc;
     u8 pad_3C0[0x20];
     s32 pad_3e0;
     u8 pad_3E4[0xC];

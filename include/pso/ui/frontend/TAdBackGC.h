@@ -24,5 +24,5 @@ public:
 LAYOUT_ASSERT(TAdBackGC_size, sizeof(TAdBackGC) == 0x24);
 
 void register_texture_f256_ad_pic_2(void);
-
+void free_global();
 #endif

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -74,7 +73,7 @@ s32 TOCtrlDubchik::select_melee_contact_body(TObjChara *source, f32 factor) {
     return 0;
 }
 
-TOCtrlDubchik::TOCtrlDubchik(TObject *parent, void *set_data) : TObjEnemy(parent) {
+TOCtrlDubchik::TOCtrlDubchik(TObject *parent, EnemyPlacement *set_data) : TObjEnemy(parent) {
     m_name = ctrl_dubchik_name;
     apply_set_data(set_data);
     init_position_vectors();
@@ -114,7 +113,7 @@ void TOCtrlDubchik::destroy_instance() {
     }
 }
 
-void *TOCtrlDubchik::create(void *set_data) {
+void *TOCtrlDubchik::create(EnemyPlacement *set_data) {
     return new TOCtrlDubchik(tl_05, set_data);
 }
 
@@ -129,7 +128,7 @@ void TOCtrlDubchik::render() {
     if (visible == 1) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         node = model;
         post_translate_matrix(node->pos);
@@ -149,14 +148,14 @@ void TOCtrlDubchik::render() {
         post_translate_matrix(node->pos);
         rotate_matrix_y(NULL, spin_angle);
         draw_ginja_model(node->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         node = node->child;
         post_translate_matrix(node->pos);
         scale_matrix(NULL, effect_scale, 1.0f, effect_scale);
         draw_ginja_model(node->model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         pop_matrix();
     }
@@ -165,7 +164,7 @@ void TOCtrlDubchik::render() {
     translate_matrix(0, shadow_pos.x, 0.3f + shadow_pos.y, shadow_pos.z);
     rotate_matrix_z(NULL, rot_z);
     rotate_matrix_x(NULL, rot_x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     rotate_matrix_x(NULL, -0x4000);
     shadow_scale = 1.0f - 0.025f * (hover_height - 20.0f);
     scale[2] = 1.0f;
@@ -177,7 +176,7 @@ void TOCtrlDubchik::render() {
 }
 
 void TOCtrlDubchik::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_demo_task();
         return;
     }
@@ -287,7 +286,7 @@ void TOCtrlDubchik::complete_and_destroy() {
         state.flags = 1;
         send_6x0A_enemy_state(&state);
         exchange_object_state(&state, 0);
-        apply_enemy_state(&state.flags);
+        apply_enemy_state(&state);
         kill_room_dubchiks();
         set_flag8();
         queue_destruction();

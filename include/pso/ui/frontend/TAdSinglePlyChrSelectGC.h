@@ -41,8 +41,8 @@ struct SystemSaveData {
     s8 language;
     s32 clock_offset_frames;
     s16 udp_option; // option menu "UDP Option": 0 auto, 1 on, 2 off
-    s16 surround_sound; // 1 when the output mode is surround: stereo to the OS, flagged here
-    u8 event_flags[0x100]; // the quest event flags (get/set_eventflag opcodes)
+    s16 surround_sound; // non-zero: sound output mode 2 over the OS stereo mode
+    u8 event_flags[0x100]; // quest opcodes get_eventflag / set_eventflag
     u8 serial_number[8];
     s32 serial_seed;
 };
@@ -66,7 +66,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     TAdGuideTxtGC *guide;                  // 0x34
     static void try_load_system_file();
     static s32 wait_for_card_load(s32 chan);
-    static void free_texture_f256_backtext();
     static s32 check_slot_flags(s32 slot, u32 mask);
     void cleanup();
     virtual void run_task();
@@ -103,19 +102,9 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void set_state(int a0);
     static void set_chr_select_state(int a0);
     void*init_guild_card_tag();
-    static s32 draw_window_bg(s32 chan, const char *filename, void *buf, s32 blocks);
-    static s32 load_player(s32 chan, const char *filename, void *buf, s32 blocks);
-    static s32 load_player_slot(s32 chan, const char *file_name, void *buffer);
     s32 try_acquire_slot();
-    static void init_entry_tables(void* _w0);
-    static s32 is_active();
     void reset_creation_parts();
     static s32 map_button_code(s32 code);
-    static s32 count_remaining_slots();
-    static s32 has_matching_entry(CharacterAppearanceFields *character);
-    static CreationTextureCacheEntry *find_free_slot();
-    static s32 evict_char_entries(s32 limit);
-    static void free_global();
     static void render(void *self);
     TWindowMenu *create_chr_warp(NJS_POINT2 *pos);
     void close_and_change_scene();
@@ -143,14 +132,8 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     TAdFadeGC *fade_task;                  // 0x54
     s32 last_cursor_index;                 // 0x58
     s32 menu_choice;                       // 0x5C  chr_menu entry that decides where the scene goes next
-    static void free_all_resources();
-    s32 load_and_verify_character_save(char *desc);
-    u8 *copy_character_data(u8 *source);
     static void reset_quest_id();
     static void set_quest_download_server(int quest_download_server);
-    static void init_logo_state(s32 state);
-    static void noop();
-    static void run_frame();
     static TPlyCharData *get_char_index(unsigned int index);
     static TPlyCharData *get_char_table_entry(int index);
     static void run_save_load_sequence();
@@ -168,7 +151,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void build_default_save_file();
     static void build_save_file();
     static s32 check_page_cross(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot);
-    static s32 check_system_file_status();
     static void clear_load_buffers();
     static void clear_slot_body(int i);
     static void clear_slot_entry(int i);
@@ -202,7 +184,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void save_character_file(int use_primary);
     static s32 setup_player_battle_ctrls();
     static s32 update_elapsed_time(CharacterSaveRecord *record);
-    static void update_pair(TCMCharacter *character);
     static s32 update_play_time();
     static s32 verify_save_checksum(int keep_on_mismatch);
     static void verify_save_checksum();
@@ -238,7 +219,7 @@ LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_player_offset, offsetof(TAdSinglePlyChrSel
 LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_guide_offset, offsetof(TAdSinglePlyChrSelectGC, guide) == 0x34);
 LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_menu_choice_offset, offsetof(TAdSinglePlyChrSelectGC, menu_choice) == 0x5C);
 
-// Memory-card save state of the character select scene (.sbss of TAdSinglePlyChrSelectGC_801FBF54.cpp,
+// Memory-card save state of the character select scene (.sbss of TAdSinglePlyChrSelectGC_CardSequence.cpp,
 // in definition order). The buffers hold heap addresses as words: every test of them against 0 is a cmplwi.
 extern CharacterFile *card_character_save_buffer;
 extern CharacterFile *secondary_card_character_save_buffer;
@@ -270,5 +251,8 @@ struct NJS_POINT2;
 void set_title_tex_positions(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
 
 s32 get_guild_card_file_block_count(void);
+// Loads and decrypts the slot A character file: copies its serial into serial and its access key into desc;
+// 1 when the file's CRC32 holds.
+s32 load_and_verify_character_save(char *serial_number, char *access_key);
 
 #endif

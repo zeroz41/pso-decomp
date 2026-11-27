@@ -9,6 +9,7 @@
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/weapon/TItemWeaponInfernoBazooka.h"
 
 // Slides the barrel back by barrel_offset (the name s_rank_bazooka_slide_barrel was inferred).
 void TItemWeaponSRankBazooka::transform_model_node() {
@@ -27,14 +28,14 @@ void TItemWeaponSRankBazooka::update_weapon() {
         ::approach_value(&barrel_offset, (-0.5f), (-2.0f));
         if ((-2.0f) == barrel_offset) {
             recoil_state = 2;
-            ang = owner->rotation_y + 0x4000;
+            ang = owner->rotation.y + 0x4000;
             v.x = sin_table_lookup(ang);
             v.y = 0.0f;
             v.z = cos_table_lookup(ang);
             a[0] = 0x4000;
-            a[1] = owner->rotation_y;
+            a[1] = owner->rotation.y;
             a[2] = 0;
-            TObjPlayer::launch_weapon_casing(tl_05, this, 3, &v, a);
+            launch_weapon_casing(tl_05, this, 3, &v, a);
         }
     } else if (recoil_state == 2) {
         ::approach_value(&barrel_offset, 0.2f, 0.0f);
@@ -46,7 +47,7 @@ void TItemWeaponSRankBazooka::update_weapon() {
 
 TItemWeaponSRankBazooka::TItemWeaponSRankBazooka(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     barrel_offset = 0.0f;
-    impact_callback = (WeaponHitCallback)spawn_flame_wall_impact;
+    impact_callback = spawn_flame_wall_impact;
     recoil_state = 0;
     hit_callback = (WeaponHitCallback)play_target_impact_effect;
     shot_callback = create_shoot_model_with_particles;

@@ -6,6 +6,8 @@
 #include "pso/audio/AdxHeader.h"
 #include "pso/audio/AdxStream.h"
 #include "pso/audio/AdxTalk.h"
+#include "pso/audio/AdxtInit.h"
+#include "pso/audio/AdxtServer.h"
 #include "pso/audio/AdxDecode4.h"
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AudioStreamInput.h"
@@ -98,7 +100,6 @@ typedef void (*RecoveredCallback_2be3cacebb2e)(void);
 
 
 extern "C" {
-
 s32 adxt_rate_mode;
 s32 adxt_server_stage;
 s32 adxt_resync_count;
@@ -560,7 +561,7 @@ void adx_destroy_stream_player(AdxtPlayer *player) {
 
 AdxtPlayer *adx_create_stream_player(s32 n, void *work, s32 size) {
     AdxtPlayer *c;
-    s32 aligned = ((saddr)work + 0x3F) & ~0x3F;
+    saddr aligned = ((saddr)work + 0x3F) & ~0x3F;
     s32 rem = size - (aligned - (saddr)work);
     s32 i;
     s32 t;
@@ -576,20 +577,20 @@ AdxtPlayer *adx_create_stream_player(s32 n, void *work, s32 size) {
     memset(c, 0, sizeof(AdxtPlayer));
     c->max_channels = n;
     t = (n * 0x2060) << 1;
-    c->input_buf_addr = aligned + t;
+    c->input_buf = (u8 *)aligned + t;
     c->input_buf_size = (rem - t - 0x24) / 2048 * 2048;
     c->input_extra_size = 0x24;
-    c->output_buf_addr = aligned;
+    c->output_buf = (u8 *)aligned;
     c->output_buf_size = 0x2000;
     c->output_stride = 0x2060;
     c->input_sj = NULL;
-    c->input_ring = sj_ring_buffer_create((void *)c->input_buf_addr, c->input_buf_size, c->input_extra_size);
+    c->input_ring = sj_ring_buffer_create(c->input_buf, c->input_buf_size, c->input_extra_size);
     if (c->input_ring == NULL) {
         adx_destroy_stream_player(c);
         return NULL;
     }
     for (i = 0; i < n; i++) {
-        c->output_rings[i] = sj_ring_buffer_create((void *)(c->output_buf_addr + c->output_stride * i * 2), c->output_buf_size * 2, (c->output_stride - c->output_buf_size) * 2);
+        c->output_rings[i] = sj_ring_buffer_create(c->output_buf + c->output_stride * i * 2, c->output_buf_size * 2, (c->output_stride - c->output_buf_size) * 2);
         if (c->output_rings[i] == NULL) {
             adx_destroy_stream_player(c);
             return NULL;

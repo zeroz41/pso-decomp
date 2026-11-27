@@ -10,7 +10,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/system/data/pso_date.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/render_util.h"
@@ -26,7 +26,6 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/item/TRelDataFile.h"
-#include "pso/item/drop/TItemDrop.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/TGStream.h"
@@ -47,6 +46,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/SubtractiveRng.h"
 #include "pso/system/BmlResource.h"
+#include "pso/system/scene/OfflineGameScene.h"
 
 const char *empty_string = "";
 
@@ -83,7 +83,7 @@ AdxfHandle **pending_file_read_handle_ref;
 s32 pending_file_read_sector_count;
 void *pending_file_read_destination;
 s32 pending_file_read_flush_requested;
-u32 main_phase_deferred_callback;
+void (*main_phase_deferred_callback)();
 s32 quest_download_server_ready;
 u8 lobby_state_byte_flag;
 u8 lobby_wait_ready_flag;
@@ -803,11 +803,11 @@ NJS_TEXNAME er_mes_texnames[5] = {
 };
 __declspec(section ".data") NJS_TEXLIST er_mes_texlist = { er_mes_texnames, 5 };
 
-void TLobby::reset_keyboard_state() { area_transfer_pending_flag = 0; clear_controller_reset_request(); }
+void reset_keyboard_state() { area_transfer_pending_flag = 0; clear_controller_reset_request(); }
 
 
 void flag_pending_area_transfer(void) {
-    if (main_phase_deferred_callback != 0U) {
+    if (main_phase_deferred_callback != NULL) {
         area_transfer_pending_flag = 1;
     }
 }
@@ -816,27 +816,25 @@ s32 is_area_transfer_pending() { return area_transfer_pending_flag ? 1 : 0; }
 
 void TLobby::clear_callback_and_reset_keyboard() { TLobby::set_keyboard_mode(0); clear_controller_reset_request(); }
 
-#define main_phase_deferred_callback (*(s32 (**)())&main_phase_deferred_callback)
-
 void apply_phase_keyboard_mode() {
     switch (get_main_phase()) {
     case 15:
         if (is_quest_active() != 0) {
-            TLobby::set_keyboard_mode((saddr)(init_chr_select));
+            TLobby::set_keyboard_mode(init_chr_select);
         } else {
-            TLobby::set_keyboard_mode((saddr)(reset_to_chr_select));
+            TLobby::set_keyboard_mode(reset_to_chr_select);
         }
         break;
     case 14:
         if (is_quest_active() != 0) {
-            TLobby::set_keyboard_mode((saddr)(TLobby::shutdown_keyboard_control));
+            TLobby::set_keyboard_mode(shutdown_keyboard_control);
         } else {
-            TLobby::set_keyboard_mode((saddr)(TLobby::reset_keyboard_input));
+            TLobby::set_keyboard_mode(reset_keyboard_input);
         }
         break;
     case 1:
     case 2:
-        TLobby::set_keyboard_mode((saddr)reset_to_fallback_main_phase);
+        TLobby::set_keyboard_mode(reset_to_fallback_main_phase);
         break;
     default:
         TLobby::set_keyboard_mode(0);
@@ -847,14 +845,12 @@ void apply_phase_keyboard_mode() {
 void reset_to_fallback_main_phase(void) { clear_controller_reset_request(); switch_to_fallback_main_phase(); }
 
 void invoke_callback() {
-    if (((s32 (*)()) main_phase_deferred_callback) != NULL) {
+    if (main_phase_deferred_callback != NULL) {
         main_phase_deferred_callback();
     }
 }
 
-#undef main_phase_deferred_callback
-
-void TLobby::set_keyboard_mode(int a0) { main_phase_deferred_callback = a0; }
+void TLobby::set_keyboard_mode(void (*callback)()) { main_phase_deferred_callback = callback; }
 
 void flush_pending() {
     void *destination;
@@ -862,7 +858,7 @@ void flush_pending() {
     if (pending_file_read_flush_requested != 0) {
         destination = pending_file_read_destination;
         pending_file_read_flush_requested = 0;
-        if ((destination != NULL)) {
+        if (destination != NULL) {
             count = pending_file_read_sector_count;
             if (count != 0) {
                 ADXF_ReadNw(*pending_file_read_handle_ref, count, destination);
@@ -1185,19 +1181,19 @@ u32 QuestDownloadFile::decrypt(s32 size, void *dst, u32 capacity) {
     return v0;
 }
 
-void *TLobby::alloc_download_quest(s32 size, s32 *out_size) {
-    s32 v0 = *(s32 *)&this->m_name;
-    s32 v4 = *(s32 *)&this->m_flags;
+void *QuestDownloadFile::alloc_download_quest(s32 size, s32 *out_size) {
+    s32 v0 = decompressed_size;
+    s32 v4 = seed;
     void *ret;
 
-    ret = TQuestVmDownLoadServer::alloc(v0);
+    ret = alloc(v0);
     if (ret == NULL) {
         return NULL;
     }
     SubtractiveRng rng;
     rng.set_seed(v4);
-    rng.xor_buffer(&this->m_prev, size - 8);
-    prs_decompress_buffer(&this->m_prev, ret);
+    rng.xor_buffer(data, size - 8);
+    prs_decompress_buffer(data, ret);
     if (out_size != NULL) {
         *out_size = v0;
     }
@@ -1208,7 +1204,7 @@ void *TLobby::alloc_download_quest(s32 size, s32 *out_size) {
 void *load_encrypted_text_archive(char *name, s32 *out_size) {
     s32 size;
     s32 h;
-    u8 *buf;
+    QuestDownloadFile *buf;
     void *ret;
     s32 archive_size;
 
@@ -1217,23 +1213,23 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
         return NULL;
     }
     if ((size <= 0x40000) && (tmp_buf_is_free() != 0)) {
-        buf = tmp_buf_use_req(load_file_prc_buffer_tag);
+        buf = (QuestDownloadFile *)tmp_buf_use_req(load_file_prc_buffer_tag);
         read_disc_file(name, buf);
-        ret = ((TLobby *)buf)->alloc_download_quest(size, &archive_size);
+        ret = buf->alloc_download_quest(size, &archive_size);
         tmp_buf_release(load_file_prc_buffer_tag);
     } else {
         TGStream st(name, 1);
-        buf = (u8 *)TQuestVmDownLoadServer::alloc(0x800);
+        buf = (QuestDownloadFile *)alloc(0x800);
         st.read_sectors_sync(1, buf);
-        archive_size = *(s32 *)((s8 *)buf + 0);
-        h = *(s32 *)((s8 *)buf + 4);
+        archive_size = buf->decompressed_size;
+        h = buf->seed;
         safe_free(buf);
-        ret = TQuestVmDownLoadServer::alloc(archive_size);
-        buf = load_disc_file(name);
+        ret = alloc(archive_size);
+        buf = (QuestDownloadFile *)load_disc_file(name);
         SubtractiveRng rng;
         rng.set_seed(h);
-        rng.xor_buffer(buf + 8, size - 8);
-        prs_decompress_buffer(buf + 8, ret);
+        rng.xor_buffer((u32 *)buf->data, size - 8);
+        prs_decompress_buffer(buf->data, ret);
         safe_free(buf);
     }
     if (out_size != NULL) {
@@ -1242,18 +1238,18 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
     return ret;
 }
 
-saddr load_text_resource_pair(saddr name) {
+void **load_text_resource_pair(const char *name) {
     s32 size;
     char path[0x40];
     u8 *data;
     RelFileTrailer *relocs;
-    s32 root;
+    void **root;
 
     sprintf(path, "%s.pr2", name);
     data = (u8 *)load_encrypted_text_archive(path, &size);
     sprintf(path, "%s.pr3", name);
     relocs = (RelFileTrailer *)load_encrypted_text_archive(path, &size);
-    root = (saddr)alloc_named_object((const char *)name, data, size, relocs);
+    root = (void **)alloc_named_object(name, data, size, relocs);
     safe_free(relocs);
     return root;
 }
@@ -1345,7 +1341,7 @@ TRelDataFile::TRelDataFile(TObject *parent) : TObject(parent) {}
 
 TRelDataFile::TRelDataFile() : TObject(NULL) {}
 
-s32 TQuestVmDownLoadServer::is_ready() {
+s32 is_ready() {
     wait_ready_loop();
     if (memcard_access_active != 0) {
         return 0;
@@ -1409,7 +1405,7 @@ void run_frame() {
     }
     tl_su->debug_render();
     tl_su->debug_update();
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         system_reset();
         lobby_frame_stub();
     }

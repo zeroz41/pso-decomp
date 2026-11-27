@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/system/BmlResource.h"
@@ -8,7 +7,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/olgaflow/Boss6Type2Appearance.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixStack.h"
@@ -45,7 +43,7 @@ const ParticleScheduleEntry boss6_type2_appear_particle_schedule[9] = {
     {100, 157, 377, -2}
 };
 const Vec boss6_type2_appear_camera_position = {-10000.0f, 0.0f, 0.0f};
-const CameraAngles boss6_type2_appear_camera_angles = {0, 0, 0};
+const Angle3 boss6_type2_appear_camera_angles = {0, 0, 0};
 const CameraPlayback boss6_type2_appear_camera_script = {1, 3, 0, 0.0f, 0.7f};
 
 void TBoss6Demo20_TYPE2_APPEAR::draw_model_12() {
@@ -307,15 +305,14 @@ TBoss6Demo20_TYPE2_APPEAR *TBoss6Demo20_TYPE2_APPEAR::create(TBoss6PlotFalz *plo
     return new TBoss6Demo20_TYPE2_APPEAR(plot);
 }
 
-void initialize_boss6_type2_appear_particle_origin(void) {
+// Offsets the particle origin from the appearance origin, spelled out because the original keeps that Vec, zeroed,
+// in .data.
+void __sinit_TBoss6Demo20_TYPE2_APPEAR_cpp() {
     boss6_type2_appear_offset_particle_origin.x = boss6_type2_appear_origin.x;
     boss6_type2_appear_offset_particle_origin.y = 50.0f + boss6_type2_appear_origin.y;
     boss6_type2_appear_offset_particle_origin.z = boss6_type2_appear_origin.z;
 }
-extern "C" {
-__declspec(section ".ctors") static void *const __sinit_text_8033DA94_cpp_ref = initialize_boss6_type2_appear_particle_origin;
-
-}
+__declspec(section ".ctors") static void *const boss6_type2_appear_global_initializer = (void *)__sinit_TBoss6Demo20_TYPE2_APPEAR_cpp;
 __declspec(section ".data") Vec boss6_type2_appear_offset_particle_origin = {0.0f, 0.0f, 0.0f};
 extern "C" {
 __declspec(section ".data") s32 boss6_type2_appear_motion_indices[2] = {31, 33};

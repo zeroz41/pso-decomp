@@ -65,8 +65,4 @@ struct RadarBackdropMap { RadarBackdropRecord *recs; NJS_TEXLIST *tex; s32 count
 
 struct RadarMarker { f32 x; f32 z; f32 scale; u16 rot; s16 kind; s32 color; };
 
-typedef struct RadarColor4 {
-    f32 v[4];
-} RadarColor4;
-
 #endif

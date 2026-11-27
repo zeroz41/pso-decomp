@@ -7,11 +7,11 @@
 struct BmlResource;
 
 struct TObjNpcKenkyu : public TObjNpcMale {
-    TObjNpcKenkyu(TObject *parent, void *set_data);
+    TObjNpcKenkyu(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjNpcKenkyu();
     static void free_static_model();
     static void load_shared_resource();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static const char *name;
     static BmlResource *static_model;
 };

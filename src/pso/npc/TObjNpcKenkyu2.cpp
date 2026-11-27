@@ -14,7 +14,7 @@
 #include "pso/system/task/TMainTask.h"
 #pragma readonly_strings on
 
-void *TObjNpcKenkyu2::create(void *set_data) {
+void *TObjNpcKenkyu2::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcKenkyu2(control, set_data);
 }
@@ -34,7 +34,7 @@ void TObjNpcKenkyu2::load_shared_resource() {
 
 TObjNpcKenkyu2::~TObjNpcKenkyu2() {}
 
-TObjNpcKenkyu2::TObjNpcKenkyu2(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+TObjNpcKenkyu2::TObjNpcKenkyu2(TObject *parent, EnemyPlacement *set_data) : TObjNpcMale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

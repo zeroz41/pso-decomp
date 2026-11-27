@@ -14,7 +14,7 @@ struct NJS_MOTION;
 // into TObjSuisoChip debris. Its statics hold the seabed tank resources
 // that TObjSeabedSuiso_CH draws from too.
 struct TObjSeabedSuisoBrakable : public TORockCaveBrakable {
-    TObjSeabedSuisoBrakable(void *set_data);
+    TObjSeabedSuisoBrakable(ObjectSetData *set_data);
     virtual ~TObjSeabedSuisoBrakable();
     virtual void render();
     virtual void pre_draw();
@@ -24,7 +24,7 @@ struct TObjSeabedSuisoBrakable : public TORockCaveBrakable {
     void init_model();
     s32 kind;  // abs(set_params[1]) clamped to 2: the model and chip set
 
-    static void *create_instance(void *set_data);
+    static void *create_instance(ObjectSetData *set_data);
     static void free_static_resources();
     static void load_resources();
     static s32 get_texture_entry(int index);

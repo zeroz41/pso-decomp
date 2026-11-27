@@ -7,11 +7,11 @@
 struct BmlResource;
 
 struct TObjNpcConnoisseur : public TObjNpcMale {
-    TObjNpcConnoisseur(TObject *parent, void *set_data);
+    TObjNpcConnoisseur(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjNpcConnoisseur();
     static void destroy_instance();
     static void load_section_motion();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static const char *name;
     static s32 section_id;
     static BmlResource *instance;

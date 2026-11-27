@@ -606,6 +606,7 @@ CvFsHandle *cvFsOpen(const char *name, s32 mode, s32 arg) {
     return h;
 }
 extern "C" {
+// 1 when the first len characters of s name a device in cvfs_entry_table.
 inline s32 is_known_device_name(char *s, s32 len) {
     TLobbyEntry *p;
     s32 i;

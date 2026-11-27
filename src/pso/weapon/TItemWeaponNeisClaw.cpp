@@ -1,6 +1,5 @@
 #include "pso/math/ClampedStep.h"
 #include "pso/technique/TFireExplosion.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/object/base/TObjCollidable.h"
@@ -111,31 +110,30 @@ void TItemWeaponGiGueBazooka::transform_model_node() {
 
 void TItemWeaponGiGueBazooka::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->hit_effect = (void *)TObjPlayer::spawn_fire_explosion_at_item;
-    desc->wall_effect = (void *)TObjPlayer::spawn_fire_explosion_for_item;
+    desc->wall_effect = (void *)spawn_fire_explosion_for_item;
     desc->flags |= 0x80;
 }
 
-void TObjPlayer::spawn_fire_explosion(TItemWeapon *item_weapon, const Vec *pos) {
+void TObjPlayer::spawn_fire_explosion(TItemWeapon *weapon, const Vec *position) {
     WeaponEffectDescriptor info;
     reset_weapon_effect_descriptor(&info);
-    item_weapon->fill_status_info(&info);
-    VecCopy(&info.position, pos);
+    weapon->fill_status_info(&info);
+    VecCopy(&info.position, position);
     info.hits = 10;
     new TExplosionCollider(tl_05, &info);
     new TFireExplosion(10.0f, &info.position, 0, tl_particle);
 }
 
-void TObjPlayer::spawn_fire_explosion_at_item(s32 id, saddr context) {
-    ActorBodyHit *hit = (ActorBodyHit *)context;
-    TItemWeapon *item_weapon = (TItemWeapon *)find_item_by_id(id);
-    if (item_weapon != NULL) {
-        TObjPlayer::spawn_fire_explosion(item_weapon, &hit->target->bodies[hit->body].center);
+void TObjPlayer::spawn_fire_explosion_at_item(s32 id, ActorBodyHit *hit) {
+    TItemWeapon *weapon = (TItemWeapon *)find_item_by_id(id);
+    if (weapon != NULL) {
+        TObjPlayer::spawn_fire_explosion(weapon, &hit->target->bodies[hit->body].center);
     }
 }
 
-void TObjPlayer::spawn_fire_explosion_for_item(s32 id, s32 item) {
-    TItemWeapon *item_weapon = (TItemWeapon *)find_item_by_id(id);
-    if (item_weapon != NULL) {
-        TObjPlayer::spawn_fire_explosion(item_weapon, (const Vec *)item);
+void spawn_fire_explosion_for_item(s32 id, const Vec *position) {
+    TItemWeapon *weapon = (TItemWeapon *)find_item_by_id(id);
+    if (weapon != NULL) {
+        TObjPlayer::spawn_fire_explosion(weapon, position);
     }
 }

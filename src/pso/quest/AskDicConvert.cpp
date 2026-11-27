@@ -35,14 +35,15 @@ u16 *quest_download_buffer_start;
 u16 *quest_vm_download_buffer_end;
 s32 quest_download_match_length_limit;
 s16 lbl_805D78E0;
-s32 lbl_805D78E4;
+// Nonzero: romaji input turns , - . / [ ] into Japanese punctuation (key_symbol_jis) instead of full-width ASCII.
+s32 japanese_punctuation_enabled;
 s32 lbl_805D78E8;
 saddr quest_text_entry_len;
 saddr quest_text_cursor_pos;
 s32 quest_download_server_state;
 saddr ask_dictionary_open_mode;
 s32 number_format_mode;
-s32 lbl_805D7900;
+s32 ask_learning_enabled;
 s32 quest_download_file_handle;  // what the quest-file open returns; -1 = closed (named from use)
 
 LAYOUT_ASSERT(QuestDownloadRequestStorageSize, sizeof(QuestDownloadRequestStorage) == 0x28);
@@ -58,10 +59,10 @@ inline s32 get_text_run_length(QuestDownloadTextNode *p) {
     }
     n = (quest_text_entry_len - p->len) * 2;
     while (p->flags & 1) {
-        n += strlen(reinterpret_cast<const char *>(p) + 1);
+        n += strlen(reinterpret_cast<const char *>(p->text));
         p = p->next;
     }
-    return n + strlen(reinterpret_cast<const char *>(p) + 1);
+    return n + strlen(reinterpret_cast<const char *>(p->text));
 }
 inline QuestDownloadTextNode *next_text_group(QuestDownloadTextNode *p) {
     while (p->flags & 1) {
@@ -215,7 +216,7 @@ s32 count_fitting_entries(QuestDownloadTextNode *head) {
 inline s32 group_name_text(QuestDownloadTextNode *p, u16 *buf) {
     s32 n = 0;
     for (;;) {
-        n += convert_quest_text_u8_to_u16(buf + n, reinterpret_cast<u8 *>(p) + 1, 6);
+        n += convert_quest_text_u8_to_u16(buf + n, p->text, 6);
         if (!(p->flags & 1)) {
             break;
         }
@@ -332,10 +333,10 @@ s32 measure_entry_group_len(QuestDownloadTextNode *node) {
     }
     n = (quest_text_entry_len - node->len) * 2;
     while (node->flags & 1) {
-        n += strlen(reinterpret_cast<const char *>(node) + 1);
+        n += strlen(reinterpret_cast<const char *>(node->text));
         node = node->next;
     }
-    return n + strlen(reinterpret_cast<const char *>(node) + 1);
+    return n + strlen(reinterpret_cast<const char *>(node->text));
 }
 
 extern "C" s32 count_quest_text_entries(const QuestDownloadTextNode *chain) {
@@ -382,7 +383,7 @@ inline s32 render_group_text(s32 start, s32 count, QuestDownloadTextNode *node, 
     p = node;
     n = 0;
     for (;;) {
-        n += convert_quest_text_u8_to_u16(b + n, reinterpret_cast<u8 *>(p) + 1, 6);
+        n += convert_quest_text_u8_to_u16(b + n, p->text, 6);
         if (!(p->flags & 1)) {
             break;
         }
@@ -457,7 +458,7 @@ inline s32 render_packed_group_text(s32 start, s32 count, QuestDownloadTextNode 
     p = node;
     n = 0;
     for (;;) {
-        n += convert_quest_text_u8_to_u16(b + n, reinterpret_cast<u8 *>(p) + 1, 6);
+        n += convert_quest_text_u8_to_u16(b + n, p->text, 6);
         if (!(p->flags & 1)) {
             break;
         }
@@ -542,9 +543,9 @@ inline QuestDownloadTextNode *new_raw_text_node(s32 x) {
     QuestDownloadTextNode *n = alloc_quest_text_node();
     if (n != NULL) {
         n->flags = 0x80;
-        n->data[0] = 0;
+        n->text[0] = 0;
         n->len = x;
-        n->pad7 = 0;
+        n->extra = 0;
         n->source = NULL;
         n->key = 0xFFFF;
         n->next = NULL;
@@ -588,11 +589,11 @@ QuestDownloadTextNode *build_text_node_chain(
         return NULL;
     }
     n->flags = 0;
-    c = copy_sjis_text(n->data, text, 4);
+    c = copy_sjis_text(n->text, text, 4);
     rem -= c;
     n->len = length;
     text += c;
-    n->pad7 = record->extra;
+    n->extra = record->extra;
     n->source = source;
     n->key = record->key;
     n->attribute = record->attribute;
@@ -606,7 +607,7 @@ QuestDownloadTextNode *build_text_node_chain(
         }
         n->flags |= 1;
         m->flags = 2;
-        c = copy_sjis_text(reinterpret_cast<u8 *>(m) + 1, text, 14);
+        c = copy_sjis_text(m->text, text, 14);
         rem -= c;
         text += c;
         m->next = NULL;
@@ -694,7 +695,7 @@ void build_cursor_candidates(void) {
     QuestDownloadTextNode *n;
 
     e = &quest_download_slot_chain_table[quest_text_cursor_pos];
-    if ((uaddr)(o = e->head) == 0xFFFFFFFFU) {
+    if ((o = e->head) == (QuestDownloadEntryNode *)-1) {
         return;
     }
     qh = NULL;
@@ -796,7 +797,7 @@ void build_best_candidate(s32 pos, s32 x) {
     if (e->chain != NULL) {
         return;
     }
-    if ((uaddr)(o = e->head) == 0xFFFFFFFFU) {
+    if ((o = e->head) == (QuestDownloadEntryNode *)-1) {
 def:
         e->chain = new_raw_text_node(x);
         return;
@@ -1964,7 +1965,7 @@ const u8 *find_keyword_entry(u16 *start, u16 *end) {
 // Converts the romaji at src (n characters left) to kana in out; *count gets the
 // number of characters written. Returns the number consumed, 0 when more input
 // is needed, -1/-2 on no match (behaviour inferred).
-s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
+s32 convert_romaji_to_kana(u16 *src, s32 count, u16 *out, s32 *written) {
     const u8 *e;
     u16 *p;
     u8 kind;
@@ -1973,7 +1974,7 @@ s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
     u16 mode;
     s32 c;
     kind = romaji_kana_char_class_table[src[0] & 0xFF] & 0xF;
-    *count = 1;
+    *written = 1;
     if (kind <= 9) {
         if (kind <= 5) {
             len = 1;
@@ -1981,7 +1982,7 @@ s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
             e = &romaji_kana_rows[0][1];
             goto vowel;
         }
-        if (kind <= 8 || lbl_805D78E4 == 0) {
+        if (kind <= 8 || japanese_punctuation_enabled == 0) {
             out[0] = single_byte_to_kana_jis_code(src[0]);
         } else {
             out[0] = map_key_to_code(src[0]);
@@ -2002,7 +2003,7 @@ s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
                 }
             }
         }
-        if (n == 1) {
+        if (count == 1) {
             if (mode != 0) {
                 return -1;
             }
@@ -2061,11 +2062,11 @@ s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count) {
                 *out++ = compose_kana_jis_code(*e++, *p);
                 if (*e != 0) {
                     *out = compose_kana_jis_code(*e, *p);
-                    *count = 2;
+                    *written = 2;
                 }
                 return len;
             }
-            if (len++ >= n) {
+            if (len++ >= count) {
                 break;
             }
             p++;
@@ -2114,7 +2115,7 @@ void process_entry_text_range(s32 pos, s32 end) {
         } else {
             node = advance_quest_text_entries(slot->chain, 0);
         }
-        if (lbl_805D7848 != 3 && quest_download_state <= 2) {
+        if (text_input_mode != 3 && quest_download_state <= 2) {
         plain:
             learn_conversion_result(pos, n, node, slot->head);
             pos += n;
@@ -2189,8 +2190,7 @@ void learn_conversion_result(s32 pos, s32 len, QuestDownloadTextNode *cmdp, Ques
       return;
     }
   }
-  new (quest_download_text_buffer.bytes, quest_download_scratch_words_or_ids) QuestDownloadScratchIds;
-  buf = quest_download_text_buffer.ids.values;
+  buf = quest_download_text_buffer.ids;
   if ((list == 0) || (list == ((QuestDownloadEntryNode *) (-1))))
   {
     if (p)
@@ -2226,11 +2226,11 @@ void learn_conversion_result(s32 pos, s32 len, QuestDownloadTextNode *cmdp, Ques
     obj->x8 = 0;
     request = obj;
     obj->text = learned_name_text_buffer;
-    store_learned_name(request, quest_download_text_buffer.ids.values, buf - ((0, quest_download_text_buffer.ids.values)));
+    store_learned_name(request, quest_download_text_buffer.ids, buf - ((0, quest_download_text_buffer.ids)));
   }
   else
   {
-    update_entry_frequency(p->x4, cmd->key, quest_download_text_buffer.ids.values, buf - (quest_download_text_buffer.ids.values));
+    update_entry_frequency(p->x4, cmd->key, quest_download_text_buffer.ids, buf - quest_download_text_buffer.ids);
   }
 }
 #pragma pop
@@ -2323,21 +2323,21 @@ s32 build_all_entry_text(void) {
 
 s32 format_number_text_all_modes(const u8 *format, s32 length, QuestDownloadTextRecord *out, s32 *count) {
     s32 i;
-    u8 *r;
+    QuestDownloadTextRecord *r;
     if (quest_download_file_handle == -1) {
         return -3;
     }
     *count = 0;
     r = format_number_text(format, length, out, number_format_mode);
     if (r != 0) {
-        out = reinterpret_cast<QuestDownloadTextRecord *>(r);
+        out = r;
         (*count)++;
     }
     for (i = 0; i < 4; i++) {
         if (i != number_format_mode) {
             r = format_number_text(format, length, out, i);
             if (r != 0) {
-                out = reinterpret_cast<QuestDownloadTextRecord *>(r);
+                out = r;
                 (*count)++;
             }
         }
@@ -2369,7 +2369,7 @@ inline s32 is_digit_1_to_3(s32 d) {
 }
 
 #define n ((s16)num)
-u8 *format_number_text(const u8 *input, s32 num, QuestDownloadTextRecord *o, s32 mode) {
+QuestDownloadTextRecord *format_number_text(const u8 *input, s32 num, QuestDownloadTextRecord *o, s32 mode) {
     const u8 *s = input;
     const FormatNumberTextAllModesTable *t = &quest_download_number_text_table;
     s32 u;
@@ -2437,7 +2437,7 @@ u8 *format_number_text(const u8 *input, s32 num, QuestDownloadTextRecord *o, s32
         return NULL;
     }
     *p = 0;
-    return p + 1;
+    return reinterpret_cast<QuestDownloadTextRecord *>(p + 1);
 }
 #undef n
 #pragma pop
@@ -2461,7 +2461,7 @@ s32 format_number_current_mode(const u8 *input, s32 length, QuestDownloadTextRec
 #pragma pop
 
 s32 get_download_state() {
-    return lbl_805D7900;
+    return ask_learning_enabled;
 }
 
 s32 release_slot_entry(u32 index) {
@@ -2502,7 +2502,7 @@ inline s32 is_digit_string(u8 *s) {
 s32 store_learned_name(QuestDownloadRequest *req, s32 *ids, s32 n) {
     char buf[0x50];
     s32 v;
-    if (lbl_805D7900 == 0) {
+    if (ask_learning_enabled == 0) {
         return 3;
     }
     if (quest_download_file_handle == -1) {
@@ -2526,7 +2526,7 @@ s32 store_learned_name(QuestDownloadRequest *req, s32 *ids, s32 n) {
 
 s32 store_name_entry(QuestDownloadRequest *req) {
     char buf[0x50];
-    if (lbl_805D7900 == 0) {
+    if (ask_learning_enabled == 0) {
         return 3;
     }
     if (quest_download_file_handle == -1) {
@@ -2771,7 +2771,7 @@ s32 update_entry_frequency(u32 id, u16 key, s32 *ids, s32 n) {
     u8 *base;
     u8 *p;
     u16 off;
-    if (lbl_805D7900 == 0) {
+    if (ask_learning_enabled == 0) {
         return 3;
     }
     if (quest_download_file_handle == -1) {

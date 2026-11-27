@@ -5,7 +5,7 @@
 #include "pso/object/trap/TOTrapAncient02.h"
 
 struct TOTrapAncient02R : public TOTrapAncient02 {
-    TOTrapAncient02R(TObject *parent, void *set_data);
+    TOTrapAncient02R(TObject *parent, ObjectSetData *set_data);
     virtual ~TOTrapAncient02R();
     void init_trap_object_id();
     void clamp_trap_level_param();
@@ -29,7 +29,7 @@ struct TOTrapAncient02R : public TOTrapAncient02 {
     s32 switch_id;  // name inferred: set param 5, the floor switch find_target_player waits for (-1: none)
     s32 hits;       // name inferred: scale.y clamped to 1-256, counted down by receive_physical_attack
     void calc_trap_count();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TOTrapAncient02R_size, sizeof(TOTrapAncient02R) == 0x36C);

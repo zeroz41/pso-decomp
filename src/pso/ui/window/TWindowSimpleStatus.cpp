@@ -32,7 +32,7 @@
 #include <stdlib.h>
 #include "pso/map/area/AreaScene.h"
 #include "pso/player/PhotonBlastResults.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
@@ -428,7 +428,7 @@ void TWindowSimpleStatus::draw_background(WindowDrawContext *ctx) {
     ctx->transform_quad(&r);
     draw_textured_quad_at_depth(&r.x0, scale);
     end_screen_draw();
-    if (scanline_crosses_window(ctx, &pos, &size) != 0) {
+    if (scanline_crosses_window(ctx, &pos.x, &size.x) != 0) {
         begin_window_sweep_draw(0xB);
         draw_window_sweep_strip(&r, ctx);
         end_window_sweep_draw(0xB);
@@ -464,17 +464,17 @@ TWindowSimpleStatus::~TWindowSimpleStatus() {
     }
 }
 
-TWindowSimpleStatus::TWindowSimpleStatus(void *position, s32 client, u8 *descriptor)
+TWindowSimpleStatus::TWindowSimpleStatus(const NJS_POINT2 *position, s32 client, u8 *descriptor)
     : TWindowBase(descriptor, (s16)client, (u8 *)position) {
     m_name = TWindowSimpleStatus::class_name;
     client_index = (s16)client;
     shake_ticks = 0;
-    m_58 = -1.0f;
+    display_age = -1.0f;
     for (s32 i = 0; i < 5; i++) {
         w[i] = NULL;
     }
 }
 
-TWindowSimpleStatus *TWindowSimpleStatus::create(void *position, s32 client) {
+TWindowSimpleStatus *TWindowSimpleStatus::create(const NJS_POINT2 *position, s32 client) {
     return new TWindowSimpleStatus(position, client, (u8 *)&simple_status_window_layout);
 }

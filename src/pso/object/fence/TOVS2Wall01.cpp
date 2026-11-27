@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/math/MatrixReflect.h"
@@ -45,6 +44,7 @@
 #include "pso/quest/QuestFloorDesignation.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerCommands.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 const char *bm_o_vs2_motion_names[1] = { NULL };
 
@@ -131,7 +131,7 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
         o->access_object_saved_state(&saved_state, 1);
         saved_state.flags = o->mode;
         o->access_object_saved_state(&saved_state, 0);
-        o->apply_saved_state(&saved_state.flags, 0);
+        o->apply_saved_state(&saved_state, 0);
     } else {
         QuestObjectEntry entry = quest_object_entries[wall_hit_packet->object_index];
         if (entry.flags != 1) {
@@ -142,7 +142,7 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
 }
 
 void TOVS2Wall01::save_and_send_state(u16 update_reason) {
-    s16 state;
+    QuestObjectEntry state;
     WallHitPacket pkt;
     s16 v = mode;
     WallSetEntry *entry;
@@ -150,12 +150,12 @@ void TOVS2Wall01::save_and_send_state(u16 update_reason) {
         v = 1;
     }
     if (set_entry != NULL && access_object_saved_state(&state, 1) != 0) {
-        state = v;
+        state.flags = v;
         access_object_saved_state(&state, 0);
         entry = (WallSetEntry *)set_entry;
         pkt.init();
         pkt.header.entity_id = entity_id;
-        pkt.flags = state;
+        pkt.flags = state.flags;
         pkt.object_index = entry->set_index;
         pkt.update_reason = update_reason;
         pkt.remaining_hits = hits_left;
@@ -169,11 +169,11 @@ void TOVS2Wall01::save_and_send_state(u16 update_reason) {
 #pragma auto_inline off
 #pragma dont_inline off
 
-void TOVS2Wall01::apply_saved_state(s16 *state, s32 live) {
+void TOVS2Wall01::apply_saved_state(QuestObjectEntry *state, s32 live) {
     s32 mode;
 
     if (state != NULL) {
-        this->mode = (s16) *state;
+        this->mode = state->flags;
     }
     mode = this->mode;
     if (mode != 1) {
@@ -253,7 +253,7 @@ WallHitPacket *WallHitPacket::init() {
 
 void WallHitPacket::send() {
     byteswap();
-    send_subcommand((u8 *)this);
+    send_subcommand(this);
 }
 
 void WallHitPacket::byteswap() {
@@ -272,7 +272,7 @@ int TOVS2Wall01::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, co
 s32 TOVS2Wall01::select_melee_contact_body(TObjChara *, f32) { return 1; }
 s32 TOVS2Wall01::roll_physical_accuracy(TObjChara *, s32, f32) { return 1; }
 s32 TOVS2Wall01::try_start_action(TObjChara *, s32, f32) { return 1; }
-TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
+TOVS2::TOVS2(ObjectSetData *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     m_name = vs2_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(vs2_wall01_bml_resource, index);
@@ -310,69 +310,69 @@ void TOVS2::render() {
     if ((s32) this->visible == 1) {
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
     }
 }
-TOVS2Wreck01::TOVS2Wreck01(void *set_data) : TOVS2(set_data, 0) {
+TOVS2Wreck01::TOVS2Wreck01(ObjectSetData *set_data) : TOVS2(set_data, 0) {
     m_name = vs2_wreck01_class_name;
 }
 
 TOVS2Wreck01::~TOVS2Wreck01() {}
 
-void *TOVS2Wreck01::create(void *set_data) {
+void *TOVS2Wreck01::create(ObjectSetData *set_data) {
     return new TOVS2Wreck01(set_data);
 }
-TOVS2Wreck02::TOVS2Wreck02(void *set_data) : TOVS2(set_data, 1) {
+TOVS2Wreck02::TOVS2Wreck02(ObjectSetData *set_data) : TOVS2(set_data, 1) {
     m_name = vs2_wreck02_class_name;
 }
 
 TOVS2Wreck02::~TOVS2Wreck02() {}
 
-void *TOVS2Wreck02::create(void *set_data) {
+void *TOVS2Wreck02::create(ObjectSetData *set_data) {
     return new TOVS2Wreck02(set_data);
 }
-TOVS2Wreck03::TOVS2Wreck03(void *set_data) : TOVS2(set_data, 2) {
+TOVS2Wreck03::TOVS2Wreck03(ObjectSetData *set_data) : TOVS2(set_data, 2) {
     m_name = vs2_wreck03_class_name;
 }
 
 TOVS2Wreck03::~TOVS2Wreck03() {}
 
-void *TOVS2Wreck03::create(void *set_data) {
+void *TOVS2Wreck03::create(ObjectSetData *set_data) {
     return new TOVS2Wreck03(set_data);
 }
-TOVS2Wreck04::TOVS2Wreck04(void *set_data) : TOVS2(set_data, 3) {
+TOVS2Wreck04::TOVS2Wreck04(ObjectSetData *set_data) : TOVS2(set_data, 3) {
     m_name = vs2_wreck04_class_name;
 }
 
 TOVS2Wreck04::~TOVS2Wreck04() {}
 
-void *TOVS2Wreck04::create(void *set_data) {
+void *TOVS2Wreck04::create(ObjectSetData *set_data) {
     return new TOVS2Wreck04(set_data);
 }
-TOVS2Wreck05::TOVS2Wreck05(void *set_data) : TOVS2(set_data, 4) {
+TOVS2Wreck05::TOVS2Wreck05(ObjectSetData *set_data) : TOVS2(set_data, 4) {
     m_name = vs2_wreck05_class_name;
 }
 
 TOVS2Wreck05::~TOVS2Wreck05() {}
 
-void *TOVS2Wreck05::create(void *set_data) {
+void *TOVS2Wreck05::create(ObjectSetData *set_data) {
     return new TOVS2Wreck05(set_data);
 }
-TOVS2Wreck06::TOVS2Wreck06(void *set_data) : TOVS2(set_data, 5) {
+TOVS2Wreck06::TOVS2Wreck06(ObjectSetData *set_data) : TOVS2(set_data, 5) {
     m_name = vs2_wreck06_class_name;
 }
 
 TOVS2Wreck06::~TOVS2Wreck06() {}
 
-void *TOVS2Wreck06::create(void *set_data) {
+void *TOVS2Wreck06::create(ObjectSetData *set_data) {
     return new TOVS2Wreck06(set_data);
 }
 #pragma push
 #pragma opt_common_subs off
-TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
+TOVS2Wall01::TOVS2Wall01(ObjectSetData *set_data) : TObjChara((TObject *)tl_05) {
     s32 initial_hits;
     m_name = vs2_wall01_class_name;
     apply_object_set_data(set_data);
@@ -397,7 +397,7 @@ TOVS2Wall01::~TOVS2Wall01() {
     free_collision_body_parts(this);
 }
 
-void *TOVS2Wall01::create(void *set_data) {
+void *TOVS2Wall01::create(ObjectSetData *set_data) {
     return new TOVS2Wall01(set_data);
 }
 void TOVS2Wall01::render() {
@@ -405,7 +405,7 @@ void TOVS2Wall01::render() {
     fade.update();
     this->in_view = this->update_object_view_visibility(view_range, model_radius);
     if ((s32) this->in_view == 1) {
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (is_not_split_screen() == 1) {
             fading = 0;
         } else {
             fading = fade.updateFromCamera(&position);
@@ -418,7 +418,7 @@ void TOVS2Wall01::render() {
         }
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         set_texture_list(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
@@ -431,7 +431,7 @@ void TOVS2Wall01::render() {
     }
 }
 void TOVS2Wall01::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         vs2_wall_run_task_stub((u8 *)this);
         return;
     }

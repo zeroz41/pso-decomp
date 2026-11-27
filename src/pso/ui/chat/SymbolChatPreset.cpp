@@ -19,6 +19,8 @@
 #include "pso/system/byteswap.h"
 #include "pso/system/MemoryMove.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
+
 static const s32 symbol_chat_sound_ids[9] = {
     0x53507, 0x52608, 0x52A09, 0x5250A, 0x5230B, 0x5250C, 0x5280D, 0x5250E, 0x53719,
 };
@@ -185,7 +187,7 @@ s32 is_symbol_chat_preset_in_use(const SymbolChatPreset *preset) {
 
 SymbolChatPreset *get_symbol_chat_preset(s32 i) {
     u8 *save = reinterpret_cast<u8 *>(get_character_save_record(0xFFFF));
-    return reinterpret_cast<SymbolChatPreset *>(save + offsetof(SavedSymbolChatPresets, entries)) + i;
+    return reinterpret_cast<SymbolChatPreset *>(save + offsetof(CharacterSaveRecord, symbol_chat_presets)) + i;
 }
 
 
@@ -210,15 +212,15 @@ void SymbolChatPreset::clear_entries() {
     }
 }
 
-void SavedSymbolChatPresets::load_symbol_chat_data() {
+void CharacterSaveRecord::load_symbol_chat_data() {
     s32 i;
     SymbolChatPreset *preset;
-    saddr data;
+    u8 *data;
     SymbolChatPreset *e;
-    e = entries;
-    data = (saddr)load_disc_file("symbolchat.dat");
-    move_data(e, ((const void *)data), (u32)0x420);
-    safe_free(reinterpret_cast<void *>(data));
+    e = symbol_chat_presets;
+    data = load_disc_file("symbolchat.dat");
+    move_data(e, data, 0x420);
+    safe_free(data);
     for (i = 0; i < 6; i++) {
         e[i].bswap_entry();
         preset = get_symbol_chat_preset(i);
@@ -258,3 +260,4 @@ saddr TWindowSubSymbolChat::get_instance() {  return selected_symbol_chat_preset
 int SymbolChatPreset::is_initialized() { return flags & 1; }
 void SymbolChatPreset::bswap_entry() { bswap_32(&flags); payload.byteswap_entry(); }
 
+const char *TWindowSubStatusDisp::get_message_10(s32 index) { return get_localized_text_entry(10, index); }

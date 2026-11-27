@@ -1,9 +1,7 @@
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResourceLoad.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
@@ -96,10 +94,10 @@ void TObjWarpLobby::render() {
         set_texture_list(lobby_warp_textures);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
-        TParticleCtrl::begin_effect_render();
+        rotate_matrix_y(0, this->rotation.y);
+        begin_effect_render();
         draw_ginja_model_with_motion((NJS_OBJECT *)lobby_warp_bml_resource->models[0].model, lobby_warp_bml_resource->motions[0].motion, this->beam_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -139,7 +137,7 @@ TObjWarpLobby::~TObjWarpLobby() {
 }
 
 
-TObjWarpLobby::TObjWarpLobby(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjWarpLobby::TObjWarpLobby(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
 
     m_name = class_name;
     this->beam_frame = 0.0f;

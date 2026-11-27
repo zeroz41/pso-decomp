@@ -65,7 +65,7 @@ TWindowShop *create_item_list_window(const char *title, s32 count, s32 client) {
 }
 
 
-TWindowShop *TShopJudgmentItemWindow::open_default(const char *title) {
+TWindowShop *open_default(const char *title) {
     return create_item_list_window(title, 0x40, local_client_id);
 }
 

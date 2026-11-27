@@ -49,13 +49,13 @@ const char *get_shop_text(s32 index) {
 }
 
 
-void TLobby::free_singleton() {
+void free_singleton() {
     if (shop_text_groups != 0U) {
         TLobby::free_nodes_with_id(shop_text_groups);
         shop_text_groups = 0U;
     }
 }
-void TLobby::create_named_lobby_object() {
+void create_named_lobby_object() {
     if (((s32) shop_section_id < 0) || ((s32) shop_section_id > 9)) {
         shop_section_id = 0;
     }

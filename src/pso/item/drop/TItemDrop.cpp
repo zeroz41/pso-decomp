@@ -115,7 +115,7 @@ void TItemDrop::apply_drop_restrictions(TItemData *it) {
     if (get_game_play_mode() == 1) {
         if (it->data1.data_u8[0] == 1) {
             if (it->data1.data_u8[1] == 3) {
-                if (static_cast<u8>(*reinterpret_cast<const s8 *>(&it->data1.data_u8[2])) >= 0x33 && static_cast<u8>(*reinterpret_cast<const s8 *>(&it->data1.data_u8[2])) <= 0x38) {
+                if (static_cast<u8>(it->data1.data_s8[2]) >= 0x33 && static_cast<u8>(it->data1.data_s8[2]) <= 0x38) {
                     it->init();
                 }
             }
@@ -203,7 +203,7 @@ void TItemDrop::select_unit_drop(u8 stars, TItemData *item) {
     s32 i;
     u32 pick;
     s32 r;
-    UnitPmtEntry *data;
+    UnitPmtEntry *unit;
     s16 v;
     u8 cnt;
     if (stars >= 0xD) {
@@ -225,11 +225,11 @@ void TItemDrop::select_unit_drop(u8 stars, TItemData *item) {
                 if (i < 0x50) {
                     item->data1.data_u8[2] = i / 5;
                     r = (u8)(i % 5);
-                    data = (UnitPmtEntry *)lookup_item_pmt_record(item->data1.data_u8);
-                    if (data == NULL) {
+                    unit = static_cast<UnitPmtEntry *>(lookup_item_pmt_record(item->data1.data_u8));
+                    if (unit == NULL) {
                         return;
                     }
-                    v = data->modifier_amount;
+                    v = unit->modifier_amount;
                     switch (r) {
                     case 0:
                         item->set_unit_modifier(-(v * 2));
@@ -876,12 +876,12 @@ TItemDrop::TItemDrop(TObject *parent, s8 section) : TObject(parent) {
     section_id = section;
     rngs = (SubtractiveRng **)mem_alloc(0x44);
     for (i = 0; i != 0x11; i++) {
-        a = __cvt_fp2unsigned(item_drop_u32_scale * (item_drop_rand_reciprocal * (f32)rand()));
-        b = __cvt_fp2unsigned(item_drop_u16_scale * (item_drop_rand_reciprocal * (f32)rand()));
+        a = (u32)(item_drop_u32_scale * (item_drop_rand_reciprocal * (f32)rand()));
+        b = (u32)(item_drop_u16_scale * (item_drop_rand_reciprocal * (f32)rand()));
         rngs[i] = new SubtractiveRng(a | b);
     }
-    second_relocatable_load_buffer = TQuestVmDownLoadServer::alloc(0xC00);
-    relocatable_load_buffer = TQuestVmDownLoadServer::alloc(0xC00);
+    second_relocatable_load_buffer = alloc(0xC00);
+    relocatable_load_buffer = alloc(0xC00);
     load_unload_set = create_load_unload_set(item_drop_load_unload_table);
 }
 
@@ -903,7 +903,7 @@ s8 TItemDrop::get_bool_from_1d6ddc() { return (s8)((LobbyRuleSettings *)this)->g
 u8 default_rule_value_stub(void *) { return 0; }
 
 s32 item_drop_rng_below(SubtractiveRng *rng, u32 count) {
-    return __cvt_fp2unsigned((f32) (((f32) count * (f32) rng->next()) / item_drop_u32_scale));
+    return (u32)((f32) (((f32) count * (f32) rng->next()) / item_drop_u32_scale));
 }
 
 __declspec(section ".sdata2") extern const f32 item_drop_u16_scale = 65536.0f;

@@ -7,6 +7,6 @@
 #pragma push
 #pragma scheduling off
 TWindowMeseta *create_meseta_window(s32 client) {
-    return new TWindowMeseta((void *)get_window_layout_position(0x28), client, TWindowSubStatusDisp::get_message_10(0x82));
+    return new TWindowMeseta(get_window_layout_position(0x28), client, TWindowSubStatusDisp::get_message_10(0x82));
 }
 #pragma pop

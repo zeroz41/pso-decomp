@@ -26,7 +26,7 @@ s32 MaterialShadeFade::decay_value_toward_floor() {
 
 
 #include "pso/object/TObjControl.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/system/memory.h"
 
 

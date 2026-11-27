@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TQuestManager.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/TGameProtocol.h"
@@ -112,7 +111,7 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
                         break;
                     }
                     saved.flags = col->mode;
-                    col->apply_saved_state(&saved.flags, 0);
+                    col->apply_saved_state(&saved, 0);
                 }
             } else {
                 QuestObjectEntry entry = quest_object_entries[command->object_index];
@@ -130,16 +129,16 @@ extern "C" {
 
 void TOAttackableCol::send_state_change(u16 state) {
     G_UpdateAttackableColState_6x91 msg;
-    s16 id;
-    FloorObjectSetRow *parent;
-    id = this->mode;
-    access_object_saved_state(&id, 0);
-    parent = (FloorObjectSetRow *)this->set_entry;
-    if (parent != NULL) {
+    QuestObjectEntry saved;
+    FloorObjectSetRow *entry;
+    saved.flags = this->mode;
+    access_object_saved_state(&saved, 0);
+    entry = static_cast<FloorObjectSetRow *>(this->set_entry);
+    if (entry != NULL) {
         init_6x91_subcommand(&msg);
         msg.header.entity_id = this->entity_id;
-        msg.flags = id;
-        msg.object_index = parent->placement.set_index;
+        msg.flags = saved.flags;
+        msg.object_index = entry->placement.set_index;
         msg.is_destroyed = state;
         msg.remaining_hits = this->hits_left;
         if (this->label == 0 && this->done_switch >= 0 && state == 1) {
@@ -154,11 +153,11 @@ void TOAttackableCol::send_state_change(u16 state) {
     }
 }
 
-void TOAttackableCol::apply_saved_state(s16 *state, s32 live) {
-    s16 mode;
+void TOAttackableCol::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    QuestObjectEntry saved;
     s32 mode_value;
     if (state != NULL) {
-        this->mode = (s16) *state;
+        this->mode = state->flags;
     }
     mode_value = this->mode;
     if (mode_value != 1) {
@@ -171,13 +170,13 @@ void TOAttackableCol::apply_saved_state(s16 *state, s32 live) {
             handle_6x91_update_state();
         }
     }
-    mode = this->mode;
-    access_object_saved_state(&mode, 0);
+    saved.flags = this->mode;
+    access_object_saved_state(&saved, 0);
 }
 
 void TOAttackableCol::handle_6x91_update_state() { clear_player_status_flag(0, 1); }
 
-f32 TOAttackableCol::apply_hit(TObjBase *player) {
+f32 TOAttackableCol::apply_hit(TObjChara *player) {
   s32 id;
   s32 kind;
   s32 is_local_player;
@@ -186,7 +185,7 @@ f32 TOAttackableCol::apply_hit(TObjBase *player) {
   TObject *thread_a;
   TObject *thread_b;
   is_local_player = 0;
-  if (((player != 0) && (player->get_entity_id() < 4U)) && (((TObjChara *)player)->is_locally_controlled() != 0))
+  if (player != NULL && player->get_entity_id() < 4U && player->is_locally_controlled() != 0)
   {
     is_local_player = 1;
   }
@@ -247,7 +246,7 @@ void TOAttackableCol::check_door_trigger() {
 }
 
 void TOAttackableCol::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_task_stub();
         return;
     }
@@ -265,7 +264,7 @@ void TOAttackableCol::run_task() {
 
 void TOAttackableCol::render() {  }
 
-void *TOAttackableCol::create(void *set_data) {
+void *TOAttackableCol::create(ObjectSetData *set_data) {
     void *o;
     o = new TOAttackableCol(set_data);
     return o;
@@ -278,17 +277,17 @@ TOAttackableCol::~TOAttackableCol() {
 }
 
 
-TOAttackableCol::TOAttackableCol(void *set_data) : TObjChara(tl_05) {
+TOAttackableCol::TOAttackableCol(ObjectSetData *set_data) : TObjChara(tl_05) {
     m_name = attackable_col_name;
     apply_object_set_data(set_data);
     calc_attach_pos();
     set_actor_flags(0x60000000);
     init_collision_body_parts(this, &attackable_col_collision_parts, 1);
     set_indexed_flags(0, 0x718);
-    ((TObjPlayer *)this)->register_object_by_id();
+    register_object_by_id();
     this->mode = 0;
     *(f32 *)((s8 *)this + 0x334) = 500.0f;
-    this->m_338 = 50.0f;
+    this->pad_338 = 50.0f;
     this->init_params();
 }
 
@@ -302,7 +301,7 @@ int TOAttackableCol::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *
 
 f32 TOAttackableCol::receive_physical_attack(TObjChara *player, f32) { return this->apply_hit(player); }
 
-f32 TOAttackableCol::receive_direct_attack(TObjBase *player, DirectAttackPayload, CollisionBody *, s32, s32) { return this->apply_hit(player); }
+f32 TOAttackableCol::receive_direct_attack(TObjBase *player, DirectAttackPayload, CollisionBody *, s32, s32) { return this->apply_hit(static_cast<TObjChara *>(player)); }
 
 f32 TOAttackableCol::receive_weapon_special_attack(TObjChara *player, CollisionBody *) { return this->apply_hit(player); }
 

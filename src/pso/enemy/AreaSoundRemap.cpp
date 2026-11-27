@@ -168,7 +168,7 @@ AreaSoundRemapEntry area_sound_remap_table_b[] = {
     { -1, 0 },
 };
 
-s32 TBoss3Volopt::remap_area_sound_id(s32 sound_id) {
+s32 remap_area_sound_id(s32 sound_id) {
     s32 masked;
     s32 result;
     s32 area;

@@ -8,12 +8,12 @@
 // dark orange, orange otherwise).
 class TLightGlare : public TObjBase {
 public:
-    TLightGlare(void *set_data, TObject *parent);
+    TLightGlare(ObjectSetData *set_data, TObject *parent);
     virtual ~TLightGlare();
     virtual void render();
     virtual void run_task();
     // The object factory entry; none in split screen.
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     f32 glare_size;          // 0x90, 25 to 55: half the sprite size in definition units
     f32 facing;              // 0x94, dot of the camera's forward axis and the direction to the glare
     s32 occluded;            // 0x98, the map lies between the camera and the glare
@@ -27,12 +27,12 @@ LAYOUT_ASSERT(TLightGlare_size, sizeof(TLightGlare) == 0xAC);
 // units; drawn as a sphere in demo mode.
 class TLightGlareSwitch : public TObjBase {
 public:
-    TLightGlareSwitch(void *set_data, TObject *parent);
+    TLightGlareSwitch(ObjectSetData *set_data, TObject *parent);
     virtual ~TLightGlareSwitch();
     virtual void render();
     virtual void run_task();
     // The object factory entry; none in split screen.
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 LAYOUT_ASSERT(TLightGlareSwitch_size, sizeof(TLightGlareSwitch) == 0x90);
 

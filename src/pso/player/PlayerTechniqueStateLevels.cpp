@@ -2,9 +2,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerTechniqueState.h"
 
-extern "C" {
-u8 get_cast_technique_level(PlayerTechniqueState *techs, s16 technique);
-}
 
 s16 PlayerTechniqueState::get_section_clamped() {
     s16 section;
@@ -37,7 +34,7 @@ u8 PlayerTechniqueState::get_valid_technique() {
     u8 technique;
 
     technique = this->level_override;
-    if (TObjPlayer::is_valid_technique_slot(technique) == 0) {
+    if (is_valid_technique_slot(technique) == 0) {
         technique = 0;
     }
     return technique;
@@ -67,7 +64,7 @@ void PlayerTechniqueState::set_learned_technique_levels(u8 level) {
 
     i = 0;
     do {
-        if (TObjPlayer::is_invalid_slot(get_cast_technique_level(this, i)) == 0) {
+        if (TObjPlayer::is_invalid_slot(get_cast_technique_level(i)) == 0) {
             set_learned_level(i, level);
         }
         i += 1;
@@ -77,7 +74,7 @@ void PlayerTechniqueState::set_learned_technique_levels(u8 level) {
 void PlayerTechniqueState::level_up_all_techniques(u8 add) {
     s32 i = 0;
     do {
-        u8 level = get_cast_technique_level(this, i);
+        u8 level = get_cast_technique_level(i);
         if (TObjPlayer::is_invalid_slot(level) == 0) {
             level += add;
             level = clamp_to_max(level, get_effective_technique_level(i));

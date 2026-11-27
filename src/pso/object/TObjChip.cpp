@@ -72,21 +72,7 @@ TObjChip::TObjChip(TObject *parent, const TObjChipParams *params) : TObject(pare
 
 #pragma push
 #pragma scheduling off
-void TObjChip::copy_debris_params(TObjChipParams *dst, const TObjChipParams *src) {
-    dst->bounce = src->bounce;
-    dst->drag = src->drag;
-    dst->gravity = src->gravity;
-    *reinterpret_cast<ByteBlock_C *>(&dst->pos) = *reinterpret_cast<const ByteBlock_C *>(&src->pos);
-    *reinterpret_cast<ByteBlock_C *>(&dst->velocity_range) = *reinterpret_cast<const ByteBlock_C *>(&src->velocity_range);
-    *reinterpret_cast<ByteBlock_C *>(dst->spin_range) = *reinterpret_cast<const ByteBlock_C *>(src->spin_range);
-    dst->count = src->count;
-    dst->life = src->life;
-    dst->floor_y = src->floor_y;
-    dst->scale = src->scale;
-    dst->model = src->model;
-    dst->textures = src->textures;
-    dst->flags = src->flags;
-}
+void TObjChip::copy_debris_params(TObjChipParams *dst, const TObjChipParams *src) { *dst = *src; }
 #pragma pop
 TObjChip::TObjChip(TObject *parent, TObjChipSpawnParams *params) : TObject(parent) {
     m_name = obj_chip_class_name_ptr;

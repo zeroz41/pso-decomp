@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/SoundEffect.h"
 #include "types.h"
@@ -9,7 +8,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/TObjLuker.h"
-#include "pso/object/TObjLukerNames.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -55,23 +54,15 @@ void TObjLuker::hide_part(u16 part) {
     }
 }
 
-#pragma push
-#pragma opt_common_subs off
 void TObjLuker::show_part(u16 part_index) {
-    saddr self_addr = (saddr)this;
-    u8 *slot_base;
-    u8 *slot;
-    slot_base = (u8 *)(self_addr + ((part_index * 4) & 0x3FFFC));
-    slot = (u8 *)(*(u8 **)((s8 *)slot_base + 0x90));
-    if (slot != NULL) {
-        if (*(u16 *)((s8 *)slot + 4) & 4) {
+    if (windows[part_index] != NULL) {
+        if (windows[part_index]->m_flags & 4) {
             play_sound_effect(0x53703, NULL, 0, 0);
         }
-        ((TObject *)(*(u8 **)((s8 *)slot_base + 0x90)))->clear_update_suspension();
-        ((TObject *)(*(u8 **)((s8 *)slot_base + 0x90)))->allow_rendering();
+        windows[part_index]->clear_update_suspension();
+        windows[part_index]->allow_rendering();
     }
 }
-#pragma pop
 
 void TObjLuker::update_floor_name_windows() {
     s32 target = get_player_by_client_id(this->owner_id)->telepipe.state.floor;
@@ -397,7 +388,7 @@ TObjLuker::~TObjLuker() {
     }
 }
 
-TObjLuker::TObjLuker(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjLuker::TObjLuker(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     s32 i;
     m_name = luker_name;
     apply_object_set_data(set_data);
@@ -417,7 +408,7 @@ TObjLuker::TObjLuker(TObject *parent, void *set_data) : TObjBase(parent) {
     slots_locked = 0;
 }
 
-void *TObjLuker::create(void *set_data) {
+void *TObjLuker::create(ObjectSetData *set_data) {
     return new TObjLuker((TObject *)tl_05, set_data);
 }
 

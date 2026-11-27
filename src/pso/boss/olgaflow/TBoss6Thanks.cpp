@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/render/ChunkModelDraw.h"
@@ -31,7 +30,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/item/TItemEffLandHit.h"
 
 
@@ -289,5 +287,5 @@ void TItemWeaponRubyBullet::init_weapon_effect_descriptor(WeaponEffectDescriptor
     get_weapon_color__11TItemWeaponFv(color, this);
     copy_argb(&desc->color, (NJS_ARGB *)color);
     desc->model = second_model;
-    desc->wall_effect = spawn_wall_hit_particles;
+    desc->wall_effect = (void *)spawn_wall_hit_particles;
 }

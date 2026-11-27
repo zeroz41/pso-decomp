@@ -9,7 +9,7 @@
 extern const char file_extension_dot = '.';
 void file_debug_printf(const char *format, ...) {}
 
-s32 replace_file_extension(char *dest, char *filename, char *suffix) {
+s32 replace_file_extension(char *dest, char *filename, const char *suffix) {
     char buf[0x20];
     char *p;
     s32 n;
@@ -35,7 +35,7 @@ s32 replace_file_extension(char *dest, char *filename, char *suffix) {
     return 0;
 }
 
-s32 change_file_extension(char *dest, char *filename, char *ext) {
+s32 change_file_extension(char *dest, char *filename, const char *ext) {
     char buf[0x20];
     char *p;
     s32 n;

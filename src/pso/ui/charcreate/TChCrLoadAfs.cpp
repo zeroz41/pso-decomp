@@ -1,7 +1,6 @@
 #include "pso/system/memory.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/system/Adxf.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/FloatRounding.h"
 #include "types.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
@@ -70,7 +69,7 @@ void TChCrLoadAfs::start_download() {
             return;
         }
         count = ADXF_GetFsizeSct(load_handle);
-        buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(count << 0xB));
+        buffer = static_cast<u8 *>(alloc(count << 0xB));
         buffer_address = buffer;
         if (buffer == NULL) {
             load_state = 3;

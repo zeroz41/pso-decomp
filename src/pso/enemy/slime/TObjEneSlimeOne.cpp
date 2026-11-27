@@ -8,7 +8,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/enemy/slime/TObjEneSlimeOne.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Bit.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/slime/TObjEneSlimeWaterBomb.h"
@@ -96,16 +96,16 @@ void SlimeAnimationState::draw(s32 deferred) {
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
-            draw_chunk_model_with_shape_motion(model, motion, (NJS_MOTION *)shape_motion, frame);
+            draw_chunk_model_with_shape_motion(model, motion, shape_motion, frame);
             clear_chunk_render_flags();
             model_render_flags &= ~0x400000;
             return;
         }
         set_chunk_render_flags(2);
         set_cull_back();
-        draw_chunk_model_with_shape_motion(model, motion, (NJS_MOTION *)shape_motion, frame);
+        draw_chunk_model_with_shape_motion(model, motion, shape_motion, frame);
         set_cull_front();
-        draw_chunk_model_with_shape_motion(model, motion, (NJS_MOTION *)shape_motion, frame);
+        draw_chunk_model_with_shape_motion(model, motion, shape_motion, frame);
         set_cull_none();
         clear_chunk_render_flags();
         return;

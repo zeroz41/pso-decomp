@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjFogCollision : public TObjBase {
-    TObjFogCollision(TObject *parent, void *set);
+    TObjFogCollision(TObject *parent, ObjectSetData *set);
     virtual ~TObjFogCollision();
     virtual void init_params();
     virtual void draw_debug_text();
@@ -19,7 +19,7 @@ struct TObjFogCollision : public TObjBase {
     // volume when they are set, and the collision checks are skipped.
     int debug_text_enabled();
     int debug_draw_enabled();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjFogCollision_size, sizeof(TObjFogCollision) == 0x98);

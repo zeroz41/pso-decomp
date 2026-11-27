@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/player/TPlayerFootStamp.h"
 #include "types.h"
@@ -18,7 +17,7 @@
 #include "pso/system/vector.h"
 #include "pso/math/QuaternionBlend.h"
 #include "pso/math/MatrixReflect.h"
-#include "pso/camera/CameraAngles.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/render/model_render_state.h"
@@ -74,7 +73,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
     f32 length;
     f32 width;
     f32 offset;
-    CameraAngles *rotation;
+    Angle3 *rotation;
     CsnHit *ground;
     s16 angle;
     Vec dir[2];
@@ -210,7 +209,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
             queue_destruction();
             return;
         }
-        angle = rotation->yaw;
+        angle = rotation->y;
         VecCopy(&position, &ground->contact->point);
         position.y += 0.5f * ((1.0f / 32768.0f) * rand()) + 0.5f;
         if (this->side != 0) {
@@ -237,7 +236,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
         }
         push_matrix();
         set_matrix_identity(NULL);
-        rotate_matrix_y(NULL, rotation->yaw);
+        rotate_matrix_y(NULL, rotation->y);
         rotate_matrix_z(NULL, pitch);
         mult_vec_array_sr(0, dir, dir, 2);
         pop_matrix();

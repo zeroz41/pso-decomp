@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/npc/TNpcTalkTrigger.h"
 #include "pso/system/vector.h"
@@ -39,11 +38,11 @@ void reset_npc_proximity_target_on_floor_load(void) { npc_proximity_target_id = 
 
 void reset_npc_proximity_target_on_floor_free(void) { npc_proximity_target_id = -1; }
 
-void *TLobby::create_npc(void *set_data) {
+void *create_npc(ObjectSetData *set_data) {
     return new TNpcTalkTrigger(tl_05, set_data);
 }
 
-TNpcTalkTrigger::TNpcTalkTrigger(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TNpcTalkTrigger::TNpcTalkTrigger(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     apply_object_set_data(set_data);
     npc_slot = 3;
     record = set_params[0];
@@ -77,7 +76,7 @@ void TNpcTalkTrigger::run_task() {
         set_indexed_flags(0, 1);
         if (spawned == 0) {
             spawned = 1;
-            new TNpcPlayerSpawner(&position, rotation_y, npc_slot, record, set_params[1], tl_07);
+            new TNpcPlayerSpawner(&position, rotation.y, npc_slot, record, set_params[1], tl_07);
         }
     } else {
         player = get_player_by_client_id(npc_slot);

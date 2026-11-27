@@ -21,7 +21,7 @@ LAYOUT_ASSERT(CameraSoundEventSize, sizeof(CameraSoundEvent) == 0x18);
 // The security camera map object (set id 0x190): a model with eight star
 // lights on its lamps, shown while the local player is near.
 struct TObjCamera : public TObjMapObject {
-    TObjCamera(TObject *parent, void *set_data);
+    TObjCamera(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjCamera();
     virtual s32 update_object_view_visibility(f32 radius, f32 depth);
     virtual void run_task();
@@ -29,7 +29,7 @@ struct TObjCamera : public TObjMapObject {
     void play_sound_events();
     void reset_sound_events();
     void init_sound_events();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_resources();
     static void load_resources();
     // The model node callback of render: records the view position of each

@@ -7,7 +7,8 @@ class TParticleCtrl;
 
 class TItemShootParticle : public TItemShoot {
 public:
-    TItemShootParticle(void *owner, const Vec *pos, const Vec *dir, f32 life);
+    TItemShootParticle(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life);
+    static TItemShootParticle *spawn_shoot_particle(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life);
     virtual ~TItemShootParticle();
     virtual void hook();
     TParticleCtrl *m_emitters[2]; // the effects spawn_slot_emitter puts in its two slots

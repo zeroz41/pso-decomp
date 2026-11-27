@@ -68,7 +68,7 @@ TPhotonFarlla::TPhotonFarlla(PhotonSummonParams *params) : TPhotonBlastSummon() 
     register_object_by_id();
     owner = find_entity_by_id(owner_id);
     if (owner != NULL) {
-        rotation_y = owner->rotation_y;
+        rotation.y = owner->rotation.y;
     }
     model = photon_blast_shared_resource->models[0].model;
     texlist = photon_blast_shared_resource->models[0].texlist;
@@ -190,11 +190,11 @@ void TPhotonFarlla::run_task() {
 void TPhotonFarlla::render() {
     if (visible != 0) {
         farlla_photon_blast_model_buffers->scroll_uvs(uv_scroll, 0);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(texlist);
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         set_photon_blast_joint_callback();
         saved_model_render_flags = model_render_flags;
         copy_argb(&saved_model_draw_color, &model_material_color);
@@ -212,7 +212,7 @@ void TPhotonFarlla::render() {
         model_render_flags = saved_model_render_flags;
         clear_photon_blast_joint_callback();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

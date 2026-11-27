@@ -53,7 +53,6 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     WindowSpritePart *get_entry_offset_d(s32 sel);
     WindowSpritePart *get_parts_entry(saddr index);
     static WindowSpritePart *get_parts_entry(TWindowBase *window, int index);
-    static void apply_part_to_window(WindowLayoutEntries *entries, SymbolChatPart *part, s32 index);
     static void setup_part_sprites(WindowSpritePart *help, WindowSpritePart *alternate, WindowSpritePart *shortcut_icon, u16 code, s32 color, s32 flip_u, s32 flip_v, s32 uv_index);
 };
 

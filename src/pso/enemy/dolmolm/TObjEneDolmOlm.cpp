@@ -3,7 +3,6 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -51,8 +50,8 @@
 #include "pso/effect/GroundContactSound.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/object/ambient/SceneLighting.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -137,7 +136,7 @@ void TObjEneDolmOlm::load_params_from_table(s32 i) {
     model = dolm_olm_resource_bundle->models[i].model;
     texlist = dolm_olm_resource_bundle->models[i].texlist;
 }
-TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TObjEneBeastBase(parent) {
+TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, EnemyPlacement *set_data) : TObjEneBeastBase(parent) {
     u32 col;
     m_name = obj_ene_dolm_olm_class_name;
     apply_set_data(set_data);
@@ -269,12 +268,12 @@ void TObjEneDolmOlm::free_shared_resources() {
         dolm_olm_resource_bundle = NULL;
     }
 }
-void *TObjEneDolmOlm::create(void *set_data) {
+void *TObjEneDolmOlm::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl((TObject *)tl_04);
     return new TObjEneDolmOlm(control, set_data);
 }
 void TObjEneDolmOlm::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_demo_task();
         return;
     }
@@ -345,8 +344,8 @@ void TObjEneDolmOlm::render() {
     push_matrix();
     translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
-    if (TObjPlayer::check_demo_mode() == 1) {
+    rotate_matrix_y(0, rotation.y);
+    if (check_demo_mode() == 1) {
         draw_chunk_object(model);
     } else {
         switch (mode) {
@@ -355,7 +354,7 @@ void TObjEneDolmOlm::render() {
         case 8:
         case 9: {
             s16 t;
-            s16 *chunk = ((NJS_CNK_MODEL *)model->child->sibling->model)->polygon_list;
+            s16 *chunk = model->child->sibling->chunk_model->polygon_list;
             t = chunk[3];
             saved = t;
             chunk[3] = (u8)t;
@@ -387,13 +386,13 @@ void TObjEneDolmOlm::render() {
             draw_motion_model();
         }
         set_chunk_model_node_callback(NULL);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         switch (mode) {
         case 0:
         case 1:
         case 8:
         case 9:
-            ((NJS_CNK_MODEL *)model->child->sibling->model)->polygon_list[3] = saved;
+            model->child->sibling->chunk_model->polygon_list[3] = saved;
             break;
         }
     }
@@ -424,7 +423,7 @@ s32 TObjEneDolmOlm::render_model_if_visible() {
             set_texture_list(texlist);
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             draw();
             pop_matrix();
             restore_render_scissor(1);
@@ -438,10 +437,10 @@ void TObjEneDolmOlm::toggle_effect_render(NJS_OBJECT *) {
     case 0x15:
     case 0x1d:
     case 0x49:
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         break;
     default:
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         break;
     }
     dolm_olm_effect_render_state += 1;
@@ -515,9 +514,9 @@ void TObjEneDolmOlm::update_retreat() {
                 }
             }
             f = 4.0f * move_speed;
-            if (check_path_ahead(rotation_y + 0x8000, f) == 0) {
+            if (check_path_ahead(rotation.y + 0x8000, f) == 0) {
                 enemy_turn_toward_dest(movementParameters->turn_speed);
-                enemy_set_heading_velocity(f, this, rotation_y + 0x8000);
+                enemy_set_heading_velocity(f, this, rotation.y + 0x8000);
                 move_with_wall_slide(this);
                 retreat_distance += f;
                 if (retreat_distance >= 50.0f) {
@@ -627,7 +626,7 @@ void TObjEneDolmOlm::update_special_attack() {
             DolmOlmBehaviorParams *t;
             VecCopy(&v, &target->body_center);
             subtract_vector(&v, &body_center);
-            a = angle_difference_abs(rotation_y, (s32)(dolmolm_radians_to_angle[0] * atan2_float(v.x, v.z)));
+            a = angle_difference_abs(rotation.y, (s32)(dolmolm_radians_to_angle[0] * atan2_float(v.x, v.z)));
             d = horizontal_distance_squared(&target->position, &position);
             t = dolm_olm_behavior_params_by_variant[variant];
             if (a < t->special_angle && d < t->special_range * t->special_range) {
@@ -862,7 +861,7 @@ void TObjEneDolmOlm::update_attack_trail() {
     push_matrix();
     set_matrix_identity(0);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     matrix_mult_vec_array(NULL, e, &a, 2);
     pop_matrix();
     eff = attack_traces[idx];
@@ -876,12 +875,12 @@ void TObjEneDolmOlm::spawn_death_effect() {
     stack.y = 10.0f;
     stack.z = 0.5f * this->stat_block->proportions;
     push_matrix_from(&identity_matrix);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     rotate_vector_by_matrix(0, &stack, &stack);
     pop_matrix();
     vec3_add_to(&stack, &position);
     spawn_ground_effect(&stack, 0x23);
-    TDeadSpot::spawn_kind1_scale7_5(&stack, 0xF);
+    spawn_dead_spot_kind1_scale7_5(&stack, 0xF);
 }
 void TObjEneDolmOlm::play_alert_sound() {
     play_sound_effect(remap_sound_for_area(0x4003AD00), &position, 0, 0);

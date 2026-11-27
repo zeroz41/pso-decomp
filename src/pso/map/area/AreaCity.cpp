@@ -4,7 +4,7 @@
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/SoundPlayback.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/item/shop/ShopArmorStock.h"
 #include "pso/item/shop/ShopToolStock.h"
 #include "pso/item/shop/ShopWeaponStock.h"
@@ -25,10 +25,11 @@
 #include "pso/object/city/CitySeasonResources.h"
 #include "pso/ui/city/JudgeItem.h"
 #include "pso/audio/MusicControl.h"
+#include "pso/ui/CounterTextLookup.h"
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*TLobby_scene_load_callback_table[24])(void) = {
-    TLobby::create_named_lobby_object, TLobby::free_singleton,
+    create_named_lobby_object, free_singleton,
     load_weapon_random_tables, free_weapon_random_tables,
     load_armor_random_table, free_armor_random_table,
     load_tool_random_rel, free_tool_random_rel,
@@ -46,7 +47,7 @@ void cleanup_city_area(void) {
     refresh_render_state();
     stop_audio_streams();
     cleanup_city_area_stub();
-    TLobby::call_funcs_reverse(TLobby_scene_load_callback_table, sizeof(TLobby_scene_load_callback_table));
+    call_funcs_reverse(TLobby_scene_load_callback_table, sizeof(TLobby_scene_load_callback_table));
     unload_current_floor_resources();
     update_current_floor();
     TLobby::clear_session_buffers();

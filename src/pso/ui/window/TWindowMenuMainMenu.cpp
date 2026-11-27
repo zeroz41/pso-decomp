@@ -9,7 +9,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/math/Vec2Constants.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowMenuMainMenu.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -206,14 +206,11 @@ TMainMenuEntry *TWindowMenuMainMenu::find_active_item_by_id(int id) {
         icon = 0x1A;
     }
     entry = entries;
-    i = 0;
-    do {
+    for (i = 0; i < 8; i++, entry++) {
         if ((entry->is_item_active() != 0) && ((s8)entry->icon == icon)) {
             return entry;
         }
-        i += 1;
-        entry += 1;
-    } while (i < 8);
+    }
     return NULL;
 }
 
@@ -222,14 +219,11 @@ TMainMenuEntry *TWindowMenuMainMenu::find_free_slot() {
     TMainMenuEntry *entry;
 
     entry = entries;
-    counter = 0;
-    do {
+    for (counter = 0; counter < 8; counter++, entry++) {
         if (entry->is_item_active() == 0) {
             return entry;
         }
-        counter += 1;
-        entry += 1;
-    } while (counter < 8);
+    }
     return 0;
 }
 
@@ -246,14 +240,11 @@ s32 TWindowMenuMainMenu::count_active_items() {
     TMainMenuEntry *entry;
 
     entry = entries;
-    counter = 0;
-    do {
+    for (counter = 0; counter < 8; counter++, entry++) {
         if (entry->is_item_active() == 0) {
             return counter;
         }
-        counter += 1;
-        entry += 1;
-    } while (counter < 8);
+    }
     return 8;
 }
 

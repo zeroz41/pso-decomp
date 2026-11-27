@@ -10,7 +10,7 @@ struct SjRingBuffer;
 struct AdxfHandle {
     s8 used;
     s8 state;
-    s8 f2;
+    s8 external_buffer; // non-zero: the read buffer is the caller's, stop and the server keep it
     u8 f3;
     AdxStreamFile *stream;
     SjRingBuffer *buffer;
@@ -74,11 +74,13 @@ extern AdxfLogHeader adxf_log_header;
 extern AdxfLogEntry adxf_log_entries[256];
 extern AdxfHandle adxf_file_handle_pool[16];
 extern AdxfHandle *lobby_adxf_open_file_handle;
+}
+
+// one table of contents per loaded AFS partition, indexed by partition id
 extern AdxfPartitionInfo *afs_archive_toc_table[256];
 extern s32 lobby_adxf_current_file_id;
 extern s32 lobby_afs_toc_entry_index;
 extern s32 adxf_log_write_index;
 extern s32 adxf_invalidate_cache_flag;
-}
 
 #endif

@@ -17,7 +17,7 @@ struct TJudgmentSequence : public TShopSequence {
     void handle_close_input();
     void handle_confirm();
     void setup_counter_camera();
-    static void *create(void *player);
+    static void *create(TObjPlayer *player);
     TWindowBase *meseta_window;       // meseta window
     TObject *counter_camera; // 0x30: set_service_counter_camera
     void open_judgment_window();

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTimedSoundEffect.h"
 #include "pso/technique/TDelayedSoundEffect.h"

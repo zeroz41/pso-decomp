@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdSoniclogo.h"
@@ -25,12 +24,13 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/render/gjSystem.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/AsyncFileRead.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 
 
@@ -41,9 +41,9 @@ void (*logo_load_callback_table[18])(void) = {
     TCameraCtrl::reset_view_state, TCameraCtrl::reset,
     TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view,
     update_keyboard_menu, free_keyboard_soft_resources,
-    register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global,
-    register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_texture_f256_backtext,
-    register_texture_logo_e, TLogo::free_held_object,
+    register_texture_f256_ad_pic_2, free_global,
+    register_texture_f256_backtext, free_texture_f256_backtext,
+    register_texture_logo_e, free_held_object,
     load_sonic_logo_texture, free_sonic_logo_texture,
     TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows,
     load_adx_logo_texture, free_adx_logo_texture,
@@ -82,11 +82,11 @@ void TLogo::init_logo_scene() {
     if (is_area_transfer_pending() != 0) {
         invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
-        TLobby::reset_keyboard_state();
+        reset_keyboard_state();
         return;
     }
     TLobby::clear_callback_and_reset_keyboard();
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     new TLogo(tl_01);
     new TWindowCtrlMain();
 }
@@ -108,7 +108,7 @@ void TLogo::run_frame() {
     if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         request_main_phase(0);
     }
     render_tick();
@@ -116,7 +116,7 @@ void TLogo::run_frame() {
 
 void TLogo::exit_logo_scene() {
     main_task.delete_layer_children();
-    TLobby::call_funcs_reverse(logo_load_callback_table, sizeof(logo_load_callback_table));
+    call_funcs_reverse(logo_load_callback_table, sizeof(logo_load_callback_table));
     render_tick();
 }
 

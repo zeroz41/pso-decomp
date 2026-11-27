@@ -6,11 +6,10 @@
 #include "pso/enemy/berura/ChunkModelNodeCallback.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResource.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TMotionModel.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/render_util.h"
-#include "pso/system/NinjaTypes.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/render/DebugFont.h"
@@ -291,7 +290,7 @@ void TObjMotion::draw_saving_joints_checked() {
     u32 flags;
     Mtx34 *matrices;
 
-    matrices = (Mtx34 *)joint_matrices;
+    matrices = joint_matrices;
     if (matrices != NULL) {
         player_joint_matrix_write_ptr = matrices;
         set_chunk_model_node_callback(save_joint_matrix_callback);
@@ -308,7 +307,7 @@ void TObjMotion::draw_saving_joints_checked() {
 
 void TObjMotion::draw_saving_joints() {
     u32 flags;
-    player_joint_matrix_write_ptr = (Mtx34 *)joint_matrices;
+    player_joint_matrix_write_ptr = joint_matrices;
     set_chunk_model_node_callback(save_joint_matrix_callback);
     flags = motion_flags;
     if ((flags & MOTION_BLENDING) && !(flags & MOTION_DRAW_UNBLENDED)) {
@@ -355,12 +354,12 @@ s32 TObjEnemy::calc_joint_matrices(f32 at_frame) {
     return 1;
 }
 
-s32 TObjPlayer::calc_joint_matrices(NJS_MOTION *with, f32 at_frame, saddr matrices) {
+s32 TObjPlayer::calc_joint_matrices(NJS_MOTION *with, f32 at_frame, Mtx34 *matrices) {
     if (with == NULL || model == NULL) {
         return 0;
     }
     set_motion_packed_rotation();
-    player_joint_matrix_write_ptr = (Mtx34 *)matrices;
+    player_joint_matrix_write_ptr = matrices;
     set_chunk_model_node_callback(save_joint_matrix_callback);
     draw_motion(model, with, at_frame);
     set_chunk_model_node_callback(0);
@@ -391,7 +390,7 @@ void write_node_flags(NJS_OBJECT *object) {
     if (!(object->evalflags & NJD_EVAL_UNIT_SCL)) {
         node_flag_cursor->flags |= NODE_HAS_SCL;
     }
-    model = (NJS_CNK_MODEL *)object->model;
+    model = object->chunk_model;
     if (model != NULL) {
         node_flag_cursor->flags |= NODE_HAS_MODEL;
         if (model->vertex_list != NULL) {
@@ -482,8 +481,8 @@ f32 TObjMotion::get_root_motion_step(f32 *dx, f32 *dz) {
         end = k->key[2] + (dv * (t2 - (f32)k->keyframe)) / span;
     }
     d = end - start;
-    *dx = d * sin_table_lookup(rotation_y);
-    *dz = d * cos_table_lookup(rotation_y);
+    *dx = d * sin_table_lookup(rotation.y);
+    *dz = d * cos_table_lookup(rotation.y);
     return d;
 }
 

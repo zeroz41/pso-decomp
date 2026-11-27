@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -14,6 +13,7 @@
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
 #include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
@@ -21,8 +21,8 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/HeadingEntry.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 
 void TWindowSubQuestBoardSelect::clear_decided() {
     state_flags &= ~1;

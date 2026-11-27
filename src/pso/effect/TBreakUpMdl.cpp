@@ -1,6 +1,5 @@
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/animation/MotionContext.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/vector.h"
@@ -8,7 +7,7 @@
 #include <stdlib.h>
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/boss/goldragon/ChunkStripGrid.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill.h"
 #include "pso/render/GinjaView.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"

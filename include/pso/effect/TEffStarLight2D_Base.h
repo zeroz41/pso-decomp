@@ -7,8 +7,8 @@ class TEffStarLight2D;
 
 class TEffStarLight2D_Base : public TObjBase {
 public:
-    static void *create(void *set_data);
-    TEffStarLight2D_Base(TObject *parent, void *set_data);
+    static void *create(ObjectSetData *set_data);
+    TEffStarLight2D_Base(TObject *parent, ObjectSetData *set_data);
     virtual ~TEffStarLight2D_Base();
     virtual void run_task();
     virtual void render();

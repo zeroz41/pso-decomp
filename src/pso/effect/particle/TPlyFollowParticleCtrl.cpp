@@ -2,7 +2,6 @@
 // in reverse source order: bodies here run from the highest address down.
 
 #pragma readonly_strings on
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/memory.h"
@@ -11,12 +10,11 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerCommands.h"
-#include "pso/player/PlayerParticleEmitters.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/player/TPlayerFootStamp.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/effect/particle/TPlyFollowParticleCtrl.h"
 #include "pso/player/TPlyPtclObjectLeftHand.h"
 #include "pso/player/TPlyPtclObjectRightHand.h"
@@ -31,7 +29,7 @@ CollisionBody ply_follow_collision_body = {
     { 0.0f, 0.0f, 0.0f }, 20.0f, 0.0f, 0, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f,
 };
 
-void *TPlyFollowParticleCtrl::get_center() { return 0; }
+Vec *TPlyFollowParticleCtrl::get_center() { return 0; }
 
 u16 TPlyFollowParticleCtrl::get_owner_id() { return owner_id; }
 
@@ -70,7 +68,7 @@ TPlyPtclObjectLeftHand::TPlyPtclObjectLeftHand(TObjBase *owner) : TPlyFollowPart
 TPlyPtclObjectLeftHand::~TPlyPtclObjectLeftHand() {}
 
 // Follows the left hand (node 0x23).
-void *TPlyPtclObjectLeftHand::get_center() {
+Vec *TPlyPtclObjectLeftHand::get_center() {
     TObjPlayer *player = get_player_by_client_id(get_owner_id());
     if (player == NULL) {
         return NULL;
@@ -86,7 +84,7 @@ TPlyPtclObjectRightHand::TPlyPtclObjectRightHand(TObjBase *owner) : TPlyFollowPa
 TPlyPtclObjectRightHand::~TPlyPtclObjectRightHand() {}
 
 // Follows the right hand (node 0x30) of the player it belongs to.
-void *TPlyPtclObjectRightHand::get_center() {
+Vec *TPlyPtclObjectRightHand::get_center() {
     TObjPlayer *player = get_player_by_client_id(get_owner_id());
     if (player == NULL) {
         return NULL;
@@ -113,7 +111,7 @@ s32 PlayerHandParticles::check_hit_by_id(u16 target_id, s32 id) {
 }
 
 TParticleCtrl *create_attached_oneshot_emitter(void *owner, u16 target_id, s32 id) {
-    ParticleAngles direction;
+    Angle3 direction;
     TObjCollidable *target = find_entity_by_id(target_id);
     if (target == NULL) {
         return NULL;

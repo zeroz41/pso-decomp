@@ -6,6 +6,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct NJS_POINT2;
+class WindowTextEntry;
 
 struct TWindowMessageLine {
     s32 flags;
@@ -26,7 +27,7 @@ struct TWindowMessage : public TWindowAddition {
     void update_scroll();
     void retire_scrolled_lines();
     void advance_reveal_cursor();
-    void scroll_up_line(u8 *line_entry);
+    void scroll_up_line(WindowTextEntry *entry);
     int append_line(const char *text, int mode);
     static TWindowMessage *create(const NJS_POINT2 *position, const f32 *size, uaddr rows, s32 client);
     static TWindowMessage *create(const NJS_POINT2 *pos, const f32 *size, saddr rows);
@@ -41,9 +42,10 @@ struct TWindowMessage : public TWindowAddition {
     void complete_reveal();
     // Adds "label : value" with the colon at the window's centre.
     s32 add_label_value_line(const char *label, const char *value, u32 flags);
-    void update_line_timers();
     s32 append_line_colored(const char *text, s32 flags, s32 color);
+    void update_line_timers();
 };
+
 
 LAYOUT_ASSERT(TWindowMessage_size, sizeof(TWindowMessage) == 0x90);
 TWindowMessage *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size);

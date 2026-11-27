@@ -10,12 +10,13 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 void release_other_players_hold(TObject *caller) {
     u16 self_slot;
     s32 i;
     TObjPlayer *p;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         self_slot = TCameraCtrl::get_nth_view_player_id(0);
         for (i = 0; i < 4; i++) {
             if (self_slot != i) {
@@ -32,7 +33,7 @@ void impose_other_players_hold(TObject *caller) {
     u16 self_slot;
     s32 i;
     TObjPlayer *p;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         self_slot = TCameraCtrl::get_nth_view_player_id(0);
         for (i = 0; i < 4; i++) {
             if (self_slot != i) {

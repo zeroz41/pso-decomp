@@ -60,7 +60,7 @@ void TItemWeaponFist::transform_model_node() {
 }
 
 void TItemWeaponFist::emit_marker_effects() {
-  u8 buf[16];
+  Vec marker_pos;
   s32 k;
   s16 stage;
   s32 index;
@@ -77,8 +77,8 @@ void TItemWeaponFist::emit_marker_effects() {
     stage = owner->attack_state.get_validated_attack_stage();
     index = stage;
     index += k;
-    this->owner->get_anim_node_position(knuckle_marker_joint_table[index], (Vec *)buf);
-    spawn_particle_effect((const Vec *)buf, 0x1D0);
+    this->owner->get_anim_node_position(knuckle_marker_joint_table[index], &marker_pos);
+    spawn_particle_effect(&marker_pos, 0x1D0);
   }
 }
 

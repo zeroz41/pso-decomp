@@ -7,7 +7,7 @@
 struct TOSwitchAttack : public TObjBase {
     static void free_resources();
     static void load_resources();
-    TOSwitchAttack(TObject *parent, void *set_data);
+    TOSwitchAttack(TObject *parent, ObjectSetData *set_data);
     virtual ~TOSwitchAttack();
     f32 size;             // scale.z: the scale of the effects
     f32 range_sq;         // scale.x squared: how near (squared) a target must be to be hit
@@ -23,7 +23,7 @@ struct TOSwitchAttack : public TObjBase {
     void init_params();
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TOSwitchAttack_size, sizeof(TOSwitchAttack) == 0xAC);

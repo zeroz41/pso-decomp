@@ -9,11 +9,8 @@
 #include "pso/render/GinjaTextureHeader.h"
 #include <dolphin/os/OSCache.h>
 #include "pso/render/GinjaModelQueue.h"
-extern "C" {
-// Called with the whole format word, as Ginja's C callers do without a prototype; the callee reads the low byte.
-s32 is_palette_texture_format(int format);
-s32 init_texture_from_gvr_desc(GinjaTextureState *texture, GvrTextureDesc *desc);
-}
+#include "pso/system/MatrixStack.h"
+#include "pso/ui/frontend/TextureNameExtension.h"
 
 s32 set_texture_list(NJS_TEXLIST *texlist) {
     current_render_context->textures = texlist;
@@ -49,12 +46,12 @@ void reset_texture_error(void) {
 }
 #pragma pop
 
-void copy_texture_data_and_flush(void *buf, saddr src, u32 size) {
-    move_data(buf, (const void *)src, size);
+void copy_texture_data_and_flush(void *buf, const void *src, u32 size) {
+    move_data(buf, src, size);
     DCFlushRange(buf, size);
 }
 
-s32 copy_texture_pixel_range(GinjaTextureHeader *header, s32 src, s32 offsetRaw, s32 lengthRaw) {
+s32 copy_texture_pixel_range(GinjaTextureHeader *header, const void *src, s32 offsetRaw, s32 lengthRaw) {
     u32 remaining;
     u32 copyMax;
     u32 copyStart;
@@ -79,7 +76,7 @@ s32 copy_texture_pixel_range(GinjaTextureHeader *header, s32 src, s32 offsetRaw,
 
 #pragma push
 #pragma peephole off
-s32 copy_texture_pixels(GinjaTextureHeader *header, s32 src) {
+s32 copy_texture_pixels(GinjaTextureHeader *header, const void *src) {
     copy_texture_data_and_flush(header->pixels, src, header->size);
     return 0;
 }
@@ -165,7 +162,7 @@ void set_texlist_texture(NJS_TEXLIST *list, s32 index, s32 slot) {
 }
 #pragma pop
 
-s32 reload_texture_slot_pixels(s32 slot, s32 src) {
+s32 reload_texture_slot_pixels(s32 slot, const void *src) {
     GinjaSurfaceState *surface = texture_states[slot].surface;
     if (surface == 0) {
         texture_error.code = 1;
@@ -227,7 +224,7 @@ s32 select_texture_by_surface_id(u32 id) {
 }
 #pragma pop
 
-s32 reload_texture_state_pixels(GinjaTextureState *texture, s32 src, u32 use_header) {
+s32 reload_texture_state_pixels(GinjaTextureState *texture, const void *src, u32 use_header) {
     GinjaSurfaceState *surface = texture->surface;
     if ((surface->header.flags & 0x80000000) != 0 && use_header != 0) {
         if (start_texture_header_transfer(&surface->header) != 0) {
@@ -245,7 +242,7 @@ s32 reload_texture_state_pixels(GinjaTextureState *texture, s32 src, u32 use_hea
     return 1;
 }
 
-s32 reload_list_texture_pixels(s32 index, s32 src, u32 use_header) {
+s32 reload_list_texture_pixels(s32 index, const void *src, u32 use_header) {
     reset_texture_error();
     s32 r = reload_texture_state_pixels(current_render_context->textures->textures[index].texture, src, use_header);
     if (r < 0) {

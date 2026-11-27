@@ -80,7 +80,7 @@ void TODoorMachine02::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         unlocked = door_flags & 1;
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[door_flags & 1]));
         if (object_state == DOOR_CLOSED) {
@@ -117,13 +117,13 @@ void TODoorMachine02::render() {
     }
 }
 
-void *TODoorMachine02::create(void *set_data) {
+void *TODoorMachine02::create(ObjectSetData *set_data) {
     return new TODoorMachine02(tl_05, set_data);
 }
 
 void TODoorMachine02::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid(texture_lists[0]);
+        free_if_valid(texture_lists[0]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;
@@ -155,7 +155,7 @@ TODoorMachine02::~TODoorMachine02() {
     free_collision_body_parts(this);
 }
 
-TODoorMachine02::TODoorMachine02(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorMachine02::TODoorMachine02(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = door_machine02_class_name;
     apply_object_set_data(set_data);
     model = bml_resource->models[0].model;

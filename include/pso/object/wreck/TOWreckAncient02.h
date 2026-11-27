@@ -5,9 +5,9 @@
 #include "pso/object/wreck/TOWreckAncient.h"
 
 struct TOWreckAncient02 : public TOWreckAncient {
-    TOWreckAncient02(void *set_data);
+    TOWreckAncient02(ObjectSetData *set_data);
     virtual ~TOWreckAncient02();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TOWreckAncient02_size, sizeof(TOWreckAncient02) == 0xB4);

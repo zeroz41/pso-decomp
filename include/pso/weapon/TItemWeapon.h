@@ -39,10 +39,13 @@ struct WeaponParams {
     u8 flags;                      // 1, 2, 4: effect flag 0x20, weapon flags 0x40000, 0x80000
 };
 
-// impact_callback / hit_callback: (task layer, weapon, target, extra).
-typedef s32 (*WeaponHitCallback)(s32 layer, void *weapon, u16 target, s32 extra);
-// shot_callback: draws a shot from origin to end over frames.
 struct TItemWeapon;
+
+// hit_callback: (task layer, weapon, target, extra).
+typedef s32 (*WeaponHitCallback)(s32 layer, void *weapon, u16 target, s32 extra);
+// impact_callback: (task layer, weapon, shot start, wall hit point).
+typedef void (*WeaponImpactCallback)(TObject *layer, TItemEquipBase *weapon, const Vec *start, Vec *end);
+// shot_callback: draws a shot from origin to end over frames.
 class TItemShoot;
 typedef TItemShoot *(*WeaponShotCallback)(TItemWeapon *weapon, const Vec *origin, const Vec *end, f32 frames);
 
@@ -56,7 +59,7 @@ struct TItemWeapon : public TItemEquipBase {
     void launch_rare_weapon_special(Vec *origin, s32 enable, f32 scale);
     void fill_status_info(AttackColParams *params);
     void drain_owner_hp_fraction(f32);
-    virtual void *get_center();
+    virtual Vec *get_center();
     virtual void update_owned();
     virtual void update_equipped();
     // A technique roll (send_activate_effect from roll_technique).
@@ -120,10 +123,10 @@ struct TItemWeapon : public TItemEquipBase {
     void set_weapon_flags(u32 mask);
     void clear_weapon_flags(u32 mask);
     void set_flag_8();
-    // Timer callback of on_equip: sets flag 8 unless the item is on the ground.
-    void set_flag_8_unless_on_ground();
+    // Timer callback of on_equip: sets flag 8 on the weapon unless it is on the ground.
+    static void set_flag_8_unless_on_ground(TObject *object);
     // Calls impact_callback (if set) with the task layer, this, and both arguments.
-    void call_impact_callback(saddr start, saddr end);
+    void call_impact_callback(const Vec *start, Vec *end);
     void set_model_node_callback(void (*callback)(NJS_OBJECT *));
     void advance_weapon_photon_phase();
     // The photon colour (blended by photon_phase), white when the weapon has none.
@@ -172,7 +175,7 @@ struct TItemWeapon : public TItemEquipBase {
     f32 shot_speed;                // distance a shot covers per frame
     s16 photon_color_id;           // get_photon_color_record, -1 for none
     u8 pad_1ea[0x1EC - 0x1EA];
-    WeaponHitCallback impact_callback;  // when a shot hits a wall (spawn_land_hit_effect)
+    WeaponImpactCallback impact_callback;  // when a shot hits a wall (spawn_land_hit_effect)
     WeaponShotCallback shot_callback;   // draws the shot (create_gun_shot)
     WeaponHitCallback hit_callback;     // deliver_hit, on the target hit
 };
@@ -200,6 +203,8 @@ void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s3
 void increment_model_node_counter(void);
 // weapon_factory_table's entry for weapons without a class of their own.
 TItem *create_common_weapon(u8 *item);
+// A grinder use: raises grind by amount, capped at the weapon's max_grind.
+s32 add_weapon_grind(TItemWeapon *weapon, u8 amount);
 MtxP get_model_joint_matrix(TObjPlayer *player, int joint);
 void reset_model_node_counter(void);
 // The model node the weapon draw callback is at (counted by increment_model_node_counter).

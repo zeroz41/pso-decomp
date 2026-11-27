@@ -13,7 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 
 void update_lights() { current_scene_light->init_directional_light(); current_scene_light->debug_scene_light_hook(); }
 

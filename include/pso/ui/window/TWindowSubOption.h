@@ -14,7 +14,7 @@ public:
     TWindowSubOption(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubOption();
     void update_photon_selection();
-    saddr create_option_menu_window();
+    TWindowMenu *create_option_menu_window();
     TWindowCheckBox *create_option_value_window(s32);
     void update_quest_board_card_flags();
     virtual void render();

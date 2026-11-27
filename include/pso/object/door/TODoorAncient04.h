@@ -10,13 +10,13 @@
 // unlocked.
 class TODoorAncient04 : public TODoorBase {
 public:
-    TODoorAncient04(TObject *parent, void *set_data);
+    TODoorAncient04(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorAncient04();
     virtual void render();
     virtual void update_closed();
     virtual void update_open();
     virtual void update_demo();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_resources();
     static void load_resources();
 };

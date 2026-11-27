@@ -1,5 +1,4 @@
 #include "pso/player/PlayerStats.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
@@ -38,15 +37,16 @@
 #include "pso/render/TextureState.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 
 extern player_stats **shark_resource_node;
 extern AttackParams **shark_resource_buf;
@@ -63,12 +63,12 @@ void TObjEneShark::run_demo_task() {  }
 
 void TObjEneShark::play_death_sound() {
     play_sound_effect(remap_sound_for_area(0x4003A60C), &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x300);
+    play_effect_if_v2(-0x300);
 }
 
 void TObjEneShark::play_hurt_sound() {
     play_sound_effect(remap_sound_for_area(0x4003A60B), &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x300);
+    play_effect_if_v2(-0x300);
 }
 
 void TObjEneShark::play_attack_sound() {
@@ -77,7 +77,7 @@ void TObjEneShark::play_attack_sound() {
 
 void TObjEneShark::play_alert_sound() {
     play_sound_effect(remap_sound_for_area(0x4003A60B), &position, 0, 0);
-    TObjPlayer::play_effect_if_v2(-0x300);
+    play_effect_if_v2(-0x300);
 }
 
 void TObjEneShark::spawn_death_effect() {
@@ -86,12 +86,12 @@ void TObjEneShark::spawn_death_effect() {
     stack.y = 10.0f;
     stack.z = 0.5f * stat_block->proportions;
     push_matrix_from(&identity_matrix);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     rotate_vector_by_matrix(0, &stack, &stack);
     pop_matrix();
     vec3_add_to(&stack, &position);
     spawn_ground_effect(&stack, 0x23);
-    TDeadSpot::spawn_kind1_scale7_5(&stack, 0xF);
+    spawn_dead_spot_kind1_scale7_5(&stack, 0xF);
 }
 
 void TObjEneShark::update_attack_trail() {
@@ -122,7 +122,7 @@ void TObjEneShark::update_attack_trail() {
     push_matrix();
     set_matrix_identity(NULL);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     matrix_mult_vec_array(NULL, e, &a, 2);
     pop_matrix();
     trail = attack_trails[idx];
@@ -181,15 +181,15 @@ void TObjEneShark::beast_update_appear() {
     }
 }
 
-void TObjPlayer::update_particle_by_phase(NJS_OBJECT *) {
+void update_particle_by_phase(NJS_OBJECT *) {
     switch (shark_render_node_index) {
     case 0x10:
     case 0x1A:
     case 0x20:
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         break;
     default:
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         break;
     }
     shark_render_node_index += 1;
@@ -229,8 +229,8 @@ void TObjEneShark::render() {
   push_matrix();
   translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
   post_translate_matrix(&position.x);
-  rotate_matrix_y(0, rotation_y);
-  if (TObjPlayer::check_demo_mode() == 1)
+  rotate_matrix_y(0, rotation.y);
+  if (check_demo_mode() == 1)
   {
     draw_chunk_object(model);
   }
@@ -243,9 +243,9 @@ void TObjEneShark::render() {
       case 8:
       case 9:
       {
-        s16 *p = ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list;
+        s16 *p = model->child->sibling->chunk_model->polygon_list;
         s16 t = p[3];
-        ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list[3] = (u8) (p[3]);
+        model->child->sibling->chunk_model->polygon_list[3] = (u8) (p[3]);
         v28 = t;
       }
         break;
@@ -254,17 +254,17 @@ void TObjEneShark::render() {
     {
       s16 a;
       s16 b;
-      s16 *p = ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->model)->polygon_list;
+      s16 *p = model->child->sibling->sibling->chunk_model->polygon_list;
       a = p[2];
       b = p[3];
       p[2] = -0xB4;
       v26 = a;
       v27 = b;
-      ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->model)->polygon_list[3] = -1;
+      model->child->sibling->sibling->chunk_model->polygon_list[3] = -1;
     }
     toggle_particle_effect();
     shark_render_node_index = 0;
-    set_chunk_model_node_callback(TObjPlayer::update_particle_by_phase);
+    set_chunk_model_node_callback(update_particle_by_phase);
     if (appearing == 1)
     {
       if (this->fade.has_visible_opacity() != 0)
@@ -320,11 +320,11 @@ void TObjEneShark::render() {
       }
     }
     set_chunk_model_node_callback(0);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     if (in_group == 0)
     {
-      ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->model)->polygon_list[2] = v26;
-      ((NJS_CNK_MODEL *)(model)->child->sibling->sibling->model)->polygon_list[3] = v27;
+      model->child->sibling->sibling->chunk_model->polygon_list[2] = v26;
+      model->child->sibling->sibling->chunk_model->polygon_list[3] = v27;
     }
     switch (this->mode)
     {
@@ -332,7 +332,7 @@ void TObjEneShark::render() {
       case 1:
       case 8:
       case 9:
-        ((NJS_CNK_MODEL *)(model)->child->sibling->model)->polygon_list[3] = v28;
+        model->child->sibling->chunk_model->polygon_list[3] = v28;
         break;
     }
   }
@@ -413,7 +413,7 @@ CollisionBody shark_collision_body_table[3] = {
     { { 0.0f, 15.0f, 0.0f }, 8.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
-void *TObjEneShark::create(void *setData) {
+void *TObjEneShark::create(EnemyPlacement *setData) {
     TObjControl *parent = new TObjControl(tl_04);
     return new TObjEneShark(parent, setData);
 }
@@ -449,7 +449,7 @@ void TObjEneShark::free_resources() {
     }
 }
 
-void TLobby::load_shark_resources() {
+void TObjEneShark::load_resources() {
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
         shark_bml_resource = load_enemy_bml_resource_named(&bm_ene_bm1_shark_resource_descriptor, bm_ene_bm1_shark_a_bml_filename);
@@ -535,7 +535,7 @@ void TObjEneShark::set_model_variant(s32 i) {
 
 void TObjEneBeastBase::play_group_chase_sound() {  }
 
-TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TObjEneBeastBase(parent) {
+TObjEneShark::TObjEneShark(TObject *parent, EnemyPlacement *setData) : TObjEneBeastBase(parent) {
     s32 color;
     s32 i;
 

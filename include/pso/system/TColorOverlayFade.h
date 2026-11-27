@@ -7,11 +7,11 @@
 // its current value to target_color over duration frames.
 class TColorOverlayFade : public TObject {
 public:
-    TColorOverlayFade(TObject *parent, s32 unk_1C, s32 duration, u8 c3, u8 c0, u8 c1, u8 c2);
+    TColorOverlayFade(TObject *parent, s32 pad_1C, s32 duration, u8 c3, u8 c0, u8 c1, u8 c2);
     virtual ~TColorOverlayFade();
     virtual void run_task();
     s32 lerp_color(f32);
-    s32 unk_1C;
+    s32 pad_1C;
     s32 frame;
     s32 duration;
     u8 start_color[4];

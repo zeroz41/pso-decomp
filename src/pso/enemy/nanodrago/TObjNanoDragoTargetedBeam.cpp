@@ -1,5 +1,4 @@
 #include "pso/system/SoundEffect.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
@@ -23,7 +22,7 @@
 #include "pso/network/client_id.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 
 extern const Vec nano_drago_beam_forward = {0.0f, 0.0f, 0.0f};
 

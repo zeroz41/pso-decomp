@@ -26,6 +26,8 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/quest/QuestFloorDesignation.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -40,11 +42,6 @@ BmlResourceDescriptor bm_obj_door_space_resource_descriptor = {"bm_obj_door_spac
 
 CollisionBody door_four_light_collision_body_params = {{0.0f, 20.0f, 0.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-extern "C" {
-void cleanup_pillar_demo_stub_a(void);
-void cleanup_pillar_demo_stub_b(void);
-}
-
 const char *door_four_light_ruins_class_name = "TODoorFourLightRuins";
 const FourLightNodeTable door_four_light_ruins_index_table = {3, 4, 6, 8, 2, 5, 7, 9};
 const char *door_four_light_space_class_name = "TODoorFourLightSpace";
@@ -55,7 +52,7 @@ const FourLightNodeTable door_four_light_space_index_table = {4, 6, 8, 10, 5, 7,
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-TODoorFourLightRuins::TODoorFourLightRuins(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorFourLightRuins::TODoorFourLightRuins(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     s32 i;
     m_name = door_four_light_ruins_class_name;
     apply_object_set_data(set_data);
@@ -93,7 +90,7 @@ void TODoorFourLightRuins::render() {
             push_matrix();
             set_texture_list(get_green_door_textures());
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_model_with_motion(this->model_tree, this->motion, this->animation_frame);
             pop_matrix();
             return;
@@ -101,7 +98,7 @@ void TODoorFourLightRuins::render() {
             push_matrix();
             set_texture_list(get_green_door_textures());
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_model_with_motion(this->model_tree, this->motion, this->animation_end_frame);
             pop_matrix();
             return;
@@ -114,7 +111,7 @@ void TODoorFourLightRuins::render() {
             push_matrix();
             set_texture_list(get_green_door_textures());
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_object(this->model_tree);
             pop_matrix();
             break;
@@ -146,11 +143,11 @@ void TODoorFourLightRuins::draw_model_and_lights() {
     push_matrix();
     set_texture_list(this->texlist);
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_ginja_model(body->model);
     draw_ginja_model(body->child->model);
     }
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     for (s32 i = 0; i < 4; i++) {
         if (lit[i] == 1) {
             set_texture_list(get_green_door_textures());
@@ -172,12 +169,12 @@ void TODoorFourLightRuins::draw_model_and_lights() {
         lamp++;
         glow++;
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
 void TODoorFourLightRuins::update_door_switch_state() {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     s32 off;
     s32 i;
     s32 off2;
@@ -218,7 +215,7 @@ void TODoorFourLightRuins::update_door_switch_state() {
             this->door_flags |= 1;
         }
         if (off2 == 0 && this->set_entry != 0 && this->access_object_saved_state(&saved_state, 1) == 1) {
-            saved_state = 1;
+            saved_state.flags = 1;
             this->send_object_state_update(&saved_state);
             this->access_object_saved_state(&saved_state, 0);
         }
@@ -229,8 +226,8 @@ void TODoorFourLightRuins::update_door_switch_state() {
     }
 }
 
-void TODoorFourLightRuins::apply_saved_state(s16 *state, s32) {
-    if ((s16) *state == 1) {
+void TODoorFourLightRuins::apply_saved_state(QuestObjectEntry *state, s32) {
+    if (state->flags == 1) {
         this->door_flags = (s32) (this->door_flags | 1);
     }
 }
@@ -245,7 +242,7 @@ s32 TODoorFourLightRuins::init_door_switch_binding() {
     } else if (switch_id < 0) {
         this->lock_mode = 1;
     } else if ((s32) this->set_params[2] < 0) {
-        if ((get_main_phase() == 0xF) || (TRaderMapCore::is_not_split_screen() == 1)) {
+        if ((get_main_phase() == 0xF) || (is_not_split_screen() == 1)) {
             this->lock_mode = 3;
         } else {
             this->lock_mode = 2;
@@ -257,7 +254,7 @@ s32 TODoorFourLightRuins::init_door_switch_binding() {
 }
 
 
-TODoorFourLightSpace::TODoorFourLightSpace(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorFourLightSpace::TODoorFourLightSpace(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     s32 i;
     m_name = door_four_light_space_class_name;
     apply_object_set_data(set_data);
@@ -293,7 +290,7 @@ void TODoorFourLightSpace::render() {
             push_matrix();
             set_texture_list(get_green_door_textures());
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_model_with_motion(this->model_tree, this->motion, this->animation_frame);
             pop_matrix();
             return;
@@ -301,7 +298,7 @@ void TODoorFourLightSpace::render() {
             push_matrix();
             set_texture_list(get_green_door_textures());
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_model_with_motion(this->model_tree, this->motion, this->animation_end_frame);
             pop_matrix();
             return;
@@ -314,7 +311,7 @@ void TODoorFourLightSpace::render() {
             push_matrix();
             set_texture_list(get_green_door_textures());
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             draw_ginja_object(this->model_tree);
             pop_matrix();
             break;
@@ -347,7 +344,7 @@ void TODoorFourLightSpace::draw_lights() {
     push_matrix();
     set_texture_list(this->texlist);
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     post_translate_matrix(mdl->pos);
     push_matrix();
     post_translate_matrix(mdl->child->pos);
@@ -357,7 +354,7 @@ void TODoorFourLightSpace::draw_lights() {
     draw_ginja_model(mdl->child->sibling->model);
     post_translate_matrix(mdl->child->sibling->child->pos);
     draw_ginja_model(mdl->child->sibling->child->model);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     i = 0;
     do {
         if (flags[i] == 1) {
@@ -381,12 +378,12 @@ void TODoorFourLightSpace::draw_lights() {
         pa++;
         pb++;
     } while (i < 4);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
 void TODoorFourLightSpace::update_door_switch_state() {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     s32 fail;
     s32 i;
     switch (this->lock_mode) {
@@ -426,7 +423,7 @@ void TODoorFourLightSpace::update_door_switch_state() {
             }
             if (bad == 0 && this->set_entry != 0 &&
                 this->access_object_saved_state(&saved_state, 1) == 1) {
-                saved_state = 1;
+                saved_state.flags = 1;
                 this->send_object_state_update(&saved_state);
                 this->access_object_saved_state(&saved_state, 0);
             }
@@ -438,8 +435,8 @@ void TODoorFourLightSpace::update_door_switch_state() {
     }
 }
 
-void TODoorFourLightSpace::apply_saved_state(s16 *state, s32) {
-    if ((s16) *state == 1) {
+void TODoorFourLightSpace::apply_saved_state(QuestObjectEntry *state, s32) {
+    if (state->flags == 1) {
         this->door_flags = (s32) (this->door_flags | 1);
     }
 }
@@ -454,7 +451,7 @@ s32 TODoorFourLightSpace::init_door_switch_binding() {
     } else if (switch_id < 0) {
         this->lock_mode = 1;
     } else if ((s32) this->set_params[2] < 0) {
-        if ((get_main_phase() == 0xF) || (TRaderMapCore::is_not_split_screen() == 1)) {
+        if ((get_main_phase() == 0xF) || (is_not_split_screen() == 1)) {
             this->lock_mode = 3;
         } else {
             this->lock_mode = 2;

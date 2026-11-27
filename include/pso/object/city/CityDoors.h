@@ -7,4 +7,5 @@
 s32 get_challenge_state();
 
 void load_city_common_resources();
+void free_city_common_resources();
 #endif

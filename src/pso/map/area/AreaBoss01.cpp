@@ -7,67 +7,67 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/audio/SoundRequests.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/map/FloorWaveEvents.h"
+#include "pso/boss/dragon/TObjBoss1Floor.h"
 
 #pragma readonly_strings on
 
-
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
-void (*dragon_area_scene_callbacks[2])(void) = {TLobby::init_bosses, TLobby::update_boss1_objects};
+void (*dragon_area_scene_callbacks[2])(void) = {init_bosses, update_boss1_objects};
 
 void cleanup_dragon_area_scene(void) {
     refresh_render_state();
     stop_audio_streams();
     stop_cue_stream();
-    TLobby::call_funcs_reverse(dragon_area_scene_callbacks, sizeof(dragon_area_scene_callbacks));
+    call_funcs_reverse(dragon_area_scene_callbacks, sizeof(dragon_area_scene_callbacks));
     update_current_floor();
     unload_current_floor_resources();
     TLobby::clear_session_buffers();
 }
 
 s32 init_dragon_area_scene(void) {
-    AreaLightParams l;
+    LightEntry l;
     load_floor_sound_bank(get_current_floor_area());
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
     }
     run_load_callback_table(dragon_area_scene_callbacks, sizeof(dragon_area_scene_callbacks));
     if (TObjEneDD::check_v2_mode() == 0) {
-        l.dir[0] = -1.45f;
-        l.dir[1] = 2.8f;
-        l.dir[2] = -0.4f;
-        l.amb[0] = 1.0f;
-        l.amb[1] = 0.96f;
-        l.amb[2] = 0.3f;
-        l.d[0] = 1.0f;
-        l.d[1] = 0.1f;
-        l.d[2] = 0.24f;
-        l.d[3] = 0.4f;
-        l.c[0] = 1.0f;
-        l.c[1] = 1.0f;
-        l.c[2] = 0.51f;
-        l.c[3] = 0.4f;
+        l.direction.x = -1.45f;
+        l.direction.y = 2.8f;
+        l.direction.z = -0.4f;
+        l.pad_18 = 1.0f;
+        l.intensity = 0.96f;
+        l.ambient = 0.3f;
+        l.ambient_color.a = 1.0f;
+        l.ambient_color.r = 0.1f;
+        l.ambient_color.g = 0.24f;
+        l.ambient_color.b = 0.4f;
+        l.color.a = 1.0f;
+        l.color.r = 1.0f;
+        l.color.g = 0.51f;
+        l.color.b = 0.4f;
     } else {
-        l.dir[0] = -1.45f;
-        l.dir[1] = 2.8f;
-        l.dir[2] = -0.4f;
-        l.amb[0] = 1.0f;
-        l.amb[1] = 0.96f;
-        l.amb[2] = 0.75f;
-        l.d[0] = 1.0f;
-        l.d[1] = 0.1f;
-        l.d[2] = 0.24f;
-        l.d[3] = 0.4f;
-        l.c[0] = 1.0f;
-        l.c[1] = 0.85f;
-        l.c[2] = 1.0f;
-        l.c[3] = 1.0f;
+        l.direction.x = -1.45f;
+        l.direction.y = 2.8f;
+        l.direction.z = -0.4f;
+        l.pad_18 = 1.0f;
+        l.intensity = 0.96f;
+        l.ambient = 0.75f;
+        l.ambient_color.a = 1.0f;
+        l.ambient_color.r = 0.1f;
+        l.ambient_color.g = 0.24f;
+        l.ambient_color.b = 0.4f;
+        l.color.a = 1.0f;
+        l.color.r = 0.85f;
+        l.color.g = 1.0f;
+        l.color.b = 1.0f;
     }
-    init_map_lights((LightEntry *)&l);
+    init_map_lights(&l);
     TLobby::create_tasks();
-    TLobby::forward_floor_2CB44();
+    forward_floor_2CB44();
     play_area_music("dragon.adx");
     return 1;
 }

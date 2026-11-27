@@ -7,9 +7,9 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 
-void TParticleCtrl::begin_effect_render() { disable_scene_fog(); apply_scene_fog(); }
+void begin_effect_render() { disable_scene_fog(); apply_scene_fog(); }
 
-void TParticleCtrl::end_effect_render() { enable_scene_fog(); apply_scene_fog(); }
+void end_effect_render() { enable_scene_fog(); apply_scene_fog(); }
 
 void set_copy_clear_color_argb(u32 argb, s32, s32) {
     GXColor c;

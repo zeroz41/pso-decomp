@@ -15,12 +15,15 @@ public:
     void apply_character_appearance();
     void update_chara_preview();
     void reset_model_parts();
-    s32 bind_model_parts(uaddr *selected, const char **names, CreationModelPart *parts, s32 part, s32 model_index);
+    s32 bind_model_parts(NJS_OBJECT **selected, const char **names, CreationModelPart *parts, s32 part, s32 model_index);
     void load_model_parts();
+    // Clears the hair, cap and head part tables, then binds the parts again.
+    void update_pair();
+    static void init_entry_tables();
     void *shape_rel;
     s32 shape_rel_size;
     s32 shape_rel_ready;
-    u32 unknown108;
+    u32 pad_108;
 };
 LAYOUT_ASSERT(TCMCharacterSize, sizeof(TCMCharacter)==0x10C);
 LAYOUT_ASSERT(CreationShapeRelOffset, offsetof(TCMCharacter,shape_rel)==0xFC);
@@ -29,5 +32,7 @@ LAYOUT_ASSERT(CreationShapeReadyOffset, offsetof(TCMCharacter,shape_rel_ready)==
 // Blends the character-creation proportion morph shapes for one point.
 void blend_creation_proportion_shapes(f32 *point);
 void prefetch_creation_textures(s32 part);
+
+s32 is_char_select_active();
 
 #endif

@@ -1,5 +1,4 @@
 #include "pso/player/PhotonBlastRequests.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -130,7 +129,7 @@ f32 TPhotonBlastSequence::calc_photon_blast_power(s32 kind, f32 base_power) {
 }
 #pragma pop
 
-s32 TObjPlayer::is_any_teammate_in_state() {
+s32 is_any_teammate_in_state() {
     PhotonBlastChainCopy chain;
     s32 floor;
     s32 client;
@@ -784,7 +783,7 @@ PhotonBlastLoadCallback photon_blast_load_callback_table[10] = {
 
 void release_photon_blast_resources(void) {
     s32 i;
-    TLobby::call_funcs_reverse(photon_blast_load_callback_table, 0x50);
+    call_funcs_reverse(photon_blast_load_callback_table, 0x50);
     if (photon_blast_shared_resource != NULL) {
         delete photon_blast_shared_resource;
         photon_blast_shared_resource = NULL;

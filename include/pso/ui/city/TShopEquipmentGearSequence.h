@@ -27,7 +27,7 @@ struct TShopEquipmentGearSequence : public TShopSequence {
     void open_greeting();
     static void clear_window_slots();
     static void clear_window_slot_table();
-    static void *create_instance(void *player);
+    static void *create_instance(TObjPlayer *player);
 };
 
 LAYOUT_ASSERT(TShopEquipmentGearSequence_size, sizeof(TShopEquipmentGearSequence) == 0x38);

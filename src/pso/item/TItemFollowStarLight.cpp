@@ -19,7 +19,7 @@ void TItemFollowStarLight::run_task() {
     }
     if (star_light != NULL) {
         item = find_item_by_id(item_id);
-        if ((item != 0) && (item->get_mode() == 2) && (((TItemWeapon *)item)->get_joint_position(joint, &position) != 0)) {
+        if ((item != NULL) && (item->get_mode() == 2) && (((TItemWeapon *)item)->get_joint_position(joint, &position) != 0)) {
             if (item->is_hidden() == 0) {
                 star_light->copy_position(&position);
                 return;
@@ -35,7 +35,7 @@ TItemFollowStarLight::~TItemFollowStarLight() {}
 
 TItemFollowStarLight::TItemFollowStarLight(TObject *parent, s32 item_id, s32 joint) : TObject(parent) {
     Vec v;
-    void *p;
+    TItem *p;
     this->item_id = item_id;
     this->joint = joint;
     star_light = NULL;

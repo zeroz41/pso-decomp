@@ -7,12 +7,12 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/WindowTextDraw.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/TextureState.h"
-#include "pso/object/TObjLuker.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/ui/frontend/TAdGuideButtonGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
@@ -24,7 +24,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowComCard.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/window/TWindowCallBack.h"
 
 
@@ -162,7 +162,7 @@ void TAdPlyStatusGC::format_status_strings(char (*text)[16]) {
         if (mins > 59) {
             mins = 59;
         }
-        flags = *reinterpret_cast<const s8 *>(&card.v2_flags);
+        flags = card.v2_flags;
         if (flags & 2) {
             sprintf(text[0], ":%s", get_localized_text_entry(0x26, 0));
         } else {
@@ -171,7 +171,7 @@ void TAdPlyStatusGC::format_status_strings(char (*text)[16]) {
         if (flags & 1) {
             sprintf(text[1], ":%s", get_localized_text_entry(0x26, 0));
         } else {
-            sprintf(text[1], ":%s", TObjLuker::get_stat_table_entry(*reinterpret_cast<const s8 *>(&card.section_id)));
+            sprintf(text[1], ":%s", get_section_id_name(card.section_id));
         }
         sprintf(text[2], ":%04d:%02d'", hours, mins);
     }
@@ -179,7 +179,7 @@ void TAdPlyStatusGC::format_status_strings(char (*text)[16]) {
 
 TWindowBase *TAdPlyStatusGC::create_status_window(const NJS_POINT2 *position) {
     TWindowBase *status_window = TAdEnterSerialAccessGC::create_callback(
-        (void *)position, (void *)&ply_status_window_position, draw_status_window);
+        position, &ply_status_window_position, draw_status_window);
     status_window->set_depth(60000.0f);
     return status_window;
 }
@@ -213,7 +213,7 @@ void TAdPlyStatusGC::update_hidden() {
             guide_button->allow_rendering();
             guide_button->setup_button(&buttons[1]);
         }
-        port = TAdMultiPlyChrSelectGC::get_status();
+        port = get_status();
         if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[port], 0x400) != 0) {
             state = 1;
         }
@@ -233,7 +233,7 @@ void TAdPlyStatusGC::update_shown() {
             guide_button->allow_rendering();
             guide_button->setup_button(&buttons[0]);
         }
-        port = TAdMultiPlyChrSelectGC::get_status();
+        port = get_status();
         if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[port], 0x400) != 0) {
             state = 2;
         }

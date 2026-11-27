@@ -8,7 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/FloorReflection.h"
 #include "pso/boss/barbaray/TObjBoss7Dust.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/map/area/Delo2Scene.h"
 #include "pso/map/FloorWaveEvents.h"

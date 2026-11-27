@@ -37,7 +37,7 @@ void TOJungleDesign::init_design_variant() {
 }
 
 
-void *TOJungleDesign::create(void *set_data) {
+void *TOJungleDesign::create(ObjectSetData *set_data) {
     void *o = new TOJungleDesign(tl_05, set_data);
     return o;
 }
@@ -55,7 +55,7 @@ void TOJungleDesign::render() {
         set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
+        rotate_matrix_yxz(0, (this->rotation.x), (this->rotation.y), (this->rotation.z));
         draw_ginja_object(this->design_model);
         pop_matrix();
     }
@@ -64,7 +64,7 @@ TOJungleDesign::~TOJungleDesign() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-TOJungleDesign::TOJungleDesign(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TOJungleDesign::TOJungleDesign(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     this->m_name = jungle_design_name;
     this->apply_object_set_data(set_data);
     this->init_design_variant();

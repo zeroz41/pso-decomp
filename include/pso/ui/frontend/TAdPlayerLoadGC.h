@@ -39,7 +39,6 @@ public:
     virtual ~TAdPlayerLoadGC();
     virtual void run_task();
 public:
-    static s32 get_instance();
     static void set_state(int state);
     static void reset_load_state(s32 channel, u64 *serial_number);
     static void poll_card_load(s32 chan);

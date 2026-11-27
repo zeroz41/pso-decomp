@@ -26,6 +26,14 @@ struct NJS_TEXANIM {
 
 typedef Vec NJS_POINT3;
 
+// Ninja x/y/z rotation angles (0x10000 = full turn).
+typedef struct Angle3 Angle3;
+struct Angle3 {
+    s32 x;
+    s32 y;
+    s32 z;
+};
+
 // A Ninja camera: eye position, view direction, roll, view angle (0x10000 a
 // turn) and the near and far clip planes (negative view-space z).
 typedef struct NJS_CAMERA NJS_CAMERA;
@@ -146,17 +154,26 @@ struct NJS_CNK_MODEL {
     f32 r;  // bounding radius around center
 };
 
+struct GinjaModel;
+
 // Ninja model hierarchy node.
 typedef struct NJS_OBJECT NJS_OBJECT;
 struct NJS_OBJECT {
     u32 evalflags;
-    void *model;
+    union {
+        void *model;
+        NJS_CNK_MODEL *chunk_model;
+        struct GinjaModel *ginja_model;
+    };
     f32 pos[3];
-    s32 ang[3];
+    union {
+        s32 ang[3];
+        f32 quat_xyz[3]; // with evalflags 0x400 the rotation is a quaternion: x, y, z here, w in quat_w
+    };
     f32 scl[3];
     NJS_OBJECT *child;
     NJS_OBJECT *sibling;
-    f32 quat_w; // with evalflags 0x400 the rotation is a quaternion: ang holds x, y, z as floats, this w (name inferred)
+    f32 quat_w; // with evalflags 0x400 the rotation is a quaternion: quat_xyz holds x, y, z, this w
 };
 
 LAYOUT_ASSERT(NJS_OBJECT_size, sizeof(NJS_OBJECT) == 0x38);

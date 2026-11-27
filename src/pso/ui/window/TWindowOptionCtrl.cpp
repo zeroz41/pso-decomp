@@ -1,6 +1,5 @@
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
@@ -24,12 +23,12 @@
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/math/TMath.h"
 #include "pso/system/ControllerInput.h"
@@ -154,7 +153,7 @@ void TWindowOptionCtrl::run_task() {
             sub_menu = NULL;
         }
         if (main_menu == NULL) {
-            main_menu = (TWindowMenu *)create_menu();
+            main_menu = create_menu();
         }
         main_menu->clear_transition_flag();
         main_menu->clear_flag_and_release();
@@ -184,7 +183,7 @@ void TWindowOptionCtrl::run_task() {
         start_music_crossfade(0x1E);
         main_menu->open();
         if (sub_menu == NULL) {
-            sub_menu = (TWindowMenu *)create_list_window();
+            sub_menu = create_list_window();
         }
         state = 6;
     case 6:
@@ -292,7 +291,7 @@ void TWindowOptionCtrl::run_task() {
             confirm_menu = NULL;
         }
         if (sub_menu == NULL) {
-            sub_menu = (TWindowMenu *)create_sub_menu_window();
+            sub_menu = create_sub_menu_window();
         }
         main_menu->open();
         sub_menu->clear_transition_flag();
@@ -361,7 +360,7 @@ void TWindowOptionCtrl::run_task() {
         break;
     case 25:
         if (serial_info_window == NULL) {
-            serial_info_window = (TWindowBase *)TWindowOptionCtrl::create_serial_info_window(TWindowOptionCtrl::get_option_entry(0xCF), 1);
+            serial_info_window = TWindowOptionCtrl::create_serial_info_window(TWindowOptionCtrl::get_option_entry(0xCF), 1);
         }
         main_menu->open();
         state = 0x1A;
@@ -380,7 +379,7 @@ void TWindowOptionCtrl::run_task() {
 
 void TWindowOptionCtrl::render() {  }
 
-saddr TWindowOptionCtrl::create_menu() {
+TWindowMenu *TWindowOptionCtrl::create_menu() {
     TWindowMenu *menu;
 
     menu = create_window_menu_default(TWindowOptionCtrl::get_option_entry(0xCE), 9);
@@ -394,7 +393,7 @@ saddr TWindowOptionCtrl::create_menu() {
     menu->add_text_entry(get_localized_text_entry(0xF, 7), 6, 0x1B);
     menu->update_layout_height(470.0f);
     menu->align_menu_entry_positions();
-    return (saddr)menu;
+    return menu;
 }
 
 TWindowCheckBox *TWindowOptionCtrl::create_select_menu_window() {
@@ -409,7 +408,7 @@ TWindowCheckBox *TWindowOptionCtrl::create_select_menu_window() {
     return check_box_window;
 }
 
-saddr TWindowOptionCtrl::create_list_window() {
+TWindowMenu *TWindowOptionCtrl::create_list_window() {
     s32 idx;
     TWindowMenu *list;
 
@@ -430,7 +429,7 @@ saddr TWindowOptionCtrl::create_list_window() {
     list->set_silent_cancel();
     list->set_scroll_target(470.0f, 124.0f);
     list->align_menu_entry_positions();
-    return (saddr)list;
+    return list;
 }
 
 TWindowCheckBox *TWindowOptionCtrl::create_sound_mode_menu() {
@@ -463,7 +462,7 @@ TWindowSnapShot *TWindowOptionCtrl::create_snap_shot_window() {
     return new TWindowSnapShot(TWindowOptionCtrl::get_option_entry(0xCF));
 }
 
-saddr TWindowOptionCtrl::create_sub_menu_window() {
+TWindowMenu *TWindowOptionCtrl::create_sub_menu_window() {
     TWindowMenu *menu;
     menu = create_window_menu_default(TWindowOptionCtrl::get_option_entry(0xCF), 3);
     menu->add_text_entry(get_localized_text_entry(0xF, 0x1A), 6, 0x12);
@@ -471,7 +470,7 @@ saddr TWindowOptionCtrl::create_sub_menu_window() {
     menu->add_text_entry(get_localized_text_entry(0xF, 0x1C), 6, 0x15);
     menu->update_layout_height(470.0f);
     menu->align_menu_entry_positions();
-    return (saddr)menu;
+    return menu;
 }
 
 TWindowCheckBox *TWindowOptionCtrl::create_udp_option_menu() {
@@ -493,7 +492,7 @@ TWindowMessageYesNo *TWindowOptionCtrl::open_yes_no_window(s32 message_id, s32 i
   return window;
 }
 
-saddr TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 kind) {
+TWindowMessage *TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 kind) {
     TWindowMessage *w;
     w = TWindowMessage::create(pos, (const f32 *)(&serial_info_window_size), 3);
     switch (kind) {
@@ -509,7 +508,7 @@ saddr TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 ki
         break;
     }
     w->complete_reveal();
-    return (saddr)w;
+    return w;
 }
 
 const char *TWindowOptionCtrl::text_or_default(const char *text) {
@@ -531,7 +530,7 @@ s32 TWindowOptionCtrl::handle_input(s32 language) {
             main_menu->queue_destruction();
             main_menu = NULL;
         }
-        main_menu = (TWindowMenu *)create_menu();
+        main_menu = create_menu();
         main_menu->request_refresh();
         return 1;
     }

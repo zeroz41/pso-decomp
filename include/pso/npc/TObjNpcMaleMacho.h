@@ -7,11 +7,11 @@
 struct BmlResource;
 
 struct TObjNpcMaleMacho : public TObjNpcMale {
-    TObjNpcMaleMacho(TObject *parent, void *set_data);
+    TObjNpcMaleMacho(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjNpcMaleMacho();
     static void close_dialog_window();
     static void load_static_resource();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static const char *name;
     static BmlResource *static_model_resource;
 };

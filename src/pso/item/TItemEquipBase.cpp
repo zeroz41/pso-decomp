@@ -23,11 +23,6 @@
 const char *item_equip_base_class_name = "TItemEquipBase";
 
 extern "C" {
-// The attack parameter getters (TObjChara.cpp), seen here as
-// returning int: the stat helpers take the values without re-extending them.
-s32 get_atp_min__12AttackParamsFv(AttackParams *params);
-s32 get_atp_max__12AttackParamsFv(AttackParams *params);
-s32 get_ata__12AttackParamsFv(AttackParams *params);
 void *resolve_hittable_target(u16 actor_id, s32 collider);
 }
 
@@ -205,9 +200,9 @@ void TItemEquipBase::subtract_equip_stats(void *atp, s16 *stats, s16 *stats2) {
     ActorParamBlock *params = (ActorParamBlock *)stats;
     EquipStatBonus *player_stats = (EquipStatBonus *)stats2;
     if (attack != NULL) {
-        attack->sub_atp_min(get_atp_min__12AttackParamsFv(&attack_bonus));
-        attack->sub_atp_max(get_atp_max__12AttackParamsFv(&attack_bonus));
-        attack->sub_ata(get_ata__12AttackParamsFv(&attack_bonus));
+        attack->sub_atp_min(attack_bonus.get_atp_min());
+        attack->sub_atp_max(attack_bonus.get_atp_max());
+        attack->sub_ata(attack_bonus.get_ata());
     }
     if (params != NULL) {
         params->values[0] -= param_bonus.values[0];
@@ -303,9 +298,9 @@ void TItemEquipBase::add_equip_stats(s32 apply) {
         data.apply_equip_effects(owner, &attack_bonus, &param_bonus, &stat_bonus, &hp_tp_bonus);
         attack = get_actor_attack_params(owner);
         if (attack != NULL) {
-            attack->add_atp_min(get_atp_min__12AttackParamsFv(&attack_bonus));
-            attack->add_atp_max(get_atp_max__12AttackParamsFv(&attack_bonus));
-            attack->add_ata(get_ata__12AttackParamsFv(&attack_bonus));
+            attack->add_atp_min(attack_bonus.get_atp_min());
+            attack->add_atp_max(attack_bonus.get_atp_max());
+            attack->add_ata(attack_bonus.get_ata());
         }
         params = get_actor_param_block(owner);
         if (params != NULL) {
@@ -411,18 +406,18 @@ void PlayerAttackController::set_item_effect() { ((FlagWord *)&flags)->set(0x20)
 
 void PlayerAttackController::clear_item_effect() { ((FlagWord *)&flags)->clear(0x20); }
 
-void AttackParams::sub_ata(s32 amount) { ata -= amount; }
+void AttackParams::sub_ata(s16 amount) { ata -= amount; }
 
-void AttackParams::sub_atp_max(s32 amount) { atp_max -= amount; }
+void AttackParams::sub_atp_max(s16 amount) { atp_max -= amount; }
 
-void AttackParams::sub_atp_min(s32 amount) { atp_min -= amount; }
+void AttackParams::sub_atp_min(s16 amount) { atp_min -= amount; }
 
 ActorParamBlock *get_actor_param_block(TObjChara *actor) { return actor->param_block; }
 
 AttackParams *get_actor_attack_params(TObjChara *actor) { return actor->attack_params; }
 
-void AttackParams::add_ata(s32 amount) { ata += amount; }
+void AttackParams::add_ata(s16 amount) { ata += amount; }
 
-void AttackParams::add_atp_max(s32 amount) { atp_max += amount; }
+void AttackParams::add_atp_max(s16 amount) { atp_max += amount; }
 
-void AttackParams::add_atp_min(s32 amount) { atp_min += amount; }
+void AttackParams::add_atp_min(s16 amount) { atp_min += amount; }

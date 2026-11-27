@@ -2,6 +2,7 @@
 #define PSO_BOSS_TBOSS3VOLOPTPARTICLESPRAY_H
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 
@@ -14,7 +15,7 @@ public:
     f32 rate;
     f32 pending;
     Vec pos;
-    s32 rotation[3];
+    Angle3 rotation;
     f32 spread;
 
     TBoss3VoloptParticleSpray(Vec *pos, s32 effect_id, s32 lifetime, s32 *rotation, f32 rate, f32 spread);

@@ -1,8 +1,8 @@
 #include "pso/quest/QuestDownloadCharTables.h"
 
-// Character-code tables of the quest text converter. Interim data-only unit: their only users are in
-// AskDicFile.cpp, but that TU's own .rodata statics (glyph_bits) are addressed from
-// their own base (glyph_rows/glyph_col are indexed off glyph_bits), so the TU's .rodata starts there and these
+// Character-code tables of the quest text converter. Interim data-only unit: their only users are in the quest
+// download VM server's TU, but that TU's own .rodata statics (glyph_bits first) are addressed from their own base
+// (the glyph renderer indexes glyph_rows/glyph_col off glyph_bits), so the TU's .rodata starts there and these
 // external tables (.rodata, so C) belong to a C file linked before it. Fold once that file is known.
 
 // JIS X 0208 code for each single-byte character (0x2223 where none).

@@ -2,12 +2,11 @@
 // TBoss2Joint spawns), their base TBoss2BreakUp and the breakup models they start from.
 // Built -inline off,deferred: the functions below are written last to first (the vtables
 // and TBoss2JointBreakUp::render's .rodata templates before TBoss2BodyBreakUp::render's only come out in that order).
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/boss/derolle/RandomAngle.h"
-#include "pso/boss/goldragon/ChunkStripGrid.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill.h"
 #include "pso/system/vector.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
@@ -17,7 +16,7 @@
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"

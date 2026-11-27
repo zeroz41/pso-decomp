@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/derolle/TObjBoss2RaftSplash.h"
@@ -14,10 +13,10 @@
 #include "pso/render/TFogCtrl.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/TextureState.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TObjBoss2TunnelSlide.h"
-#include "pso/boss/goldragon/ChunkStripGrid.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill.h"
 #include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -26,6 +25,7 @@
 #include <stdlib.h>
 #include "pso/render/GinjaMaterial.h"
 #include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
+#include "pso/player/PhotonBlastResults.h"
 #pragma defer_codegen on
 
 u32 TObjBoss2Tunnel::global_flags;
@@ -551,7 +551,7 @@ void TObjBoss2Tunnel::render() {
     GinjaTextureState *saved;
     s32 i;
     Vec v = {0.0f, 0.0f, 0.0f};
-    if (TObjPlayer::is_any_teammate_in_state() == 0 && TMainTask::get_render_pass() == 0) {
+    if (is_any_teammate_in_state() == 0 && TMainTask::get_render_pass() == 0) {
     push_matrix();
     {
         NJS_TEXNAME *entries = boss2_common_texture_list->textures;

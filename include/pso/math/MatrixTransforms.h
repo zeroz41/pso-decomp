@@ -12,7 +12,7 @@ extern "C" {
 // Translates matrix (the current matrix when NULL) by (x, y, z).
 void translate_matrix(MtxP matrix, f32 x, f32 y, f32 z);
 // *v -= *sub
-void subtract_vector(Vec *v, const Vec *sub);
+Vec *subtract_vector(Vec *v, const Vec *sub);
 }
 
 #endif

@@ -2,7 +2,6 @@
 #include "pso/system/save/CardFileInfo.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
@@ -28,6 +27,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/quest/QuestActiveFlag.h"
+#include "pso/ui/frontend/CardFileAccess.h"
 
 extern const char quest_file_prefix[] = "PSO______0";
 extern const char quest_file_99_name[] = "PSO______099";
@@ -66,8 +66,8 @@ TQuestListVM::TQuestListVM(TObject *parent, TShopWindowBase *owner, TObjPlayer *
     detail_window = NULL;
     confirm_window = NULL;
     tmp_buffer = NULL;
-    card_buffer = TQuestVmDownLoadServer::alloc(0x20000);
-    unk_2390 = 0;
+    card_buffer = alloc(0x20000);
+    pad_2390 = 0;
     decrypted_quest_buffer = NULL;
     decompression_capacity = 0;
     quest_data_output_cursor = NULL;
@@ -293,7 +293,7 @@ void TQuestListVM::scan_memcard_quest_files() {
 void TQuestListVM::load_selected_player_slot() {
     if (card_buffer != NULL) {
         if (poll_memcard_result(entries[entry_count].card_slot) == 0) {
-            if (TAdSinglePlyChrSelectGC::load_player_slot(entries[entry_count].card_slot,
+            if (read_card_file(entries[entry_count].card_slot,
                                                           entries[entry_count].file_name, card_buffer) == 0) {
                 set_state(4);
                 return;
@@ -451,7 +451,7 @@ void TQuestListVM::load_selected_bin() {
     if (list_window != NULL && card_buffer != NULL) {
         index = list_window->get_cursor_value();
         if (poll_memcard_result(entries[index].card_slot) == 0) {
-            if (TAdSinglePlyChrSelectGC::load_player_slot(entries[index].card_slot, entries[index].file_name,
+            if (read_card_file(entries[index].card_slot, entries[index].file_name,
                                                           card_buffer) == 0) {
                 set_state(9);
                 return;
@@ -582,7 +582,7 @@ void TQuestListVM::load_selected_slot() {
         index = list_window->get_cursor_value();
         if (poll_memcard_result(entries[index].card_slot) == 0) {
             sprintf(file_name, quest_file_name_format, quest_file_prefix, entries[index].file_index + 1);
-            if (TAdSinglePlyChrSelectGC::load_player_slot(entries[index].card_slot, file_name, card_buffer) == 0) {
+            if (read_card_file(entries[index].card_slot, file_name, card_buffer) == 0) {
                 set_state(0xC);
                 return;
             }

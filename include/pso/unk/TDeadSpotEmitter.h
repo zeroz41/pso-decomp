@@ -2,6 +2,7 @@
 #define PSO_UNK_TDEADSPOTEMITTER_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 class TParticleCtrl;
 

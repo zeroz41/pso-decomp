@@ -46,14 +46,14 @@
 static const Vec ballistic_camera_yaw_axis = { 0.0f, 0.0f, -1.0f };
 static const Vec ballistic_camera_pitch_axis = { 0.0f, 0.0f, -1.0f };
 static const Vec ballistic_facing_axis = { 0.0f, 0.0f, 1.0f };
-static const ParticleAngles ballistic_zero_angles = { 0, 0, 0 };
+static const Angle3 ballistic_zero_angles = { 0, 0, 0 };
 
-TParticle *create_ballistic_particle(ParticleParam *entry, Vec *position, ParticleAngles *direction,
+TParticle *create_ballistic_particle(ParticleParam *entry, Vec *position, Angle3 *direction,
                                          TObject *parent, u16 flags, u16 target_id) {
     return new TParticleBallistic(entry, position, direction, parent, flags, target_id);
 }
 
-TParticle *TParticleCtrl::create_random_spread(ParticleParam *param, Vec *pos, TObject *parent) {
+TParticle *create_random_spread(ParticleParam *param, Vec *pos, TObject *parent) {
     return new TParticleBallistic(param, pos, parent);
 }
 
@@ -194,7 +194,7 @@ void TParticleBallistic::run_task() {
             queue_destruction();
             return;
         }
-        Vec *center = (Vec *)target_obj->get_center();
+        Vec *center = target_obj->get_center();
         if (center != NULL) {
             if (flags & 0x20) {
                 offset_point_toward_camera(center, &toward_camera, 8.0f);
@@ -304,7 +304,7 @@ void TParticleBallistic::render() {
         at.x = sprite.pos.x + sprite.offset.x;
         at.y = sprite.pos.y + sprite.offset.y;
         at.z = sprite.pos.z + sprite.offset.z;
-        ParticleAngles angles = ballistic_zero_angles;
+        Angle3 angles = ballistic_zero_angles;
         direction_to_rotation_xz((u8 *)&velocity, &angles.x, &angles.z);
         push_matrix();
         post_translate_matrix(&at.x);
@@ -322,7 +322,7 @@ void TParticleBallistic::render() {
         if (flags & 0x400) {
             load_projected_texture_matrix(1.33f);
         }
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         if (flags & 0x400) {
             setup_particle_tev(0);
         } else {
@@ -348,7 +348,7 @@ void TParticleBallistic::render() {
             model_render_flags = saved_model_render_flags;
         }
         restore_draw_list_mask();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     } else if (draw_flags & 0x2000) {
         draw_particle_refraction_quad();
@@ -373,7 +373,7 @@ TParticleBallistic::~TParticleBallistic() {}
 
 #pragma push
 #pragma fp_contract on
-TParticleBallistic::TParticleBallistic(ParticleParam *entry, Vec *position, ParticleAngles *direction, TObject *parent,
+TParticleBallistic::TParticleBallistic(ParticleParam *entry, Vec *position, Angle3 *direction, TObject *parent,
                              u16 particle_flags, u16 target)
     : TParticle(entry, parent) {
     s32 life;

@@ -5,6 +5,8 @@
 #include "types.h"
 #include "pso/system/vector.h"
 
+struct TItemEquipBase;
+
 // A Vec copied as three words.
 struct HitPositionWords { s32 x; s32 y; s32 z; };
 union HitPosition { HitPositionWords w; Vec f; };
@@ -36,6 +38,6 @@ void spawn_hit_particle_trio(Vec *pos);
 // A weapon effect's wall-hit callback.
 void spawn_wall_hit_particles(s32 layer, Vec *pos);
 // The weapons' impact callback: hit particles where the shot ended.
-void spawn_weapon_impact_effect(s32 layer, TItemWeapon *weapon, Vec *start, Vec *end);
+void spawn_weapon_impact_effect(TObject *layer, TItemEquipBase *weapon, const Vec *start, Vec *end);
 
 #endif

@@ -3,7 +3,7 @@
 #include "pso/object/lobby/TObjLobbyMain.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/network/TLobby.h"
@@ -18,7 +18,6 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/system/NinjaTypes.h"
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixReflect.h"
 #include <dolphin/base/PPCArch.h>
@@ -73,7 +72,7 @@ GinjaModel *TObjLobbyMain::computer_screen_model;
 GinjaModel *TObjLobbyMain::computer_screen_model_b;
 s32 TObjLobbyMain::computer_last_frame_tick;
 
-TObjLobbyMain::TObjLobbyMain(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjLobbyMain::TObjLobbyMain(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = obj_lobby_main_class_name;
     apply_object_set_data(set_data);
     emitter0 = create_particle_emitter(&position, 0x222);
@@ -128,12 +127,12 @@ void TObjLobbyMain::free_resources() {
     }
 }
 
-void *TObjLobbyMain::create(void *set_data) {
+void *TObjLobbyMain::create(ObjectSetData *set_data) {
     return new TObjLobbyMain(tl_05, set_data);
 }
 
 void TObjLobbyMain::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         demo_step();
     }
     switch (fade_state) {
@@ -206,7 +205,7 @@ void TObjLobbyMain::render() {
     if (lobby_texlist != 0 && update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if (fade_state != 2) {
             scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
@@ -261,7 +260,7 @@ void TObjLobbyMain::update_emitter_positions() {
             push_matrix();
             set_matrix_identity(NULL);
             post_translate_matrix(&position.x);
-            rotate_matrix_y(NULL, rotation_y);
+            rotate_matrix_y(NULL, rotation.y);
             matrix_mult_vec(NULL, &pos, &pos);
             emitter0->set_position(&pos);
             pop_matrix();
@@ -272,7 +271,7 @@ void TObjLobbyMain::update_emitter_positions() {
             push_matrix();
             set_matrix_identity(NULL);
             post_translate_matrix(&position.x);
-            rotate_matrix_y(NULL, rotation_y);
+            rotate_matrix_y(NULL, rotation.y);
             matrix_mult_vec(NULL, &pos, &pos);
             emitter1->set_position(&pos);
             pop_matrix();

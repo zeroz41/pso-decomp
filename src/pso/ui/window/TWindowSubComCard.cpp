@@ -1,5 +1,4 @@
 #include "pso/player/GuildCardEntry.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -27,6 +26,7 @@
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/DeferredPackets.h"
 
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowComCard.h"
@@ -47,13 +47,13 @@ class TChCrTagPlBack;
 
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/chat/TWindowSubShortMailActiveChecks.h"
+#include "pso/ui/window/TWindowBreakIn.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubComCardEntries.h"
+#include "pso/ui/window/TWindowSubComCard_CardSlots.h"
 #include "pso/ui/window/WindowTextEntry.h"
 
 const char *TWindowSubComCard::class_name = "TWindowSubComCard";
@@ -80,17 +80,17 @@ void TKeyBoardControl::set_soft_flag60_bit1() {
     }
 }
 char *GuildCardRecord::get_sub_obj() { return name; }
-char *GuildCardRecord::get_name() { return s19; }
-char *get_guild_card_s2a(GuildCardRecord *entry) { return entry->s2A; }
+char *GuildCardRecord::get_ship_name() { return ship_name; }
+char *get_guild_card_block_name(GuildCardRecord *entry) { return entry->block_name; }
 
-char *GuildCardRecord::get_card_data_ptr() { return s3B; }
+char *GuildCardRecord::get_team_name() { return team_name; }
 
 GuildCardRecord *get_selected_guild_card_record(void) {
     return &selected_guild_card_record;
 }
 
 void TWindowSubComCard::set_com_param(saddr client_id, s32 com_param) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(com_param << 0x12), (s32)0xFFFBFFFF);
+    set_card_window_flags(client_id, (s32)(com_param << 0x12), (s32)0xFFFBFFFF);
 }
 
 TWindowSubComCard::TWindowSubComCard(TObject *parent, s32 client) : TObject(parent) {
@@ -584,7 +584,7 @@ void TWindowSubComCard::run_task() {
         if (this->keyboard == NULL) {
             this->keyboard = TWindowSubShortMail::create_keyboard();
         }
-        this->keyboard->set_position((void *)(get_window_layout_position(0xBB)));
+        this->keyboard->set_position(const_cast<NJS_POINT2 *>(get_window_layout_position(0xBB)));
         reinterpret_cast<TKeyBoardControl *>(keyboard)->clear_keyboard_flag60_bit1();
         this->keyboard->show();
         this->state = 0x22U;
@@ -599,9 +599,9 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x23:
-        this->keyboard->set_position((void *)(get_window_layout_position(0xBC)));
+        this->keyboard->set_position(const_cast<NJS_POINT2 *>(get_window_layout_position(0xBC)));
         this->keyboard->hide();
-        this->confirm_window = (TWindowMessageYesNo *)TWindowSubShortMail::open_confirm_prompt(this, client_id);
+        this->confirm_window = TWindowSubShortMail::open_confirm_prompt(this, client_id);
         this->state = 0x24U;
     case 0x24:
         if (this->confirm_window->is_cancelled() != 0) {
@@ -1538,11 +1538,11 @@ void TWindowSubComCard::set_selected_card(s32 card_index) {
         guild_card_record = get_selected_guild_card_record();
         text_builder_reset();
         text_builder_append(result->info);
-        text_builder_append(guild_card_record->get_name());
+        text_builder_append(guild_card_record->get_ship_name());
         text_builder_append("\n");
-        text_builder_append(get_guild_card_s2a(guild_card_record));
+        text_builder_append(get_guild_card_block_name(guild_card_record));
         text_builder_append("\n");
-        text_builder_append(guild_card_record->get_card_data_ptr());
+        text_builder_append(guild_card_record->get_team_name());
         this->message_window->append_line(get_shared_text_buffer(), 0x82);
     }
 }

@@ -18,7 +18,7 @@
     if (flags != old_flags) { \
         TMainTask *child; \
         u32 bit = 1; \
-        FOREACH_NODE_NODECL_MULTI_ITER(TMainTask, main_task.m_down, child, bit <<= 1) { \
+        for (child = (TMainTask *)main_task.m_down; child != NULL; child = (TMainTask *)child->m_next, bit <<= 1) { \
             if (flags & bit) { \
                 child->one_prefix##_##suffix(); \
             } else { \
@@ -125,7 +125,13 @@ public:
     s32 get_task_flags();
     static s32 get_render_pass();
     // Resets the per-floor game objects (item loader, cleanup helpers, floor items) after a floor change.
-    static void cleanup_game_objects();
 };
+
+// TMainTask's constructor and destructor by symbol, for the static initializer that builds and registers
+// main_task (C++ cannot take a constructor's or destructor's address).
+extern "C" {
+void *__ct__9TMainTaskFv(void *object);
+void __dt__9TMainTaskFv(void *object, s16 flags);
+}
 
 #endif

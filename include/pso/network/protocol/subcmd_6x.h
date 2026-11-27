@@ -337,7 +337,7 @@ LAYOUT_ASSERT(G_CreateLobbyChair_6xABSize, sizeof(G_CreateLobbyChair_6xAB) == 0x
 struct G_DarkFalzActions_6x19 {
  struct G_ClientIDHeader header;
  s16 state;       // dark_falz_state_table index to change to, -1 for none
- u16 unknown_a3;
+ u16 pad_06;
  s32 form_action; // handed to the active form (Type1/2/3), -1 for none
  u32 unused;
  void init();
@@ -449,7 +449,7 @@ struct G_DonateToPhotonBlast_6x38 {
  u16 target_client_id;
  s16 unused;
  void bswap_fields();
- void *copy_packet_header_6x38(void *src);
+ void *copy_packet_header_6x38(G_DonateToPhotonBlast_6x38 *src);
  void init_subcommand_6x38();
  void send_state();
 };
@@ -513,7 +513,7 @@ struct G_DropItem_DC_6x5F {
 };
 LAYOUT_ASSERT(G_DropItem_DC_6x5FSize, sizeof(G_DropItem_DC_6x5F) == 0x28);
 
-// 6x5F: An item drops on the floor from an enemy or a box. Sent by TLobby::drop_item_from_source
+// 6x5F: An item drops on the floor from an enemy or a box. Sent by drop_item_from_source
 // and process_enemy_drop_request. Size checked: its constructor sets the header size to 11 words.
 struct G_DropItem_PC_V3_BB_6x5F {
  G_DropItem_DC_6x5F __base_G_DropItem_DC_6x5F;
@@ -865,7 +865,7 @@ struct G_MedicalCenterReviveAllPlayers_6x32 {
 };
 LAYOUT_ASSERT(G_MedicalCenterReviveAllPlayers_6x32Size, sizeof(G_MedicalCenterReviveAllPlayers_6x32) == 0x4);
 
-// 6xA6: Changes a trade proposal between two players. Sent by TLobby::send_trade_proposal_modify,
+// 6xA6: Changes a trade proposal between two players. Sent by send_trade_proposal_modify,
 // cancel_trade_for_member_out_of_range, send_trade_busy_reply, TLobby::send_modify_trade_proposal
 // and 2 more; received by handle_6xA6_modify_trade_proposal. Size checked:
 // build_6xA6_modify_trade_proposal sets the header size to 4 words.
@@ -915,30 +915,8 @@ struct G_NPCControl_6x69 {
 };
 LAYOUT_ASSERT(G_NPCControl_6x69Size, sizeof(G_NPCControl_6x69) == 0xC);
 
-// 6xA3: Olga Flow's action state. Received by handle_6xA3_olga_flow_boss_actions. Layout from
-// newserv. Size checked: OlgaFlowPlotActionMsg::initialize sets the header size to 5 words.
-struct G_OlgaFlowBossActions_6xA3 {
- struct G_EntityIDHeader header;
- u8 unknown_a1;
- u8 unknown_a2;
- u8 unknown_a3[0x0E];
-};
-LAYOUT_ASSERT(G_OlgaFlowBossActions_6xA3Size, sizeof(G_OlgaFlowBossActions_6xA3) == 0x14);
-
-// 6xA4/6xA5: Olga Flow's action state with its parameters. Received by
-// handle_6xA4_olga_flow_boss_actions and handle_6xA5_olga_flow_boss_actions. Layout from newserv.
-// Size checked: OlgaFlowActionMsg::initialize (6xA4) and OlgaFlowType2ActionMsg::initialize (6xA5)
-// set the header size to 5 words.
-struct G_OlgaFlowBossActions_6xA4_6xA5 {
- struct G_EntityIDHeader header;
- u8 what;
- u8 pos_bytes[3];
- u8 state_bytes[3];
- u8 unused1;
- u8 ext_state_bytes[4];
- u8 unused2[4];
-};
-LAYOUT_ASSERT(G_OlgaFlowBossActions_6xA4_6xA5Size, sizeof(G_OlgaFlowBossActions_6xA4_6xA5) == 0x14);
+// 6xA3, 6xA4 and 6xA5 (Olga Flow's actions) are OlgaFlowPlotActionMsg, OlgaFlowActionMsg and
+// OlgaFlowType2ActionMsg in pso/boss/olgaflow/OlgaFlowActions.h.
 
 // 6xAD: The actions of Olga Flow's subordinate parts. Received by
 // handle_6xAD_olga_flow_subordinate_boss_actions. Used by our code; size not checked against a
@@ -1085,7 +1063,7 @@ LAYOUT_ASSERT(G_RevivePlayer_V3_BB_6xA1Size, sizeof(G_RevivePlayer_V3_BB_6xA1) =
 // and send_challenge_retry_cmd; received by handle_6x97_select_challenge_mode_failure_option. Size
 // checked: build_6x97_packet sets the header size to 5 words.
 struct G_SelectChallengeModeFailureOption_6x97 {
- struct G_UnusedHeader header;
+ struct G_ClientIDHeader header;
  u32 client_id;
  u32 is_retry;
  u32 unused1;
@@ -1443,7 +1421,7 @@ struct G_ShieldAttack_6x4A {
 };
 LAYOUT_ASSERT(G_ShieldAttack_6x4ASize, sizeof(G_ShieldAttack_6x4A) == 0x4);
 
-// 6x8A: Shows the challenge mode time records window. Sent by TLobby::send_challenge_with_value;
+// 6x8A: Shows the challenge mode time records window. Sent by send_challenge_with_value;
 // received by handle_6x8A_show_challenge_time_records_window. Size checked: build_6x8A_packet sets
 // the header size to 2 words.
 struct G_ShowChallengeTimeRecordsWindow_6x8A {
@@ -1685,16 +1663,7 @@ struct G_UnequipItem_6x26 {
 };
 LAYOUT_ASSERT(G_UnequipItem_6x26Size, sizeof(G_UnequipItem_6x26) == 0xC);
 
-// 6x02/6x03: Ignored: handle_6x02 and handle_6x03 are empty. Layout from newserv, not used by our
-// code yet.
-struct G_Unknown_6x02_6x03 {
- struct G_ClientIDHeader header;
- u16 unknown_a1;
- u16 unknown_a2;
- u32 unknown_a3;
- f32 unknown_a4;
- f32 unknown_a5;
-};
+// 6x02/6x03: Ignored: handle_6x02 and handle_6x03 are empty and the client never sends them.
 
 // 6x36: Ignored: handle_6x36 is empty. Layout from newserv, not used by our code yet.
 struct G_Unknown_6x36 {
@@ -1784,8 +1753,8 @@ struct G_UpdateQuestFlag_DC_PC_6x75 {
  u16 action;
 };
 
-// 6x75: Sets or clears a quest flag. Sent by TLobby::send_6x75_quest_flag,
-// TLobby::send_6x75_quest_flag_cur_difficulty, send_and_handle_6x75 and
+// 6x75: Sets or clears a quest flag. Sent by send_6x75_quest_flag,
+// send_6x75_quest_flag_cur_difficulty, send_and_handle_6x75 and
 // build_6x75_update_quest_flag_dc; received by handle_6x75_update_quest_flag_dc. Size checked:
 // build_6x75_update_quest_flag_dc sets the header size to 3 words.
 struct G_UpdateQuestFlag_V3_BB_6x75 {

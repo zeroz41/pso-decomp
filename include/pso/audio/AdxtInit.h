@@ -2,6 +2,7 @@
 #define PSO_AUDIO_ADXT_INIT_H
 
 #include "types.h"
+#include "pso/audio/AdxtInternal.h"
 
 extern "C" {
 void adxt_finish();
@@ -11,5 +12,7 @@ s32 adxt_exec_main_server_cb(s32 context);
 s32 adxt_exec_vsync_server_cb(s32 context);
 void adxt_error_callback(void *context, const char *message);
 }
+
+extern AdxtPlayer adx_stream_player_pool[16];
 
 #endif

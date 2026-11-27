@@ -28,13 +28,13 @@ LAYOUT_ASSERT(TBGLightning_size, sizeof(TBGLightning) == 0x30);
 // Background lightning placed by a map: every few frames it strikes at a random
 // angle on a circle around the controller (radius scale.x, height scale.y).
 struct TBGLightningCtrl : public TObjBase {
-    TBGLightningCtrl(TObject *parent, void *set_data);
+    TBGLightningCtrl(TObject *parent, ObjectSetData *set_data);
     virtual ~TBGLightningCtrl();
     void spawn_lightning_at_angle(s32 angle);
     virtual void run_task();
     virtual void render();
     s32 strike_timer;   // frames until the next strike
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void destroy_instance();
     static const char *class_name;
 };

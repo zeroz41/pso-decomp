@@ -2,6 +2,7 @@
 #define PSO_ENEMY_CANADIN_TOBJENEME1CANADIN_EFFLIGHT_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/TrailStrip.h"
 #include <dolphin/mtx.h>
 
 // One point of the light trail: the strip is drawn width either side of pos, along the camera's up vector.
@@ -12,11 +13,6 @@ struct TObjEneMe1Canadin_EffLightPoint {
     f32 width;
     u32 color;
     Vec pos;
-};
-
-struct TObjEneMe1Canadin_EffLightVertex {
-    Vec pos;
-    u32 color;
 };
 
 class TObjEneMe1Canadin_EffLight : public TObject {
@@ -30,7 +26,7 @@ public:
     s32 capacity;
     s32 head;
     s32 tail;
-    TObjEneMe1Canadin_EffLightVertex *vertices;
+    TrailStripVertex *vertices;
     TObjEneMe1Canadin_EffLightPoint *points;
     s32 alpha_step;
     f32 width_decay;

@@ -46,11 +46,11 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     virtual void attack_and_unequip();
     virtual s32 is_target_in_range();
     virtual void select_next_attack_state();
-    virtual void vfunc_108();
+    virtual void update_player_state_default();
     virtual s32 try_run_effect_m6();
     virtual s32 try_run_effect_m7();
     virtual void on_target_lost();
-    virtual void vfunc_112();
+    virtual void apply_effect_pair();
     // State 0 (the ctor enters it, state_vanish ends in it): back at home_position, intangible,
     // then fade_in or ambush after 5 steps (fade_in_start).
     virtual void state_reset(s32 mode);
@@ -115,10 +115,14 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     static void load_resources();
     static void free_resources();
     // The enemy factory entry: builds the real Sinow Zoa for a set entry.
-    static void *create_real(void *set_data);
+    static void *create_real(EnemyPlacement *set_data);
     // Ground effects on motion frames 12 and 28 (state_chase_target, state_sword).
     void spawn_footstep_effects();
     void spawn_ground_effect_on_frame_23();
+    // Turns toward destination from the raised body center; returns the turn step.
+    s32 approach_destination();
+    // Moves toward a reachable destination, else turns toward it (diff gets the direction).
+    s32 seek_destination(Vec *diff);
     void state_cast_barta(s32 mode);
     void state_stealth_off(s32 mode);
     void state_stealth_on(s32 mode);
@@ -135,8 +139,6 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     s32 is_in_sword_range(f32);
     s32 check_move_collision(const Vec *pos);
     void cast_technique();
-    s32 approach_destination();  // body_center lifted 5 and turned toward the destination
-    s32 seek_destination(Vec *diff);
 };
 
 LAYOUT_ASSERT(TObjEneMe3SinowZoa_m_3c0_offset, offsetof(TObjEneMe3SinowZoa, stealthed) == 0x3C0);

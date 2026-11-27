@@ -10,7 +10,7 @@ void TSwitch::run_task() {  }
 
 u8 TSwitch::floor_switch_table[18][32];
 
-void restore_switch_table(void *src, s32 size) {
+void restore_switch_table(const void *src, s32 size) {
     memcpy(TSwitch::floor_switch_table, src, size);
 }
 
@@ -103,9 +103,9 @@ void set_current_floor_switch(s32 id) {
 
 TSwitch::TSwitch(TObject *parent) : TObject(parent) {
     m_name = switch_name;
-    m_1c = 0;
-    m_20 = 0;
-    m_24 = 0;
+    pad_1c = 0;
+    pad_20 = 0;
+    pad_24 = 0;
 }
 void clear_switch_table(void) {
     memset(TSwitch::floor_switch_table, 0, 0x240);

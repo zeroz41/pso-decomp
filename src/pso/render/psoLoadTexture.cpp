@@ -24,13 +24,13 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MemoryMove.h"
 #include "pso/render/TextureLoad.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/render/nuReLoadTexture.h"
 #include "pso/system/AsyncFileRead.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/ui/window/DeferredPackets.h"
 #include "pso/network/TPacket.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/FileExtension.h"
@@ -45,7 +45,7 @@ s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
     pump_frames();
     strncpy(path, name, 0x40);
     if (compare_file_extension(path, "gvm") != 0) {
-        change_file_extension(0, path, (char *)"gvm");
+        change_file_extension(0, path, "gvm");
     }
     size = TGStream::get_resource_file_size(path);
     if (size <= 0) {
@@ -55,7 +55,7 @@ s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
     allocated = 0;
     size = ((size + 0x7FF) / 2048) * 2048;
     if (size > 0x40000) {
-        buf = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size));
+        buf = static_cast<u8 *>(alloc(size));
         if (buf == 0) {
             return -1;
         }
@@ -96,7 +96,7 @@ s32 psoLoadTexture(NJS_TEXLIST *texlist) {
     return ret;
 }
 
-void TObjPlayer::free_if_valid(NJS_TEXLIST *texlist) {
+void free_if_valid(NJS_TEXLIST *texlist) {
     if (texlist != 0) {
         release_texture_list(texlist);
         safe_free(texlist);
@@ -126,7 +126,7 @@ NJS_TEXLIST *LoadPvmFileTls(const char *name) {
     }
     size = ((size + 0x7FF) / 2048) * 2048;
     if (size > 0x40000) {
-        big = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size));
+        big = static_cast<u8 *>(alloc(size));
         buf = big;
     } else {
         buf = tmp_buf_use_req("LoadPvmFileTls");
@@ -251,5 +251,5 @@ void TTextureWave::distort_image() {
             out[calc_gx_tile_index(x, y, width)] = color;
         }
     }
-    reload_texture_num(0, reinterpret_cast<saddr>(output->texels), NJD_TEXATTR_TYPE_MEMORY, 0);
+    reload_texture_num(0, output->texels, NJD_TEXATTR_TYPE_MEMORY, 0);
 }

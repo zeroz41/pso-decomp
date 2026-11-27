@@ -2,7 +2,7 @@
 #include "pso/render/GinjaTextureHeader.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -240,10 +240,10 @@ u8 get_font_char_advance(u16 c) {
     if (c > 0xDF) {
         return 0x12;
     }
-    return (u8)menu_font_char_advance_table[(u16)(c - 0x21)];
+    return menu_font_char_advance_table[(u16)(c - 0x21)];
 }
 
-s32 TWindowSubStatusDisp::is_alpha_char(u16 code) {
+s32 is_alpha_char(u16 code) {
     if (code < 0x41U) {
         return 0;
     }
@@ -331,10 +331,10 @@ void upload_font_glyph(u16 c, MenuGlyphEntry *g) {
     DCStoreRange(tex, 0x8000);
     menu_font_upload_flags |= 1;
 }
-s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 code, MenuGlyphEntry *free_slot, MenuGlyphEntry **pending_slot) {
+s32 upload_glyph_if_needed(u16 code, MenuGlyphEntry *free_slot, MenuGlyphEntry **pending_slot) {
     u8 slot_epoch;
     slot_epoch = free_slot->epoch;
-    if (slot_epoch == (u8) menu_font_upload_epoch) {
+    if (slot_epoch == menu_font_upload_epoch) {
         return 0;
     }
     if (slot_epoch != (u8)(menu_font_upload_epoch - 1)) {
@@ -347,7 +347,7 @@ s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 code, MenuGlyphEntry *free_
     return 0;
 }
 
-MenuGlyphEntry *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
+MenuGlyphEntry *find_cached_glyph(u16 code) {
     MenuGlyphEntry *free_slot;
     MenuGlyphEntry *g;
     MenuGlyphEntry *p;
@@ -363,10 +363,10 @@ MenuGlyphEntry *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
     if (g[0x80].code == code) {
         return &g[0x80];
     }
-    if (TWindowSubStatusDisp::upload_glyph_if_needed(code, g, &free_slot) != 0) {
+    if (upload_glyph_if_needed(code, g, &free_slot) != 0) {
         return g;
     }
-    if (TWindowSubStatusDisp::upload_glyph_if_needed(code, &g[0x80], &free_slot) != 0) {
+    if (upload_glyph_if_needed(code, &g[0x80], &free_slot) != 0) {
         return &g[0x80];
     }
     p = &menu_font_glyph_table[0x100];
@@ -374,7 +374,7 @@ MenuGlyphEntry *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
         if (p->code == code) {
             return p;
         }
-        if (TWindowSubStatusDisp::upload_glyph_if_needed(code, p, &free_slot) != 0) {
+        if (upload_glyph_if_needed(code, p, &free_slot) != 0) {
             return p;
         }
     }
@@ -383,7 +383,7 @@ MenuGlyphEntry *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
         if (q->code == code) {
             return q;
         }
-        if (TWindowSubStatusDisp::upload_glyph_if_needed(code, q, &free_slot) != 0) {
+        if (upload_glyph_if_needed(code, q, &free_slot) != 0) {
             return q;
         }
     }
@@ -396,7 +396,7 @@ MenuGlyphEntry *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
 
 // Binds the cached glyph's page and color, sets the quad's top-left uv and returns the glyph width.
 u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *pos, s32 color) {
-    MenuGlyphEntry *entry = TWindowSubStatusDisp::find_cached_glyph(glyph);
+    MenuGlyphEntry *entry = find_cached_glyph(glyph);
     entry->epoch = menu_font_upload_epoch;
     set_draw_texture_and_color(entry->page, color);
     pos->u0 = (f32) ((f32) entry->x / 256.0f);
@@ -404,12 +404,12 @@ u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *pos, s32 color) {
     return entry->width;
 }
 
-void TWindowSubStatusDisp::set_gauge_param(s32 gauge_param) {
+void set_gauge_param(s32 gauge_param) {
     set_texture_list(menu_font_texture_list);
 }
 
-void TWindowSubStatusDisp::end_render_forward() { end_screen_draw(); }
-void TWindowSubStatusDisp::reset_gauge(void* p) { begin_screen_draw((saddr)((void*)1)); TWindowSubStatusDisp::set_gauge_param((saddr)p); set_draw_texture_and_color((saddr)((void*)0), (saddr)((void*)-1)); }
+void end_render_forward() { end_screen_draw(); }
+void reset_gauge(void* p) { begin_screen_draw((saddr)((void*)1)); set_gauge_param((saddr)p); set_draw_texture_and_color((saddr)((void*)0), (saddr)((void*)-1)); }
 void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f32 scale) {
   s32 mb = 0;
   TexturedQuad quad;
@@ -429,7 +429,7 @@ void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f3
   quad.x0 = x;
   quad.y0 = y;
   set_default_alpha_blend();
-  TWindowSubStatusDisp::reset_gauge((0));
+  reset_gauge((0));
   flags &= 1;
   while ((*s) != 0)
   {
@@ -478,7 +478,7 @@ void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f3
       quad.x0 += (f32) w;
     }
   }
-  TWindowSubStatusDisp::end_render_forward();
+  end_render_forward();
 }
 
 void draw_menu_text_scaled(f32 x, f32 y, f32 scale, const char *text, u32 color) {
@@ -525,7 +525,6 @@ void load_menu_font(void) {
     s16 *t;
     s32 n;
     MenuGlyphEntry *g;
-    TNECFontEORFunction *f;
     u32 i;
     u32 j;
     u32 k;
@@ -574,7 +573,13 @@ void load_menu_font(void) {
     }
     menu_font_upload_epoch = 0;
     menu_font_upload_flags = 3;
-    f = new TNECFontEORFunction();
-    menu_font_object = f;
+    menu_font_object = new TNECFontEORFunction();
 }
 #pragma pop
+
+s32 TWindowCtrl::get_pulse_color() {
+    if (instance == NULL) {
+        return -0x1600;
+    }
+    return instance->pulse_color;
+}

@@ -51,8 +51,8 @@ s32 (*mwPlyFxSetOutBufSize_hook)(MwsfdPly *, s32, s32);
 void (*mwPlyFxGetOutBufSize_hook)();
 void (*mwPlyFxSetCompoMode_hook)();
 void (*mwPlyFxGetCompoMode_hook)();
-void (*lbl_805D6BD4)();  // sets two ints and a switch on an SFX sub-handle (the pair of the next hook)
-void (*lbl_805D6BD8)();  // reads back the two ints and switch that the previous hook sets
+void (*lbl_805D6BD4)();  // sets two ints and a switch on an SFX sub-handle; the next hook reads them back
+void (*lbl_805D6BD8)();  // reads back the two ints and switch the previous hook sets
 void (*mwPlyFxCnvFrmZ16_hook)();
 void (*mwPlyFxCnvFrmZ32_hook)();
 void (*mwPlyFxSetZclip_hook)();

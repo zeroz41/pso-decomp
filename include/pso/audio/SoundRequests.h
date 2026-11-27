@@ -27,7 +27,7 @@ struct SetSoundPitchRequestSndEnt {
 };
 
 void close_option_window();
-int get_lobby_data();
+int get_music_user_gain();
 void set_sound_output_mode(s32 mode);
 void update_lobby_subsystems();
 void set_and_notify(int a0);
@@ -40,5 +40,7 @@ extern const u32 sound_pitch_request_keep_mask;
 void clear_sound_listener_position(void);
 int enable_sound_requests(s32);
 void update_sound_request_slots(void);
+
+void play_effect_if_v2(s32 pitch);
 
 #endif

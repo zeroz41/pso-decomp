@@ -78,8 +78,8 @@ THeap::~THeap() {
 }
 
 THeap::THeap(size_t size, int alignment) {
-    mbr_0x0C = 0;
-    mbr_0x10 = 0;
+    pad_0C = 0;
+    pad_10 = 0;
     align = alignment;
     heap_nodes = (heap_node *)xmalloc(size);
     if (heap_nodes != NULL) {

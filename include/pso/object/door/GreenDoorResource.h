@@ -5,6 +5,7 @@
 #include <dolphin/mtx/GeoTypes.h>
 
 struct BmlResource;
+struct BmlResourceDescriptor;
 struct DragonAttackParams;
 class TObject;
 struct NJS_TEXLIST;
@@ -13,6 +14,8 @@ struct NJS_MOTION;
 
 extern BmlResource *green_door_bml_resource;
 extern NJS_TEXLIST *green_door_texture_handle;
+extern BmlResourceDescriptor bm_obj_door_ruins_resource_descriptor;
+extern BmlResourceDescriptor bm_obj_door_space_resource_descriptor;
 
 NJS_TEXLIST *get_green_door_textures();
 

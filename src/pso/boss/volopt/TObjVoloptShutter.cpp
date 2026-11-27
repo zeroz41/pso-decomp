@@ -70,7 +70,7 @@ void TObjVoloptShutter::render() {
     draw_chunk_model(volopt_shutter_model_a);
     pop_matrix();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TObjVoloptShutter::run_task() {

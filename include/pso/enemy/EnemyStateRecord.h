@@ -8,7 +8,7 @@
 // TObjEnemy::exchange_object_state copies out (mode 1) or stores (mode 0), what send_6x0A_enemy_state
 // sends and what apply_enemy_state applies.
 struct EnemyStateRecord {
-    s32 flags;  // the enemy's actorFlags
+    u32 flags;  // the enemy's actorFlags
     u16 drop_id;  // TLobby::init_id_tables numbers the entries; 0xFFFF once the drop is taken
     s16 damage;  // hpmax - hp
     u8 attack_status;  // 9 or 11, applied by apply_attack_stat_status

@@ -1,3 +1,4 @@
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/player/TPlyDispData.h"
@@ -10,11 +11,11 @@
 #include "pso/ui/window/ChallengeRank.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowHelpItem.h"
-#include "pso/object/TObjLuker.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -182,9 +183,6 @@ void *TWindowSubStatusDisp::window_layout[5] = {
 };
 
 extern "C" {
-s32 is_battle_mode_running();
-}
-extern "C" {
 const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 }
 
@@ -328,7 +326,7 @@ void TWindowSubStatusDisp::vt0() {
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(0)), v, 0x20);
             v = get_class_name_text(st->classId);
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(3)), v, 0);
-            v = TObjLuker::get_stat_table_entry(st->section);
+            v = get_section_id_name(st->section);
             set_text_entry_string((WindowTextEntry *)((void *)get_array_entry(4)), v, 0);
         }
         portrait = (WindowSpritePart *)get_array_entry(5);

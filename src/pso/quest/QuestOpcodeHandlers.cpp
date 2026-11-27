@@ -30,8 +30,8 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/quest/QuestVm.h"
 #include "pso/ui/window/TWindowMessageScroll.h"
-#include "pso/unk/QuestMessageWindows.h"
 #include "pso/npc/NpcPartnerControl.h"
+#include "pso/npc/TObjNpcBase.h"
 #include "pso/player/PlayerTaskEffects.h"
 #include "pso/quest/BattleRules.h"
 #include "pso/quest/TQuestThread.h"
@@ -64,10 +64,9 @@
 #include "pso/system/prs.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "pso/system/TColorOverlayFade.h"
-#include "pso/object/door/TObjDoorGlobalState.h"
 #include "pso/map/FloorMapSelection.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/quest/QuestOpcodeTables.h"
 #include "types.h"
@@ -162,7 +161,8 @@
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/boss/BossPhaseQuery.h"
 #include "pso/map/MapSetData.h"
-
+#include "pso/object/door/TODoorBase.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 void qst_call_stack_push(s32 value);
 s32 qst_call_stack_pop(void);
@@ -255,19 +255,18 @@ const QuestCommandTable message_substitution_handlers = { {
     { "award item", append_entered_item_name_pair },
     { "challenge title", append_challenge_title },
     { "pl_name", append_player_name },
-    { "pl_job", TLobby::append_default_string },
-    { "last_word", TLobby::append_card_window_text },
+    { "pl_job", append_default_string },
+    { "last_word", append_card_window_text },
     { "team_name", append_team_name },
-    { "last_chat", TLobby::append_unit_list_name },
+    { "last_chat", append_unit_list_name },
     { "name hero", append_hero_name },
     { "name job", append_hero_class_name },
 } };
 
 
-void TLobby::capture_chat_sensor() {
-    saddr message = (saddr)this;
-    TOChatSensor::dispatch_chat_message_to_children((char *)message);
-    TOChatSensorCapture::capture_message((u16)((u16) local_client_id), (const char *)message);
+void capture_chat_sensor(char *message) {
+    TOChatSensor::dispatch_chat_message_to_children(message);
+    TOChatSensorCapture::capture_message((u16)local_client_id, message);
 }
 
 char *expand_message_substitutions(u8 *source, char *result) {
@@ -276,7 +275,7 @@ char *expand_message_substitutions(u8 *source, char *result) {
         s8 c = TLobby::read_byte_advance();
         switch (c) {
         case 0x3C:
-            TLobby::parse_message_tag();
+            parse_message_tag();
             break;
         case 0x3E:
             while (1) {
@@ -291,7 +290,7 @@ char *expand_message_substitutions(u8 *source, char *result) {
     return result;
 }
 
-void TLobby::parse_message_tag() {
+void parse_message_tag() {
     char buf[64];
     QuestCommandTable tbl = message_substitution_handlers;
     u32 i;
@@ -327,7 +326,7 @@ void TLobby::parse_message_tag() {
     }
 }
 
-void TLobby::append_unit_list_name() {
+void append_unit_list_name() {
     char *s;
     s = get_chat_last_line();
     if (strcmp(s, "") == 0) {
@@ -350,7 +349,7 @@ void append_team_name(void) {
 
 // The grave message of the character save record: qst_op_is_there_grave_message tests it and the
 // "last_word" tag prints it.
-void TLobby::append_card_window_text() {
+void append_card_window_text() {
     CharacterSaveRecord *record;
 
     record = get_character_save_record(0xFFFF);
@@ -361,7 +360,7 @@ void TLobby::append_card_window_text() {
     append_string("Error");
 }
 
-void TLobby::append_default_string() {
+void append_default_string() {
     append_string(quest_player_class_name_buffer);
 }
 
@@ -549,7 +548,7 @@ void qst_op_get_guildcard_num(void) {
 void qst_op_check_for_keyword(void) {
     u8 idx;
     idx = (u8) qst_args[0].i;
-    if (TOChatSensorCapture::check_keyword((u16) qst_args[1].i, (const char *) qst_args[2].i) != 0) {
+    if (TOChatSensorCapture::check_keyword((u16) qst_args[1].i, qst_args[2].str) != 0) {
         qst_registers[idx].i = 1;
         return;
     }
@@ -609,7 +608,6 @@ void qst_op_va_call(s32 label) {
 
 int quest_active_flag;
 int evt2_random_enemies_mode;
-extern VaCallPair qb_message_window_size[];
 
 void qst_op_va_end() {
     qst_op_stack_popm(1, 7);
@@ -681,8 +679,8 @@ void qst_op_delayed_switch_episode(s32 reg) {
 
 void qst_op_chat_bubble(void) {
     s32 id = qst_args[0].i;
-    const char *text = (const char *)qst_args[1].i;
-    TObjPlayer *player;
+    const char *text = qst_args[1].str;
+    TObjChara *player;
     s32 start;
     s32 end;
     s32 i;
@@ -700,7 +698,7 @@ void qst_op_chat_bubble(void) {
         if (player != NULL) {
             win = player->get_entity_id();
             if (win < 0x4000) {
-                v = fn_get_field_3ac(player);
+                v = get_npc_object_number(static_cast<TObjNpcBase *>(player));
             } else {
                 v = get_field_d4(player);
             }
@@ -787,7 +785,7 @@ void qst_op_find_bank_item(u8 i, u8 out) {
     CharacterSaveRecord *card;
     qst_registers[out].i = -1;
     card = get_character_save_record(0xFFFF);
-    if (card != 0) {
+    if (card != NULL) {
         item.init();
         item.data1.data_u8[0] = qst_registers[i++].i;
         item.data1.data_u8[1] = qst_registers[i++].i;
@@ -1113,20 +1111,23 @@ void qst_op_tan() {
   u8 idx;
   idx = qst_args[0].i & 0xFFu;
   arg = qst_args[1].i;
-  f32 v = sin_table_lookup(arg) / cos_table_lookup(arg);
-  qst_registers[idx].i = *(s32 *)&v;
+  IntFloat v;
+  v.f = sin_table_lookup(arg) / cos_table_lookup(arg);
+  qst_registers[idx].i = v.i;
 }
 
 void qst_op_cos() {
     u8 idx = qst_args[0].i;
-    f32 v = cos_table_lookup(qst_args[1].i);
-    qst_registers[idx].i = *(s32 *)&v;
+    IntFloat v;
+    v.f = cos_table_lookup(qst_args[1].i);
+    qst_registers[idx].i = v.i;
 }
 
 void qst_op_sin() {
     u8 idx = qst_args[0].i;
-    f32 v = sin_table_lookup(qst_args[1].i);
-    qst_registers[idx].i = *(s32 *)&v;
+    IntFloat v;
+    v.f = sin_table_lookup(qst_args[1].i);
+    qst_registers[idx].i = v.i;
 }
 
 void qst_op_fdivi(u8 reg, s32 val) {
@@ -1216,7 +1217,7 @@ void qst_op_check_npc_straggle_ex(u8 i, u8 slot) {
     s.scale.x = qst_registers[i++].i;
     s.set_params[0] = qst_registers[i++].i;
     s.scale.y = qst_registers[i++].i;
-    obj = TLobby::create_quest_col_apc_inw(&s, &qst_registers[start].i);
+    obj = create_quest_col_apc_inw(&s, &qst_registers[start].i);
     if (obj != NULL) {
         v.x = qst_registers[i++].i;
         v.y = qst_registers[i++].i;
@@ -1592,7 +1593,7 @@ void qst_op_get_dl_status(s32 reg) {
 }
 
 void qst_op_file_dl_req(void) {
-    TLobby::protocol_instance->send_download_head(qst_args[0].i, (const char *)qst_args[1].i);
+    TLobby::protocol_instance->send_download_head(qst_args[0].i, qst_args[1].str);
     clear_lobby_count();
     reset_warning_aram_cache();
 }
@@ -1615,11 +1616,11 @@ void qst_op_write_flag_buf_to_event_flags2(u8 reg) { qst_op_write_flag_buf_to_ev
 
 void qst_op_load_guild_card_file_creation_time_to_flag_buf() {
     s32 creation_time;
-    GuildCardSaveData *state;
+    GuildCardSaveData *save;
 
-    state = TAdSinglePlyChrSelectGC::get_state();
-    if (state != NULL) {
-        creation_time = state->timestamp_seconds;
+    save = TAdSinglePlyChrSelectGC::get_state();
+    if (save != NULL) {
+        creation_time = save->timestamp_seconds;
     } else {
         creation_time = 0;
     }
@@ -2017,7 +2018,7 @@ void qst_op_set_override_enemy_bp_index() {
 void qst_op_set_chat_callback() {
     ObjectSetData s;
     u8 i = (u32)qst_args[0].i;
-    saddr arg = qst_args[1].i;
+    const char *text = qst_args[1].str;
     TOChatSensor *sensor;
     init_object_set_data(&s);
     s.position.x = qst_registers[i++].i;
@@ -2027,7 +2028,7 @@ void qst_op_set_chat_callback() {
     s.set_params[0] = qst_registers[i].i;
     sensor = static_cast<TOChatSensor *>(TOChatSensor::create(&s));
     if (sensor != NULL) {
-        sensor->set_trigger_text((void *)arg);
+        sensor->set_trigger_text(text);
     }
 }
 
@@ -2100,7 +2101,7 @@ void qst_op_get_game_version(s32 reg) {
 
 void qst_op_send_mail(void) {
     u8 i = (u32)qst_args[0].i;
-    char *src = ((char *)qst_args[1].p);
+    char *src = qst_args[1].str;
     TChatMessage mail;
     char buf[0x400];
     TTokenList *fields;
@@ -2295,10 +2296,10 @@ void qst_op_kill_player(s32 slot_reg) {
 }
 
 void qst_op_get_guild_card_file_creation_time(s32 reg) {
-    GuildCardSaveData *state;
-    state = TAdSinglePlyChrSelectGC::get_state();
-    if (state != NULL) {
-        qst_registers[(u8)reg].i = state->timestamp_seconds;
+    GuildCardSaveData *save;
+    save = TAdSinglePlyChrSelectGC::get_state();
+    if (save != NULL) {
+        qst_registers[(u8)reg].i = save->timestamp_seconds;
         return;
     }
     qst_registers[(u8)reg].i = 0;
@@ -2399,7 +2400,7 @@ void qst_op_set_cmode_rank_override(void) {
     char buf[0x200];
     TTokenList *fields;
     s32 arg = (u32)qst_args[0].i;
-    char *src = ((char *)qst_args[1].p);
+    char *src = qst_args[1].str;
     fields = new TTokenList(NULL, 0, 0);
     strncpy(buf, src, 0x1FF);
     trim_whitespace(buf);
@@ -2559,7 +2560,7 @@ void qst_op_set_cmode_rank_result(void) {
     s32 color;
     const char *title;
     color = qst_args[0].i;
-    title = ((const char *)qst_args[1].p);
+    title = qst_args[1].str;
     if (is_split_screen() == 1) {
         set_challenge4p_rank_result(title, color);
         return;
@@ -2657,7 +2658,7 @@ int qst_op_ba_show_self_traps(void) { return TOMineTrap::set_instance(1); }
 void qst_op_set_area_title() {
     const char *title;
 
-    title = (const char *)qst_args[0].i;
+    title = qst_args[0].str;
     if (is_split_screen() == 1) {
         set_area_title(title);
         return;
@@ -2870,25 +2871,10 @@ void qst_op_shrink(s32 slot_reg) {
     }
 }
 
-#pragma push
-#pragma opt_common_subs on
-#pragma opt_propagation on
-#pragma opt_dead_assignments off
 void qst_op_read_switch_flag_on_floor(s32 reg) {
-    s32 reg_offset;
-    saddr switch_value;
-    u8 *id;
-    reg_offset = (reg * 4) & 0x3FC;
-    switch_value = ((saddr)qst_registers);
-    id = (u8 *)(switch_value + reg_offset);
-    id = (u8 *)(*(u8 **)((s8 *)id + 4));
-    switch_value = (s32) (s16) *(s32 *)((s8 *)switch_value + reg_offset);
-    id = (u8 *)((void *)(uaddr) (u16)(uaddr)(void *) id);
-    switch_value = (s32) is_floor_switch_set((uaddr)id, (switch_value));
-    id = (u8 *)(((saddr)qst_registers) + reg_offset);
-    *(s32 *)((s8 *)id + 8) = switch_value;
+    qst_registers[(u8)reg + 2].i =
+        is_floor_switch_set((u16)qst_registers[(u8)reg + 1].i, (s16)qst_registers[(u8)reg].i);
 }
-#pragma pop
 
 void qst_op_read_switch_flag(s32 reg) {
     qst_registers[(u8)reg + 1].i = is_current_floor_switch_set((u16)qst_registers[(u8)reg].i);
@@ -3058,11 +3044,11 @@ void qst_op_cmode_stage() {
 void qst_op_ba_start(void) {
     s32 src;
     src = qst_args[0].i;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
-        TPlayerBattleCtrl4P::init_instance_with_text((saddr)&battle_rules, src);
+    if (is_not_split_screen() == 1) {
+        TPlayerBattleCtrl4P::init_instance_with_text(&battle_rules, src);
         return;
     }
-    init_battle_ctrl((saddr)&battle_rules, src);
+    init_battle_ctrl(&battle_rules, src);
 }
 
 void qst_op_ba_teams() {
@@ -3198,7 +3184,7 @@ void qst_op_get_coord_of_player(s32 a, s32 b) {
     }
 }
 
-void qst_op_get_number_of_players(int a0) { qst_registers[(unsigned char)(a0)].i = TLobby::count_members(); }
+void qst_op_get_number_of_players(int a0) { qst_registers[(unsigned char)(a0)].i = count_members(); }
 
 void qst_op_get_difficulty_level_v2(s32 reg) {
     s32 difficulty;
@@ -3725,7 +3711,7 @@ void qst_op_npc_talk_pl(u8 regs) {
     set.set_params[0] = qst_registers[i++].i;
     set.set_params[1] = qst_registers[i++].i;
     set.set_params[2] = qst_registers[i].i;
-    TLobby::create_npc(&set);
+    create_npc(&set);
 }
 
 void qst_op_p_talk_guild(void) {
@@ -3749,13 +3735,13 @@ void qst_op_load_midi() { TLobby::free_luker_object(); load_midi_stub(); TLobby:
 void qst_op_load_pvr() { TLobby::free_luker_object(); load_memcard_file(); TLobby::clear_quest_vm_flag(); }
 
 void qst_op_npc_text() {
-    set_partner_common_remark((qst_args[0].i), (const char *)(qst_args[1].i));
+    set_partner_common_remark((qst_args[0].i), qst_args[1].str);
 }
 
 void qst_op_nop_A0_debug(void) {
     char buf[0x200];
     TTokenList *fields;
-    const char *s = ((const char *)qst_args[1].p);
+    const char *s = qst_args[1].str;
     fields = new TTokenList(NULL, 0, 0);
     buf[0x1FF] = 0;
     strncpy(buf, s, 0x1FF);
@@ -3792,7 +3778,7 @@ void qst_op_check_npc_straggle(u8 i) {
     s.scale.x = qst_registers[i++].i;
     s.set_params[0] = qst_registers[i++].i;
     s.scale.y = qst_registers[i++].i;
-    obj = TLobby::create_quest_col_apc_inw(&s, &qst_registers[start].i);
+    obj = create_quest_col_apc_inw(&s, &qst_registers[start].i);
     if (obj != NULL) {
         v.x = qst_registers[i++].i;
         v.y = qst_registers[i++].i;
@@ -3896,7 +3882,7 @@ void qst_op_unhide_obj(s32 regs) {
     unhide_room_set_objects(v0, (s16)v1, (s16)v2);
 }
 
-void qst_op_chk_ene_num(int a0) { qst_registers[(unsigned char)(a0)].i = TLobby::count_quest_enemies_flag8(); }
+void qst_op_chk_ene_num(int a0) { qst_registers[(unsigned char)(a0)].i = count_quest_enemies_flag8(); }
 
 void qst_op_if_zone_clear(s32 dst, s32 regs) {
     if (is_room_enemy_set_cleared(qst_registers[(u8)regs].i, qst_registers[(u8)(regs + 1)].i) != 0) {
@@ -4414,14 +4400,8 @@ void qst_op_npc_param() {
 }
 
 void qst_op_npc_crt(void) {
-    s32 *npc_addr;
-    s32 npc_type;
     TLobby::free_luker_object();
-    npc_addr = &qst_args[0].i;
-    npc_addr = &qst_args[0].i;
-    npc_type = qst_args[1].i;
-    npc_addr = (s32 *)((u8 *)((s32 *)(uaddr) (u16) qst_args[0].i));
-    send_npc_create((saddr)npc_addr, npc_type);
+    send_npc_create((u16)qst_args[0].i, qst_args[1].i);
     TLobby::clear_quest_vm_flag();
 }
 
@@ -4438,7 +4418,7 @@ void qst_op_winend(void) {
 
 void qst_op_mesend(void) {
     s32 id;
-    TObjPlayer *p;
+    TObjChara *p;
     s32 start;
     s32 end;
     s32 i;
@@ -4459,7 +4439,7 @@ void qst_op_mesend(void) {
         if (p != NULL) {
             f = p->get_entity_id();
             if (f < 0x4000) {
-                v = fn_get_field_3ac(p);
+                v = get_npc_object_number(static_cast<TObjNpcBase *>(p));
             } else {
                 v = get_field_d4(p);
             }
@@ -4497,12 +4477,12 @@ void qst_op_close_msg_qb(void) {
 
 void qst_op_disp_msg_qb(void) {
     s32 t = qst_args[0].i;
-    VaCallPair pr = qb_message_window_size[0];
+    NJS_POINT2 size = qb_message_window_size[0];
     if (qst_message_window_qb != 0) {
         qst_message_window_qb->close();
         qst_message_window_qb = 0;
     }
-    qst_message_window_qb = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x71), (NJS_POINT2 *)&pr);
+    qst_message_window_qb = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x71), &size);
     (qst_message_window_qb)->append_line((const char *)t, 3);
     ((TWindowBase *)qst_message_window_qb)->set_depth(50030.0f);
     qst_suspend_reason = QST_WAIT_MESSAGE_QB;
@@ -4533,7 +4513,7 @@ void qst_op_se(void) {
     play_sound_effect(quest_sound_effect_ids[qst_args[0].i], 0, 0, 0);
 }
 
-void qst_op_fadeout(void) { TLobby::init_fadeout_state(NULL); qst_suspend_reason = QST_WAIT_FADE; }
+void qst_op_fadeout(void) { init_fadeout_state(NULL); qst_suspend_reason = QST_WAIT_FADE; }
 
 void qst_op_fadein(void) { TLobby::set_fade_params(NULL); qst_suspend_reason = QST_WAIT_FADE; }
 
@@ -4544,7 +4524,7 @@ void qst_op_list(void) {
     s32 i;
     char buf[0x200];
     idx = (u32)qst_args[0].i;
-    text = ((char *)qst_args[1].p);
+    text = qst_args[1].str;
     list = new TTokenList(NULL, 0, 0);
     strncpy(buf, text, 0x1FF);
     trim_whitespace(buf);
@@ -4568,9 +4548,9 @@ void qst_op_list(void) {
 
 void qst_op_message(void) {
     s32 speaker = qst_args[0].i;
-    const char *text = (const char *)qst_args[1].i;
+    const char *text = qst_args[1].str;
     s32 first;
-    TObjPlayer *actor;
+    TObjChara *actor;
     s32 end;
     s32 i;
     close_window_if_active(local_client_id);
@@ -4590,7 +4570,7 @@ void qst_op_message(void) {
                 s32 identity = actor->get_entity_id();
                 s32 entity;
                 if (identity < 0x4000) {
-                    entity = fn_get_field_3ac(actor);
+                    entity = get_npc_object_number(static_cast<TObjNpcBase *>(actor));
                 } else {
                     entity = get_field_d4(actor);
                 }
@@ -5167,18 +5147,18 @@ void QuestVmContext::save_globals() {
     result_register = qst_result_register;
     call_stack_depth = qst_call_stack_depth;
     pc = qst_pc;
-    unk24 = lbl_805D5E94;
-    unk28 = lbl_805D5E9C;
+    pad_24 = lbl_805D5E94;
+    pad_28 = lbl_805D5E9C;
     message_speaker = qst_message_speaker;
     arg_count = qst_arg_count;
     memcpy(args, qst_args, sizeof(args));
     memcpy(call_stack, qst_call_stack, sizeof(call_stack));
     qst_message_window = NULL;
     qst_list_window = NULL;
-    unk154 = TLobby__data_805D5EA8;
-    unk155 = TLobby__data_805D5EA9;
-    unk156 = TLobby__data_805D5EAA;
-    unk158 = TLobby__data_805D5EAC;
+    pad_154 = TLobby__data_805D5EA8;
+    pad_155 = TLobby__data_805D5EA9;
+    pad_156 = TLobby__data_805D5EAA;
+    pad_158 = TLobby__data_805D5EAC;
     item_name_entry = qst_item_name_entry;
     qst_item_name_entry = NULL;
     item_name_select = qst_item_name_select;
@@ -5202,16 +5182,16 @@ void QuestVmContext::load_globals() {
     qst_result_register = result_register;
     qst_call_stack_depth = call_stack_depth;
     qst_pc = pc;
-    lbl_805D5E94 = unk24;
-    lbl_805D5E9C = unk28;
+    lbl_805D5E94 = pad_24;
+    lbl_805D5E9C = pad_28;
     qst_message_speaker = message_speaker;
     qst_arg_count = arg_count;
     memcpy(qst_args, args, sizeof(args));
     memcpy(qst_call_stack, call_stack, sizeof(call_stack));
-    TLobby__data_805D5EA8 = unk154;
-    TLobby__data_805D5EA9 = unk155;
-    TLobby__data_805D5EAA = unk156;
-    TLobby__data_805D5EAC = unk158;
+    TLobby__data_805D5EA8 = pad_154;
+    TLobby__data_805D5EA9 = pad_155;
+    TLobby__data_805D5EAA = pad_156;
+    TLobby__data_805D5EAC = pad_158;
     qst_item_name_entry = item_name_entry;
     qst_item_name_select = item_name_select;
     qst_item_ok_window = item_ok_window;
@@ -5241,8 +5221,8 @@ void init_quest_script_context(QuestBinHeader *h, QuestVmContext *c) {
     c->result_register = 0;
     c->call_stack_depth = 0;
     c->pc = 0;
-    c->unk24 = 0;
-    c->unk28 = 0;
+    c->pad_24 = 0;
+    c->pad_28 = 0;
     c->arg_count = 0;
     memset(c->args, 0, sizeof(c->args));
     memset(c->registers, 0, 0x400);
@@ -5305,7 +5285,7 @@ int test_player_action_2(TObjPlayer *p) { return p->test_action_mask(2); }
 void clear_player_flag_4096(TObjPlayer *p) { p->clear_flag_4096(); }
 void set_player_flag_4096(TObjPlayer *p) { p->set_flag_4096(); }
 s32 get_field_d4(void* p) { return *(s32*)((char*)p + 0xd4); }
-s32 fn_get_field_3ac(void* p) { return *(s32*)((char*)p + 0x3ac); }
+s32 get_npc_object_number(TObjNpcBase *npc) { return npc->object_number; }
 
 void TObject::toggle_pause() { m_flags ^= PAUSE_UPDATE; }
 
@@ -5379,3 +5359,27 @@ int quest_op_F822_stub(s32) { return -1; }
 int quest_op_F821_stub(s32, s32, s32, TItemData *) { return 0; }
 int quest_op_F822_split_screen_stub(s32) { return -1; }
 int quest_op_F821_split_screen_stub(s32, s32, s32, TItemData *) { return 0; }
+
+void TRaderMapCore::set_mode(int mode) { TRaderMapCore::render_mode = mode; }
+
+void set_quest_exit_callback(s32 quest_exit_callback) {
+    quest_result_callbacks[3] = quest_exit_callback;
+}
+
+void set_quest_cancel_callback(s32 quest_cancel_callback) {
+    quest_result_callbacks[2] = quest_cancel_callback;
+}
+void set_quest_success_callback(s32 quest_success_callback) {
+    quest_result_callbacks[1] = quest_success_callback;
+}
+void set_quest_failure_callback(s32 quest_failure_callback) {
+    quest_result_callbacks[0] = quest_failure_callback;
+}
+
+void enable_door_masterkey(void) {
+    door_masterkey_on = 1;
+}
+
+void force_switch_doors_closed(void) { switch_doors_force_closed = 1; }
+
+void TObjDoor::set_main_warp_id(int main_warp_id) { city_main_warp_destination_id = main_warp_id; }

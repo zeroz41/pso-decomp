@@ -15,6 +15,7 @@ class ModelNodePositionCapture;
 struct OlgaFlowType2ActionMsg;
 struct Boss6GridBytes;
 struct NJS_OBJECT;
+struct CharacterAppearanceFields;
 struct CollisionBody;
 struct NJS_MOTION;
 struct TBoss6Mag;
@@ -68,9 +69,9 @@ struct Boss6PlayerLook {
     NJS_TEXLIST head_textures;
     NJS_TEXLIST attachment_textures;
     NJS_OBJECT *model;
-    void *head_model;
-    void *hair_model;
-    u32 attachment_model;
+    NJS_OBJECT *head_model;
+    NJS_OBJECT *hair_model;
+    NJS_OBJECT *attachment_model;
 };
 
 void copy_texlist(NJS_TEXLIST *dst, NJS_TEXLIST *src);
@@ -141,7 +142,7 @@ struct TBoss6Type2 : public TObjEnemy
     s32 last_walk_def;  // 1 after a WALK_DEF* state, 0 after WALK_CMN*: the walks alternate
     s32 iai_count;      // IAI_* entries since the last BKJUMP (should_back_jump at 3)
     u32 action_flags;  // the action row's flags (update_parts_flags)
-    u8 random_factor;  // OlgaFlowType2ActionMsg::random_factor
+    s8 random_factor;  // OlgaFlowType2ActionMsg::random_factor
     u8 pad_479[0x3];
     u32 next_motion;   // OlgaFlowType2ActionMsg::next_motion
     Boss6Type2MoveTarget move_target;
@@ -183,7 +184,7 @@ struct TBoss6Type2 : public TObjEnemy
     // BML entries 0xB and 0xA (cache_fish_params); grab_player puts them on the grabbed player.
     NJS_TEXLIST *grab_texlists[2];
     NJS_OBJECT *grab_models[2];
-    CharacterAppearanceFields *grab_appearance;  // the possessed player's name block, the appearance boss6type2_draw_models takes
+    CharacterAppearanceFields *grab_appearance;  // the possessed player's appearance, drawn by boss6type2_draw_models
     Boss6PlayerLook saved_look;
     Vec node_positions[19];       // body node positions, captured each draw
     Vec prev_node_positions[19];  // last update's node_positions
@@ -298,9 +299,7 @@ struct TBoss6Type2 : public TObjEnemy
     void select_attack_state();
     static TBoss6Mag *create_mag(TBoss6MagSpawnParams *params);
     void on_mag_dead();
-    void get_shoulder_point(s32 index, Vec *pos, s32 *rotation);
-    static void send_6xAD_grid_positions(s32 index, Vec *points, s32 count);
-    static void send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force, s32 unused);
+    void get_shoulder_point(s32 index, Vec *pos, s32 *rotation_y);
     static TBoss6EffFlowSoul *create_flow_soul(TObject *parent, Vec *pos, s32 player, s32 duration);
     s32 get_state();
     s32 get_variant();

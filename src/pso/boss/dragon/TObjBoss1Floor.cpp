@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/dragon/TObjBoss1Floor.h"
 #include "pso/boss/dragon/TObjBoss1Crater.h"
@@ -28,26 +27,27 @@
 #include "pso/boss/dragon/ObjBoss1CommonResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/boss/goldragon/ChunkStripGrid.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/PhotonBlastResults.h"
 
 const char *TObjBoss1Floor::name = "TObjBoss1Floor";
 
-void TLobby::update_boss1_objects() { TObjBoss1MokoHill_SoloM::free_resources(); TObjBoss1Rock::free_resources(); TObjBoss1Crater::free_resources(); TObjBoss1Floor::free_resources(); TLobby::free_char_select(); }
-void TLobby::forward_floor_2CB44() { TObjBoss1Floor::create_instance(); }
-void TLobby::init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor::load_resources(); clear_boss1_crater_instances(); TObjBoss1Rock::load_resources(); TObjBoss1MokoHill_SoloM::load_resources(); }
+void update_boss1_objects() { TObjBoss1MokoHill_SoloM::free_resources(); TObjBoss1Rock::free_resources(); TObjBoss1Crater::free_resources(); TObjBoss1Floor::free_resources(); free_dragon_ground_assets(); }
+void forward_floor_2CB44() { TObjBoss1Floor::create_instance(); }
+void init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor::load_resources(); clear_boss1_crater_instances(); TObjBoss1Rock::load_resources(); TObjBoss1MokoHill_SoloM::load_resources(); }
 
 
 void TObjBoss1Floor::render() {
     u32 saved_flags;
     NJS_OBJECT *floor;
 
-    if ((TObjPlayer::is_any_teammate_in_state() == 0) && ((TObjEneDD::check_v2_mode() != 0) || (TMainTask::get_render_pass() != 1))) {
+    if ((is_any_teammate_in_state() == 0) && ((TObjEneDD::check_v2_mode() != 0) || (TMainTask::get_render_pass() != 1))) {
         saved_flags = model_render_flags;
         saved_model_render_flags = saved_flags;
         model_render_flags = saved_flags | 0x400;
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         push_matrix();
         model_render_flags = 1;
         set_draw_list_mask(3);

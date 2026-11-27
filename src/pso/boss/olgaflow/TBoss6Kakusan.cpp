@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/boss/olgaflow/TBoss6Kakusan.h"
@@ -100,11 +99,11 @@ void TBoss6Kakusan::render() {  }
 void TBoss6Kakusan::run_task() {
     Vec v;
     Vec w;
-    s32 rot[3];
+    Angle3 rot;
     Vec step;
     f32 speed;
     TObjPlayer *player;
-    if (TObjPlayer::check_demo_mode() != 0) return;
+    if (check_demo_mode() != 0) return;
     if (TObjEneDD::query_teammate_state() != 0) return;
     VecCopy(&prev_position, &position);
     if ((s8)boss6_kakusan_homing_start_initialized == 0) {
@@ -147,9 +146,9 @@ void TBoss6Kakusan::run_task() {
         particle->set_position(&position);
         VecCopy(&step, &position);
         subtract_vector(&step, &prev_position);
-        direction_to_rotation_xz((u8 *)&step, &rot[0], &rot[2]);
-        rot[1] = 0;
-        particle->set_direction(rot);
+        direction_to_rotation_xz((u8 *)&step, &rot.x, &rot.z);
+        rot.y = 0;
+        particle->set_direction(&rot);
     }
     if (is_out_of_range() != 0 || run_task_check_stub() != 0) {
         queue_destruction();
@@ -198,6 +197,6 @@ TBoss6Kakusan::TBoss6Kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_cli
 }
 #pragma pop
 
-u8 *TBoss6Type1::create_kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed) {
-    return (u8 *)new TBoss6Kakusan(parent, pos, dir, target_client, speed);
+TBoss6Kakusan *TBoss6Type1::create_kakusan(Vec *pos, Vec *dir, u16 target_client, f32 speed) {
+    return new TBoss6Kakusan(this, pos, dir, target_client, speed);
 }

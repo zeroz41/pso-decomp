@@ -9,7 +9,7 @@ class TQuestThread;
 // A quest collision trigger (TObjQuestCol.cpp holds the whole family and TQuestColCtrl).
 // run_task asks the subclass whether it triggered and, if so, has it start its quest thread.
 struct TObjQuestColBase : public TObjCollidable {
-    TObjQuestColBase(TObject *parent, void *set_data);
+    TObjQuestColBase(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjQuestColBase();
     virtual void draw_debug_bounds();
     virtual int is_triggered();

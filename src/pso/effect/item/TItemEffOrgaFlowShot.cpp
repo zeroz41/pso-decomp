@@ -1,6 +1,5 @@
 #include "pso/math/ClampedStep.h"
 #include "pso/system/TrailStrip.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/network/TGameProtocol.h"
@@ -27,7 +26,6 @@
 #pragma readonly_strings on
 
 
-struct Send6xADOlgaFlowSubordinateBossActionsB { u8 hdr[4]; u8 d[0x40]; u8 tail[8+1]; };
 
 const char *TItemEffOrgaFlowShot::class_name = "TItemEffOrgaFlowShot";
 
@@ -36,12 +34,12 @@ int olga_flow_subordinate_actions_enabled;
 }
 
 void send_6xAD_olga_flow_subordinate_boss_actions(u8 *actions) {
-    Send6xADOlgaFlowSubordinateBossActionsB b;
+    G_OlgaFlowSubordinateBossActions_6xAD b;
     s32 i;
     if (is_local_client_floor_leader() != 0) {
         build_6xAD_olga_flow_subordinate_boss_actions(&b);
         for (i = 0; i < 0x40; i++) {
-            b.d[i] = actions[i];
+            b.actions[i] = actions[i];
         }
         ((TItemEffOrgaFlowShot *)(&b))->bswap_6xAD_subordinate_action();
     }
@@ -56,7 +54,6 @@ void clear_6xAD_action_buffer(s8 *buf) {
     }
 }
 
-struct Send6xADOlgaFlowSubordinateBossActionsB;
 void handle_6xAD_olga_flow_subordinate_boss_actions(G_OlgaFlowSubordinateBossActions_6xAD *command) {
     Vec v[3];
     s8 boss;
@@ -162,7 +159,7 @@ void TItemEffOrgaFlowShot::update_position_from_velocity() {
 #pragma pop
 
 void TItemEffOrgaFlowShot::render() {
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     saved_model_render_flags = model_render_flags;
     set_depth_buffer_settings_1();
     set_additive_blend();
@@ -172,7 +169,7 @@ void TItemEffOrgaFlowShot::render() {
     set_default_alpha_blend();
     restore_saved_depth_alpha_state();
     model_render_flags = saved_model_render_flags;
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TItemEffOrgaFlowShot::run_task() {

@@ -46,7 +46,7 @@ struct TObjEneGibbles : public TObjEnemy {
     virtual int test_flag_256();
     virtual void run_miss_reaction();
     virtual void refresh_target();
-    void *get_center();
+    Vec *get_center();
     u32 resolve_sound_id(u32 sound_id);
     // (names inferred from their uses below)
     // state bits: 1 risen, 2 near the target, 4 on the ground, 8 armor broken
@@ -92,7 +92,7 @@ struct TObjEneGibbles : public TObjEnemy {
     void init_state();
     void clamp_angle(s32 angle);
     void init_params();
-    static void *create(void *setData);
+    static void *create(EnemyPlacement *setData);
     static void free_static();
     static void load_resources();
     void turn_toward_target();
@@ -102,6 +102,8 @@ struct TObjEneGibbles : public TObjEnemy {
     void run_task_stub();
     void attack_stub();
     void render_and_get_joint_pos(Vec *out, s32 node);
+    // hit the players touching attack_colliders[0] (moved to joint 0x1F / 0x35);
+    // arg 1 grows armor by the damage dealt
     bool attack_from_joint_31(s32 trigger_hit_reaction, f32 power);
     bool attack_from_joint_53(s32 trigger_hit_reaction, f32 power);
     void state_punch();

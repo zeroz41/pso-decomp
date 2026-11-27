@@ -30,12 +30,6 @@ struct ConvertQuestObjectRowsQuestObjRow {
     u8 pad1[0x40];
 };
 
-struct BswapEnemySetRowsEntry {
-    u16 a;
-    s16 b;
-    u8 rest[0x44];
-};
-
 // One record of the loaded quest dat: type, bytes to the next record, floor and the size of the data that follows.
 struct QuestDatRecord {
     s32 type;
@@ -43,5 +37,9 @@ struct QuestDatRecord {
     s32 floor;
     s32 size;
 };
+
+void setup_quest_list();
+void refresh_quest_list(const char *path);
+void open_session(const char *path);
 
 #endif

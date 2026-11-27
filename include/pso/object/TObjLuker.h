@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjLuker : public TObjBase {
-    TObjLuker(TObject *parent, void *set_data);
+    TObjLuker(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjLuker();
     TObject *windows[4];  // one per player, indexed by entity id
     s32 current_floor;     // the floor named in the destination windows
@@ -27,8 +27,7 @@ struct TObjLuker : public TObjBase {
     s32 is_player_in_range(f32 range);
     virtual void render();
     virtual void run_task();
-    static const char *get_stat_table_entry(int a0);
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjLuker_size, sizeof(TObjLuker) == 0xBC);

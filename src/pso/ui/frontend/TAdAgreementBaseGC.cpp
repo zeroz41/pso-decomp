@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
 #include "pso/ui/window/TWindowCallBack.h"
@@ -27,7 +26,6 @@ const char *TAdAgreementBaseGC_class_name = "TAdAgreementBaseGC";
 static const NJS_POINT2 agreement_text_window_pos = {85.0f, 384.0f};
 static const NJS_POINT2 agreement_text_window_size = {470.0f, 60.0f};
 
-extern "C" {
 
 void TAdAgreementBaseGC::check_main_task_state() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -51,7 +49,7 @@ void TAdAgreementBaseGC::draw_agreement_text(void *window, void *frame_context) 
 void TAdAgreementBaseGC::on_cancel() { state = 4; }
 
 TWindowCallBack *TAdAgreementBaseGC::create_agreement_callback() {
-    return TAdEnterSerialAccessGC::create_callback((void *)&agreement_text_window_pos, (void *)&agreement_text_window_size, TAdAgreementBaseGC::draw_agreement_text);
+    return TAdEnterSerialAccessGC::create_callback(&agreement_text_window_pos, &agreement_text_window_size, TAdAgreementBaseGC::draw_agreement_text);
 }
 
 void TAdAgreementBaseGC::update_state() {
@@ -106,7 +104,6 @@ void TAdAgreementBaseGC::update_state() {
     }
 }
 
-}
 TAdAgreementBaseGC::~TAdAgreementBaseGC() {
     if (callback_window != NULL) { callback_window->queue_destruction(); callback_window = NULL; }
     if (cursor != NULL) { cursor->queue_destruction(); cursor = NULL; }

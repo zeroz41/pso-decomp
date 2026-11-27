@@ -1,9 +1,145 @@
-#include <string.h>
-#include "pso/system/TMemberCheck.h"
+#include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/TLobby.h"
-
+#include "pso/quest/challenge/ChallengeMode.h"
+#include "pso/system/TMemberCheck.h"
+#include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
+#include <string.h>
+#include "pso/ui/window/TWindowCheckBox.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/city/THunterGuildSeqOnline.h"
+#include "pso/render/NinjaUtil.h"
 #pragma readonly_strings on
+
+__declspec(section ".data") f32 member_name_window_pos[2] = {219.0f, 100.0f};
+
+s32 get_online_client_instance(s32 client_id) { return hunter_guild_online_client_instance_table[client_id]; }
+
+s32 get_online_server_instance(s32 client_id) { return hunter_guild_online_server_instance_table[client_id]; }
+
+THunterGuildSeqOffline *THunterGuildSeqOffline::create(TObjPlayer *player) {
+    return new THunterGuildSeqOffline(tl_05, player);
+}
+
+s32 get_offline_instance(s32 client_id) { return THunterGuildSeqOffline::instance_table[client_id]; }
+
+s32 is_near_designated_player(void) {
+    TObjPlayer *player;
+    TObjPlayer *designated_player;
+    s32 area;
+    if ((s32) designated_client_id == (s32) local_client_id) {
+        return 0;
+    }
+    player = get_player_by_client_id(local_client_id);
+    if (player == NULL) {
+        return 0;
+    }
+    area = player->get_area();
+    if ((area != 0x12) && ((area >= 0x12) || (area != 0))) {
+        return 0;
+    }
+    designated_player = get_player_by_client_id(designated_client_id);
+    if (designated_player == NULL) {
+        return 0;
+    }
+    return (u32)__cntlzw((u32)((xz_distance_squared(&player->position, &designated_player->position) > 625.0f))) >> 5;
+}
+
+s32 check_party_gathered() {
+    s32 i;
+    s32 result;
+    s32 j;
+    TObjPlayer *me;
+    f32 lim;
+    TObjPlayer *p;
+    if (TObjPlayer::get_player_count() != 0 && count_members() == 1) {
+        return 2;
+    }
+    if (is_challenge_mode() != 0 && count_members() == 1) {
+        return 2;
+    }
+    for (i = 0; i < 4; i++) {
+        TObjPlayer *q = get_player_by_client_id(i);
+        if (q != 0) {
+            switch (q->get_area()) {
+            case 0:
+            case 0x12:
+                break;
+            default:
+                return 0;
+            }
+        }
+    }
+    result = 1;
+    me = get_player_by_client_id(designated_client_id);
+    lim = 625.0f;
+    for (j = 0; j < 4; j++) {
+        if (j != designated_client_id) {
+            p = get_player_by_client_id(j);
+            if (p != 0 && xz_distance_squared(&me->position, &p->position) > lim) {
+                result = 0;
+            }
+        }
+    }
+    return result;
+}
+
+void TMemberCheck::update_member_proximity() {
+    TObjPlayer *designated_player;
+    TObjPlayer *player;
+    s32 i;
+    if (this->member_window != 0U) {
+        designated_player = get_player_by_client_id(designated_client_id);
+        i = 0;
+        do {
+            if (i != (s32) designated_client_id) {
+                player = get_player_by_client_id(i);
+                if (player != 0) {
+                    if (xz_distance_squared(&designated_player->position, &player->position) <= 625.0f) {
+                        this->member_window->advance_matching_entries(1, i);
+                    } else {
+                        this->member_window->advance_matching_entries(0, i);
+                    }
+                } else {
+                    this->member_window->advance_matching_entries(0, i);
+                }
+            } else {
+                this->member_window->advance_matching_entries(1, i);
+            }
+            i += 1;
+        } while (i < 4);
+    }
+}
+void TMemberCheck::open_member_name_window() {
+    s32 i;
+    if (member_window != 0) {
+        ((TWindowBase *)member_window)->close();
+        member_window = 0;
+    }
+    member_window = create_check_box_window_for_local_client((const NJS_POINT2 *)get_window_layout_position(0xBD), member_name_window_pos);
+    if (member_window != 0) {
+        member_window->disable_input();
+        member_window->set_close_flag();
+        for (i = 0; i < 4; i++) {
+            TObjPlayer *p = get_player_by_client_id(i);
+            if (p != 0) {
+                strcpy(names[i], p->appearance.name);
+                member_window->dispatch_without_flags(names[i], i);
+            } else {
+                names[i][0] = 0;
+                member_window->dispatch_without_flags(names[i], i);
+            }
+        }
+    }
+}
+
 
 extern "C" {
 const char *member_check_name_ptr = "TMemberCheck";
@@ -12,7 +148,7 @@ extern const char *member_check_name_ptr;
 s32 TMemberCheck::previous_member_count;
 
 void TMemberCheck::run_task() {
-    s32 n = TLobby::count_members();
+    s32 n = count_members();
     if (TMemberCheck::previous_member_count != n) {
         TMemberCheck::previous_member_count = n;
         open_member_name_window();
@@ -30,6 +166,6 @@ TMemberCheck::TMemberCheck(TObject* parent) : TObject(parent) {
     m_name = member_check_name_ptr;
     member_window = 0;
     memset(names, 0, 0x60);
-    TMemberCheck::previous_member_count = TLobby::count_members();
+    TMemberCheck::previous_member_count = count_members();
     open_member_name_window();
 }

@@ -5,7 +5,7 @@
 
 class TObjPlayer;
 class TWindowBase;
-struct BattleRuleConfig;
+struct BattleRules;
 class TWindowMessage;
 class TWindowMenu;
 
@@ -68,7 +68,7 @@ public:
     void initialize_battle();
     virtual void run_task();
 
-    BattleRuleConfig *rule_data;
+    BattleRules *rule_data;
     TWindowMessage *intro_window;
     TWindowMenu *menu_window;
     TWindowBase *player_windows[4];
@@ -86,7 +86,7 @@ public:
     s32 player_teams[4];
     s32 battle_ctrl_default;  // quest opcodes enable_win_pfx / disable_win_pfx
     u16 player_order[4];
-    s32 unknown_290;
+    s32 battle_team_report_count;  // only reset here; the online control counts 6x7D reports
     const char** message_table;
     s32 phase;
     s32 phase_state;
@@ -94,7 +94,7 @@ public:
     s32 close_windows_on_button();
     void close_player_windows();
     void create_result_windows();
-    static u8 is_battle_mode_active();
+    static s32 is_battle_mode_active();
     static void reset_ctrl_to_default();
     static void init();
     // Plays the result jingle and shows the duel result window for duration frames.
@@ -111,7 +111,7 @@ public:
     void update();
 
     static void reset_random_enemies_mode(TObject *fade);
-    static void init_instance_with_text(saddr rules, saddr text);
+    static void init_instance_with_text(BattleRules *rules, saddr text);
 
     static const char *class_name;
     static TPlayerBattleCtrl4P *instance;

@@ -47,23 +47,23 @@ void TOLightMachine01::render() {
     if (this->update_object_view_visibility(view_range, this->model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         set_texture_list(this->texlist);
         draw_ginja_model(model->model);
         push_matrix();
         translate_matrix(0, 0.0f, this->bob_offset, 0.0f);
         rotate_matrix_y(0, this->spin_angle);
         draw_ginja_model(model->child->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(light_machine_ginja_param);
         draw_ginja_object(light_machine_ginja_model_handle);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         pop_matrix();
     }
 }
 
-void *TOLightMachine01::create(void *set_data) {
+void *TOLightMachine01::create(ObjectSetData *set_data) {
     return new TOLightMachine01(set_data);
 }
 
@@ -88,7 +88,7 @@ TOLightMachine01::~TOLightMachine01() {
 
 #pragma push
 #pragma fp_contract on
-TOLightMachine01::TOLightMachine01(void *set_data) : TObjBase(tl_05) {
+TOLightMachine01::TOLightMachine01(ObjectSetData *set_data) : TObjBase(tl_05) {
     m_name = light_machine01_name;
     apply_object_set_data(set_data);
     model = get_bml_model(light_machine01_shared_bml_archive, 1);

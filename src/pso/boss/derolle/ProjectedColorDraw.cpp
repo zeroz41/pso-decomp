@@ -14,6 +14,8 @@ void end_projected_color_draw() {
 
 #pragma push
 #pragma scheduling off
+#pragma dont_inline off
+#pragma inline_depth(4)
 void draw_projected_quads(ProjectedVertex *vertices, s32 n) {
     s32 i;
     f32 one;
@@ -27,11 +29,9 @@ void draw_projected_quads(ProjectedVertex *vertices, s32 n) {
         w = one / vertices->z;
         y = vertices->y * w;
         x = vertices->x * w;
-        GXWGFifo.f32 = x;
-        GXWGFifo.f32 = y;
-        GXWGFifo.f32 = w;
+        GXPosition3f32(x, y, w);
         c = vertices->color;
-        GXWGFifo.u32 = ((c & 0xFFFFFF) << 8) | ((c & 0xFF000000) >> 24);
+        GXColor1u32(((c & 0xFFFFFF) << 8) | ((c & 0xFF000000) >> 24));
         vertices++;
     }
 }

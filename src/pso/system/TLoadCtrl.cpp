@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/map/FloorTransition.h"
@@ -23,7 +22,7 @@
 
 TLoadCtrl *TLoadCtrl::instance;
 
-void TLoadCtrl::set_field1C(s32 poll_input) {
+void TLoadCtrl::set_poll_input(s32 poll_input) {
     if (instance != NULL) {
         instance->m_poll_input = poll_input;
     }

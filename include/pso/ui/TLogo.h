@@ -20,7 +20,6 @@ public:
     virtual ~TLogo();
     virtual void run_task();
 public:
-    static void free_held_object();
     static void request_exit(TObject *fade);
     static s32 check_progressive_ready();
     static void run_frame();

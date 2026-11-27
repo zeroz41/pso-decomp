@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowMessageScroll.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/unk/QuestMessageWindows.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
 #include "pso/ui/window/TWindowBase.h"

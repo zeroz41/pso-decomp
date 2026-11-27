@@ -13,7 +13,7 @@
 
 extern "C" {
 
-s32 resolve_hittable_target(s32, s32);
+TObjChara *resolve_hittable_target(s32, s32);
 
 }
 
@@ -94,40 +94,29 @@ void TItemWeaponSRank::on_equipped() {
 }
 
 void TItemWeaponSRank::emit_marker_effects() {
-  Vec gun_point;
-  s32 weapon_kind;
-  s32 attack_flags;
-  (this->start_attack_effect());
-  attack_flags = (this->get_attack_flags());
-  if (attack_flags & 1)
-  {
-    weapon_kind = this->kind;
-    if (weapon_kind < 3)
-    {
-      if (weapon_kind < 1)
-      {
-        if ((this && this) && this)
-        {
+    Vec gun_point;
+    s32 attack_flags;
+    start_attack_effect();
+    attack_flags = get_attack_flags();
+    if (attack_flags & 1) {
+        switch (kind) {
+        case 1:
+        case 2:
+            if (is_mode_two_and_ready() != 0) {
+                send_srank_stat_extra_to_locks();
+                return;
+            }
+            update_active_game_effect();
+            return;
+        default:
+            update_active_game_effect();
+            return;
         }
-        goto block_7;
-      }
-      if (this->is_mode_two_and_ready() != 0)
-      {
-        this->send_srank_stat_extra_to_locks();
-        return;
-      }
-      this->update_active_game_effect();
-      return;
     }
-    block_7:
-    this->update_active_game_effect();
-    return;
-  }
-  if (attack_flags & 2)
-  {
-    this->get_gun_point(&gun_point);
-    (this->launch_shot(&gun_point, (0), (0), (1)));
-  }
+    if (attack_flags & 2) {
+        get_gun_point(&gun_point);
+        launch_shot(&gun_point, 0, 0, 1);
+    }
 }
 
 void TItemWeaponSRank::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, f32 scale, s32 body) {
@@ -139,7 +128,7 @@ void TItemWeaponSRank::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 
             case 1:
             case 2:
                 if (attack_kind == 2) {
-                    send_srank_stat_extra((uaddr)target, body);
+                    send_srank_stat_extra(target, body);
                 } else {
                     TItemWeapon::deliver_hit(player, target, attack_kind, scale, body);
                 }
@@ -153,8 +142,8 @@ void TItemWeaponSRank::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 
 }
 
 
-void TItemWeaponSRank::send_srank_stat_extra(uaddr target, s32 body) {
-    TObjChara *obj = (TObjChara *)target;
+void TItemWeaponSRank::send_srank_stat_extra(TObjChara *target, s32 body) {
+    TObjChara *obj = target;
     TObjPlayer *sender;
     DirectAttackPayload t1;
     DirectAttackPayload t2;
@@ -182,7 +171,7 @@ void TItemWeaponSRank::send_srank_stat_extra_to_locks() {
   s32 i;
   CapturedTarget *e;
   u16 uid;
-  s32 r;
+  TObjChara *r;
   s32 v;
   st = owner->get_extended_state();
   if (st != 0)
@@ -193,7 +182,7 @@ void TItemWeaponSRank::send_srank_stat_extra_to_locks() {
       uid = e->get_uid();
       v = e->get_captured_target_collider_index();
       r = resolve_hittable_target(uid, v);
-      if (r != 0)
+      if (r != NULL)
       {
         this->send_srank_stat_extra(r, v);
       }

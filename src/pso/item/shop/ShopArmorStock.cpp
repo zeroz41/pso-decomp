@@ -314,9 +314,8 @@ void clear_shop_armor_flags(void) {
     memset(shop_armor_stock_generated_flags, 0, 0x10);
 }
 
-
 void get_shop_armor_stock_item(TItemData *dst, s32 index, s32 shop) {
-    *(ByteBlock_14 *)dst = ((ByteBlock_14 *)shop_armor_stock_buffers[shop])[index];
+    __memcpy(dst, &shop_armor_stock_buffers[shop][index], sizeof(TItemData));
 }
 
 void generate_shop_armor_stock_at_level(s32 shop, s32 level) {

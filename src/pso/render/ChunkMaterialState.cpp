@@ -144,7 +144,7 @@ void clamp_pad_axes(PADStatus *pad) {
     }
 }
 
-void init_matrix_stack(s32 buffer, s32 depth) {
+void init_matrix_stack(void *buffer, s32 depth) {
     matrix_stack_base = (GC_Mtx *)0xE0000000;
     current_matrix = (GC_Mtx *)0xE0000000;
     matrix_stack_limit = (GC_Mtx *)0xE0000000 + (depth - 1);

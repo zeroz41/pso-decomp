@@ -1,8 +1,7 @@
 #include "pso/system/SoundEffect.h"
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/frontend/MultiChrSelectSlot.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -11,7 +10,8 @@
 #include "pso/render/TextureState.h"
 #include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
+#include "pso/ui/frontend/TAdSelectCurGC.h"
+#include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
@@ -72,6 +72,17 @@ int multi_ply_chr_select_active_player;
 s32 TAdMultiPlyChrSelectGC::select_mode;
 s32 TAdMultiPlyChrSelectGC::selected_slot;
 TAdChrSelPlyPlateGC *ad_chr_sel_ply_plate_instance;
+
+NJS_TEXLIST *get_player_tex_texture_list(void) { return player_tex_texture_list_ptr; }
+
+int TAdChrSelPlyPlateGC::get_cursor_texture_list() { return (saddr)menu_selection_cursor_texture_list; }
+
+TAdPlyPltAnimCtrlGC *TAdMultiPlyChrSelectGC::get_selected_slot() { return plyplt_anim_ctrl_instance; }
+
+TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::get_state() { return TAdMultiPlyChrSelectGC::instance; }
+
+s32 TAdMultiPlyChrSelectGC::get_current_state() { return state; }
+
 TAdChrSelPlyPlateGC *TAdChrSelPlyPlateGC::create_singleton(TObject *parent, vec2f *pos) {
     if (ad_chr_sel_ply_plate_instance != NULL) {
         return NULL;
@@ -85,7 +96,7 @@ TAdChrSelPlyPlateGC::TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos) : TObject(
     u32 j;
     m_name = TAdChrSelPlyPlateGC::name;
     chr_sel_plate_texlist = get_player_tex_texture_list();
-    chr_sel_plate_cursor_texture_list = TAdMultiPlyChrSelectGC::get_global_6700();
+    chr_sel_plate_cursor_texture_list = get_cursor_texture_list();
     TAdMultiPlyChrSelectGC::select_mode = 0;
     copy_vec2(&this->pos, pos);
     frame_counter = -1;
@@ -112,7 +123,7 @@ TAdChrSelPlyPlateGC::TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos) : TObject(
         multi_ply_chr_select_tag_alpha[i] = 0.0f;
     }
     TAdMultiPlyChrSelectGC::reset_slot_selection_table();
-    TAdPlyPltAnimCtrlGC::get_instance((saddr)tl_clipout);
+    TAdPlyPltAnimCtrlGC::get_instance(tl_clipout);
 }
 
 TAdChrSelPlyPlateGC::~TAdChrSelPlyPlateGC() {
@@ -216,7 +227,7 @@ s32 TAdMultiPlyChrSelectGC::get_clamped_cursor() {
     return multi_ply_chr_select_active_player;
 }
 
-void TAdMultiPlyChrSelectGC::add_selected_slot() {
+void add_selected_slot() {
     s32 i;
     if (multi_ply_chr_select_active_player < 0 || (u32)multi_ply_chr_select_active_player >= 4) {
         multi_ply_chr_select_active_player = 0;
@@ -367,7 +378,7 @@ s32 is_multiplayer_character_slot_selected(s32 slot) {
     return 1;
 }
 
-s32 TAdMultiPlyChrSelectGC::is_selection_confirmed() {
+s32 is_selection_confirmed() {
     if (is_multi_chr_select_slot_chosen() != 0) {
         if (TAdMultiPlyChrSelectGC::count_selected_slots() > 0) {
             return ((s32)TAdMultiPlyChrSelectGC::get_last_selected_player());
@@ -377,7 +388,7 @@ s32 TAdMultiPlyChrSelectGC::is_selection_confirmed() {
     return 0;
 }
 
-s32 TAdMultiPlyChrSelectGC::get_status() {
+s32 get_status() {
     s32 active_player = (s32) multi_ply_chr_select_active_player;
     if (active_player == 0) {
         return 0;
@@ -675,7 +686,7 @@ void TAdChrSelPlyPlateGC::select_slot_at_cursor() {
     bottom = multi_ply_chr_select_active_player * multi_ply_chr_select_tag_size[1] + multi_ply_chr_select_tag_size[1];
     quad[multi_ply_chr_select_active_player + 4][0].v1 = bottom / 256.0f;
     cursor_alpha[sel[multi_ply_chr_select_active_player][cursor_col]][cursor_col] = 0;
-    TAdMultiPlyChrSelectGC::add_selected_slot();
+    add_selected_slot();
     multi_ply_chr_select_active_player = find_active_slot();
     find_first_open_cell(cell);
     cursor_col = cell[1] - 1;
@@ -688,7 +699,7 @@ void TAdChrSelPlyPlateGC::start_selected_slot_anim() {
     TAdPlyPltAnimCtrlGC *anim;
     pos.x = quad[sel[multi_ply_chr_select_active_player][cursor_col]][cursor_col].x;
     pos.y = quad[sel[multi_ply_chr_select_active_player][cursor_col]][cursor_col].y;
-    anim = (TAdPlyPltAnimCtrlGC *)TAdMultiPlyChrSelectGC::get_selected_slot();
+    anim = TAdMultiPlyChrSelectGC::get_selected_slot();
     if (anim != NULL) {
         anim->init(&pos);
     }

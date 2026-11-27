@@ -31,7 +31,6 @@
 #include "pso/render/DebugFont.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/AngleUnits.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol_EffCurse3.h"
@@ -55,7 +54,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecKafun.h"
 #include "pso/player/TPlyDispData.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -187,7 +186,7 @@ void TObjEneBm9Mericarol::load_resources() {
     }
 }
 
-void *TObjEneBm9Mericarol::create(void *set_data) {
+void *TObjEneBm9Mericarol::create(EnemyPlacement *set_data) {
     return new TObjEneBm9Mericarol(tl_04, set_data);
 }
 
@@ -207,7 +206,7 @@ void TObjEneBm9Mericarol::free_shared_instances() {
     }
 }
 
-TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
     s32 ph;
     s32 i;
 
@@ -248,7 +247,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     enemy_init_acquire_period(0x1E);
     enemy_init_validate_period(0x1E);
     draw_offset_y = 0.0f;
-    m_44c = 0;
+    pad_44c = 0;
     retarget_counter = 0;
     hit_cooldown = 0;
     blink_level = 0;
@@ -259,7 +258,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     state_step = 0;
     state_timer = 0;
     rush_delay = 0;
-    m_49c = 0;
+    pad_49c = 0;
     target_angle = 0;
     slide_speed = 0.0f;
     charge_effect = 0;
@@ -301,7 +300,7 @@ TObjEneBm9Mericarol::~TObjEneBm9Mericarol() {
 void TObjEneBm9Mericarol::run_task() {
     s16 state;
     s32 current;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -558,7 +557,7 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
             break;
         }
         if (distance < 50.0f) {
-            if (angle_difference_abs(rotation_y, target_angle) < 0x4000) {
+            if (angle_difference_abs(rotation.y, target_angle) < 0x4000) {
                 if (random_ratio() <= technique_chance) {
                     transition_enemy_state(9);
                     break;
@@ -593,8 +592,8 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
         update_velocity();
         state_timer++;
         target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
-        rotation_y = (s16)rotation_y;
+        rotation.y = approach_angle_limited(rotation.y, target_angle, movementParameters->turn_speed);
+        rotation.y = (s16)rotation.y;
         update_ground_contact();
         update_body_colliders();
         play_move_sound();
@@ -632,8 +631,8 @@ void TObjEneBm9Mericarol::state_shoot(s32 reason) {
         enemy_copy_target_destination();
         update_velocity();
         target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
-        rotation_y = (s16)rotation_y;
+        rotation.y = approach_angle_limited(rotation.y, target_angle, movementParameters->turn_speed);
+        rotation.y = (s16)rotation.y;
         update_ground_contact();
         update_body_colliders();
         play_move_sound();
@@ -710,7 +709,7 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
                 push_matrix();
                 set_matrix_identity(0);
                 post_translate_matrix(&position.x);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_y(0, rotation.y);
                 matrix_mult_vec_array(NULL, points0, trail0, 2);
                 matrix_mult_vec_array(NULL, points1, trail1, 2);
                 pop_matrix();
@@ -732,8 +731,8 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
         enemy_copy_target_destination();
         update_velocity();
         target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-        rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
-        rotation_y = (s16)rotation_y;
+        rotation.y = approach_angle_limited(rotation.y, target_angle, movementParameters->turn_speed);
+        rotation.y = (s16)rotation.y;
         update_ground_contact();
         update_body_colliders();
         play_move_sound();
@@ -794,7 +793,7 @@ void TObjEneBm9Mericarol::state_rush(s32 reason) {
                 update_velocity();
             }
             target_angle = (s32)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z));
-            rotation_y = approach_angle_limited(rotation_y, target_angle, movementParameters->turn_speed);
+            rotation.y = approach_angle_limited(rotation.y, target_angle, movementParameters->turn_speed);
             check_collisions();
             return;
         case 1:
@@ -927,7 +926,7 @@ void TObjEneBm9Mericarol::state_damaged(s32 reason) {
         clear_intangible();
         clear_child_flags();
         flags &= ~0x28;
-        debug_effect_hook(this, 0xF2);
+        debug_effect_hook(0xF2);
         play_sound_effect(remap_sound_for_area(0x3AA0C), &position, 0, 0);
         return;
     case 3:
@@ -969,7 +968,7 @@ void TObjEneBm9Mericarol::state_die(s32 reason) {
         clear_child_flags();
         flags &= ~0x28;
         refresh_and_send_entity_flags();
-        debug_effect_hook(this, 0xF2);
+        debug_effect_hook(0xF2);
         state_step = 0;
         slide_speed = 0.0f;
         play_sound_effect(remap_sound_for_area(0x3AA0B), &position, 0, 0);
@@ -986,12 +985,12 @@ void TObjEneBm9Mericarol::state_die(s32 reason) {
             advance_animation();
             if (get_flag_b4() != 0) {
                 state_step = 1;
-                x = 10.0f * sin_table_lookup(rotation_y);
+                x = 10.0f * sin_table_lookup(rotation.y);
                 pos.y = 0.0f;
                 pos.x = x;
-                pos.z = 10.0f * cos_table_lookup(rotation_y);
+                pos.z = 10.0f * cos_table_lookup(rotation.y);
                 vec3_add_to(&pos, &position);
-                TDeadSpot::spawn_kind1_scale25(&pos, 0x32);
+                spawn_dead_spot_kind1_scale25(&pos, 0x32);
                 spawn_ground_effect(&pos, 0x46);
             }
             update_ground_contact();
@@ -1144,10 +1143,10 @@ void TObjEneBm9Mericarol::update_particle_effect(NJS_OBJECT *) {
     case 0x21:
     case 0x2B:
     case 0x64:
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         break;
     default:
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         break;
     }
     mericarol_node_counter += 1;
@@ -1163,7 +1162,7 @@ void TObjEneBm9Mericarol::render() {
     GinjaTextureState *s1;
     GinjaTextureState *s2;
     s16 *plist;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         draw_color_variant();
         return;
     }
@@ -1218,14 +1217,14 @@ void TObjEneBm9Mericarol::render() {
     set_texture_list(texlist);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     set_alpha_ref_override(0);
     TObjEneDD::clear_global_flag_400();
     translate_matrix(0, 0.0f, draw_offset_y, 0.0f);
     mericarol_node_counter = 0;
     toggle_particle_effect();
     if (!(flags & 0x10)) {
-        plist = ((NJS_CNK_MODEL *)model->child->sibling->sibling->sibling->model)->polygon_list;
+        plist = model->child->sibling->sibling->sibling->chunk_model->polygon_list;
         saved = plist[5];
         plist[5] = (u8)plist[5];
         set_chunk_model_node_callback(TObjEneBm9Mericarol::update_particle_effect);
@@ -1255,9 +1254,9 @@ void TObjEneBm9Mericarol::render() {
     }
     if (!(flags & 0x10)) {
         set_chunk_model_node_callback(NULL);
-        ((NJS_CNK_MODEL *)model->child->sibling->sibling->model)->polygon_list[5] = saved;
+        model->child->sibling->sibling->chunk_model->polygon_list[5] = saved;
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     restore_alpha_ref();
     pop_matrix();
     model_render_flags = saved_model_render_flags;
@@ -1297,13 +1296,13 @@ void TObjEneBm9Mericarol::draw_color_variant() {
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();
         set_alpha_ref_override(0);
         draw_chunk_object(model);
         restore_alpha_ref();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         if (variant == 1 || variant == 2) {
             texlist->textures[0].texture = s0;
@@ -1317,7 +1316,7 @@ void TObjEneBm9Mericarol::get_node_position(Vec *out, s32 node) {
     set_motion_packed_rotation();
     push_matrix_from(&identity_matrix);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     set_motion_packed_rotation();
     calc_joint_matrices(frame);
     clear_motion_packed_rotation();

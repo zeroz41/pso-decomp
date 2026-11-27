@@ -45,7 +45,7 @@ struct NJS_OBJECT;
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/boss/darkfalz/TObjDFYutai.h"
-#include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
+#include "pso/boss/darkfalz/DarkFalzUtil.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -163,10 +163,10 @@ void TObjDFUsoTower::render() {
 
 void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     TObjPlayer *player;
-    void *head;
-    void *hair;
+    NJS_OBJECT *head;
+    NJS_OBJECT *hair;
     NJS_TEXLIST *head_textures;
-    uaddr attachment;
+    NJS_OBJECT *attachment;
     NJS_TEXLIST *attachment_textures;
     NJS_OBJECT *body;
     NJS_TEXLIST *body_textures;
@@ -194,11 +194,11 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     }
     set_texture_list(body_textures);
     draw_chunk_object(body);
-    if (attachment != 0U) {
+    if (attachment != NULL) {
         push_matrix();
         post_translate_matrix(&dark_falz_part_node_position.x);
         set_texture_list(attachment_textures);
-        draw_chunk_object((void *)attachment);
+        draw_chunk_object(attachment);
         pop_matrix();
     }
     if (head != NULL) {
@@ -224,7 +224,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     }
 }
 
-void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist, NJS_TEXLIST *part_texlist, NJS_OBJECT *body, void *head, void *hair, uaddr part, CharacterAppearanceFields *appearance, f32 alpha) {
+void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist, NJS_TEXLIST *part_texlist, NJS_OBJECT *body, NJS_OBJECT *head, NJS_OBJECT *hair, NJS_OBJECT *part, CharacterAppearanceFields *appearance, f32 alpha) {
     if (0.0f != alpha) {
         TObjDFTenchuFuru::draw_node_tree(body);
         if (alpha < 1.0f) {
@@ -232,11 +232,11 @@ void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist
         }
         set_texture_list(body_texlist);
         draw_chunk_object(body);
-        if (part != 0U) {
+        if (part != NULL) {
             push_matrix();
             post_translate_matrix(&dark_falz_part_node_position.x);
             set_texture_list(part_texlist);
-            draw_chunk_object((void *)part);
+            draw_chunk_object(part);
             pop_matrix();
         }
         if (head != NULL) {
@@ -266,10 +266,10 @@ void boss6type2_draw_models(NJS_TEXLIST *body_texlist, NJS_TEXLIST *head_texlist
 extern "C" {
 void TObjPlayer::draw_player_model_by_client(u16 client_id, NJS_MOTION *motion, f32 frame, f32 alpha) {
     TObjPlayer *player;
-    void *head;
-    void *hair;
+    NJS_OBJECT *head;
+    NJS_OBJECT *hair;
     NJS_TEXLIST *head_textures;
-    uaddr attachment;
+    NJS_OBJECT *attachment;
     NJS_TEXLIST *attachment_textures;
     NJS_OBJECT *body;
     NJS_TEXLIST *body_textures;
@@ -297,10 +297,10 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, NJS_MOTION *motion, 
     TObjDFTenchuFuru::register_callback();
     draw_model_motion(body, motion, frame);
     TObjDFTenchuFuru::unregister_callback();
-    if (attachment != 0) {
+    if (attachment != NULL) {
         push_matrix_from(df_captured_matrix_pair[1]);
         set_texture_list(attachment_textures);
-        draw_chunk_object((void *)attachment);
+        draw_chunk_object(attachment);
         pop_matrix();
     }
     if (head != NULL) {
@@ -696,7 +696,7 @@ TObjDFHorming::~TObjDFHorming() {
 }
 
 void TObjDFHorming::run_task() {
-    s32 rotation[3];
+    Angle3 rotation;
     Vec d;
     DirectAttackPayload s;
     TObjPlayer *p;
@@ -747,9 +747,9 @@ void TObjDFHorming::run_task() {
             if (i == 1) {
                 VecCopy(&d, &body_center);
                 subtract_vector(&d, &prev_position);
-                direction_to_rotation_xz((u8 *)&d, &rotation[0], &rotation[2]);
-                rotation[1] = 0;
-                effects[i]->set_direction(rotation);
+                direction_to_rotation_xz((u8 *)&d, &rotation.x, &rotation.z);
+                rotation.y = 0;
+                effects[i]->set_direction(&rotation);
             }
             effects[i]->set_position(&body_center);
         }
@@ -871,7 +871,7 @@ void TObjDFYutai::render() {
     v.y += yutai_height_range.min + t * (yutai_height_range.max - yutai_height_range.min);
     push_matrix();
     post_translate_matrix(&v.x);
-    rotate_matrix_y(0, p->rotation_y);
+    rotate_matrix_y(0, p->rotation.y);
     scale_matrix(0, s, s, s);
     TObjPlayer::draw_player_model_by_id(player_id, w);
     pop_matrix();

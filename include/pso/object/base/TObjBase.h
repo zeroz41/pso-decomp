@@ -3,21 +3,24 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx/GeoTypes.h>
 
-struct CameraAngles;
+struct QuestObjectEntry;
+
 struct NJS_OBJECT;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
+struct ObjectSetData;
 
 class TObjBase : public TObject {
 public:
     TObjBase(TObject *parent);
     virtual ~TObjBase();
-    virtual void apply_saved_state(s16 *state, s32 live);
-    virtual void apply_object_set_data(void *);
+    virtual void apply_saved_state(QuestObjectEntry *state, s32 live);
+    virtual void apply_object_set_data(ObjectSetData *set_data);
     virtual void reset_motion_fields();
-    virtual void *get_center();
+    virtual Vec *get_center();
     virtual s32 update_object_view_visibility(f32, f32);
     virtual s32 classify_actor_view_detail(f32, f32, f32);
     virtual const char *get_name();
@@ -30,20 +33,20 @@ public:
     // Gives it count + 1 consecutive ids from the pool its actorFlags type
     // bits pick, unless it already has one; returns its id.
     u16 get_or_assign_entity_id(s32 count);
-    s32 mask_object_set_row_flags(s32);
+    s32 mask_object_set_row_flags(s32 mask);
     s32 set_event_source_flag(s32);
     void set_entity_id(u16 id);
     u16 get_entity_id();
-    int set_position_from(void *pos);
+    Vec *set_position_from(const Vec *pos);
     void save_previous_position();
-    CameraAngles *get_rotation();
+    Angle3 *get_rotation();
     NJS_TEXLIST *get_texlist();
     s32 is_alive();
     s32 is_active();
     s32 is_valid_target();
     u16 entity_id;  // the object table id, 0xFFFF while unregistered
     s16 visibility; // update_object_view_visibility: 0 culled, 1 visible, 2 near
-    s32 m_20;
+    s32 pad_20;
     NJS_TEXLIST *texlist;  // its texture list, made current before it draws
     // Copied from the object's set entry when it is spawned; see
     // link_matching_objects.
@@ -56,9 +59,7 @@ public:
     Vec position;
     Vec prev_position;  // where it stood before this frame's move
     Vec home_position;  // the set position it returns to
-    s32 rotation_x;
-    s32 rotation_y;
-    s32 rotation_z;
+    Angle3 rotation;
     Vec scale;        // the set entry's params 1-3, a scale for most objects
     Vec center;         // the point the virtual center getter returns
     void *set_entry;    // its row of the floor's object or enemy set

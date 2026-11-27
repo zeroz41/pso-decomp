@@ -1,7 +1,6 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx.h>
 #undef PSO_SDK_COMPACT_MATH
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "types.h"
 #include "pso/effect/particle/TTelepipeMarker.h"
@@ -39,7 +38,7 @@ void TEffIndirectSampler::enable_indirect_tev(s32, s16 kind) {
     if (kind < 0) {
         kind = this->kind;
     }
-    TObjPlayer::play_particle_at_active_slot((u8)kind, (u8)sampler, 0, 0, 0, 1);
+    play_particle_at_active_slot((u8)kind, (u8)sampler, 0, 0, 0, 1);
 }
 
 void TEffIndirectSampler::disable_indirect_tev() {
@@ -51,7 +50,7 @@ void TEffIndirectSampler::disable_indirect_tev() {
 void request_indirect_effect(s32 kind) { register_indirect_effect_ctrl(kind); }
 
 void play_indirect_effect_recipe(u8 kind, u16 sampler, s32 second_stage) {
-    TObjPlayer::play_particle_at_active_slot(kind, sampler, 0, 0, 0, second_stage);
+    play_particle_at_active_slot(kind, sampler, 0, 0, 0, second_stage);
 }
 
 void reset_indirect_tev(s32 second_stage) {
@@ -125,7 +124,7 @@ void TTelepipeMarker::render() {
         v[3].u = 1.0f;
         v[3].v = 1.0f;
         v[3].color = 0xFFFF0000;
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, camera_ctrl_instance->yaw);
@@ -149,6 +148,6 @@ void TTelepipeMarker::render() {
         reset_particle_tev();
         indirect->disable_indirect_tev();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }

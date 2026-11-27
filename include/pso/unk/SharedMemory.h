@@ -15,15 +15,15 @@
 
 // Block named "Shared Memory Connect Parameter" by the string at its start.
 struct SharedMemoryConnectParam {
-    u8 unk_000[4];
+    u8 pad_000[4];
     char name[0xF0];
     s32 check_param;
     u8 pad_0F8[0x44];
     s8 dial_type;
-    s8 unk_13D;
+    s8 pad_13D;
     u8 pad_13E[0x82];
     s16 trial_param;
-    s16 unk_1C2;
+    s16 pad_1C2;
     u8 pad_1C4[0x78];
     s8 modem_flag;
     s8 check_char;
@@ -35,7 +35,7 @@ struct SharedMemoryConnectParam {
 
 // Disc error messages.
 struct SharedMemoryDiscMessages {
-    s8 unk_000;
+    s8 pad_000;
     u8 pad_001[0x8B];
     char message[5][0x100];
 };
@@ -64,9 +64,7 @@ LAYOUT_ASSERT(SharedMemory_size, sizeof(SharedMemory) == 0x8000);
 
 LAYOUT_ASSERT(SharedMemoryCheckParamOffset, offsetof(SharedMemoryConnectParam, check_param) == 0xF4);
 LAYOUT_ASSERT(SharedMemoryClientFlagOffset, offsetof(SharedMemoryConnectParam, dial_type) == 0x13C);
-LAYOUT_ASSERT(SharedMemoryTrialFlagOffset, offsetof(SharedMemoryConnectParam, unk_13D) == 0x13D);
 LAYOUT_ASSERT(SharedMemoryTrialParamOffset, offsetof(SharedMemoryConnectParam, trial_param) == 0x1C0);
-LAYOUT_ASSERT(SharedMemoryCheckPairOffset, offsetof(SharedMemoryConnectParam, unk_1C2) == 0x1C2);
 LAYOUT_ASSERT(SharedMemoryModemFlagOffset, offsetof(SharedMemoryConnectParam, modem_flag) == 0x23C);
 LAYOUT_ASSERT(SharedMemoryModemCharOffset, offsetof(SharedMemoryConnectParam, check_char) == 0x23D);
 LAYOUT_ASSERT(SharedMemoryModemParamOffset, offsetof(SharedMemoryConnectParam, modem_param) == 0x23E);
@@ -95,7 +93,7 @@ LAYOUT_ASSERT(DolHeader_size, sizeof(DolHeader) == 0x100);
 // this header to keep across the reset.
 struct LaunchDolContext {
     char dol_name[0x100];
-    s32 unk_100;
+    s32 dol_size;
     DolHeader *dol_image;
     s32 keep_size;
     u8 pad_10C[4];

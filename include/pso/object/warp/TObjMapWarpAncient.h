@@ -9,7 +9,7 @@ struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
 struct TObjMapWarpAncient : public TObjMapWarp {
-    TObjMapWarpAncient(TObject *parent, void *set_data);
+    TObjMapWarpAncient(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjMapWarpAncient();
     virtual void draw_debug_destinations();
     virtual void render();
@@ -25,7 +25,7 @@ struct TObjMapWarpAncient : public TObjMapWarp {
     NJS_TEXLIST *ksita_textures;            // TObjGoalWarpAncient::get_archive_textures(0)
     NJS_TEXLIST *nsita_textures;            // TObjGoalWarpAncient::get_archive_textures(4)
     NJS_MOTION *beam_motion;  // motion 1, de_obj1_swarp_beam_n.njm
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjMapWarpAncient_size, sizeof(TObjMapWarpAncient) == 0x11C);

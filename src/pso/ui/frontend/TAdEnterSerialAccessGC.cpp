@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/SoundEffect.h"
 #include "types.h"
 #include <stdio.h>
@@ -17,7 +16,7 @@
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/save/CharacterFile.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -88,7 +87,7 @@ TAdEnterSerialAccessGC::TAdEnterSerialAccessGC(TObject *parent) : TAdEnterBaseGC
         return;
     }
     serial[0] = 0;
-    if (((TAdSinglePlyChrSelectGC *)serial)->load_and_verify_character_save(access_key) != 0 && serial[0] != 0) {
+    if (load_and_verify_character_save(serial, access_key) != 0 && serial[0] != 0) {
         initialize_serial_input(serial);
         set_access_key(access_key);
         set_entered_value(TAdEnterSerialAccessGC::get_serial_seed(), 1);
@@ -313,7 +312,7 @@ TWindowBase *TAdEnterSerialAccessGC::open_message_window(s32 text_index) {
 }
 
 TWindowCallBack *TAdEnterSerialAccessGC::create_draw_callback() {
-    return create_callback((void *)&serial_draw_window_position, (void *)&serial_draw_window_size, draw_screen);
+    return create_callback(&serial_draw_window_position, &serial_draw_window_size, draw_screen);
 }
 
 char *TAdEnterSerialAccessGC::hex_to_decimal_string(const char *serial) {
@@ -452,7 +451,7 @@ const f32 serial_char_row_x_table[2][13] = {
     { 234.0f, 246.0f, 258.0f, 270.0f, 293.0f, 305.0f, 317.0f, 329.0f, 352.0f, 364.0f, 376.0f, 388.0f, 400.0f },
 };
 
-void TAdEnterSerialAccessGC::draw_serial_chars(void *context) {
+void TAdEnterSerialAccessGC::draw_serial_chars(WindowDrawContext *context) {
     char text[0xFF];
     char buf[8];
     NJS_POINT2 pos;
@@ -478,16 +477,17 @@ void TAdEnterSerialAccessGC::draw_serial_chars(void *context) {
         }
         pos.x = row[keyboard_control->get_cursor_position()];
         pos.y = 230.0f;
-        draw_text_cursor(static_cast<WindowDrawContext *>(context), &pos);
+        draw_text_cursor(context, &pos);
     }
 }
 
 void TAdEnterSerialAccessGC::draw_screen(void *window, void *context) {
-    ((TWindowBase *)window)->draw_window_frame((WindowDrawContext *)context);
+    WindowDrawContext *draw_context = static_cast<WindowDrawContext *>(context);
+    static_cast<TWindowBase *>(window)->draw_window_frame(draw_context);
     draw_menu_text_scaled(serial_entry_status_line_position.x, serial_entry_status_line_position.y, 0.8f,
         get_localized_text_entry(0x17, 4), -1);
     draw_serial_plates();
-    draw_serial_chars(context);
+    draw_serial_chars(draw_context);
 }
 
 void TAdEnterSerialAccessGC::render() {

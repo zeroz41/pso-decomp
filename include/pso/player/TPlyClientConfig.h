@@ -13,7 +13,7 @@ public:
         u32 flags;
         u32 proxy_dst_addr;
         u16 proxy_dst_port;
-        u8 mbr_0xe[14];
+        u8 pad_12[14];
     } config;
 };
 

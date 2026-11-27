@@ -17,11 +17,12 @@ struct TObjEneDD : public TObjEnemy {
     static void set_part_position(TObjCollidable *actor, Vec *v, int i);
     void transition_enemy_state(s32);
     void save_mode();
-    void invoke_initialization_hook(void *set_data);
+    void invoke_initialization_hook(EnemyPlacement *set_data);
     void reset_state_fields();
     void init_common_from(TObjBase *source);
+    void noop();
     void clear_attack_receipts();
-    virtual void apply_enemy_state(s32 *);
+    virtual void apply_enemy_state(EnemyStateRecord *);
     virtual s32 update_status_effects();
     virtual s32 update_immobilizing_statuses();
     virtual void update_action_state();
@@ -111,6 +112,15 @@ struct TObjEneDD : public TObjEnemy {
     // many it wrote to out.
     s32 collect_enemy_target_candidates(TargetCandidate *out, f32 range);
     s32 is_target_unobstructed_from(TObjChara *target);
+    // The entity id of the nearest living player (squared range) the actor can see, 0xFFFF when none.
+    u16 enemy_nearest_visible_player_sq(f32 range);
+    u16 enemy_find_nearest_player_in_range(f32 range);
+    // The entity id of the nearest other living enemy (squared range) the actor can see.
+    u16 enemy_nearest_visible_enemy_sq(f32 range);
+    u16 enemy_nearest_visible_enemy(f32 range);
+    void debug_effect_hook(int id);
+    void debug_effect_hook_scaled(s32 id, f32 scale);
+    void enemy_death_stub();
 
     s32 previous_mode;         // mode when the last state handler finished; has_action_state_changed tests for a change
     s32 next_mode;             // mode a finished action hands back to (transition_enemy_state(next_mode))
@@ -136,12 +146,10 @@ int is_enemy_entity_id(u16 id);
 s32 pack_debug_text_position(s32 x, s32 y);
 void project_sound_origin_from_camera(const Vec *source, Vec *out, f32 distance);
 void setup_attack_at_owner(TObjBase *owner, DragonAttackParams *params);
-int is_target_android(void *p);
-int is_target_ranger(void *p);
+// The class flags of a target that is a player.
+int is_target_android(TObjChara *target);
+int is_target_ranger(TObjChara *target);
 void copy_target_candidate(TargetCandidate *dst, TargetCandidate *src);
-void debug_effect_hook(void *self, int id);
-void debug_effect_hook_scaled(void *self, s32 id, f32 scale);
-void enemy_death_stub(void *self);
 
 void set_collider_contact_high(CollisionBody *body);
 void set_collider_contact_low(CollisionBody *body);

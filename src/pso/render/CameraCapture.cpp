@@ -22,7 +22,7 @@
 #include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/effect/TEffect.h"
 #include "pso/render/render_util.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -250,7 +250,7 @@ void capture_viewport_texture() {
     }
 }
 
-void TObjPlayer::load_capture_texture() {
+void load_capture_texture() {
     set_texture_list(&shared_capture_texture_list);
     load_list_texture(0, 0, 0, 0);
 }
@@ -365,7 +365,7 @@ s32 is_shadow_pass_active() {
     s32 active;
     s32 client_id;
     active = 1;
-    if (TObjPlayer::is_shadow_pass_requested() == 0) {
+    if (is_shadow_pass_requested() == 0) {
         return 0;
     }
     if (get_main_phase() == 0xF) {
@@ -381,11 +381,11 @@ s32 is_shadow_pass_active() {
     return active;
 }
 
-void TObjPlayer::clear_shadow_pass_request() { shadow_pass_requested = 0; }
+void clear_shadow_pass_request() { shadow_pass_requested = 0; }
 
 void TObjPlayer::request_shadow_pass() { shadow_pass_requested = 1; }
 
-int TObjPlayer::is_shadow_pass_requested() { return shadow_pass_requested; }
+int is_shadow_pass_requested() { return shadow_pass_requested; }
 
 void init_shadow_map_texture() {
     GinjaTextureInput input;
@@ -647,9 +647,9 @@ void TCameraCapturePass::render() {
         if (flags & 1) {
             if (is_capture_overlay_ready() == 1) {
                 TCameraCtrl::restore_full_screen_view();
-                TParticleCtrl::begin_effect_render();
+                begin_effect_render();
                 draw_screen_quad(camera_capture_overlay_alpha << 24, 0, 0.0f);
-                TParticleCtrl::end_effect_render();
+                end_effect_render();
                 TCameraCtrl::restore_saved_view();
                 disable_camera_capture_overlay();
             }
@@ -796,7 +796,7 @@ void copy_screen_to_texture(s32 mode, NJS_POINT2 *center) {
         if (test_previous_buttons_packed(pad, 0x100) != 0) {
             init_tev_swap();
         }
-        TObjPlayer::draw_capture_caption_bar();
+        draw_capture_caption_bar();
         GXSetTexCopySrc(192, 144, 256, 192);
         GXSetTexCopyDst(256, 192, GX_TF_RGB565, GX_FALSE);
         GXCopyTex(shared_capture_texture_list.textures->texture->surface->header.pixels, GX_TRUE);
@@ -821,7 +821,7 @@ void copy_screen_to_texture(s32 mode, NJS_POINT2 *center) {
         if (test_previous_buttons_packed(pad, 0x100) != 0) {
             init_tev_swap();
         }
-        TObjPlayer::draw_capture_caption_bar();
+        draw_capture_caption_bar();
         GXSetTexCopySrc(192, 144, 256, 192);
         GXSetTexCopyDst(256, 192, GX_TF_RGB565, GX_FALSE);
         GXCopyTex(shared_capture_texture_list.textures->texture->surface->header.pixels, GX_TRUE);
@@ -837,7 +837,7 @@ void TLiveCameraView::disable() { flags |= 4; }
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-void TObjPlayer::draw_capture_caption_bar() {
+void draw_capture_caption_bar() {
     QuadSpriteRect rect;
     f32 y;
     f32 x;

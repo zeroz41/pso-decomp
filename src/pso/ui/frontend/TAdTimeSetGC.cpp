@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
@@ -20,7 +19,6 @@
 #include "pso/ui/frontend/TAdTimeSetGC.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
@@ -32,11 +30,12 @@
 #include "pso/audio/SoundRequests.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/audio/MusicControl.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 #pragma push
 #pragma defer_codegen off
@@ -45,12 +44,12 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-s32 CharacterPreview::get_hair_model() { return part_models[0]; }
+NJS_OBJECT *CharacterPreview::get_hair_model() { return part_models[0]; }
 NJS_TEXLIST *CharacterPreview::get_chara_making_data() { return &head_textures.list; }
-s32 CharacterPreview::get_head_model() { return part_models[1]; }
-s32 CharacterPreview::get_attachment_model() { return part_models[2]; }
+NJS_OBJECT *CharacterPreview::get_head_model() { return part_models[1]; }
+NJS_OBJECT *CharacterPreview::get_attachment_model() { return part_models[2]; }
 NJS_TEXLIST *CharacterPreview::get_status_data() { return &other_textures.list; }
-saddr CharacterPreview::get_body_model() { return body_model; }
+NJS_OBJECT *CharacterPreview::get_body_model() { return body_model; }
 NJS_TEXLIST *CharacterPreview::get_status_sub() { return &body_textures.list; }
 
 void TAdPlyStatusGC::set_status_param(CharacterPreview *preview) { ply_status_preview = preview; }
@@ -89,7 +88,7 @@ static const NJS_POINT2 time_set_menu_pos = {
     10.0f + (time_set_message_pos[1] + time_set_message_size[1]),
 };
 static const f32 time_set_menu_width = time_set_message_size[0] - 40.0f;
-static const f32 time_set_calendar_pos[2] = {
+static f32 time_set_calendar_pos[2] = {
     time_set_message_pos[0] + 0.5f * time_set_message_size[0],
     (time_set_message_pos[1] + time_set_message_size[1]) - 85.0f,
 };
@@ -279,7 +278,7 @@ void TAdTimeSetGC::enter_state_2() {
 }
 
 void TAdTimeSetGC::run_state_2() {
-    if (TAdPlayerLoadGC::get_instance() == 0) {
+    if (get_card_load_sequence_state() == 0) {
         system_file_loaded = 1;
         if (load_status == 0) {
             change_state(3);
@@ -304,7 +303,7 @@ void TAdTimeSetGC::enter_state_4() {
 }
 
 void TAdTimeSetGC::reset_on_load_complete() {
-    if (TAdPlayerLoadGC::get_instance() == 0) {
+    if (get_card_load_sequence_state() == 0) {
         skip_apply_options = 0;
         change_state(0x18);
     }
@@ -456,7 +455,7 @@ void TAdTimeSetGC::run_state_12() {
     if (message_frames < 0) {
         message_frames = 0;
     }
-    if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
+    if (!(load_status & 2) && get_card_load_sequence_state() == 0) {
         if (message_frames < 0xF && is_decide_pressed() != 0) {
             message_frames = 0;
         }
@@ -482,7 +481,7 @@ void TAdTimeSetGC::update_close_timer() {
     if (message_frames < 0) {
         message_frames = 0;
     }
-    if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
+    if (!(load_status & 2) && get_card_load_sequence_state() == 0) {
         if (message_frames < 0xF && is_decide_pressed() != 0) {
             message_frames = 0;
         }
@@ -514,7 +513,7 @@ void TAdTimeSetGC::try_setup() {
 }
 
 void TAdTimeSetGC::update_close_on_load() {
-    if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
+    if (!(load_status & 2) && get_card_load_sequence_state() == 0) {
         close_windows();
         if (timer == 0) {
             state15_load_ended = 1;
@@ -1028,7 +1027,7 @@ T_ATS_DrawCalendar *T_ATS_DrawCalendar::create() {
 T_ATS_DrawCalendar::T_ATS_DrawCalendar(TObject *parent) : TObject(parent) {
     m_name = T_ATS_DrawCalendar::name;
     visible = 0;
-    copy_vec2(&pos, (void *)time_set_calendar_pos);
+    copy_vec2(&pos, time_set_calendar_pos);
 }
 
 T_ATS_DrawCalendar::~T_ATS_DrawCalendar() {

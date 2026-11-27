@@ -36,4 +36,6 @@ struct PhotonChairSeat {
     s32 is_delay_6xB0_over();
 };
 
+void load_static_resource();
+
 #endif

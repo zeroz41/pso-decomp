@@ -30,9 +30,4 @@ public:
     TObjPlayer *player; // the player at the counter
 };
 
-// The derived windows' constructors are still C functions and call these by symbol.
-extern "C" {
-void *__ct__15TShopWindowBaseFP7TObject(void *self, TObject *parent);
-}
-
 #endif

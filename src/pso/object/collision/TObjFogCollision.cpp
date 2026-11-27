@@ -1,5 +1,4 @@
 #include "pso/system/SoundEffect.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 // One TU: TObjFogCollision, TObjFogCollisionSwitch, TObjFogCollisionPoison and the per-client
 // TObjFogCollision_Manager. Built with -inline deferred, so functions are written in reverse
 // address order (code is emitted last function first).
@@ -36,6 +35,7 @@
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerCommands.h"
+#include "pso/player/PhotonBlastResults.h"
 
 
 const char *fog_collision_name = "TObjFogCollision";
@@ -44,11 +44,11 @@ const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 
 
 // Function definitions in reverse address order (-inline deferred emits them reversed).
-void *TObjFogCollision::create(void *set) {
+void *TObjFogCollision::create(ObjectSetData *set) {
     void *o = new TObjFogCollision(tl_05, set);
     return o;
 }
-TObjFogCollision::TObjFogCollision(TObject *parent, void *set) : TObjBase(parent) {
+TObjFogCollision::TObjFogCollision(TObject *parent, ObjectSetData *set) : TObjBase(parent) {
     m_name = fog_collision_name;
     ((TObjFogCollision *)(((u8 *)this)))->apply_object_set_data(set);
     this->debug_state = 0;
@@ -167,11 +167,11 @@ void TObjFogCollision::draw_volume() {
     }
 }
 
-void *TObjFogCollisionSwitch::create(void *set) {
+void *TObjFogCollisionSwitch::create(ObjectSetData *set) {
     return new TObjFogCollisionSwitch(tl_05, set);
 }
 
-TObjFogCollisionSwitch::TObjFogCollisionSwitch(TObject *parent, void *set) : TObjFogCollision(parent, set) {
+TObjFogCollisionSwitch::TObjFogCollisionSwitch(TObject *parent, ObjectSetData *set) : TObjFogCollision(parent, set) {
     m_name = fog_collision_switch_name;
 }
 
@@ -225,21 +225,21 @@ void TObjFogCollisionSwitch::draw_debug_text() {
     debug_printf_at(0x130022, "SwitchID:%3d", this->set_params[2]);
 }
 
-void *TObjFogCollisionPoison::create(void *set) {
+void *TObjFogCollisionPoison::create(ObjectSetData *set) {
     return new TObjFogCollisionPoison(tl_05, set);
 }
 
-TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *parent_task, void *set) : TObjFogCollisionSwitch(parent_task, set) {
+TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *parent, ObjectSetData *set) : TObjFogCollisionSwitch(parent, set) {
     u16 i;
-    TObject *parent = this;
+    TObject *ticker_parent = this;
     m_name = fog_collision_poison_name;
     init_params();
     if (is_split_screen() != 0) {
         for (i = 0; i != 4; i++) {
-            new TObjFogCollisionPoison_Ticker(parent, i);
+            new TObjFogCollisionPoison_Ticker(ticker_parent, i);
         }
     } else {
-        new TObjFogCollisionPoison_Ticker(parent, local_client_id);
+        new TObjFogCollisionPoison_Ticker(ticker_parent, local_client_id);
     }
 }
 
@@ -407,7 +407,7 @@ void record_fog_collision_hit(s32 index, s32 level, s32 link) {
 
 void TObjFogCollision_Manager::run_task() {
     s32 level;
-    if (TObjPlayer::is_any_teammate_in_state() == 0) {
+    if (is_any_teammate_in_state() == 0) {
         switch (cleared) {
         case 0:
             if (hit_count > 0) {

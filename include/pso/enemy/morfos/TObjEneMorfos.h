@@ -72,7 +72,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     s32 check_low_hp_trigger();
     void init_instance();
     static void unload_static_data();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     // The state handlers dispatch_action picks (names from the motions they request).
     void state_damage(s32 ev);    // 10: damage_kabe_body
     void state_attack(s32 ev);    // 5: attack_kabe_body, spawns the arm
@@ -93,7 +93,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     s32 target_angle;
     s32 burst_start_angle;    // rotation_y when the burst turn started
     f32 accum;                // walk timer, then the dying texture scroll
-    f32 unk_4C8;
+    f32 pad_4C8;
     Vec walk_dir;             // sin, 0, cos of rotation_y when the walk starts
     void render_part(s32 idx, s32 mode);
     void state_rotating_projectile_burst(s32 ev);
@@ -105,6 +105,8 @@ LAYOUT_ASSERT(TObjEneMorfos_size, sizeof(TObjEneMorfos) == 0x4D8);
 LAYOUT_ASSERT(TObjEneMorfos_fades, offsetof(TObjEneMorfos, body_fade) == 0x3EC);
 
 extern MorfosParams *morfos_param_table;
+extern f32 morfos_projectile_speed;        // morfos_param_table->projectile_speed
+extern f32 morfos_param_table_speed_copy;  // morfos_param_table->projectile_speed_b
 
 // What TObjEneMorfos::load_static_data fetches from TLobby; reset_hp reads one entry of each.
 extern player_stats *morfos_base_params[1];        // register_boss(0x40)

@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/system/BmlResource.h"
@@ -27,11 +26,10 @@ extern "C" {
 extern Vec boss6_type1_appear_origin;
 extern ModelNodePositionEntry boss6_type1_appear_node_desc[];
 extern Boss6StripDesc boss6_type1_appear_model_node_descriptors[];
-extern CameraAngles boss6_type1_appear_camera_angles;
+extern Angle3 boss6_type1_appear_camera_angles;
 extern CameraPlayback boss6_type1_appear_camera_script;
 extern s32 boss6_type1_appear_motion_indices[];
 __declspec(section ".sdata") extern AppearanceClassTag boss6_type1_appear_name_tag;
-__declspec(section ".sdata2") extern const AppearanceZero lbl_805DFA50;
 }
 
 // Draws both scene parts; the second with the effect node capture installed.
@@ -156,7 +154,7 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TBoss6PlotFalz *plot) : TOb
     activate_camera_mode(5);
     set_scripted_camera_origin(&boss6_type1_appear_origin, &boss6_type1_appear_origin, &boss6_type1_appear_camera_angles);
     boss6_type1_appear_camera_script.play(0x416C);
-    frame = lbl_805DFA50.value;
+    frame = 0.0f;
     timer = 0;
 }
 
@@ -168,8 +166,7 @@ __declspec(section ".rodata") extern const char boss6_type1_appear_class_name[] 
 __declspec(section ".rodata") Vec boss6_type1_appear_origin = {0.0f, 25.0f, 75.0f};
 __declspec(section ".rodata") ModelNodePositionEntry boss6_type1_appear_node_desc[] = {{0}, {-1}};
 __declspec(section ".rodata") Boss6StripDesc boss6_type1_appear_model_node_descriptors[] = {{3, 1, 0}, {6, 1, 0}};
-__declspec(section ".rodata") CameraAngles boss6_type1_appear_camera_angles = {0, 0, 0};
+__declspec(section ".rodata") Angle3 boss6_type1_appear_camera_angles = {0, 0, 0};
 __declspec(section ".rodata") CameraPlayback boss6_type1_appear_camera_script = {1, 2, 0, 0.0f, 0.7f};
 s32 boss6_type1_appear_motion_indices[] = {35, 36};
 __declspec(section ".sdata") AppearanceClassTag boss6_type1_appear_name_tag = {boss6_type1_appear_class_name, 0};
-__declspec(section ".sdata2") const AppearanceZero lbl_805DFA50 = {0.0f, 0};

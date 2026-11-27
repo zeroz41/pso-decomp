@@ -6,8 +6,8 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/render_util.h"
 #include "pso/render/TextureState.h"
 #include "pso/render/GinjaTexture.h"
@@ -321,7 +321,7 @@ TEndingAB::TEndingAB(TObject *parent) : TObject(parent) {
     m_name = ending_ab_class_name;
     elapsed_ticks = -1;
     TEndingAB::fade_sequence_state = 0;
-    field_20 = 255;
+    pad_20 = 255;
     wall_index = 0;
     picture_index = 0;
     init_float_table();
@@ -337,7 +337,7 @@ void TEndingAB::destroy_instance() {
         ending_ab_wall_texture_list = NULL;
     }
 }
-void TScene::bind_ending_wall_textures() {
+void TEndingAB::bind_ending_wall_textures() {
     EndingWallTextureSet *base = ending_wall_texture_sets;
     NJS_TEXLIST *t;
     if (get_ending_scene_active() != 0) {

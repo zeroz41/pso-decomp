@@ -34,7 +34,7 @@ void ADXT_StartMemIdx(AdxtPlayer *player, u8 *table_data, s32 entry_index) {
 void ADXT_StartFname(AdxtPlayer *player, const char *name) {
     stop_audio_stream(player);
     adx_lock();
-    if ((player->stream_file = ADXSTM_OpenFnameEx(name, (saddr)player->input_ring)) == 0) {
+    if ((player->stream_file = ADXSTM_OpenFnameEx(name, player->input_ring)) == 0) {
         adx_unlock();
         adxerr_report_pair("E8101205 ADXT_StartFname: can't open ", name);
         player->error_code = -1;

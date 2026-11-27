@@ -26,17 +26,17 @@ BmlResource *TObjRainbowLobby::shared_model_resource;
 
 void TObjRainbowLobby::render() {
     if (state != 0) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if (state != 3) {
             scale_matrix(NULL, scale, 1.0f, scale);
         }
         draw_ginja_object(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -70,7 +70,7 @@ void TObjRainbowLobby::run_task() {
     }
 }
 
-void *TObjRainbowLobby::create(void *set_data) {
+void *TObjRainbowLobby::create(ObjectSetData *set_data) {
     return new TObjRainbowLobby(tl_05, set_data);
 }
 
@@ -87,7 +87,7 @@ void TObjRainbowLobby::load_resources() {
 
 TObjRainbowLobby::~TObjRainbowLobby() {}
 
-TObjRainbowLobby::TObjRainbowLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjRainbowLobby::TObjRainbowLobby(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = obj_rainbow_lobby_class_name;
     apply_object_set_data(set_data);
     if (is_lobby_event_active() != 0) {

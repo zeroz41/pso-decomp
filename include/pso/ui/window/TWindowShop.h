@@ -19,5 +19,6 @@ LAYOUT_ASSERT(TWindowShop_size, sizeof(TWindowShop) == 0x8C);
 
 // Opens the shop item list (title text, row capacity) placed for the current camera layout.
 TWindowShop *create_item_list_window(const char *title, s32 count, s32 client);
+TWindowShop *open_default(const char *title);
 
 #endif

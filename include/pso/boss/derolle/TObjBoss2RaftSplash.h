@@ -5,6 +5,8 @@
 #include "types.h"
 #include "pso/system/vector.h"
 
+class TParticleCtrl;
+
 class TObjBoss2RaftSplash : public TObject {
 public:
     TObjBoss2RaftSplash(TObject *parent, const Vec *position, const Vec *offset, f32 *speed);
@@ -13,6 +15,10 @@ public:
 
     // A particle at position whose children drift by offset once handed to the tunnel.
     static void spawn_splash(const Vec *position, s32 particle_index, const Vec *offset);
+    // A particle at position whose children the tunnel releases with speed.
+    static void create_particle_effect(const Vec *position, s32 particle_index, f32 speed);
+    // TObjBoss2Tunnel::release_children with the -5.0f drift, for the boss splash emitters.
+    static void release_splash_children(TParticleCtrl *particle);
     f32 elapsed;
     f32 interval;
     const f32 *step;

@@ -18,6 +18,7 @@
 #include "pso/network/client_id.h"
 #include "pso/quest/TQuestBgmCtrl.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 #pragma defer_codegen on
@@ -74,7 +75,7 @@ s32 TObjBgmColCtrl::is_active() {
     return (u8)((u8) (music_state != 0));
 }
 
-TObjBgmCol::TObjBgmCol(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjBgmCol::TObjBgmCol(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     this->m_name = bgm_col_name;
     this->apply_object_set_data(set_data);
     this->outside = 1;
@@ -164,7 +165,7 @@ void create_bgm_col_zones(void) {
 }
 
 void TObjPlayer::set_camera_mode(s32 camera_mode) {
-    if ((get_quest_bgm_issued_flag() == 0) && (TRaderMapCore::is_not_split_screen() != 1) && (camera_mode != bgm_zone_category)) {
+    if ((get_quest_bgm_issued_flag() == 0) && (is_not_split_screen() != 1) && (camera_mode != bgm_zone_category)) {
         bgm_zone_category = camera_mode;
         play_area_music((char *)area_music_filename_table[camera_mode]);
     }
@@ -195,7 +196,7 @@ void TObjBgmColCtrl::run_task() {
     frames_left = this->start_delay;
     this->start_delay = (frames_left - 1);
     if ((frames_left <= 0) && ((get_current_floor_area() == AREA_LOBBY) || (get_player_by_client_id(local_client_id) != NULL)) && (get_quest_bgm_issued_flag() == 0)) {
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (is_not_split_screen() == 1) {
             if (TObjBgmColCtrl::is_active() == 0) {
                 TObjBgmColCtrl::play_lobby_theme_music();
             }

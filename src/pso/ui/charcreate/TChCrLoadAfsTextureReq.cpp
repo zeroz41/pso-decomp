@@ -2,11 +2,9 @@
 #include "pso/system/Adxf.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include <math.h>
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.h"
 #include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
 #include "pso/network/TLobby.h"
@@ -96,7 +94,7 @@ void TChCrLoadAfsTextureReq::update_loading() {
     if (retry != 0) {
         ADXF_Close(load_handle);
         load_handle = 0;
-        safe_free(reinterpret_cast<void *>(buffers[index]));
+        safe_free(buffers[index]);
         buffers[index] = 0;
         state = 1;
         return;
@@ -108,7 +106,7 @@ void TChCrLoadAfsTextureReq::update_loading() {
         return;
     }
     for (i = 0; i < count; i++) {
-        texture_inputs[i].set_render_rect(reinterpret_cast<void *>(buffers[i]), 0, 0, 0);
+        texture_inputs[i].set_render_rect(buffers[i], 0, 0, 0);
         set_texture_name(&textures->textures[i], &texture_inputs[i], 0, 0x40000000);
     }
     if (load_texture_list(textures) != -1) {
@@ -120,17 +118,17 @@ void TChCrLoadAfsTextureReq::update_loading() {
 void TChCrLoadAfsTextureReq::start_read() {
     s32 n;
     AdxfHandle *handle;
-    uaddr buf;
+    void *buf;
     handle = ADXF_OpenAfs(player_class_texture_archive_table[display_index].archiveId, find_player_texture_name_ordinal((u8 *)this));
     load_handle = handle;
     if (handle != 0) {
         stop_count = 0;
         read_frames = 0;
         n = ADXF_GetFsizeSct(load_handle);
-        buf = (uaddr)TQuestVmDownLoadServer::alloc(n << 11);
+        buf = alloc(n << 11);
         buffers[index] = buf;
         if (buf != 0) {
-            ADXF_ReadNw(load_handle, n, (void *)buffers[index]);
+            ADXF_ReadNw(load_handle, n, buffers[index]);
             state = 2;
         }
     }
@@ -201,7 +199,7 @@ TChCrLoadAfsTextureReq::~TChCrLoadAfsTextureReq() {
     this->finish_request();
     for (i = 0; i < this->count; i++) {
         if (this->buffers[i] != 0) {
-            safe_free(reinterpret_cast<void *>(this->buffers[i]));
+            safe_free(this->buffers[i]);
             this->buffers[i] = 0;
         }
     }
@@ -247,8 +245,8 @@ TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, TChCrLoadAfsText
     init_texture_table();
 }
 
-TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(TObject *parent, NJS_TEXLIST *textures, s32 *completion_flags, s32 index) {
-    return new TChCrLoadAfsTextureReq(parent, textures, completion_flags, index);
+TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(TObject *parent, NJS_TEXLIST *textures, s32 *completion_flags, s32 display_index) {
+    return new TChCrLoadAfsTextureReq(parent, textures, completion_flags, display_index);
 }
 
 TChCrLoadAfsTextureReq *TChCrLoadAfsTextureReq::create(TObject *parent, TChCrLoadAfsTextureReqArgs *args) {

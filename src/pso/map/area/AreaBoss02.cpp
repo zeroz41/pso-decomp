@@ -7,7 +7,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/audio/SoundRequests.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/boss/derolle/TObjBoss2Dust.h"
 #include "pso/map/FloorWaveEvents.h"
 
@@ -19,7 +19,7 @@ void (*boss2_tunnel_callbacks[2])(void) = {init_boss2_tunnel, free_boss2_tunnel}
 void cleanup_boss2_area(void) {
     refresh_render_state();
     stop_audio_streams();
-    TLobby::call_funcs_reverse(boss2_tunnel_callbacks, sizeof(boss2_tunnel_callbacks));
+    call_funcs_reverse(boss2_tunnel_callbacks, sizeof(boss2_tunnel_callbacks));
     unload_current_floor_resources();
     update_current_floor();
     TLobby::clear_session_buffers();

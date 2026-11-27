@@ -8,7 +8,7 @@ struct NJS_MOTION;
 
 struct TObjWarpLobby : public TObjAreaWarp {
     static const char *class_name;
-    TObjWarpLobby(TObject *parent, void *set_data);
+    TObjWarpLobby(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjWarpLobby();
     virtual void debug_print_area_num();
     void run_task();
@@ -23,7 +23,7 @@ struct TObjWarpLobby : public TObjAreaWarp {
     s32 pad_D4;
     NJS_MOTION *beam_motion;
     s32 pad_DC;
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjWarpLobby_size, sizeof(TObjWarpLobby) == 0xE0);

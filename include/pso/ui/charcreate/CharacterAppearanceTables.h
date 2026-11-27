@@ -49,10 +49,8 @@ LAYOUT_ASSERT(CharacterAppearanceFields_blue_offset, offsetof(CharacterAppearanc
 LAYOUT_ASSERT(CharacterAppearanceFields_width_offset, offsetof(CharacterAppearanceFields, width) == 0x48);
 LAYOUT_ASSERT(CharacterAppearanceFields_height_offset, offsetof(CharacterAppearanceFields, height) == 0x4C);
 
-extern "C" {
 extern CharacterTextureArchive player_class_texture_archive_table[19];
 extern CharacterClassAppearance class_appearance_table[19];
 extern CharacterAppearanceFields class_appearance_preset_table[13];
-}
 extern const char *chara_select_creation_shape_rel_files[19];
 #endif

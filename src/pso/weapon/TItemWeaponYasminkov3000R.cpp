@@ -7,6 +7,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/weapon/TItemWeaponInfernoBazooka.h"
 
 void TItemWeaponYasminkov3000R::transform_model_node() {
     if (get_model_node_counter() == 1) {
@@ -21,14 +22,14 @@ void TItemWeaponYasminkov3000R::emit_marker_effects() {
     s32 a;
 
     slide_state = 2;
-    a = owner->rotation_y - 0x4000;
+    a = owner->rotation.y - 0x4000;
     dir.x = sin_table_lookup(a);
     dir.y = 1.0f;
     dir.z = cos_table_lookup(a);
     angle[0] = 0x4000;
-    angle[1] = owner->rotation_y;
+    angle[1] = owner->rotation.y;
     angle[2] = 0;
-    TObjPlayer::launch_weapon_casing(tl_05, this, 3, &dir, angle);
+    launch_weapon_casing(tl_05, this, 3, &dir, angle);
     get_joint_position(2, &muzzle);
     spawn_particle_effect(&muzzle, 9);
 }
@@ -63,7 +64,7 @@ TItemWeaponYasminkov3000R::~TItemWeaponYasminkov3000R() {}
 
 TItemWeaponYasminkov3000R::TItemWeaponYasminkov3000R(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     shot_callback = NULL;
-    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+    impact_callback = spawn_weapon_impact_effect;
     shot_speed = 20.0f;
     slide.x = slide.y = slide.z = 0.0f;
     slide_state = 0;

@@ -8,7 +8,7 @@
 // in its destructor and run_task.
 class TBoss8DragonPart : public TBoss8Dragon {
 public:
-    TBoss8DragonPart(TObject *parent, void *set_data, s32 hp);
+    TBoss8DragonPart(TObject *parent, EnemyPlacement *set_data, s32 hp);
     virtual ~TBoss8DragonPart();
     virtual void run_task();
 };
