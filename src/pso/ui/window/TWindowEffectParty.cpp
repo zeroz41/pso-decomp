@@ -21,7 +21,6 @@
 
 extern "C" {
 extern const f64 party_marker_angle_scale;
-void *__ct__18TWindowEffectPartyFP7TObjectScScPv(void *, void *, u16, u16, s32);
 }
 
 // Built with deferred code generation (the vtable precedes the switch table
@@ -32,7 +31,7 @@ TWindowSimpleStatus *get_simple_status_window(s8 i) {
     return TWindowCtrl::instance->simple_status[i];
 }
 
-TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source, s8 target, void *effect_id) : TObject(object) {
+TWindowEffectParty::TWindowEffectParty(TObject *object, u16 source, u16 target, s32 effect_id) : TObject(object) {
     Vec position;
     m_name = TWindowEffectParty::class_name;
     this->source_slot = source;
@@ -40,7 +39,7 @@ TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source, s8 target, vo
     this->target_slot = target;
     set_slot_position(this->target_slot, &this->target_x);
     this->calc_effect_position(&position);
-    this->m_particle = spawn_continuous_particle_effect_with_flags(&position, (saddr)effect_id, (s32)(0xC0));
+    this->m_particle = spawn_continuous_particle_effect_with_flags(&position, effect_id, 0xC0);
     this->state = 0;
 }
 
@@ -92,11 +91,10 @@ void TWindowEffectParty::render() {  }
 #pragma readonly_strings on
 const char *TWindowEffectParty::class_name = "TWindowEffectParty";
 
-void *TWindowEffectParty::create(void *owner, u16 from, u16 to, u32 kind) {
+void *TWindowEffectParty::create(TObject *owner, u16 from, u16 to, u32 kind) {
     s32 id;
     u16 b;
     u16 a;
-    void *w;
     if (from == to) {
         return 0;
     }
@@ -136,11 +134,7 @@ void *TWindowEffectParty::create(void *owner, u16 from, u16 to, u32 kind) {
     if (b & 0xFFFC) {
         b += 4;
     }
-    w = TObject::operator new(0x34);
-    if (w != 0) {
-        w = __ct__18TWindowEffectPartyFP7TObjectScScPv(w, owner, a, b, id);
-    }
-    return w;
+    return new TWindowEffectParty(owner, a, b, id);
 }
 
 void TWindowEffectParty::set_slot_position(s32 slot, f32 *position) {
