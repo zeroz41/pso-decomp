@@ -60,7 +60,7 @@ TWindowDD_WS_Word::TWindowDD_WS_Word(s32 list_id, s32 visible_count)
 
 TWindowDD_WS_Word::~TWindowDD_WS_Word() {
     if (token_ids != NULL) {
-        mem_free(token_ids);
+        delete[] token_ids;
         token_ids = NULL;
     }
 }
@@ -126,7 +126,7 @@ void TWindowDD_WS_Word::load_element_list() {
     e = TWindowDD::get_element_ptr(element_list_id);
     if (e != NULL) {
         token_count = e->count;
-        token_ids = (s16 *)mem_alloc(token_count * 2);
+        token_ids = new s16[token_count];
         for (i = 0; i < token_count; i++) {
             token_ids[i] = e->values[i];
         }
@@ -171,7 +171,7 @@ void TWindowDD_WS_Word::init_child(s32 list_id) {
 
 void TWindowDD_WS_Word::free_child() {
     if (token_ids != NULL) {
-        mem_free(token_ids);
+        delete[] token_ids;
         token_ids = NULL;
     }
     entry_list.destroy_all_items();

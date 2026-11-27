@@ -151,7 +151,7 @@ void TWindowSubAreaMapDisp::run_task() {
 }
 TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
     if (title != NULL) {
-        mem_free(title);
+        delete[] title;
         title = NULL;
     }
     if (this->manual_scroll != 0) {
@@ -176,7 +176,7 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
         str = (u8 *)(get_floor_destination_name(get_current_floor_area()));
     }
     title_len = (s32)measure_string_len((const char *)str);
-    title = static_cast<char *>(mem_alloc(title_len + 1));
+    title = new char[title_len + 1];
     strncpy(title, (const char *)str, (u32)title_len + 1);
     display = new WindowHeading(title, client_index);
     heading = display;

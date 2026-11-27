@@ -1592,7 +1592,7 @@ void TWindowKeyBoardBase::run_task() {
 }
 
 TWindowKeyBoardBase::~TWindowKeyBoardBase() {
-    mem_free(candidate_buffer);
+    delete[] candidate_buffer;
 }
 TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardBase::window_descriptor, (s16)(4), (u8 *)(get_window_layout_position(0xB7))) {
     s32 language;
@@ -1612,7 +1612,7 @@ TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardB
     candidate_count = 0;
     if (language == 0) {
         m_text2.init(0x24, 0);
-        candidate_buffer = (u8 *)mem_alloc(0x194);
+        candidate_buffer = new u8[0x194];
         candidate_bytes_remaining = 0x94;
     }
 }

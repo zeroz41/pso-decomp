@@ -35,7 +35,7 @@ class RlcArchive {
 public:
     RlcHeader *header;            // 0x00 the archive header, at the start of buffer
     RlcDirectoryEntry *directory; // 0x04 buffer + the header's directory offset
-    u8 *buffer;                   // 0x08 mem_alloc'd file image
+    u8 *buffer;                   // 0x08 allocated file image
     s32 file_size;                // 0x0C
     u8 pad_10[0x4];
     s32 loaded;                   // 0x14 set once start_capture has read the file

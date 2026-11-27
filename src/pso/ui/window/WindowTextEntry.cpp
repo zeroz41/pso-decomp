@@ -144,12 +144,12 @@ void set_text_entry_string(WindowTextEntry *entry, const char *str, s32 flags) {
         old_flags = entry->flags;
         if (old_flags & 0x20) {
             entry->flags = old_flags & 0xFFFFFFDF;
-            mem_free(entry->text);
+            delete[] entry->text;
         }
     }
     if ((str != 0U) && (flags & 0x20)) {
         num = bounded_strlen(str, 0x400);
-        entry->text = (char *)mem_alloc(num + 1);
+        entry->text = new char[num + 1];
         strncpy(entry->text, str, num);
         *(char *)(num + (uaddr)entry->text) = 0;
         entry->flags = entry->flags | 0x20;
@@ -225,7 +225,7 @@ WindowTextEntry::~WindowTextEntry() {
         old_flags = flags;
         if (old_flags & 0x20) {
             flags = old_flags & 0xFFFFFFDF;
-            mem_free(text);
+            delete[] text;
         }
     }
 }

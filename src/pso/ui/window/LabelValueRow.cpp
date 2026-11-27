@@ -15,12 +15,12 @@
 void LabelValueRow::set_string(const char *string) {
     s32 len;
 
-    mem_free(value);
+    delete[] value;
     value = NULL;
     if (string != NULL) {
         x = 0.0f;
         len = measure_string_len(string);
-        value = (char *)mem_alloc(len + 1);
+        value = new char[len + 1];
         strncpy(value, string, (u32)len + 1);
     }
 }
@@ -28,11 +28,11 @@ void LabelValueRow::set_string(const char *string) {
 void LabelValueRow::set_text(const char *label_text, const char *string, s32 id) {
     s32 len;
 
-    mem_free(label);
+    delete[] label;
     label = NULL;
     if (label_text != NULL) {
         len = measure_string_len(label_text);
-        label = (char *)mem_alloc(len + 1);
+        label = new char[len + 1];
         strncpy(label, label_text, (u32)len + 1);
     }
     this->id = id;
@@ -44,11 +44,11 @@ void LabelValueRow::set_text(const char *label_text, const char *string, s32 id)
 void LabelValueRow::set_text(const char *label_text, s32 id) {
     s32 len;
 
-    mem_free(label);
+    delete[] label;
     label = NULL;
     if (label_text != 0U) {
         len = measure_string_len(label_text);
-        label = (char *)mem_alloc(len + 1);
+        label = new char[len + 1];
         strncpy(label, label_text, (u32)len + 1);
     }
     this->id = id;
@@ -77,8 +77,8 @@ void LabelValueRow::update() {
 }
 
 LabelValueRow::~LabelValueRow() {
-    mem_free(value);
-    mem_free(label);
+    delete[] value;
+    delete[] label;
 }
 
 LabelValueRow::LabelValueRow(u8 *rec, s32 client) : TWindowLayoutRect(client) {

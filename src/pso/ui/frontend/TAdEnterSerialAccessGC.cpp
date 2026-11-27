@@ -230,7 +230,7 @@ void TAdEnterSerialAccessGC::update_text_input(s32 field) {
             input_state = 5;
             break;
         }
-        mem_free(text);
+        delete[] text;
         return;
     }
     prev_serial_valid = serial_valid;
@@ -301,7 +301,7 @@ void TAdEnterSerialAccessGC::update_text_input(s32 field) {
         }
     }
     serial_length = strlen(text);
-    mem_free(text);
+    delete[] text;
 }
 
 TWindowBase *TAdEnterSerialAccessGC::open_message_window(s32 text_index) {
@@ -465,7 +465,7 @@ void TAdEnterSerialAccessGC::draw_serial_chars(WindowDrawContext *context) {
         input = keyboard_control->realloc_buffer();
         memset(text, 0, 0xFF);
         strncpy(text, input, 0xFF);
-        mem_free(input);
+        delete[] input;
         p = text;
         field = input_state == 2 ? 0 : 1;
         row = serial_char_row_x_table[field];

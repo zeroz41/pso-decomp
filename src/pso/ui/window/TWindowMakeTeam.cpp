@@ -44,8 +44,8 @@ TWindowMakeTeam::TWindowMakeTeam(TObject *parent, s32 kind) : TObject(parent) {
 }
 
 TWindowMakeTeam::~TWindowMakeTeam() {
-    mem_free(comment);
-    mem_free(name);
+    delete[] comment;
+    delete[] name;
     if (this->keyboard != 0) {
         keyboard->queue_destruction();
         this->keyboard = 0;
@@ -100,7 +100,7 @@ void TWindowMakeTeam::run_task() {
         }
         if (keyboard->is_confirmed() != 0) {
             s32 n;
-            mem_free(name);
+            delete[] name;
             name = keyboard->realloc_buffer();
             mask_profanity_words(name, get_shared_text_buffer());
             n = (s32)measure_string_len(name);
@@ -125,7 +125,7 @@ void TWindowMakeTeam::run_task() {
         }
         if (keyboard->is_confirmed() != 0) {
             s32 n;
-            mem_free(comment);
+            delete[] comment;
             comment = keyboard->realloc_buffer();
             mask_profanity_words(comment, get_shared_text_buffer());
             n = (s32)measure_string_len(comment);

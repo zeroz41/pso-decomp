@@ -70,7 +70,7 @@ void init_scene_fog_system(void) {
         fog_default_entry.wave_phases[i] = 0;
     }
     fog_default_entry.waves[6] = FOG_MAX;
-    fog_entry_array = (FogEntry *)mem_alloc(0x80 * sizeof(FogEntry));
+    fog_entry_array = new FogEntry[0x80];
     for (i = 0; i < 0x80; i++) {
         copy_fog_entry(&fog_entry_array[i], &fog_default_entry);
     }
@@ -87,7 +87,7 @@ void TFogCtrl::reset() {
     fog_reset_stub();
     destroy_instance();
     if (fog_entry_array != NULL) {
-        mem_free(fog_entry_array);
+        delete[] fog_entry_array;
     }
     fog_entry_array = NULL;
     set_scene_fog_color(0xFFFFFFFF);

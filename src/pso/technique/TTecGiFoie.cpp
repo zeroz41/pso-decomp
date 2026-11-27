@@ -196,7 +196,7 @@ TTecGiFoieFlame::TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObje
     this->single = single;
     if (this->single != 0) {
         Angle3 r;
-        this->particles = (TParticleCtrl **)mem_alloc(4);
+        this->particles = new TParticleCtrl *[1];
         r.x = 0;
         r.y = 0;
         r.z = 0x4000;
@@ -204,7 +204,7 @@ TTecGiFoieFlame::TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObje
         this->radius = 5.0f;
     } else {
         s32 i;
-        this->particles = (TParticleCtrl **)mem_alloc(gifoie_emitter_bands[this->band].count * 4);
+        this->particles = new TParticleCtrl *[gifoie_emitter_bands[this->band].count];
         for (i = 0; i < gifoie_emitter_bands[this->band].count; i++) {
             Angle3 r;
             const TechniqueEmitterSourceRow *p;
@@ -237,7 +237,7 @@ TTecGiFoieFlame::~TTecGiFoieFlame() {
             this->particles[i]->queue_destruction();
         }
     }
-    mem_free(this->particles);
+    delete[] this->particles;
 }
 
 // Flame bob height per orbit slot, scaled by the sine of the bob phase.

@@ -666,7 +666,7 @@ void TWindowMenu::run_task() {
 TWindowMenu::~TWindowMenu() {
     delete scroll_bar;
     delete heading;
-    mem_free(rows);
+    delete[] rows;
 }
 
 TWindowMenu::TWindowMenu(u32 count, s32 client, const NJS_POINT2 *position) : TWindowAddition((u8 *)&menu_window_descriptor, (s16)client, (u8 *)position) {
@@ -680,7 +680,7 @@ TWindowMenu::TWindowMenu(u32 count, s32 client, const NJS_POINT2 *position) : TW
     menu_flags = 0;
     client_index = client;
     reset_selection();
-    rows = (TWindowMenuRow *)mem_alloc(count * 8);
+    rows = new TWindowMenuRow[count];
     p = rows;
     for (i = 0; i < count; i++) {
         p->flags = 0;

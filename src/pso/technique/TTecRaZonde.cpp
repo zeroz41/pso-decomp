@@ -47,7 +47,7 @@ const char *TTecRaZonde_class_name = "TTecRaZonde";
 
 void TTecRaZonde::spawn_effects(Vec *) {
     u32 i;
-    emitters = (TParticleCtrl **)mem_alloc(razonde_band_emitter_table[band].count * sizeof(TParticleCtrl *));
+    emitters = new TParticleCtrl *[razonde_band_emitter_table[band].count];
     for (i = 0; i < razonde_band_emitter_table[band].count; i++) {
         emitters[i] = create_particle_emitter(&bolt_points[i], razonde_band_emitter_table[band].emitters[i].entry);
     }
@@ -85,7 +85,7 @@ TTecRaZonde::~TTecRaZonde() {
             emitters[i] = NULL;
         }
     }
-    mem_free(emitters);
+    delete[] emitters;
 }
 
 void TTecRaZonde::render() {  }

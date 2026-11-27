@@ -85,7 +85,7 @@ void TKeyBoardControl::set_text(const char *s) {
 char *TKeyBoardControl::realloc_buffer() {
     char *out;
 
-    out = (char *)mem_alloc(m_base->measure_text_overflow());
+    out = new char[m_base->measure_text_overflow()];
     m_base->export_text(out);
     return out;
 }

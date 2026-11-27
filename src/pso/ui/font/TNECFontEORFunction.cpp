@@ -503,8 +503,8 @@ void draw_menu_font_string_white(const char *text, f32 x, f32 y) {
 void free_menu_font() {
     delete menu_font_object;
     release_texture_list(menu_font_texture_list);
-    mem_free(menu_font_glyph_table);
-    mem_free(menu_font_palette);
+    delete[] menu_font_glyph_table;
+    delete[] menu_font_palette;
     safe_free(menu_font_glyph_data);
 }
 
@@ -542,7 +542,7 @@ void load_menu_font(void) {
         *(menu_font_glyph_pixel_buffers + m) = menu_font_texture_list[0].textures[m].texture->surface->header.pixels;
         clear_words(*(menu_font_glyph_pixel_buffers + m), 0x2000);
     }
-    menu_font_palette = (s16 *)mem_alloc(0x100);
+    menu_font_palette = new s16[128];
     clear_words((u32 *)menu_font_palette, 0x40);
     menu_font_palette[0] = 0xFFF;
     menu_font_palette[1] = 0x3FFF;
@@ -552,7 +552,7 @@ void load_menu_font(void) {
     for (i = 0; i < 2; i++) {
         set_context_texture_palette_bank(i, 0);
     }
-    g = (MenuGlyphEntry *)mem_alloc(0xB40);
+    g = new MenuGlyphEntry[288];
     menu_font_glyph_table = g;
     for (i = 0; i < 2; i++) {
         v = 0;

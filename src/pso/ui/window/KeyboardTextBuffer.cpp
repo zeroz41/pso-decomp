@@ -351,7 +351,7 @@ void KeyboardTextBuffer::reset_state() {
 
 void KeyboardTextBuffer::init(u32 width, u32 lines) {
     if (buffer != NULL) {
-        mem_free(buffer);
+        delete[] buffer;
     }
     if (lines == 0) {
         capacity = width;
@@ -359,7 +359,7 @@ void KeyboardTextBuffer::init(u32 width, u32 lines) {
         capacity = (u32)((f32) lines * round_away_from_zero((f32) (width / 6U)));
     }
     if (capacity != 0) {
-        buffer = (u16 *)mem_alloc((capacity + 1) * 2);
+        buffer = new u16[capacity + 1];
         *buffer = 0;
     } else {
         buffer = NULL;
@@ -372,7 +372,7 @@ void KeyboardTextBuffer::init(u32 width, u32 lines) {
 
 KeyboardTextBuffer::~KeyboardTextBuffer() {
     if (buffer != NULL) {
-        mem_free(buffer);
+        delete[] buffer;
     }
 }
 

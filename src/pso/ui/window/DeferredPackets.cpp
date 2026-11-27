@@ -77,14 +77,14 @@ void buffer_reset(void) {
 }
 
 
-void free_deferred_packet_buffer(void) { mem_free(deferred_packet_buffer); deferred_packet_buffer = NULL; }
+void free_deferred_packet_buffer(void) { delete[] deferred_packet_buffer; deferred_packet_buffer = NULL; }
 
 
 void alloc_work_buffer(void) {
     deferred_packet_buffer_used = 0;
     lbl_805D5D00 = 0;
     deferred_packet_buffer_state = 0;
-    deferred_packet_buffer = (u8 *)mem_alloc(0x10000);
+    deferred_packet_buffer = new u8[0x10000];
     memset(deferred_packet_buffer, 0, 0x10000);
 }
 

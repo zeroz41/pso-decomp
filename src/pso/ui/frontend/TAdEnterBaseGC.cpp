@@ -334,7 +334,7 @@ void draw_masked_password_field(saddr context) {
         draw_selection_plate(&plate, const_cast<NJS_POINT2 *>(&password_field_box_pos), w, 0);
         str = password_entry_keyboard_control->realloc_buffer();
         len = strlen(str);
-        mem_free(str);
+        delete[] str;
         memset(buf, 0, 0x80);
         q = buf;
         for (i = 0; i < len; i++) {

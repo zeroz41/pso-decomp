@@ -76,11 +76,11 @@ void HelpItemStatCompareRow::set_value(s32 value) {
 void HelpItemStatCompareRow::set_help_text(uaddr str) {
     s32 len;
 
-    mem_free(label);
+    delete[] label;
     label = NULL;
     if (str != 0U) {
         len = (s32)measure_string_len((const char *)str);
-        label = (char *)mem_alloc(len + 1);
+        label = new char[len + 1];
         strncpy(label, (const char *)str, (u32)len + 1);
     }
 }
@@ -131,7 +131,7 @@ void HelpItemStatCompareRow::update() {
 }
 
 HelpItemStatCompareRow::~HelpItemStatCompareRow() {
-    mem_free(label);
+    delete[] label;
 }
 
 HelpItemStatCompareRow::HelpItemStatCompareRow(PointLayoutRecord *rec, s32 client) : TWindowLayoutEntry(client) {

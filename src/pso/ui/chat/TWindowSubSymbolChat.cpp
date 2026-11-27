@@ -746,7 +746,7 @@ void TWindowSubSymbolChat::run_task() {
         if (this->keyboard->is_confirmed() != 0) {
             entry_name = this->keyboard->realloc_buffer();
             this->selected_preset->set_entry_name(entry_name);
-            mem_free(entry_name);
+            delete[] entry_name;
             this->selected_value = 4U;
         }
         break;

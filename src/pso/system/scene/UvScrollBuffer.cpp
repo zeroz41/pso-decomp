@@ -33,11 +33,11 @@ void UvScrollBuffer::apply_uv_offset(s16 du, s16 dv) {
 
 UvScrollBuffer::~UvScrollBuffer() {
     if (this->source_uvs != NULL) {
-        mem_free(this->source_uvs);
+        delete[] this->source_uvs;
         this->source_uvs = NULL;
     }
     if (this->entries != NULL) {
-        mem_free(this->entries);
+        delete[] this->entries;
         this->entries = NULL;
     }
 }
@@ -49,8 +49,8 @@ UvScrollBuffer::UvScrollBuffer(NJS_OBJECT *root, s32 texture_id) {
     this->entries = NULL;
     this->source_uvs = NULL;
     if (this->totals.count > 0) {
-        this->entries = static_cast<UvScrollEntry *>(mem_alloc(this->totals.count * 8));
-        this->source_uvs = static_cast<s16 *>(mem_alloc(this->totals.sum * 4));
+        this->entries = new UvScrollEntry[this->totals.count];
+        this->source_uvs = new s16[this->totals.sum * 2];
         scroll_uv_entry_write_cursor = this->entries;
         scroll_uv_coordinate_write_cursor = this->source_uvs;
         visit_matching_models(this, root, texture_id);

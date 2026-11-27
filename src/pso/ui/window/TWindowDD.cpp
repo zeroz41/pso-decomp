@@ -156,19 +156,19 @@ void load_word_select_data(void) {
         TWindowDD::window_mode = 0;
     }
     ws_data_load();
-    TWindowDD::work_buffer = (char *)mem_alloc(0x80);
-    window_dd_buffer_a = (char *)mem_alloc(0x80);
+    TWindowDD::work_buffer = new char[0x80];
+    window_dd_buffer_a = new char[0x80];
     memset(TWindowDD::work_buffer, 0, 0x80);
     memset(window_dd_buffer_a, 0, 0x80);
-    window_dd_buffer_b = (char *)mem_alloc(0x120);
+    window_dd_buffer_b = new char[0x120];
     memset(window_dd_buffer_b, 0, 0x120);
-    TWindowDD::player_name_buffers = (char **)mem_alloc(0x30);
+    TWindowDD::player_name_buffers = new char *[12];
     for (i = 0; i < 12; i++) {
         TWindowDD::player_name_buffers[i] = window_dd_buffer_b + i * 0x18;
         TWindowDD::player_name_buffers[i][0] = 0;
     }
-    word_select_word_storage = (s16 *)mem_alloc(0x100);
-    TWindowDD::word_select_lists = (TWindowDDValueList *)mem_alloc(0x30);
+    word_select_word_storage = new s16[128];
+    TWindowDD::word_select_lists = new TWindowDDValueList[6];
     list = word_select_word_storage;
     for (j = 0; j < 6; j++) {
         entry = &TWindowDD::word_select_lists[j];
@@ -211,27 +211,27 @@ extern "C" {
 void TWindowDD::free_buffers() {
     clear_window_dd_nodes();
     if (TWindowDD::word_select_lists != NULL) {
-        mem_free(TWindowDD::word_select_lists);
+        delete[] TWindowDD::word_select_lists;
         TWindowDD::word_select_lists = NULL;
     }
     if (word_select_word_storage != NULL) {
-        mem_free(word_select_word_storage);
+        delete[] word_select_word_storage;
         word_select_word_storage = NULL;
     }
     if (TWindowDD::player_name_buffers != NULL) {
-        mem_free(TWindowDD::player_name_buffers);
+        delete[] TWindowDD::player_name_buffers;
         TWindowDD::player_name_buffers = NULL;
     }
     if (window_dd_buffer_b != NULL) {
-        mem_free(window_dd_buffer_b);
+        delete[] window_dd_buffer_b;
         window_dd_buffer_b = NULL;
     }
     if (window_dd_buffer_a != NULL) {
-        mem_free(window_dd_buffer_a);
+        delete[] window_dd_buffer_a;
         window_dd_buffer_a = NULL;
     }
     if (TWindowDD::work_buffer != NULL) {
-        mem_free(TWindowDD::work_buffer);
+        delete[] TWindowDD::work_buffer;
         TWindowDD::work_buffer = NULL;
     }
     if (TWindowDD::ws_data_fr != NULL) {

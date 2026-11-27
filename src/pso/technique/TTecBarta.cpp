@@ -96,7 +96,7 @@ void TTecBarta::create_particle_emitters() {
     angles.x = this->angles[0];
     angles.y = 0;
     angles.z = this->angles[2];
-    this->emitters = (TechniqueParticleEmitter **)mem_alloc(barta_emitter_bands[this->band].count * 4);
+    this->emitters = new TechniqueParticleEmitter *[barta_emitter_bands[this->band].count];
     for (i = 0; i < barta_emitter_bands[this->band].count; i++) {
         row = &barta_emitter_bands[this->band].rows[i];
         flags = row->flags;
@@ -172,7 +172,7 @@ TTecBarta::~TTecBarta() {
             emitters[i] = 0;
         }
     }
-    mem_free(emitters);
+    delete[] emitters;
 }
 
 void TTecBarta::run_task() {

@@ -107,11 +107,11 @@ void ItemListRow::reset() {
     this->suffix_style = -1;
     this->item = 0;
     if (this->suffix != NULL && (this->flags & 0x10)) {
-        mem_free(this->suffix);
+        delete[] this->suffix;
     }
     this->suffix = NULL;
     if (this->label != NULL && (this->flags & 8)) {
-        mem_free(this->label);
+        delete[] this->label;
     }
     this->label = NULL;
     this->flags = (u16) (this->flags & ~0x1BFD);
@@ -557,11 +557,11 @@ char *ItemListRow::replace_owned_string(const char *src, char *buf, s32 mask, s3
     s32 n;
     if (buf != NULL && (this->flags & mask)) {
         this->flags &= ~mask;
-        mem_free(buf);
+        delete[] buf;
     }
     if (src != NULL && copy != 0) {
         n = (s32)measure_string_len(src);
-        buf = (char *)mem_alloc(n + 1U);
+        buf = new char[n + 1U];
         strncpy(buf, src, n + 1);
         this->flags |= mask;
     } else {
@@ -715,14 +715,14 @@ ItemListRow::~ItemListRow() {
         flags = this->flags;
         if (flags & 0x10) {
             this->flags = flags & ~0x10;
-            mem_free(this->suffix);
+            delete[] this->suffix;
         }
     }
     if (this->label != 0) {
         flags = this->flags;
         if (flags & 8) {
             this->flags = flags & ~8;
-            mem_free(this->label);
+            delete[] this->label;
         }
     }
 }

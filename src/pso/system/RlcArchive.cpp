@@ -76,13 +76,13 @@ void RlcArchive::store_capture_filename(saddr file) {
 
 void RlcArchive::free_buffer() {
     if (buffer != NULL) {
-        mem_free(buffer);
+        delete[] buffer;
         buffer = 0;
     }
 }
 
 s32 RlcArchive::alloc_buffer() {
-    buffer = (u8 *)mem_alloc(get_buffer_size());
+    buffer = new u8[get_buffer_size()];
     if (buffer == 0) {
         set_mode(4);
         return 0;

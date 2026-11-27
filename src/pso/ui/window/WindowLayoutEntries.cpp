@@ -66,7 +66,7 @@ void WindowLayoutEntries::destroy_all_items() {
             delete static_cast<TWindowLayoutEntry *>(*reinterpret_cast<void **>(address));
             address -= sizeof(*items);
         }
-        mem_free(items);
+        delete[] items;
         count = 0;
         items = NULL;
     }
@@ -91,7 +91,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
         entries->items = NULL;
         return;
     }
-    entries->items = (void **)mem_alloc(entries->count * 4);
+    entries->items = new void *[entries->count];
     out = entries->items;
     while (rows-- != 0) {
         cols = desc->cols;

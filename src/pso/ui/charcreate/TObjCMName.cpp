@@ -1912,7 +1912,7 @@ void TObjCMName::run_task() {
             copy_char_name(name);
             strncpy((char *)appearance->name, name, 12);
             appearance->name[12] = 0;
-            mem_free(buf);
+            delete[] buf;
             play_sound_effect(sound, 0, 0, 0);
             TObjCMMainMenu::clear_task_state();
             keyboard->queue_destruction();
