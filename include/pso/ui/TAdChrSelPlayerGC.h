@@ -59,4 +59,5 @@ void load_multi_ply_chr_select_resources(void);
 void free_multi_ply_chr_select_resources(void);
 void reset_animation_ticks(TAdChrSelPlayerGC *player);
 void enable_spin_model(TAdChrSelPlayerGC *player);
+BOOL is_player_model_shown(TAdChrSelPlayerGC *player);
 #endif

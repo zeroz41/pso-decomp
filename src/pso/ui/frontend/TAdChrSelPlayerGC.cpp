@@ -358,8 +358,8 @@ void TAdChrSelPlayerGC::draw_model_tinted(NJS_OBJECT *model, CharacterAppearance
   model_render_flags = saved_model_render_flags;
 }
 
-extern "C" bool is_player_model_shown(TAdChrSelPlayerGC *player) {
-    return player->state == 3;
+BOOL is_player_model_shown(TAdChrSelPlayerGC *player) {
+    return player->state == 3 ? TRUE : FALSE;
 }
 
 void enable_spin_model(TAdChrSelPlayerGC *player) { player->spin_model = 1; }
