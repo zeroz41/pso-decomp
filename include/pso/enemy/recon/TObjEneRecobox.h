@@ -75,7 +75,7 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     s32 spawn_timer;              // frames since the last spawn (update_child_spawn)
     s32 spawn_interval;           // frames between spawns (30)
     s32 pad_4E0[4];
-    f32 m_4f0;
+    f32 pad_4f0;
 };
 
 LAYOUT_ASSERT(TObjEneRecobox_size, sizeof(TObjEneRecobox) == 0x4F4);

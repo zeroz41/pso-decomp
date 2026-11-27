@@ -272,7 +272,7 @@ TObjEneRecobox::TObjEneRecobox(TObject *parent, EnemyPlacement *set_data) : TObj
     pad_4E0[1] = 0;
     pad_4E0[2] = 0;
     pad_4E0[3] = 0;
-    m_4f0 = 0.0f;
+    pad_4f0 = 0.0f;
     mode = 0;
     dispatch_action(mode, 4);
 }
