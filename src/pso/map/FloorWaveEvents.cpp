@@ -88,7 +88,7 @@ FloorSceneEntry floor_scene_table[36] = { { floor_map_set_acity00, 1 }, { floor_
 const char *forest_rel_filename_table[6] = { "SetDataTableOff.rel", "SetDataTableOffUlti.rel", "SetDataTableOn.rel", "SetDataTableOnUlti.rel", "SetDataTable_TGS2001.rel", 0 };
 
 
-void TLobby::reset_story_select() { select_episode(0); story_select_pending_state = -1; }
+void reset_story_select() { select_episode(0); story_select_pending_state = -1; }
 
 s32 TLobby::is_scene_ready() {
     s32 status;
@@ -119,8 +119,8 @@ saddr get_floor_scene_table(s32 area) {
 }
 
 
-void reset_reload_story_select(void) { TLobby::reset_story_select(); }
-void reset_online_story_select(void) { TLobby::reset_story_select(); }
+void reset_reload_story_select(void) { reset_story_select(); }
+void reset_online_story_select(void) { reset_story_select(); }
 
 s32 init_object_set_data(ObjectSetData *set) {
     s32 r;

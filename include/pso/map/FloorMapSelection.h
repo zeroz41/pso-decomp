@@ -15,7 +15,7 @@ LAYOUT_ASSERT(FloorMapSelectionTerrainOffset, offsetof(FloorMapSelection, terrai
 
 void reset_floor_map_registry(void);
 
-// The story-select state TLobby::reset_story_select clears to -1.
+// The story-select state reset_story_select clears to -1.
 extern s32 story_select_pending_state;
 // The episode select_episode last picked.
 extern int selected_episode;

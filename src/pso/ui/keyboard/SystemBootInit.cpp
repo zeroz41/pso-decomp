@@ -56,6 +56,7 @@
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/FloorWaveEvents.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
@@ -332,7 +333,7 @@ void init_game_systems(void) {
     init_account_entries();
     load_ha_u032_kage();
     system_init_stub();
-    TLobby::reset_story_select();
+    reset_story_select();
     gba_init();
     load_ply_level_tbl();
     verify_game_file_integrity();

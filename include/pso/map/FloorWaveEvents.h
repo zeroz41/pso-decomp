@@ -9,6 +9,7 @@ struct ObjectSetData;
 void copy_game_variations(u32 *variations, s32 size);
 void init_city_area_stub(void);
 void randomize_offline_maps(void);
+void reset_story_select(void);
 void reset_reload_story_select(void);
 void reset_online_story_select(void);
 void free_forest_rel_work_buffer(void);
