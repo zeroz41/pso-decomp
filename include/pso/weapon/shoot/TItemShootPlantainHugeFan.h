@@ -6,7 +6,7 @@
 class TItemShootPlantainHugeFan : public TItemShootModel {
 public:
     virtual ~TItemShootPlantainHugeFan();
-    TItemShootPlantainHugeFan(void *owner, const Vec *pos, const Vec *dir, f32 life);
+    TItemShootPlantainHugeFan(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life);
     virtual void hook();
     virtual void render();
 };

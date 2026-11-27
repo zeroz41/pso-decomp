@@ -5,7 +5,7 @@ const char *TItemEffLavis::class_name = "TItemEffLavis";
 void TItemEffLavis::hook() {}
 TItemEffLavis::~TItemEffLavis() {}
 
-TItemEffLavis::TItemEffLavis(void* owner, const Vec* start,
+TItemEffLavis::TItemEffLavis(TItemWeapon *owner, const Vec* start,
                            const Vec* endpoint, f32 life)
     : TItemShootModel(owner, start, endpoint, life) {
     m_name = class_name;

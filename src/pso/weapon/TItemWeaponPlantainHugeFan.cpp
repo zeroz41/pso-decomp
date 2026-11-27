@@ -26,7 +26,7 @@ void TItemShootPlantainHugeFan::hook() {
     rot.z = rot.z + 0x3333;
 }
 
-TItemShootPlantainHugeFan::TItemShootPlantainHugeFan(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootPlantainHugeFan::TItemShootPlantainHugeFan(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
     rot.z = 0;
 }

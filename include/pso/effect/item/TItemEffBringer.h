@@ -9,7 +9,7 @@
 // more the shot crosses the view.
 class TItemEffBringer : public TItemShoot {
 public:
-    TItemEffBringer(void *owner, const Vec *pos, const Vec *dir, f32 life);
+    TItemEffBringer(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life);
     virtual ~TItemEffBringer();
     virtual void hook();
 

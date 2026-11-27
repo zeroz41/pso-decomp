@@ -37,7 +37,7 @@ void TItemShootWindmill::hook() {
     this->rot.x = (this->rot.x + 0xCCC);
 }
 
-TItemShootWindmill::TItemShootWindmill(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootWindmill::TItemShootWindmill(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
     rot.x = 0;
 }

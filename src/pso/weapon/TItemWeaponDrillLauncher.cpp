@@ -58,7 +58,7 @@ void TItemShootDrillLauncher::render() {
 
 void TItemShootDrillLauncher::hook() {  }
 
-TItemShootDrillLauncher::TItemShootDrillLauncher(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootDrillLauncher::TItemShootDrillLauncher(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {}
 
 TItemShoot *drill_launcher_create_shot(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {

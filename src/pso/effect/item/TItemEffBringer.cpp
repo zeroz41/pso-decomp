@@ -35,7 +35,7 @@ TItemEffBringer::~TItemEffBringer() {
 
 #pragma push
 #pragma fp_contract on
-TItemEffBringer::TItemEffBringer(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemEffBringer::TItemEffBringer(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShoot(owner, pos, dir, life) {
     Vec to_shot;
     Vec camera;

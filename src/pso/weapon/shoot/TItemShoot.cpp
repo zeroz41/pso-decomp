@@ -105,7 +105,7 @@ TItemShoot *TItemShoot::spawn_shoot_particle(TItemWeapon *owner, const Vec *pos,
     return particle;
 }
 
-TItemShoot::TItemShoot(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShoot::TItemShoot(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life)
     : TObject(tl_05) {
     m_name = TItemShoot::class_name;
     VecCopy(&m_pos, pos);
@@ -121,7 +121,7 @@ TItemShoot::TItemShoot(void *owner, const Vec *pos, const Vec *dir, f32 life)
     rot.y = (s32)(RADIANS_TO_ANGLE * atan2_float(m_dir.x, m_dir.z));
     direction_to_rotation_xz((u8 *)&m_dir, &rot.x, &rot.z);
     star_light = NULL;
-    m_owner_item_id = ((TItem *)owner)->get_item_id();
+    m_owner_item_id = owner->get_item_id();
     disallow_rendering();
 }
 
@@ -163,12 +163,11 @@ TItemShoot *TItemShootModel::create_shoot_model(TItemWeapon *owner, const Vec *p
     return model;
 }
 
-TItemShootModel::TItemShootModel(void *owner, const Vec *pos, const Vec *dir, f32 life)
-    : TItemShoot(owner, pos, dir, life) {
-    TItemWeapon *weapon = (TItemWeapon *)owner;
+TItemShootModel::TItemShootModel(TItemWeapon *weapon, const Vec *pos, const Vec *dir, f32 life)
+    : TItemShoot(weapon, pos, dir, life) {
     m_name = TItemShootModel::class_name;
     model = weapon->second_model;
-    texture_list = (NJS_TEXLIST *)weapon->get_texlist();
+    texture_list = weapon->get_texlist();
     if (0.0f != m_dir.y) {
         f32 horiz = newton_sqrtf(m_dir.x * m_dir.x + m_dir.z * m_dir.z);
         rot.x = -(s32)(RADIANS_TO_ANGLE * atan2_float(m_dir.y, horiz));
@@ -205,7 +204,7 @@ TItemShootParticle *TItemShootParticle::spawn_shoot_particle(TItemWeapon *owner,
     return NULL;
 }
 
-TItemShootParticle::TItemShootParticle(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootParticle::TItemShootParticle(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShoot(owner, pos, dir, life) {
     s32 i;
     m_name = item_shoot_particle_class_name;
@@ -268,7 +267,7 @@ TItemShoot *TItemShootGun::create(TItemWeapon *owner, const Vec *pos, const Vec 
 }
 
 TItemShootGun::TItemShootGun(void *owner, const Vec *pos, const Vec *endpoint, f32 life)
-    : TItemShootModel(owner, pos, endpoint, life) {
+    : TItemShootModel((TItemWeapon *)owner, pos, endpoint, life) {
     TItemWeapon *weapon = (TItemWeapon *)owner;
     m_name = item_shoot_gun_class_name;
     NJS_ARGB color = weapon->get_weapon_color();
@@ -314,7 +313,7 @@ TItemShoot *create_shoot_model_rot_z(TItemWeapon *owner, const Vec *pos, const V
     return model;
 }
 
-TItemShootModelRotZ::TItemShootModelRotZ(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootModelRotZ::TItemShootModelRotZ(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
     m_name = item_shoot_model_rot_z_class_name;
 }

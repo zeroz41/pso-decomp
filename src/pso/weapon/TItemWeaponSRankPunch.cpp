@@ -58,9 +58,9 @@ void TItemShootSRankPunch::render() {
 
 void TItemShootSRankPunch::hook() {  }
 
-TItemShootSRankPunch::TItemShootSRankPunch(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootSRankPunch::TItemShootSRankPunch(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
-    set_render_model(get_punch_shot_model((u8 *)owner), (NJS_TEXLIST *)((TObjBase *)owner)->get_texlist());
+    set_render_model(get_punch_shot_model((TItemWeaponSRankPunch *)owner), owner->get_texlist());
 }
 
 TItemShoot *spawn_shot_effect(TItemWeapon *owner, const Vec *origin, const Vec *end, f32 frames) {
@@ -171,8 +171,7 @@ void TItemWeaponSRankPunch::clear_rico_ring_flag(TObject *object) {
 }
 
 
-NJS_OBJECT *get_punch_shot_model(u8 *weapon) {
-    TItemWeaponSRankPunch *punch = (TItemWeaponSRankPunch *)weapon;
+NJS_OBJECT *get_punch_shot_model(TItemWeaponSRankPunch *punch) {
     if (punch->flags.test_flags_any(4) != 0) {
         return punch->second_model;
     }

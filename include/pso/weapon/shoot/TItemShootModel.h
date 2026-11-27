@@ -16,7 +16,7 @@ public:
  s32   pad_68;
 
 public:
-    TItemShootModel(void* owner, const Vec* pos, const Vec* dir, f32 life);
+    TItemShootModel(TItemWeapon *owner, const Vec* pos, const Vec* dir, f32 life);
     static TItemShoot *create_shoot_model(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life);
     // render is declared first: it is the key function that puts the vtable
     // in TItemShoot.cpp (the destructor's kept copy is in another TU).

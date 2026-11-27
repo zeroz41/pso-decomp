@@ -20,7 +20,7 @@ public:
  s32 m_owner_item_id; // the owner item's get_item_id(); find_equipped_item(id) == NULL ends the shot
 
 public:
-    TItemShoot(void* owner, const Vec* pos, const Vec* dir, f32 life);
+    TItemShoot(TItemWeapon *owner, const Vec* pos, const Vec* dir, f32 life);
     virtual ~TItemShoot();
     virtual void hook();
     virtual void run_task();

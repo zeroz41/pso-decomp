@@ -1955,7 +1955,7 @@ force_active:
   - __ct__13PointerBufferFlPv
   - __ct__13TItemAttackerFP7TObjectPC3VeclP16DelayedWeaponHit
   - __ct__13TItemEffFlameFP7TObjectP12ActorBodyHit
-  - __ct__13TItemEffLavisFPvPC3VecPC3Vecf
+  - __ct__13TItemEffLavisFP11TItemWeaponPC3VecPC3Vecf
   - __ct__13TLazerFenceSwFP7TObjectP13ObjectSetData
   - __ct__13TOCapsuleLaboFP7TObjectP13ObjectSetData
   - __ct__13TOHealGeneralFP13ObjectSetData
@@ -2044,7 +2044,7 @@ force_active:
   - __ct__15TBoss3VoloptP02FP7TObjectP14EnemyPlacement
   - __ct__15TBoss6CrushRockFv
   - __ct__15TBoss6SwordWaveFP11TBoss6Type2PC3Vecllf
-  - __ct__15TItemEffBringerFPvPC3VecPC3Vecf
+  - __ct__15TItemEffBringerFP11TItemWeaponPC3VecPC3Vecf
   - __ct__15TODoorAncient01FP7TObjectP13ObjectSetData
   - __ct__15TODoorAncient03FP7TObjectP13ObjectSetData
   - __ct__15TODoorAncient04FP7TObjectP13ObjectSetData
@@ -5513,7 +5513,7 @@ force_active:
   - creation_stick_zero
   - cri_copyright_string
   - __ct__15TPositionSearchFP7TObjectP22PositionPlacementQueueP8TObjBasePC3Vecl
-  - __ct__23TItemShootDrillLauncherFPvPC3VecPC3Vecf
+  - __ct__23TItemShootDrillLauncherFP11TItemWeaponPC3VecPC3Vecf
   - __ct__21TItemWeaponRabbitWandFP7TObjectPUc
   - cull_sections__6TSceneFv
   - current_floor_area_type
