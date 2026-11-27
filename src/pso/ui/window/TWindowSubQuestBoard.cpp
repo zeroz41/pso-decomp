@@ -40,7 +40,7 @@ int TWindowSubQuestBoardSelect::is_open() { return this->state_flags & 0x1; }
 
 u8 TWindowSubQuestBoardSelect::get_page_index() { return this->slot; }
 
-TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *client) : TObject(object) {
+TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, s32 client) : TObject(object) {
     this->m_name = class_name;
     parent_menu = static_cast<TWindowMainMenu *>(object);
     this->client = client;
