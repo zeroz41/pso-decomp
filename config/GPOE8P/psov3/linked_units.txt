@@ -673,7 +673,6 @@ pso/ui/keyboard/SystemBootInit.cpp
 pso/ui/keyboard/TKeyBoardControl.cpp
 pso/ui/keyboard/KeyboardKeyState.cpp
 pso/player/PlayerDataLoad.cpp
-pso/ui/keyboard/WindowKeyBoardMode.cpp
 pso/ui/keyboard/TKeyBoardControl_80290CB0.cpp
 pso/audio/AdxUiBridge.cpp
 pso/ui/keyboard/KBDXfer.c
@@ -1053,7 +1052,6 @@ pso/ui/window/TWindowKeyBoardHard_801A529C.cpp
 pso/ui/window/KeyboardTextBuffer.cpp
 pso/ui/window/TWindowKeyBoardSoft_80228BEC.cpp
 pso/ui/window/WindowDrawContext.cpp
-pso/ui/window/TWindowKeyBoardBase_8025B85C.cpp
 pso/ui/window/TWindowLoadItemTexture.cpp
 pso/ui/window/TWindowLockOn_800F5DD8.cpp
 pso/ui/window/TWindowLockOn_8026CB80.cpp
@@ -1591,7 +1589,6 @@ pso/system/save/CardFileChannel.cpp
 pso/ui/window/TWindowAddition.cpp
 pso/ui/window/TWindowChoiceSetting.cpp
 pso/ui/window/TWindowHelpItem.cpp
-pso/ui/keyboard/KeyBoardCloseMode.cpp
 pso/ui/window/TWindowLockOn.cpp
 pso/ui/window/HelpWindowToggle.cpp
 pso/ui/window/MesetaWindowCreate.cpp
