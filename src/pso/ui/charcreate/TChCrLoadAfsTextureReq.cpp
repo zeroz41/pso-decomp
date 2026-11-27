@@ -6,7 +6,6 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include <math.h>
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.h"
 #include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
 #include "pso/network/TLobby.h"

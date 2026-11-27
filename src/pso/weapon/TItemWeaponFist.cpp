@@ -7,7 +7,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/unk/text_80126A34.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerAttackController.h"
 #include "pso/effect/item/TItemEffCane.h"
