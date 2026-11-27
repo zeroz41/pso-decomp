@@ -8130,7 +8130,7 @@ force_active:
   - TObjEneRe4Bit_behavior_params
   - re4_sorcerer_zero_vector
   - me3_stelth_zero_vector
-  - lbl_80501114
+  - me3_stelth_body_node_position
   - item_blank_texture_name
   - lobby_room_title
   - selected_game_name

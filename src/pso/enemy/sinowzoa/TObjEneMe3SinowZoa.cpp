@@ -92,7 +92,7 @@ TObjEneMe3SinowZoaParams *me3_sinow_zoa_kind_param_tbls[2];
 // The model texture list with textures 0-2 swapped for 3-5 (load_resources); init_variant
 // installs it for the alternate form (named after the Stelth twin, load_shared_resources).
 NJS_TEXLIST me3_sinow_zoa_alternate_texture_list;
-Vec lbl_80542FE4;
+Vec me3_sinow_zoa_body_node_position;
 u32 *me3_sinow_zoa_material_color_pointers[4];
 
 BmlResource * me3_sinow_zoa_bml_resource;
@@ -190,9 +190,9 @@ void TObjEneMe3SinowZoa::load_resources() {
     set_entry_value_clamped(7, params->sword_motion_speed);
     set_entry_value_clamped(4, params->damage_motion_speed);
     me3_sinow_zoa_render_node_index = 0;
-    lbl_80542FE4.x = 0.0f;
-    lbl_80542FE4.y = 0.0f;
-    lbl_80542FE4.z = 0.0f;
+    me3_sinow_zoa_body_node_position.x = 0.0f;
+    me3_sinow_zoa_body_node_position.y = 0.0f;
+    me3_sinow_zoa_body_node_position.z = 0.0f;
     model = me3_sinow_zoa_bml_resource->models->model;
     chunk = static_cast<NJS_CNK_MODEL *>(find_model_node(model, 9)->model);
     if (chunk != NULL) {

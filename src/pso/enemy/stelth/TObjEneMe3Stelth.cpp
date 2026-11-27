@@ -107,7 +107,7 @@ __declspec(section ".data") AttackParams *me3_stelth_attack_params_by_variant[2]
 __declspec(section ".data") ActorParamBlock *me3_stelth_resistance_params_by_variant[2];
 __declspec(section ".data") StelthBehaviorParams *me3_stelth_behavior_params_by_variant[2];
 __declspec(section ".data") NJS_TEXLIST me3_stelth_alternate_texture_list;
-f32 lbl_80501114[3];
+f32 me3_stelth_body_node_position[3];
 u32 *me3_stelth_material_color_pointers[4];
 
 
@@ -218,9 +218,9 @@ void TObjEneMe3Stelth::load_shared_resources() {
     TObjEneMe3Stelth::set_slot_min_clamped_value(7, d->sword_motion_speed);
     TObjEneMe3Stelth::set_slot_min_clamped_value(4, d->damage_motion_speed);
     me3_stelth_render_node_index = 0;
-    lbl_80501114[0] = 0.0f;
-    lbl_80501114[1] = 0.0f;
-    lbl_80501114[2] = 0.0f;
+    me3_stelth_body_node_position[0] = 0.0f;
+    me3_stelth_body_node_position[1] = 0.0f;
+    me3_stelth_body_node_position[2] = 0.0f;
     m = me3_stelth_bml_resource->models->model;
     q = (NJS_CNK_MODEL *)find_model_node(m, 9)->model;
     if (q != NULL) {
