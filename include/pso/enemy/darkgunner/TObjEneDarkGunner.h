@@ -28,7 +28,7 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     void update_dying();    // mode 5: die motion, then the death fade
     virtual void run_task();
     virtual void render();
-    void set_fields_24_34_from_global(void*);
+    void set_fields_24_34_from_global(s32 index);
     void update_hover();    // hover_height bob; shadow_pos and child_offsets from it
     void update_state();    // run_task's mode switch
     int is_death_gunner();  // behavior_flags bit 26, set by become_death_gunner

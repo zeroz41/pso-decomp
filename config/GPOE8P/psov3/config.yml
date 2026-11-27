@@ -15383,7 +15383,7 @@ force_active:
   - set_field_60__15TWindowCallBackFPFPvPv_v
   - set_cursor__18TWindowSubItemListFs
   - set_motion__12TMotionModelFP10NJS_MOTION
-  - set_fields_24_34_from_global__17TObjEneDarkGunnerFPv
+  - set_fields_24_34_from_global__17TObjEneDarkGunnerFl
   - set_fields_554__11TBoss6Type2Fv
   - set_flag1e_bit80__18TWindowSubShortCutFv
   - set_flag3c8_bit20__17TObjEneMe1CanadinFv
