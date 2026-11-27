@@ -29,7 +29,6 @@
 // (and pools their constants) in reverse order.
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__26TObjEneDf2Bringer_Eff_Rush[];
 }
 
@@ -48,7 +47,7 @@ u32 bringer_effect_color_table[12];
 u8 *construct_bringer_rush_effect(u8 *rush, saddr parent, TObjBase *source, TObjChara *recipient, f32 speed) {
     TObjEneDf2Bringer_Eff_Rush *self = (TObjEneDf2Bringer_Eff_Rush *)rush;
     Vec displacement;
-    __ct__7TObjectFP7TObject(self, (void *)parent);
+    __ct__7TObjectFP7TObject(self, (TObject *)parent);
     *(s32 **)((u8 *)self + 0x18) = __vt__26TObjEneDf2Bringer_Eff_Rush;
     self->m_name = bringer_rush_effect_name;
     self->target = recipient;

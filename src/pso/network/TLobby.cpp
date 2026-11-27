@@ -9,6 +9,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/CxxRuntime.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
 #include "pso/unk/TLobbyIdleTimer.h"
@@ -112,15 +113,9 @@ typedef char LobbyPlayerName[16];
 
 void lobby_debug_printf_stub(const char *fmt, ...);
 extern "C" {
-s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const NJS_POINT2 card_list_message_window_size[1];
 extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
-}
-extern "C" {
-void *__register_global_object(void *object, void (*destructor)(), void *registration);
-void __construct_array(void *block, void *(*ctor)(void *), void *(*dtor)(void *, s16), u32 size, u32 n);
-void __destroy_arr(void *block, void *(*dtor)(void *, s16), u32 size, u32 n);
 }
 void set_area_random_seed(int a0);
 
@@ -175,7 +170,9 @@ LobbyServerAddress join_lobby_ss702_server_table[2] = { { join_lobby_ss702_serve
 LobbyServerAddress join_lobby_ddplanet_server_table[2] = { { join_lobby_ddplanet_server_host, 0x2329 }, { join_lobby_ddplanet_server_host, 0x2329 } };
 void *lbl_804A7008[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
 
-u32 TLobby::join_entries_dtor_registration[3];
+// lobby_join_entries and game_join_player_records are built by __sinit_TLobby_cpp, spelled out below because
+// the original's static initializer precedes this file's inline copies.
+DestructorChain lobby_join_entries_dtor_chain;
 #pragma push
 #pragma suppress_init_code on
 #pragma no_static_dtors on
@@ -197,7 +194,6 @@ char lobby_idle_timeout_text_buffer[0x100];
 u8 lobby_scroll_text_buffer[0x1000];
 
 extern "C" {
-void __dt__7TObjectFv(void *, int);
 void *__dt__15TLobbyIdleTimerFv(void *object, s16 dtor_flags) {
     if (object != NULL) {
         *(s32 **)((s8 *)object + 0x18) = (s32 *)lbl_804A7008;
@@ -2619,17 +2615,21 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
 const char *TLobby::get_seq_phase(int id) { return get_online_message_text(id); }
 void lobby_init_hook(void) {  }
 void lobby_debug_printf_stub(const char *fmt, ...) {}
-void TLobby::construct_global_arrays() {
-    __construct_array(lobby_join_entries, __ct__18TPlyJoinLobbyEntryFv, __dt__18TPlyJoinLobbyEntryFv, 0x43C, 0xC);
-    __register_global_object(0, TLobby::destroy_join_entries, join_entries_dtor_registration);
-    __construct_array(game_join_player_records, __ct__17TPlyJoinLobbyDataFv, 0, 0x20, 4);
+// Destroys lobby_join_entries at exit (the global destructor chain passes no object).
+void destroy_lobby_join_entries(void *, s16);
+
+void __sinit_TLobby_cpp() {
+    __construct_array(lobby_join_entries, __ct__18TPlyJoinLobbyEntryFv, __dt__18TPlyJoinLobbyEntryFv,
+        sizeof(TPlyJoinLobbyEntry), 12);
+    __register_global_object(NULL, destroy_lobby_join_entries, &lobby_join_entries_dtor_chain);
+    __construct_array(game_join_player_records, __ct__17TPlyJoinLobbyDataFv, NULL, sizeof(TPlyJoinLobbyData), 4);
 }
 
 
 
 TPlyJoinLobbyData::TPlyJoinLobbyData() {}
-void TLobby::destroy_join_entries() {
-    __destroy_arr(lobby_join_entries, __dt__18TPlyJoinLobbyEntryFv, 0x43c, 0xc);
+void destroy_lobby_join_entries(void *, s16) {
+    __destroy_arr(lobby_join_entries, __dt__18TPlyJoinLobbyEntryFv, sizeof(TPlyJoinLobbyEntry), 12);
 }
 
 
@@ -2918,7 +2918,7 @@ u8 *get_password_input_buffer(void) {
 
 void *TProtocol::operator new(size_t size) { return obj_heap->heap_alloc(size); }
 
-__declspec(section ".ctors") static void *const __sinit_TPlyJoinLobbyEntry_cpp_ref = (void *)TLobby::construct_global_arrays;
+__declspec(section ".ctors") static void *const lobby_global_initializer = (void *)__sinit_TLobby_cpp;
 
 // Window positions copied by the message/menu openers above, and the lobby log and
 // menu strings; defined after their users so each is addressed on its own.

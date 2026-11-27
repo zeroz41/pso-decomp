@@ -100,4 +100,11 @@ struct PlayerVisualRecord {
     VisualRecordBlock proportions;
 };
 
+// TPlyCharData's constructor and destructor by symbol, for the static initializers that build and register a
+// global TPlyCharData (C++ cannot take a constructor's or destructor's address).
+extern "C" {
+void *__ct__12TPlyCharDataFv(void *object);
+void __dt__12TPlyCharDataFv(void *object, s16 flags);
+}
+
 #endif

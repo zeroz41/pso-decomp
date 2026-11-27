@@ -24,6 +24,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/os/OSInterrupt.h>
+#include "pso/system/CxxRuntime.h"
 #include "pso/enemy/BattleParamTables.h"
 
 
@@ -232,8 +233,6 @@ void reset_com_card_list_callback(void) { TLobby::reset_com_card_list(); }
 
 
 extern "C" {
-GuildCardRecord *__ct__15GuildCardRecordFv(void *p);
-void *__construct_array(void *ptr, GuildCardRecord *(*ctor)(void *), void *dtor, u32 size, u32 n);
 static void __sinit_GuildCardRecord_cpp();
 }
 __declspec(section ".ctors") static void *const com_card_global_initializer = (void *)__sinit_GuildCardRecord_cpp;

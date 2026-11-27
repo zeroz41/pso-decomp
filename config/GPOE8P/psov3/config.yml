@@ -619,7 +619,7 @@ force_active:
   - disk_error_msg_last
   - disk_error_msg_table
   - download_list_window__6TLobby
-  - join_entries_dtor_registration__6TLobby
+  - lobby_join_entries_dtor_chain
   - join_entry_window_obj__6TLobby
   - join_lobby_controller__6TLobby
   - join_lobby_idle_timer__6TLobby
@@ -5272,7 +5272,7 @@ force_active:
   - __ct__11TTecGiBartaFP8TObjBaseP3Vecll
   - __ct__9TTecMegidFP8TObjBaseP3Vecll
   - construct_gi_gue_bazooka__FPUcPUcl
-  - construct_global_arrays__6TLobbyFv
+  - __sinit_TLobby_cpp__Fv
   - __ct__15TTecGrantsFlashFlP7TObjectP3Vecf
   - __ct__18TItemWeaponHandgunFP7TObjectPUc
   - __ct__17TItemFollowEffectFP7TObjectP11TItemWeaponll
@@ -5627,7 +5627,7 @@ force_active:
   - __dt__13LabelValueRowFv
   - destroy_if_keyboard_idle__9TSaveChCrFv
   - __dt__17TItemFollowEffectFv
-  - destroy_join_entries__6TLobbyFv
+  - destroy_lobby_join_entries__FPvs
   - destroy_lobby_ui__6TLobbyFv
   - destroy_dead_spots__19TPlayerBattleCtrl4PFP7TObject
   - destroy_matching_children__6TLobbyFv

@@ -1,6 +1,7 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/player/TPlyCharData.h"
+#include "pso/system/CxxRuntime.h"
 #include "pso/player/TPlyInventory.h"
 #include <stdlib.h>
 #include "pso/npc/TNpcPlayer_800D87A8.h"
@@ -58,19 +59,16 @@ s32 quest_npc_visual_pending;
 
 extern "C" {
 
-s32 __dt__12TPlyCharDataFv(s32 object, s16 free_flags);
-void * __ct__12TPlyCharDataFv(void *object);
 s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range);
 s32 try_update_target_flag__10TNpcPlayerFPvi(NpcPlayerView *view, s32 id);
 s8 get_cast_technique_level(void *, s16);
-void __register_global_object(void *obj, void *dtor, void *link);
 
 void copy_player_visual_record(void *, void *);
 void __sinit_TNpcPlayer_cpp();
 }
 
 disp_data_part2 npc_player_visual_record;
-u32 npc_player_ply_char_data_global[3];
+DestructorChain npc_player_ply_char_data_global;
 #pragma push
 #pragma suppress_init_code on
 #pragma no_static_dtors on
@@ -1013,7 +1011,7 @@ void PartnerCounters::reset(s32 index) { count[index] = 0; }
 void PlayerTechniqueState::set_technique_level(s16 technique, u8 level) { levels[technique] = level; }
 
 void __sinit_TNpcPlayer_cpp() {
-    __register_global_object(__ct__12TPlyCharDataFv(&npc_player_char_data), __dt__12TPlyCharDataFv, npc_player_ply_char_data_global);
+    __register_global_object(__ct__12TPlyCharDataFv(&npc_player_char_data), __dt__12TPlyCharDataFv, &npc_player_ply_char_data_global);
 }
 
 void TNpcPlayer::ensure_rock_singleton() {

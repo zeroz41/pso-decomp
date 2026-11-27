@@ -17,7 +17,7 @@
 #include "pso/render/render_util.h"
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/render/GinjaTextureMatrices.h"
-#include "pso/system/task/DestructorChain.h"
+#include "pso/system/CxxRuntime.h"
 
 
 // 0 while the scene tree is drawn for geometry, particles and UI; 1 during
@@ -59,12 +59,6 @@ u32 old_render_shadow_flags;
 
 extern "C" {
 void __sinit_TObject_cpp();
-TMainTask *__ct__9TMainTaskFv(TMainTask *);
-TObject *__ct__7TObjectFP7TObject(TObject *, TObject *);
-// The runtime calls a registered destructor as void (*)(void *, short).
-void __dt__9TMainTaskFv(void *, s16);
-void __dt__7TObjectFv(void *, s16);
-void *__register_global_object(void *, void (*)(void *, s16), void *);
 }
 __declspec(section ".ctors") static void *const object_global_initializer = (void *)__sinit_TObject_cpp;
 

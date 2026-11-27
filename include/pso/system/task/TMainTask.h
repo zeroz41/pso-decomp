@@ -127,4 +127,11 @@ public:
     // Resets the per-floor game objects (item loader, cleanup helpers, floor items) after a floor change.
 };
 
+// TMainTask's constructor and destructor by symbol, for the static initializer that builds and registers
+// main_task (C++ cannot take a constructor's or destructor's address).
+extern "C" {
+void *__ct__9TMainTaskFv(void *object);
+void __dt__9TMainTaskFv(void *object, s16 flags);
+}
+
 #endif
