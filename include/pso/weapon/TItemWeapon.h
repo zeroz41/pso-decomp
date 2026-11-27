@@ -120,8 +120,8 @@ struct TItemWeapon : public TItemEquipBase {
     void set_weapon_flags(u32 mask);
     void clear_weapon_flags(u32 mask);
     void set_flag_8();
-    // Timer callback of on_equip: sets flag 8 unless the item is on the ground.
-    void set_flag_8_unless_on_ground();
+    // Timer callback of on_equip: sets flag 8 on the weapon unless it is on the ground.
+    static void set_flag_8_unless_on_ground(TObject *object);
     // Calls impact_callback (if set) with the task layer, this, and both arguments.
     void call_impact_callback(saddr start, saddr end);
     void set_model_node_callback(void (*callback)(NJS_OBJECT *));

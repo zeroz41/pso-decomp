@@ -62,16 +62,14 @@ struct NJS_OBJECT;
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/render/GinjaTextureMatrices.h"
+#include "pso/render/GinjaDrawUtil.h"
 
 
+// The weapon attack code calls this with an s32 uid at one site (clrlwi at the call) and
+// as ActorCollision.h's (u16, s16) at three; no single prototype gives both.
 extern "C" {
-extern Vec weapon_light_direction[];
-extern NJS_ARGB weapon_light_color[];
-
-
 TObjChara *resolve_hittable_target(s32, s32);
-u32 __cvt_fp2unsigned(f32);
-f32 xyz_distance(void *, void *);
+}
 
 
 void TItemWeapon::set_weapon_category_flags() {
@@ -147,7 +145,6 @@ void TItemWeapon::update_attack() {  }
 void TItemWeapon::emit_marker_effects() {  }
 
 void TItemWeapon::carry_over_stats(TItemData *data, TItem *item) { memcpy(data->data1.data_u8 + 6, ((TItemWeapon *)item)->attributes, 6); }
-}
 
 void TItemWeapon::activate_effect(s32 effect) {
     technique_roll = effect;
@@ -158,12 +155,11 @@ void TItemWeapon::roll_technique() {
     send_activate_effect((s32) ((f32) technique_roll_range * (3.0517578e-05f * (f32) rand())));
 }
 
-void TItemWeapon::set_flag_8_unless_on_ground() {
-    u8 *self;
-    if (this != NULL) {
-        self = (u8 *)this;
-        if (((TItem *)(this))->get_mode() != 0) {
-            ((TItemWeapon *)self)->set_flag_8();
+void TItemWeapon::set_flag_8_unless_on_ground(TObject *object) {
+    if (object != NULL) {
+        TItemWeapon *weapon = static_cast<TItemWeapon *>(object);
+        if (weapon->get_mode() != 0) {
+            weapon->set_flag_8();
         }
     }
 }
@@ -240,7 +236,7 @@ void TItemWeapon::create_weapon_trail_effects() {
 
 u32 pack_weapon_trail_color(TItemWeapon *weapon) {
     NJS_ARGB w = weapon->get_weapon_color();
-    return (__cvt_fp2unsigned(255.0f * w.a) << 24 | __cvt_fp2unsigned(255.0f * w.r) << 16 | __cvt_fp2unsigned(255.0f * w.g) << 8) | __cvt_fp2unsigned(255.0f * w.b);
+    return ((u32)(255.0f * w.a) << 24 | (u32)(255.0f * w.r) << 16 | (u32)(255.0f * w.g) << 8) | (u32)(255.0f * w.b);
 }
 
 void TItemWeaponTsumikiri::spawn_pg_effect(const Vec *origin, saddr item, f32 radius) {
@@ -466,11 +462,11 @@ s32 TItemWeapon::launch_shot(Vec *origin, s32 i, s32 angle, s32 apply) {
                         this->restore_action_type();
                     }
                 } else {
-                    flight_frames = xyz_distance(origin, &endpoint.x) / shot_speed;
+                    flight_frames = xyz_distance(origin, &endpoint) / shot_speed;
                 }
             } else {
                 VecCopy(&endpoint, &wall_hit->contact->point);
-                flight_frames = xyz_distance(origin, &endpoint.x) / shot_speed;
+                flight_frames = xyz_distance(origin, &endpoint) / shot_speed;
                 if ((wall_hit->contact->flags & 0x100) && (impact_callback != NULL)) {
                     spawn_land_hit_effect(tl_05, this, origin, &endpoint, (s32)flight_frames);
                 }
@@ -792,23 +788,23 @@ void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 
 s16 weapon_node_material_index;
 __declspec(section ".data") s16 weapon_node_ids[4];
-u8* weapon_render_callback_object;
+TItemWeapon *weapon_render_callback_object;
 
 void apply_weapon_node_material(NJS_OBJECT *) {
     const s32 node = get_model_node_counter();
     TItem::end_material_color();
     TItem::end_effect_render();
-    ((TItem *)weapon_render_callback_object)->end_particle_tev();
-    ((TItem *)weapon_render_callback_object)->end_shield_tev();
-    ((TItemWeapon *)weapon_render_callback_object)->transform_model_node();
+    weapon_render_callback_object->end_particle_tev();
+    weapon_render_callback_object->end_shield_tev();
+    weapon_render_callback_object->transform_model_node();
     if(node == weapon_node_material_index) {
-        NJS_ARGB color = ((TItemWeapon *)weapon_render_callback_object)->get_weapon_color();
+        NJS_ARGB color = weapon_render_callback_object->get_weapon_color();
         TItem::begin_constant_material_color(&color);
     }
     if(node == weapon_node_ids[0] || node == weapon_node_ids[1] || node == weapon_node_ids[2]) {
         TItem::begin_effect_render();
         if(item_render_state.test_flags_any(4)) {
-            NJS_ARGB color = ((TItemWeapon *)weapon_render_callback_object)->get_weapon_color();
+            NJS_ARGB color = weapon_render_callback_object->get_weapon_color();
             TItem::begin_constant_material_color(&color);
         }
     }
@@ -904,8 +900,6 @@ void TItemWeapon::remove_owner_bonuses() {
 }
 
 
-extern "C" {
-void set_flag_8_unless_on_ground__11TItemWeaponFv();
 
 void TItemWeapon::on_unequip() {
     if (owner->vfunc_66(get_attach_slot()) == 0) {
@@ -934,7 +928,7 @@ void TItemWeapon::on_equip() {
         if (is_hidden() != 0 || owner->is_in_fixed_pose() != 0) {
             set_weapon_flags(8);
         } else {
-            TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)set_flag_8_unless_on_ground__11TItemWeaponFv, 0x14);
+            TItemAttacker::spawn_item_timer(this, set_flag_8_unless_on_ground, 0x14);
             TItemEffEquip::create(tl_05, owner->get_entity_id(), 0x30, 0x9D, 0x9E);
             if (test_weapon_flags(0x200) != 0U) {
                 TItemEffEquip::create(tl_05, owner->get_entity_id(), 0x23, 0x9D, 0x9E);
@@ -982,7 +976,6 @@ void TItemWeapon::get_gun_point(Vec *out) {
     get_joint_position(gun_point_joint, out);
 }
 
-}
 
 __declspec(section ".sdata2") u8 weapon_unidentified_flag = 0x80;
 
@@ -1003,7 +996,7 @@ void TItemWeapon::draw_weapon_model() {
         set_texlist((this->texlist));
         push_matrix_from((void *)((TObjMotion *)(this->owner))->get_joint_matrix((s8)get_attach_joint()));
         if ((visible != 0) && (this->is_hidden() == 0)) {
-            weapon_render_callback_object = (u8 *)this;
+            weapon_render_callback_object = this;
             weapon_node_material_index = color_node;
             parameters = this->parameters;
             weapon_node_ids[0] = parameters->effect_nodes[0];
