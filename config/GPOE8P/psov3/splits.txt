@@ -2012,13 +2012,10 @@ pso/item/TItemEquipBase.cpp:
 	.sdata2     start:0x805DAB60 end:0x805DAB68
 
 pso/item/TItemData.cpp:
-	.text       start:0x8010B848 end:0x8010EEF0
+	.text       start:0x8010B848 end:0x8010EF14
 	.rodata     start:0x8043E2D8 end:0x8043E3A0
 	.data       start:0x8049F248 end:0x8049F3A0
 	.sdata2     start:0x805DAB68 end:0x805DAB90
-
-pso/ui/window/TWindowSubStatusDisp_8010EEF0.cpp:
-	.text       start:0x8010EEF0 end:0x8010EF14
 
 pso/unk/LoadUnloadSet.cpp:
 	.text       start:0x8010EF14 end:0x8010F2AC

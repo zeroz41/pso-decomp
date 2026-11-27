@@ -41,6 +41,7 @@
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/system/TLanguage.h"
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
 extern "C" {
 u8 get_cast_technique_level(void *, int);
@@ -1776,3 +1777,5 @@ saddr get_item_description_text(s32 name) {
 const char *get_text_collection(s32 index) {
     return text_language_group_table[0][index];
 }
+
+const char *TWindowSubStatusDisp::get_meseta_unit() { return get_message_text(0); }
