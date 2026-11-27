@@ -2,7 +2,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/ui/frontend/TAdSelectTxtSubGC.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/TextureState.h"
 #include "pso/npc/TObjNpcHosa.h"

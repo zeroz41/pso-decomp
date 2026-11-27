@@ -21,5 +21,8 @@ struct TAdEnterPPPPassGC : public TAdEnterBaseGC {
 
 LAYOUT_ASSERT(TAdEnterPPPPassGC_size, sizeof(TAdEnterPPPPassGC) == 0x44);
 
+// The PPP password set_password keeps when the line is not PPPoE over the broadband adapter.
+extern char ppp_password_buffer[0x20];
+
 
 #endif

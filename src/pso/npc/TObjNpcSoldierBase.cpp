@@ -14,7 +14,7 @@ BmlResourceDescriptor TObjNpcSoldierBase::body_resource_desc = { "bm_n_gunb2_i_b
 const char *TObjNpcSoldierBase::name = "TObjNpcSoldierBase";
 BmlResource *TObjNpcSoldierBase::shared_model_resource;
 
-void *TObjNpcSoldierBase::create(void *set_data) {
+void *TObjNpcSoldierBase::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcSoldierBase(control, set_data);
 }
@@ -33,7 +33,7 @@ void TObjNpcSoldierBase::load_shared_resource() {
 
 TObjNpcSoldierBase::~TObjNpcSoldierBase() {}
 
-TObjNpcSoldierBase::TObjNpcSoldierBase(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+TObjNpcSoldierBase::TObjNpcSoldierBase(TObject *parent, EnemyPlacement *set_data) : TObjNpcMale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

@@ -21,17 +21,16 @@ NJS_TEXLIST *get_boss_warp_base_textures(void);
 NJS_TEXLIST *get_boss_warp_effect_textures(void);
 
 struct TObjWarpBossMulti : public TObjAreaWarp {
-    TObjWarpBossMulti(TObject *parent, void *set_data);
+    TObjWarpBossMulti(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjWarpBossMulti();
     virtual void debug_print_area_num();
     void render();
     void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     void init_warp_params();
     void update();
     static s32 is_lobby_active();
     static s32 get_boss_warp_flag();
-    static int is_flag_clear(void* p);
     // Field names follow the get_boss_warp_* getters init_warp_params stores; the rest are inferred.
     s32 player_in_range[4];         // per player slot: a local player stands within warp_range + 25 (run_task)
     NJS_OBJECT *base_model;                 // get_boss_warp_base_model(), drawn with model_handle's textures

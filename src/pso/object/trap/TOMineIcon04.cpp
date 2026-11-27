@@ -22,7 +22,7 @@ const char *mine_icon04_name = "TOMineIcon04";
 // -inline deferred: functions are written last-to-first.
 #pragma push
 #pragma fp_contract on
-TOMineIcon04::TOMineIcon04(TObject *parent, void *set_data) : TOMine(parent) {
+TOMineIcon04::TOMineIcon04(TObject *parent, ObjectSetData *set_data) : TOMine(parent) {
     m_name = mine_icon04_name;
     apply_object_set_data(set_data);
     init_position_vectors();
@@ -64,7 +64,7 @@ TOMineIcon04::~TOMineIcon04() {
     free_collision_body_parts(this);
 }
 
-void *TOMineIcon04::create(void *set_data) {
+void *TOMineIcon04::create(ObjectSetData *set_data) {
     return new TOMineIcon04(tl_05, set_data);
 }
 

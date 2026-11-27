@@ -7,7 +7,7 @@
 struct TObjCityMainWarp : public TObjAreaWarp {
     static void free_resources();
     static const char *class_name;
-    TObjCityMainWarp(TObject *parent, void *set_data);
+    TObjCityMainWarp(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjCityMainWarp();
     virtual void close_menu();
     virtual void open_confirm_window(s32 client_id);
@@ -21,7 +21,7 @@ struct TObjCityMainWarp : public TObjAreaWarp {
     static void reset();
     static s32 get_phase_flag();
     void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void clear_active_bit(s32 floor);
     static void update_warp_flags_from_story();
     static void init_visible_mask();

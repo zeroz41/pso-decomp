@@ -1,8 +1,6 @@
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/render/ColorLineList.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/render/Draw2D.h"
@@ -20,9 +18,9 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/window/TWindowChoiceSetting_80249610.h"
+#include "pso/ui/window/ChatBalloonOverlap.h"
 #include "pso/unk/WindowControlState.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/TextureState.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
@@ -139,7 +137,7 @@ void TWindowCtrlPlayer::update_open_sequence() {
 void TWindowCtrlPlayer::run_all_updates() { update_trade_window_visibility(); update_child_window_visibility(); update_target_info_window(); update_main_menu_request(); show_active_window(); update_short_list_request(); update_countdown(); }
 
 void TWindowCtrlPlayer::update_trade_window_visibility() {
-    if ((simple_status != NULL) && (((TWindowCtrl *)(void *)simple_status)->is_flag_2_set() == 0)) {
+    if ((simple_status != NULL) && (simple_status->is_update_suspended() == 0)) {
         if ((get_player_by_client_id(client_id) == NULL) || (is_suppressed() != 0) || (is_status_window_hidden() != 0) || ((is_split_screen() != 0) && (is_main_menu_open() != 0))) {
             simple_status->request_close();
             return;
@@ -150,7 +148,7 @@ void TWindowCtrlPlayer::update_trade_window_visibility() {
 
 void TWindowCtrlPlayer::update_child_window_visibility() {
     TObjPlayer *player;
-    if ((action_palette != NULL) && (((TWindowCtrl *)(void *)action_palette)->is_flag_2_set() == 0)) {
+    if ((action_palette != NULL) && (action_palette->is_update_suspended() == 0)) {
         player = get_player_by_client_id(client_id);
         if ((is_main_menu_open() != 0) || (is_suppressed() != 0) || (is_keyboard_held() != 0) || (player == NULL)) {
             action_palette->request_close();
@@ -256,7 +254,7 @@ void TWindowCtrlPlayer::update_short_list_request() {
     if (short_list != NULL && short_list->all_parents_unqueued_for_destruction() == 0) {
         short_list = NULL;
     }
-    if (action_palette != NULL && ((TWindowCtrl *)(void *)action_palette)->is_flag_2_set() == 0) {
+    if (action_palette != NULL && action_palette->is_update_suspended() == 0) {
         if (get_player_by_client_id(client_id) == NULL) {
             if (short_list != NULL) {
                 short_list->queue_destruction();
@@ -371,9 +369,9 @@ s32 TWindowCtrlPlayer::is_countdown_done() {
 
 void TWindowCtrlPlayer::start_countdown() { this->countdown = 60; }
 
-void TWindowCtrlMain::reset_windows(void) { TWindowCtrlMain::reset_all(((void*)(0))); }
+void TWindowCtrlMain::reset_windows(void) { TWindowCtrlMain::reset_all(0); }
 
-void TWindowCtrlMain::reset_all(void* _w0) {
+void TWindowCtrlMain::reset_all(s32) {
     s32 i;
     load_hud_palette_textures();
     clear_shared_window_draw_context();
@@ -476,15 +474,15 @@ TWindowCtrlMain::~TWindowCtrlMain() {
     }
 }
 
-void TWindowCtrlMain::run_task() { { (void)(((TWindowDD *)this)->update_com_card()); return; } }
+void TWindowCtrlMain::run_task() { update_com_card(); }
 
 void TWindowCtrlMain::render() {
     set_default_alpha_blend();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
     get_main_window_root()->render_nodes();
     TCameraCtrl::restore_saved_view();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void draw_viewport_fill(s32 viewport_index) {
@@ -753,14 +751,14 @@ void TWindowCtrlScreen::render() {
     if (is_window_display_enabled() != 0) {
         viewport_index = (s32)TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no());
         set_default_alpha_blend();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         TWindowCtrlMain::instance->render_nodes();
         draw_viewport_fill(viewport_index);
         TCameraCtrl::restore_full_screen_view();
         draw_menu_backdrop_gradients(viewport_index);
         get_viewport_window_root(viewport_index)->render_nodes();
         TCameraCtrl::restore_saved_view();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -789,11 +787,11 @@ TWindowCtrlClipOut::~TWindowCtrlClipOut() {
 void TWindowCtrlClipOut::render() {
     if (is_window_display_enabled() != 0) {
         set_default_alpha_blend();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         get_clip_out_window_root()->render_nodes();
         TCameraCtrl::restore_saved_view();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 

@@ -8,8 +8,8 @@ struct NJS_MOTION;
 
 class TObjJungleEbi : public TObjPathObj {
 public:
-    TObjJungleEbi(TObject *parent, void *set_data);
-    static void *create(void *set_data);
+    TObjJungleEbi(TObject *parent, ObjectSetData *set_data);
+    static void *create(ObjectSetData *set_data);
     static void load_static_resource();
     static void destroy_instance();
     virtual ~TObjJungleEbi();

@@ -6,7 +6,7 @@
 // The drill launcher's shot (drill_launcher_create_shot).
 class TItemShootDrillLauncher : public TItemShootModel {
 public:
-    TItemShootDrillLauncher(void *owner, const Vec *pos, const Vec *dir, f32 life);
+    TItemShootDrillLauncher(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life);
     virtual ~TItemShootDrillLauncher();
     virtual void hook();
     virtual void render();

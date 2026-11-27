@@ -55,16 +55,16 @@
  *   A2 A4     TMenuList<QuestListEntry, 30, 0>  recv_quest_menu_list, recv_quest_list ->
  *                                   copy_quest_list_data, TLobby::open_download_list_window
  *   A3 A5     TPlyText<288>         recv_quest_menu_info, recv_quest_info ->
- *                                   TQuestListOnline::receive_quest_info, show_card_list_message
+ *                                   receive_quest_info, show_card_list_message
  *   AB        TRecvQuestStats       handle_cmd_AB -> the lobby's AB handler
- *   AC        packet_header         handle_cmd_AC -> TQuestListOnline::handle_quest_ready (flags 0)
+ *   AC        packet_header         handle_cmd_AC -> handle_quest_ready (flags 0)
  *   B0        TMessageBox           recv_emergency_call -> TLobby::disable_window_flags
  *   B1        TRecvServerTime       handle_cmd_B1 -> TLobby::reset_lobby_state
  *   C0        TRecvChoiceSearchOptions  handle_cmd_C0 -> TLobby::handle_choice_search_options
  *   C4        ChoiceSearchResultList    handle_cmd_C4 -> TLobby::handle_choice_search_results
  *   C5        TRecvChallengeData    handle_cmd_C5 -> TLobby::copy_player_records
- *   D1 D4     packet_header         recv_advance_trade_state, recv_trade_result -> TLobby::apply_trade_items,
- *                                   TLobby::handle_reset_choice (flags)
+ *   D1 D4     packet_header         recv_advance_trade_state, recv_trade_result -> apply_trade_items,
+ *                                   handle_reset_choice (flags)
  *   D3        TTradeList            handle_cmd_D3 -> handle_trade_received_items
  *   D7        packet_header         handle_cmd_D7 (sets lobby_count_value)
  *   D8        TRecvInfoBoard        handle_cmd_D8 -> TLobby::handle_info_board

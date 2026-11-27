@@ -9,7 +9,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/system/MatrixStack.h"
 
 #pragma push
@@ -48,7 +48,7 @@ void TQuadSpriteScl::render() {
     begin_screen_draw(1);
     set_texture_list(definition->texlist);
     set_draw_texture_and_color(definition->texture, definition->color);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     one = -1.0f;
     for (i = 0; i < definition->uv_count; i++) {
         const f32 *uv;
@@ -98,7 +98,7 @@ void TQuadSpriteScl::render() {
         }
         end_screen_draw();
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     quad_sprite_reset_entries();
     set_default_alpha_blend();
 }

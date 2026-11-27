@@ -8,11 +8,11 @@ class TObject;
 
 // Groups the TObjEneDarkGunner of its room that share its parameters[0] and drives them.
 struct TObjEneDarkGunCenter : public TObjEnemy {
-    TObjEneDarkGunCenter(TObject *parent, void *set_data);
+    TObjEneDarkGunCenter(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneDarkGunCenter();
     virtual void run_task();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void free_resources();
     static void load_resources();
     void send_gunners_home();

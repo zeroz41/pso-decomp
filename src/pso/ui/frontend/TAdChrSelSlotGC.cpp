@@ -1,7 +1,7 @@
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/render_util.h"
 

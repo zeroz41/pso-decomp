@@ -3,6 +3,7 @@
 #include "pso/weapon/TItemWeaponPlantainFan.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/weapon/TItemWeaponPlantainHugeFan.h"
 
 void TItemWeaponPlantainFan::emit_marker_effects() {
     Vec pos;
@@ -19,7 +20,7 @@ TItemWeaponPlantainFan::~TItemWeaponPlantainFan() {}
 
 TItemWeaponPlantainFan::TItemWeaponPlantainFan(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(34);
-    shot_callback = TObjPlayer::create_item_shoot_model;
+    shot_callback = create_item_shoot_model;
     shot_speed = 10.0f;
 }
 

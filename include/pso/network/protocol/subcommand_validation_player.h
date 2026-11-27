@@ -15,6 +15,7 @@ struct G_SetPosition_6x3F;
 struct G_StopAtPosition_6x3E;
 struct G_WalkToPosition_6x40;
 struct PlayerShrinkPacket;
+struct CapturedTarget;
 
 // --- C functions defined in subcommand_validation_player.cpp ---
 s32 validate_6x33_revive_player(G_RevivePlayer_6x33 *packet);
@@ -32,7 +33,7 @@ s32 validate_6x44_attack(G_Attack_6x43_6x44_6x45 *packet);
 s32 validate_6x45_attack(G_Attack_6x43_6x44_6x45 *packet);
 s32 validate_6x87_shrink_player(PlayerShrinkPacket *packet);
 s32 validate_6x88_restore_shrunken_player(G_ClientIDHeader *packet);
-s32 validate_attack_target_entry(void *parameters);
+s32 validate_attack_target_entry(CapturedTarget *target);
 s32 validate_6xAE_set_animation_state(G_SetAnimationState_6xAE *packet);
 // --- end of C functions
 

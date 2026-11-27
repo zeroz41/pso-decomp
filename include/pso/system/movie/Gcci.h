@@ -22,4 +22,7 @@ s32 get_handle_value_checked(void *context);
 void poll_dvd_requests(void);
 void set_fileio_unit_size(void *context, s32 unit);
 
+// The directory gcCiOpen and gcCiGetFileSize put in front of a file name.
+extern char dvd_default_path_buffer[0x100];
+
 #endif

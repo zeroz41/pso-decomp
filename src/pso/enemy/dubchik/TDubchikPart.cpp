@@ -45,7 +45,7 @@ TDubchikPart::TDubchikPart(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *texli
     push_matrix_from(&identity_matrix);
     v.x = v.y = 0.0f;
     v.z = -2.0f;
-    rotate_matrix_y(0, parent->rotation_y + ((index - 1) << 0xD));
+    rotate_matrix_y(0, parent->rotation.y + ((index - 1) << 0xD));
     rotate_vector_by_matrix(0, &v, &velocity);
     v.z = range = 30.0f;
     rotate_vector_by_matrix(0, &v, &out);

@@ -1,6 +1,5 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/render/GinjaMaterial.h"
@@ -167,7 +166,7 @@ void TOWreckAncient::render() {
     if (update_object_view_visibility(view_far_depth, view_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         set_texture_list(texlist);
         draw_ginja_object(model);
         pop_matrix();
@@ -176,7 +175,7 @@ void TOWreckAncient::render() {
 
 // --- TOWreckAncient01 ---
 
-TOWreckAncient01::TOWreckAncient01(void *set_data) : TOWreckAncient(1) {
+TOWreckAncient01::TOWreckAncient01(ObjectSetData *set_data) : TOWreckAncient(1) {
     m_name = wreck_ancient01_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient::collision_body_templates[1], 1);
@@ -186,13 +185,13 @@ TOWreckAncient01::TOWreckAncient01(void *set_data) : TOWreckAncient(1) {
 TOWreckAncient01::~TOWreckAncient01() {
 }
 
-void *TOWreckAncient01::create(void *set_data) {
+void *TOWreckAncient01::create(ObjectSetData *set_data) {
     return new TOWreckAncient01(set_data);
 }
 
 // --- TOWreckAncient04 ---
 
-TOWreckAncient04::TOWreckAncient04(void *set_data) : TOWreckAncient(4) {
+TOWreckAncient04::TOWreckAncient04(ObjectSetData *set_data) : TOWreckAncient(4) {
     m_name = wreck_ancient04_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient::collision_body_templates[4], 1);
@@ -202,13 +201,13 @@ TOWreckAncient04::TOWreckAncient04(void *set_data) : TOWreckAncient(4) {
 TOWreckAncient04::~TOWreckAncient04() {
 }
 
-void *TOWreckAncient04::create(void *set_data) {
+void *TOWreckAncient04::create(ObjectSetData *set_data) {
     return new TOWreckAncient04(set_data);
 }
 
 // --- TOWreckAncient05 ---
 
-TOWreckAncient05::TOWreckAncient05(void *set_data) : TOWreckAncient(3) {
+TOWreckAncient05::TOWreckAncient05(ObjectSetData *set_data) : TOWreckAncient(3) {
     m_name = wreck_ancient05_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient::collision_body_templates[3], 1);
@@ -218,13 +217,13 @@ TOWreckAncient05::TOWreckAncient05(void *set_data) : TOWreckAncient(3) {
 TOWreckAncient05::~TOWreckAncient05() {
 }
 
-void *TOWreckAncient05::create(void *set_data) {
+void *TOWreckAncient05::create(ObjectSetData *set_data) {
     return new TOWreckAncient05(set_data);
 }
 
 // --- TOWreckAncient06 ---
 
-TOWreckAncient06::TOWreckAncient06(void *set_data) : TOWreckAncient(6) {
+TOWreckAncient06::TOWreckAncient06(ObjectSetData *set_data) : TOWreckAncient(6) {
     m_name = wreck_ancient06_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient::collision_body_templates[6], 1);
@@ -234,13 +233,13 @@ TOWreckAncient06::TOWreckAncient06(void *set_data) : TOWreckAncient(6) {
 TOWreckAncient06::~TOWreckAncient06() {
 }
 
-void *TOWreckAncient06::create(void *set_data) {
+void *TOWreckAncient06::create(ObjectSetData *set_data) {
     return new TOWreckAncient06(set_data);
 }
 
 // --- TOWreckAncient07 ---
 
-TOWreckAncient07::TOWreckAncient07(void *set_data) : TOWreckAncient(5) {
+TOWreckAncient07::TOWreckAncient07(ObjectSetData *set_data) : TOWreckAncient(5) {
     m_name = wreck_ancient07_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient::collision_body_templates[5], 1);
@@ -250,7 +249,7 @@ TOWreckAncient07::TOWreckAncient07(void *set_data) : TOWreckAncient(5) {
 TOWreckAncient07::~TOWreckAncient07() {
 }
 
-void *TOWreckAncient07::create(void *set_data) {
+void *TOWreckAncient07::create(ObjectSetData *set_data) {
     return new TOWreckAncient07(set_data);
 }
 
@@ -269,7 +268,7 @@ TOWreckAncientBrakable::~TOWreckAncientBrakable() {
 void TOWreckAncientBrakable::run_task() {
     s32 id;
 
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_task_stub();
         return;
     }
@@ -305,7 +304,7 @@ void TOWreckAncientBrakable::spawn_debris() {
     for (i = 0; i < 9; i++) {
         VecCopy(&tmp, &arr.offsets[i]);
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         rotate_vector_by_matrix(0, &tmp, &tmp);
         pop_matrix();
         VecCopy(&p.pos, &position);
@@ -321,7 +320,7 @@ void TOWreckAncientBrakable::run_task_stub() {  }
 
 // --- TOWreckAncientBrakable05 ---
 
-TOWreckAncientBrakable05::TOWreckAncientBrakable05(void *set_data) : TOWreckAncientBrakable(3) {
+TOWreckAncientBrakable05::TOWreckAncientBrakable05(ObjectSetData *set_data) : TOWreckAncientBrakable(3) {
     m_name = wreck_ancient_brakable05_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient::collision_body_templates[3], 1);
@@ -335,6 +334,6 @@ TOWreckAncientBrakable05::TOWreckAncientBrakable05(void *set_data) : TOWreckAnci
 TOWreckAncientBrakable05::~TOWreckAncientBrakable05() {
 }
 
-void *TOWreckAncientBrakable05::create(void *set_data) {
+void *TOWreckAncientBrakable05::create(ObjectSetData *set_data) {
     return new TOWreckAncientBrakable05(set_data);
 }

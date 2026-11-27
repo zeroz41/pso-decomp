@@ -36,11 +36,11 @@ BmlResource *kurage_bml_resource;
 // x step), at most 0x40 a frame.
 void TOKurage::update_tilt() {
     s32 old_rotation[3];
-    copy_xyz(old_rotation, &rotation_x);
-    rotation_x = (s32)(6000.0f * (position.z - prev_position.z));
-    rotation_z = (s32)(-6000.0f * (position.x - prev_position.x));
-    rotation_x = approach_angle_limited(old_rotation[0], rotation_x, 0x40);
-    rotation_z = approach_angle_limited(old_rotation[2], rotation_z, 0x40);
+    copy_xyz(old_rotation, &rotation);
+    rotation.x = (s32)(6000.0f * (position.z - prev_position.z));
+    rotation.z = (s32)(-6000.0f * (position.x - prev_position.x));
+    rotation.x = approach_angle_limited(old_rotation[0], rotation.x, 0x40);
+    rotation.z = approach_angle_limited(old_rotation[2], rotation.z, 0x40);
 }
 
 void TOKurage::check_player_distance() {
@@ -83,7 +83,7 @@ void TOKurage::init() {
 void TOKurage::run_task() {
     f32 y;
     VecCopy(&prev_position, &position);
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         debug_print_ranges();
         return;
     }
@@ -130,7 +130,7 @@ void TOKurage::run_task() {
             dir.y = 0.0f;
             dir.z = 2.0f * (0.0015f * (3.0517578125e-05f * (f32)rand())) + 0.05f;
             push_matrix_from(&identity_matrix);
-            rotate_matrix_y(NULL, rotation_y);
+            rotate_matrix_y(NULL, rotation.y);
             rotate_vector_by_matrix(NULL, &dir, &out);
             pop_matrices(1);
             velocity.x += out.x;
@@ -144,9 +144,9 @@ void TOKurage::run_task() {
         break;
     case 2:
         if (turn_dir == 0) {
-            rotation_y = (f32)rotation_y + (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
+            rotation.y = (f32)rotation.y + (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
         } else {
-            rotation_y = (f32)rotation_y - (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
+            rotation.y = (f32)rotation.y - (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
         }
         if (rising == 0) {
             Vec dir;
@@ -155,7 +155,7 @@ void TOKurage::run_task() {
             dir.y = 0.0f;
             dir.z = 2.0f * (0.025f * (3.0517578125e-05f * (f32)rand())) + 0.05f;
             push_matrix_from(&identity_matrix);
-            rotate_matrix_y(NULL, rotation_y);
+            rotate_matrix_y(NULL, rotation.y);
             rotate_vector_by_matrix(NULL, &dir, &out);
             pop_matrices(1);
             velocity.x += out.x;
@@ -237,13 +237,13 @@ void TOKurage::run_task() {
             break;
         case 3:
             if (turn_dir == 0) {
-                rotation_y = (f32)rotation_y + (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
+                rotation.y = (f32)rotation.y + (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
             } else {
-                rotation_y = (f32)rotation_y - (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
+                rotation.y = (f32)rotation.y - (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
             }
             if (rising == 0) {
                 push_matrix_from(&identity_matrix);
-                rotate_matrix_y(NULL, rotation_y);
+                rotate_matrix_y(NULL, rotation.y);
                 pop_matrices(1);
             }
             if (xyz_distance(&home, &position) < scale.y / 5.0f) {
@@ -273,7 +273,7 @@ void TOKurage::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_zyx(NULL, rotation_x, rotation_y, rotation_z);
+        rotate_matrix_zyx(NULL, rotation.x, rotation.y, rotation.z);
         set_texture_list(texlist);
         switch (state) {
         case 4:
@@ -303,7 +303,7 @@ void TOKurage::render() {
 }
 
 
-void *TOKurage::create(void *set_data) {
+void *TOKurage::create(ObjectSetData *set_data) {
     return new TOKurage(tl_05, set_data);
 }
 
@@ -321,7 +321,7 @@ void TOKurage::load_static_resource() {
 
 TOKurage::~TOKurage() {}
 
-TOKurage::TOKurage(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TOKurage::TOKurage(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = kurage_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(kurage_bml_resource, 0);

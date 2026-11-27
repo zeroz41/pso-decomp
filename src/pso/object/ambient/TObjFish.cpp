@@ -1,6 +1,5 @@
 #include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -123,7 +122,7 @@ void TObjFish::render() {
         n = (s32)fish_count;
         push_matrix();
         translate_matrix_vec3(0, (u8 *)&position);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         if (camera_ctrl_instance != NULL) {
             d.x = camera_ctrl_instance->pos.x - position.x;
             d.y = camera_ctrl_instance->pos.y - position.y;
@@ -311,7 +310,7 @@ void TObjFish::run_task() {
         turn *= 0.12f;
         f->angle += (s32)turn;
         if ((k & 3) == 0) {
-            turn = (s16)((s16)((s32)(10430.38043493439 * atan2_float(f->target.x - f->pos.x, f->target.z - f->pos.z)) - rotation_y) - f->yaw);
+            turn = (s16)((s16)((s32)(10430.38043493439 * atan2_float(f->target.x - f->pos.x, f->target.z - f->pos.z)) - rotation.y) - f->yaw);
             turn *= 0.8f;
             f->yaw += (s32)turn;
         }
@@ -350,7 +349,7 @@ s32 TObjFish::init_fish_school(Vec *extent, s32 anim0_count, s32 anim1_count) {
     if ((s32)fish_count < 1) {
         return 0;
     }
-    fish = (TObjFishEntry *)TQuestVmDownLoadServer::alloc((s32)fish_count * sizeof(TObjFishEntry));
+    fish = (TObjFishEntry *)alloc((s32)fish_count * sizeof(TObjFishEntry));
     if (fish == NULL) {
         return 0;
     }
@@ -397,14 +396,14 @@ TObjFish::~TObjFish() {
 }
 
 
-TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
-    TObjFishSetData *data = (TObjFishSetData *)set_data;
+// The set entry's set_params are the counts of the three kinds of fish in the school.
+TObjFish::TObjFish(TObject *parent, ObjectSetData *data) : TObjBase(parent) {
     f32 y;
     f32 radius_max;
     m_name = fish_class_name;
     fish = NULL;
     VecCopy(&position, &data->position);
-    copy_xyz(&rotation_x, data->rotation);
+    copy_xyz(&rotation, data->rotation);
     VecCopy(&scale, &data->scale);
     radius_max = scale.x;
     y = scale.y;
@@ -416,17 +415,17 @@ TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
         radius_max = y;
     }
     school_radius = radius_max;
-    fish_count = data->counts[0] + data->counts[1] + data->counts[2];
+    fish_count = data->set_params[0] + data->set_params[1] + data->set_params[2];
     frame_counter = 0;
     if ((s32)fish_count < 1) {
         fish_count = 1;
     }
-    if (init_fish_school(&scale, data->counts[0], data->counts[1]) == 0) {
+    if (init_fish_school(&scale, data->set_params[0], data->set_params[1]) == 0) {
         queue_destruction();
     }
 }
 
-void *TObjFish::create(void *set_data) {
+void *TObjFish::create(ObjectSetData *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }

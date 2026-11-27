@@ -3,7 +3,7 @@
 #include "pso/system/scene/TEndingPic.h"
 #include "pso/system/scene/TEndingAB.h"
 #include "pso/system/scene/TEndingPicStage.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -151,7 +151,7 @@ TEndingPic::TEndingPic(TObject *parent) : TObject(parent) {
     m_name = name;
     elapsed_ticks = -1;
     TEndingPic::animation_state = 0;
-    field_20 = 0xFF;
+    pad_20 = 0xFF;
     picture_pair = 0;
     next_picture = 0;
     ending_pic_wall_texture_list = get_ending_ab_wall_texture_list();

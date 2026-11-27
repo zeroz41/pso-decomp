@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -12,6 +11,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/CameraHelpers.h"
@@ -46,7 +46,7 @@ extern "C" {
 s32 df_demo0_body_motion_ids[6] = {0x50, 0x4E, 0x19, 0x19, 0x19, 0x18};
 // Where the demo plays out: the camera looks from it, effects gather on it and sounds play from it.
 Vec df_demo0_center = {0.0f, 0.0f, -120.0f};
-CameraAngles df_demo0_camera_angles = {0, 0, 0};
+Angle3 df_demo0_camera_angles = {0, 0, 0};
 CameraPlayback df_demo0_camera_playback = {0, 1, 0, 0.0f, 0.5f};
 // Offsets from df_demo0_center of the bursts spawned on frames 0x8C-0x90, one per frame.
 Vec df_demo0_burst_offsets[5] = {
@@ -73,7 +73,7 @@ TObjDFDemo0::TObjDFDemo0(TObject *parent) : TObjBase(parent) {
     s32 j;
 
     m_name = TObjDFDemo0::name;
-    h = TBoss4Uro::get_instance_count();
+    h = TBoss4DarkFalz::get_dat_resource();
     for (i = 0; i < 6; i++) {
         {
             s32 t = boss4_type1_model_ids[i];

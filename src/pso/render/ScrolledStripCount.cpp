@@ -7,7 +7,7 @@
 void visit_model_tree_recursive(ScrolledStripTotals *acc, NJS_OBJECT *node, s32 id) {
     do {
         if (node->model != NULL) {
-            count_scrolled_texture_strips(acc, static_cast<GinjaModel *>(node->model), id);
+            count_scrolled_texture_strips(acc, node->ginja_model, id);
         }
         if (node->child != NULL) {
             visit_model_tree_recursive(acc, node->child, id);

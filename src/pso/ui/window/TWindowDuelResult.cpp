@@ -1,7 +1,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "types.h"
-#include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -14,11 +13,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/ui/window/TWindowDuelResult_801C2528.h"
+#include "pso/unk/TBattleMusicGainTask.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 
 
 #pragma readonly_strings on
@@ -106,13 +106,13 @@ void TWindowDuelResult::build_stats_page() {
     s32 vals[4];
     TObjPlayer *pl;
     s32 i;
-    u8 *a;
+    WindowTextEntry *a;
     TWindowLayoutNumber *b;
-    u8 *c;
+    WindowTextEntry *c;
     init_window_layout_entries(&entry_list, duel_result_window_layout_table, client_index);
-    a = (u8 *)get_array_entry(0);
+    a = (WindowTextEntry *)get_array_entry(0);
     set_default_status(a, get_localized_text_entry(0x10, 0));
-    c = (u8 *)get_array_entry(0xF);
+    c = (WindowTextEntry *)get_array_entry(0xF);
     set_default_status(c, get_localized_text_entry(0x10, 5));
     pl = get_player_by_client_id(client_index);
     if (pl != 0) {
@@ -122,8 +122,8 @@ void TWindowDuelResult::build_stats_page() {
         vals[2] = pl->battle_score.damage_given.get_total();
         vals[3] = pl->battle_score.damage_taken.get_total();
         for (i = 0; i < 4; i++) {
-            a = (u8 *)get_array_entry(i * 3 + 2);
-            b = (TWindowLayoutNumber *)get_array_entry(i * 3 + 4);
+            a = (WindowTextEntry *)get_array_entry(i * 3 + 2);
+            b = static_cast<TWindowLayoutNumber *>(get_array_entry(i * 3 + 4));
             set_default_status(a, get_localized_text_entry(0x10, i + 1));
             b->value = vals[i];
         }
@@ -137,14 +137,14 @@ void TWindowDuelResult::build_ranking_page() {
     s32 none;
     BattleRanking *e;
     TObjPlayer *player;
-    u8 *a;
-    u8 *b;
-    u8 *c;
+    WindowTextEntry *a;
+    WindowTextEntry *b;
+    WindowTextEntry *c;
     WindowTextEntry *d;
     init_window_layout_entries(&entry_list, TWindowDuelResult::layout_entries, client_index);
-    a = (u8 *)get_array_entry(0);
+    a = (WindowTextEntry *)get_array_entry(0);
     set_default_status(a, get_localized_text_entry(0x10, 0));
-    b = (u8 *)get_array_entry(0x12);
+    b = (WindowTextEntry *)get_array_entry(0x12);
     set_default_status(b, get_localized_text_entry(0x10, 5));
     none = 1;
     e = get_battle_rankings();
@@ -156,15 +156,15 @@ void TWindowDuelResult::build_ranking_page() {
     }
     e = get_battle_rankings();
     for (i = 0; i < 4; i++, e++) {
-        a = (u8 *)get_array_entry(i * 4 + 1);
-        b = (u8 *)get_array_entry(i * 4 + 2);
-        c = (u8 *)get_array_entry(i * 4 + 3);
+        a = (WindowTextEntry *)get_array_entry(i * 4 + 1);
+        b = (WindowTextEntry *)get_array_entry(i * 4 + 2);
+        c = (WindowTextEntry *)get_array_entry(i * 4 + 3);
         d = (WindowTextEntry *)get_array_entry(i * 4 + 4);
         player = (e->client_id == 0xFFFF) ? NULL : get_player_by_client_id(e->client_id);
         if (player == NULL) {
-            *(u16 *)a |= 2;
-            *(u16 *)b |= 2;
-            *(u16 *)c |= 2;
+            a->flags |= 2;
+            b->flags |= 2;
+            c->flags |= 2;
             d->flags |= 2;
         } else {
             if (none) {
@@ -178,7 +178,7 @@ void TWindowDuelResult::build_ranking_page() {
             } else {
                 set_default_status(a, get_localized_text_entry(0x10, e->place + 6));
             }
-            set_text_entry_string((WindowTextEntry *)c, player->appearance.name, 0x20);
+            set_text_entry_string(c, player->appearance.name, 0x20);
             text_builder_reset();
             text_builder_append_int(e->score);
             text_builder_append(get_localized_text_entry(0x10, 0xD));

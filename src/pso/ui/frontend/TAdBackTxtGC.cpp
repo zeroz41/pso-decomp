@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/render/TextureState.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
@@ -77,7 +77,7 @@ NJS_TEXNAME TAdBackTxtGC_backtext_tex_names[5] = {
 __declspec(section ".data") NJS_TEXLIST TAdBackTxtGC_backtext_tex_list = { TAdBackTxtGC_backtext_tex_names, 5 };
 const char *TAdBackTxtGC::name = "TAdBackTxtGC";
 
-void TAdSinglePlyChrSelectGC::free_texture_f256_backtext() {
+void free_texture_f256_backtext() {
     if (TAdBackTxtGC::backtext_texture_list != NULL) {
         release_texture_list(TAdBackTxtGC::backtext_texture_list);
         TAdBackTxtGC::backtext_texture_list = NULL;

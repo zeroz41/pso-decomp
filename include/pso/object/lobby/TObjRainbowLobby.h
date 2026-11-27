@@ -9,12 +9,12 @@ struct BmlResource;
 // The lobby rainbow: shown while a lobby event runs, it grows in when the
 // lobby connects and shrinks away when a lobby object takes over.
 struct TObjRainbowLobby : public TObjMapObject {
-    TObjRainbowLobby(TObject *parent, void *set_data);
+    TObjRainbowLobby(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjRainbowLobby();
     s32 state;  // 0 hidden, 2 fading in, 3 shown, 1 fading out
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_resources();
     static void load_resources();
     f32 scale;

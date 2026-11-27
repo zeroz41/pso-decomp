@@ -1,8 +1,8 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowEffectParty.h"
+#include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -20,18 +20,17 @@
 
 extern "C" {
 extern const f64 party_marker_angle_scale;
-void *__ct__18TWindowEffectPartyFP7TObjectScScl(void *, void *, u16, u16, s32);
 }
 
 // Built with deferred code generation (the vtable precedes the switch table
 // in .data), so the functions are written from the last one back.
 #pragma fp_contract on
-void *get_simple_status_window(s8 i) {
+TWindowSimpleStatus *get_simple_status_window(s8 i) {
     if (TWindowCtrl::instance == 0) return 0;
     return TWindowCtrl::instance->simple_status[i];
 }
 
-TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source, s8 target, s32 effect_id) : TObject(object) {
+TWindowEffectParty::TWindowEffectParty(TObject *object, u16 source, u16 target, s32 effect_id) : TObject(object) {
     Vec position;
     m_name = TWindowEffectParty::class_name;
     this->source_slot = source;
@@ -54,7 +53,7 @@ void TWindowEffectParty::run_task() {
     TWindowBase *window;
 
     slot = this->target_slot;
-    if (((s8) slot > 0) && (((window = (TWindowBase *)get_simple_status_window(slot - 1)) == 0) || (window->is_open_and_unblocked() == 0))) {
+    if (((s8) slot > 0) && (((window = get_simple_status_window(slot - 1)) == 0) || (window->is_open_and_unblocked() == 0))) {
         queue_destruction();
         return;
     }
@@ -91,11 +90,10 @@ void TWindowEffectParty::render() {  }
 #pragma readonly_strings on
 const char *TWindowEffectParty::class_name = "TWindowEffectParty";
 
-void *TWindowEffectParty::create(void *owner, u16 from, u16 to, u32 kind) {
+void *TWindowEffectParty::create(TObject *owner, u16 from, u16 to, u32 kind) {
     s32 id;
     u16 b;
     u16 a;
-    void *w;
     if (from == to) {
         return 0;
     }
@@ -135,11 +133,7 @@ void *TWindowEffectParty::create(void *owner, u16 from, u16 to, u32 kind) {
     if (b & 0xFFFC) {
         b += 4;
     }
-    w = TObject::operator new(0x34);
-    if (w != 0) {
-        w = __ct__18TWindowEffectPartyFP7TObjectScScl(w, owner, a, b, id);
-    }
-    return w;
+    return new TWindowEffectParty(owner, a, b, id);
 }
 
 void TWindowEffectParty::set_slot_position(s32 slot, f32 *position) {
@@ -151,7 +145,7 @@ void TWindowEffectParty::set_slot_position(s32 slot, f32 *position) {
         position[1] += 32.0f;
         return;
     }
-    window = (TWindowBase *)get_simple_status_window(slot - 1);
+    window = get_simple_status_window(slot - 1);
     if (window != NULL) {
         position[0] = (f32) (111.0f + window->target_position[0]);
         position[1] = (f32) (19.0f + window->target_position[1]);

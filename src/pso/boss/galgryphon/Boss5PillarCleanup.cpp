@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/Boss5PillarCleanup.h"
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
@@ -8,11 +7,8 @@
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/door/TODoorFourLightSpace.h"
 
-extern "C" {
-void cleanup_pillar_demo_stub_b(void);
-void cleanup_pillar_demo_stub_a(void);
-}
 
 void cleanup_pillar_demo() {
     if (boss5_ctrl_instance != NULL) {

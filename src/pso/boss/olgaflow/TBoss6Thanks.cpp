@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/render/ChunkModelDraw.h"
@@ -31,7 +30,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/item/TItemEffLandHit.h"
 
 

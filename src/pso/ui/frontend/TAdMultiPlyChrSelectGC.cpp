@@ -1,9 +1,9 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
+#include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
@@ -17,7 +17,7 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/system/ControllerInput.h"
@@ -42,12 +42,59 @@
 #include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
+s32 TAdSinglePlyChrSelectGC::check_slot_flags(s32 slot, u32 mask) {
+    u32 flags;
+    if (secondary_card_character_save_buffer != 0) {
+        if (slot >= 7) {
+            return (u8)(0);
+        }
+        flags = *(u32 *)((u8 *)secondary_card_character_save_buffer + slot * 0x2798 + 0x420);
+        return (u8)((flags & mask) != 0);
+    }
+    return (u8)(0);
+}
+
+s32 TAdGameStartGC::is_active() { return m_active; }
+
+int TAdMultiPlyChrSelectGC::get_chr_select_state() { return multi_chr_select_state; }
+
+void TAdSelectCurGC::lock_navigation() { navigation_locked = 1; }
+
+int TAdMultiPlyChrSelectGC::get_select_flag() {  return chg_game_mode_state_synced; }
+
+TAdChrMoveEffectGC *TAdMultiPlyChrSelectGC::get_global_state() { return chr_move_effect_instance; }
+
+s32 TAdChrSelBSlotGC::is_state_closing() {
+    switch (state) {
+    case 6:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+        return 1;
+    }
+    return 0;
+}
+
+s32 TAdChrSelBSlotGC::get_state() { return state; }
+
+void TAdChrSelBSlotGC::set_state(s32 value) { state = value; }
+
+s32 TAdChrSelPlyPlateGC::is_confirm_pressed() { return confirm_pressed; }
+
+void TAdChrSelPlyPlateGC::capture_card_index() { captured_card_index = get_active_card_slot(); }
+
+void TAdChrSelPlyPlateGC::restore_selection() { TAdMultiPlyChrSelectGC::selected_slot = multi_ply_chr_select_active_player; }
+
+void TAdChrSelPlyPlateGC::set_cursor_fields(s32 field_4f4, s32 field_4f0) {
+    unk_4f4 = field_4f4;
+    unk_4f0 = field_4f0;
+}
+
+void TAdChrSelPlyPlateGC::set_cursor_column(s32 column) { cursor_col = column; }
 
 u8 player_number_text_buffer[0x80];
 
-extern "C" {
-s32 is_plate_animation_running();
-}
 
 static const ChrSelPlateLayout multi_chr_select_plate_layout = {180.0f, 38.0f, {0xDD, 0x90, 0x48, 0x00}, 0};
 static const NJS_POINT2 multi_chr_select_character_slot_positions[4] = {
@@ -236,12 +283,12 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
     case 0:
     case 2:
         new TAdTitleGC(this, 0);
-        this->a_slot = TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 1);
+        this->a_slot = get_or_create_slot_window(this, 1);
         this->player_preview = get_or_create_player(this, 1, -1, 0);
         break;
     case 1: {
         new TAdTitleGC(this, 8);
-        this->a_slot = TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 2);
+        this->a_slot = get_or_create_slot_window(this, 2);
         this->b_slot = TAdChrSelBSlotGC::create(this);
         NJS_POINT2 pos = {0.0f, 0.0f};
         this->select_cursor = new TAdSelectCurGC(this,
@@ -833,7 +880,7 @@ void TAdMultiPlyChrSelectGC::open_windows() {
     game_start->destroy_windows();
     player_plate->set_select_mode(1);
     player_preview->set_index_and_close_status(1);
-    this->a_slot = TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 2);
+    this->a_slot = get_or_create_slot_window(this, 2);
     this->b_slot = TAdChrSelBSlotGC::create(this);
     guide->set_line(0, "");
     guide->set_line(1, "");
@@ -872,7 +919,7 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
         this->confirm_window = NULL;
     }
     this->move_requested = 0;
-    this->a_slot = TAdMultiPlyChrSelectGC::get_or_create_slot_window(this, 1);
+    this->a_slot = get_or_create_slot_window(this, 1);
     player_plate->set_select_mode(0);
     player_plate->set_state_ready();
     if ((game_start->is_active() == 0) && (TAdMultiPlyChrSelectGC::count_selected_slots() > 1) && (is_multiplayer_character_slot_selected(0) != 0)) {
@@ -1390,9 +1437,10 @@ void TAdMultiPlyChrSelectGC::update_confirm_start() {
 
 void TAdMultiPlyChrSelectGC::update_idle_timer() {
     s32 frames;
+    TAdPlyPltAnimCtrlGC *plates;
     frames = this->state_frames + 1;
     this->state_frames = frames;
-    if (((f32) frames > 4.5f) && (TAdMultiPlyChrSelectGC::get_selected_slot() != 0U) && (is_plate_animation_running() == 0)) {
+    if (((f32) frames > 4.5f) && (plates = TAdMultiPlyChrSelectGC::get_selected_slot()) != NULL && plates->is_plate_animation_running() == 0) {
         this->state = this->next_state;
     }
 }
@@ -1621,7 +1669,7 @@ void TAdMultiPlyChrSelectGC::run_state_33() {
 }
 
 void TAdMultiPlyChrSelectGC::handle_input() {
-    void *context;
+    ControllerInputContext *context;
 
     if (this->yes_no_dialog != NULL) {
         this->yes_no_dialog->close();
@@ -1810,7 +1858,7 @@ TWindowMenu *TAdMultiPlyChrSelectGC::create_moving_notice(const NJS_POINT2 *desc
     TWindowMenu *menu = create_window_menu_default(desc, 1);
     menu->add_text_entry(get_localized_text_entry(0x1F, 6), 0x21, 0);
     menu->disable_input();
-    TQuestThread::set_status_flag_80(menu);
+    menu->set_status_flag_80();
     menu->calc_layout_height(190.0f);
     return menu;
 }
@@ -1819,7 +1867,7 @@ TWindowMenu *TAdMultiPlyChrSelectGC::create_full_notice(const NJS_POINT2 *desc) 
     TWindowMenu *menu = create_window_menu_default(desc, 1);
     menu->add_text_entry(get_localized_text_entry(0x1F, 7), 0x21, 0);
     menu->disable_input();
-    TQuestThread::set_status_flag_80(menu);
+    menu->set_status_flag_80();
     menu->calc_layout_height(190.0f);
     return menu;
 }
@@ -1851,4 +1899,3 @@ TWindowMessageYesNo *TAdMultiPlyChrSelectGC::create_delete_prompt() {
 void TAdMultiPlyChrSelectGC::render() {
     if (TMainTask::get_render_pass() == 1) return;
 }
-

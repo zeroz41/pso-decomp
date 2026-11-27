@@ -1,6 +1,5 @@
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/network/TradeSession.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
@@ -16,6 +15,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/DeferredPackets.h"
 
 struct TWindowSubItem;
 
@@ -63,7 +63,7 @@ extern const f32 main_menu_help_message_size[2] = {206.0f, 140.0f};
 #include "pso/ui/TAdMultiPlyChrSelectTransitionGC.h"
 
 
-int test_keyboard_card_flag4(s32 client_id) { return TWindowKeyBoardHard::test_card_flag(client_id, 4); }
+int test_keyboard_card_flag4(s32 client_id) { return test_card_flag(client_id, 4); }
 void TWindowMainMenu::on_submenu_closed() {  }
 
 void TWindowMainMenu::on_menu_opened() {  }
@@ -82,7 +82,7 @@ TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) 
         slots[i].entries = NULL;
     }
     menu_window = NULL;
-    submenu = 0;
+    submenu = NULL;
     help_window = NULL;
     active_entries = NULL;
     reset_depth_base();
@@ -308,7 +308,7 @@ void TWindowMainMenu1P::create_char_select_slot() {
     this->submenu = new TAdMultiPlyChrSelectTransitionGC(this, client_index);
 }
 
-void TWindowMainMenu::destroy_submenu() { if (this->submenu != 0) { this->submenu->queue_destruction(); this->submenu = 0; } }
+void TWindowMainMenu::destroy_submenu() { if (submenu != NULL) { submenu->queue_destruction(); submenu = NULL; } }
 
 void TWindowMainMenu::update_description_text(s32 id) {
     if ((s32)description_item_id != id) {

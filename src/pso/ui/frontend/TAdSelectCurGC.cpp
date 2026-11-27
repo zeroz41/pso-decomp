@@ -5,11 +5,11 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"

@@ -13,7 +13,7 @@
 
 #pragma readonly_strings on
 
-void *TObjNpcExpertBase::create(void *set_data) {
+void *TObjNpcExpertBase::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcExpertBase(control, set_data);
 }
@@ -36,7 +36,7 @@ void TObjNpcExpertBase::load_shared_resource() {
 
 TObjNpcExpertBase::~TObjNpcExpertBase() {}
 
-TObjNpcExpertBase::TObjNpcExpertBase(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+TObjNpcExpertBase::TObjNpcExpertBase(TObject *parent, EnemyPlacement *set_data) : TObjNpcMale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

@@ -39,7 +39,7 @@
 
 
 extern "C" {
-void transform_chunk_object_tree(void *object, s32 (*draw)(void *model));
+void transform_chunk_object_tree(NJS_OBJECT *object, s32 (*draw)(void *model));
 void draw_strip_list_pos_nrm(s16 *list, ChunkCachedVertex *verts, u32 info);
 void draw_strip_pos_normal(s16 *list, ChunkCachedVertex *verts, u32 info);
 void draw_triangle_strips(s16 *list, ChunkCachedVertex *verts, u32 info);
@@ -83,53 +83,51 @@ void copy_matrix3x3_for_chunk_tree(const GC_Mtx *src) {
 }
 #pragma pop
 
-#define node ((NJS_OBJECT *)object)
-void transform_chunk_object_tree(void *object, s32 (*draw)(void *model)) {
+void transform_chunk_object_tree(NJS_OBJECT *object, s32 (*draw)(void *model)) {
     u32 flags;
     s32 r;
 
     do {
-        flags = node->evalflags;
+        flags = object->evalflags;
         r = 0;
         if (flags & 0x800) {
             get_current_matrix(&chunk_object_current_matrix);
         }
         if ((flags & 7) == 7) {
             if (!(flags & 8)) {
-                r = draw(node->model);
+                r = draw(object->model);
             }
             if (!(flags & 0x10) && (!(flags & 0x100) || r == 0)) {
-                transform_chunk_object_tree(node->child, draw);
+                transform_chunk_object_tree(object->child, draw);
             }
         } else {
             push_matrix();
             if (!(flags & 1)) {
-                post_translate_matrix(node->pos);
+                post_translate_matrix(object->pos);
             }
             if (!(flags & 2)) {
                 if (flags & 0x1000) {
                     copy_matrix3x3_for_chunk_tree(&chunk_object_current_matrix);
                 } else if (flags & 0x400) {
-                    apply_quat_rotation(node->quat_w, (f32 *)node->ang);
+                    apply_quat_rotation(object->quat_w, object->quat_xyz);
                 } else {
-                    rotate_matrix_by_node_angles(node->ang, flags & 0x20);
+                    rotate_matrix_by_node_angles(object->ang, flags & 0x20);
                 }
             }
             if (!(flags & 4)) {
-                scale_current_matrix(node->scl);
+                scale_current_matrix(object->scl);
             }
             if (!(flags & 8)) {
-                r = draw(node->model);
+                r = draw(object->model);
             }
             if (!(flags & 0x10) && (!(flags & 0x100) || r == 0)) {
-                transform_chunk_object_tree(node->child, draw);
+                transform_chunk_object_tree(object->child, draw);
             }
             pop_matrix();
         }
-        object = node->sibling;
+        object = object->sibling;
     } while (object != NULL);
 }
-#undef node
 }
 
 extern "C" {
@@ -370,7 +368,7 @@ void draw_strip_list_pos_nrm(s16 *list, ChunkCachedVertex *verts, u32 info) {
     } while (--count != 0);
 }
 }
-s32 dispatch_chunk_vertex_list(u32*, ChunkCachedVertex *);
+s32 dispatch_chunk_vertex_list(u32*, ChunkCachedVertex*);
 #pragma pop
 
 void submit_chunk_material_color(s32 type, s16* data) {
@@ -651,7 +649,7 @@ void dispatch_chunk_polygon_list(s16 *list, ChunkCachedVertex *vertex_buffer) {
                 } else if (chunk_has_vertex_colors != 0) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, GX_FALSE, GX_PTIDENTITY);
-                    draw_chunk_color_tex_strips(list, (ChunkColorVertex *) vertex_buffer, strip_info, type == NJD_CS_UVH);
+                    draw_chunk_color_tex_strips(list, vertex_buffer, strip_info, type == NJD_CS_UVH);
                 } else {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, GX_FALSE, GX_PTIDENTITY);
@@ -784,7 +782,7 @@ void draw_chunk_model(void *model) {
 }
 
 
-void draw_chunk_object(void *child) {
+void draw_chunk_object(NJS_OBJECT *child) {
     setup_model_draw_state(child);
     transform_chunk_object_tree(child, draw_chunk_vertices_cached);
     end_chunk_draw();

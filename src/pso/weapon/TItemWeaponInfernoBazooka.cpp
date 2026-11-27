@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/ClampedStep.h"
 #include "types.h"
 #include "pso/item/TItemEquipBase.h"
@@ -11,7 +10,7 @@
 #include "pso/item/TItem.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/weapon/TItemWeaponInfernoBazooka.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/math/AngleLookup.h"
@@ -42,7 +41,7 @@ TItem *TItemWeaponInfernoBazooka::create(u8 *item) {
 
 TItemWeaponInfernoBazooka::TItemWeaponInfernoBazooka(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     barrel_offset = 0.0f;
-    impact_callback = (WeaponHitCallback)spawn_flame_wall_impact;
+    impact_callback = spawn_flame_wall_impact;
     recoil_state = 0;
     hit_callback = (WeaponHitCallback)play_target_impact_effect;
     shot_callback = create_shoot_model_with_particles;
@@ -57,14 +56,14 @@ void TItemWeaponInfernoBazooka::update_weapon() {
         ::approach_value(&barrel_offset, (-0.5f), (-2.0f));
         if ((-2.0f) == barrel_offset) {
             this->recoil_state = 2;
-            ang = owner->rotation_y + 0x4000;
+            ang = owner->rotation.y + 0x4000;
             v.x = sin_table_lookup(ang);
             v.y = 0.0f;
             v.z = cos_table_lookup(ang);
             rotation[0] = 0x4000;
-            rotation[1] = owner->rotation_y;
+            rotation[1] = owner->rotation.y;
             rotation[2] = 0;
-            TObjPlayer::launch_weapon_casing(tl_05, this, 3, &v, rotation);
+            launch_weapon_casing(tl_05, this, 3, &v, rotation);
         }
     } else if (this->recoil_state == 2) {
         ::approach_value(&barrel_offset, 0.2f, 0.0f);
@@ -126,7 +125,7 @@ void TWeaponCasing::render() {
 }
 
 
-void TObjPlayer::launch_weapon_casing(TObject *parent, TItemWeapon *item, s32 joint, Vec *velocity, s32 *angle) {
+void launch_weapon_casing(TObject *parent, TItemWeapon *item, s32 joint, Vec *velocity, s32 *angle) {
     Vec joint_pos;
     TObject *object;
     if ((parent != NULL) && (item != NULL) && (velocity != NULL) && (angle != NULL) && (item->get_joint_position(joint, &joint_pos) != 0)) {
@@ -135,7 +134,7 @@ void TObjPlayer::launch_weapon_casing(TObject *parent, TItemWeapon *item, s32 jo
     }
 }
 
-void TObjPlayer::spawn_weapon_casing(TObject *parent, TItem *item, Vec *pos, Vec *velocity, s32 *angle) {
+void spawn_weapon_casing(TObject *parent, TItem *item, Vec *pos, Vec *velocity, s32 *angle) {
     TObject *p;
     if ((parent != NULL) && (item != NULL) && (pos != NULL) && (velocity != NULL) && (angle != NULL)) {
         p = new TWeaponCasing(parent, item, pos, velocity, angle);

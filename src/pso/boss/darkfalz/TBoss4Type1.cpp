@@ -42,7 +42,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TTecRaBarta.h"
-#include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
+#include "pso/boss/darkfalz/DarkFalzUtil.h"
 #include "pso/render/GinjaDrawUtil.h"
 
 #include "pso/object/base/ActorCollision.h"
@@ -115,11 +115,12 @@ ModelNodePositionEntry boss4_type1_core_capture_entries[3] = {
     {-1, {0.0f, 0.0f, 0.0f}},
 };
 Vec boss4_type1_start_position = { 0.0f, 0.0f, -120.0f };
-TBoss4Type1AttackTables boss4_type1_attack_tables = {
-    { 0x0, 0xc000, 0x8000, 0x4000 },
-    { 0.25f, 0.25f, 0.5f }, { 8, 9, 10 },
-    { 0.5f, 0.5f }, { 8, 9 },
-};
+// Stand angle of each slot, then the weighted attack picks of choose_next_attack.
+s32 boss4_type1_slot_angles[4] = { 0x0, 0xc000, 0x8000, 0x4000 };
+f32 boss4_type1_low_hp_attack_weights[3] = { 0.25f, 0.25f, 0.5f };
+s32 boss4_type1_low_hp_attacks[3] = { 8, 9, 10 };
+f32 boss4_type1_attack_weights[2] = { 0.5f, 0.5f };
+s32 boss4_type1_attacks[2] = { 8, 9 };
 Vec boss4_type1_vec_table[4] = {
     { 50.0f, 10.0f, 0.0f }, { -50.0f, 10.0f, 0.0f }, { 0.0f, 10.0f, 50.0f }, { 0.0f, 10.0f, -50.0f },
 };
@@ -325,11 +326,11 @@ TBoss4Type1::TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     owner = set_data->owner;
     apply_set_data(&set_data->entry);
     clear_lobby_object_state();
-    archive = TBoss4Uro::get_instance_count();
+    archive = TBoss4DarkFalz::get_dat_resource();
     texlist = 0;
     model = 0;
     VecCopy(&position, &boss4_type1_start_position);
-    rotation_y = 0;
+    rotation.y = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, boss4_type1_collision_body_desc, 3);
     VecCopy(&body_center, &position);
@@ -453,10 +454,10 @@ void TBoss4Type1::render_effects() {
     toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     draw_parts();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 #pragma push
@@ -541,7 +542,7 @@ void TBoss4Type1::draw_parts() {
 
 #pragma pop
 s32 TBoss4Type1::calc_slot_angle(s32 slot, s32 turn) {
-    return boss4_type1_attack_tables.slot_angles[slot] + (turn - 1) * 0x4000;
+    return boss4_type1_slot_angles[slot] + (turn - 1) * 0x4000;
 }
 
 void TBoss4Type1::set_state(s32 next_state) {
@@ -575,7 +576,7 @@ void TBoss4Type1::set_pos_from_scaled_offset(Vec *from, Vec *to) {
 }
 
 void TBoss4Type1::calc_scaled_field(s32 from_angle, s32 to_angle) {
-    rotation_y = from_angle + (s32)(move_ratio * (f32)angle_diff_s16(from_angle, to_angle));
+    rotation.y = from_angle + (s32)(move_ratio * (f32)angle_diff_s16(from_angle, to_angle));
 }
 
 f32 TBoss4Type1::calc_wave_offset(f32 t) {
@@ -594,7 +595,7 @@ void TBoss4Type1::push_players_out_of_colliders() {
     push_matrix();
     set_matrix_identity(0);
     translate_matrix_vec3(0, (u8 *)&position);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     for (i = 0; i < collider_count; i++) {
         in.x = boss4_type1_xz_offset_table[i].x;
         in.y = 0.0f;
@@ -672,8 +673,8 @@ void TBoss4Type1::update_collision_bodies() {
         Vec v = node_positions[i][0];
         VecCopy(&body->center, &v);
         subtract_vector(&v, &position);
-        s = sin_table_lookup(-rotation_y);
-        c = cos_table_lookup(-rotation_y);
+        s = sin_table_lookup(-rotation.y);
+        c = cos_table_lookup(-rotation.y);
         Vec t = v;
         v.x = c * t.x + s * t.z;
         v.z = -s * t.x + c * t.z;
@@ -805,8 +806,8 @@ void TBoss4Type1::update_radar_markers() {
     add_radar_scaled_marker(&node_positions[0][0], -0x5DB4, 1, 1, 5.0f);
     add_radar_scaled_marker(&node_positions[1][0], -0x5DB4, 1, 1, 5.0f);
     add_radar_scaled_marker(&node_positions[2][0], -0x5DB4, 1, 1, 5.0f);
-    s = sin_table_lookup(rotation_y);
-    c = cos_table_lookup(rotation_y);
+    s = sin_table_lookup(rotation.y);
+    c = cos_table_lookup(rotation.y);
     step = 37.5f;
     i = 0;
     dist = 0x25;
@@ -837,14 +838,11 @@ void TBoss4Type1::update_radar_markers() {
 void TBoss4Type1::choose_next_attack() {
     Vec target;
     s32 r;
-    // The original code addresses the tables relative to the first Type 1 data object.
-    TBoss4Type1AttackTables *tables = reinterpret_cast<TBoss4Type1AttackTables *>(
-        reinterpret_cast<u8 *>(lbl_80485AE0) + 0x67C);
     if (turn == 1) {
         if (hp <= half_hp) {
-            r = TBoss4Type2::pick_weighted_random(3, tables->low_hp_weights, tables->low_hp_attacks);
+            r = TBoss4Type2::pick_weighted_random(3, boss4_type1_low_hp_attack_weights, boss4_type1_low_hp_attacks);
         } else {
-            r = TBoss4Type2::pick_weighted_random(2, tables->weights, tables->attacks);
+            r = TBoss4Type2::pick_weighted_random(2, boss4_type1_attack_weights, boss4_type1_attacks);
         }
         switch (r) {
         case 8:
@@ -910,7 +908,7 @@ void TBoss4Type1::update_follow_camera_offsets() {
     push_matrix();
     set_matrix_identity(0);
     translate_matrix_vec3(0, (u8 *)&position);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     for (i = 0; i < collider_count; i++) {
         in.x = boss4_type1_xz_offset_table[i].x;
         in.y = 0.0f;
@@ -1042,11 +1040,11 @@ void TBoss4Type1::update_spawn_uro() {
     s = &node_positions[turn][1];
     t = state_timer;
     if (t < 0x106 && (t & 0x1F) == 0 && uro_count < uro_limit) {
-        copy_set_entry(&p.set_index, &dark_falz_set_entry);
-        if (owner->alloc_child_ids(&p.set_index, &p.entity_id) != 0) {
+        copy_set_entry(&p.entry, &dark_falz_set_entry);
+        if (owner->alloc_child_ids(&p.entry.enemy_index, &p.entry.id) != 0) {
             p.owner = owner;
-            p.unk_0C = 1;
-            VecCopy(&p.position, s);
+            p.entry.room = 1;
+            VecCopy(&p.entry.position, s);
             if (TBoss4Uro::create(&p) != NULL) {
                 spawn_particle_effect(s, 0x7D);
                 play_sound_effect(0x4003A810, s, 0, 1);

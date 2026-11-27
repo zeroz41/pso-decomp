@@ -42,7 +42,7 @@ void TBoss8Dragon::place_parts_in_ring(s32 n, s32 hp, s32 seed) {
         leader = (TBoss8Dragon *)get_enemy_entity(boss8_dragon_leader_part->get_part_entity_id(0));
         leader->position.x = 320.0f * sin_table_lookup(ang);
         leader->position.z = 320.0f * cos_table_lookup(ang);
-        leader->rotation_y = (u16)(ang + 0x8000);
+        leader->rotation.y = (u16)(ang + 0x8000);
         for (i = 0; i < n; i++) {
             ang += step;
             v.x = 320.0f * sin_table_lookup(ang);
@@ -219,25 +219,25 @@ s32 TBoss8Dragon::is_near_other_part() {
 }
 
 s32 TBoss8DragonLeaderPart::spawn_attack_object(Vec *pos, s32 angle, s32 hp, s32 index) {
-    TBoss8DragonLeaderPartSetEntry entry;
+    EnemyPlacement entry;
     if (this->setup_attack_slot(pos, angle, index, &entry) != 0) {
         return (saddr)new TBoss8DragonPart(tl_04, &entry, hp);
     }
     return 0;
 }
 
-s32 TBoss8DragonLeaderPart::setup_attack_slot(Vec *pos, s32 angle, s32 index, TBoss8DragonLeaderPartSetEntry *dst) {
+s32 TBoss8DragonLeaderPart::setup_attack_slot(Vec *pos, s32 angle, s32 index, EnemyPlacement *dst) {
     if ((index < 0) || (index > 5)) {
         return 0;
     }
     copy_set_entry(dst, &this->set_entry);
-    dst->set_index = this->get_part_set_index(index);
-    dst->kind = 0;
-    dst->entity_id = this->get_part_entity_id(index);
+    dst->enemy_index = this->get_part_set_index(index);
+    dst->child_count = 0;
+    dst->id = this->get_part_entity_id(index);
     if (pos != NULL) {
         VecCopy(&dst->position, pos);
     }
-    dst->angle = angle;
+    dst->rotation[1] = angle;
     return 1;
 }
 
@@ -251,14 +251,14 @@ TBoss8DragonLeaderPart::~TBoss8DragonLeaderPart() {
     }
 }
 
-TBoss8DragonLeaderPart::TBoss8DragonLeaderPart(TObject *object, void *arg1p) : TObject(object) {
+TBoss8DragonLeaderPart::TBoss8DragonLeaderPart(TObject *object, EnemyPlacement *set_data) : TObject(object) {
     if (boss8_dragon_leader_part == NULL) {
         boss8_dragon_leader_part = this;
     }
-    copy_set_entry(&this->set_entry, arg1p);
+    copy_set_entry(&this->set_entry, set_data);
 }
 
-TBoss8DragonLeaderPart *create_boss8_dragon_leader_part(TObject *parent, void *set_data) {
+TBoss8DragonLeaderPart *create_boss8_dragon_leader_part(TObject *parent, EnemyPlacement *set_data) {
     return new TBoss8DragonLeaderPart(parent, set_data);
 }
 
@@ -267,9 +267,9 @@ void release_boss8_dragon_leader_part(void) {  }
 void clear_boss8_dragon_leader_part(void) { boss8_dragon_leader_part = 0; }
 
 u16 TBoss8DragonLeaderPart::get_part_entity_id(s32 index) {
-    return this->set_entry.entity_id + index;
+    return this->set_entry.id + index;
 }
 
 s32 TBoss8DragonLeaderPart::get_part_set_index(s32 index) {
-    return this->set_entry.set_index + index;
+    return this->set_entry.enemy_index + index;
 }

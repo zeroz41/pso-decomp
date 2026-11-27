@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/quest/challenge/ChallengeStageLoadouts.h"
 #include "pso/object/quest/TObjTagChallenge.h"
 #include <string.h>
@@ -29,7 +28,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/TLevelSelect.h"
 
@@ -126,8 +125,8 @@ void reset_menu_state_globals() {
             challenge4p_mode_state.client_time_records[i] = 0;
         }
         challenge_retry_object->frame_count = 0;
-        challenge_retry_object->pad_20 = 0;
-        challenge_retry_object->pad_24 = 1;
+        challenge_retry_object->missing_records_timer = 0;
+        challenge_retry_object->records_save_pending = 1;
         free_chat_last_line();
     }
 }
@@ -393,15 +392,15 @@ void clamp_and_store_layout_index(s32 stage) {
 s32 challenge_check_any_player_dead(void) {
     s32 found;
     u32 i;
-    u8 *player;
+    TObjPlayer *player;
     if (challenge_retry_object == NULL) {
         return 0;
     }
     found = 0;
     i = 0;
     do {
-        player = (u8 *)(((saddr)get_player_by_client_id(i)));
-        if ((player != NULL) && (((int)((TObjPlayer *)player)->check_player_state_flag_2()) != 0)) {
+        player = get_player_by_client_id(i);
+        if ((player != NULL) && (((int)player->check_player_state_flag_2()) != 0)) {
             save_challenge_tombstone_spot((s32) i);
             found = 1;
         }
@@ -415,14 +414,14 @@ s32 challenge_check_any_player_dead(void) {
 }
 s32 challenge_check_all_players_dead(void) {
     s32 i;
-    u8 *player;
+    TObjPlayer *player;
     if (challenge_retry_object == NULL) {
         return 0;
     }
     i = 0;
     do {
-        player = (u8 *)(((u8 *)get_player_by_client_id(i)));
-        if ((player != NULL) && (((int)((TObjPlayer *)player)->check_player_state_flag_2()) == 0)) {
+        player = get_player_by_client_id(i);
+        if ((player != NULL) && (((int)player->check_player_state_flag_2()) == 0)) {
             return 0;
         }
         i += 1;
@@ -437,7 +436,7 @@ s32 get_challenge_award_rank(s32 total, u16 card, s32 slot) {
     ChallengeStageRank *rank;
     s32 i;
     ChallengeRankThreshold *e;
-    ChallengeRecord *w;
+    ChallengeRecord *record;
     lo = challenge_set_min_time(slot);
     hi = challenge_set_max_time(slot);
     if (get_character_save_record(card) == NULL) {
@@ -446,8 +445,8 @@ s32 get_challenge_award_rank(s32 total, u16 card, s32 slot) {
     if (total < lo || total > hi) {
         return -4;
     }
-    w = &get_character_save_record(card)->challenge;
-    rank = challenge_set_rank(w, slot);
+    record = &get_character_save_record(card)->challenge;
+    rank = challenge_set_rank(record, slot);
     e = &challenge4p_mode_state.rank_thresholds[2];
     for (i = 2; i >= 0; i--, e--) {
         if (e->time != 0 && e->time >= total) {
@@ -635,7 +634,7 @@ void set_retry_selection(s32 choice) {
     }
 }
 
-void TLobby::destroy_global() {
+void destroy_global() {
     if (challenge_retry_object != NULL) {
         challenge_retry_object->queue_destruction();
     }
@@ -713,8 +712,8 @@ void save_challenge_tombstone_spot(s32 client) {
             spot->layout = challenge4p_mode_state.stage;
             spot->floor = challenge4p_mode_state.current_floor;
             VecCopy(&spot->position, &p->position);
-            TObjTombstoneSpot *w = &get_character_save_record(client)->challenge.tombstone_spot;
-            copy_tombstone_spot(w, spot);
+            TObjTombstoneSpot *saved = &get_character_save_record(client)->challenge.tombstone_spot;
+            copy_tombstone_spot(saved, spot);
         }
     }
 }
@@ -728,7 +727,7 @@ extern "C++" void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObj
     output->phase = input->phase;
     output->layout = input->layout;
     output->floor = input->floor;
-    output->unk_3 = input->unk_3;
+    output->pad_3 = input->pad_3;
 #ifdef __MWERKS__
     __memcpy(&destination->position, &source->position, sizeof(Vec));
 #else
@@ -851,8 +850,10 @@ void TChallenge4P::run_task() {
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma inline_max_size(16)
-void copy_global_value_block() {
-    *(ByteBlock_690 *)&challenge4p_mode_state = *(const ByteBlock_690 *)&challenge_default_settings;
+// Copies the default settings into challenge4p_mode_state, spelled out because the original's static initializer
+// precedes this file's deferred constructor and destructor.
+void __sinit_TChallenge4P_cpp() {
+    __memcpy(&challenge4p_mode_state, &challenge_default_settings, sizeof(ChallengeModeState));
 }
 
 TChallenge4P::TChallenge4P(TObject *parent) : TObject(parent) {
@@ -860,9 +861,9 @@ TChallenge4P::TChallenge4P(TObject *parent) : TObject(parent) {
     challenge4p_mode_state = challenge_default_settings;
     restore_challenge_from_save();
     frame_count = 0;
-    pad_20 = 0;
-    pad_24 = 1;
-    pad_28 = 0;
+    missing_records_timer = 0;
+    records_save_pending = 1;
+    quest_send_timer = 0;
     TObjWarnChime::create(this);
 }
 
@@ -871,4 +872,4 @@ TChallenge4P::~TChallenge4P() {
     challenge_retry_object = NULL;
 }
 
-__declspec(section ".ctors") static void *const __sinit_TChallenge4P_cpp_ref = (void *)copy_global_value_block;
+__declspec(section ".ctors") static void *const challenge4p_global_initializer = (void *)__sinit_TChallenge4P_cpp;

@@ -57,6 +57,7 @@ struct NJS_OBJECT;
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
+#include "pso/boss/barbaray/TObjBoss7RaftSplash.h"
 
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -354,7 +355,7 @@ extern const Vec boss7_derolle_c_intro_effect_near_point = {0.0f, 0.0f, -275.0f}
 extern const Vec boss7_derolle_c_death_effect_point = {0.0f, 0.0f, -520.0f};
 
 
-extern const Boss7Angles boss7_derolle_c_zero_angles = {0, 0, 0};
+extern const Angle3 boss7_derolle_c_zero_angles = {0, 0, 0};
 
 
 Vec boss7_derolle_c_model_scale = {2.5f, 2.5f, 2.5f};
@@ -375,7 +376,7 @@ Boss7LoadCallback boss7_derolle_c_load_callbacks[6] = {
     {TBoss7BodyBreakUp::load_static_resource, TBoss7BodyBreakUp::destroy_instance},
     {TBoss7Crawfish::load_static_resource, TBoss7Crawfish::destroy_instance},
     {TBoss7TentacleNeedle::load_static_resource, TBoss7TentacleNeedle::destroy_instance},
-    {TBoss7LaserImpact::load_static_resource, TBoss7LaserImpact::destroy_instance},
+    {load_static_resource, TBoss7LaserImpact::destroy_instance},
 };
 
 EnemyMoveParams boss7_derolle_c_movement = {225.0f, 0.0f, 0x600, {0, 0, 0, 0}};
@@ -487,7 +488,7 @@ void TBoss7DeRolLeC::apply_paralysis() {  }
 
 void TBoss7DeRolLeC::apply_poison_status() {  }
 
-TBoss7DeRolLeC *TBoss7Joint::get_state() { return boss7_joint_state; }
+TBoss7DeRolLeC *TBoss7DeRolLeC::get_instance() { return boss7_joint_state; }
 
 void TBoss7DeRolLeC::load_resources() {
     s32 i;
@@ -530,19 +531,19 @@ void TBoss7DeRolLeC::load_resources() {
     TWindowCtrl::suppress_all_slots();
 }
 
-void *TBoss7DeRolLeC::create(void *set_data) {
+void *TBoss7DeRolLeC::create(EnemyPlacement *set_data) {
     return new TBoss7DeRolLeC(tl_04, set_data);
 }
 
 void TBoss7DeRolLeC::run_exit_callbacks() {
-    TLobby::call_funcs_reverse(boss7_derolle_c_load_callbacks, (unsigned int)0x30U);
+    call_funcs_reverse(boss7_derolle_c_load_callbacks, (unsigned int)0x30U);
     if (boss7_derolle_c_bml_resource != NULL) {
         delete boss7_derolle_c_bml_resource;
         boss7_derolle_c_bml_resource = NULL;
     }
 }
 
-TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(parent), part_group(NULL) {
+TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent), part_group(NULL) {
     EnemyStateRecord state;
 
     m_name = TBoss7DeRolLeC::class_name;
@@ -819,7 +820,7 @@ void TBoss7DeRolLeC::run_task() {
         set_matrix_identity(0);
         post_translate_matrix(&position.x);
         post_translate_matrix(&body_offset.x);
-        rotate_matrix_by_node_angles(&rotation_x, 1);
+        rotate_matrix_by_node_angles(&rotation.x, 1);
         scale_current_matrix(&boss7_derolle_c_model_scale.x);
         this->reset_node_transforms();
         node_recorder->record_pose((NJS_MOTION *)current_motion, get_frame());
@@ -961,16 +962,16 @@ s32 TBoss7Joint_get_shell_max_hp(void) {
 void TBoss7DeRolLeC::set_position_index(s32 index) {
     VecCopy(&position, &boss7_derolle_c_position_points[index]);
     body_offset.y = 0.0f;
-    rotation_z = 0;
+    rotation.z = 0;
 }
 
 void TBoss7DeRolLeC::set_swim_direction(s32) {
     if (position_slot == 0) {
         position.x = -100.0f;
-        rotation_z = 0x500;
+        rotation.z = 0x500;
     } else {
         position.x = 100.0f;
-        rotation_z = -0x500;
+        rotation.z = -0x500;
     }
     position.z = 10.0f;
     body_offset.y = 4.0f;
@@ -1381,7 +1382,7 @@ void TBoss7DeRolLeC::advance_action_sequence() {
 #pragma fp_contract on
 void TBoss7DeRolLeC::update_particle_ctrls() {
     Vec v;
-    s32 p[3];
+    Angle3 p;
     s32 ok;
     s32 i;
     s32 k;
@@ -1393,10 +1394,10 @@ void TBoss7DeRolLeC::update_particle_ctrls() {
     for (i = 0; i < 6; i++) {
         if (splash_ctrls[i] == 0) {
             void *r;
-            p[2] = 0;
-            p[1] = 0;
-            p[0] = 0;
-            r = create_particle_controller_with_angles(joint_positions, p, 0x200, 1, 0x40);
+            p.z = 0;
+            p.y = 0;
+            p.x = 0;
+            r = create_particle_controller_with_angles(joint_positions, &p, 0x200, 1, 0x40);
             if (r != 0) {
                 splash_ctrls[i] = (TParticleCtrl *)r;
                 splash_ctrls[i]->set_flags(2);
@@ -1448,11 +1449,11 @@ void TBoss7DeRolLeC::update_particle_ctrls() {
 }
 #pragma pop
 void TBoss7DeRolLeC::release_splash_particles(TParticleCtrl *ctrl) {
-    TObjBoss7Tunnel::release_splash_children(ctrl);
+    TObjBoss7RaftSplash::release_splash_children(ctrl);
 }
 
 void TBoss7DeRolLeC::spawn_particle_201(Vec *pos) {
-    TObjBoss7Tunnel::create_particle(pos, 0x201);
+    TObjBoss7RaftSplash::create_particle(pos, 0x201);
 }
 #pragma push
 #pragma fp_contract on
@@ -1790,7 +1791,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
         state_flags &= ~4;
         state_flags |= 0x100;
         body_offset.y = 0.0f;
-        rotation_z = 0;
+        rotation.z = 0;
         state_ints[0] = 1;
         state_ints[1] = 0;
         state_step = 0;
@@ -2651,7 +2652,7 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
             t2 = frame - 13.0f;
             { f32 h_ = 0.5f * state_floats[4]; d = t2 * (h_ * t2); }
             position.z = state_floats[6] + d;
-            rotation_z = state_floats[7] * t;
+            rotation.z = state_floats[7] * t;
             break;
         }
         case 6:
@@ -2820,7 +2821,7 @@ void TBoss7DeRolLeC::handle_roll_dive_state(u32 event, s32 position_index) {
             if (state_ints[4] >= 16384.0f) {
                 state_ints[4] = 0x4000;
             }
-            rotation_z = state_ints[4] * -state_floats[1];
+            rotation.z = state_ints[4] * -state_floats[1];
             if (state_ints[0] == 0 && state_ints[4] >= 0x2200) {
                 state_ints[0] = 1;
                 play_sound_at(0x39906, &sound_origins[0]);
@@ -3015,7 +3016,7 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
                 if (laser_ptcl != NULL) {
                     laser_ptcl->queue_destruction();
                 }
-                laser_ptcl = new TBoss7LaserPtcl(this, (TBoss7LaserPtclVector *)&part_points[0], (TBoss7LaserPtclVector *)aim);
+                laser_ptcl = new TBoss7LaserPtcl(this, &part_points[0], aim);
                 calc_offset_position();
                 turn_on_laser_light();
                 play_sound_at(0x39E0F, &sound_origins[0]);
@@ -3149,7 +3150,7 @@ void TBoss7DeRolLeC::handle_deep_sink_state(u32 event) {
         state_flags |= 4;
         state_flags &= ~0x100;
         set_all_intangible();
-        rotation_x = 0;
+        rotation.x = 0;
         body_offset.y = 0.0f;
         return;
     case 9:
@@ -3185,7 +3186,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         set_requested_action(0x10);
         position_slot = 3;
         set_position_index(position_slot);
-        rotation_x = 0;
+        rotation.x = 0;
         body_offset.y = 0.0f;
         state_step = 0;
         state_ints[0] = 0;
@@ -3633,7 +3634,7 @@ void TBoss7DeRolLeC::render() {
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         copy_argb(&saved_model_draw_color, &model_material_color);
         TObjEneDD::clear_global_flag_400();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         if (this->node_recorder != 0) {
             if (this->state_flags & 0x40) {
@@ -3641,11 +3642,11 @@ void TBoss7DeRolLeC::render() {
             } else {
                 boss7_derolle_c_hideable_node->child = boss7_derolle_c_hideable_node_child;
             }
-            TObjPlayer::draw_effect();
+            TBoss7DeRolLeC::set_archive_textures();
             this->node_recorder->draw_recorded_pose();
         }
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         copy_argb(&model_material_color, &saved_model_draw_color);
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
@@ -3655,7 +3656,7 @@ void TBoss7DeRolLeC::render() {
     }
 }
 
-void TObjPlayer::draw_effect() { set_texture_list(get_bml_texlist(boss7_derolle_c_bml_resource, 0)); }
+void TBoss7DeRolLeC::set_archive_textures() { set_texture_list(get_bml_texlist(boss7_derolle_c_bml_resource, 0)); }
 
 NJS_TEXLIST *TBoss7DeRolLeC::get_archive_textures() { return get_bml_texlist(boss7_derolle_c_bml_resource, 0); }
 
@@ -3669,9 +3670,9 @@ void TBoss7DeRolLeC::restore_joint_polygons() {
     model = get_archive_model(0);
     for (i = 0; i != 10; i++) {
         node = find_model_node(model, boss7_derolle_c_joint_node_ids[i]);
-        ((NJS_CNK_MODEL *)node->model)->polygon_list = joint_polygons[i];
+        node->chunk_model->polygon_list = joint_polygons[i];
         node = find_model_node(model, boss7_derolle_c_shell_node_ids[i]);
-        ((NJS_CNK_MODEL *)node->model)->polygon_list = shell_polygons[i];
+        node->chunk_model->polygon_list = shell_polygons[i];
     }
 }
 
@@ -3680,11 +3681,11 @@ void TBoss7DeRolLeC::hide_joint_polygons(s32 joint) {
     if (joint >= 0 && joint < 10) {
         node = find_model_node(get_archive_model(0), boss7_derolle_c_joint_node_ids[joint]);
         if (node != NULL) {
-            ((NJS_CNK_MODEL *)node->model)->polygon_list = NULL;
+            node->chunk_model->polygon_list = NULL;
         }
         node = find_model_node(get_archive_model(0), boss7_derolle_c_shell_node_ids[joint]);
         if (node != NULL) {
-            ((NJS_CNK_MODEL *)node->model)->polygon_list = NULL;
+            node->chunk_model->polygon_list = NULL;
         }
     }
 }
@@ -3694,16 +3695,16 @@ void TBoss7DeRolLeC::save_joint_polygons() {
     s32 i;
     model = get_archive_model(0);
     for (i = 0; i != 10; i++) {
-        joint_polygons[i] = ((NJS_CNK_MODEL *)find_model_node(model, boss7_derolle_c_joint_node_ids[i])->model)->polygon_list;
-        shell_polygons[i] = ((NJS_CNK_MODEL *)find_model_node(model, boss7_derolle_c_shell_node_ids[i])->model)->polygon_list;
+        joint_polygons[i] = find_model_node(model, boss7_derolle_c_joint_node_ids[i])->chunk_model->polygon_list;
+        shell_polygons[i] = find_model_node(model, boss7_derolle_c_shell_node_ids[i])->chunk_model->polygon_list;
     }
 }
 #pragma push
 #pragma inline_depth(4)
 #pragma opt_propagation off
 #pragma opt_lifetimes off
-void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Boss7Angles *angle, s32 flags) {
-    Boss7CrawfishSetData set;
+void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Angle3 *angle, s32 flags) {
+    EnemyPlacement set;
     u16 id;
     TObject *child;
     if (crawfish_parent != NULL && slot > 0) {
@@ -3717,14 +3718,14 @@ void TBoss7DeRolLeC::spawn_crawfish_child(s16 slot, const Vec *position, Boss7An
                 return;
             }
         }
-        set.set_index = set_index + offset.value;
-        set.kind = 1;
-        set.unk_04 = 0;
-        set.entity_id = id;
+        set.enemy_index = set_index + offset.value;
+        set.child_count = 1;
+        set.pad_04 = 0;
+        set.id = id;
         set.room = room;
         set.wave = 0;
-        set.unk_0C = 0;
-        set.unk_0E = 0;
+        set.pad_0c[0] = 0;
+        set.pad_0c[1] = 0;
         VecCopy(&set.position, position);
         copy_xyz(&set.rotation, angle);
         if (flags & 1) {
@@ -3773,7 +3774,7 @@ void TBoss7DeRolLeC::try_spawn_pattern_crawfish(s32 variant, s32 index) {
         } else {
             flag = 0;
         }
-        Boss7Angles angle = boss7_derolle_c_zero_angles;
+        Angle3 angle = boss7_derolle_c_zero_angles;
         angle.y = angles[index];
         spawn_crawfish_child(find_free_crawfish_slot(), &positions[index], &angle, flag);
     }
@@ -3841,7 +3842,7 @@ void TBoss7DeRolLeC::destroy_child() {
 void TBoss7DeRolLeC::update_attached_orientation() {
     if (aimed_emitter != NULL) {
         Vec d = emitter_points[0];
-        Boss7Angles ang;
+        Angle3 ang;
         subtract_vector(&d, &emitter_points[1]);
         ang.x = -(s32)(10430.38043493439 * atan2_float(d.y, newton_sqrtf(d.x * d.x + d.z * d.z))) - 0x4000;
         ang.y = (s32)(10430.38043493439 * atan2_float(d.x, d.z));

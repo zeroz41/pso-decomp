@@ -104,7 +104,7 @@ void handle_6x78(G_Unknown_6x78 *cmd) {
     start_handle_6x78_entry(cmd->client_id);
 }
 
-TObjHashiBase::TObjHashiBase(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjHashiBase::TObjHashiBase(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     switchId = set_params[0];
@@ -160,7 +160,7 @@ void TObjHashiBase::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         if (motion != NULL) {
             draw_model_motion(model, motion, animation_frame);
@@ -220,7 +220,7 @@ s32 TObjHashiBase::update_object_view_visibility(f32 depth, f32 radius) {
 }
 #pragma pop
 
-TObjHashi::TObjHashi(TObject *parent, void *set_data) : TObjHashiBase(parent, set_data) {
+TObjHashi::TObjHashi(TObject *parent, ObjectSetData *set_data) : TObjHashiBase(parent, set_data) {
     m_name = class_name;
     model = get_bml_model(bml_resource, 0);
     texlist = get_bml_texlist(bml_resource, 0);
@@ -246,11 +246,11 @@ void TObjHashi::unload_static_data() {
     }
 }
 
-void *TObjHashi::create(void *set_data) {
+void *TObjHashi::create(ObjectSetData *set_data) {
     return new TObjHashi(tl_05, set_data);
 }
 
-TObjHashiVersus1::TObjHashiVersus1(TObject *parent, void *set_data) : TObjHashiBase(parent, set_data) {
+TObjHashiVersus1::TObjHashiVersus1(TObject *parent, ObjectSetData *set_data) : TObjHashiBase(parent, set_data) {
     m_name = class_name;
     if (is_current_floor_switch_set((u16)switchId) == 0) {
         position.y = position.y - scale.x;
@@ -280,11 +280,11 @@ void TObjHashiVersus1::unload_static_data() {
     }
 }
 
-void *TObjHashiVersus1::create(void *set_data) {
+void *TObjHashiVersus1::create(ObjectSetData *set_data) {
     return new TObjHashiVersus1(tl_05, set_data);
 }
 
-TObjHashiVersus2::TObjHashiVersus2(TObject *parent, void *set_data) : TObjHashiBase(parent, set_data) {
+TObjHashiVersus2::TObjHashiVersus2(TObject *parent, ObjectSetData *set_data) : TObjHashiBase(parent, set_data) {
     m_name = class_name;
     if (is_current_floor_switch_set((u16)switchId) == 0) {
         position.y = position.y - scale.x;
@@ -315,7 +315,7 @@ void TObjHashiVersus2::unload_static_data() {
     }
 }
 
-void *TObjHashiVersus2::create(void *set_data) {
+void *TObjHashiVersus2::create(ObjectSetData *set_data) {
     return new TObjHashiVersus2(tl_05, set_data);
 }
 

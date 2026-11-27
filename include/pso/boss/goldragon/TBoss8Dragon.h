@@ -22,7 +22,7 @@ class TBoss8DragonColli;
 class TBoss8Dragon : public TObjEneDD_ST
 {
 public:
-    TBoss8Dragon(TObject *parent, void *set_data);
+    TBoss8Dragon(TObject *parent, EnemyPlacement *set_data);
     virtual ~TBoss8Dragon();
     virtual void run_task();
     virtual void render();
@@ -147,9 +147,9 @@ public:
     f32 vertical_speed;  // as TBoss1Dragon::vertical_speed
     f32 root_height_speed;  // as TBoss1Dragon::root_height_speed
     Vec action_point;  // the current action's point or step, as TBoss1Dragon::action_point
-    f32 m_884;
-    f32 m_888;
-    f32 m_88c;
+    f32 pad_884;
+    f32 pad_888;
+    f32 pad_88c;
     s32 ground_impact_done;  // as TBoss1Dragon::ground_impact_done: the dive has hit the ground
     TParticleCtrl *breath_particles[3];  // as TBoss1Dragon::breath_particles
     s32 lobby_state_changed;  // as TBoss1Dragon::lobby_state_changed: lobby_state became 0
@@ -224,10 +224,7 @@ public:
     // Hands the dragon back from the debug player control (boss8_dragon_player_control).
     static void clear_player_control();
     static NJS_OBJECT *clone_node_tree(NJS_OBJECT *src, NJS_OBJECT *dst, NJS_CNK_MODEL *model);
-    static void *create(void *set_data);
-    static s32 is_within_xz_distance(const Vec *pos, const NJS_OBJECT *node, f32 range_squared);
-    static f32 calc_sq_offset(const DragonAttackParams *params, f32 padding);
-    void noop();
+    static void *create(EnemyPlacement *set_data);
     static void place_parts_in_ring(s32 n, s32 hp, s32 seed);
     static s32 find_target_enemy();
     static s32 is_any_part_alive();

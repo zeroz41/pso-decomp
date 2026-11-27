@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/AreaAttackContact.h"
 #include "pso/enemy/dellbiter/TObjEneDellBiter_Eff_Rush.h"
 #include "pso/enemy/dellbiter/TObjEneDellBiter_Eff_TpAbsorb1.h"
@@ -32,9 +31,9 @@ TObjEneDellBiter_Eff_Rush::TObjEneDellBiter_Eff_Rush(
     VecCopy(&displacement, &recipient->position);
     subtract_vector(&displacement, &source->position);
     displacement.y = 0.0f;
-    direction.x = sin_table_lookup(source->rotation_y);
+    direction.x = sin_table_lookup(source->rotation.y);
     direction.y = 0.0f;
-    direction.z = cos_table_lookup(source->rotation_y);
+    direction.z = cos_table_lookup(source->rotation.y);
     if (is_vec_xz_cross_negative(&direction, &displacement) != 0) {
         rotate_xz_pair_by_angle(&direction.x, &direction.z, -0x1800);
     } else {
@@ -82,7 +81,7 @@ TObjEneDellBiter_Eff_TpAbsorb1::TObjEneDellBiter_Eff_TpAbsorb1(
     direction.z = cos_table_lookup(angle);
     attack_history = history;
     bodies->shape = 1;
-    DelbiterParticleAngles angles = {0, angle - 0x4000, 0x4000};
+    Angle3 angles = {0, angle - 0x4000, 0x4000};
     effect = (TParticleCtrl *)create_particle_controller_with_angles(&position, &angles, 0x210, 0x32, 2);
     effect->clear_active_flag();
 }

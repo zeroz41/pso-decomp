@@ -2,7 +2,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/object/container/ContainerBreakEffects.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/render/GinjaMaterialState.h"
@@ -51,6 +50,7 @@
 #include "pso/network/client_id.h"
 #include "pso/network/TProtocol.h"
 #include "pso/system/task/TObject.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 static __declspec(section ".rodata") const char ancient_container_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_container.gj";
 static __declspec(section ".rodata") const char ancient_container_fragment1_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_o_container_hahen01.gj";
@@ -89,7 +89,7 @@ const char *TOContainerAncientEnemyRare::class_name = "TOContainerAncientEnemyRa
 
 // The three fragment texture lists of the current floor, loaded with the
 // archive (ancient_container_resource_bundle) by
-// TLanguage::load_container_fragment_textures. Both share one 8-aligned
+// load_ancient_container_resources. Both share one 8-aligned
 // .sbss block that stays unclaimed until the bundle can be
 // defined here (see spawn_break_effects).
 extern NJS_TEXLIST **ancient_container_fragment_texture_lists;
@@ -139,7 +139,7 @@ void G_FloorEvent_6x67::send() {
     send_subcommand(this);
 }
 
-void TObjContainerBase::apply_saved_state(s16 *, s32) {  }
+void TObjContainerBase::apply_saved_state(QuestObjectEntry *, s32) {  }
 
 TObjContainerBase::~TObjContainerBase() {
 }
@@ -159,7 +159,7 @@ int TObjContainerBase::calc_distance_accuracy_penalty(TObjChara *, CollisionBody
 
 extern BmlResource *ancient_container_resource_bundle;
 
-void TLanguage::load_container_fragment_textures() {
+void load_ancient_container_resources(void) {
     // The archive bundles occupy three consecutive linker records in base, VS2,
     // and Episode II order. Use the record layout to reach their descriptors.
     const uaddr table = reinterpret_cast<uaddr>(&bm_o_container_ancient_resource_bundle);
@@ -202,7 +202,7 @@ void free_ancient_container_resources(void) {
     if (ancient_container_fragment_texture_lists != NULL) {
         i = 0;
         do {
-            TObjPlayer::free_if_valid(ancient_container_fragment_texture_lists[i]);
+            free_if_valid(ancient_container_fragment_texture_lists[i]);
             i += 1;
         } while (i < 3);
         p = ancient_container_fragment_texture_lists;
@@ -220,7 +220,7 @@ void free_ancient_container_resources(void) {
 
 #pragma pop
 
-TOContainerAncientItem::TOContainerAncientItem(void *set_data) : TObjContainerBase(tl_05, set_data) {
+TOContainerAncientItem::TOContainerAncientItem(ObjectSetData *set_data) : TObjContainerBase(tl_05, set_data) {
     mode = 0;
     actorFlags |= 0x60000000U;
     init_collision_body_parts(this, &container_ancient_enemy_collision_body_params, 1);
@@ -256,7 +256,7 @@ void TOContainerAncientItem::draw_model() {
         case 0:
             push_matrix();
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             set_texture_list(this->texlist);
             obj = this->model;
             push_matrix();
@@ -270,9 +270,9 @@ void TOContainerAncientItem::draw_model() {
             sibling = child->sibling;
             push_matrix();
             post_translate_matrix(sibling->pos);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model(sibling->model);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             pop_matrix();
             pop_matrix();
             pop_matrix();
@@ -310,22 +310,22 @@ void TOContainerAncientItem::spawn_break_effects() const {
     play_container_break_sound(this);
 }
 
-TOContainerAncientItemCommon::TOContainerAncientItemCommon(void *set_data) : TOContainerAncientItem(set_data) {
+TOContainerAncientItemCommon::TOContainerAncientItemCommon(ObjectSetData *set_data) : TOContainerAncientItem(set_data) {
     m_name = container_ancient_item_common_name;
 }
 
 TOContainerAncientItemCommon::~TOContainerAncientItemCommon() {
 }
 
-void *TOContainerAncientItemCommon::create(void *set_data) {
+void *TOContainerAncientItemCommon::create(ObjectSetData *set_data) {
     if (((s32) enable_v2_features == 1) && (get_game_play_mode() == 1) && (is_quest_active() == 1)) {
         return new TOContainerAncientItemCommon(set_data);
     }
     return new TOContainerAncientItemCommon(set_data);
 }
 
-void TOContainerAncientItemCommon::apply_saved_state(s16 *state, s32 live) {
-    if ((s16) *state == 1) {
+void TOContainerAncientItemCommon::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    if (state->flags == 1) {
         if (live != 0) {
             this->spawn_break_effects();
             request_configured_item_drop(this);
@@ -336,7 +336,7 @@ void TOContainerAncientItemCommon::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TOContainerAncientItemRare::TOContainerAncientItemRare(void *set_data) : TOContainerAncientItem(set_data) {
+TOContainerAncientItemRare::TOContainerAncientItemRare(ObjectSetData *set_data) : TOContainerAncientItem(set_data) {
     m_name = container_ancient_item_rare_name;
     texlist = ancient_container_fragment_texture_lists[0];
 }
@@ -344,8 +344,8 @@ TOContainerAncientItemRare::TOContainerAncientItemRare(void *set_data) : TOConta
 TOContainerAncientItemRare::~TOContainerAncientItemRare() {
 }
 
-void TOContainerAncientItemRare::apply_saved_state(s16 *state, s32 live) {
-    if ((s16) *state == 1) {
+void TOContainerAncientItemRare::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    if (state->flags == 1) {
         if (live != 0) {
             this->spawn_break_effects();
             request_box_item_drop(&position, 1);
@@ -356,19 +356,19 @@ void TOContainerAncientItemRare::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TOContainerAncientItemNone::TOContainerAncientItemNone(void *set_data) : TOContainerAncientItemRare(set_data) {
+TOContainerAncientItemNone::TOContainerAncientItemNone(ObjectSetData *set_data) : TOContainerAncientItemRare(set_data) {
     m_name = container_ancient_item_none_name;
 }
 
 TOContainerAncientItemNone::~TOContainerAncientItemNone() {
 }
 
-void *TOContainerAncientItemNone::create(void *set_data) {
+void *TOContainerAncientItemNone::create(ObjectSetData *set_data) {
     return new TOContainerAncientItemNone(set_data);
 }
 
-void TOContainerAncientItemNone::apply_saved_state(s16 *state, s32 live) {
-    if ((s16) *state == 1) {
+void TOContainerAncientItemNone::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    if (state->flags == 1) {
         if (live != 0) {
             this->spawn_break_effects();
         }
@@ -378,7 +378,7 @@ void TOContainerAncientItemNone::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TObjContainerBase(tl_05, set_data) {
+TOContainerAncientEnemy::TOContainerAncientEnemy(ObjectSetData *set_data) : TObjContainerBase(tl_05, set_data) {
     m_name = container_ancient_enemy_name;
     mode = 0;
     actorFlags |= 0x60000000U;
@@ -415,7 +415,7 @@ void TOContainerAncientEnemy::draw_model() {
         case 0:
             push_matrix();
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             set_texture_list(this->texlist);
             obj = this->model;
             push_matrix();
@@ -429,9 +429,9 @@ void TOContainerAncientEnemy::draw_model() {
             sibling = child->sibling;
             push_matrix();
             post_translate_matrix(sibling->pos);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model(sibling->model);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             pop_matrix();
             pop_matrix();
             pop_matrix();
@@ -448,10 +448,10 @@ void TOContainerAncientEnemy::debug_print_item_box_info() {
 }
 
 f32 TOContainerAncientEnemy::receive_physical_attack(TObjChara *, f32) {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     G_FloorEvent_6x67 pk;
     if (this->entity_id >= 0x1000U && this->set_entry != NULL && access_object_saved_state(&saved_state, 1) != 0) {
-        saved_state = 1;
+        saved_state.flags = 1;
         access_object_saved_state(&saved_state, 0);
         send_object_state_update(&saved_state);
         pk.init();
@@ -492,8 +492,8 @@ void TOContainerAncientEnemy::spawn_break_effects() const {
     }
 }
 
-void TOContainerAncientEnemy::apply_saved_state(s16 *state, s32 live) {
-    if ((s16) *state == 1) {
+void TOContainerAncientEnemy::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    if (state->flags == 1) {
         if (live != 0) {
             this->spawn_break_effects();
         }
@@ -503,21 +503,21 @@ void TOContainerAncientEnemy::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TOContainerAncientEnemyCommon::TOContainerAncientEnemyCommon(void *set_data) : TOContainerAncientEnemy(set_data) {
+TOContainerAncientEnemyCommon::TOContainerAncientEnemyCommon(ObjectSetData *set_data) : TOContainerAncientEnemy(set_data) {
     m_name = container_ancient_enemy_common_name;
 }
 
 TOContainerAncientEnemyCommon::~TOContainerAncientEnemyCommon() {
 }
 
-void *TOContainerAncientEnemyCommon::create(void *set_data) {
+void *TOContainerAncientEnemyCommon::create(ObjectSetData *set_data) {
     if (((s32) enable_v2_features == 1) && (get_game_play_mode() == 1) && (is_quest_active() == 1)) {
         return new TOContainerAncientEnemyCommon(set_data);
     }
     return new TOContainerAncientEnemyCommon(set_data);
 }
 
-TOContainerAncientEnemyRare::TOContainerAncientEnemyRare(void *set_data) : TOContainerAncientEnemy(set_data) {
+TOContainerAncientEnemyRare::TOContainerAncientEnemyRare(ObjectSetData *set_data) : TOContainerAncientEnemy(set_data) {
     m_name = TOContainerAncientEnemyRare::class_name;
     texlist = *ancient_container_fragment_texture_lists;
 }

@@ -5,8 +5,10 @@
 #include "pso/object/trap/TOTrap.h"
 #include "pso/render/RenderFadeState.h"
 
+struct QuestObjectEntry;
+
 struct TOTrapAncient01 : public TOTrap {
-    TOTrapAncient01(TObject *parent, void *set_data);
+    TOTrapAncient01(TObject *parent, ObjectSetData *set_data);
     virtual ~TOTrapAncient01();
     virtual void update_holding();
     virtual void update_springing();
@@ -14,7 +16,7 @@ struct TOTrapAncient01 : public TOTrap {
     virtual void play_sounds();
     virtual void run_demo();
     virtual void draw_debug_home_marker();
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual f32 receive_physical_attack(TObjChara *, f32);
     virtual void render();
     DirectAttackPayload payload; // name inferred: sent to every player in reach by update_holding
@@ -23,7 +25,7 @@ struct TOTrapAncient01 : public TOTrap {
     f32 damage_timer; // name inferred: counts down by 1 per update_holding frame; at < 0 the trap strikes
     RenderFadeState fades[4];
     void release_trapped_player();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void release_static_resource();
     static void load_resources();
 };

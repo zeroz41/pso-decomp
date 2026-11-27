@@ -7,7 +7,6 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/animation/ActorAnimationState.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResource.h"
 #include "pso/math/MatrixReflect.h"

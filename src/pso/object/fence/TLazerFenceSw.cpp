@@ -92,7 +92,7 @@ void TLazerFenceSw::draw_laser_beam() {
     set_texture_list(lazer_fence_sw_texture_list);
     if (actor_frame_tick != last_scroll_tick && uv_scroll >= 1.0f) {
         last_scroll_tick = actor_frame_tick;
-        scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(reinterpret_cast<NJS_OBJECT *>(lazer_fence_switch_scroll_node)->model), 0, (s32)uv_scroll, 5, 1);
+        scroll_ginja_mesh_uvs(reinterpret_cast<NJS_OBJECT *>(lazer_fence_switch_scroll_node)->ginja_model, 0, (s32)uv_scroll, 5, 1);
         PPCSync();
         uv_scroll = uv_scroll - (f32)(s32)uv_scroll;
     }
@@ -100,25 +100,25 @@ void TLazerFenceSw::draw_laser_beam() {
     case 0:
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_ginja_object(lazer_fence_sw_ginja_model_table[1]);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         model_render_flags |= 0x01000000;
         draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], lazer_fence_beam_motions[0], (f32)animation_frame);
         model_render_flags &= ~0x01000000;
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         break;
     case 1:
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[1], lazer_fence_beam_motions[1], (f32)switch_frame);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         model_render_flags |= 0x01000000;
         draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], lazer_fence_beam_motions[0], (f32)animation_frame);
         model_render_flags &= ~0x01000000;
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         break;
     }
@@ -197,7 +197,7 @@ void TLazerFenceSw::run_task() {
     uv_scroll += 0.2f;
 }
 
-void *TLazerFenceSw::create(void *set_data) {
+void *TLazerFenceSw::create(ObjectSetData *set_data) {
     return new TLazerFenceSw(tl_05, set_data);
 }
 }
@@ -207,7 +207,7 @@ void free_lazer_fence_switch_resources() {
         delete (BmlResource *)lazer_fence_switch_bml_resource;
         lazer_fence_switch_bml_resource = NULL;
     }
-    TObjPlayer::free_if_valid(lazer_fence_sw_texture_list);
+    free_if_valid(lazer_fence_sw_texture_list);
     lazer_fence_sw_texture_list = NULL;
 }
 
@@ -268,7 +268,7 @@ TLazerFenceSw::~TLazerFenceSw() {
 
 #pragma push
 #pragma opt_common_subs off
-TLazerFenceSw::TLazerFenceSw(TObject *parent, void *set_entry) : TOKey(parent) {
+TLazerFenceSw::TLazerFenceSw(TObject *parent, ObjectSetData *set_entry) : TOKey(parent) {
     m_name = class_name;
     init_key(set_entry);
     if (this->set_params[2] < 0) {

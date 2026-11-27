@@ -1,5 +1,4 @@
 #include "pso/system/SoundEffect.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
@@ -136,7 +135,7 @@ void TTecGiFoie::run_task() {
         queue_destruction();
         return;
     }
-    if (TTecLuker::is_parents_unqueued(this->orbits[0]) != 0) {
+    if (TObject::is_parents_unqueued(this->orbits[0]) != 0) {
         distance = newton_sqrtf(horizontal_distance_squared(&this->orbits[0]->pos, &this->position));
         if (this->collidable != NULL) {
             this->collidable->bodies->radius = 5.0f + distance;
@@ -152,7 +151,7 @@ void TTecGiFoie::run_task() {
 TTecGiFoie::~TTecGiFoie() {
     s32 i;
     for (i = 0; i < 3; i++) {
-        if (TTecLuker::is_parents_unqueued(this->orbits[i]) != 0) {
+        if (TObject::is_parents_unqueued(this->orbits[i]) != 0) {
             this->orbits[i]->queue_destruction();
         }
     }
@@ -196,7 +195,7 @@ TTecGiFoieFlame::TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObje
     this->frames = 0;
     this->single = single;
     if (this->single != 0) {
-        ParticleAngles r;
+        Angle3 r;
         this->particles = (TParticleCtrl **)mem_alloc(4);
         r.x = 0;
         r.y = 0;
@@ -207,7 +206,7 @@ TTecGiFoieFlame::TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObje
         s32 i;
         this->particles = (TParticleCtrl **)mem_alloc(gifoie_emitter_bands[this->band].count * 4);
         for (i = 0; i < gifoie_emitter_bands[this->band].count; i++) {
-            ParticleAngles r;
+            Angle3 r;
             const TechniqueEmitterSourceRow *p;
             r.x = 0;
             r.y = 0;
@@ -245,7 +244,7 @@ TTecGiFoieFlame::~TTecGiFoieFlame() {
 static const f32 flame_bob_heights[3] = {0.0f, 3.5f, 7.0f};
 
 void TTecGiFoieFlame::run_task() {
-    s32 rot[3];
+    Angle3 rot;
     s32 bob;
     switch (band) {
     case 0:
@@ -299,23 +298,23 @@ void TTecGiFoieFlame::run_task() {
         rotate_matrix_y(0, yaw);
         rotate_vector_by_matrix(0, &dir, &dir);
         pop_matrix();
-        rot[0] = 0;
-        rot[1] = 0;
-        rot[2] = 0;
-        direction_to_rotation_xz((u8 *)&dir, &rot[0], &rot[2]);
+        rot.x = 0;
+        rot.y = 0;
+        rot.z = 0;
+        direction_to_rotation_xz((u8 *)&dir, &rot.x, &rot.z);
         particles[0]->set_position(&pos);
-        particles[0]->set_direction(rot);
+        particles[0]->set_direction(&rot);
     } else {
         u32 i;
         s16 roll;
-        rot[1] = (s32)(10430.38043493439 * atan2_float(pos.x - center.x, pos.z - center.z));
+        rot.y = (s32)(10430.38043493439 * atan2_float(pos.x - center.x, pos.z - center.z));
         roll = i = 0;
-        rot[0] = rot[1] - 0x8000;
-        rot[1] = roll;
-        rot[2] = 0x4000;
+        rot.x = rot.y - 0x8000;
+        rot.y = roll;
+        rot.z = 0x4000;
         for (; i < gifoie_emitter_bands[band].count; i++) {
             particles[i]->set_position(&pos);
-            particles[i]->set_direction(rot);
+            particles[i]->set_direction(&rot);
         }
     }
 }
@@ -323,12 +322,12 @@ void TTecGiFoieFlame::run_task() {
 void TTecGiFoie::calc_params() {
     TechniqueParams *scaled = calc_technique_parameters(1, level, 0xFFFF);
     params.copy(scaled);
-    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+    if (level >= 15 && is_technique_ready() == 0) {
         params.power = (f32)(tech_high_level_linear_power_table[1].base + tech_high_level_linear_power_table[1].per_level * level);
         return;
     }
     params.power = params.power + (f32)(params.power_per_level * level);
-    if (TTecCtrl::is_technique_ready()) {
+    if (is_technique_ready()) {
         params.power = params.power * technique_scale_table[1].power;
     }
 }

@@ -17,4 +17,6 @@ struct MusicFlagLink {
     s32 linked;
 };
 
+void update_all_zones(const char *filename);
+
 #endif

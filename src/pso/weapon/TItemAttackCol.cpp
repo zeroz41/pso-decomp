@@ -1,7 +1,6 @@
 #pragma readonly_strings on
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
@@ -18,7 +17,7 @@
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
@@ -41,13 +40,13 @@ TItemAttackCol *attack_collider_render_owner;
 int attack_collider_active_count;
 
 
-extern "C" void apply_extra_node_transform(TItemAttackCol *col, void *node);
+extern "C" void apply_extra_node_transform(TItemAttackCol *col, NJS_OBJECT *node);
 
 
 const char *TItemAttackCol::name = "TItemAttackCol";
 
 // The particle's direction before the collider's heading is added.
-static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
+static Angle3 particle_direction = {0x4000, 0, 0x4000};
 TItemAttackColBase::TItemAttackColBase(TObject *parent, AttackColParams *params) : TObject(parent) {
     TObjPlayer *player;
     body.offset.x = 0.0f;
@@ -100,7 +99,7 @@ void TItemAttackColBase::check_hits() {
         collect_player_body_contacts((CollisionBodySet *)&bodies);
     }
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
-        hit = static_cast<ActorBodyHit *>(TObjOnlineEnding::get_attack_entry(i));
+        hit = TObjOnlineEnding::get_attack_entry(i);
         if (try_add_hit_target(hit) != 0) {
             on_hit(hit);
             hits_left -= 1;
@@ -133,7 +132,7 @@ s32 TItemAttackColBase::try_add_hit_target(const ActorBodyHit *hit) {
         return 0;
     }
     ok = 1;
-    if (TTecCtrl::is_technique_ready() == 0 && hit->target->test_actor_flags(0x60000000) == 0x20000000
+    if (is_technique_ready() == 0 && hit->target->test_actor_flags(0x60000000) == 0x20000000
         && this->room != hit->target->get_room()) {
         ok = 0;
     }
@@ -269,7 +268,7 @@ TItemAttackCol::TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params) 
     velocity.z *= params->speed;
     rotation_y = rotation[1];
     range_sq = params->range * params->range;
-    model = (uaddr)params->model;
+    model = params->model;
     texlist = params->texlist;
     scale.x = params->scale;
     scale.y = params->scale;
@@ -313,7 +312,7 @@ TItemAttackCol::TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params) 
             particle = create_particle_emitter(&position, params->particle);
             if (particle != NULL) {
                 s32 yaw = params->rotation_y;
-                ParticleAngles direction = particle_direction;
+                Angle3 direction = particle_direction;
                 direction.x += yaw;
                 particle->set_direction(&direction);
             }
@@ -388,11 +387,11 @@ void TItemAttackCol::render() {
         return;
     }
     {
-        if (model != 0U) {
+        if (model != NULL) {
             if (texlist != 0U) {
                 set_texlist(texlist);
             }
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             attack_collider_render_owner = this;
             attack_collider_active_count = 0;
             push_matrix();
@@ -400,10 +399,10 @@ void TItemAttackCol::render() {
             rotate_matrix_by_node_angles(rotation, 1);
             rotate_matrix_by_node_angles(spin, 1);
             scale_current_matrix(&scale.x);
-            draw_node_tree_with_callback((NJS_OBJECT *)model, (void (*)(NJS_OBJECT *))TItemAttackCol::add_to_active_list);
+            draw_node_tree_with_callback(model, TItemAttackCol::add_to_active_list);
             pop_matrix();
             attack_collider_render_owner = 0;
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
     }
 }
@@ -459,11 +458,11 @@ void TItemAttackCol::shift_collision_bounds() {
     extra_rotation[2] -= 0xCCC;
 }
 
-void TItemAttackCol::add_to_active_list(void* node) { apply_extra_node_transform(attack_collider_render_owner, node); attack_collider_active_count = (attack_collider_active_count + 0x1); }
+void TItemAttackCol::add_to_active_list(NJS_OBJECT *node) { apply_extra_node_transform(attack_collider_render_owner, node); attack_collider_active_count = (attack_collider_active_count + 0x1); }
 
 // Called for each node of the model before add_to_active_list counts it:
 // with flag 8 the second node drawn gets the collider's extra rotation and scale.
-void apply_extra_node_transform(TItemAttackCol *col, void *node) {
+void apply_extra_node_transform(TItemAttackCol *col, NJS_OBJECT *node) {
     if ((col->flags & 8) && attack_collider_active_count == 1) {
         rotate_matrix_by_node_angles(col->extra_rotation, 1);
         scale_current_matrix(col->extra_scale);
@@ -476,7 +475,7 @@ void TItemAttackCol::check_object_hits() {
     reset_global_table();
     collect_object_body_contacts((CollisionBodySet *)&bodies);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
-        hit = static_cast<ActorBodyHit *>(TObjOnlineEnding::get_attack_entry(i));
+        hit = TObjOnlineEnding::get_attack_entry(i);
         if (try_add_hit_target(hit) != 0) {
             this->on_hit(hit);
             this->hits_left -= 1;

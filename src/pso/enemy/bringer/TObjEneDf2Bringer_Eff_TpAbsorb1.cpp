@@ -1,6 +1,5 @@
 #include "pso/enemy/AreaAttackContact.h"
 #include "pso/system/TrailStrip.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/bringer/BringerEffects.h"
 #include "pso/enemy/bringer/TObjEneDf2Bringer_Eff_Rush.h"
@@ -28,7 +27,6 @@
 // (and pools their constants) in reverse order.
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__26TObjEneDf2Bringer_Eff_Rush[];
 }
 
@@ -47,7 +45,7 @@ u32 bringer_effect_color_table[12];
 u8 *construct_bringer_rush_effect(u8 *rush, saddr parent, TObjBase *source, TObjChara *recipient, f32 speed) {
     TObjEneDf2Bringer_Eff_Rush *self = (TObjEneDf2Bringer_Eff_Rush *)rush;
     Vec displacement;
-    __ct__7TObjectFP7TObject(self, (void *)parent);
+    __ct__7TObjectFP7TObject(self, (TObject *)parent);
     *(s32 **)((u8 *)self + 0x18) = __vt__26TObjEneDf2Bringer_Eff_Rush;
     self->m_name = bringer_rush_effect_name;
     self->target = recipient;
@@ -56,9 +54,9 @@ u8 *construct_bringer_rush_effect(u8 *rush, saddr parent, TObjBase *source, TObj
     VecCopy(&displacement, &recipient->position);
     subtract_vector(&displacement, &source->position);
     displacement.y = 0.0f;
-    self->direction.x = sin_table_lookup(source->rotation_y);
+    self->direction.x = sin_table_lookup(source->rotation.y);
     self->direction.y = 0.0f;
-    self->direction.z = cos_table_lookup(source->rotation_y);
+    self->direction.z = cos_table_lookup(source->rotation.y);
     if (is_vec_xz_cross_negative(&self->direction, &displacement) != 0) {
         rotate_xz_pair_by_angle(&self->direction.x, &self->direction.z, -0x1800);
     } else {
@@ -151,17 +149,17 @@ void TObjEneDf2BringerRing::update_vertex_positions() {
     f32 outer = 3.0f + radius;
     f32 inner = radius - 3.0f;
     Vec *src = bringer_effect_vec_table;
-    Vertex *dst = vertices;
+    TrailStripVertex *dst = vertices;
     for (i = 0; i < 6; i++) {
         f32 x = src->x;
         f32 z = src->z;
         src++;
-        dst[0].pos.x = x * outer;
-        dst[0].pos.y = 0.0f;
-        dst[0].pos.z = z * outer;
-        dst[1].pos.x = x * inner;
-        dst[1].pos.y = 0.0f;
-        dst[1].pos.z = z * inner;
+        dst[0].x = x * outer;
+        dst[0].y = 0.0f;
+        dst[0].z = z * outer;
+        dst[1].x = x * inner;
+        dst[1].y = 0.0f;
+        dst[1].z = z * inner;
         dst += 2;
     }
 }
@@ -169,7 +167,7 @@ void TObjEneDf2BringerRing::update_vertex_positions() {
 void TObjEneDf2BringerRing::update_vertex_colors() {
     s32 i;
     s32 n;
-    Vertex *p;
+    TrailStripVertex *p;
     u32 c;
     c = (u32)floor_to_float(255.0f * alpha) << 24;
     n = frame;
@@ -272,10 +270,10 @@ TObjEneDf2Bringer_Eff_TpAbsorb1::~TObjEneDf2Bringer_Eff_TpAbsorb1() {}
 
 void TObjEneDf2Bringer_Eff_TpAbsorb1::setup_dir_shot(const Vec *origin, s32 angle, f32 attack_power) {
     VecCopy(&position, origin);
-    rotation_y = angle;
-    direction.x = sin_table_lookup(rotation_y);
+    rotation.y = angle;
+    direction.x = sin_table_lookup(rotation.y);
     direction.y = 0.0f;
-    direction.z = cos_table_lookup(rotation_y);
+    direction.z = cos_table_lookup(rotation.y);
     active = 1;
     fill_value_array(attack_history);
     distance = 0.0f;

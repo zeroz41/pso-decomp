@@ -10,7 +10,7 @@ struct NJS_TEXLIST;
 struct TODummyKeyCave01 : public TObjBase {
     static void free_resources();
     static void load_resources();
-    TODummyKeyCave01(TObject *parent, void *set_data);
+    TODummyKeyCave01(TObject *parent, ObjectSetData *set_data);
     virtual ~TODummyKeyCave01();
     void init_from_set_data();
     NJS_TEXLIST *off_textures;  // the key's textures while its switch is off
@@ -28,7 +28,7 @@ struct TODummyKeyCave01 : public TObjBase {
     s32 spins;                  // 1: the head spins instead of rising (some floors)
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TODummyKeyCave01_size, sizeof(TODummyKeyCave01) == 0xD4);

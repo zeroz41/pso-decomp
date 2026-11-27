@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -95,7 +94,7 @@ void initialize_option_dialog(TWindowMessageYesNo *dialog, const char *message, 
     dialog->message_menu = create_window_menu(position, 1, dialog->client_id);
     dialog->message_menu->add_text_entry(message, 0x21, 0);
     dialog->message_menu->disable_input();
-    TQuestThread::set_status_flag_80(dialog->message_menu);
+    dialog->message_menu->set_status_flag_80();
     dialog->message_menu->calc_layout_height(width);
 }
 
@@ -108,7 +107,7 @@ void open_yes_no_prompt(TWindowMessageYesNo *dialog, const char *title, const ch
     }
     dialog->message_menu->add_text_entry(text, 0x21, 0);
     reinterpret_cast<TWindowMenu *>(dialog->message_menu)->disable_input();
-    TQuestThread::set_status_flag_80(dialog->message_menu);
+    dialog->message_menu->set_status_flag_80();
     dialog->message_menu->calc_layout_height(width);
     dialog->get_choice_menu_position(&position);
     dialog->choice_menu = create_yes_no_window(&position, dialog->client_id, dialog->yes_text, dialog->no_text);

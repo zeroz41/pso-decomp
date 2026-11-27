@@ -32,5 +32,11 @@ void offline_scene_init_stub_a(void);
 void offline_scene_init_stub_b(void);
 void offline_scene_init_stub_c(void);
 void apply_char_to_players();
+void reset_keyboard_input();
+void shutdown_keyboard_control();
+void reload_offline_area();
+void rebuild_area_keep_players();
+void teardown_scene();
+void reset_quest_state();
 
 #endif

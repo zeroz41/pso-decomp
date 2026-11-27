@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TObjDeadListWin.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowMessage.h"

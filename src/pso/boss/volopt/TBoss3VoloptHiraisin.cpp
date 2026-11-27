@@ -8,7 +8,7 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/network/TLobby.h"
 #include "pso/render/TextureState.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/vector.h"
@@ -20,7 +20,7 @@
 #include "pso/player/PlayerCommands.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/model_render_state.h"
@@ -100,8 +100,8 @@ void TBoss3VoloptHiraisin::update_descend() {
 void TBoss3VoloptHiraisin::start_attack() {
     s16 max_hp;
     u32 flags;
-    TBoss3Volopt::create_breakup_mdl(volopt_hiraisin_breakup_model, &volopt_hiraisin_breakup_params,
-                       get_bml_texlist(volopt_hiraisin_resources, 0x10), &body_center, rotation_y);
+    create_breakup_mdl(volopt_hiraisin_breakup_model, &volopt_hiraisin_breakup_params,
+                       get_bml_texlist(volopt_hiraisin_resources, 0x10), &body_center, rotation.y);
     trigger_dell_biter_events(&body_center);
     play_sound_effect(0x4001C112, &position, 0, 0);
     behavior_flags &= ~1;
@@ -199,15 +199,15 @@ void TBoss3VoloptHiraisin::render() {
             translate_matrix(0, 0.0f, 20.0f, 0.0f);
         }
         translate_matrix(0, 0.0f, sin_table_lookup(hover_angle), 0.0f);
-        rotate_matrix_y(NULL, rotation_y);
-        if (TObjPlayer::check_demo_mode() == 1) {
+        rotate_matrix_y(NULL, rotation.y);
+        if (check_demo_mode() == 1) {
             draw_chunk_object(model);
         } else {
             draw();
         }
         pop_matrix();
         restore_scene_lighting();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         model_render_flags = saved_model_render_flags;
         if (position.y < 50.0f) {
             push_matrix();
@@ -241,7 +241,7 @@ void TBoss3VoloptHiraisin::dispatch_state() {
 }
 
 void TBoss3VoloptHiraisin::run_task() {
-    if (TObjPlayer::check_demo_mode() != 1) {
+    if (check_demo_mode() != 1) {
         if (mode != 5) {
             if (is_actor_dead() != 0) {
                 run_death_reaction();
@@ -288,7 +288,7 @@ void TBoss3VoloptHiraisin::init_models() {
     volopt_hiraisin_stat_table = dispatch_shared_handler_a(0x24);
 }
 
-void *TBoss3VoloptHiraisin::create(void *set_data) {
+void *TBoss3VoloptHiraisin::create(EnemyPlacement *set_data) {
     return new TBoss3VoloptHiraisin(tl_04, set_data);
 }
 
@@ -335,7 +335,7 @@ TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TObjBase *parent, u16 id, s32 index) 
     init_params();
 }
 
-TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     m_name = TBoss3VoloptHiraisin_name;
     apply_set_data(set_data);
     init_params();

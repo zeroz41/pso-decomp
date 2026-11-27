@@ -8,7 +8,7 @@
 struct NJS_POINT2;
 
 struct TWindowSimpleStatus : public TWindowBase {
-    TWindowSimpleStatus(void *position, s32 client, u8 *descriptor);
+    TWindowSimpleStatus(const NJS_POINT2 *position, s32 client, u8 *descriptor);
     virtual ~TWindowSimpleStatus();
     static const char *class_name;
     void draw_background(WindowDrawContext *ctx);
@@ -24,7 +24,7 @@ struct TWindowSimpleStatus : public TWindowBase {
     virtual void render();
     u32 shake_ticks; // frames apply_random_shake still shakes the window; set when HP drops
     virtual void run_task();
-    static TWindowSimpleStatus *create(void *position, s32 client);
+    static TWindowSimpleStatus *create(const NJS_POINT2 *position, s32 client);
     TWindowBase *w[5]; // child windows; the dtor closes the first four
 };
 

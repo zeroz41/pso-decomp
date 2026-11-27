@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/camera/CameraHelpers.h"
 #include "pso/system/vector.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -73,17 +72,17 @@ int TBoss4DarkFalz::is_floor_leader() { return this->not_floor_leader == 0; }
 s32 TBoss4Type3::get_action_state() { return state; }
 s32 TBoss4Type2::get_phase() { return action; }
 s32 TBoss4Type1::get_state() { return state; }
-CameraAngles *TObjBase::get_rotation() { return reinterpret_cast<CameraAngles *>(&rotation_x); }
+Angle3 *TObjBase::get_rotation() { return &rotation; }
 void TObjBase::save_previous_position() {
     VecCopy(&prev_position, &position);
 }
 
-int TObjBase::set_position_from(void *pos) {
-    return reinterpret_cast<saddr>(VecCopy(&position, static_cast<const Vec *>(pos)));
+Vec *TObjBase::set_position_from(const Vec *pos) {
+    return VecCopy(&position, pos);
 }
 
 void G_DarkFalzActions_6x19::send() { bswap(); send_subcommand(this); }
-void G_DarkFalzActions_6x19::bswap() { header.bswap(); bswap_16((u16 *)&state); bswap_16(&unknown_a3); bswap_32((u32 *)&form_action); bswap_32(&unused); }
+void G_DarkFalzActions_6x19::bswap() { header.bswap(); bswap_16((u16 *)&state); bswap_16(&pad_06); bswap_32((u32 *)&form_action); bswap_32(&unused); }
 void G_DarkFalzActions_6x19::init() { header.subcommand = 0x19; header.size = 4; }
 
 void TBoss4DarkFalz::update_ol_ending() {
@@ -140,7 +139,7 @@ void TBoss4DarkFalz::begin_defeat_sequence() {
     TBoss4Thanks::check_ready();
     if (TBoss4DarkFalz::type3_instance != NULL) {
         TObjChara *form = TBoss4DarkFalz::type3_instance;
-        TObjDFDemo5::create(this, &form->position, form->rotation_y);
+        TObjDFDemo5::create(this, &form->position, form->rotation.y);
     } else {
         TObjDFDemo5::create(this, &dark_falz_demo5_position, 0);
     }
@@ -179,8 +178,8 @@ void TBoss4DarkFalz::update_demo_warp3() {
         set_data.owner = this;
         copy_set_entry(&set_data.entry, &dark_falz_set_entry);
         set_data.entry.room = 2;
-        set_data.entry.set_index = set_index + 0x1FE;
-        set_data.entry.entity_id = entity_id + 0x1FE;
+        set_data.entry.enemy_index = set_index + 0x1FE;
+        set_data.entry.id = entity_id + 0x1FE;
         TBoss4DarkFalz::type3_instance = TBoss4Type3::create(&set_data);
         change_state(0xD);
     }
@@ -273,7 +272,7 @@ void TBoss4DarkFalz::enter_demo2_phase() {
         cinematic_position.x -= 75.0f * v.x;
         cinematic_position.z -= 75.0f * v.z;
         cinematic_position.y = 0.0f;
-        cinematic_angle = TBoss4DarkFalz::type2_instance->rotation_y;
+        cinematic_angle = TBoss4DarkFalz::type2_instance->rotation.y;
     } else {
         cinematic_position.x = cinematic_position.y = cinematic_position.z = 0.0f;
         cinematic_angle = 0;
@@ -312,8 +311,8 @@ void TBoss4DarkFalz::update_spawn_type2_countdown() {
         set_data.owner = this;
         copy_set_entry(&set_data.entry, &dark_falz_set_entry);
         set_data.entry.room = 1;
-        set_data.entry.set_index = set_index + 0x1FF;
-        set_data.entry.entity_id = entity_id + 0x1FF;
+        set_data.entry.enemy_index = set_index + 0x1FF;
+        set_data.entry.id = entity_id + 0x1FF;
         TBoss4DarkFalz::type2_instance = TBoss4Type2::create(&set_data);
         set_story_flag_or_send_quest_flag(0x34);
         change_state(8);
@@ -326,7 +325,7 @@ void TBoss4DarkFalz::start_demo1() {
     freeze_all_players();
     if (TBoss4DarkFalz::type1_instance != NULL) {
         TObjChara *form = TBoss4DarkFalz::type1_instance;
-        TObjDFDemo1::create(this, &form->position, form->rotation_y);
+        TObjDFDemo1::create(this, &form->position, form->rotation.y);
     } else {
         TObjDFDemo1::create(this, &dark_falz_demo1_position, 0);
     }
@@ -355,8 +354,8 @@ void TBoss4DarkFalz::spawn_type1() {
     set_data.owner = this;
     copy_set_entry(&set_data.entry, &dark_falz_set_entry);
     set_data.entry.room = 1;
-    set_data.entry.set_index = set_index + 0x200;
-    set_data.entry.entity_id = entity_id + 0x200;
+    set_data.entry.enemy_index = set_index + 0x200;
+    set_data.entry.id = entity_id + 0x200;
     TBoss4DarkFalz::type1_instance = TBoss4Type1::create(&set_data);
     state_timer = 0;
     end_player_camera_pans();
@@ -486,7 +485,7 @@ void TBoss4DarkFalz::check_players_near_center() {
     }
 }
 
-void TBoss4DarkFalz::update_leader_editor() { if (TObjPlayer::check_demo_mode() == 0) { change_state(1); } }
+void TBoss4DarkFalz::update_leader_editor() { if (check_demo_mode() == 0) { change_state(1); } }
 
 
 TBoss4DarkFalzState dark_falz_state_table[16] = {

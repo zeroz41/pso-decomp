@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -6,7 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/window/TWindowSubComCardEntries.h"
+#include "pso/ui/window/TWindowSubComCard_CardSlots.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/prs.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -127,7 +126,7 @@ void TQuestListOnline::update_state() {
     }
 }
 
-void TQuestListOnline::request_menu() { TLobby::protocol_instance->send_quest_menu_request(); online_quest_bin_data = NULL; quest_bin_decompressed_size = 0; online_quest_dat_buffer = NULL; online_quest_list_decompressed_size = 0; set_state((saddr)((void*)12)); }
+void TQuestListOnline::request_menu() { TLobby::protocol_instance->send_quest_menu_request(); online_quest_bin_data = NULL; quest_bin_decompressed_size = 0; online_quest_dat_buffer = NULL; online_quest_list_decompressed_size = 0; set_state(12); }
 
 void TQuestListOnline::build_list_window() {
     s32 id;
@@ -276,7 +275,7 @@ void TQuestListOnline::decompress_quest_list_buffers() {
     quest_list_online_decompression_cursor += quest_bin_decompressed_size;
     online_quest_list_decompressed_size = prs_decompress_buffer(quest_list_online_dat_download_state.buffer, quest_list_online_decompression_cursor);
     online_quest_dat_buffer = quest_list_online_decompression_cursor;
-    set_state((saddr)((void *)7));
+    set_state(7);
 }
 #pragma pop
 
@@ -286,7 +285,7 @@ void TQuestListOnline::handle_quest_confirm() {
     if (this->confirm_window != NULL && this->confirm_window->is_decided() != 0) {
         v = this->confirm_window->get_selected_value();
         if (v == 0) {
-            if (THunterGuildSeqOffline::check_party_gathered() == 1) {
+            if (check_party_gathered() == 1) {
                 if (this->sequence != NULL) {
                     sequence->display_guild_message(0x14, 1);
                 }

@@ -5,12 +5,12 @@
 #include "pso/npc/TObjNpcMale.h"
 
 struct TObjNpcAHM01 : public TObjNpcMale {
-    TObjNpcAHM01(TObject *parent, void *set_data);
+    TObjNpcAHM01(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjNpcAHM01();
     virtual void play_voice();
     static void free_resources();
     static void load_resources();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static const char *name;
     static NJS_OBJECT **shared_object;
     static NJS_TEXLIST *texture_handle;

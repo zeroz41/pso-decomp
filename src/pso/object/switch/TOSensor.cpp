@@ -1,5 +1,4 @@
 // Built -inline off,deferred: the functions are written from the last back.
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/switch/TOSensor.h"
@@ -147,4 +146,4 @@ void TOSensor::play_off_loop_sound() {
     }
 }
 
-void TOSensor::vfunc_25() {}
+void TOSensor::debug_draw_key_extra() {}

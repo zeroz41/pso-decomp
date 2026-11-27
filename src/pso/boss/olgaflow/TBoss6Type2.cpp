@@ -47,11 +47,10 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
-#include "pso/boss/olgaflow/TBoss6Type2SubordinateActions.h"
+#include "pso/boss/olgaflow/Boss6SubordinateActions.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/GinjaDrawUtil.h"
-#include "pso/animation/ActorAnimationState.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/PlayerCommands.h"
@@ -214,7 +213,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     texlist = 0;
     model = 0;
     VecCopy(&position, &TBoss6Type2::initial_position);
-    copy_xyz(&rotation_x, (void *)TBoss6Type2::initial_rotation);
+    copy_xyz(&rotation, (void *)TBoss6Type2::initial_rotation);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     init_collision_body_parts(this, boss6_type2_collision_parts, 3);
     advance_position();
@@ -247,7 +246,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     random_factor = 0;
     next_motion = 0x11;
     copy_move_target((s32 *)&move_target, (s32 *)boss6_type2_zero_vec);
-    move_target.heading = rotation_y;
+    move_target.heading = rotation.y;
     VecCopy(&move_target.position, &position);
     action_flags = 0;
     for (i = 0; i < 32; i++) {
@@ -467,7 +466,7 @@ void TBoss6Type2::pick_walk_target(Boss6GridBytes *grid) {
         VecCopy(&target, &player->position);
     } else {
         target_client = 0xFFFFU;
-        angle = (s32) ((6144.0f * -((3.0517578e-05f * (f32) rand()) - 0.5f)) + (f32) (s32) rotation_y);
+        angle = (s32) ((6144.0f * -((3.0517578e-05f * (f32) rand()) - 0.5f)) + (f32) (s32) rotation.y);
         VecCopy(&target, &position);
         target.x += 150.0f * sin_table_lookup(angle);
         target.z += 150.0f * cos_table_lookup(angle);
@@ -665,9 +664,9 @@ void TBoss6Type2::get_phase_values(u16 *a, u16 *b, u16 *out) {
 
 s32 TBoss6Type2::get_rotation_timer() { return this->berserk; }
 
-void TBoss6Type2::get_shoulder_point(s32 index, Vec *pos, s32 *rotation) {
+void TBoss6Type2::get_shoulder_point(s32 index, Vec *pos, s32 *rotation_y) {
     VecCopy(pos, &node_positions[index + 0xE]);
-    *rotation = rotation_y;
+    *rotation_y = rotation.y;
 }
 
 void TBoss6Type2::apply_damage(s32 diff) {
@@ -717,7 +716,7 @@ void TBoss6Type2::run_task() {
     update_camera();
     decay_glow_and_calc_hp_ratio();
     scroll_strips.scroll_strips_uv(8, 0);
-    NJS_CNK_MODEL *scroll_model = static_cast<NJS_CNK_MODEL *>(find_model_node(get_bml_model(archive, 1), 1)->model);
+    NJS_CNK_MODEL *scroll_model = find_model_node(get_bml_model(archive, 1), 1)->chunk_model;
     scroll_chunk_plist_uvs(scroll_model->polygon_list, 8, 0, 0);
     update_head_aim();
     copy_vec_array();
@@ -1163,7 +1162,7 @@ s32 TBoss6Type2::choose_turn_motion() {
     }
     heading = (s32)(10430.38043493439 * atan2_float(player->position.x - position.x, player->position.z - position.z));
     motion = 0xF;
-    if (angle_diff_s16(rotation_y, heading) < 0) {
+    if (angle_diff_s16(rotation.y, heading) < 0) {
         motion = 0x10;
     }
     return motion;
@@ -1267,7 +1266,7 @@ void TBoss6Type2::update_collision_bodies() {
             subtract_vector(&v, &this->position);
             push_matrix();
             set_matrix_identity(0);
-            rotate_matrix_y(0, -this->rotation_y);
+            rotate_matrix_y(0, -this->rotation.y);
             matrix_mult_vec(0, &v, &e->offset);
             pop_matrix();
             VecCopy(&e->center, &e->offset);
@@ -1320,7 +1319,7 @@ void TBoss6Type2::spawn_sword_wave() {
     case 18:
     case 21:
         radius = 839.99994f;
-        start_angle = (rotation_y - 0x1500) & 0xFFFF;
+        start_angle = (rotation.y - 0x1500) & 0xFFFF;
         sound = 0x40069E09;
         end_angle = start_angle + 0x8500;
         break;
@@ -1328,7 +1327,7 @@ void TBoss6Type2::spawn_sword_wave() {
     case 19:
     case 22:
         radius = 839.99994f;
-        start_angle = (rotation_y - 0x7000) & 0xFFFF;
+        start_angle = (rotation.y - 0x7000) & 0xFFFF;
         sound = 0x40069E09;
         end_angle = start_angle + 0x8500;
         break;
@@ -1435,18 +1434,18 @@ void TBoss6Type2::create_mags(f32) {
     params.owner = this;
     VecCopy(&params.origin, &position);
     params.origin.y += 150.0f;
-    params.rotation_y = rotation_y;
-    copy_set_entry(&params, plot_falz->get_set_entry());
-    params.active = 1;
-    VecCopy(&params.pos, &params.origin);
+    params.rotation_y = rotation.y;
+    copy_set_entry(&params.placement, plot_falz->get_set_entry());
+    params.placement.room = 1;
+    VecCopy(&params.placement.position, &params.origin);
     params.flags = target_attribute_mask;
-    x = params.x;
-    z = params.z;
+    x = params.placement.enemy_index;
+    z = params.placement.id;
     params.variant = variant;
     for (i = 0; i < 2; i++) {
         params.index = i;
-        params.x = x + boss6_type2_mag_spawn_offsets[i];
-        params.z = z + boss6_type2_mag_spawn_offsets[i];
+        params.placement.enemy_index = x + boss6_type2_mag_spawn_offsets[i];
+        params.placement.id = z + boss6_type2_mag_spawn_offsets[i];
         mags[i] = TBoss6Type2::create_mag(&params);
     }
     if (mags[0] == 0 || mags[1] == 0) {
@@ -1524,7 +1523,7 @@ void TBoss6Type2::pick_action_clients(u16 *first, u16 *second) {
             *second = id0;
         }
         if (TBoss6PlotFalz::get_phase() == 0) {
-            s8 flags = *(s8 *)&random_factor;
+            s8 flags = random_factor;
             if (flags & 2) {
                 if (flags & 4) {
                     *first = 0xFFFF;
@@ -1711,7 +1710,7 @@ void TBoss6Type2::drop_random_rocks(s32 force) {
         buf[k] = j;
         avail_tbl[j] = 0;
     }
-    send_subordinate_actions_group0((saddr)buf, cnt, force);
+    send_subordinate_actions_group0(buf, cnt, force);
     mem_free(buf);
     play_sound_effect(0x4006AB1D, &boss6_arena_center, 0, 1);
 }
@@ -1808,9 +1807,9 @@ s32 TBoss6Type2::turn_toward_target_position() {
         if (berserk != 0) {
             turn_step = 0x369;
         }
-        old_rotation = rotation_y;
-        rotation_y = approach_angle_limited(rotation_y, (s32)(10430.38043493439 * atan2_float(to_target.x, to_target.z)), turn_step);
-        if (turn_step == angle_difference_abs(old_rotation, rotation_y)) {
+        old_rotation = rotation.y;
+        rotation.y = approach_angle_limited(rotation.y, (s32)(10430.38043493439 * atan2_float(to_target.x, to_target.z)), turn_step);
+        if (turn_step == angle_difference_abs(old_rotation, rotation.y)) {
             if (turn_sound_played == 0) {
                 play_sound_effect(0x4006A602, &position, 0, 0);
                 turn_sound_played = 1;
@@ -2044,7 +2043,7 @@ s32 TBoss6Type2::grab_player(u16 client_id) {
     player->model = grab_models[0];
     player->head_model = NULL;
     player->hair_model = NULL;
-    player->attachment_model = (uaddr)grab_models[1];
+    player->attachment_model = grab_models[1];
     return 1;
 }
 
@@ -2075,7 +2074,7 @@ void TBoss6Type2::reset_fish_fields() {
     saved_look.model = NULL;
     saved_look.head_model = NULL;
     saved_look.hair_model = NULL;
-    saved_look.attachment_model = 0;
+    saved_look.attachment_model = NULL;
 }
 
 #pragma push
@@ -2120,7 +2119,7 @@ void TBoss6Type2::aim_toward_point(const Vec *point) {
     } else {
         VecCopy(&v, point);
         subtract_vector(&v, &position);
-        ang = (s16)((s32)(10430.38043493439 * atan2_float(v.x, v.z)) - rotation_y);
+        ang = (s16)((s32)(10430.38043493439 * atan2_float(v.x, v.z)) - rotation.y);
     }
     if (ang < -0x2800 || ang > 0x2800) {
         ang = 0;
@@ -2304,7 +2303,7 @@ void TBoss6Type2::render_body_effects() {
     toggle_particle_effect();
     push_matrix();
     post_translate_matrix((const f32 *)&position);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     settled = 0;
     if ((0.0f == state_progress) || (1.0f == state_progress)) {
         settled = 1;
@@ -2317,7 +2316,7 @@ void TBoss6Type2::render_body_effects() {
         TBoss6PlotFalz::update_camera_target();
     }
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     restore_effect_values();
 }
 
@@ -2325,7 +2324,7 @@ void TBoss6Type2::draw() {
     if (this->possessed_client != 65535) {
         push_matrix();
         post_translate_matrix((const f32 *)&this->node_positions[11]);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         boss6type2_draw_models(&saved_look.body_textures, &saved_look.head_textures, &saved_look.attachment_textures,
                                saved_look.model, saved_look.head_model, saved_look.hair_model,
                                saved_look.attachment_model, grab_appearance, 1.0f);

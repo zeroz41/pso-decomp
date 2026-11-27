@@ -14,7 +14,9 @@ class TAdFadeGC;
 class TAdGuideTxtGC;
 class TAdGameStartGC;
 struct TAdChrSelPlyPlateGC;
+struct TAdPlyPltAnimCtrlGC;
 struct TAdChrMoveEffectGC;
+struct TAdPlyPltAnimCtrlGC;
 class TAdFadeGC;
 
 class TAdChrSelPlayerGC;
@@ -62,11 +64,8 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     static void reset_slot_selection_table();
     static void split_slot_index(s32 slot_index, s32 *out_cursor_column, s32 *out_card_slot);
     static void init();
-    static s32 get_status();
-    static s32 is_selection_confirmed();
     static s32 count_ready();
     static void remove_selected_slot(s32 slot);
-    static void add_selected_slot();
     static s32 get_clamped_cursor();
     static void reset_slot_selections();
     static s32 count_selected_slots();
@@ -77,8 +76,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     s32 get_current_state();
     static TAdMultiPlyChrSelectGC *get_state();
     static TAdMultiPlyChrSelectGC *get_or_create(TObject *parent, s32 mode);
-    static saddr get_selected_slot();
-    static int get_global_6700();
+    static TAdPlyPltAnimCtrlGC *get_selected_slot();
     static void render(void *self);
     TWindowMessageYesNo *create_confirm_window(s32 slot);
     TWindowMenu *create_choice_menu();

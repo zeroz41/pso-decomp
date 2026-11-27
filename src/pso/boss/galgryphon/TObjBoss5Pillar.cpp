@@ -1,5 +1,4 @@
 #include "pso/boss/galgryphon/Boss5CommonResource.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TObjBoss5Pillar.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
@@ -7,7 +6,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/system/BmlResource.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
@@ -15,13 +14,14 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/PhotonBlastResults.h"
 
 #pragma readonly_strings on
 
 const char *TObjBoss5Pillar::class_name = "TObjBoss5Pillar";
 
 void TObjBoss5Pillar::render() {
-    if (TObjPlayer::is_any_teammate_in_state() == 0) {
+    if (is_any_teammate_in_state() == 0) {
         push_matrix();
         set_texture_list(boss5_common_texture_list);
         post_translate_matrix(&this->position.x);

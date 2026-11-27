@@ -75,7 +75,7 @@ void TObjEnemyCustom::update_if_active(s32 action) {
 }
 
 TObjChara *TObjPlayer::get_battle_param(int index) {
-    return player_battle_param_table[index];
+    return (TObjChara *)player_battle_param_table[index];
 }
 
 void TBoss3VoloptCore::load_entry_params_volopt(s32 index) {
@@ -91,7 +91,7 @@ s32 TBoss3VoloptCore::is_target_in_attack_range() {
     return 0;
 }
 
-TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     apply_set_data(set_data);
     init_params();
 }
@@ -144,7 +144,7 @@ TBoss3VoloptCore::~TBoss3VoloptCore() {
     TBoss3Volopt::set_camera_focus(NULL);
 }
 
-void *TBoss3VoloptCore::create(void *set_data) {
+void *TBoss3VoloptCore::create(EnemyPlacement *set_data) {
     return new TBoss3VoloptCore(tl_04, set_data);
 }
 
@@ -160,7 +160,7 @@ void TBoss3VoloptCore::release() {}
 
 void TBoss3VoloptCore::run_task() {
     vol_opt_active_hit_zone = calc_hit_zone_index();
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_demo_task();
         return;
     }
@@ -236,15 +236,15 @@ void TBoss3VoloptCore::render() {
         push_matrix();
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);
-        rotate_matrix_x(0, rotation_x);
+        rotate_matrix_x(0, rotation.x);
         if (behavior_flags & 0x10000) {
             rotate_matrix_y(0, facing_angle);
             scale_matrix(0, 1.0f, 1.0f, 0.05f);
-            rotate_matrix_y(0, rotation_y - facing_angle);
+            rotate_matrix_y(0, rotation.y - facing_angle);
         } else {
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
         }
-        if (TObjPlayer::check_demo_mode() == 1) {
+        if (check_demo_mode() == 1) {
             draw_chunk_object(model);
         } else {
             draw();
@@ -262,7 +262,7 @@ void TBoss3VoloptCore::update_charge_state() {
     case 0:
         behavior_flags &= ~0x10000;
         this->requested_action = 0;
-        rotation_x = 0;
+        rotation.x = 0;
         if ((s32)previous_action == 4) {
             state = charge_step;
         } else {
@@ -273,7 +273,7 @@ void TBoss3VoloptCore::update_charge_state() {
         }
         break;
     case 1:
-        VecCopy(&velocity, &((TObjPlayer *)target)->position);
+        VecCopy(&velocity, &target->position);
         subtract_vector(&velocity, &position);
         turn_toward_direction(0x800, &velocity);
         if (--charge_timer <= 0) {
@@ -425,10 +425,10 @@ void TBoss3VoloptCore::update_state_spin() {
         targetId = 0xFFFF;
         behavior_flags |= 0x10000;
         this->requested_action = 0;
-        rotation_x = 0;
+        rotation.x = 0;
         update_orbit_position();
         facing_angle = calc_spin_value();
-        rotation_y = facing_angle;
+        rotation.y = facing_angle;
         timer = 0x5A;
         state = 1;
     case 1:
@@ -520,7 +520,7 @@ void TBoss3VoloptCore::update_orbit_state() {
     case 0:
         behavior_flags |= 0x10000;
         this->requested_action = 0;
-        rotation_x = 0;
+        rotation.x = 0;
         state = 1;
         break;
     case 1:
@@ -529,7 +529,7 @@ void TBoss3VoloptCore::update_orbit_state() {
         sweep_angle -= get_orbit_speed(0);
         update_orbit_position();
         facing_angle = calc_spin_value();
-        rotation_y = facing_angle - 0x4000;
+        rotation.y = facing_angle - 0x4000;
         if (moves_left > 1) {
             if (sweep_angle <= -0x238E) {
                 moves_left--;
@@ -564,8 +564,8 @@ void TBoss3VoloptCore::update_orbit_end_state() {
         effect = NULL;
         state = 1;
     case 1:
-        rotation_y = approach_angle_limited(rotation_y, facing_angle - 0x8000, core_turn_angle_limit);
-        if (angle_difference_abs(rotation_y, facing_angle - 0x8000) <= core_turn_angle_limit) {
+        rotation.y = approach_angle_limited(rotation.y, facing_angle - 0x8000, core_turn_angle_limit);
+        if (angle_difference_abs(rotation.y, facing_angle - 0x8000) <= core_turn_angle_limit) {
             timer = (TBoss3Volopt::is_v2_mode() != 0) ? 5 : 0x1E;
             state = 2;
         }
@@ -636,7 +636,7 @@ void TBoss3VoloptCore::update_topple_state() {
     case 0:
         behavior_flags |= 0x10000;
         this->requested_action = 0;
-        if (angle_difference_abs(rotation_y, facing_angle - 0x4000) <= core_turn_angle_limit) {
+        if (angle_difference_abs(rotation.y, facing_angle - 0x4000) <= core_turn_angle_limit) {
             state = 3;
         } else {
             state = 1;
@@ -648,8 +648,8 @@ void TBoss3VoloptCore::update_topple_state() {
         }
         break;
     case 2:
-        rotation_y = approach_angle_limited(rotation_y, facing_angle - 0x4000, core_turn_angle_limit);
-        if (angle_difference_abs(rotation_y, facing_angle - 0x4000) <= core_turn_angle_limit) {
+        rotation.y = approach_angle_limited(rotation.y, facing_angle - 0x4000, core_turn_angle_limit);
+        if (angle_difference_abs(rotation.y, facing_angle - 0x4000) <= core_turn_angle_limit) {
             state = 3;
         }
         break;

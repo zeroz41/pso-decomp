@@ -2,7 +2,7 @@
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/object/city/CityTraffic.h"
@@ -346,10 +346,9 @@ void unlock_main_warp_destination(s32 id) {
     }
 }
 
-TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjCityMainWarp::TObjCityMainWarp(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     s32 i;
     s32 j;
-    TAdVIConfigGC *p;
     m_name = class_name;
     warp_range = 25.0f;
     frame = 0.0f;
@@ -360,13 +359,9 @@ TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWa
         lobby_menu_destinations[j] = 0;
     }
     if (is_split_screen() == 1) {
-        p = (TAdVIConfigGC *)::operator new(0x88);
-        if (p != NULL) {
-            p = p->init(&position, 25.0f);
-        }
-        vi_config = p;
+        party_check = new WarpPartyCheck(&position, 25.0f);
     } else {
-        vi_config = NULL;
+        party_check = NULL;
     }
     select_type = set_params[1];
     if (select_type < 0) {
@@ -379,7 +374,7 @@ TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWa
 
 TObjCityMainWarp::~TObjCityMainWarp() {}
 
-void *TObjCityMainWarp::create(void *set_data) {
+void *TObjCityMainWarp::create(ObjectSetData *set_data) {
     return new TObjCityMainWarp(tl_05, set_data);
 }
 
@@ -503,11 +498,11 @@ void TObjCityMainWarp::render() {
         set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         draw_ginja_object(city_common_model_archive->models[12].model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, this->frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -526,7 +521,7 @@ void TObjCityMainWarp::debug_print_area_num() {
     set_debug_text_color(0xF0F0F0FF);
 }
 
-TObjCityAreaWarp::TObjCityAreaWarp(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjCityAreaWarp::TObjCityAreaWarp(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     this->m_name = class_name;
     warp_range = 23.0f;
     this->frame = 0.0f;
@@ -535,7 +530,7 @@ TObjCityAreaWarp::TObjCityAreaWarp(TObject *parent, void *set_data) : TObjAreaWa
 
 TObjCityAreaWarp::~TObjCityAreaWarp() {}
 
-void *TObjCityAreaWarp::create(void *set_data) {
+void *TObjCityAreaWarp::create(ObjectSetData *set_data) {
     return new TObjCityAreaWarp(tl_05, set_data);
 }
 
@@ -568,10 +563,10 @@ void TObjCityAreaWarp::do_warp() {
         set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
-        TParticleCtrl::begin_effect_render();
+        rotate_matrix_y(NULL, this->rotation.y);
+        begin_effect_render();
         draw_ginja_model_with_motion(city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -585,7 +580,7 @@ void TObjCityAreaWarp::confirm_area_transfer(TObjPlayer *) {
     lobby_floor_reload_pending = 1;
 }
 
-TObjCityMapWarp::TObjCityMapWarp(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
+TObjCityMapWarp::TObjCityMapWarp(TObject *parent, ObjectSetData *set_data) : TObjMapWarp(parent, set_data) {
     m_name = class_name;
     clamp_destination_index();
     warp_range = 23.0f;
@@ -594,7 +589,7 @@ TObjCityMapWarp::TObjCityMapWarp(TObject *parent, void *set_data) : TObjMapWarp(
 
 TObjCityMapWarp::~TObjCityMapWarp() {}
 
-void *TObjCityMapWarp::create(void *set_data) {
+void *TObjCityMapWarp::create(ObjectSetData *set_data) {
     return new TObjCityMapWarp(tl_05, set_data);
 }
 
@@ -641,16 +636,16 @@ void TObjCityMapWarp::render() {
         set_texture_list(city_common_texture_list);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         if (is_field88_zero() != 0) {
             draw_ginja_object(city_common_model_archive->models[13].model);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model_with_motion(city_common_model_archive->models[3].model, city_common_model_archive->motions[7].motion, this->animation_frame);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         } else {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model_with_motion(city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->animation_frame);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         pop_matrix();
     }
@@ -670,7 +665,7 @@ void TObjCityMapWarp::draw_debug_destinations() {
     set_debug_text_color(0xF0F0F0FF);
 }
 
-TObjLaboMapWarp::TObjLaboMapWarp(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
+TObjLaboMapWarp::TObjLaboMapWarp(TObject *parent, ObjectSetData *set_data) : TObjMapWarp(parent, set_data) {
     m_name = class_name;
     clamp_index();
     warp_range = 23.0f;
@@ -679,7 +674,7 @@ TObjLaboMapWarp::TObjLaboMapWarp(TObject *parent, void *set_data) : TObjMapWarp(
 
 TObjLaboMapWarp::~TObjLaboMapWarp() {}
 
-void *TObjLaboMapWarp::create(void *set_data) {
+void *TObjLaboMapWarp::create(ObjectSetData *set_data) {
     return new TObjLaboMapWarp(tl_05, set_data);
 }
 
@@ -738,16 +733,16 @@ void TObjLaboMapWarp::render() {
         set_texture_list(get_bml_texlist(labo_map_warp_resource_bundle, 1));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         if (is_field88_zero() != 0) {
             draw_ginja_object(get_bml_model(labo_map_warp_resource_bundle, 1));
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model_with_motion(get_bml_model(labo_map_warp_resource_bundle, 0), get_bml_motion(labo_map_warp_resource_bundle, 0), animation_frame);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         } else {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model_with_motion(get_bml_model(labo_map_warp_resource_bundle, 0), get_bml_motion(labo_map_warp_resource_bundle, 0), animation_frame);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         pop_matrix();
     }

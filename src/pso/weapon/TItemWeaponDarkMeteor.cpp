@@ -63,7 +63,7 @@ void TItemWeaponDarkMeteor::emit_marker_effects() {
         get_joint_position(6, &info.joints[2]);
         get_joint_position(9, &info.joints[3]);
         get_joint_position(0xA, &info.joints[4]);
-        info.rotation_y = owner->rotation_y;
+        info.rotation_y = owner->rotation.y;
         info.hits = 0xA;
         TItemEffOrgaFlowShot::create(tl_05, &info);
         restore_action_type();

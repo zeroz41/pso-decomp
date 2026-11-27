@@ -12,7 +12,7 @@ BmlResourceDescriptor bm_n_ebw_i_body_resource_descriptor = { "bm_n_ebw_i_body.b
 const char *TObjNpcFemaleBase::name = "TObjNpcFemaleBase";
 BmlResource *TObjNpcFemaleBase::shared_resource_obj;
 
-void *TObjNpcFemaleBase::create(void *set_data) {
+void *TObjNpcFemaleBase::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcFemaleBase(control, set_data);
 }
@@ -31,7 +31,7 @@ void TObjNpcFemaleBase::load_shared_resource() {
 
 TObjNpcFemaleBase::~TObjNpcFemaleBase() {}
 
-TObjNpcFemaleBase::TObjNpcFemaleBase(TObject *parent, void *set_data) : TObjNpcFemale(parent) {
+TObjNpcFemaleBase::TObjNpcFemaleBase(TObject *parent, EnemyPlacement *set_data) : TObjNpcFemale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

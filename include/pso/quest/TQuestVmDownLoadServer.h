@@ -39,7 +39,7 @@ public:
     s32 file_count;            // files to save, checked against get_memcard_free_files
     TObject *mc_select;        // TAdMcSelectGC::create
     s32 state;
-    s32 pad_2a4; // picks update_mc_select's status message; nothing in this TU writes it
+    s32 status_message_index; // picks the status message update_mc_select shows (0-5)
 
     TQuestVmDownLoadServer(TObject *parent);
     virtual ~TQuestVmDownLoadServer();
@@ -78,10 +78,8 @@ public:
     void close_message();
     void check_cancel_input();
     static void create();
-    static s32 get_field230();
-    static void clear_field2A0(TMCFormatSequence *sequence);
-    static void *alloc(u32 size);
-    static s32 is_ready();
+    static s32 get_total_blocks();
+    static void reset_state_on_format_error(TMCFormatSequence *sequence);
     static s32 get_serial_access();
     static s32 poll_serial_access();
     static void reset_download();
@@ -94,11 +92,15 @@ LAYOUT_ASSERT(TQuestVmDownLoadServer_size_check, sizeof(TQuestVmDownLoadServer) 
 
 extern TQuestVmDownLoadServer *quest_vm_download_server_instance;
 
+void *alloc(u32 size);
+
 // The two seeds of the download cipher; a quest saved to a memory card is
 // encrypted with the console's serial number in both.
 extern __declspec(section ".data") u32 download_rng_seed_pair[2];
 
 void seed_download_rng(s32 seed);
+
+void reset_download_graph(void);
 
 // One downloaded quest file (begin_file_download fills one per extension: .dat, .bin, .pvr, .gba);
 // the type name is inferred. size is the packet's file size, +8 for .dat/.bin whose buffer starts with a
@@ -120,7 +122,7 @@ QuestDownloadRecord *get_quest_download_file_header(void);
 // Set while a quest file is being downloaded (TQuestVmDownLoadServer::load_quest_data sets it).
 extern s32 quest_download_in_progress;
 
-// Defined with the memory-card file constants (TAdSinglePlyChrSelectGC_801FBF54.cpp, next to
+// Defined with the memory-card file constants (TAdSinglePlyChrSelectGC_CardSequence.cpp, next to
 // quest_memcard_key). Names inferred: the quest file requests store them in their
 // banner (+0x44) and icon (+0x48) fields, which set_card_banner_and_icon then replaces with the
 // loaded banner/icon buffers; build_save_file_image copies 0x1800 (banner) / 0x800 (icon) bytes from them.

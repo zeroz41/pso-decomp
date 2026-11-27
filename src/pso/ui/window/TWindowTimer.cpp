@@ -3,9 +3,9 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/enemy/BattleParamTables.h"
-#include "pso/ui/chat/TWindowSubShortMailActiveChecks.h"
+#include "pso/ui/window/TWindowBreakIn.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
 #include "pso/math/Vec2Constants.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -18,7 +18,6 @@
 #include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/WindowTextEntry.h"
 
 #pragma readonly_strings on
 

@@ -33,19 +33,17 @@ struct QuestDownloadWorkspace {
 
 struct QuestDownloadDisplayPrefix { u8 text[12]; };
 
-// These buffers are used synchronously as bytes, character codes, or item IDs.
-struct QuestDownloadScratchWords { u16 values[0x202]; };
-struct QuestDownloadScratchIds { s32 values[0x101]; };
+// Text scratch used synchronously as bytes, character codes, or item IDs.
 union QuestDownloadTextBuffer {
     u8 bytes[0x404];
-    QuestDownloadScratchWords words;
-    QuestDownloadScratchIds ids;
+    u16 words[0x202];
+    s32 ids[0x101];
 };
 
 extern "C" {
 extern QuestDownloadWorkspace conversion_workspace;
 extern QuestDownloadDisplayPrefix quest_download_display_prefix;
-extern QuestDownloadTextBuffer quest_download_text_buffer ATTRIBUTE_ALIGN(4);
+extern QuestDownloadTextBuffer quest_download_text_buffer;
 }
 
 LAYOUT_ASSERT(QuestDownloadQueryEntrySize, sizeof(QuestDownloadQueryEntry) == 6);
@@ -54,16 +52,6 @@ LAYOUT_ASSERT(QuestDownloadQueryResultSize, sizeof(QuestDownloadQueryResult) == 
 LAYOUT_ASSERT(QuestDownloadWorkspaceResultOffset, offsetof(QuestDownloadWorkspace, result) == 0x8C0);
 LAYOUT_ASSERT(QuestDownloadWorkspaceSize, sizeof(QuestDownloadWorkspace) == 0x990);
 LAYOUT_ASSERT(QuestDownloadDisplayPrefixSize, sizeof(QuestDownloadDisplayPrefix) == 0xC);
-LAYOUT_ASSERT(QuestDownloadScratchWordsSize, sizeof(QuestDownloadScratchWords) == 0x404);
-LAYOUT_ASSERT(QuestDownloadScratchIdsSize, sizeof(QuestDownloadScratchIds) == 0x404);
-
-enum QuestDownloadScratchPlacement { quest_download_scratch_words_or_ids };
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(1)
-inline void *operator new(size_t, void *storage, QuestDownloadScratchPlacement) {
-    return storage;
-}
-#pragma pop
+LAYOUT_ASSERT(QuestDownloadTextBufferSize, sizeof(QuestDownloadTextBuffer) == 0x404);
 
 #endif

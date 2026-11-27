@@ -1,5 +1,4 @@
 #include "pso/map/CsnQuery.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "types.h"
 #include "pso/system/vector.h"
@@ -83,7 +82,7 @@ void TObjEneRe2Flower_Bomb::render() {
 }
 void TObjEneRe2Flower_Bomb::run_task() {
     Vec tmp;
-    ParticleAngles rot;
+    Angle3 rot;
     CsnHit *hit;
     f32 d;
 

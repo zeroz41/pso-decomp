@@ -4,7 +4,7 @@
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/render/GinjaModel.h"
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/math/AngleLookup.h"

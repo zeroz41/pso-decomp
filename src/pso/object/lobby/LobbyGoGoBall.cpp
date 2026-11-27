@@ -96,7 +96,7 @@ Vec three_point_goal_team1 = {-500.0f, 20.0f, 0.0f};
 NJS_TEXLIST *lobby_gvm_texture_handles[9] = {0};
 const NJS_ARGB fish_draw_color[1] = {{0.2f, 0.0f, 0.0f, 0.0f}};
 // spawn_particle_effect_with_rotation takes x/y/z angles (0x8000 = half turn).
-const ParticleAngles boss3_volopt_init_vec = {0, 0, 0x8000};
+const Angle3 boss3_volopt_init_vec = {0, 0, 0x8000};
 
 void close_gogo_ball_timer() { TWindowCtrl::close_timer_window(); }
 void add_gogo_ball_one_point_score(s32 team) {
@@ -261,7 +261,7 @@ void TObjGoGoBall::send_local_player_walk() {
     p = get_player_by_client_id(local_client_id);
     if (p != 0) {
         pkt.header.client_id = local_client_id;
-        p->calc_movement_target(p->rotation_y, &x, &z);
+        p->calc_movement_target(p->rotation.y, &x, &z);
         pkt.pos.x = x;
         pkt.pos.z = z;
         pkt.flags = 0;
@@ -328,9 +328,9 @@ void TObjGoGoBall::render() {
     VecCopy(&dir, &velocity);
     dir.y = 0.0f;
     len = vector_length(&dir);
-    direction_to_rotation_yx(&dir, &rotation_y, &rotation_z);
+    direction_to_rotation_yx(&dir, &rotation.y, &rotation.z);
     heading = (u16)heading;
-    rotation_y = (u16)rotation_y;
+    rotation.y = (u16)rotation.y;
     if (0.0f != len) {
         normalize_vector(&dir);
         VecCopy(&prev_position, &dir);
@@ -350,10 +350,10 @@ void TObjGoGoBall::render() {
     rate = (s32)(182.04445f * (4096.0f * len));
     if (0.0f != rate) {
         step = rate;
-        heading = approach_angle_limited(heading, rotation_y, step);
-        roll = approach_angle_limited(roll, rotation_x, step);
+        heading = approach_angle_limited(heading, rotation.y, step);
+        roll = approach_angle_limited(roll, rotation.x, step);
     }
-    rotation_x += (s32)(182.04445f * (7.0f * len));
+    rotation.x += (s32)(182.04445f * (7.0f * len));
     push_matrix_from(0);
     translate_matrix_vec3((u8 *)(0), (u8 *)&pos);
     rate = 0.15f * gogo_ball_configuration.radius;
@@ -553,7 +553,7 @@ void TObjGoGoBall::draw_shadow_quads(Vec *pos, Vec *dir, s32 angle, Vec *scale, 
     col.g = 1.0f;
     col.b = 1.0f;
     set_constant_material(&col);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     draw_shadow_quad(&sprite, 0, 0x22);
     sprite.p.x = 0.0f;
     sprite.p.y = 0.0f;
@@ -564,7 +564,7 @@ void TObjGoGoBall::draw_shadow_quads(Vec *pos, Vec *dir, s32 angle, Vec *scale, 
     sprite.p.x = 0.0f;
     sprite.p.y = -5.0f;
     draw_shadow_quad(&sprite, 0, 0x2E);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     set_constant_material(&chunk_material_color_half_alpha_f32);
     pop_matrix();
 }
@@ -678,7 +678,7 @@ void free_lobby_textures() {
     delete gogo_ball_bml_resource;
     gogo_ball_bml_resource = NULL;
     for (i = 0; i < 9; i++) {
-        TObjPlayer::free_if_valid(lobby_gvm_texture_handles[i]);
+        free_if_valid(lobby_gvm_texture_handles[i]);
         lobby_gvm_texture_handles[i] = NULL;
     }
 }
@@ -756,7 +756,7 @@ void TGoGoBallRocket::run_task() {
     }
     if (state != 0) {
         if (effect == NULL) {
-            ParticleAngles init = boss3_volopt_init_vec;
+            Angle3 init = boss3_volopt_init_vec;
             if (gogo_ball_configuration.ball_type != 6) {
                 effect = spawn_particle_effect_with_rotation(&pos, &init, 0xC0, 2);
             }

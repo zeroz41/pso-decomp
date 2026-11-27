@@ -3,6 +3,7 @@
 #include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TProtocol.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -20,7 +21,7 @@ void submit_chat_text(char *text) {
     TObjBase *player;
     player = (TObjBase *)get_player_by_client_id(local_client_id);
     if (player != NULL && *text != 0) {
-        ((TLobby *)text)->capture_chat_sensor();
+        capture_chat_sensor(text);
         if (get_main_phase() == 0xF) {
             const TPlyGuildCardTag &made = TPlyGuildCardTag(0, 0);
             SubmitChatTextTag tmp = *(SubmitChatTextTag *)&made;

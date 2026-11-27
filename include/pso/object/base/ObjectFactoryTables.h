@@ -2,7 +2,9 @@
 #define PSO_OBJECT_BASE_OBJECTFACTORYTABLES_H
 #include "types.h"
 
-typedef void* (*ObjectFactoryFunction)(void* placement);
+struct ObjectSetData;
+
+typedef void *(*ObjectFactoryFunction)(ObjectSetData *placement);
 struct ObjectFactoryEntry {
     s16 type;
     ObjectFactoryFunction create;

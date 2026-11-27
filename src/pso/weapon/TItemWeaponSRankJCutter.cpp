@@ -28,7 +28,7 @@ void TItemWeaponSRankJCutter::emit_marker_effects() {
     tec.color.r = 0.6f;
     tec.color.g = 0.5f;
     tec.color.b = 0.3f;
-    tec.facing = owner->rotation_y;
+    tec.facing = owner->rotation.y;
     get_joint_position(3, &tec.first_joint);
     get_joint_position(2, &tec.second_joint);
     TItemAttacker::spawn_item_timer(TTecSlicer::create(&tec), (ItemTimerCallback)enlarge_s_rank_j_cutter_blade, 3);
@@ -56,8 +56,7 @@ void enlarge_s_rank_j_cutter_blade(TObjBase *object) {
     }
 }
 
-void init_slicer_launch_state(void *state) {
-    SlicerLaunchState *s = (SlicerLaunchState *)state;
+void init_slicer_launch_state(SlicerLaunchState *s) {
     s->player_id = 0xFFFF;
     s->item_id = -1;
     s->texlist = 0;

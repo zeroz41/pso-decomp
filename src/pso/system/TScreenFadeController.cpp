@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/Draw2D.h"
 #include "pso/system/TScreenFadeOut.h"
@@ -134,9 +133,9 @@ void TDeathTintFade::run_task() {
 
 void TDeathTintFade::render() {  }
 
-TColorOverlayFade::TColorOverlayFade(TObject *parent, s32 unk_1C, s32 duration, u8 c3, u8 c0, u8 c1, u8 c2) : TObject(parent) {
+TColorOverlayFade::TColorOverlayFade(TObject *parent, s32 pad_1C, s32 duration, u8 c3, u8 c0, u8 c1, u8 c2) : TObject(parent) {
     u32 c;
-    this->unk_1C = unk_1C;
+    this->pad_1C = pad_1C;
     frame = 0;
     this->duration = duration;
     c = get_viewport_fill_color(local_client_id);
@@ -189,7 +188,7 @@ TScreenFadeController::~TScreenFadeController() {
     screen_fade_controller = NULL;
 }
 
-s32 TLobby::get_quest_thread_state() {
+s32 get_quest_thread_state() {
     if (screen_fade_controller != NULL) {
         return screen_fade_controller->mode;
     }
@@ -221,7 +220,7 @@ void TScreenFadeController::step_fade_opacity_decrease() {
 }
 #pragma pop
 
-void TLobby::init_fadeout_state(void (*callback)()) {
+void init_fadeout_state(void (*callback)()) {
     if (screen_fade_controller != NULL) {
         screen_fade_controller->callback = callback;
         screen_fade_controller->alpha = 0.0f;

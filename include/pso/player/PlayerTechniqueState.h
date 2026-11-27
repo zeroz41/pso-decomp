@@ -62,6 +62,7 @@ public:
     void set_target(s32 slot, s32 entity_id, s16 index);
     u8 clamp_to_max(u8 level, u8 max);
     u8 get_effective_technique_level(s16 technique);
+    u8 get_cast_technique_level(s16 technique);
     void set_technique_cap(s16 technique, u8 level);
     void set_all_technique_levels(u8 level);
     void copy_all_technique_entries(u8 level);

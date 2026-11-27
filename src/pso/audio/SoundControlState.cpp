@@ -494,7 +494,6 @@ u16 sound_bank_group_ids[38] = {
 
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/audio/SoundRequestVoice.h"
-#include "pso/unk/ShortMailFlag.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/system/main_loop.h"
 #include <string.h>
@@ -603,13 +602,9 @@ void SoundControlState::set_reverb_level(f32 level) {
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
 s32 get_sound_voice_state(s32 voice) {
-  u8 *voices;
-  s8 *entry;
   if ((voice >= 0) && (voice < 0x28))
   {
-    voices = (u8 *)sound_request_voices;
-    entry = (s8 *) (voices + (voice * 0xA0));
-    return *((s32 *)(entry + 4));
+    return sound_request_voices[voice].state;
   }
   return -9;
 }
@@ -924,9 +919,6 @@ s32 SoundControlState::reset_sound_state() {
     load_state = 4;
     return 0;
 }
-extern "C" {
-void sndAuxCallbackPrepareReverbHI(void *rev);
-}
 
 s32 SoundControlState::init_sound_aux_effects() {
     s32 i;
@@ -934,7 +926,7 @@ s32 SoundControlState::init_sound_aux_effects() {
     u32 size;
 
     for (i = 0; i < 40; i++) {
-        sound_request_voices[i].set_field0(this);
+        sound_request_voices[i].set_owner(this);
     }
     tick = OSGetTick();
     elapsed = 0;
@@ -951,19 +943,19 @@ s32 SoundControlState::init_sound_aux_effects() {
         return 1;
     }
     reverb_level = 0.0f;
-    reverb_temp_disable = 0;
-    reverb_time = 2.0f;
-    reverb_pre_delay = 0.1f;
-    reverb_damping = 0.6f;
-    reverb_coloration = 0.9f;
-    reverb_crosstalk = 0.0f;
-    reverb_mix = 1.0f;
+    reverb.disabled = 0;
+    reverb.parameterTime = 2.0f;
+    reverb.parameterPreDelay = 0.1f;
+    reverb.parameterDamping = 0.6f;
+    reverb.parameterColoration = 0.9f;
+    reverb.parameterCrossTalk = 0.0f;
+    reverb.parameterMix = 1.0f;
     chorus.baseDelay = 15;
     chorus.variation = 0;
     chorus.period = 500;
-    sndAuxCallbackPrepareReverbHI(this);
+    sndAuxCallbackPrepareReverbHI(&reverb);
     sndAuxCallbackPrepareChorus(&chorus);
-    sndSetAuxProcessingCallbacks(0, sndAuxCallbackReverbHI, this, 0xFF, 0, sndAuxCallbackChorus, &chorus, 0xFF,
+    sndSetAuxProcessingCallbacks(0, sndAuxCallbackReverbHI, &reverb, 0xFF, 0, sndAuxCallbackChorus, &chorus, 0xFF,
                                  0);
     memset(musyx_sdir_buffers, 0, 38 * sizeof(void *));
     for (i = 0; i < 38; i++) {

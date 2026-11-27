@@ -18,7 +18,7 @@
 
 void quest_flag_sync_stub(void) {  }
 
-void TLobby::send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty) {
+void send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty) {
     G_UpdateQuestFlag_V3_BB_6x75 packet;
     build_6x75_update_quest_flag_dc(&packet);
     packet.__base_G_UpdateQuestFlag_DC_PC_6x75.flag = flag;
@@ -28,7 +28,7 @@ void TLobby::send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty) {
     send_and_handle_6x75(&packet);
 }
 
-void TLobby::send_6x75_quest_flag_cur_difficulty(u16 flag, s16 action) {
+void send_6x75_quest_flag_cur_difficulty(u16 flag, s16 action) {
     G_UpdateQuestFlag_V3_BB_6x75 packet;
     build_6x75_update_quest_flag_dc(&packet);
     packet.__base_G_UpdateQuestFlag_DC_PC_6x75.flag = flag;

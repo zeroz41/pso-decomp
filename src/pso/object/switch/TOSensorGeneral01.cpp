@@ -25,7 +25,7 @@ BmlResource *sensor_general_shared_bml_archive;
 NJS_TEXLIST **sensor_general01_texture_lists;
 
 void TOSensorGeneral01::update_switch_off() {
-    rotation_y = rotation_y + 0x147;
+    rotation.y = rotation.y + 0x147;
     head_angle = head_angle + 0x28F;
 }
 
@@ -35,23 +35,23 @@ void TOSensorGeneral01::update_switch_on() {
     if (lamp_timer < 0) {
         lamp_timer = 0;
         lamps_dark = 0;
-        rotation_y = rotation_y + 0xCCC;
+        rotation.y = rotation.y + 0xCCC;
         position.y += 1.0f;
         return;
     }
     if ((f32)lamp_timer < 30.0f) {
         lamps_dark = 1;
-        rotation_y = rotation_y + 0x147;
+        rotation.y = rotation.y + 0x147;
         return;
     }
     if ((f32)lamp_timer < 60.0f) {
         lamps_dark = 2;
-        rotation_y = rotation_y + 0x147;
+        rotation.y = rotation.y + 0x147;
         return;
     }
     if ((f32)lamp_timer < 90.0f) {
         lamps_dark = 3;
-        rotation_y = rotation_y + 0x147;
+        rotation.y = rotation.y + 0x147;
     }
 }
 
@@ -61,12 +61,12 @@ void TOSensorGeneral01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         object = model;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[0]));
         draw_ginja_model(object->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         object = object->child;
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[lamps_dark < 1]));
@@ -79,7 +79,7 @@ void TOSensorGeneral01::render() {
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(sensor_general01_texture_lists[lamps_dark < 3]));
         draw_ginja_model(object->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         object = object->sibling;
         push_matrix();
         translate_matrix(0, object->pos[0], object->pos[1], object->pos[2]);
@@ -91,13 +91,13 @@ void TOSensorGeneral01::render() {
     }
 }
 
-void *TOSensorGeneral01::create(void *set_data) {
+void *TOSensorGeneral01::create(ObjectSetData *set_data) {
     return new TOSensorGeneral01(tl_05, set_data);
 }
 
 void TOSensorGeneral01::free_assets() {
     if (sensor_general01_texture_lists != NULL) {
-        TObjPlayer::free_if_valid(sensor_general01_texture_lists[0]);
+        free_if_valid(sensor_general01_texture_lists[0]);
         if (sensor_general01_texture_lists != NULL) {
             mem_free(sensor_general01_texture_lists);
             sensor_general01_texture_lists = NULL;
@@ -119,7 +119,7 @@ void TOSensorGeneral01::load_assets() {
 
 TOSensorGeneral01::~TOSensorGeneral01() {}
 
-TOSensorGeneral01::TOSensorGeneral01(TObject *parent, void *set_data) : TOSensor(parent) {
+TOSensorGeneral01::TOSensorGeneral01(TObject *parent, ObjectSetData *set_data) : TOSensor(parent) {
     m_name = sensor_general01_class_name;
     apply_object_set_data(set_data);
     init_switch_id();

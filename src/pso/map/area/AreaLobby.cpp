@@ -4,7 +4,7 @@
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/SoundPlayback.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -15,13 +15,14 @@
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/map/FloorWaveEvents.h"
+#include "pso/ui/charcreate/CharacterLoadBuffer.h"
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*lobby_floor_scene_callbacks[12])(void) = {
     init_lobby_player_actions, release_lobby_player_actions,
-    TLobby::alloc_download_server, TLobby::free_single_player_chr_select,
-    register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global,
-    register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_texture_f256_backtext,
+    alloc_download_server, free_single_player_chr_select,
+    register_texture_f256_ad_pic_2, free_global,
+    register_texture_f256_backtext, free_texture_f256_backtext,
     load_title_midashi_texture, free_title_midashi_texture,
     TAdMcSelectGC::close, TAdMcSelectGC::open,
 };
@@ -30,7 +31,7 @@ void cleanup_lobby_area(void) {
     TQuestVmDownLoadServer::free_download_buffers();
     unload_current_floor_resources();
     update_current_floor();
-    TLobby::call_funcs_reverse(lobby_floor_scene_callbacks, sizeof(lobby_floor_scene_callbacks));
+    call_funcs_reverse(lobby_floor_scene_callbacks, sizeof(lobby_floor_scene_callbacks));
     stop_audio_streams();
     refresh_render_state();
     stop_audio_streams();

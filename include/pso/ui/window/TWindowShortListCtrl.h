@@ -36,7 +36,6 @@ struct TWindowShortListCtrl : public TObject {
     // Item id the help window shows (set_displayed_item; -1 when opened).
     s32 help_item_id;
     static s32 get_card_window_flags(s32 client_id);
-    static s32 get_card_status_bits(s32 client_id);
     void set_displayed_item(s32 item_id);
     s32 is_technique_usable();
     void swap_card_entries(s32 index_a, s32 index_b);

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "types.h"
@@ -172,8 +171,9 @@ TObjEnePanarmsAtkColli::~TObjEnePanarmsAtkColli() {
 
 }
 
-extern const f32 lbl_805DA5A8 = 10.0f;
-extern const f32 lbl_805DA5AC = 2.8f;
+// Speeds of the beam_down (type 1) and beam_up (type 0) colliders.
+extern const f32 panarms_beam_down_speed = 10.0f;
+extern const f32 panarms_beam_up_speed = 2.8f;
 TObjEnePanarmsAtkColli::TObjEnePanarmsAtkColli(TObject *parent, Vec *position, Vec *velocity, s32 type) : TObjEnemy(parent) {
     f32 speed;
     m_name = TObjEnePanarmsAtkColli_class_name;
@@ -198,13 +198,13 @@ TObjEnePanarmsAtkColli::TObjEnePanarmsAtkColli(TObject *parent, Vec *position, V
         radius = 5.0f;
         radius_growth = 1.0416666f;
         lifetime = 12;
-        speed = *(const volatile f32 *)&lbl_805DA5AC;
+        speed = *(const volatile f32 *)&panarms_beam_up_speed;
         break;
     case 1:
         radius = 5.0f;
         radius_growth = 0.0f;
         lifetime = 12;
-        speed = *(const volatile f32 *)&lbl_805DA5A8;
+        speed = *(const volatile f32 *)&panarms_beam_down_speed;
         break;
     }
     this->velocity.x *= speed;

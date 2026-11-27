@@ -52,6 +52,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/quest/QuestFlagCommand.h"
+#include "pso/system/TScreenFadeController.h"
 #include "pso/system/ByteBlocks.h"
 
 
@@ -109,7 +110,7 @@ void TQuestThread::queue_destruction(TObject *obj) { obj->queue_destruction(); }
 
 void TObjItemNameSelect::set_selection_index(int index) { item_name_selection_index = index; }
 
-void TQuestThread::set_status_flag_80(TWindowMenu *window) { window->menu_flags |= 0x80; }
+void TWindowMenu::set_status_flag_80() { menu_flags |= 0x80; }
 
 TQuestManager::TQuestManager(TObject *parent, const char *filename) : TObject(parent) {
     s32 size;
@@ -118,7 +119,7 @@ TQuestManager::TQuestManager(TObject *parent, const char *filename) : TObject(pa
     if (size < 0) {
         queue_destruction();
     } else {
-        script = static_cast<QuestBinHeader *>(TQuestVmDownLoadServer::alloc(size + 0x400));
+        script = static_cast<QuestBinHeader *>(alloc(size + 0x400));
         read_disc_file(filename, script);
         copy_name("..");
         quest_mission_manager = this;
@@ -139,7 +140,7 @@ TQuestManager::TQuestManager(TObject *parent, const char *filename, s32 kind) : 
         if (size < 0) {
             queue_destruction();
         } else {
-            script = static_cast<QuestBinHeader *>(TQuestVmDownLoadServer::alloc(size + 0x400));
+            script = static_cast<QuestBinHeader *>(alloc(size + 0x400));
             read_disc_file(filename, script);
             copy_name("..");
             quest_mission_manager = this;
@@ -153,7 +154,7 @@ TQuestManager::TQuestManager(TObject *parent, const char *filename, s32 kind) : 
         if (size < 0) {
             queue_destruction();
         } else {
-            script = static_cast<QuestBinHeader *>(TQuestVmDownLoadServer::alloc(size + 0x400));
+            script = static_cast<QuestBinHeader *>(alloc(size + 0x400));
             read_disc_file(filename, script);
             quest_area_manager = this;
             init_quest_script_context(script, &ctx);
@@ -171,7 +172,7 @@ TQuestManager::TQuestManager(TObject *parent, void *data, s32 size) : TObject(pa
         queue_destruction();
     } else {
         alloc_size = size + 0x400;
-        script = static_cast<QuestBinHeader *>(TQuestVmDownLoadServer::alloc(alloc_size));
+        script = static_cast<QuestBinHeader *>(alloc(alloc_size));
         memcpy(script, data, alloc_size);
         quest_mission_manager = this;
         init_quest_script_context(script, &ctx);
@@ -384,7 +385,7 @@ void TQuestThread::run_task() {
     }
     case QST_WAIT_MESSAGE_QB:
         if (get_player_by_client_id(local_client_id) != NULL) {
-            void *pad = &controller_input_state.controllers[0];
+            ControllerInputContext *pad = &controller_input_state.controllers[0];
             if (test_pressed_buttons_packed(pad, 4) != 0) {
                 state = QST_RUNNING;
             }
@@ -406,7 +407,7 @@ void TQuestThread::run_task() {
         }
         break;
     case QST_WAIT_FADE:
-        if (TLobby::get_quest_thread_state() == 0) {
+        if (get_quest_thread_state() == 0) {
             state = QST_RUNNING;
         }
         break;
@@ -487,11 +488,11 @@ void QuestVmContext::copy(QuestVmContext *src) {
     message_window = src->message_window;
     list_window = src->list_window;
     result_register = src->result_register;
-    unk18 = src->unk18;
+    pad_18 = src->pad_18;
     call_stack_depth = src->call_stack_depth;
     pc = src->pc;
-    unk24 = src->unk24;
-    unk28 = src->unk28;
+    pad_24 = src->pad_24;
+    pad_28 = src->pad_28;
     message_speaker = src->message_speaker;
     tmp = *(s32 *)((s8 *)src + 0x30);
     *(s32 *)((s8 *)this + 0x30) = tmp;
@@ -499,10 +500,10 @@ void QuestVmContext::copy(QuestVmContext *src) {
     to = (saddr)((u8 *)this + 0x50);
     from = (u8 *)src + 0x50;
     *(ByteBlock_100 *)(to + 4) = *(const ByteBlock_100 *)((saddr)from + 4);
-    unk154 = src->unk154;
-    unk155 = src->unk155;
-    unk156 = src->unk156;
-    unk158 = src->unk158;
+    pad_154 = src->pad_154;
+    pad_155 = src->pad_155;
+    pad_156 = src->pad_156;
+    pad_158 = src->pad_158;
     item_name_entry = src->item_name_entry;
     item_name_select = src->item_name_select;
     item_ok_window = src->item_ok_window;
@@ -602,7 +603,7 @@ void TQuestThreadBoard::run_task() {
         }
         break;
     case QST_WAIT_FADE:
-        if (TLobby::get_quest_thread_state() == 0) {
+        if (get_quest_thread_state() == 0) {
             state = QST_RUNNING;
         }
         break;
@@ -676,7 +677,7 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
     }
     prompt_menu->set_scroll_target(442.0f, 64.0f);
     prompt_menu->align_menu_entry_positions();
-    TQuestThread::set_status_flag_80(prompt_menu);
+    prompt_menu->set_status_flag_80();
 }
 
 TObjItemNameEntry::~TObjItemNameEntry() {
@@ -689,22 +690,22 @@ TObjItemNameEntry *TObjItemNameEntry::create(TObject *parent) {
 }
 
 s32 TObjItemNameEntry::process_keyboard_input() {
-    saddr text;
+    char *text;
 
     if (keyboard != NULL && keyboard->is_confirmed() != 0) {
-        text = (saddr)keyboard->realloc_buffer();
-        if (strcmp((const char *)text, "") == 0) {
-            mem_free((void *)text);
+        text = keyboard->realloc_buffer();
+        if (strcmp(text, "") == 0) {
+            mem_free(text);
             keyboard->clear_keyboard_flag60_bit1();
             return 0;
         }
-        if (contains_profanity((char *)text) != 0) {
+        if (contains_profanity(text) != 0) {
             keyboard->clear_keyboard_flag60_bit1();
-            mem_free((void *)text);
+            mem_free(text);
             return 0;
         }
-        set_entered_name((const char *)text);
-        mem_free((void *)text);
+        set_entered_name(text);
+        mem_free(text);
         return 1;
     }
     return 0;
@@ -791,7 +792,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     }
     name_menu->set_scroll_target(442.0f, 64.0f);
     name_menu->align_menu_entry_positions();
-    TQuestThread::set_status_flag_80(name_menu);
+    name_menu->set_status_flag_80();
     pos.x = 332.0f;
     pos.y = 80.0f;
     message_window = (void *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x55), &pos);

@@ -33,16 +33,16 @@ void TODoorAncient05::render() {
     if (update_object_view_visibility(400.0f, 20.0f) != 0 && is_in_view_depth(30.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         if (motion != NULL && 0.0f != animation_frame) {
             draw_ginja_model_with_motion(model, motion, animation_frame);
         } else {
             draw_ginja_object(&model_nodes[0]);
             draw_ginja_object(&model_nodes[1]);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_object(&model_nodes[2]);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         pop_matrix();
     }
@@ -77,7 +77,7 @@ void TODoorAncient05::update_closed() {
     }
 }
 
-void *TODoorAncient05::create(void *set_data) {
+void *TODoorAncient05::create(ObjectSetData *set_data) {
     return new TODoorAncient05(tl_05, set_data);
 }
 
@@ -87,7 +87,7 @@ void TODoorAncient05::free_resources() {
         model_nodes = NULL;
     }
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid(texture_lists[1]);
+        free_if_valid(texture_lists[1]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;
@@ -121,7 +121,7 @@ TODoorAncient05::~TODoorAncient05() {
     free_collision_body_parts(this);
 }
 
-TODoorAncient05::TODoorAncient05(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorAncient05::TODoorAncient05(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = TODoorAncient05_name;
     apply_object_set_data(set_data);
     model = bml_resource->models[0].model;

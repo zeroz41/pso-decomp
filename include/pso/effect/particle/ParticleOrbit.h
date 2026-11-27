@@ -5,12 +5,14 @@
 
 class TObject;
 class TParticle;
-struct ParticleAngles;
+struct Angle3;
 struct ParticleParam;
 struct Vec;
 
 // A child particle of an emitter that circles its spawn point.
-TParticle *create_orbit_particle(ParticleParam *entry, Vec *position, ParticleAngles *direction,
+TParticle *create_orbit_particle(ParticleParam *entry, Vec *position, Angle3 *direction,
                                      TObject *parent, u16 flags, u16 target_id);
+
+TParticle *alloc_child_particle(ParticleParam *param, Vec *pos, Angle3 *dir, TObject *parent);
 
 #endif

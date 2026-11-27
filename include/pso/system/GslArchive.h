@@ -9,7 +9,7 @@ struct GslArchiveEntry {
     s32 archive_offset;
     s32 file_size;
     s32 decoded_size;
-    u8 field_2C[4];
+    u8 pad_2C[4];
 };
 LAYOUT_ASSERT(GslArchiveEntryExtent, sizeof(GslArchiveEntry) == 0x30);
 LAYOUT_ASSERT(GslArchiveOffsetOffset, offsetof(GslArchiveEntry, archive_offset) == 0x20);

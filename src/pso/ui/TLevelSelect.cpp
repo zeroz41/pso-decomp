@@ -126,3 +126,6 @@ TLevelSelect::TLevelSelect() : TObject(tl_01) {
     }
     create_draw_line_ctrl(this, 2, 0.0f);
 }
+
+s32 TAdSelectCurGC::confirmation_result() const { return confirmation; }
+s32 TAdSelectCurGC::selection_index() const { return selected_index; }

@@ -5,7 +5,7 @@
 #include "pso/object/quest/TObjQuestColBase.h"
 
 struct TObjQuestColApcINW : public TObjQuestColBase {
-    TObjQuestColApcINW(TObject *parent, void *set_data);
+    TObjQuestColApcINW(TObject *parent, ObjectSetData *set_data);
     virtual int is_triggered();
     virtual TQuestThread *start_quest_thread();
     f32 party_radius;  // scale.y; a player farther than this is warped (inferred name)

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
@@ -25,17 +24,17 @@
 #include "pso/render/DebugFont.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/network/client_id.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 
 
-TObjEneMe1GiGueHomingShot::TObjEneMe1GiGueHomingShot(Vec *start, u16 target_id, GiGueShotAngles *angles, s32 delay, s32 double_hit, u16 src_id)
+TObjEneMe1GiGueHomingShot::TObjEneMe1GiGueHomingShot(Vec *start, u16 target_id, Angle3 *angles, s32 delay, s32 double_hit, u16 src_id)
     : TObjCollidable(tl_04) {
     Vec *target;
     this->target_id = target_id;
     this->src_id = src_id;
     this->double_hit = double_hit;
     this->start = start;
-    m_e8 = 0.0f;
+    pad_e8 = 0.0f;
     push_matrix_from(identity_matrix);
     {
         Vec v = {0.0f, 0.0f, gigue_shot_speed};
@@ -47,7 +46,7 @@ TObjEneMe1GiGueHomingShot::TObjEneMe1GiGueHomingShot(Vec *start, u16 target_id, 
     timer = delay;
     target = (Vec *)&((TObjChara *)find_entity_by_id(target_id))->body_center.x;
     {
-    ParticleAngles ang;
+    Angle3 ang;
     ang.x = 0;
     ang.y = (s32)(RADIANS_TO_ANGLE * atan2_float(target->x - start->x, target->z - start->z)) + 0x4000;
     ang.z = 0x4000 - (s32)(RADIANS_TO_ANGLE * atan2_float(target->y - start->y, vec_xz_distance(target, start)));

@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/font/MenuFontGlyphs.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -14,7 +15,6 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/TWindowLayoutRect.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/WindowTextEntry.h"
 
 void TWindowDeposit::set_meseta(s32 meseta) {
     *(s32 *)((s8 *)get_array_entry(1) + 0x20) = meseta;

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx/GeoTypes.h>
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 
 // One of the six flies a TObjEneBm3FlyNest sends out (vtable __vt__26TObjEneBm3FlyNest_CarryFly):
 // it waits at its offset from origin until *arrived reaches its index, then flies in an arc to

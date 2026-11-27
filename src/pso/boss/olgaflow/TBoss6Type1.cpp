@@ -10,7 +10,7 @@
 #include "pso/boss/olgaflow/TBoss6SwordShot.h"
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -198,7 +198,7 @@ const Vec boss6_type1_top_camera_eye = {0.0f, 24.8f, -5.0f};
 const Vec boss6_type1_top_camera_target = {0.0f, 15.43f, 70.42f};
 const Vec boss6_type1_default_camera_eye = {0.0f, 19.8f, -5.0f};
 const Vec boss6_type1_default_camera_target = {0.0f, 50.43f, 45.42f};
-const s32 boss6_type1_effect_direction[3] = {0x8000, 0, 0};
+const Angle3 boss6_type1_effect_direction = {0x8000, 0, 0};
 const Vec boss6_map_csn_offset = {62.5f, 0.0f, -35.0f};
 const Vec boss6_map_csn_scale = {30.0f, 25.0f, 30.0f};
 
@@ -214,7 +214,7 @@ void OlgaFlowActionMsg::send() {
 
 void OlgaFlowActionMsg::swap_entity_id() { header.bswap(); }
 int TBoss6PlotFalz::is_idle() { return not_floor_leader == 0; }
-TBoss6PlotFalzSetEntry *TBoss6PlotFalz::get_set_entry() { return &set_entry; }
+EnemyPlacement *TBoss6PlotFalz::get_set_entry() { return &set_entry; }
 void TBoss6Type1::clear_harmful_statuses() {  }
 void TBoss6Type1::apply_shock_status() {  }
 void TBoss6Type1::apply_movement_ailment(CollisionBody *) {  }
@@ -251,7 +251,7 @@ TBoss6Type1::TBoss6Type1(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     texlist = 0;
     model = 0;
     VecCopy(&position, &boss6_type1_spawn_position);
-    copy_xyz(&rotation_x, (void *)boss6_type1_spawn_rotation);
+    copy_xyz(&rotation, (void *)boss6_type1_spawn_rotation);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     init_collision_body_parts(this, TBoss6Type1::collision_body_parts, 7);
     update_position();
@@ -361,7 +361,7 @@ void TBoss6Type1::send_6xA4_action(s32 t, const Boss6Type1AttackTarget *src) {
 }
 
 void TBoss6Type1::init_attack_params(Boss6Type1AttackTarget *atk) {
-    s8 dir = (u8)((u32)rotation_y >> 8);
+    s8 dir = (u8)((u32)rotation.y >> 8);
     u8 kind;
     dir += 160.0f * (0.000030517578f * (f32)rand() - 0.5f);
     atk->angle = dir;
@@ -380,7 +380,7 @@ void TBoss6Type1::randomize_attack(Boss6Type1AttackTarget *atk) {
     s8 w;
     s8 u;
     init_attack_params(atk);
-    base = (u8)((u32)rotation_y >> 8);
+    base = (u8)((u32)rotation.y >> 8);
     v = 80.0f * (0.000030517578f * (f32)rand()) + 32.0f;
     if (0.000030517578f * (f32)rand() < 0.5f) {
         v = -v;
@@ -505,7 +505,7 @@ void TBoss6Type1::send_chal_ud() {
     s8 v;
     f32 ratio;
     s32 total;
-    v = ((u32)rotation_y >> 8) & 0xFF;
+    v = ((u32)rotation.y >> 8) & 0xFF;
     v = 128.0f * (0.000030517578f * (f32)rand() - 0.5f) + v;
     ratio = 0.5f;
     atk.radius = 0x1C;
@@ -822,10 +822,10 @@ void TBoss6Type1::update_turn_to_center() {
     if (attack_mode != 0) {
         pitch = 0x8000;
     }
-    if (angle_difference_abs(rotation_x, pitch) < 0x666) {
-        rotation_x = pitch;
+    if (angle_difference_abs(rotation.x, pitch) < 0x666) {
+        rotation.x = pitch;
     } else {
-        rotation_x = rotation_x + 0x666;
+        rotation.x = rotation.x + 0x666;
     }
     to_center.x = -position.x;
     to_center.z = -position.z;
@@ -835,7 +835,7 @@ void TBoss6Type1::update_turn_to_center() {
         if (attack_mode != 0) {
             heading += 0x8000;
         }
-        rotation_y = approach_angle_limited(rotation_y, heading, target_mode == 0 ? 0x1B4 : 0x1555);
+        rotation.y = approach_angle_limited(rotation.y, heading, target_mode == 0 ? 0x1B4 : 0x1555);
     }
 }
 
@@ -917,7 +917,7 @@ void TBoss6Type1::update_part_positions() {
             subtract_vector(&v, &position);
             push_matrix();
             set_matrix_identity(0);
-            rotate_matrix_y(0, -this->rotation_y);
+            rotate_matrix_y(0, -this->rotation.y);
             matrix_mult_vec(0, &v, &e->offset);
             pop_matrix();
             VecCopy(&e->center, &e->offset);
@@ -1216,9 +1216,9 @@ void TBoss6Type1::check_laser_hits() {
         inside = 1;
         VecCopy((Vec *)&pts[0], (const Vec *)((void *)VecCopy(p3, (const Vec *)((void *)VecCopy(p4, pA)))));
         VecCopy(p1, (const Vec *)((void *)VecCopy(p2, pB)));
-        off.x = -500.0f * sin_table_lookup(rotation_y);
+        off.x = -500.0f * sin_table_lookup(rotation.y);
         off.y = 0.0f;
-        off.z = -500.0f * cos_table_lookup(rotation_y);
+        off.z = -500.0f * cos_table_lookup(rotation.y);
         vec3_add_to(p2, &off);
         vec3_add_to(p3, &off);
         for (j = 0; j < 4; j++) {
@@ -1252,9 +1252,9 @@ void TBoss6Type1::check_laser_hits() {
         line.origin.x = 0.5f * (A.x + B.x);
         line.origin.y = 0.0f;
         line.origin.z = 0.5f * (A.z + B.z);
-        line.direction.x = -sin_table_lookup(rotation_y);
+        line.direction.x = -sin_table_lookup(rotation.y);
         line.direction.y = 0.0f;
-        line.direction.z = -cos_table_lookup(rotation_y);
+        line.direction.z = -cos_table_lookup(rotation.y);
         t = project_point_onto_line(&d3, &line, NULL);
         t = 0.5f * vector_length(&d0) - t;
         if (t <= 0.0f) {
@@ -1326,9 +1326,9 @@ void TBoss6Type1::fire_kakusan_shots() {
     for (s32 i = 0; i < 5; i++) {
         Vec pos = node_points[boss6_type1_kakusan_shot_nodes[i]];
         Vec dir;
-        dir.x = side * cos_table_lookup(-rotation_y);
+        dir.x = side * cos_table_lookup(-rotation.y);
         dir.y = height;
-        dir.z = side * sin_table_lookup(-rotation_y);
+        dir.z = side * sin_table_lookup(-rotation.y);
         subtract_vector(&dir, &pos);
         f32 len = vector_length(&dir);
         if (len <= 0.00001f) {
@@ -1339,9 +1339,9 @@ void TBoss6Type1::fire_kakusan_shots() {
         dir.y *= scale;
         dir.z *= scale;
         if (is_normal_difficulty()) {
-            TBoss6Type1::create_kakusan(this, &pos, &dir, 0xFFFF, 7.5f);
+            create_kakusan(&pos, &dir, 0xFFFF, 7.5f);
         } else {
-            TBoss6Type1::create_kakusan(this, &pos, &dir, target, 7.5f);
+            create_kakusan(&pos, &dir, target, 7.5f);
         }
         target = (target + 1) & 3;
         side += 46.25f;
@@ -1384,12 +1384,12 @@ void TBoss6Type1::spawn_mines() {
     s32 seed = random_factor;
     TBoss6MineSetData set;
     reset_fields_4e0();
-    copy_set_entry(&set, plot_falz->get_set_entry());
+    copy_set_entry(&set.placement, plot_falz->get_set_entry());
     set.owner = this;
     VecCopy(&set.origin, &node_points[0]);
     VecCopy(&set.offset, &boss6_type1_zero_offset);
-    set.room = 0;
-    VecCopy(&set.position, &set.origin);
+    set.placement.room = 0;
+    VecCopy(&set.placement.position, &set.origin);
     s32 heading = 0;
     s32 count = TBoss6PlotFalz::get_phase() == 0 ? 18 : 36;
     s32 total = 1;
@@ -1451,7 +1451,7 @@ void TBoss6Type1::spawn_mines() {
         set.heading = heading;
         seed = next_random_seed(seed);
         set.seed = seed;
-        if (((TBoss6PlotFalz *)plot_falz)->get_next_point(&set.set_index, &set.entity_id) == 0) {
+        if (((TBoss6PlotFalz *)plot_falz)->get_next_point(&set.placement.enemy_index, &set.placement.id) == 0) {
             break;
         }
         if (TBoss6Mine::create(&set) == NULL) {
@@ -1490,7 +1490,7 @@ void TBoss6Type1::render_laser() {
         NJS_OBJECT *model = get_bml_model(bml_resource, 0);
         s32 pitch = 0;
         Vec pos = this->node_points[7];
-        s32 yaw = this->rotation_y + 0x8000;
+        s32 yaw = this->rotation.y + 0x8000;
         static f32 s_min_width = 0.15f;
         static f32 s_max_width = 0.625f;
         static f32 s_grow_end = 0.1f;
@@ -1849,7 +1849,7 @@ void TBoss6Type1::pick_sword_move_target(Vec *out) {
         turn = -turn;
     }
     radius = 180.0f;
-    angle = rotation_y + turn;
+    angle = rotation.y + turn;
     if (far != 0) {
         radius = 280.0f;
     }
@@ -2043,7 +2043,7 @@ void TBoss6Type1::update_effect_slots() {
             switch (i) {
             case 0:
             case 1:
-                effect_slots[i]->set_direction((void *)boss6_type1_effect_direction);
+                effect_slots[i]->set_direction(const_cast<Angle3 *>(&boss6_type1_effect_direction));
                 break;
             }
         }
@@ -2094,23 +2094,23 @@ void TBoss6Type1::clear_map_csn() { map_csn = 0; }
 void TBoss6Type1::destroy_map_csn() { release_map_csn(); }
 
 void TBoss6Type1::spawn_map_csn() {
-    MapCsnSetData data;
+    ObjectSetData data;
     Vec offset;
     VecCopy(&data.position, &position);
     push_matrix();
     set_matrix_identity(0);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     rotate_vector_by_matrix(0, &boss6_map_csn_offset, &offset);
     data.position.x += offset.x;
     data.position.y = 0.0f;
     data.position.z += offset.z;
     pop_matrix();
-    data.rotation_x = 0;
-    data.rotation_y = rotation_y;
-    data.rotation_z = 0;
+    data.rotation[0] = 0;
+    data.rotation[1] = rotation.y;
+    data.rotation[2] = 0;
     VecCopy(&data.scale, &boss6_map_csn_scale);
-    data.params[0] = 2;
-    data.params[1] = 0;
+    data.set_params[0] = 2;
+    data.set_params[1] = 0;
     map_csn = TObjMapCsn::create(&data);
 }
 
@@ -2132,11 +2132,11 @@ void TBoss6Type1::draw_model() {
     Vec pos = *&position;
     pos.y = pos.y + sway_offset;
     post_translate_matrix(&pos.x);
-    rotate_matrix_y(0, rotation_y);
-    rotate_matrix_x(0, rotation_x);
+    rotate_matrix_y(0, rotation.y);
+    rotate_matrix_x(0, rotation.x);
     apply_boss6_hit_flash_color(hit_flash, hp_ratio);
     draw_part_motions();
     TBoss6PlotFalz::update_camera_target();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }

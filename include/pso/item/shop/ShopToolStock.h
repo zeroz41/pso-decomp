@@ -5,6 +5,9 @@
 
 struct TItemData;
 
+// The item count of each tool shop list.
+extern s32 shop_tool_stock_counts[4];
+
 // A tool's item code bytes (item data1[1] and data1[2]): the kinds ToolRandom.rel lists.
 struct ShopToolCode {
     s32 group;
@@ -53,9 +56,6 @@ struct ShopToolRandomTables {
     ShopToolPoolTable *pools;
     ShopTechniqueLevelTable *technique_levels;  // by get_tool_pool_table_row
 };
-
-// How many tools each shop stocks.
-extern s32 shop_tool_stock_counts[4];
 
 void load_tool_random_rel(void);
 void free_tool_random_rel(void);

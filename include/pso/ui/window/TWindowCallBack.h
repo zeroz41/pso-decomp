@@ -11,7 +11,7 @@ struct TWindowCallBack : public TWindowBase {
     virtual ~TWindowCallBack();
     void render();
     void run_task();
-    void set_field_60(WindowCallback callback_function);
+    void set_callback(WindowCallback callback_function);
     WindowCallback callback;
 };
 

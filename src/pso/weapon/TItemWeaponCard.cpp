@@ -78,7 +78,7 @@ TItemWeaponCard::TItemWeaponCard(TObject *parent, u8 *item) : TItemWeapon(parent
     fan_flags = 0;
     effect_id = 445;
     wall_effect = start_wall_card;
-    hit_effect = TObjPlayer::create_network_object;
+    hit_effect = create_network_object;
     effect_scale = 4.0f;
 }
 
@@ -193,13 +193,13 @@ TItemWeaponTalis::TItemWeaponTalis(TObject *parent, u8 *item) : TItemWeaponCard(
 TItemWeaponMahu::TItemWeaponMahu(TObject *parent, u8 *item) : TItemWeaponCard(parent, item) {
     effect_id = 341;
     wall_effect = start_red_wall_card;
-    hit_effect = TObjPlayer::create_aux_object;
+    hit_effect = create_aux_object;
 }
 
 TItemWeaponHitogata::TItemWeaponHitogata(TObject *parent, u8 *item) : TItemWeaponCard(parent, item) {
     effect_id = 447;
-    wall_effect = TObjPlayer::alloc_and_init;
-    hit_effect = TObjPlayer::create_and_init_effect;
+    wall_effect = alloc_and_init;
+    hit_effect = create_and_init_effect;
 }
 
 void TItemWeaponHitogata::spawn_throw_effect(Vec *pos) {
@@ -218,8 +218,8 @@ TItemWeaponDancingHitogata::TItemWeaponDancingHitogata(TObject *parent, u8 *item
         origin->z = 0.0f;
         origin++;
     }
-    wall_effect = TObjPlayer::alloc_and_init;
-    hit_effect = TObjPlayer::create_and_init_effect;
+    wall_effect = alloc_and_init;
+    hit_effect = create_and_init_effect;
 }
 
 void TItemWeaponDancingHitogata::on_equipped() {
@@ -325,7 +325,7 @@ void TItemWeaponDancingHitogata::emit_marker_effects() {
     origin = orbit_points;
     count = orbit_count;
     n = count;
-    angle = orbit_angle - owner->rotation_y;
+    angle = orbit_angle - owner->rotation.y;
     step = 0x10000 / count;
     while (n != 0) {
         fire_shot_at_target(origin++, item_model, angle);
@@ -366,13 +366,13 @@ void TItemWeaponSectionIdCard::spawn_hit_particles_at_vec(s32 item_id, const Vec
 
 extern const f64 radians_to_angle_scale[1] = { 10430.38043493439 };
 void TItemWeaponSectionIdCard::spawn_hit_particles(Vec *pos, const Vec *dir) {
-    s32 angles[3];
+    Angle3 angles;
     create_timed_particle_emitter(pos, 0x1EF, 0, 0xF);
-    angles[0] = 0;
-    angles[1] = (s32)(radians_to_angle_scale[0] * atan2_float(dir->x, dir->z));
-    angles[2] = 0;
+    angles.x = 0;
+    angles.y = (s32)(radians_to_angle_scale[0] * atan2_float(dir->x, dir->z));
+    angles.z = 0;
     {
-        TParticleCtrl *particle = create_timed_particle_emitter_with_angles(pos, angles, 0x1B8, 0, 0xF, 4);
+        TParticleCtrl *particle = create_timed_particle_emitter_with_angles(pos, &angles, 0x1B8, 0, 0xF, 4);
         if (particle != NULL) {
             particle->set_scale(1.5f, 1.5f);
         }

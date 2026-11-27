@@ -70,8 +70,8 @@ void TBoss3VoloptMissile::render() {
     set_texture_list(textures);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_x(0, rotation_x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_x(0, rotation.x);
+    rotate_matrix_y(0, rotation.y);
     model_render_flags &= ~0x400;
     draw_chunk_object(model);
     pop_matrix();
@@ -88,15 +88,15 @@ void TBoss3VoloptMissile::run_task() {
     }
     VecCopy(&prev_position, &position);
     vec3_add_to(&position, &velocity);
-    direction_to_rotation_xy(&velocity, &rotation_x, &rotation_y);
+    direction_to_rotation_xy(&velocity, &rotation.x, &rotation.y);
     if (trail != NULL) {
         Vec back = velocity;
         back.x = -back.x;
         back.y = -back.y;
         back.z = -back.z;
-        direction_to_rotation_yx(&back, &trail_rotation[1], &trail_rotation[2]);
-        trail_rotation[2] -= 0x4000;
-        trail->set_direction(trail_rotation);
+        direction_to_rotation_yx(&back, &trail_rotation.y, &trail_rotation.z);
+        trail_rotation.z -= 0x4000;
+        trail->set_direction(&trail_rotation);
         vec_set_length(&back, 10.0f);
         vec3_add_to(&back, &position);
         trail->set_position(&back);
@@ -137,22 +137,22 @@ TBoss3VoloptMissile::TBoss3VoloptMissile(TObject *parent, Vec *pos, s32 angle, s
     bodies->radius = 5.0f;
     VecCopy(&position, pos);
     target_id = target;
-    rotation_x = 0;
-    rotation_y = angle;
+    rotation.x = 0;
+    rotation.y = angle;
     velocity.x = 0.0f;
     velocity.y = 0.0f;
     velocity.z = TBoss3VoloptP02::get_float_param(0);
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, rotation_y);
-    rotate_matrix_x(0, rotation_x);
+    rotate_matrix_y(0, rotation.y);
+    rotate_matrix_x(0, rotation.x);
     matrix_mult_vec(0, &velocity, &velocity);
     pop_matrix();
     model = boss3_volopt_resources->models[0x16].model;
     textures = boss3_volopt_resources->models[0x16].texlist;
     age = 0;
-    trail_rotation[2] = 0;
-    trail_rotation[1] = 0;
-    trail_rotation[0] = 0;
-    trail = spawn_particle_effect_with_rotation(&position, trail_rotation, 0x112, 2);
+    trail_rotation.z = 0;
+    trail_rotation.y = 0;
+    trail_rotation.x = 0;
+    trail = spawn_particle_effect_with_rotation(&position, &trail_rotation, 0x112, 2);
     volopt_missile_expire_tick = (s32)TBoss3VoloptP02::get_float_param(3) + 0xF0;
 }

@@ -5,10 +5,10 @@
 #include "pso/boss/darkfalz/TOBoss4.h"
 
 struct TOBoss4Tower : public TOBoss4 {
-    TOBoss4Tower(void *set_data);
+    TOBoss4Tower(ObjectSetData *set_data);
     virtual ~TOBoss4Tower();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static const char *class_name;
 };
 

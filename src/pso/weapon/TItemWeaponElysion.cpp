@@ -12,7 +12,7 @@ void TItemWeaponElysion::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(1, &pos) != 0) {
             player = owner;
-            TTecFoie::create(player, &pos, player->rotation_y, 5);
+            TTecFoie::create(player, &pos, player->rotation.y, 5);
         }
     } else {
         update_active_game_effect();

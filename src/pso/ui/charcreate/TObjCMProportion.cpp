@@ -5,18 +5,18 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/MultiChrSelectSlot.h"
 #include "pso/ui/charcreate/TObjCMProportion.h"
-#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
 PadSlot *get_creation_pad(void) {
     return controller_physical_port_bank.sources[TChCrEffCtrlPl::get_clamped_player_index()];
 }
 
 s32 TChCrEffCtrlPl::get_clamped_player_index() {
-    s32 index = TAdMultiPlyChrSelectGC::is_selection_confirmed();
+    s32 index = is_selection_confirmed();
     if (index < 0 || index > 3) {
         index = 0;
     }

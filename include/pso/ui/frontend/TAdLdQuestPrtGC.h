@@ -2,6 +2,7 @@
 #define PSO_UI_FRONTEND_TADLDQUESTPRTGC_H
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx/GeoTypes.h>
@@ -12,12 +13,6 @@ class TParticleCtrl;
 // first controller's stick turns them and a button cycles their tint.
 struct TAdLdQuestPrtGC : public TObject {
     static const char *class_name;
-    // Angles in 0x10000-per-turn units.
-    struct Angles {
-        u32 x;
-        u32 y;
-        u32 z;
-    };
     struct AngleSteps {
         s32 x;
         s32 y;
@@ -40,7 +35,7 @@ struct TAdLdQuestPrtGC : public TObject {
 
     TParticleCtrl *particles[4];
     Vec particle_pos[4];
-    Angles particle_angles[4];
+    Angle3 particle_angles[4];
     AngleSteps angle_speed[4];
     // Index into the six-entry tint table; advanced by the button.
     u32 tint_index;

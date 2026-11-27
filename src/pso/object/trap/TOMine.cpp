@@ -61,6 +61,7 @@ struct game_command_header;
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 
 
@@ -187,7 +188,7 @@ void TOMine::render() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, facing);
         draw_body();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         t = model_render_flags;
         saved_model_render_flags = t;
         model_render_flags = t | 0x20;
@@ -195,7 +196,7 @@ void TOMine::render() {
         draw_light();
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -207,7 +208,7 @@ void TOMine::draw_light() {
 void TOMine::run_task() {
     s32 countdown;
 
-    if (TObjPlayer::check_demo_mode() != 1) {
+    if (check_demo_mode() != 1) {
         this->vfunc_79();
         update_float_height();
         switch (this->mode) {
@@ -268,7 +269,7 @@ void TOMine::detonate() {
     check_enemy_body_collisions(this);
     for (i = 0; i < 0x10; i++) {
         obj = TObjPlayer::get_battle_param(i);
-        if (TObjPlayer::is_valid_and_active(obj) != 0) {
+        if (TObjCollidable::is_valid_and_active(obj) != 0) {
             DirectAttackPayload pair = attack;
             f32 r = obj->receive_direct_attack(this, pair, NULL, -1, -1);
             if (attack.kind < 5) {
@@ -293,8 +294,8 @@ void TOMine::update_float_height() {
             this->float_flags = (s32) (this->float_flags | 2);
         }
     } else {
-        this->rotation_x = (this->rotation_x + 0x800);
-        float_position.y = (f32) (float_position.y + sin_table_lookup(this->rotation_x));
+        this->rotation.x = (this->rotation.x + 0x800);
+        float_position.y = (f32) (float_position.y + sin_table_lookup(this->rotation.x));
     }
 }
 void TOMine::apply_float_position() { sync_position(); }
@@ -344,7 +345,7 @@ void TOMine::follow_target() {
   prev_y = prev_position.y;
   position.y = (f32) ((0.5f * ((25.0f + this->target->position.y) - prev_y)) + prev_y);
   calc_attach_pos();
-  this->rotation_y = (s32) (10430.38043493439 * atan2_float((f64) stack.x, (f64) stack.z));
+  this->rotation.y = (s32) (10430.38043493439 * atan2_float((f64) stack.x, (f64) stack.z));
   refresh_collision_body_centers();
 }
 #pragma pop
@@ -357,11 +358,11 @@ void TOMine::set_armed() {
     play_effect_sound();
 }
 void TOMine::update_trigger() {
-    s16 mode;
-    if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&mode, 1) != 0)) {
+    QuestObjectEntry saved;
+    if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&saved, 1) != 0)) {
         this->mode = 3;
-        mode = this->mode;
-        send_object_state_update(&mode);
+        saved.flags = this->mode;
+        send_object_state_update(&saved);
     }
 }
 f32 TOMine::receive_direct_attack(TObjBase *player, DirectAttackPayload payload, CollisionBody *, s32, s32) {
@@ -400,23 +401,23 @@ f32 TOMine::receive_weapon_special_attack(TObjChara *player, CollisionBody *) {
     if (is_target_in_list(player) == 1) {
         return 0.0f;
     }
-    if ((player->is_locally_controlled() != 0) && (((TObjPlayer *)player)->obj_getS16_116() != 0)) {
+    if ((player->is_locally_controlled() != 0) && (player->get_special_kind() != 0)) {
         this->receive_physical_attack(0, 1.0f);
     }
     return 0.0f;
 }
 f32 TOMine::receive_physical_attack(TObjChara *, f32) {
-    s16 mode;
-    if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&mode, 1) != 0)) {
+    QuestObjectEntry saved;
+    if (((u16) this->entity_id >= 0x4000U) && ((uaddr) this->set_entry != 0U) && (access_object_saved_state(&saved, 1) != 0)) {
         this->mode = 5;
-        mode = this->mode;
-        send_object_state_update(&mode);
+        saved.flags = this->mode;
+        send_object_state_update(&saved);
     }
     return 0.0f;
 }
-void TOMine::apply_saved_state(s16 *state, s32 live) {
+void TOMine::apply_saved_state(QuestObjectEntry *state, s32 live) {
     s16 mode;
-    mode = *state;
+    mode = state->flags;
     if (mode == 5) {
         if (live == 1) {
             play_trigger_effects();
@@ -488,7 +489,7 @@ void TOMine::update_state() {
 }
 const char *TOMine::get_name() { return get_localized_text_entry(16, 16); }
 void TOMine::vfunc_85() {  }
-void TOMine::apply_object_set_data(void *set_data) {
+void TOMine::apply_object_set_data(ObjectSetData *set_data) {
     TObjBase::apply_object_set_data(set_data);
     this->spawn_disp_objects();
     VecCopy(&float_position, &position);
@@ -614,7 +615,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         init_position_vectors();
         calc_attach_pos();
         spawn_disp_objects();
-        facing = owner->rotation_y;
+        facing = owner->rotation.y;
         alt_room = owner->alt_room;
         room = owner->room;
         switch (attack.kind) {
@@ -962,7 +963,7 @@ const char *TOMineTrap::get_name() {
 s32 TOMineTrap::show_owner_message(TObjChara *player) {
     const char *name;
     TObjPlayer *p;
-    if (player != NULL && TTecCtrl::is_technique_ready() != 0) {
+    if (player != NULL && is_technique_ready() != 0) {
         p = get_player_by_client_id(get_trap_type());
         if (p != NULL) {
             name = p->get_name();
@@ -1008,7 +1009,7 @@ TOMineDisp::TOMineDisp(TObject *parent, u16 client) : TObjBase(parent) {
     color.g = 0.0f;
     color.b = 0.0f;
     state = 0;
-    m_90 = 0;
+    pad_90 = 0;
 }
 
 TOMineDisp::~TOMineDisp() {
@@ -1053,9 +1054,9 @@ void TOMineDisp::render() {
     push_matrix();
     mine = static_cast<TOMine *>(this->m_up);
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     mine->draw_body();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     render_flags = model_render_flags;
     saved_model_render_flags = render_flags;
     model_render_flags = render_flags | 0x20;
@@ -1063,7 +1064,7 @@ void TOMineDisp::render() {
     mine->draw_light();
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -1091,7 +1092,7 @@ void TOMineTrapDisp::run_task() {
                 pl = get_player_by_client_id(i);
                 if (pl != 0 && pl->is_locally_controlled() != 0) {
                     if (can_see_traps(pl) != 0 ||
-                        (TTecCtrl::is_technique_ready() != 0 && owner_id == (u16)pl->get_entity_id())) {
+                        (is_technique_ready() != 0 && owner_id == (u16)pl->get_entity_id())) {
                         if (!(horizontal_distance_squared(&position, &pl->position) <= 40000.0f)) {
                             if ((s16)pl->get_room() != (s16)this->get_room()) {
                                 continue;

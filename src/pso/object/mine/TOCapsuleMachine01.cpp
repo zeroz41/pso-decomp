@@ -43,14 +43,14 @@ void TOCapsuleMachine01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         draw_ginja_object(model);
         pop_matrix();
     }
 }
 
-void *TOCapsuleMachine01::create(void *set_data) {
+void *TOCapsuleMachine01::create(ObjectSetData *set_data) {
     return new TOCapsuleMachine01(set_data);
 }
 
@@ -68,7 +68,7 @@ void TOCapsuleMachine01::alloc_and_load_resource() {
     NJS_OBJECT *root;
     capsule_machine01_model_resource = resource;
     root = (NJS_OBJECT *)resource->models[0].model;
-    capsule_machine_ginja_mesh_handle = static_cast<GinjaModel *>(root->child->sibling->child->sibling->model);
+    capsule_machine_ginja_mesh_handle = root->child->sibling->child->sibling->ginja_model;
     capsule_machine01_last_update_frame_tick = 0;
 }
 
@@ -77,7 +77,7 @@ TOCapsuleMachine01::~TOCapsuleMachine01() {
     unregister_object_by_id();
 }
 
-TOCapsuleMachine01::TOCapsuleMachine01(void *set_data) : TObjMapObject(tl_05) {
+TOCapsuleMachine01::TOCapsuleMachine01(ObjectSetData *set_data) : TObjMapObject(tl_05) {
     m_name = TOCapsuleMachine01_class_name;
     apply_object_set_data(set_data);
     model = capsule_machine01_model_resource->models[0].model;

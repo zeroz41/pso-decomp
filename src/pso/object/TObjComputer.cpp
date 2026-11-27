@@ -1,6 +1,5 @@
 #include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/render/render_util.h"
 #include "pso/system/BmlResourceLoad.h"
@@ -36,7 +35,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/player/LocalClientId.h"
-
 
 const char *fe_obj_tanmatu02_model_names[3] = {"fe_obj_tanmatu02.gj", "fs_obj_tanmatu01.gj", NULL};
 const char *fe_obj_tanmatu02_motion_names[1] = {NULL};
@@ -126,8 +124,8 @@ void TObjComputer::free_resources() {
     }
 }
 
-void *create_stage_computer(void *placement) {
-    return new TObjComputer(static_cast<TObject *>(tl_05), static_cast<ObjectSetData *>(placement));
+void *create_stage_computer(ObjectSetData *placement) {
+    return new TObjComputer(static_cast<TObject *>(tl_05), placement);
 }
 
 void TObjComputer::update_idle() {
@@ -156,12 +154,12 @@ void TObjComputer::draw_model() {
     set_texture_list(computer_texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     if (TObjComputer::screen_model_indices[set_params[1]] == 1) {
         u32 tick = actor_frame_tick;
         if (tick != last_scroll_tick && uv_scroll_time >= 1.0f) {
             last_scroll_tick = tick;
-            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(screen_model->child->model), 0, (s32)uv_scroll_time, computer_uv_scroll_phase, 1);
+            scroll_ginja_mesh_uvs(screen_model->child->ginja_model, 0, (s32)uv_scroll_time, computer_uv_scroll_phase, 1);
             PPCSync();
             f32 time = uv_scroll_time;
             uv_scroll_time = time - (f32)(s32)time;
@@ -170,9 +168,9 @@ void TObjComputer::draw_model() {
         rotate_matrix_by_node_angles(screen_model->ang, screen_model->evalflags & NJD_EVAL_ZXY_ANG);
         draw_ginja_object(screen_model);
         if (screen_model->child != NULL) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_object(screen_model->child);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
     } else {
         draw_ginja_object(screen_model);
@@ -215,7 +213,7 @@ void TObjGbAdvance::render() {
         set_texture_list(get_bml_texlist(TObjGbAdvance::resource, 0));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         draw_ginja_object(get_bml_model(TObjGbAdvance::resource, 0));
         draw_ginja_object(get_bml_model(TObjGbAdvance::resource, 1));
         draw_ginja_object(get_bml_model(TObjGbAdvance::resource, 2));
@@ -234,4 +232,8 @@ void TObjGbAdvance::free_shared_data() {
         delete TObjGbAdvance::resource;
         TObjGbAdvance::resource = NULL;
     }
+}
+
+void *TObjGbAdvance::create(ObjectSetData *placement) {
+    return new TObjGbAdvance(static_cast<TObject *>(tl_05), placement);
 }

@@ -2,7 +2,6 @@
 #include "pso/player/GuildCardEntry.h"
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -30,7 +29,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/network/client_id.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -240,7 +238,7 @@ void TWindowSubShortMail::run_task() {
     case 13:
         keyboard->set_position(const_cast<NJS_POINT2 *>(get_window_layout_position(0xBC)));
         keyboard->hide();
-        confirm_window = (TWindowMessageYesNo *)open_confirm_prompt(this, client_id);
+        confirm_window = open_confirm_prompt(this, client_id);
         state = 0xE;
     case 14:
         if (confirm_window->is_cancelled() != 0) {
@@ -470,13 +468,13 @@ TKeyBoardControl *TWindowSubShortMail::create_keyboard() {
     return keyboard;
 }
 
-saddr TWindowSubShortMail::open_confirm_prompt(TObject *parent, int client_id) {
+TWindowMessageYesNo *TWindowSubShortMail::open_confirm_prompt(TObject *parent, int client_id) {
     TWindowMessageYesNo *dialog;
-    dialog = (TWindowMessageYesNo *)TWindowMessageYesNo::create(parent, client_id, 0, 0);
+    dialog = TWindowMessageYesNo::create(parent, client_id, 0, 0);
     open_yes_no_prompt(dialog, (TWindowSubStatusDisp::get_message_10(0x20)), (TWindowSubStatusDisp::get_message_10(0x3f)), get_window_layout_position(0x9e), 205.0f);
     dialog->set_menu_selected_index(0);
     dialog->set_choice_menu_flag70_bit10();
-    return (saddr)dialog;
+    return dialog;
 }
 
 TWindowMenu *TWindowSubShortMail::create_confirm_menu_window(void) {
@@ -503,7 +501,7 @@ TWindowMenu *TWindowSubShortMail::create_window(void) {
         add_gray_text_entry(list, (const char *)(get_card_window_area()), 0, 0);
     }
     list->disable_input();
-    TQuestThread::set_status_flag_80(list);
+    list->set_status_flag_80();
     list->set_scroll_target(206.0f, 140.0f);
     return list;
 }

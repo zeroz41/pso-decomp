@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
 #include "pso/math/MatrixTransforms.h"
@@ -57,14 +56,14 @@ void TObjEneRe7BeruraPunch::render() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         translate_matrix(0, 0.0f, this->height, 0.0f);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         scale_matrix(0, this->scale, this->scale, 1.0f);
         TObjEneRe7Berura::draw_arm(this->arm);
         pop_matrix();
         if (this->state == 2) {
             this->fade.clear_flag_and_notify();
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         model_render_flags = saved_model_render_flags;
     }
 }
@@ -159,13 +158,13 @@ void TObjEneRe7BeruraPunch::launch(s32 arm, const Vec *position, const Vec *dest
     this->snap_to_ground();
     owner = find_entity_by_id(this->owner_id);
     if (owner != NULL) {
-        this->rotation_y = owner->rotation_y;
+        this->rotation.y = owner->rotation.y;
     } else {
-        this->rotation_y = 0;
+        this->rotation.y = 0;
     }
-    this->direction.x = sin_table_lookup(this->rotation_y);
+    this->direction.x = sin_table_lookup(this->rotation.y);
     this->direction.y = 0.0f;
-    this->direction.z = cos_table_lookup(this->rotation_y);
+    this->direction.z = cos_table_lookup(this->rotation.y);
     this->range = 300.0f;
     this->reset();
     this->state = 1;
@@ -211,7 +210,7 @@ void TObjEneRe7BeruraPunch::reset() {
 }
 
 void TObjEneRe7BeruraPunch::run_task() {
-    ParticleAngles ang;
+    Angle3 ang;
     Vec v;
     f32 s;
     f32 c;
@@ -232,10 +231,10 @@ void TObjEneRe7BeruraPunch::run_task() {
     }
     if (this->state == 1) {
         ang.x = 0;
-        ang.y = this->rotation_y + 0x4000;
+        ang.y = this->rotation.y + 0x4000;
         ang.z = -0x4000;
-        s = -sin_table_lookup(this->rotation_y);
-        c = -cos_table_lookup(this->rotation_y);
+        s = -sin_table_lookup(this->rotation.y);
+        c = -cos_table_lookup(this->rotation.y);
         if (this->trail_emitter == NULL) {
             this->trail_emitter = create_particle_emitter(&this->position, 0xDD);
             if (this->trail_emitter != NULL) {

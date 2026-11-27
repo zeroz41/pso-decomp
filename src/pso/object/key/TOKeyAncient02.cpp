@@ -33,7 +33,7 @@ struct NJS_TEXLIST;
 
 NJS_TEXLIST **key_ancient02_texture_lists;
 
-void TOKeyAncient02::vfunc_25() {}
+void TOKeyAncient02::debug_draw_key_extra() {}
 
 void TOKeyAncient02::render() {
     NJS_OBJECT *object;
@@ -41,7 +41,7 @@ void TOKeyAncient02::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         object = model;
         push_matrix();
@@ -51,9 +51,9 @@ void TOKeyAncient02::render() {
         push_matrix();
         post_translate_matrix(object->pos);
         scale_matrix_vec3(NULL, (u8 *)&scale);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model(object->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         object = object->sibling;
         push_matrix();
@@ -62,7 +62,7 @@ void TOKeyAncient02::render() {
         pop_matrix();
         pop_matrix();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(key_ancient02_texture_lists[is_on]));
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         object = key_ancient02_glass_model;
         push_matrix();
         post_translate_matrix(object->pos);
@@ -74,7 +74,7 @@ void TOKeyAncient02::render() {
         draw_ginja_model(object->model);
         pop_matrix();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -119,13 +119,13 @@ void TOKeyAncient02::update_switch_on() {
     submit_cursor_target();
 }
 
-void *TOKeyAncient02::create(void *set_data) {
+void *TOKeyAncient02::create(ObjectSetData *set_data) {
     return new TOKeyAncient02(tl_05, set_data);
 }
 
 void TOKeyAncient02::free_static() {
     if (key_ancient02_texture_lists != NULL) {
-        TObjPlayer::free_if_valid(key_ancient02_texture_lists[1]);
+        free_if_valid(key_ancient02_texture_lists[1]);
         if (key_ancient02_texture_lists != NULL) {
             mem_free(key_ancient02_texture_lists);
             key_ancient02_texture_lists = NULL;
@@ -152,7 +152,7 @@ TOKeyAncient02::~TOKeyAncient02() {
     free_collision_body_parts(this);
 }
 
-TOKeyAncient02::TOKeyAncient02(TObject *parent, void *set_data) : TOKey(parent) {
+TOKeyAncient02::TOKeyAncient02(TObject *parent, ObjectSetData *set_data) : TOKey(parent) {
     m_name = key_ancient02_class_name;
     apply_object_set_data(set_data);
     init_switch_id();

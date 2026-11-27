@@ -1,3 +1,4 @@
+#include "pso/weapon/shoot/TItemShootModel.h"
 #include "types.h"
 #include "pso/weapon/TItemWeaponSRankPunch.h"
 #include "pso/weapon/TItemWeaponSRankNeedle.h"
@@ -28,8 +29,8 @@ void TItemWeaponSRankNeedle::emit_marker_effects() {
 TItemWeaponSRankNeedle::TItemWeaponSRankNeedle(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     set_weapon_flags(2);
     hit_callback = (WeaponHitCallback)spawn_target_needle;
-    impact_callback = (WeaponHitCallback)spawn_needle_wall_impact;
-    shot_callback = TObjPlayer::create_shoot_model;
+    impact_callback = spawn_needle_wall_impact;
+    shot_callback = TItemShootModel::create_shoot_model;
 }
 
 TItem *TItemWeaponSRankNeedle::create(u8 *item) {

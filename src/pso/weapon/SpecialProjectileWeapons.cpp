@@ -1,6 +1,5 @@
 #include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/item/TItemMenuCtrl.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/weapon/TItemWeaponDrillLauncher.h"
 #include "pso/technique/TTecMegid.h"
@@ -20,7 +19,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
@@ -46,7 +45,7 @@ void TItemWeaponEvilCurst::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(5, &joint_position) != 0) {
             owner = this->owner;
-            TTecMegid::create_ex(owner, &joint_position, owner->rotation_y, ((TItemWeapon *)this)->get_tp());
+            TTecMegid::create_ex(owner, &joint_position, owner->rotation.y, ((TItemWeapon *)this)->get_tp());
             this->roll_technique();
         }
     } else {
@@ -117,12 +116,12 @@ void TItemWeaponEvilCurst::draw_held_model() {
             model_render_flags &= 0xFFFFFFEF;
             TEquippedWeaponDrawTask::set_fade_alpha((f32)this->get_owner_alpha());
             post_translate_matrix(&joint_position.x);
-            rotate_matrix_y(0, this->owner->rotation_y);
+            rotate_matrix_y(0, this->owner->rotation.y);
             effect_model->evalflags |= 0x11;
             draw_ginja_object(effect_model);
-            TParticleCtrl::begin_effect_render();
+            ::begin_effect_render();
             draw_ginja_object(effect_model->child);
-            TParticleCtrl::end_effect_render();
+            ::end_effect_render();
             effect_model->evalflags &= ~0x11;
             TEquippedWeaponDrawTask::end_fade();
             pop_matrix();

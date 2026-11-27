@@ -6,7 +6,7 @@
 
 class TItemShootModelRotZ : public TItemShootModel {
 public:
-    TItemShootModelRotZ(void* owner, const Vec* pos, const Vec* dir, f32 life);
+    TItemShootModelRotZ(TItemWeapon *owner, const Vec* pos, const Vec* dir, f32 life);
     // render is the key function (the vtable follows its definition order).
     virtual void render();
     virtual void hook();

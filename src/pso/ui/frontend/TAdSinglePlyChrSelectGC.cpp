@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
@@ -12,13 +11,13 @@
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
@@ -36,6 +35,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 const vec2f single_chr_select_item_rect_table[4] = {
     { 131.0f, 182.0f }, { 131.0f, 225.0f }, { 131.0f, 268.0f }, { 131.0f, 311.0f },
@@ -380,7 +380,7 @@ void TAdSinglePlyChrSelectGC::run_state_3() {
         this->state = 0;
         return;
     }
-    if (TAdPlayerLoadGC::get_instance() == 0) {
+    if (get_card_load_sequence_state() == 0) {
         this->state = 4;
     }
 }

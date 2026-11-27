@@ -26,10 +26,10 @@ struct TObjEneDubchikBehaviorParams {
 
 class TObjEneDubchik : public TObjEnemyCustom {
 public:
-    TObjEneDubchik(TObject *parent, void *set_data);
+    TObjEneDubchik(TObject *parent, EnemyPlacement *set_data);
     virtual s32 update_shock_clock();
     virtual ~TObjEneDubchik();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void load_resources();
     static void free_resources();
     void target_nearest_player(f32);

@@ -20,17 +20,17 @@ BmlResource *aircon_cave01_model_archive;
 void TOAirconCave01::render() {
     NJS_OBJECT *object = (NJS_OBJECT *)aircon_cave01_model_archive->models[0].model;
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        rotation_x += 0x106;
+        rotation.x += 0x106;
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         draw_ginja_model(object->model);
         pop_matrix();
     }
 }
 
-void *TOAirconCave01::create(void *set_data) {
+void *TOAirconCave01::create(ObjectSetData *set_data) {
     return new TOAirconCave01(tl_05, set_data);
 }
 
@@ -48,7 +48,7 @@ void TOAirconCave01::load_shared_resource() {
 
 TOAirconCave01::~TOAirconCave01() {}
 
-TOAirconCave01::TOAirconCave01(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TOAirconCave01::TOAirconCave01(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = TOAirconCave01_class_name;
     apply_object_set_data(set_data);
     model = aircon_cave01_model_archive->models[0].model;

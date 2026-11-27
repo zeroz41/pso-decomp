@@ -28,14 +28,12 @@ s16 init_loopback(void) {
 s16 register_loopback_handlers(void)
 {
     NetLinkDriverFn tbl[11];
-    u8* base;
     LoopbackState* p;
     s16 r;
     s16 i;
     s16* e;
 
-    base = (u8*)&network_loopback_state;
-    p = (LoopbackState*)base;
+    p = &network_loopback_state;
     tbl[0] = (NetLinkDriverFn)fill_reply_buffer;
     tbl[1] = (NetLinkDriverFn)alloc_conn_slot;
     tbl[2] = (NetLinkDriverFn)clear_conn_slot;
@@ -52,7 +50,7 @@ s16 register_loopback_handlers(void)
     if (r < 0) {
         return r;
     }
-    init_net_recv_desc((LoopbackState *)base);
+    init_net_recv_desc(&network_loopback_state);
     p->handler = r;
     p->protos[0].used = 0;
     p->protos[0].type = 0;

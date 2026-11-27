@@ -26,22 +26,22 @@ void TObjStendGlassLobby::demo_step() {}
 
 void TObjStendGlassLobby::render() {
     if (fade_state != 0 && texlist != NULL) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if (fade_state != 3) {
             scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
         draw_ginja_object(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
 void TObjStendGlassLobby::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         demo_step();
     }
     switch (fade_state) {
@@ -86,7 +86,7 @@ void TObjStendGlassLobby::update_state() {
     fade_state = 0;
 }
 
-void *TObjStendGlassLobby::create(void *set_data) {
+void *TObjStendGlassLobby::create(ObjectSetData *set_data) {
     return new TObjStendGlassLobby(tl_05, set_data);
 }
 
@@ -104,7 +104,7 @@ void TObjStendGlassLobby::load_resources() {
 
 TObjStendGlassLobby::~TObjStendGlassLobby() {}
 
-TObjStendGlassLobby::TObjStendGlassLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjStendGlassLobby::TObjStendGlassLobby(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = obj_stendglass_lobby_class_name;
     apply_object_set_data(set_data);
     update_state();

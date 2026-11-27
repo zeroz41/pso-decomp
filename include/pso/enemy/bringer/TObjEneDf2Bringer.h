@@ -30,7 +30,7 @@ struct BringerParameters {
 };
 
 struct TObjEneDf2Bringer : public TObjEneDD_ST {
-    TObjEneDf2Bringer(TObject *parent, void *set_data);
+    TObjEneDf2Bringer(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneDf2Bringer();
     virtual s32 acquire_target(f32);
     virtual void update_body_colliders();
@@ -67,7 +67,7 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     void init_enemy();
     static void set_entry_value_clamped(s32 index, f32 speed);
     static void free_resources();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void load_resources();
     static BmlResource *resource_bundle;
     void spawn_offset_particle();

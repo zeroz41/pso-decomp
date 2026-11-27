@@ -31,6 +31,8 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/quest/QuestFloorDesignation.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 struct BmlResource;
 struct NJS_TEXLIST;
@@ -75,7 +77,7 @@ NJS_TEXLIST *door_labo_normal_red_texture_list;
 const char *door_four_light_base_class_name = "TODoorFourLightBase";
 
 
-TODoorFourLightBase::TODoorFourLightBase(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorFourLightBase::TODoorFourLightBase(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     s32 i;
     m_name = door_four_light_base_class_name;
     apply_object_set_data(set_data);
@@ -100,7 +102,7 @@ void TODoorFourLightBase::render() {
         push_matrix();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_ginja_model_with_motion(model, motion, (f32)animation_frame);
         pop_matrix();
         break;
@@ -108,7 +110,7 @@ void TODoorFourLightBase::render() {
         push_matrix();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_ginja_model_with_motion(model, motion, (f32)animation_end_frame);
         pop_matrix();
         break;
@@ -120,7 +122,7 @@ void TODoorFourLightBase::render() {
         push_matrix();
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_ginja_object(model);
         pop_matrix();
         break;
@@ -160,10 +162,10 @@ void TODoorFourLightBase::render_lights() {
     }
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     draw_node_tree((u8 *)model);
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TODoorFourLightBase::draw_node_tree(u8 *node_data) {
@@ -179,9 +181,9 @@ void TODoorFourLightBase::draw_node_tree(u8 *node_data) {
             set_texture_list(reinterpret_cast<NJS_TEXLIST *>(get_unlit_textures()));
         }
         if (cur->evalflags & 0x200000) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
         } else {
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         push_matrix();
         if (!(eval_flags & 1)) {
@@ -208,7 +210,7 @@ void TODoorFourLightBase::draw_node_tree(u8 *node_data) {
 }
 
 void TODoorFourLightBase::update_door_switch_state() {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     switch (this->lock_mode) {
     case 1:
         this->play_door_sound();
@@ -249,7 +251,7 @@ void TODoorFourLightBase::update_door_switch_state() {
             this->door_flags |= 1;
         }
         if (found == 0 && this->set_entry != NULL && this->access_object_saved_state(&saved_state, 1) == 1) {
-            saved_state = 1;
+            saved_state.flags = 1;
             this->send_object_state_update(&saved_state);
             this->access_object_saved_state(&saved_state, 0);
         }
@@ -261,8 +263,8 @@ void TODoorFourLightBase::update_door_switch_state() {
     }
 }
 
-void TODoorFourLightBase::apply_saved_state(s16 *state, s32) {
-    if ((s16) *state == 1) {
+void TODoorFourLightBase::apply_saved_state(QuestObjectEntry *state, s32) {
+    if (state->flags == 1) {
         this->door_flags = (s32) (this->door_flags | 1);
     }
 }
@@ -277,7 +279,7 @@ s32 TODoorFourLightBase::init_door_switch_binding() {
     } else if (switch_id < 0) {
         this->lock_mode = 1;
     } else if ((s32) this->set_params[2] < 0) {
-        if ((get_main_phase() == 0xF) || (TRaderMapCore::is_not_split_screen() == 1)) {
+        if ((get_main_phase() == 0xF) || (is_not_split_screen() == 1)) {
             this->lock_mode = 3;
         } else {
             this->lock_mode = 2;
@@ -334,7 +336,7 @@ void free_seabed_four_light_door_resources() {
 const char *door_four_light_seabed_class_name = "TODoorFourLightSeabed";
 const FourLightNodeTable door_four_light_seabed_index_table = {{2, 4, 9, 11, 3, 5, 10, 12}};
 
-TODoorFourLightSeabed::TODoorFourLightSeabed(TObject *parent, void *set_data) : TODoorFourLightBase(parent, set_data) {
+TODoorFourLightSeabed::TODoorFourLightSeabed(TObject *parent, ObjectSetData *set_data) : TODoorFourLightBase(parent, set_data) {
     s32 i;
     m_name = door_four_light_seabed_class_name;
     init_collision_body_parts(this, labo_door_collision_body_parts, 1);
@@ -404,7 +406,7 @@ void free_seabed_u_four_light_door_resources() {
 const char *odoor_four_light_seabed_u_class_name = "TODoorFourLightSeabedU";
 const FourLightNodeTable door_four_light_seabed_u_table = {{2, 4, 7, 9, 3, 5, 8, 10}};
 
-TODoorFourLightSeabedU::TODoorFourLightSeabedU(TObject *parent, void *set_data) : TODoorFourLightBase(parent, set_data) {
+TODoorFourLightSeabedU::TODoorFourLightSeabedU(TObject *parent, ObjectSetData *set_data) : TODoorFourLightBase(parent, set_data) {
     s32 i;
     m_name = odoor_four_light_seabed_u_class_name;
     init_collision_body_parts(this, labo_door_collision_body_parts, 1);
@@ -448,7 +450,7 @@ const char *odoor_labo_class_name = "TODoorLabo";
 const FourLightNodeTable door_labo_link_table = {{1, -1, -1, -1, 4, -1, -1, -1}};
 
 
-void TAdSinglePlyChrSelectGC::free_all_resources() {
+void free_labo_door_resources(void) {
     if (labo_door_red_textures != NULL) {
         release_texture_list(labo_door_red_textures);
         safe_free(labo_door_red_textures);
@@ -465,7 +467,7 @@ void TAdSinglePlyChrSelectGC::free_all_resources() {
     }
 }
 
-TODoorLabo::TODoorLabo(TObject *parent, void *set_data) : TODoorFourLightBase(parent, set_data) {
+TODoorLabo::TODoorLabo(TObject *parent, ObjectSetData *set_data) : TODoorFourLightBase(parent, set_data) {
     FourLightNodeTable tbl;
     s32 i;
 
@@ -537,13 +539,13 @@ void TODoorLabo::free_resources() {
 
 const char *door_labo_normal_class_name = "TODoorLaboNormal";
 
-TODoorLaboNormal::TODoorLaboNormal(TObject *parent, void *set_data) : TODoorFourLightBase(parent, set_data) {
+TODoorLaboNormal::TODoorLaboNormal(TObject *parent, ObjectSetData *set_data) : TODoorFourLightBase(parent, set_data) {
     s32 i;
     m_name = door_labo_normal_class_name;
     init_collision_body_parts(this, labo_door_collision_body_parts, 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    init_field_d4();
+    load_model();
     motion = get_bml_motion(door_labo_model_archive, 0);
     animation_end_frame = (f32)motion->nbFrame - 1.0f;
     animation_step = 0.5f;
@@ -572,5 +574,5 @@ s32 TODoorLaboNormal::get_lit_textures() {
     return (saddr)door_labo_normal_green_texture_list;
 }
 
-void TODoorLaboNormal::init_field_d4() { model = get_bml_model(door_labo_model_archive, 0); }
+void TODoorLaboNormal::load_model() { model = get_bml_model(door_labo_model_archive, 0); }
 

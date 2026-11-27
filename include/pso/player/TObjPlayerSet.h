@@ -5,11 +5,11 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjPlayerSet : public TObjBase {
-    TObjPlayerSet(TObject *parent, void *set_data);
+    TObjPlayerSet(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjPlayerSet();
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 
     static const char *class_name;
 };

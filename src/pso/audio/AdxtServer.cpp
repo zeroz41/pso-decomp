@@ -5,6 +5,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxtInternal.h"
+#include "pso/audio/AdxtServer.h"
 #include "pso/audio/AudioStreamInput.h"
 #include "pso/audio/AdxmThreadStorage.h"
 #include "pso/audio/LscStream.h"

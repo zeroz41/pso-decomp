@@ -72,12 +72,12 @@ s32 approach_camera_angle(s32 angle, s32 target, s32 rate) {
     return approach_angle_limited(angle, target, rate * 0x7F);
 }
 
-void set_scripted_camera_origin(const Vec *position, const Vec *target, const CameraAngles *angles) {
+void set_scripted_camera_origin(const Vec *position, const Vec *target, const Angle3 *angles) {
     TCameraScripted *camera = (TCameraScripted *)camera_controller_registry[5];
     if (camera != NULL) {
         VecCopy(&camera->position_origin, position);
         VecCopy(&camera->target_origin, target);
-        camera->angles.yaw = angles->yaw;
+        camera->angles.y = angles->y;
     }
 }
 

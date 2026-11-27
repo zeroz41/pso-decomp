@@ -7,11 +7,11 @@
 struct BmlResource;
 
 struct TObjNpcFemaleFat : public TObjNpcFemale {
-    TObjNpcFemaleFat(TObject *parent, void *set_data);
+    TObjNpcFemaleFat(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjNpcFemaleFat();
     static void free_static_model();
     static void load_static_resource();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static const char *name;
     static BmlResource *static_model;
 };

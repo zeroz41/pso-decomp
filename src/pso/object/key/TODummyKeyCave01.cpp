@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/key/TODummyKeyCave01Sound.h"
 #include "pso/system/task/TObject.h"
@@ -21,14 +20,14 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/MatrixReflect.h"
 
 const char *dummy_key_cave01_class_name = "TODummyKeyCave01";
 const char *dummy_key_cave01_sound_class_name = "TODummyKeyCave01Sound";
-TODummyKeyCave01::TODummyKeyCave01(TObject *parent, void *set_data) : TObjBase(parent) {
+TODummyKeyCave01::TODummyKeyCave01(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = dummy_key_cave01_class_name;
     apply_object_set_data(set_data);
     color.b = 1.0f;
@@ -50,14 +49,14 @@ TODummyKeyCave01::~TODummyKeyCave01() {
 
 void TODummyKeyCave01::load_resources() {  }
 void TODummyKeyCave01::free_resources() {  }
-void *TODummyKeyCave01::create(void *set_data) {
+void *TODummyKeyCave01::create(ObjectSetData *set_data) {
     return new TODummyKeyCave01(tl_05, set_data);
 }
 
 void TODummyKeyCave01::run_task() {
     u32 st;
     u8 skip;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         clear_actor_flags(0x08000000);
     }
     if (this->id < 0x100) {
@@ -121,7 +120,7 @@ void TODummyKeyCave01::render() {
         set_texlist(v);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_zyx(0, this->rotation_x, this->rotation_y, this->rotation_z);
+        rotate_matrix_zyx(0, this->rotation.x, this->rotation.y, this->rotation.z);
         scale_current_matrix(&this->scale.x);
         node = model;
         draw_ginja_model(node->model);
@@ -131,7 +130,7 @@ void TODummyKeyCave01::render() {
             model_render_flags = id | 0x10;
             set_constant_material(&color);
         }
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         node = node->child;
         if (spins != 0) {
             rotate_matrix_y(0, key_angle);
@@ -147,7 +146,7 @@ void TODummyKeyCave01::render() {
             set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }

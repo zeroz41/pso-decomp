@@ -1,12 +1,10 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/quest/TObjTagChallenge.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TObjCHTimeWin.h"
 #include "pso/object/TObjWarnChime.h"
 #include "pso/network/client_id.h"
-#include "pso/quest/challenge/ChallengeModeData.h"
 #include "pso/ui/chat/ChatLogLastLine.h"
-#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/quest/challenge/ChallengeCommands.h"
 #include "pso/system/task/TObject.h"
@@ -40,6 +38,20 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/network/LobbyName.h"
+#include "pso/ui/city/THunterGuildWarning.h"
+
+static const char challenge_label_N[] = "N";
+static const char challenge_label_C[] = "C";
+static const char challenge_label_0[] = "0";
+static const char challenge_label_1[] = "1";
+static const char challenge_label_2[] = "2";
+static const char challenge_label_3[] = "3";
+static const char challenge_label_4[] = "4";
+static const char challenge_label_5[] = "5";
+static const char challenge_label_6[] = "6";
+static const char challenge_label_7[] = "7";
+static const char challenge_label_8[] = "8";
+static const char challenge_label_E[] = "E";
 
 extern const char TChallenge_name_text[] = "TChallenge";
 const char *TChallenge::class_name = TChallenge_name_text;
@@ -824,14 +836,14 @@ void TChallenge::update_quest_challenge_state() {
         case 1:
             break;
         case 2:
-            id = TLobby::get_selected_quest_id();
+            id = get_selected_quest_id();
             n = 1;
             if (id >= 0x33 && id <= 0x3B) {
                 n = id - 0x30;
             }
             break;
         case 3:
-            id = TLobby::get_selected_quest_id();
+            id = get_selected_quest_id();
             n = 2;
             if (id >= 0x3D && id <= 0x41) {
                 n = id - 0x31;
@@ -846,7 +858,7 @@ void TChallenge::update_quest_challenge_state() {
             quest_send_timer = 30;
         }
         if ((quest_send_timer <= 0 || n != 0) && n != challenge_mode_state.record_window_mode) {
-            TLobby::send_challenge_with_value(this, n);
+            send_challenge_with_value(this, n);
         }
     }
 }

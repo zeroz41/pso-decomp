@@ -8,9 +8,9 @@ struct BmlResource;
 
 // The jungle's biwa bug. A TODragonfly with its own model.
 struct TOBiwaMushi : public TODragonfly {
-    TOBiwaMushi(void *set_data);
+    TOBiwaMushi(ObjectSetData *set_data);
     virtual ~TOBiwaMushi();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_shared_data();
     static void load_resource_instance();
 

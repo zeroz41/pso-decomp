@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecCtrl.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/TEffClitical.h"
@@ -43,7 +42,7 @@ void TEffClitical::render() {
     flags = model_render_flags;
     saved_model_render_flags = flags;
     model_render_flags = flags | 0x10;
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     set_constant_material(&color);
     copy_anim_frame_to_slot(&slot);
     push_matrix();
@@ -55,7 +54,7 @@ void TEffClitical::render() {
     pop_matrix();
     copy_slot_to_anim_frame(&slot);
     model_render_flags = saved_model_render_flags;
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     restore_saved_depth_alpha_state();
 }
 

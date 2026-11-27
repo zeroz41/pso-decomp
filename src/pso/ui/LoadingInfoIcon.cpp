@@ -26,6 +26,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 
 // These records are consecutive in the overlay data, beginning at loading_texture_names.
@@ -37,7 +38,6 @@ struct LobbyOverlayVertices {
     ProjectedStripVertex hud_icon[4];
 };
 
-extern "C" {
 s32 lobby_request_flags;
 NJS_TEXLIST *info_icon_texture;
 s32 lobby_pulse_color_phase;
@@ -85,7 +85,6 @@ NJS_SPRITE loading_compass_sprite = {
     { 496.0f, 416.0f, 0.0f }, 1.0f, 1.0f, 0, &loading_texture_list, loading_compass_texanim,
 };
 
-}
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -98,7 +97,7 @@ void draw_loading_compass(void) {
         alpha = 0.5f + (1.0f + cos_table_lookup(loading_compass_sprite.ang)) / 4.0f;
         set_perspective_projection_from_fov(0x3555, 1.1333334f, 1.0f, 21000.0f);
         set_depth_buffer_settings_2();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         set_default_alpha_blend();
         set_texture_list(&loading_texture_list);
@@ -114,7 +113,7 @@ void draw_loading_compass(void) {
         draw_compass_sprite(&loading_compass_sprite, 2, ((u32)(255.0f * alpha) << 24) | 0xFFFFFF, 0x21, 0.5f);
         set_default_alpha_blend();
         TCameraCtrl::restore_saved_view();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         restore_saved_depth_alpha_state();
     }
 }
@@ -131,8 +130,8 @@ void load_now_loading_texture() {
     void *archive;
     void *packed;
     if (!(lobby_request_flags & 2)) {
-        archive = TQuestVmDownLoadServer::alloc(0x11000);
-        packed = TQuestVmDownLoadServer::alloc(0x2000);
+        archive = alloc(0x11000);
+        packed = alloc(0x2000);
         read_disc_file_sectors("NowLoading.prs", packed);
         prs_decompress_buffer(packed, archive);
         load_gvm_texture_archive(archive, &loading_texture_list);
@@ -144,7 +143,7 @@ void load_now_loading_texture() {
 
 void render_info_icon_overlay(void) {
     s32 instance;
-    instance = TAdPlayerLoadGC::get_instance();
+    instance = get_card_load_sequence_state();
     switch (instance) {
     case 5:
     case 6:
@@ -170,7 +169,7 @@ void draw_loading_overlay(void) {
     LobbyOverlayVertices *overlay = reinterpret_cast<LobbyOverlayVertices *>(loading_texture_names);
     TCameraCtrl::restore_full_screen_view();
     set_default_alpha_blend();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     setup_projected_color_draw(1);
     draw_projected_quads(overlay->title, 4);
     end_projected_color_draw();
@@ -194,7 +193,7 @@ void draw_loading_overlay(void) {
     }
     set_default_alpha_blend();
     TCameraCtrl::restore_saved_view();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 #pragma pop
 
@@ -230,6 +229,6 @@ void update_pulse_colors(s32 request) {
 }
 #pragma pop
 
-void free_info_icon_texture(void) { TObjPlayer::free_if_valid(info_icon_texture); }
+void free_info_icon_texture(void) { free_if_valid(info_icon_texture); }
 
 void load_info_icon(void) { info_icon_texture = LoadPvmFileTls("InfoIcon.gvm"); }

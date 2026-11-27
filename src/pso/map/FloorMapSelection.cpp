@@ -9,6 +9,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/GameModeQueries.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 FloorMapSelection floor_map_registry[18];
 
@@ -304,9 +305,9 @@ extern const GetBossWarpDestinationTable boss_warp_destination_table_b = { {
 int selected_episode;
 s32 story_select_pending_state = -1;
 int story_select_current = -1;
-void TLobby::backup_story_select() { selected_episode = story_select_current; }
+void backup_story_select() { selected_episode = story_select_current; }
 
-void TLobby::sync_story_select() { story_select_current = selected_episode; }
+void sync_story_select() { story_select_current = selected_episode; }
 
 s32 get_boss_warp_destination(void) {
     GetBossWarpDestinationTable a = boss_warp_destination_table;
@@ -345,16 +346,12 @@ s32 get_floor_map_terrain(s32 floor) {
 }
 
 s32 set_floor_map_selection(s32 floor, s32 area, s32 terrain, s32 entities) {
-    s32 offset;
-    FloorMapSelection *entry;
     if (floor > 0x11) {
         return 0;
     }
-    offset = floor * 0xC;
     floor_map_registry[floor].area = area;
-    entry = (FloorMapSelection *)((u8 *)&floor_map_registry + offset);
-    entry->terrain = terrain;
-    entry->entities = entities;
+    floor_map_registry[floor].terrain = terrain;
+    floor_map_registry[floor].entities = entities;
     return 1;
 }
 #pragma pop
@@ -363,16 +360,12 @@ s32 set_floor_map_selection(s32 floor, s32 area, s32 terrain, s32 entities) {
 #pragma opt_common_subs off
 
 s32 get_floor_map_selection(s32 floor, FloorMapSelection *selection) {
-    s32 offset;
-    const FloorMapSelection *entry;
     if (floor > 0x11) {
         return 0;
     }
-    offset = floor * 0xC;
-    entry = (const FloorMapSelection *)((const u8 *)&floor_map_registry + offset);
     selection->area = floor_map_registry[floor].area;
-    selection->terrain = entry->terrain;
-    selection->entities = entry->entities;
+    selection->terrain = floor_map_registry[floor].terrain;
+    selection->entities = floor_map_registry[floor].entities;
     return 1;
 }
 #pragma pop
@@ -406,7 +399,7 @@ void randomize_adventure_maps(void) {
   map = floor_map_registry;
   select_episode((saddr)selected_episode);
   main_phase = get_main_phase();
-  if (TRaderMapCore::is_not_split_screen() == 1)
+  if (is_not_split_screen() == 1)
   {
     main_phase = 0xF;
   }

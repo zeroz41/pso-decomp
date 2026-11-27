@@ -1,18 +1,18 @@
 #include "types.h"
 #include "pso/render/GinjaTextureAlloc.h"
+#include "pso/render/GinjaTextureHeader.h"
 extern "C" {
-s32 init_ginja_texture_header(void *p);
-void alloc_buffer_from_heap(void *header);
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void init_texture_header_and_alloc(void *p) {
-    switch (init_ginja_texture_header(p)) {
+s32 init_texture_header_and_alloc(GinjaTextureHeader *header, u32 width, u32 height, u32 format) {
+    s32 result = init_ginja_texture_header(header, width, height, format);
+    switch (result) {
     case 0:
-        alloc_buffer_from_heap(p);
+        result = alloc_buffer_from_heap(header);
         break;
     }
+    return result;
 }
 #pragma pop
-
 }

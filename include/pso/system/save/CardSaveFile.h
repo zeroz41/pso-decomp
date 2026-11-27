@@ -10,9 +10,9 @@ struct CardSaveDescriptor {
     u8 key[0x10];
     const void *banner;
     const void *icon;
-    s16 field_4c;
-    s16 field_4e;
-    s32 field_50;
+    s16 pad_4c;
+    s16 pad_4e;
+    s32 pad_50;
     u16 omit_title_space;
     u8 *data;
     s32 size;

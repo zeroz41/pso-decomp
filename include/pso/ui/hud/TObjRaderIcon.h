@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjRaderIcon : public TObjBase {
-    TObjRaderIcon(TObject *parent, void *set_data);
+    TObjRaderIcon(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjRaderIcon();
     s32 color_mode;     // set_params[0]: 0 green when all its switches are set, else red; 1 the fixed color
     s32 switch_count;   // set_params[1] high half: how many switches (0-12)
@@ -15,7 +15,7 @@ struct TObjRaderIcon : public TObjBase {
     virtual void render();
     virtual void run_task();
     void initialize_from_placement();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjRaderIcon_size, sizeof(TObjRaderIcon) == 0xA4);

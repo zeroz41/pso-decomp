@@ -46,7 +46,7 @@ struct TObjEnePanarms : public TObjEnemy {
     int find_nearest_enemy_with_flag(Vec *direction, f32 range);
     static void spawn_npc_pair();
     static TObjEnePanBARA *create_bara(EnemyPlacement *setData, s32 index);
-    static void *create(void *setData);
+    static void *create(EnemyPlacement *setData);
     int get_state_flag();
     // State table (enter, update), named after the action each state plays (panarms_motion_param_table):
     // 0 idle (demo), 1 wait hidden under the ground, 2 rise out of it, 3 move (walkl / walkr),
@@ -113,7 +113,7 @@ struct PanarmsState { PanarmsStateFn enter; PanarmsStateFn update; };
 
 // What dispatch_shared_handler_a(49) returns for Pan Arms.
 struct PanarmsParams {
-    f32 unk_0;
+    f32 pad_0;
     u8 pad_4[0x14];
     s32 search_range;
     s32 wait_frames;

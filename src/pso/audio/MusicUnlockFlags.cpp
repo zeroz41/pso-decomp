@@ -167,7 +167,7 @@ void unlock_sequencer_flag(s32 program) {
 }
 
 
-void TObjBgmColCtrl::update_all_zones(const char *filename) {
+void update_all_zones(const char *filename) {
     s32 i;
 
     i = 0;

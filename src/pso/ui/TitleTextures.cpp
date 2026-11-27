@@ -7,7 +7,7 @@
 #include "pso/unk/TTitleScene.h"
 
 #include "pso/ui/TTitleMenu.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 
 #include "pso/network/TLobby.h"
@@ -15,13 +15,13 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/ui/frontend/TitleSceneTables.h"
 #include "pso/ui/window/WindowDrawContext.h"
 
 void TTitleLogo::render() {
   TexturedQuad quad;
-  TParticleCtrl::begin_effect_render();
+  begin_effect_render();
   TCameraCtrl::restore_full_screen_view();
   begin_screen_draw(1);
   bind_title_texture_list();
@@ -41,7 +41,7 @@ void TTitleLogo::render() {
   draw_textured_quad_at_depth((&quad.x0), 0.1f);
   end_screen_draw();
   TCameraCtrl::restore_saved_view();
-  TParticleCtrl::end_effect_render();
+  end_effect_render();
 }
 
 void TTitleLogo::run_task() {  }
@@ -49,7 +49,7 @@ TTitleLogo::~TTitleLogo() {
 
 }
 TTitleLogo::TTitleLogo(TObject *parent) : TObject(parent) {
-    *(void * *)&this->unk_1C = parent;
+    owner = parent;
 }
 
 void free_title_texture_resources() {}

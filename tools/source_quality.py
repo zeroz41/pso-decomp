@@ -610,6 +610,9 @@ def _drop_attributes(head: str) -> str:
 
 
 _PUNCTUATION = re.compile(r"[()\[\]{;]")
+# an old-style (K&R) C definition head: `T f(a, b) int a; char *b; {`: its parameter declarations end in `;`
+_KR_HEAD = re.compile(r"\s*[A-Za-z_][\w\s*]*?\b[A-Za-z_]\w*\s*\(\s*[A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*\s*\)"
+                      r"\s*(?!(?:const|volatile|throw|noexcept|override|final|__attribute__|asm|__asm__)\b)[A-Za-z_]")
 
 
 def _items(code: str, start: int, stop: int, single: bool) -> list[tuple[int, int, bool]]:
@@ -748,6 +751,8 @@ def _file_scope(text: str, code: str, start: int, stop: int, under_c: bool,
         elif depth:
             continue
         elif c == ";":
+            if _KR_HEAD.match(code[:at], begin):   # a K&R definition's parameter declarations
+                continue
             out.append((begin, at, False, under_c))
             begin = index
         else:

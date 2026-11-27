@@ -1,5 +1,4 @@
 #include "pso/ui/window/WindowVertexBufferAbi.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/technique/TTecZondeEff.h"
@@ -19,7 +18,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/boss/goldragon/ChunkStripGrid.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/DebugFont.h"
 #include "pso/technique/TechniqueRingwaveList.h"
@@ -273,14 +272,14 @@ void TTecZondeEff::render() {
     id = model_render_flags;
     saved_model_render_flags = id;
     model_render_flags = id | 0x10;
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     set_depth_buffer_settings_1();
     if (project_lightning_points(screen_points, strip_widths, strip_heights) != 0 && build_lightning_strip(verts, screen_points, strip_widths, strip_heights) != 0) {
         set_additive_blend();
         draw_window_vertices((WindowVertex *)verts, point_count * 2, (u32)TTecZondeEff::beam_texture_id, 1);
         set_default_alpha_blend();
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
     restore_saved_depth_alpha_state();

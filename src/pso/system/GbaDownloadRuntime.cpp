@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <dolphin/gba.h>
+#include <dolphin/os/OSInterrupt.h>
+#include <dolphin/os/OSTime.h>
+#include <dolphin/os/OSSerial.h>
 #include "pso/system/ResourceFile.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/GbaJoybootState.h"
 #include "pso/system/GbaDownloadRuntime.h"
 #include "pso/system/GbaAramCache.h"
@@ -18,19 +20,14 @@
 u8 *gba_download_data_buffer;
 uaddr gba_download_graph;
 u32 gba_download_data_size;
-s32 gba_download_state;
+volatile s32 gba_download_state;
 s32 gba_joyboot_send_length;
 u8 *gba_joyboot_send_buffer;
 u8 gba_joyboot_status;
 unsigned char gba_identifier_value;
-short gba_identifier_slot_plus_1;
+u16 gba_identifier_slot_plus_1;
 // The game code the GBA program header carries at 0xAC (gba_calc_joyboot_checksum copies it in).
 const u8 joyboot_game_code[4] = {'G', 'P', 'O', 'E'};
-extern "C" {
-
-u32 SIProbe(s32);
-
-}
 
 void gba_download_destroy_graph() {
     if ((u32) gba_download_graph != 0U) {
@@ -142,16 +139,15 @@ u8 gba_download_update_graph() {
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 GbaJoybootState gba_joyboot_states[1];
 
-
 #pragma push
 #pragma fp_contract on
 void stamp_joyboot_image(s32 unused, s32 stamp_enabled) {
     u32 secs;
-    JoybootStampRecord rec;
+    u32 stamp[3];
     DayMinuteTicks ds;
     u8 *obj;
     SystemSaveData *st;
-    memset(&rec, 0, 0xC);
+    memset(stamp, 0, sizeof(stamp));
     obj = gba_joyboot_send_buffer;
     st = TAdSinglePlyChrSelectGC::get_global_state();
     if (st != 0) {
@@ -159,9 +155,9 @@ void stamp_joyboot_image(s32 unused, s32 stamp_enabled) {
             getDateStamp((DateStamp *)&ds);
             DateToSeconds((DateStamp *)&ds, (int *)&secs);
             secs = 100.0f * (3.0517578e-05f * rand()) + secs;
-            memmove(&rec.a, &st->serial_seed, 4);
-            memmove(&rec.b, &secs, 4);
-            memmove(obj + 0x2C0, &rec, 8);
+            memmove(&stamp[0], &st->serial_seed, 4);
+            memmove(&stamp[1], &secs, 4);
+            memmove(obj + 0x2C0, stamp, 8);
         }
         memset(obj + 0xCC, (u8) current_language, 1);
     }
@@ -203,11 +199,11 @@ void probe_gba_device(void) {
         gba_joyboot_states[0].device_present = 1;
     } else {
         if (gba_joyboot_states[0].probe_counter >= 120.0f) {
-            *(volatile u16 *)&gba_joyboot_states[0].probe_counter = 0x78;
-            *(volatile s8 *)&gba_joyboot_states[0].device_present = 0;
-            *(volatile s32 *)&gba_download_state = 2;
+            gba_joyboot_states[0].probe_counter = 120;
+            gba_joyboot_states[0].device_present = 0;
+            gba_download_state = 2;
         } else {
-            *&gba_download_state = 1;
+            gba_download_state = 1;
         }
     }
 }
@@ -224,7 +220,7 @@ void update_gba_joyboot_transfer(void) {
         }
         break;
     case 1:
-        stamp_joyboot_image(*(u16 *)&gba_identifier_slot_plus_1 - 1, gba_identifier_value);
+        stamp_joyboot_image(gba_identifier_slot_plus_1 - 1, gba_identifier_value);
         gba_clear_identifiers();
         gba_calc_joyboot_checksum();
         gba_joyboot_states[0].phase = 2;

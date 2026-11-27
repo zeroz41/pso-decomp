@@ -27,5 +27,5 @@ s32 validate_6x46_attack_finished(G_AttackFinished_6x46 *packet) {
     if (validate_subcommand_client(&packet->header) == 0) {
         return 0;
     }
-    return validate_attack_target_list(&packet->targets.count) != 0 ? 1 : 0;
+    return validate_attack_target_list(&packet->targets) != 0 ? 1 : 0;
 }

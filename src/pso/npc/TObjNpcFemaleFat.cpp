@@ -12,7 +12,7 @@ BmlResourceDescriptor bm_n_efw_i_body_resource_descriptor = { "bm_n_efw_i_body.b
 const char *TObjNpcFemaleFat::name = "TObjNpcFemaleFat";
 BmlResource *TObjNpcFemaleFat::static_model;
 
-void *TObjNpcFemaleFat::create(void *set_data) {
+void *TObjNpcFemaleFat::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcFemaleFat(control, set_data);
 }
@@ -31,7 +31,7 @@ void TObjNpcFemaleFat::load_static_resource() {
 
 TObjNpcFemaleFat::~TObjNpcFemaleFat() {}
 
-TObjNpcFemaleFat::TObjNpcFemaleFat(TObject *parent, void *set_data) : TObjNpcFemale(parent) {
+TObjNpcFemaleFat::TObjNpcFemaleFat(TObject *parent, EnemyPlacement *set_data) : TObjNpcFemale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

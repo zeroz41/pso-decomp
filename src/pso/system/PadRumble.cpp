@@ -9,6 +9,7 @@
 #include "pso/player/PlayerCommands.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/window/DeferredPackets.h"
 
 
 static PadRumbleEffect pad_rumble_effect_slots[PAD_RUMBLE_EFFECT_COUNT];

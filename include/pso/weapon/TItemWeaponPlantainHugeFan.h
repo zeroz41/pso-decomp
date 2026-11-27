@@ -12,4 +12,6 @@ public:
     u8 pad_1f8[0x204 - 0x1F8];  // size from create_state_34; not touched in this TU
 };
 
+TItemShoot *create_item_shoot_model(TItemWeapon *weapon, const Vec *origin, const Vec *end, f32 frames);
+
 #endif

@@ -7,7 +7,6 @@
 #include "pso/network/TProtocol.h"
 #include "pso/audio/SoundRequestVoice.h"
 #include "pso/unk/GuildCardRecord.h"
-#include "pso/unk/ShortMailFlag.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/audio/SoundControlState.h"
@@ -25,6 +24,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/os/OSInterrupt.h>
+#include "pso/system/CxxRuntime.h"
 #include "pso/enemy/BattleParamTables.h"
 
 
@@ -43,7 +43,6 @@ s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
 
 #pragma push
 
-typedef struct GuildCardTagWords { s32 a; s32 b; } GuildCardTagWords;
 
 #pragma inline_depth(1)
 #pragma dont_inline off
@@ -55,8 +54,7 @@ void handle_user_search_answer(TUserAns &response) { add_found_user_com_card(res
 
 void TLobby::send_find_user_self_tag(s32 gc_num) {
     if (protocol_instance != NULL) {
-        GuildCardTagWords tag = *(GuildCardTagWords *)&protocol_instance->m_guildcard_tag;
-        protocol_instance->send_find_user(*(TPlyGuildCardTag *)&tag, gc_num);
+        protocol_instance->send_find_user(protocol_instance->m_guildcard_tag, gc_num);
     }
 }
 
@@ -71,10 +69,10 @@ void load_selected_guild_card_record(ChoiceSearchResult *src) {
   list = src->location;
   list = build_text_from_comma_list(list);
   cursor = list;
-  cursor = parse_csv_token(cursor, selected_guild_card_record.s19);
-  cursor = parse_csv_token(cursor, selected_guild_card_record.s2A);
-  cursor = parse_csv_token(cursor, selected_guild_card_record.s2A);
-  parse_csv_token(cursor, selected_guild_card_record.s3B);
+  cursor = parse_csv_token(cursor, selected_guild_card_record.ship_name);
+  cursor = parse_csv_token(cursor, selected_guild_card_record.block_name);
+  cursor = parse_csv_token(cursor, selected_guild_card_record.block_name);
+  parse_csv_token(cursor, selected_guild_card_record.team_name);
   copy_guild_card_f4c(&selected_guild_card_record.recv_port, &src->reconnect);
   __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &src->extension);
 }
@@ -160,7 +158,7 @@ char *build_text_from_comma_list(char *list) {
 void jump_to_guild_card_owner(GuildCardRecord *entry) {
     if (TLobby::protocol_instance != NULL) {
         memset(lobby_ship_name, 0, 0x11);
-        strncpy(lobby_ship_name, entry->s19, 0x10);
+        strncpy(lobby_ship_name, entry->ship_name, 0x10);
         lobby_ship_name[0x10] = 0;
         TLobby::protocol_instance->seq_jump(entry->recv_port, entry->ext);
     }
@@ -176,8 +174,8 @@ void init_player_entry(GuildCardRecord *entry, TUserAns *response) {
     serial_no = guild_card_next_serial;
     guild_card_next_serial = serial_no + 1;
     entry->serial = serial_no;
-    ((s32 (*)(void*, void*, int))copy_guild_card_f4c)(&entry->recv_port, &response->recv_port, serial_no);
-    __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&entry->ext, &response->extension);
+    copy_guild_card_f4c(&entry->recv_port, &response->recv_port);
+    entry->ext = response->extension;
     GuildCardSlot *card = TWindowSubComCard::find_card_by_id(entry->get_id());
     if (card == NULL) {
         strncpy(entry->name, entry->get_sub_disp_ptr(), 0x10);
@@ -186,17 +184,17 @@ void init_player_entry(GuildCardRecord *entry, TUserAns *response) {
     }
     entry->name[0x10] = 0;
     p = build_text_from_comma_list(response->location);
-    p = parse_csv_token(p, entry->s19);
-    p = parse_csv_token(p, entry->s2A);
-    p = parse_csv_token(p, entry->s2A);
-    parse_csv_token(p, entry->s3B);
+    p = parse_csv_token(p, entry->ship_name);
+    p = parse_csv_token(p, entry->block_name);
+    p = parse_csv_token(p, entry->block_name);
+    parse_csv_token(p, entry->team_name);
 }
 
 void remove_com_card_entry(s32 index) {
-    u8 *lobby;
+    GuildCardRecord *entry;
     if (index < 7) {
-        lobby = (u8 *)&com_card_entries[index];
-        move_words(reinterpret_cast<void *>(lobby), reinterpret_cast<const void *>(lobby + 0xBC), static_cast<u32>((7 - index) * 0xBC) >> 2);
+        entry = &com_card_entries[index];
+        move_words(entry, entry + 1, static_cast<u32>((7 - index) * sizeof(GuildCardRecord)) >> 2);
     }
     (com_card_entry_count) -= 1;
 }
@@ -234,11 +232,7 @@ void TLobby::reset_state() { TLobby::reset_com_card_list(); }
 void reset_com_card_list_callback(void) { TLobby::reset_com_card_list(); }
 
 
-extern "C" {
-GuildCardRecord *__ct__15GuildCardRecordFv(void *p);
-void *__construct_array(void *ptr, GuildCardRecord *(*ctor)(void *), void *dtor, u32 size, u32 n);
 static void __sinit_GuildCardRecord_cpp();
-}
 __declspec(section ".ctors") static void *const com_card_global_initializer = (void *)__sinit_GuildCardRecord_cpp;
 
 static void __sinit_GuildCardRecord_cpp() {

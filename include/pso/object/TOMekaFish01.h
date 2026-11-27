@@ -8,9 +8,9 @@ struct BmlResource;
 
 // A mechanical fish (second model). A TODragonfly with its own model.
 struct TOMekaFish01 : public TODragonfly {
-    TOMekaFish01(void *set_data);
+    TOMekaFish01(ObjectSetData *set_data);
     virtual ~TOMekaFish01();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_static_data();
     static void load_shared_resource();
 

@@ -32,7 +32,7 @@ TObjMotionAction moja_action_table[2] = {
 CollisionBody TObjNpcMoja::collision_body_parts = {{0.0f, 7.5f, 0.0f}, 7.0f, 0.0f, 0, 0x30203, {0.0f, 0.0f, 0.0f}, 0.0f};
 const char *TObjNpcMoja::name = "TObjNpcMoja";
 
-TObjNpcMoja::TObjNpcMoja(TObject *parent, void *set_data) : TObjNpcBase(parent) {
+TObjNpcMoja::TObjNpcMoja(TObject *parent, EnemyPlacement *set_data) : TObjNpcBase(parent) {
     m_name = name;
     apply_set_data(set_data);
     init_position_vectors();
@@ -50,7 +50,7 @@ TObjNpcMoja::TObjNpcMoja(TObject *parent, void *set_data) : TObjNpcBase(parent) 
 
 TObjNpcMoja::~TObjNpcMoja() {}
 
-void *TObjNpcMoja::create(void *set_data) {
+void *TObjNpcMoja::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcMoja(control, set_data);
 }
@@ -61,7 +61,7 @@ void TObjNpcMoja::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix_from(0);
         translate_matrix_vec3((u8 *)0, (u8 *)&position);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw();
         pop_matrix();
         model_render_flags &= ~1;

@@ -79,14 +79,14 @@ void TOMonitorMachine01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         n = model->child;
         push_matrix();
         translate_matrix(0, -slide, 0.0f, 0.0f);
         draw_ginja_model(n->model);
         pop_matrix();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         n = n->sibling;
         if (set_params[0] == 2) {
             push_matrix();
@@ -101,13 +101,13 @@ void TOMonitorMachine01::render() {
             draw_ginja_model(n->model);
             pop_matrix();
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         n = n->sibling;
         push_matrix();
         translate_matrix(0, slide, 0.0f, 0.0f);
         draw_ginja_model(n->model);
         pop_matrix();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         n = n->sibling;
         if (set_params[0] == 0) {
             push_matrix();
@@ -122,12 +122,12 @@ void TOMonitorMachine01::render() {
             draw_ginja_model(n->model);
             pop_matrix();
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
 
-void *TOMonitorMachine01::create(void *set_data) {
+void *TOMonitorMachine01::create(ObjectSetData *set_data) {
     return new TOMonitorMachine01(set_data);
 }
 
@@ -148,14 +148,14 @@ void TOMonitorMachine01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_monitor_resource_descriptor, 0, 0, NULL);
     monitor_machine01_bml_resource = resource;
     screen = ((NJS_OBJECT *)resource->models[0].model)->child->sibling->sibling;
-    monitor_machine01_scroll_meshes[1] = static_cast<GinjaModel *>(screen->model);
-    monitor_machine01_scroll_meshes[0] = static_cast<GinjaModel *>(screen->sibling->sibling->model);
+    monitor_machine01_scroll_meshes[1] = screen->ginja_model;
+    monitor_machine01_scroll_meshes[0] = screen->sibling->sibling->ginja_model;
     monitor_machine01_last_update_tick = 0;
 }
 
 TOMonitorMachine01::~TOMonitorMachine01() {}
 
-TOMonitorMachine01::TOMonitorMachine01(void *set_data) : TObjMapObject(tl_05) {
+TOMonitorMachine01::TOMonitorMachine01(ObjectSetData *set_data) : TObjMapObject(tl_05) {
     m_name = monitor_machine01_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(monitor_machine01_bml_resource, 0);

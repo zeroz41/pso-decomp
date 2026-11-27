@@ -5,7 +5,7 @@
 
 class TItemShootWindmill : public TItemShootModel {
 public:
-    TItemShootWindmill(void *owner, const Vec *pos, const Vec *dir, f32 life);
+    TItemShootWindmill(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life);
     virtual ~TItemShootWindmill();
     virtual void hook();
     virtual void render();

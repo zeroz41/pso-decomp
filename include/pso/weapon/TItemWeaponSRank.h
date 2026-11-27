@@ -9,7 +9,7 @@ public:
     TItemWeaponSRank(TObject *parent, u8 *item);
     static TItem *create(u8 *item);
     virtual ~TItemWeaponSRank();
-    void send_srank_stat_extra(uaddr, s32);
+    void send_srank_stat_extra(TObjChara *target, s32 body);
     void send_srank_stat_extra_to_locks();
     virtual void emit_marker_effects();
     virtual void on_equipped();

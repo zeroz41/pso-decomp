@@ -2,7 +2,8 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
+#include "pso/player/TPlyCharData.h"
 
 
 CharacterPreview::~CharacterPreview() {

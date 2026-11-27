@@ -4,7 +4,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/ChunkModelNodeCallback.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/system/task/TObject.h"
@@ -39,7 +39,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/math/ScratchVectors.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
@@ -106,7 +106,7 @@ CollisionBody illGillCollisionBody = {
 AttackParams *ill_gill_combat_parameter_variants[4] = {0, 0, 0, 0};
 const char *TObjEneIllGill_class_name = "TObjEneIllGill";
 const NpcAnimationBinding illGillAnimBinding = { NULL, illGillActions, 0, 1, 10 };
-const Vec lbl_8047A328 = {0.0f, 0.0f, 0.0f};
+const Vec ill_gill_target_zero_vec = {0.0f, 0.0f, 0.0f};
 const char *ill_gill_kage_class_name = "TObjIllGillKage";
 }
 
@@ -145,7 +145,7 @@ void TObjEneIllGill::free_effect() {
     illGillResource = NULL;
 }
 
-TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(parent) {
+TObjEneIllGill::TObjEneIllGill(TObject *parent, EnemyPlacement *setData) : TObjEnemy(parent) {
     m_name = TObjEneIllGill_class_name;
     this->set_param(0x52);
     this->apply_set_data(setData);
@@ -213,7 +213,7 @@ TObjEneIllGill::~TObjEneIllGill() {
     free_collision_body_parts(this);
 }
 
-void *TObjEneIllGill::create(void *setData) {
+void *TObjEneIllGill::create(EnemyPlacement *setData) {
     TObjControl *parent = new TObjControl(tl_04);
     return new TObjEneIllGill(parent, setData);
 }
@@ -272,11 +272,11 @@ void TObjEneIllGill::render() {
         set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         scale_matrix(0, this->scale.x, this->scale.y, this->scale.z);
         illGillModelNodeIndex = 0;
         set_chunk_model_node_callback(TObjEneIllGill::capture_effect_positions);
-        if (this->fadingIn != 0 && TObjPlayer::check_demo_mode() == 0) {
+        if (this->fadingIn != 0 && check_demo_mode() == 0) {
             if (fade.has_visible_opacity() != 0) {
                 saved_model_render_flags = model_render_flags;
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -307,7 +307,7 @@ void TObjEneIllGill::render() {
 void TObjEneIllGill::refresh_target() {
     u16 best;
     s32 i;
-    u8 *pl;
+    TObjPlayer *pl;
     u16 id;
     f32 bestDist;
     f32 d;
@@ -322,20 +322,20 @@ void TObjEneIllGill::refresh_target() {
         if (test_actor_flags(0x10) != 0) {
             i = 0;
             best = 0xFFFF;
-            Vec v = lbl_8047A328;
+            Vec v = ill_gill_target_zero_vec;
             bestDist = movementParameters->search_range * movementParameters->search_range;
             for (; i < registered_player_count + registered_enemy_count; i++) {
-                pl = (u8 *)TObjPlayer::get_player_data(i);
+                pl = TObjPlayer::get_player_data(i);
                 if (pl == NULL) break;
-                if (obj_is_hit_receivable(reinterpret_cast<TObjCollidable *>(pl)) == 0) continue;
-                id = reinterpret_cast<TObjBase *>(pl)->get_entity_id();
+                if (obj_is_hit_receivable(pl) == 0) continue;
+                id = pl->get_entity_id();
                 if (id >= 0x4000) continue;
                 if (id == entity_id) continue;
-                if (((TObjChara *)pl)->actorFlags & 0x02000800) continue;
-                VecCopy(&v, (const Vec *)(pl + offsetof(TObjChara, body_center)));
+                if (pl->actorFlags & 0x02000800) continue;
+                VecCopy(&v, &pl->body_center);
                 subtract_vector(&v, &body_center);
                 d = v.x * v.x + v.z * v.z;
-                if (d < bestDist && check_path_obstructed(this, &((TObjChara *)pl)->body_center) == 0) {
+                if (d < bestDist && check_path_obstructed(this, &pl->body_center) == 0) {
                     best = id;
                     bestDist = d;
                 }
@@ -455,7 +455,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
     if (this->project_step_to_ground(ang) == 1) {
         this->requested_action = 1;
         VecCopy((Vec *)&this->position, (const Vec *)&scratch_vec2);
-        this->rotation_y = approach_angle_limited(this->rotation_y, ang, this->movementParameters->turn_speed);
+        this->rotation.y = approach_angle_limited(this->rotation.y, ang, this->movementParameters->turn_speed);
     } else {
         if (fabs_float(scratch_vec.x) < fabs_float(scratch_vec.z)) {
             ang = (s32)(10430.38043493439 * atan2_float(scratch_vec.x, 0.0f));
@@ -465,7 +465,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
         if (this->project_step_to_ground(ang) == 1) {
             this->requested_action = 1;
             VecCopy((Vec *)&this->position, (const Vec *)&scratch_vec2);
-            this->rotation_y = approach_angle_limited(this->rotation_y, ang, this->movementParameters->turn_speed);
+            this->rotation.y = approach_angle_limited(this->rotation.y, ang, this->movementParameters->turn_speed);
         } else {
             if (fabs_float(scratch_vec.x) < fabs_float(scratch_vec.z)) {
                 ang = (s32)(10430.38043493439 * atan2_float(0.0f, scratch_vec.z));
@@ -475,14 +475,14 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
             if (this->project_step_to_ground(ang) == 1) {
                 this->requested_action = 1;
                 VecCopy((Vec *)&this->position, (const Vec *)&scratch_vec2);
-                this->rotation_y = approach_angle_limited(this->rotation_y, ang, this->movementParameters->turn_speed);
+                this->rotation.y = approach_angle_limited(this->rotation.y, ang, this->movementParameters->turn_speed);
             } else {
                 this->requested_action = 0;
             }
         }
     }
     this->enemy_turn_toward_dest(this->movementParameters->turn_speed);
-    enemy_set_heading_velocity(this->movementParameters->move_speed, this, this->rotation_y);
+    enemy_set_heading_velocity(this->movementParameters->move_speed, this, this->rotation.y);
     (*(&this->body_center)).y += 5.0f;
     move_with_wall_slide(this);
 }
@@ -542,7 +542,7 @@ void TObjEneIllGill::update_forward_movement() {
     v.x = 0.0f;
     v.z = 1.0f;
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     rotate_vector_by_matrix(0, &v, &v);
     pop_matrices(1);
     vec3_add_to(&v, &home_position);
@@ -589,7 +589,7 @@ void TObjEneIllGill::update_chase_target() {
             d = enemy_move_toward(this, id, target->body_center, 0, 0.125f * r);
             VecCopy(&dir, (const Vec *)((u8 *)&target->body_center));
             subtract_vector(&dir, &body_center);
-            a = angle_difference_abs(this->rotation_y,
+            a = angle_difference_abs(this->rotation.y,
                                      (s32)(10430.38043493439 * atan2_float(dir.x, dir.z)));
             if (a < this->attack_params->get_attack_angle()) {
                 this->phase = 2;
@@ -641,7 +641,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
             return 1;
         }
         dist = calc_xz_distance_sq(this, this->target, &v);
-        ang = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
+        ang = angle_difference_abs(this->rotation.y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
         pl = this->target;
         if (pl->bodies != NULL) {
             rad = pl->bodies->radius - 1.0;
@@ -1007,7 +1007,7 @@ void TObjEneIllGill::update_death_fall() {
       if (this->is_passing_frame((f32)(52.0f)) != 0)
     {
       play_sound_effect(0x4003A358, &position, 0, 0);
-      TDeadSpot::spawn_kind0_scale15(&position, 0xA);
+      spawn_dead_spot_kind0_scale15(&position, 0xA);
       create_particle_emitter_pair(&position);
       this->phase = 4;
       this->deathTimer = 0xA;
@@ -1099,7 +1099,7 @@ void TObjEneIllGill::update_shadow_attack() {
             this->actionTimer = 0;
             {
                 Vec d = *(Vec *)((u8 *)&target->body_center);
-                IllGillEffectRotation ang;
+                Angle3 ang;
                 subtract_vector(&d, &shadowEffectPosition);
                 ang.x = (s32)(10430.38043493439 * atan2_float(d.z, newton_sqrtf(d.x * d.x + d.y * d.y)));
                 ang.y = 0;
@@ -1118,7 +1118,7 @@ void TObjEneIllGill::update_shadow_attack() {
             Vec w;
             VecCopy(&w, (const Vec *)((u8 *)&target->body_center));
             subtract_vector(&w, &body_center);
-            a = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(w.x, w.z)));
+            a = angle_difference_abs(this->rotation.y, (s32)(10430.38043493439 * atan2_float(w.x, w.z)));
             if (a < ((AttackParams *)(ill_gill_combat_parameter_variants[2]))->get_attack_angle()) {
                 VecCopy(&w, (const Vec *)((u8 *)&target->position));
                 subtract_vector(&w, &shadowEffectPosition);
@@ -1319,7 +1319,7 @@ void TObjEneIllGill::update_charge_attack() {
                 spd *= 2.0f;
             }
             this->enemy_turn_toward_dest((s32)(4.5f * (f32)prm->turn_speed));
-            enemy_set_heading_velocity(spd, this, this->rotation_y);
+            enemy_set_heading_velocity(spd, this, this->rotation.y);
             move_with_wall_slide(this);
             d2 = horizontal_distance_squared(&this->move_destination, &this->body_center);
             t = spd + this->bodies->radius;

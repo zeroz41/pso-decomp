@@ -5,17 +5,15 @@
 #include "pso/system/NinjaTypes.h"
 // A scene model: a Ginja model followed by its bounding sphere.
 struct SceneModel {GinjaModel model;f32 center[3];f32 radius;};
-// The head of a scene record's Ninja object: its model, position and rotation.
-struct SceneMaterialNode {u32 flags;SceneModel* model;f32 position[3];s32 angles[3];};
 class TEffIndirect;
 class UvScrollBuffer;
 // The indirect-texture record of a flag-0x200 scene object: the model it draws and
 // the effect, sampler and scale of its indirect stage (from the material info file).
-struct SceneIndirectRecord {SceneMaterialNode* node;TEffIndirect* effect;u32 sampler;u16 material_id;u8 scale;u8 effect_id;};
+struct SceneIndirectRecord {NJS_OBJECT* node;TEffIndirect* effect;u32 sampler;u16 material_id;u8 scale;u8 effect_id;};
 struct SceneMaterialUv {u16 id,texture;f32 u,v,du,dv;UvScrollBuffer* buffer;};
 struct SceneMaterialCycle {u16 id,reserved,texture;s16 index;s32 timer;};
-struct SceneMaterialStatic {union {SceneMaterialNode* node;SceneIndirectRecord* indirect;};SceneMaterialUv* uv;SceneMaterialCycle* cycle;u32 flags;};
-struct SceneMaterialAnimated {union {SceneMaterialNode* node;SceneIndirectRecord* indirect;};NJS_MOTION* motion;u32 unknown;f32 frame,speed;SceneMaterialUv* uv;SceneMaterialCycle* cycle;u32 flags;};
+struct SceneMaterialStatic {union {NJS_OBJECT* node;SceneIndirectRecord* indirect;};SceneMaterialUv* uv;SceneMaterialCycle* cycle;u32 flags;};
+struct SceneMaterialAnimated {union {NJS_OBJECT* node;SceneIndirectRecord* indirect;};NJS_MOTION* motion;u32 unknown;f32 frame,speed;SceneMaterialUv* uv;SceneMaterialCycle* cycle;u32 flags;};
 struct SceneMaterialSection {s32 id;Vec position;s32 angles[3];f32 radius;SceneMaterialStatic* objects;SceneMaterialAnimated* animated;s32 count,animatedCount;u32 flags;};
 // texlist: the texture list the scene's model pass hands to set_texture_list.
 struct SceneMaterialRoot {u32 format,flags;s16 count,reserved;f32 radius;SceneMaterialSection* sections;NJS_TEXLIST* texlist;};

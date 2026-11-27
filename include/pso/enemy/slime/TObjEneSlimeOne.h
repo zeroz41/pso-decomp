@@ -12,8 +12,8 @@ struct BmlResource;
 class TParticleCtrl;
 
 struct TObjEneSlimeOne : public TObjEnemy {
-    TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set_data);
-    TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set_data, const Vec *velocity);
+    TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, EnemyPlacement *set_data);
+    TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, EnemyPlacement *set_data, const Vec *velocity);
     virtual ~TObjEneSlimeOne();
     void initialize_slime_instance_state();
     void render_trail();
@@ -59,8 +59,8 @@ struct TObjEneSlimeOne : public TObjEnemy {
     s32 project_to_ground();
     void clear_child_flag();
     void set_target_flag_bit0();
-    static TObjEneSlimeOne *create(TObjEneSlime *owner, void *set_data, const Vec *velocity);
-    static TObjEneSlimeOne *create(TObjEneSlime *owner, void *set_data);
+    static TObjEneSlimeOne *create(TObjEneSlime *owner, EnemyPlacement *set_data, const Vec *velocity);
+    static TObjEneSlimeOne *create(TObjEneSlime *owner, EnemyPlacement *set_data);
     void set_state(s32 new_state);
     void update_trail_position();
     // The {enter, update} pairs of the state table, by state: 0 init_state/update_wait_search,

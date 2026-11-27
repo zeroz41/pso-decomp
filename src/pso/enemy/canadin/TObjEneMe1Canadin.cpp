@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/AngleUnits.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/math/FloatRounding.h"
@@ -54,7 +53,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/DebugFont.h"
@@ -165,11 +164,11 @@ void TObjEneMe1Canadin::load_resources() {
     canadin_leader_breakup_model = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[1].model);
     canadin_breakup_model = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[0].model);
     model = bm_ene_me1_mb_resource->models[1].model;
-    canadin_leader_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model, 3)->model)->polygon_list + 2);
-    canadin_leader_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model, 2)->model)->polygon_list + 2);
+    canadin_leader_node3_diffuse = (s32 *)(find_model_node(model, 3)->chunk_model->polygon_list + 2);
+    canadin_leader_node2_diffuse = (s32 *)(find_model_node(model, 2)->chunk_model->polygon_list + 2);
     model2 = bm_ene_me1_mb_resource->models[0].model;
-    canadin_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model2, 3)->model)->polygon_list + 2);
-    canadin_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model2, 2)->model)->polygon_list + 2);
+    canadin_node3_diffuse = (s32 *)(find_model_node(model2, 3)->chunk_model->polygon_list + 2);
+    canadin_node2_diffuse = (s32 *)(find_model_node(model2, 2)->chunk_model->polygon_list + 2);
     init_alt_model();
     s16 ids[2] = { 0x17, 0x18 };
     NpcAnimationBinding params = { bm_ene_me1_mb_resource->motions, canadin_action_table, 0, 0, 7 };
@@ -178,7 +177,7 @@ void TObjEneMe1Canadin::load_resources() {
     }
 }
 
-void *TObjEneMe1Canadin::create(void *set_data) {
+void *TObjEneMe1Canadin::create(EnemyPlacement *set_data) {
     return new TObjEneMe1Canadin(tl_04, set_data, 0);
 }
 
@@ -202,7 +201,7 @@ void TObjEneMe1Canadin::free_resources() {
     }
 }
 
-TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, void *set_data, s32 kind) : TObjEneDD_ST(parent) {
+TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, EnemyPlacement *set_data, s32 kind) : TObjEneDD_ST(parent) {
     m_name = me1_canadin_class_name;
     invoke_initialization_hook(set_data);
     status_flags = 0;
@@ -220,7 +219,7 @@ TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, TObjEneMe1Canadin *leader,
     set_index = sub_id;
     this->leader->calc_move_vector(&position);
     VecCopy(&position, pos);
-    rotation_y = this->leader->rotation_y;
+    rotation.y = this->leader->rotation.y;
     status_flags = 0;
     this->kind = 1;
     setup_enemy();
@@ -308,7 +307,7 @@ TObjEneMe1Canadin::~TObjEneMe1Canadin() {
 }
 
 void TObjEneMe1Canadin::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -435,8 +434,8 @@ void TObjEneMe1Canadin::update_upper_hover_height() {
 }
 
 void TObjEneMe1Canadin::update_angle() {
-    rotation_y = approach_angle_limited(rotation_y, (s32) (RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z)), 0x400);
-    rotation_y = (s32) (s16) rotation_y;
+    rotation.y = approach_angle_limited(rotation.y, (s32) (RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z)), 0x400);
+    rotation.y = (s32) (s16) rotation.y;
 }
 
 void TObjEneMe1Canadin::update_move() {
@@ -1406,7 +1405,7 @@ void TObjEneMe1Canadin::state_orbit(s32 msg) {
                     c = normalize_vector_xz(&v);
                     this->move_to_wall_clamped_destination(v.x, v.z, c);
                 }
-                this->rotation_y = (s32)(RADIANS_TO_ANGLE * atan2_float(dir->x, dir->z)) + 0x8000;
+                this->rotation.y = (s32)(RADIANS_TO_ANGLE * atan2_float(dir->x, dir->z)) + 0x8000;
                 this->eff_light->push_history_entry(0.8f, this->node_points, this->core_color_packed);
                 break;
             }
@@ -1573,7 +1572,7 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
         this->update_velocity();
         this->approach_hover_y(this->position.y + this->hover_height);
         enemy_turn_and_move_xz_clamped(0x200, 0.68f);
-        this->rotation_z += 0x2000;
+        this->rotation.z += 0x2000;
         this->stage++;
         if (this->stage >= 0x96) {
             DragonAttackParams c = canadin_self_destruct_attack_params;
@@ -1592,7 +1591,7 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
         break;
     }
     case 5:
-        this->rotation_z = 0;
+        this->rotation.z = 0;
         break;
     }
 }
@@ -1678,8 +1677,8 @@ void TObjEneMe1Canadin::state_dead(s32 msg) {
             leader = (TObjEneMe1Canadin *)find_entity_by_id(leader_id);
             leader->remove_member(this);
         }
-        TBoss3Volopt::create_breakup_mdl(canadin_breakup_model, NULL,
-                           texlist, &body_center, rotation_y);
+        create_breakup_mdl(canadin_breakup_model, NULL,
+                           texlist, &body_center, rotation.y);
         status_flags |= 0x400000;
         VecCopy(&pos, &body_center);
         pos.y -= 5.0f;
@@ -1724,8 +1723,8 @@ void TObjEneMe1Canadin::state_move_forward(s32 msg) {
     case 4:
         requested_action = 0;
         hover_y = (f32) (position.y + hover_height);
-        work_speed = sin_table_lookup(rotation_y);
-        orbit_radius = cos_table_lookup(rotation_y);
+        work_speed = sin_table_lookup(rotation.y);
+        orbit_radius = cos_table_lookup(rotation.y);
         return;
     case 0:
         advance_animation();
@@ -1769,7 +1768,7 @@ void canadin_capture_node_points(NJS_OBJECT *) {
 void TObjEneMe1Canadin::render() {
     s32 detail;
     s32 draw_now;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         render_demo();
         return;
     }
@@ -1795,7 +1794,7 @@ void TObjEneMe1Canadin::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, hover_offset, 0.0f);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_now = 1;
         if ((mode == 1) || (mode == 0xB)) {
             fade.set_flags_and_apply_damage_color();
@@ -1817,7 +1816,7 @@ void TObjEneMe1Canadin::render() {
                 }
                 set_chunk_model_node_callback(NULL);
             } else {
-                rotate_matrix_z(NULL, rotation_z);
+                rotate_matrix_z(NULL, rotation.z);
                 me1_canadin_render_node_index = -1;
                 me1_canadin_render_point_cursor = node_points;
                 VecCopy(&node_points[3], &canadin_node3_axis);
@@ -1831,7 +1830,7 @@ void TObjEneMe1Canadin::render() {
             fade.clear_flag_and_notify();
         }
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         model_render_flags = saved_model_render_flags;
         update_primary_light();
         return;
@@ -1864,20 +1863,20 @@ void TObjEneMe1Canadin::render_demo() {
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         TObjEneDD::clear_global_flag_400();
         draw_chunk_object(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 #pragma pool_data reset
 
-void *TObjEneMe1CanadinLeader::create(void *set_data) {
+void *TObjEneMe1CanadinLeader::create(EnemyPlacement *set_data) {
     return new TObjEneMe1CanadinLeader(tl_04, set_data);
 }
 
-TObjEneMe1CanadinLeader::TObjEneMe1CanadinLeader(TObject *parent, void *set_data) : TObjEneMe1Canadin(parent, set_data, 2) {
+TObjEneMe1CanadinLeader::TObjEneMe1CanadinLeader(TObject *parent, EnemyPlacement *set_data) : TObjEneMe1Canadin(parent, set_data, 2) {
     s32 i;
 
     m_name = me1_canadin_leader_class_name;
@@ -1896,7 +1895,7 @@ TObjEneMe1CanadinLeader::~TObjEneMe1CanadinLeader() {
 }
 
 void TObjEneMe1CanadinLeader::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -1941,7 +1940,7 @@ void TObjEneMe1CanadinLeader::spawn_members() {
     if (n < 1) {
         n = 1;
     }
-    angle = rotation_y;
+    angle = rotation.y;
     id = (entity_id + 1) & 0xFFFF;
     sub = set_index + 1;
     for (i = 0; i < n; i++) {
@@ -2192,8 +2191,8 @@ void TObjEneMe1CanadinLeader::state_dead(s32 mode) {
     s32 i;
     switch (mode) {
     case 4:
-        TBoss3Volopt::create_breakup_mdl(canadin_leader_breakup_model, NULL,
-                           texlist, &body_center, rotation_y);
+        create_breakup_mdl(canadin_leader_breakup_model, NULL,
+                           texlist, &body_center, rotation.y);
         for (i = 0; i < member_count; i++) {
             members[i]->set_flag3c8_bit20();
         }

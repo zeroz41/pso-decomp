@@ -1,6 +1,5 @@
 #include "pso/enemy/BattleParameters.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6RockChase.h"
@@ -70,9 +69,9 @@ void TBoss6RockChase::damage_players_in_range() {
 void TBoss6RockChase::render() {
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
-    rotate_matrix_x(NULL, rotation_x);
-    rotate_matrix_z(NULL, rotation_z);
+    rotate_matrix_y(NULL, rotation.y);
+    rotate_matrix_x(NULL, rotation.x);
+    rotate_matrix_z(NULL, rotation.z);
     set_texture_list(textures);
     draw_ginja_object(model);
     pop_matrix();
@@ -88,7 +87,7 @@ void TBoss6RockChase::run_task() {
             this->delay = delay - 1;
             return;
         }
-        rotation_y = rotation_y + spin_speed;
+        rotation.y = rotation.y + spin_speed;
         fall_speed += -0.9375f;
         if (fall_speed < -11.25f) {
             fall_speed = -11.25f;
@@ -122,9 +121,9 @@ TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *position, s32 size_
     owner = parent;
     this->size_kind = size_kind;
     delay = (s32)(15.0f * (3.0517578e-05f * (f32)rand()));
-    rotation_x = (s32)(2048.0f * ((3.0517578e-05f * (f32)rand()) - 0.5f));
-    rotation_y = (s32)(65535.0f * (3.0517578e-05f * (f32)rand()));
-    rotation_z = (s32)(2048.0f * ((3.0517578e-05f * (f32)rand()) - 0.5f));
+    rotation.x = (s32)(2048.0f * ((3.0517578e-05f * (f32)rand()) - 0.5f));
+    rotation.y = (s32)(65535.0f * (3.0517578e-05f * (f32)rand()));
+    rotation.z = (s32)(2048.0f * ((3.0517578e-05f * (f32)rand()) - 0.5f));
     spin_speed = (s32)(8192.0f * ((3.0517578e-05f * (f32)rand()) - 0.5f));
     fall_speed = 0.0f;
     VecCopy(&this->position, position);

@@ -4,9 +4,9 @@
 #include "pso/object/trap/TOExplosiveMachine.h"
 
 struct TOExplosiveMachine02 : public TOExplosiveMachine {
-    TOExplosiveMachine02(void *set_data);
+    TOExplosiveMachine02(ObjectSetData *set_data);
     virtual ~TOExplosiveMachine02();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TOExplosiveMachine02_size, sizeof(TOExplosiveMachine02) == 0xAC);

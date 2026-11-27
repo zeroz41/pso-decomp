@@ -1,10 +1,10 @@
 #include "pso/system/TGStream.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/RlcArchive.h"
 #include "pso/system/ControllerInputState.h"
 #include "types.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSnapShot.h"
@@ -111,13 +111,13 @@ void TWindowSnapShot::run_task() {
 
 TWindowSnapShot::~TWindowSnapShot() {}
 TWindowSnapShot::TWindowSnapShot(const NJS_POINT2 *position) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)position) {
-    void *entry_1;
+    WindowTextEntry *entry_1;
     m_name = TWindowSnapShot::class_name;
     this->result_flags = 0U;
     if (!TObjBoss2Tunnel::verify_snapshot_checksum()) {
         this->result_flags = (u8) (this->result_flags | 2);
     }
-    entry_1 = this->get_array_entry(1);
+    entry_1 = static_cast<WindowTextEntry *>(this->get_array_entry(1));
     TWindowDuelResult::set_default_status(entry_1, get_localized_text_entry(0xF, 0x13));
 }
 

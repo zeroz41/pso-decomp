@@ -11,6 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma readonly_strings on
 
@@ -18,7 +19,7 @@ void TShopWindowBase::update_state() {  }
 
 
 f32 TShopWindowBase::get_scale() {
-    if ((TRaderMapCore::is_not_split_screen() == 1) && (TCameraCtrl::get_view_count() > 2)) {
+    if ((is_not_split_screen() == 1) && (TCameraCtrl::get_view_count() > 2)) {
         return 0.75f;
     }
     return 1.0f;

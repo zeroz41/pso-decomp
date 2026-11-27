@@ -30,7 +30,7 @@ BmlResource *butterfly_bml_resource;
 void TButterfly::draw_model() {
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     rotate_matrix_x(0, -0x2000);
     draw_ginja_model_with_motion(get_bml_model(butterfly_bml_resource, 0), get_bml_motion(butterfly_bml_resource, 0), this->motion_frame);
     pop_matrix();
@@ -108,7 +108,7 @@ void TButterfly::run_task() {
             dir.y = 0.0f;
             dir.z = 2.0f * (0.0015f * (3.0517578125e-05f * (f32)rand())) + 0.05f;
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(NULL, this->rotation_y);
+            rotate_matrix_y(NULL, this->rotation.y);
             rotate_vector_by_matrix(NULL, &dir, &out);
             pop_matrices(1);
             this->velocity.x = this->velocity.x + out.x;
@@ -122,9 +122,9 @@ void TButterfly::run_task() {
         break;
     case 2:
         if (this->turn_dir == 0) {
-            this->rotation_y = (f32)this->rotation_y + (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
+            this->rotation.y = (f32)this->rotation.y + (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
         } else {
-            this->rotation_y = (f32)this->rotation_y - (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
+            this->rotation.y = (f32)this->rotation.y - (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
         }
         if (this->alt_mode == 0) {
             Vec dir;
@@ -133,7 +133,7 @@ void TButterfly::run_task() {
             dir.y = 0.0f;
             dir.z = 2.0f * (0.025f * (3.0517578125e-05f * (f32)rand())) + 0.05f;
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(NULL, this->rotation_y);
+            rotate_matrix_y(NULL, this->rotation.y);
             rotate_vector_by_matrix(NULL, &dir, &out);
             pop_matrices(1);
             this->velocity.x = this->velocity.x + out.x;
@@ -200,14 +200,14 @@ TButterfly::~TButterfly() {
 TButterfly::TButterfly(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     this->m_name = butterfly_name;
     VecCopy(&this->position, &set_data->position);
-    copy_xyz(&this->rotation_x, set_data->rotation);
+    copy_xyz(&this->rotation, set_data->rotation);
     VecCopy(&this->scale, &set_data->scale);
     this->init_motion();
 }
 
 
-void *TButterfly::create(void *set_data) {
-    void *o = new TButterfly(tl_05, (ObjectSetData *)set_data);
+void *TButterfly::create(ObjectSetData *set_data) {
+    void *o = new TButterfly(tl_05, set_data);
     return o;
 }
 

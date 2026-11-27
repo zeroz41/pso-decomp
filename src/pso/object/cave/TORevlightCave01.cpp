@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/object/cave/TORevlightCave01.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
@@ -11,7 +11,6 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/system/NinjaTypes.h"
 #include "pso/math/MatrixReflect.h"
 
 const char *bm_fs_obj_yukakaiten01_model_names[] = {"fs_obj_yukakaiten01.gj", NULL};
@@ -25,7 +24,7 @@ BmlResource *revlight_cave01_bml_resource;
 void TORevlightCave01::update_demo() {}
 
 void TORevlightCave01::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         update_demo();
     }
     spin_angle += spin_speed;
@@ -35,21 +34,21 @@ void TORevlightCave01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_z(NULL, rotation_z);
-        rotate_matrix_x(NULL, rotation_x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_z(NULL, rotation.z);
+        rotate_matrix_x(NULL, rotation.x);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         draw_ginja_model(model->model);
         rotate_matrix_y(NULL, spin_angle);
         draw_ginja_model(model->child->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model(model->child->child->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
 
-void *TORevlightCave01::create(void *set_data) {
+void *TORevlightCave01::create(ObjectSetData *set_data) {
     return new TORevlightCave01(tl_05, set_data);
 }
 
@@ -67,7 +66,7 @@ void TORevlightCave01::load_shared_resource() {
 
 TORevlightCave01::~TORevlightCave01() {}
 
-TORevlightCave01::TORevlightCave01(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TORevlightCave01::TORevlightCave01(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = revlight_cave01_class_name;
     apply_object_set_data(set_data);
     model = revlight_cave01_bml_resource->models[0].model;
@@ -76,7 +75,7 @@ TORevlightCave01::TORevlightCave01(TObject *parent, void *set_data) : TObjMapObj
     animation_step = 0.8f;
     animation_end_frame = (f32)motion->nbFrame - 1.0f;
     view_range = 500.0f;
-    model_radius = ((NJS_CNK_MODEL *)model->model)->r;
+    model_radius = model->chunk_model->r;
     spin_angle = 0;
     spin_speed = (s32)(182.04445f * scale.x);
 }

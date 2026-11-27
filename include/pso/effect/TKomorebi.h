@@ -11,7 +11,7 @@ struct ObjectSetData;
 // additively, its UVs scrolled once per frame by scale.x.
 struct TKomorebi : public TObjBase {
     static const char *class_name;
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     TKomorebi(TObject *parent, ObjectSetData *set_data);
     virtual ~TKomorebi();
     virtual void render();

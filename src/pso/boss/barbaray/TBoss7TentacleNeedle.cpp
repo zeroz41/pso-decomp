@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/vector.h"
 #include "types.h"
@@ -26,7 +25,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/animation/ActorAnimationState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
@@ -337,7 +335,7 @@ void TBoss7Tentacle::run_task() {
                 timer = 0;
                 attack_phase = 2;
                 {
-                    TBoss7DeRolLeC *boss = TBoss7Joint::get_state();
+                    TBoss7DeRolLeC *boss = TBoss7DeRolLeC::get_instance();
                     if (boss != NULL) {
                         boss->emit_hit_effect(&p);
                     }
@@ -440,7 +438,7 @@ void TBoss7Tentacle::update_extend_amount() {
 
 void TBoss7Tentacle::render() {
     s32 i;
-    TObjPlayer::draw_effect();
+    TBoss7DeRolLeC::set_archive_textures();
     push_matrix();
     switch (state) {
     case 0:
@@ -503,7 +501,7 @@ void TBoss7TentacleNeedle::destroy_instance() {
 TBoss7TentacleNeedle::TBoss7TentacleNeedle(TObject *parent, Vec *pos) : TObject(parent) {
     s32 *pos_s32 = (s32 *)pos;
     m_name = boss7_tentacle_needle_name_ptr;
-    unk_34 = 1e-05f;
+    pad_34 = 1e-05f;
     rotation[0] = 0;
     rotation[1] = (s32)(65536.0f * (3.0517578e-05f * (f32)rand()));
     rotation[2] = 0;
@@ -520,7 +518,7 @@ TBoss7TentacleNeedle::TBoss7TentacleNeedle(TObject *parent, Vec *pos) : TObject(
     v[0] = w0;
     v[1] = w1;
     v[2] = w2;
-    particle_emitter = create_particle_emitter(v, 0x212);
+    particle_emitter = create_particle_emitter(reinterpret_cast<Vec *>(v), 0x212);
     for (s32 i = 0; i < 12; i++) {
         player_hit[i] = 0;
     }
@@ -554,7 +552,7 @@ void TBoss7TentacleNeedle::run_task() {
 }
 
 void TBoss7TentacleNeedle::render() {
-    TObjPlayer::draw_effect();
+    TBoss7DeRolLeC::set_archive_textures();
     set_motion_packed_rotation();
     push_matrix();
     post_translate_matrix(&position.x);

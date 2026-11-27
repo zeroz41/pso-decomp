@@ -1,6 +1,5 @@
 #include "pso/math/ClampedStep.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/DebugFont.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
@@ -13,7 +12,7 @@
 #include "pso/render/render_util.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/boss/goldragon/ChunkStripGrid.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill.h"
 #include "pso/boss/barbaray/TObjBoss7Dust.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixStack.h"
@@ -461,12 +460,12 @@ void TObjBoss7TunnelSegment::draw_tunnel_segment() {
         model_index = model_indices[model_count - 1];
         set_draw_list_mask(2);
         set_texture_list(boss7_common_texture_list);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrix));
         draw_ginja_object(boss7_common_bml_resource->models[model_index].model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         restore_draw_list_mask();
     }
 }

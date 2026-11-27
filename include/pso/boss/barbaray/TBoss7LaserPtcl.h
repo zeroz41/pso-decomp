@@ -7,10 +7,9 @@
 
 class TParticleCtrl;
 
-struct TBoss7LaserPtclVector { f32 x, y, z; };
 
 struct TBoss7LaserPtcl : public TObject {
-    TBoss7LaserPtcl(TObject *parent, TBoss7LaserPtclVector *origin, TBoss7LaserPtclVector *target);
+    TBoss7LaserPtcl(TObject *parent, Vec *origin, Vec *target);
     virtual ~TBoss7LaserPtcl();
     s32 state;
     Vec position;
@@ -35,7 +34,5 @@ struct TBoss7LaserPtcl : public TObject {
 void calc_laser_ray_hit_point(TBoss7LaserPtcl *laser, Vec *out);
 
 LAYOUT_ASSERT(TBoss7LaserPtcl_size, sizeof(TBoss7LaserPtcl) == 0x58);
-// An x/y/z angle triple.
-struct Boss7LaserAngles { s32 x, y, z; };
 
 #endif

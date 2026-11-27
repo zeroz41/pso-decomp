@@ -2,7 +2,7 @@
 #define PSO_ENEMY_DELDEPTH_TOBJENEDELDEPTH_H
 
 #include "types.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/enemy/TObjEnemy.h"
 
 struct BmlResource;
@@ -43,8 +43,8 @@ LAYOUT_ASSERT(DelDepthMotionTextureOffset, offsetof(DelDepthMotion, texture) == 
 LAYOUT_ASSERT(DelDepthMotionSecondTextureOffset, offsetof(DelDepthMotion, secondTexture) == 0x18);
 
 struct TObjEneDelDepth : public TObjEnemy {
-    TObjEneDelDepth(TObject *, void *);
-    static void *create(void *setData);
+    TObjEneDelDepth(TObject *, EnemyPlacement *);
+    static void *create(EnemyPlacement *setData);
     virtual ~TObjEneDelDepth();
     typedef void (TObjEneDelDepth::*Action)();
     struct ActionPair { Action enter; Action update; };

@@ -31,22 +31,22 @@ void TObjSuisouLobby::demo_step() {}
 
 void TObjSuisouLobby::render() {
     if (fade_state != 0 && texlist != NULL) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         if (fade_state != 3) {
             scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
         draw_ginja_object(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
 void TObjSuisouLobby::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         demo_step();
     }
     switch (fade_state) {
@@ -99,7 +99,7 @@ void TObjSuisouLobby::update_particle() {
 
 void TObjSuisouLobby::init_stub() {}
 
-void *TObjSuisouLobby::create(void *set_data) {
+void *TObjSuisouLobby::create(ObjectSetData *set_data) {
     return new TObjSuisouLobby(tl_05, set_data);
 }
 
@@ -126,7 +126,7 @@ TObjSuisouLobby::~TObjSuisouLobby() {
     }
 }
 
-TObjSuisouLobby::TObjSuisouLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjSuisouLobby::TObjSuisouLobby(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = obj_suisou_lobby_class_name;
     apply_object_set_data(set_data);
     {
@@ -134,7 +134,7 @@ TObjSuisouLobby::TObjSuisouLobby(TObject *parent, void *set_data) : TObjMapObjec
         push_matrix();
         set_matrix_identity(NULL);
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         matrix_mult_vec(NULL, &pos, &pos);
         emitter0 = create_particle_emitter(&pos, 0x222);
         pop_matrix();
@@ -147,7 +147,7 @@ TObjSuisouLobby::TObjSuisouLobby(TObject *parent, void *set_data) : TObjMapObjec
         push_matrix();
         set_matrix_identity(NULL);
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         matrix_mult_vec(NULL, &pos, &pos);
         emitter1 = create_particle_emitter(&pos, 0x222);
         pop_matrix();

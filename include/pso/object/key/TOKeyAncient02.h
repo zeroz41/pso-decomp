@@ -8,13 +8,13 @@
 // dome whose lamp pulses and spins, lit by o_key_ancient02.gvm once on.
 class TOKeyAncient02 : public TOKey {
 public:
-    TOKeyAncient02(TObject *parent, void *set_data);
+    TOKeyAncient02(TObject *parent, ObjectSetData *set_data);
     virtual ~TOKeyAncient02();
     virtual void render();
     virtual void update_switch_on();
     virtual void update_switch_off();
-    virtual void vfunc_25();
-    static void *create(void *set_data);
+    virtual void debug_draw_key_extra();
+    static void *create(ObjectSetData *set_data);
     static void free_static();
     static void load_resources();
 

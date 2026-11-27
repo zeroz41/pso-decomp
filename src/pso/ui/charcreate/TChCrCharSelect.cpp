@@ -4,7 +4,7 @@
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/CreationInput.h"
@@ -17,6 +17,7 @@
 #include "pso/ui/charcreate/TChCrTagInformation.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TMainTask.h"
 
 
 const char *TChCrCharSelect::name = "TChCrCharSelect";

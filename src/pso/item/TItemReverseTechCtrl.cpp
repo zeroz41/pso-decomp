@@ -63,8 +63,8 @@ s8 kousokukaiten_code_letters[16] = {
 };
 ReverseTechCode reverse_tech_codes[3] = {
     { uraending_code_letters, 9, activate_uraending_code },
-    { gyakukaiten_code_letters, 11, (void (*)(void))activate_reverse_rotation_code },
-    { kousokukaiten_code_letters, 13, (void (*)(void))activate_fast_rotation_code },
+    { gyakukaiten_code_letters, 11, activate_reverse_rotation_code },
+    { kousokukaiten_code_letters, 13, activate_fast_rotation_code },
 };
 
 TItemReverseTechCtrl *TItemReverseTechCtrl::create(TObject *parent) {

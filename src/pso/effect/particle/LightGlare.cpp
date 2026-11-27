@@ -12,7 +12,7 @@
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
@@ -35,7 +35,7 @@
 
 s32 light_glare_enabled = 1;
 
-TLightGlare::TLightGlare(void *set_data, TObject *parent) : TObjBase(parent) {
+TLightGlare::TLightGlare(ObjectSetData *set_data, TObject *parent) : TObjBase(parent) {
     apply_object_set_data(set_data);
     alpha = 225.0f;
     light_glare_enabled = 1;
@@ -107,7 +107,7 @@ void TLightGlare::render() {
         v = alpha - 3.0f;
         alpha = v < limit ? limit : (v < 255.0f ? v : 255.0f);
     }
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     if (facing > 0.0f) {
         project_world_to_screen(0, &position, screen_position);
         if (screen_position[0] > 650.0f) {
@@ -164,24 +164,24 @@ void TLightGlare::render() {
     set_constant_material_color(color.color);
     draw_textured_quad_at_depth(&quad.x0, 0.1f);
     end_screen_draw();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
-void *TLightGlare::create(void *set_data) {
+void *TLightGlare::create(ObjectSetData *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }
     return new TLightGlare(set_data, tl_particle);
 }
 
-void *TLightGlareSwitch::create(void *set_data) {
+void *TLightGlareSwitch::create(ObjectSetData *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }
     return new TLightGlareSwitch(set_data, tl_particle);
 }
 
-TLightGlareSwitch::TLightGlareSwitch(void *set_data, TObject *parent) : TObjBase(parent) {
+TLightGlareSwitch::TLightGlareSwitch(ObjectSetData *set_data, TObject *parent) : TObjBase(parent) {
     apply_object_set_data(set_data);
 }
 
@@ -201,7 +201,7 @@ void TLightGlareSwitch::run_task() {
 }
 
 void TLightGlareSwitch::render() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         NJS_ARGB color = { 0.5f, 0.0f, 1.0f, 1.0f };
         debug_draw_sphere(&position, &color, 40.0f);
     }

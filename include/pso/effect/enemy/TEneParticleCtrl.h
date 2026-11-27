@@ -11,7 +11,7 @@ class TObjChara;
 struct TEneParticleCtrl : public TObjCollidable {
     TEneParticleCtrl(TObjChara *owner, s32 effect_index);
     virtual ~TEneParticleCtrl();
-    virtual void *get_center();
+    virtual Vec *get_center();
     u16 owner_id;  // get_entity_id(owner) in the ctor
     u8 pad_ae[0x2];
     u32 effect;  // the effect index the particle control was spawned with
@@ -19,7 +19,7 @@ struct TEneParticleCtrl : public TObjCollidable {
     TParticleCtrl *particle;  // spawn_continuous_particle_effect_with_flags(&effect_pos, effect, 0x10)
     void set_param(s32 index);
     void free_particle_ctrl();
-    void *get_position_ptr();
+    Vec *get_position_ptr();
 
     static const char *class_name;
     static CollisionBody collision_body;  // the one body the constructor registers

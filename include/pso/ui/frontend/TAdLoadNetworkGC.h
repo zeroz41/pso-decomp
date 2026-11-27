@@ -9,7 +9,7 @@
 class TParticleCtrl;
 
 struct TAdLoadNetworkGC : public TObject {
-    static ParticleAngles object_offset_table[5];
+    static Angle3 object_offset_table[5];
     static const char *class_name;
     TAdLoadNetworkGC(TObject *parent, Vec *pos);
     virtual ~TAdLoadNetworkGC();

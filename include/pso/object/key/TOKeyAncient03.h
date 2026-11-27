@@ -12,7 +12,7 @@ struct NJS_TEXLIST;
 // in scale (y from 0 down to -0.7).
 class TOKeyAncient03 : public TOKey {
 public:
-    TOKeyAncient03(TObject *parent, void *set_data);
+    TOKeyAncient03(TObject *parent, ObjectSetData *set_data);
     virtual ~TOKeyAncient03();
     virtual void run_task();
     virtual void render();
@@ -21,9 +21,9 @@ public:
     virtual void update_switch_off();
     virtual void trigger_activate_sound();
     virtual void trigger_deactivate_sound();
-    virtual void vfunc_25();
+    virtual void debug_draw_key_extra();
     void send_switch_changed(s32 flags);
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void cleanup_refs();
     static void load_resources();
 

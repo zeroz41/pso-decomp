@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowStatus.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -104,8 +104,8 @@ void TWindowStatus::draw_background(WindowDrawContext *context) {
     f32 s;
 
     {
-        TWindowLayoutNumber *e = (TWindowLayoutNumber *)get_array_entry(0xE);
-        draw_photon_blast_gauge_ring(this, context, &pos, e->value, 26.0f);
+        TWindowLayoutNumber *charge = static_cast<TWindowLayoutNumber *>(get_array_entry(0xE));
+        draw_photon_blast_gauge_ring(this, context, &pos, charge->value, 26.0f);
     }
     begin_screen_draw(1);
     set_texture_list(hud_texlist);
@@ -167,13 +167,13 @@ TWindowStatus::~TWindowStatus() {
 
 
 
-TWindowStatus::TWindowStatus(void *position, s32 client, u8 *descriptor)
+TWindowStatus::TWindowStatus(const NJS_POINT2 *position, s32 client, u8 *descriptor)
     : TWindowSimpleStatus(position, client, descriptor) {
     m_name = TWindowStatus::class_name;
 }
 
 TWindowSimpleStatus *create_status_window(saddr client) {
-    void *position = (void *)get_window_layout_position(0x1C);
+    const NJS_POINT2 *position = get_window_layout_position(0x1C);
     if (is_split_screen() != 0) {
         return TWindowSimpleStatus::create(position, (s32)client);
     }

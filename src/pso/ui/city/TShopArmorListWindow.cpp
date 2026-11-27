@@ -150,7 +150,7 @@ void TShopArmorListWindow::refresh_item_list() {
     r = stock;
     for (j = 0; j < item_count; j++, r++) {
         if (r->data2.price != -1) {
-            r->data2.price = TItemData::calc_price_of(r);
+            r->data2.price = calc_price_of(r);
         }
     }
     if (item_list == NULL) {

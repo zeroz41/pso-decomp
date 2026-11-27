@@ -15,7 +15,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/vector.h"
@@ -30,9 +30,9 @@
 #include "pso/render/ProjectedStripDraw.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/MatrixStack.h"
@@ -155,14 +155,14 @@ TObjEneBalClawBody::~TObjEneBalClawBody() {
     }
 }
 
-void *TObjEneBalClawBody::create(void *set_data) {
+void *TObjEneBalClawBody::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    return new TObjEneBalClawBody(control, static_cast<EnemyPlacement *>(set_data));
+    return new TObjEneBalClawBody(control, set_data);
 }
 
 void TObjEneBalClawBody::run_task() {
     scroll_part_uvs();
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         load_params();
         run_demo_task();
         return;
@@ -472,7 +472,7 @@ void TObjEneBalClawBody::run_death_sequence() {
     case 4:
         this->advance_animation();
         if ((&this->fade)->decay_value_toward_floor() == 1) {
-            TDeadSpot::spawn_kind0_scale7_5(&this->position, 0);
+            spawn_dead_spot_kind0_scale7_5(&this->position, 0);
             this->send_entity_set_flags();
             this->queue_destruction();
         }
@@ -524,9 +524,9 @@ void TObjEneBalClawBody::update_attack() {
             if (this->target_distance_sq <= this->attack_params->get_attack_range() * this->attack_params->get_attack_range()) {
                 this->requested_action = 7;
                 this->state = 2;
-                this->effects[2] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->body_center, this->attack_effect_angle, 0x12B, 2);
+                this->effects[2] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->body_center, &this->attack_effect_angle, 0x12B, 2);
                 this->effects[2]->enable();
-                this->effects[3] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->body_center, this->attack_effect_angle, 0x12C, 2);
+                this->effects[3] = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->body_center, &this->attack_effect_angle, 0x12C, 2);
                 this->effects[3]->enable();
             }
         }
@@ -534,22 +534,22 @@ void TObjEneBalClawBody::update_attack() {
     case 2:
         push_matrix_from(identity_matrix);
         post_translate_matrix(&this->body_center.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         this->calc_joint_matrices(this->frame);
         pop_matrix();
         this->get_anim_node_position(8, &this->attack_effect_position);
-        this->attack_effect_angle[0] = 0;
-        this->attack_effect_angle[1] = this->rotation_y + 0x4000;
-        this->attack_effect_angle[2] = -0x4000;
+        this->attack_effect_angle.x = 0;
+        this->attack_effect_angle.y = this->rotation.y + 0x4000;
+        this->attack_effect_angle.z = -0x4000;
         if (this->frame >= 9.0f && this->frame < 17.0f) {
             this->effects[2]->set_position(&this->attack_effect_position);
-            this->effects[2]->set_direction(this->attack_effect_angle);
+            this->effects[2]->set_direction(&this->attack_effect_angle);
         } else {
             this->effects[2]->enable();
         }
         if (this->frame >= 12.0f && this->frame < 17.0f) {
             this->effects[3]->set_position(&this->attack_effect_position);
-            this->effects[3]->set_direction(this->attack_effect_angle);
+            this->effects[3]->set_direction(&this->attack_effect_angle);
         } else {
             this->effects[3]->enable();
         }
@@ -796,7 +796,7 @@ void TObjEneBalClawBody::set_form(s32 form) {
                 this->hp = this->hp / (n + 1);
                 for (j = 0; j < this->child_count; j++) {
                     if ((ent = get_enemy_entity(this->child_ids[j])) != NULL) {
-                        ((TObjPlayer *)ent)->set_hp_clamped(this->hp);
+                        ent->set_hp_clamped(this->hp);
                     }
                 }
             }
@@ -826,18 +826,18 @@ void TObjEneBalClawBody::render() {
             toggle_particle_effect();
             push_matrix();
             model_render_flags &= 0xFFFFFBFF;
-            if (TObjPlayer::check_demo_mode() == 1) {
+            if (check_demo_mode() == 1) {
                 show_claw_arms(4);
                 post_translate_matrix(&position.x);
-                rotate_matrix_x(0, rotation_x);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_x(0, rotation.x);
+                rotate_matrix_y(0, rotation.y);
                 draw_chunk_object(model);
             } else {
                 show_claw_arms(child_count);
                 translate_matrix(0, 0.0f, hover_height + wobble_offset, 0.0f);
                 post_translate_matrix(&position.x);
-                rotate_matrix_x(0, rotation_x);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_x(0, rotation.x);
+                rotate_matrix_y(0, rotation.y);
                 if (behavior_flags & 4) {
                     if ((&fade)->has_visible_opacity() != 0) {
                         (&fade)->set_flags_and_apply_damage_color();
@@ -864,7 +864,7 @@ void TObjEneBalClawBody::render() {
             }
             pop_matrix();
             restore_scene_lighting();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             model_render_flags = saved_model_render_flags;
             render_scaled(shadow);
         }
@@ -1022,7 +1022,7 @@ void TObjEneBalClawBody::calc_slot_offset_position(s32 slot, Vec *out, s32 *angl
     s32 angle;
     push_matrix();
     angle = (s32)(182.04445f * (f32)(slot * 0x5A + 0x2D));
-    *angle_out = this->rotation_y + angle;
+    *angle_out = this->rotation.y + angle;
     out->x = 0.0f;
     out->y = 0.0f;
     out->z = 13.0f;

@@ -7,7 +7,7 @@ class TWindowMenu;
 
 struct TObjMapWarp : public TObjWarpBase {
     static const char *class_name;
-    TObjMapWarp(TObject *parent, void *set_data);
+    TObjMapWarp(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjMapWarp();
     virtual void close_menu();
     virtual void draw_debug_destinations();

@@ -14,7 +14,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/container/TObjContainerJungEnemy.h"
 
-#include "pso/item/TUnk_804B97C0.h"
+#include "pso/object/container/TObjContainerIdoBase.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/object/container/TContainerAncient01R.h"
 #include "types.h"
@@ -41,6 +41,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 extern "C" {
@@ -95,7 +96,7 @@ void TObjContainerIdo::render() {
 
     if (update_object_view_visibility(4e+02f, 2e+02f) != 0) {
         fading = 0;
-        if (TRaderMapCore::is_not_split_screen() == 0) {
+        if (is_not_split_screen() == 0) {
             fading = fade.updateFromCamera(&position);
         }
         if (fading != 0) {
@@ -109,14 +110,14 @@ void TObjContainerIdo::render() {
         }
         push_matrix();
         post_translate_matrix(&home_position.x);
-        rotate_matrix_y(0, rotation_y);
-        rotate_matrix_x(0, rotation_x);
+        rotate_matrix_y(0, rotation.y);
+        rotate_matrix_x(0, rotation.x);
         draw_ginja_object(get_bml_model(container_ido_model_archive, 0));
         pop_matrix();
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
-        rotate_matrix_x(0, rotation_x);
+        rotate_matrix_y(0, rotation.y);
+        rotate_matrix_x(0, rotation.x);
         draw_ginja_object(get_bml_model(container_ido_model_archive, 1));
         pop_matrix();
         if (fading != 0) {
@@ -158,8 +159,8 @@ void TObjContainerIdo::run_task() {
             Vec v = { 0.0f, 0.0f, 0.0f };
             v.z = -speed;
             push_matrix_from(&identity_matrix);
-            rotate_matrix_y(0, rotation_y);
-            rotate_matrix_x(0, rotation_x);
+            rotate_matrix_y(0, rotation.y);
+            rotate_matrix_x(0, rotation.x);
             rotate_vector_by_matrix(0, &v, &v);
             pop_matrix();
             position.x -= v.x;
@@ -176,8 +177,8 @@ void TObjContainerIdo::run_task() {
             Vec w = { 0.0f, 0.0f, 0.0f };
             w.z = -speed;
             push_matrix_from(&identity_matrix);
-            rotate_matrix_y(0, rotation_y);
-            rotate_matrix_x(0, rotation_x);
+            rotate_matrix_y(0, rotation.y);
+            rotate_matrix_x(0, rotation.x);
             rotate_vector_by_matrix(0, &w, &w);
             pop_matrix();
             position.x += w.x;
@@ -203,8 +204,8 @@ void TObjContainerIdo::run_task() {
             b.z = 3e+01f * (3.0517578e-05f * (f32)rand()) - 15.0f;
             push_matrix_from(&identity_matrix);
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
-            rotate_matrix_x(0, rotation_x);
+            rotate_matrix_y(0, rotation.y);
+            rotate_matrix_x(0, rotation.x);
             matrix_mult_vec(0, &a, &out);
             spawn_particle_effect(&out, 0x42);
             matrix_mult_vec(0, &b, &out);
@@ -216,7 +217,7 @@ void TObjContainerIdo::run_task() {
 }
 #pragma pop
 
-void *TObjContainerIdo::create(void *set) {
+void *TObjContainerIdo::create(ObjectSetData *set) {
     return new TObjContainerIdo(tl_05, set);
 }
 
@@ -243,7 +244,7 @@ TObjContainerIdo::~TObjContainerIdo() {
     free_collision_body_parts(this);
 }
 
-TObjContainerIdo::TObjContainerIdo(TObject *parent, void *set) : TUnk_804B97C0(parent) {
+TObjContainerIdo::TObjContainerIdo(TObject *parent, ObjectSetData *set) : TObjContainerIdoBase(parent) {
     s32 i;
     m_name = obj_container_ido_class_name;
     apply_object_set_data(set);

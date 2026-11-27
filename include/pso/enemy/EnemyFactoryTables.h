@@ -3,12 +3,13 @@
 #include "types.h"
 
 struct EnemySetRecord;
+struct EnemyPlacement;
 
-typedef void* (*EnemyFactoryFunction)(void* placement);
+typedef void *(*EnemyFactoryFunction)(EnemyPlacement *placement);
 struct EnemyFactoryEntry {
     s16 type;
     EnemyFactoryFunction create;
-    f32 field_08;
+    f32 creation_distance_squared;
     s32 child_count;
 };
 

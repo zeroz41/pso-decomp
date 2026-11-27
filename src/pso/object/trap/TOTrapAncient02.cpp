@@ -48,6 +48,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 
 const char *bm_fs_obj_o_torabasami_motion_names[] = {NULL};
@@ -131,7 +132,7 @@ void TOTrapAncient02R::submit_cursor_and_notify() {
     find_target_player();
 }
 
-TOTrapAncient02::TOTrapAncient02(TObject *parent, void *set_data) : TOTrap(parent) {
+TOTrapAncient02::TOTrapAncient02(TObject *parent, ObjectSetData *set_data) : TOTrap(parent) {
     m_name = trap_ancient02_name;
     apply_object_set_data(set_data);
     init_position_vectors();
@@ -155,7 +156,7 @@ TOTrapAncient02::TOTrapAncient02(TObject *parent, void *set_data) : TOTrap(paren
     h348 = 0.0f;
     h344 = 0.0f;
     spin_angle = 0;
-    if (rotation_z > 0) {
+    if (rotation.z > 0) {
         particle_tev = 1;
     } else {
         particle_tev = 0;
@@ -175,7 +176,7 @@ void TOTrapAncient02::load_resources() {
     case AREA_VR_TEMPLE_BETA:
         resource = new BmlResource(1, &records[1].descriptor, 0, 0, NULL);
         trap_ancient02_shared_resource = resource;
-        uv_scroll_model = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
+        uv_scroll_model = find_object_node(get_bml_model(resource, 0), 2)->ginja_model;
         uv_scroll_mesh_index = 2;
         uv_scroll_last_tick = 0;
         break;
@@ -190,14 +191,14 @@ void TOTrapAncient02::load_resources() {
     case AREA_TOWER:
         resource = new BmlResource(1, &records[2].descriptor, 0, 0, NULL);
         trap_ancient02_shared_resource = resource;
-        uv_scroll_model = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
+        uv_scroll_model = find_object_node(get_bml_model(resource, 0), 2)->ginja_model;
         uv_scroll_mesh_index = 1;
         uv_scroll_last_tick = 0;
         break;
     default:
         resource = new BmlResource(1, &records[0].descriptor, 0, 0, NULL);
         trap_ancient02_shared_resource = resource;
-        uv_scroll_model = static_cast<GinjaModel *>(resource->models->model->child->child->model);
+        uv_scroll_model = resource->models->model->child->child->ginja_model;
         uv_scroll_mesh_index = 1;
         uv_scroll_last_tick = 0;
         break;
@@ -211,7 +212,7 @@ void TOTrapAncient02::destroy_instance() {
     }
 }
 
-void *TOTrapAncient02::create(void *set_data) {
+void *TOTrapAncient02::create(ObjectSetData *set_data) {
     return new TOTrapAncient02(tl_05, set_data);
 }
 
@@ -235,7 +236,7 @@ void TOTrapAncient02::draw_effect_chain() {
     push_matrix();
     set_texture_list(texlist);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     n = model;
     translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
     draw_ginja_model(n->model);
@@ -243,7 +244,7 @@ void TOTrapAncient02::draw_effect_chain() {
     n = n->child;
     translate_matrix(0, n->pos[0], n->pos[1] + h348, n->pos[2]);
     draw_ginja_model(n->model);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     n = n->child;
     post_translate_matrix(n->pos);
@@ -255,7 +256,7 @@ void TOTrapAncient02::draw_effect_chain() {
     rotate_matrix_y(0, spin_angle);
     draw_ginja_model(n->model);
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
     pop_matrix();
 }
@@ -264,7 +265,7 @@ void TOTrapAncient02::render_particle_chain() {
     NJS_OBJECT *n;
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     n = model;
     translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
     setup_particle_tev(0);
@@ -280,7 +281,7 @@ void TOTrapAncient02::render_particle_chain() {
     load_projection_tex_matrix(0x38E);
     draw_ginja_model(n->model);
     reset_particle_tev();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     n = n->child;
     post_translate_matrix(n->pos);
@@ -300,7 +301,7 @@ void TOTrapAncient02::render_particle_chain() {
     draw_ginja_model(n->model);
     reset_particle_tev();
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
     pop_matrix();
 }
@@ -486,7 +487,7 @@ void TOTrapAncient02::run_demo() {}
 
 void TOTrapAncient02::draw_debug_home_marker() {}
 
-TOTrapAncient02R::TOTrapAncient02R(TObject *parent, void *set_data) : TOTrapAncient02(parent, set_data) {
+TOTrapAncient02R::TOTrapAncient02R(TObject *parent, ObjectSetData *set_data) : TOTrapAncient02(parent, set_data) {
     m_name = trap_ancient02_r_name;
     apply_object_set_data(set_data);
     init_position_vectors();
@@ -511,7 +512,7 @@ TOTrapAncient02R::TOTrapAncient02R(TObject *parent, void *set_data) : TOTrapAnci
     h348 = 0.0f;
     h344 = 0.0f;
     spin_angle = 0;
-    if (rotation_z > 0) {
+    if (rotation.z > 0) {
         particle_tev = 1;
     } else {
         particle_tev = 0;
@@ -520,12 +521,12 @@ TOTrapAncient02R::TOTrapAncient02R(TObject *parent, void *set_data) : TOTrapAnci
 
 TOTrapAncient02R::~TOTrapAncient02R() {}
 
-void *TOTrapAncient02R::create(void *set_data) {
+void *TOTrapAncient02R::create(ObjectSetData *set_data) {
     return new TOTrapAncient02R(tl_05, set_data);
 }
 
 f32 TOTrapAncient02R::receive_physical_attack(TObjChara *, f32) {
-    s16 state;
+    QuestObjectEntry state;
     if (entity_id >= 0x4000 && set_entry != NULL) {
         Vec v = position;
         v.y += h344 + h348;
@@ -535,7 +536,7 @@ f32 TOTrapAncient02R::receive_physical_attack(TObjChara *, f32) {
             hits = 0;
             if (access_object_saved_state(&state, 1) != 0) {
                 mode = 4;
-                state = mode;
+                state.flags = mode;
                 send_object_state_update(&state);
                 access_object_saved_state(&state, 0);
                 apply_saved_state(&state, 1);
@@ -608,7 +609,7 @@ void TOTrapAncient02R::update_springing() {
                         scratch_vec2.x = scratch_vec2.y = 0.0f;
                         scratch_vec2.z = 1.0f;
                         push_matrix_from(identity_matrix);
-                        rotate_matrix_y(0, rotation_y);
+                        rotate_matrix_y(0, rotation.y);
                         rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
                         pop_matrix();
                     }

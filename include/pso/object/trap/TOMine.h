@@ -6,6 +6,8 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/NinjaTypes.h"
 
+struct QuestObjectEntry;
+
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
@@ -23,7 +25,7 @@ struct TOMine : public TObjChara {
     void update_trigger();
     void play_trigger_effects();
     void update_state();
-    s32 is_target_in_list(TObjBase *);
+    s32 is_target_in_list(TObjBase *obj);
     virtual void vfunc_79();
     virtual void play_trigger_sound();
     virtual void play_effect_sound();
@@ -33,12 +35,12 @@ struct TOMine : public TObjChara {
     virtual void vfunc_85();
     virtual void set_armed();
     virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual f32 receive_physical_attack(TObjChara *, f32);
     virtual s32 select_melee_contact_body(TObjChara *, f32);
     virtual int calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float);
     virtual const char *get_name();
-    virtual void apply_object_set_data(void *);
+    virtual void apply_object_set_data(ObjectSetData *set_data);
     virtual void apply_knockback_from_attacker(TObjBase *, f32);
     virtual s32 try_start_action(TObjChara *, s32, f32);
     virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);

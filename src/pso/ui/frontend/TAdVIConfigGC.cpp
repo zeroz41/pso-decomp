@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
@@ -26,22 +25,24 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/NinjaUtil.h"
+#include "pso/player/PlayerCommands.h"
 
-struct PlayerNameText { char s[0x18]; };
+// The entity id of the first player whose bit is clear in confirmed_mask & in_range_mask, or 0.
+s32 WarpPartyCheck::find_active_player() {
+    u32 present_mask;
+    s32 client;
+    TObjPlayer *player;
 
-// The block init() fills: who of the party stands within radius of a spot (warps; the
-// name WarpPartyCheck is inferred).
-struct WarpPartyCheck {
-    f32 radius_sq;
-    s32 member_count;      // TLobby::count_members() when the window was last built
-    Vec center;
-    s32 all_in_range;
-    s32 any_in_range;
-    s32 confirmed_mask;    // in_range_mask of the last pass that left someone out
-    s32 in_range_mask;     // bit per client
-    TWindowCheckBox *win;  // the player-name check boxes
-    PlayerNameText names[4];
-};
+    if (all_in_range != 0) {
+        present_mask = confirmed_mask & in_range_mask;
+        for (client = 0; client < 4; client++) {
+            if (!((present_mask >> client) & 1) && (player = get_player_by_client_id(client)) != NULL) {
+                return player->get_entity_id();
+            }
+        }
+    }
+    return (u16)0;
+}
 
 // Ticks the names of the players on this floor within the radius init() set (in the
 // window open_player_names_window made) and records which of them are in range.
@@ -86,87 +87,73 @@ void update_players_in_range(WarpPartyCheck *check) {
 
 s32 logo_clear_flag = 1;
 const char *TAdVIConfigGC::class_name = "TAdVIConfigGC";
-extern "C" {
 __declspec(section ".data") NJS_POINT2 player_names_window_pos = {229.0f, 104.0f};
 
-void TAdVIConfigGC::open_player_names_window() {
+void WarpPartyCheck::open_player_names_window() {
     s32 i;
     TObjPlayer *p;
-    if (((WarpPartyCheck *)this)->win != 0) {
-        ((TWindowBase *)(((WarpPartyCheck *)this)->win))->close();
-        ((WarpPartyCheck *)this)->win = 0;
+    if (win != 0) {
+        win->close();
+        win = 0;
     }
-    ((WarpPartyCheck *)this)->win = create_check_box_window_on_layer(get_window_layout_position(0x5A), &player_names_window_pos, (s32)local_client_id);
-    if (((WarpPartyCheck *)this)->win != 0) {
-        ((WarpPartyCheck *)this)->win->disable_input();
-        ((WarpPartyCheck *)this)->win->set_close_flag();
+    win = create_check_box_window_on_layer(get_window_layout_position(0x5A), &player_names_window_pos, (s32)local_client_id);
+    if (win != 0) {
+        win->disable_input();
+        win->set_close_flag();
         for (i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
             if (p != NULL) {
-                strncpy(((WarpPartyCheck *)this)->names[i].s, p->appearance.name, 0x17);
-                ((WarpPartyCheck *)this)->names[i].s[0x17] = 0;
-                ((WarpPartyCheck *)this)->win->dispatch_without_flags((((WarpPartyCheck *)this)->names[i].s), i);
+                strncpy(names[i], p->appearance.name, 0x17);
+                names[i][0x17] = 0;
+                win->dispatch_without_flags(names[i], i);
             } else {
-                ((WarpPartyCheck *)this)->names[i].s[0] = 0;
-                ((WarpPartyCheck *)this)->win->dispatch_without_flags((((WarpPartyCheck *)this)->names[i].s), i);
+                names[i][0] = 0;
+                win->dispatch_without_flags(names[i], i);
             }
         }
     }
 }
 
-s32 TAdVIConfigGC::get_field_14() { return *(s32 *)&this->m_down; }
+s32 WarpPartyCheck::get_all_in_range() { return all_in_range; }
 
-void TAdVIConfigGC::update_visibility() {
-    s32 flags;
-    u8 *quest_vm_down_load_server;
-    flags = TLobby::count_members();
-    if ((s32) *(s32 *)&this->m_flags != flags) {
-        *(s32 *)&this->m_flags = flags;
+void WarpPartyCheck::update_visibility() {
+    s32 count;
+    count = count_members();
+    if (member_count != count) {
+        member_count = count;
         open_player_names_window();
     }
-    update_players_in_range((WarpPartyCheck *)this);
-    quest_vm_down_load_server = (u8 *)(*(u8 * *)&this->exit_state);
-    if (quest_vm_down_load_server != NULL) {
-        if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x18) != 0) {
-            ((TObject *)quest_vm_down_load_server)->clear_update_suspension();
-            ((TObject *)(*(u8 * *)&this->exit_state))->allow_rendering();
+    update_players_in_range(this);
+    if (win != NULL) {
+        if (any_in_range != 0) {
+            win->clear_update_suspension();
+            win->allow_rendering();
             return;
         }
-        ((TObject *)quest_vm_down_load_server)->suspend_update();
-        ((TObject *)(*(u8 * *)&this->exit_state))->disallow_rendering();
+        win->suspend_update();
+        win->disallow_rendering();
     }
 }
 
-void *destroy__13TAdVIConfigGCFPvs(void *config, s16 delete_flag) {
-    if (config != NULL) {
-        if ((u32) *(u32 *)((s8 *)config + 0x24) != 0U) {
-            ((TObject *)(*(void **)((s8 *)config + 0x24)))->clear_update_suspension();
-            ((TObject *)((void *)(*(uaddr *)((s8 *)config + 0x24))))->allow_rendering();
-            ((TWindowBase *)(*(uaddr *)((s8 *)config + 0x24)))->close();
-            *(u32 *)((s8 *)config + 0x24) = 0U;
-        }
-        if (delete_flag > 0) {
-            ::operator delete(config);
-        }
+WarpPartyCheck::~WarpPartyCheck() {
+    if (win != NULL) {
+        win->clear_update_suspension();
+        win->allow_rendering();
+        win->close();
+        win = NULL;
     }
-    return config;
 }
 
-extern "C" {
-
-TAdVIConfigGC *TAdVIConfigGC::init(const Vec *position, f32 radius) {
-    VecCopy((Vec *)&this->m_prev, position);
-    *(f32 *)&this->m_name = (f32) (radius * radius);
-    this->exit_state = 0;
-    memset((u8 *)&this->state_frames, 0, 0x60);
-    *(s32 *)&this->m_flags = TLobby::count_members();
-    this->m_down = 0;
-    *(s32 *)((s8 *)this + 0x18) = 0;
+WarpPartyCheck::WarpPartyCheck(const Vec *position, f32 radius) {
+    VecCopy(&center, position);
+    radius_sq = radius * radius;
+    win = NULL;
+    memset(names, 0, sizeof(names));
+    member_count = count_members();
+    all_in_range = 0;
+    any_in_range = 0;
     open_player_names_window();
-    this->state = 0;
-    return this;
-}
-
+    confirmed_mask = 0;
 }
 
 void TAdVIConfigGC::render() {
@@ -219,7 +206,6 @@ TAdVIConfigGC::TAdVIConfigGC(TObject *parent) : TAdYesNoBaseGC(parent) {
     answered = 0;
 }
 
-}
 
 // Sits between the TAdVIConfigGC constructor and the TAdYesNoBaseGC::on_yes_chosen/9 copies that end this unit.
 s32 TLogo::check_progressive_ready() {

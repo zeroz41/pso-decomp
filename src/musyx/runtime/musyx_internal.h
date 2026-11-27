@@ -9,6 +9,9 @@
 extern "C" {
 #endif
 
+extern u8 dspSlave[];
+extern u16 dspSlaveLength;
+
 struct SoundReverb;
 void ReverbHICallback(void *left, void *right, void *surround, SoundReverb *rv);
 
@@ -595,7 +598,7 @@ s32 dataInsertFX(u16 gid, FX_TAB *fx, u16 fxNum);
 s32 dataRemoveFX(u16 gid);
 s32 dataInsertMacro(u16 mid, void *macroaddr);
 s32 dataRemoveMacro(u16 mid);
-uaddr dataGetMacro(u16 mid);
+SynthMacroStep *dataGetMacro(u16 mid);
 s32 dataGetSample(s16 sid, SAMPLE_INFO *newsmp);
 saddr dataGetCurve(s16 cid);
 SynthKeymap *dataGetKeymap(u16 cid);

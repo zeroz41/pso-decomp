@@ -14,11 +14,11 @@ struct TWindowLoadItemTexture : public TWindowBase {
     static WindowDescriptor window_descriptor;
     static LoadItemTextureWindowLayout layout_entries;
     static const char *class_name;
-    TWindowLoadItemTexture(void *position, f32 *extent, s32 client);
+    TWindowLoadItemTexture(const NJS_POINT2 *position, f32 *extent, s32 client);
     virtual ~TWindowLoadItemTexture();
     virtual void render();
     virtual void run_task();
-    static TWindowLoadItemTexture *create(void *position, s32 client);
+    static TWindowLoadItemTexture *create(const NJS_POINT2 *position, s32 client);
     void set_mag_slot_state(TItemData *item);
 
     u8 load_state;   // 1 while the icon texture is loading (render binds it once ready), else 2
@@ -34,7 +34,7 @@ LAYOUT_ASSERT(TWindowLoadItemTexture_scale_offset, offsetof(TWindowLoadItemTextu
 LAYOUT_ASSERT(TWindowLoadItemTexture_loader_offset, offsetof(TWindowLoadItemTexture, texture_loader) == 0x6C);
 LAYOUT_ASSERT(TWindowLoadItemTexture_list_offset, offsetof(TWindowLoadItemTexture, texture_list) == 0x70);
 
-TWindowLoadItemTexture *create_load_item_texture_window(void *position, const f32 *extent, s32 client);
+TWindowLoadItemTexture *create_load_item_texture_window(const NJS_POINT2 *position, const f32 *extent, s32 client);
 void bind_item_texture(TWindowLoadItemTexture *window);
 void enable_item_texture_frame(TWindowLoadItemTexture *window);
 

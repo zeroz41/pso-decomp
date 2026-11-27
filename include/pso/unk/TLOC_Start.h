@@ -1,7 +1,7 @@
 #ifndef PSO_UNK_TLOC_START_H
 #define PSO_UNK_TLOC_START_H
 #include "types.h"
-#include "pso/unk/LockOnTask.h"
+#include "pso/ui/hud/LockOnTask.h"
 
 class TLOC_Start : public LockOnTask {
 public:

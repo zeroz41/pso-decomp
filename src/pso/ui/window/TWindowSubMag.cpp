@@ -2,7 +2,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowLoadItemTexture.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/MagStats.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -88,7 +87,7 @@ TWindowSubMag::TWindowSubMag(TWindowMainMenu *parent, s32 client) : TObject(pare
     m_name = class_name;
     this->parent = parent;
     client_id = client;
-    list = (TWindowMenuIconLine *)setup_list();
+    list = setup_list();
     help = NULL;
     slotwin = NULL;
     card = NULL;
@@ -152,7 +151,7 @@ void TWindowSubMag::run_task() {
             help->set_depth(get_main_menu_layer_depth((u8 *)parent, 5));
         }
         if (slotwin == NULL) {
-            slotwin = create_load_item_texture_window((void *)get_window_layout_position(0xC), mag_texture_window_extent, client_id);
+            slotwin = create_load_item_texture_window(get_window_layout_position(0xC), mag_texture_window_extent, client_id);
         }
         help->unlock_page_flip();
         list->refresh_mag_item_list(2);
@@ -211,7 +210,7 @@ void TWindowSubMag::run_task() {
         help->update_help_item(1);
         help->lock_page_flip();
         if (list2 == NULL) {
-            list2 = (TWindowMenuIconLine *)create_list();
+            list2 = create_list();
         }
         list2->clear_decided();
         state = 6;
@@ -229,7 +228,7 @@ void TWindowSubMag::run_task() {
             state = 5;
         } else if (TWindowSubItem::is_usable(player) != 0) {
             slots = count_slots();
-            TWindowSubMag::feed_mag(player, (void*)(list->get_cursor_value()), (void*)(list2->get_cursor_value()));
+            TWindowSubMag::feed_mag(player, list->get_cursor_value(), list2->get_cursor_value());
             state = 8;
         }
         break;
@@ -317,7 +316,7 @@ void TWindowSubMag::run_task() {
 
 void TWindowSubMag::render() {  }
 
-saddr TWindowSubMag::setup_list() {
+TWindowSubEquipKind *TWindowSubMag::setup_list() {
     TWindowSubEquipKind *equip_kind_window;
     const NJS_POINT2 *window_layout_position;
 
@@ -327,10 +326,10 @@ saddr TWindowSubMag::setup_list() {
     equip_kind_window->set_depth(get_main_menu_layer_depth((u8 *)parent, 0));
     equip_kind_window->set_flag70_bit10();
     equip_kind_window->refresh_mag_item_list(2);
-    return reinterpret_cast<saddr>(equip_kind_window);
+    return equip_kind_window;
 }
 
-saddr TWindowSubMag::create_list() {
+TWindowSubEquipKind *TWindowSubMag::create_list() {
     TWindowSubEquipKind *equip_kind_window;
 
     const NJS_POINT2 *window_layout_position = get_window_layout_position(0xD);
@@ -339,7 +338,7 @@ saddr TWindowSubMag::create_list() {
     equip_kind_window->set_depth(get_main_menu_layer_depth((u8 *)parent, 2));
     equip_kind_window->set_flag70_bit10();
     equip_kind_window->refresh_usable_item_list();
-    return reinterpret_cast<saddr>(equip_kind_window);
+    return equip_kind_window;
 }
 extern "C" {
 
@@ -444,13 +443,11 @@ s32 TWindowSubMag::count_slots() {
 
     stats.init();
     mag->deserialize_mag(&stats);
-    slot = 0;
-    do {
+    for (slot = 0; slot < 3; slot++) {
         if (stats.get_photon_blast(slot) == -1) {
             return slot;
         }
-        slot += 1;
-    } while (slot < 3);
+    }
     return slot;
 }
 

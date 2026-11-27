@@ -4,7 +4,6 @@
 #include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/olgaflow/OlgaFlowActions.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/boss/Boss6ScrollStrips.h"
@@ -27,7 +26,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/boss/darkfalz/TBoss4Fade.h"
 #include "types.h"
-#include "pso/camera/CameraAngles.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/PadRumble.h"
@@ -92,7 +91,7 @@ s32 TBoss6PlotFalz::is_flag_set() {
     return (u8)((u8) (TBoss6PlotFalz::instance != 0));
 }
 
-s32 TBoss6PlotFalz::get_next_point(s16 *set_index_out, s16 *entity_id_out) {
+s32 TBoss6PlotFalz::get_next_point(s16 *set_index_out, u16 *entity_id_out) {
     if (count_free_child_ids() < 1) {
         return 0;
     }
@@ -426,7 +425,7 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
     record.flags = 0x800;
     send_6x0A_enemy_state(&record);
     exchange_object_state(&record, 0);
-    apply_enemy_state(&record.flags);
+    apply_enemy_state(&record);
     send_entity_set_flags();
     queue_destruction();
 }
@@ -607,8 +606,8 @@ void TBoss6PlotFalz::spawn_type2() {
         params.variant = spawn_variant;
         copy_set_entry(&params.set_entry, &set_entry);
         params.set_entry.room = 1;
-        params.set_entry.set_index = set_index + 0x1FF;
-        params.set_entry.entity_id = entity_id + 0x1FF;
+        params.set_entry.enemy_index = set_index + 0x1FF;
+        params.set_entry.id = entity_id + 0x1FF;
         TBoss6PlotFalz::type2_instance = TBoss6Type2::create(&params);
     }
 }
@@ -619,8 +618,8 @@ void TBoss6PlotFalz::spawn_type1() {
         params.owner = this;
         params.variant = spawn_variant;
         copy_set_entry(&params.set_entry, &set_entry);
-        params.set_entry.set_index = set_index + 0x200;
-        params.set_entry.entity_id = entity_id + 0x200;
+        params.set_entry.enemy_index = set_index + 0x200;
+        params.set_entry.id = entity_id + 0x200;
         TBoss6PlotFalz::type1_instance = TBoss6Type1::create(&params);
     }
 }
@@ -847,7 +846,7 @@ void place_players_in_warp_circle(void) {
             pos.z += 350.0f * cos_table_lookup(ang);
             p->set_position_from(&pos);
             p->save_previous_position();
-            p->get_rotation()->yaw = ang + 0x8000;
+            p->get_rotation()->y = ang + 0x8000;
             p->refresh_equipment_slot();
             if (p->is_locally_controlled() != 0) {
                 reset_cameras_to_actor(p, 0);
@@ -980,7 +979,7 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
 
 #pragma push
 #pragma opt_common_subs off
-TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(parent) {
+TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, EnemyPlacement *set_data) : TObjEnemy(parent) {
     EnemyStateRecord record;
     player_stats *base_params;
     AttackParams *attack_params;
@@ -991,7 +990,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     TBoss6PlotFalz::instance = this;
     apply_set_data(set_data);
     copy_set_entry(&set_entry, set_data);
-    set_entry.kind = 0;
+    set_entry.child_count = 0;
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
         record.damage = 0;
@@ -1042,7 +1041,7 @@ void TBoss6PlotFalz::load_resources() {
     }
 }
 
-void *TBoss6PlotFalz::create(void *set_data) {
+void *TBoss6PlotFalz::create(EnemyPlacement *set_data) {
     return new TBoss6PlotFalz(new TObjControl(tl_04), set_data);
 }
 

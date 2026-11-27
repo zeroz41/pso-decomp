@@ -8,7 +8,7 @@
 // (TOKeyJungleMain::story_flags[switch_id], set param 4 clamped to 0-2)
 // that TODoorJungleMain also reads.
 struct TOKeyJungleMain : public TOKey {
-    TOKeyJungleMain(TObject *parent, void *set_data);
+    TOKeyJungleMain(TObject *parent, ObjectSetData *set_data);
     virtual ~TOKeyJungleMain();
     virtual void update_lock_state();
     virtual void update_switch_on();
@@ -19,7 +19,7 @@ struct TOKeyJungleMain : public TOKey {
     void render();
     f32 switch_frame;   // the fe_obj_start_switch motion's frame
     f32 sw_naka_frame;  // the fe_obj_start_sw_naka motion's frame
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void release_static_resource();
     static void load_static_resource();
     // The story flag of each key (switch_id 0-2).

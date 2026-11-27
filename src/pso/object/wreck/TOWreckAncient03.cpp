@@ -6,7 +6,7 @@
 #pragma readonly_strings on
 
 
-void *TOWreckAncient03::create(void *set_data) {
+void *TOWreckAncient03::create(ObjectSetData *set_data) {
     return new TOWreckAncient03(set_data);
 }
 
@@ -17,7 +17,7 @@ TOWreckAncient03::~TOWreckAncient03() {
 
 const char *wreck_ancient03_name = "TOWreckAncient03";
 
-TOWreckAncient03::TOWreckAncient03(void *set_data) : TOWreckAncient(2) {
+TOWreckAncient03::TOWreckAncient03(ObjectSetData *set_data) : TOWreckAncient(2) {
     m_name = wreck_ancient03_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient::collision_body_templates[2], 1);

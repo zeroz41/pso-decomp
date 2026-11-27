@@ -5,7 +5,7 @@
 #include "pso/object/quest/TObjQuestColBase.h"
 
 struct TObjQuestColALock : public TObjQuestColBase {
-    TObjQuestColALock(TObject *parent, void *set_data);
+    TObjQuestColALock(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjQuestColALock();
     virtual int is_triggered();
     virtual TQuestThread *start_quest_thread();

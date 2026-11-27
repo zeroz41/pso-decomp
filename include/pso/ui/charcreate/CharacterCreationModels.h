@@ -6,19 +6,17 @@
 
 struct CreationModelPart {
     u32 present;
-    uaddr model;
+    NJS_OBJECT *model;
 };
 
-extern "C" {
 extern CreationModelPart creation_hair_model_parts[10];
 extern CreationModelPart creation_cap_model_parts[10];
 extern CreationModelPart creation_head_model_parts[5];
 extern u32 creation_models_ready;
-extern uaddr chara_select_hair_node_a;
-extern uaddr chara_select_hair_node_b;
-extern uaddr chara_select_head_node;
+extern NJS_OBJECT *chara_select_hair_node_a;
+extern NJS_OBJECT *chara_select_hair_node_b;
+extern NJS_OBJECT *chara_select_head_node;
 extern saddr chara_select_preview_resource;
-}
 extern CharacterAppearanceFields *creation_player_character;
 
 class TCMCharacter;

@@ -41,20 +41,20 @@ void TKomorebi::render() {
 
     if (update_object_view_visibility(400.0f, 20.0f) != 0 &&
         !(xz_distance_squared(&position, &camera_ctrl_instance->pos) < 1600.0f)) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         if (actor_frame_tick != komorebi_last_uv_update_frame) {
-            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(model->model), 0, (s32)scale.x, 0, 1);
+            scroll_ginja_mesh_uvs(model->ginja_model, 0, (s32)scale.x, 0, 1);
             komorebi_last_uv_update_frame = actor_frame_tick;
         }
         push_matrix();
         set_texture_list(texlist);
         post_translate_matrix(&position.x);
-        rotate_matrix_yxz(0, rotation_x, rotation_y, rotation_z);
+        rotate_matrix_yxz(0, rotation.x, rotation.y, rotation.z);
         horizontal_scale = scale.z;
         scale_matrix(0, horizontal_scale, scale.y, horizontal_scale);
         draw_ginja_object(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -65,14 +65,14 @@ TKomorebi::~TKomorebi() {}
 TKomorebi::TKomorebi(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = class_name;
     VecCopy(&position, &set_data->position);
-    copy_xyz(&rotation_x, set_data->rotation);
+    copy_xyz(&rotation, set_data->rotation);
     VecCopy(&scale, &set_data->scale);
     model = get_bml_model(komorebi_bml_resource, 0);
     texlist = get_bml_texlist(komorebi_bml_resource, 0);
 }
 
-void *TKomorebi::create(void *set_data) {
-    return new TKomorebi(tl_05, (ObjectSetData *)set_data);
+void *TKomorebi::create(ObjectSetData *set_data) {
+    return new TKomorebi(tl_05, set_data);
 }
 
 void TKomorebi::free_static() {

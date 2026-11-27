@@ -11,6 +11,7 @@
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "types.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 const char *TAdPlayerLoadGC::class_name = "TAdPlayerLoadGC";
 
 
@@ -67,7 +68,7 @@ void TAdPlayerLoadGC::run_task() {
         }
         break;
     case 6:
-        if ((find_card_file(0, pso_character_card_filename.filename) == 0) && (get_instance() == 0)) {
+        if ((find_card_file(0, pso_character_card_filename.filename) == 0) && (get_card_load_sequence_state() == 0)) {
             state = 7U;
         }
         break;
@@ -82,7 +83,7 @@ void TAdPlayerLoadGC::run_task() {
         }
         break;
     case 9:
-        if (get_instance() == 0) {
+        if (get_card_load_sequence_state() == 0) {
             state = 0xAU;
         }
         break;
@@ -145,7 +146,7 @@ void TAdPlayerLoadGC::run_task() {
     case 19:
         if (probe_card_slot(1) == 0) {
             state = 0xDU;
-        } else if ((find_card_file(1, pso_character_card_filename.filename) == 0) && (get_instance() == 0)) {
+        } else if ((find_card_file(1, pso_character_card_filename.filename) == 0) && (get_card_load_sequence_state() == 0)) {
             state = 0x14U;
         }
         break;
@@ -166,7 +167,7 @@ void TAdPlayerLoadGC::run_task() {
     case 22:
         if (probe_card_slot(1) == 0) {
             state = 0xDU;
-        } else if (get_instance() == 0) {
+        } else if (get_card_load_sequence_state() == 0) {
             state = 0x17U;
         }
         break;

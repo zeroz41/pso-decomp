@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/city/TShopEquipmentGearSequence.h"
@@ -20,6 +19,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/CounterTextLookup.h"
+#include "pso/player/TObjPlayer.h"
 
 
 s32 shop_gear_pending_message;
@@ -125,7 +125,7 @@ void TShopEquipmentGearSequence::update_buy_sell_choice() {
     s32 id;
     s32 r;
     if (choice_menu == NULL) {
-        id = ((TObjBase *)(player))->get_entity_id();
+        id = player->get_entity_id();
         choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, id);
         choice_menu->add_text_entry(get_shop_text(4), 6, 0);
         choice_menu->add_text_entry(get_shop_text(6), 6, 1);

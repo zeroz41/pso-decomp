@@ -22,10 +22,6 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-extern "C" {
-extern const f32 morfos_projectile_speed;
-extern const f32 morfos_param_table_speed_copy;
-}
 
 void TObjEneMorfosGroundShot::hit_target_in_range(TObjChara *target, TObjCollidable *owner) {
     Vec v = pos;
@@ -77,7 +73,7 @@ void TObjEneMorfosGroundShot::run_task() {
     if (owner != 0) {
         for (i = 0; i < registered_player_count; i++) {
             p = TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active(p) != 0 && fabs_float(pos.y - p->body_center.y) < 20.0f) {
+            if (TObjCollidable::is_valid_and_active(p) != 0 && fabs_float(pos.y - p->body_center.y) < 20.0f) {
                 hit_target_in_range((TObjChara *)p, owner);
             }
         }
@@ -91,7 +87,7 @@ TObjEneMorfosGroundShot::~TObjEneMorfosGroundShot() {
 }
 
 TObjEneMorfosGroundShot::TObjEneMorfosGroundShot(const Vec *start, s32 angle, TObjChara *owner) : TObjCollidable(tl_06) {
-    ParticleAngles a;
+    Angle3 a;
     VecCopy(&pos, start);
     distance = 0.0f;
     owner_id = owner->get_entity_id();

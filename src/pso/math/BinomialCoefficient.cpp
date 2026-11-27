@@ -1,7 +1,8 @@
 #include "types.h"
 #include "pso/math/BinomialCoefficient.h"
 
-f32 lbl_805D76A8;
+// Where fractional_part leaves the whole part it drops.
+f32 fractional_part_whole;
 
 #pragma push
 #pragma optimize_for_size off
@@ -19,7 +20,7 @@ s32 calc_binomial_coefficient(s32 n, s32 k) {
 }
 #pragma pop
 
-// The MSL inlines __fpclassifyf and modff, which the game headers do not provide.
+// MSL math.h's inline float classification and split.
 inline int __fpclassifyf(float __value) {
     switch (*(int *)&__value & 0x7f800000) {
     case 0x7f800000:
@@ -63,6 +64,6 @@ inline float modff(float x, float *iptr) {
 #pragma peephole off
 #pragma scheduling off
 f32 fractional_part(f32 x) {
-    return modff(x, &lbl_805D76A8);
+    return modff(x, &fractional_part_whole);
 }
 #pragma pop

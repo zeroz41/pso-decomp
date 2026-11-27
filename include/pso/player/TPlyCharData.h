@@ -65,7 +65,7 @@ public:
     void clear_inventory();
     void set_mag_level(u8 level);
     void set_battle_mode(u8 mode);
-    void set_field_18f(u8 value);
+    void set_class_flag_1(u8 value);
     void set_pending_action(u32 action);
     void set_save_time(u32 seconds);
     // set_save_time with the current date in seconds.
@@ -100,6 +100,14 @@ struct PlayerVisualRecord {
     VisualRecordBlock proportions;
 };
 
+// Copies one 0x50-byte visual record (disp_data_part2 or CharacterAppearanceFields) over another; returns dst.
 PlayerVisualRecord *copy_player_visual_record(PlayerVisualRecord *dst, PlayerVisualRecord *src);
+
+// TPlyCharData's constructor and destructor by symbol, for the static initializers that build and register a
+// global TPlyCharData (C++ cannot take a constructor's or destructor's address).
+extern "C" {
+void *__ct__12TPlyCharDataFv(void *object);
+void __dt__12TPlyCharDataFv(void *object, s16 flags);
+}
 
 #endif

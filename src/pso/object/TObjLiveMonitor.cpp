@@ -1,7 +1,6 @@
 #include "pso/system/SubtractiveRng.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
@@ -13,7 +12,7 @@
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TObjLiveCameraCtrl.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/MatrixStack.h"
@@ -32,6 +31,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/render/CameraCapture.h"
 
 #pragma defer_codegen on
 
@@ -171,7 +171,7 @@ void TObjLiveCameraCtrl::update_live_camera() {
             target.x = -5.0f * sin_table_lookup(orbit_angle) + player->position.x;
             target.y = 19.8f + player->position.y;
             target.z = -5.0f * cos_table_lookup(orbit_angle) + player->position.z;
-            turn_orbit_toward(player->rotation_y - 0x8000);
+            turn_orbit_toward(player->rotation.y - 0x8000);
             return;
         }
         break;
@@ -184,7 +184,7 @@ void TObjLiveCameraCtrl::update_live_camera() {
             target.x = -120.0f * sin_table_lookup(orbit_angle) + enemy->position.x;
             target.y = 20.0f + enemy->position.y;
             target.z = -120.0f * cos_table_lookup(orbit_angle) + enemy->position.z;
-            turn_orbit_toward(enemy->rotation_y - 0x8000);
+            turn_orbit_toward(enemy->rotation.y - 0x8000);
             return;
         }
         break;
@@ -235,7 +235,7 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
         target_id = get_player_target();
         subject = get_player_by_client_id(target_id);
         if (subject != NULL) {
-            orbit_angle = subject->rotation_y - 0x8000;
+            orbit_angle = subject->rotation.y - 0x8000;
         }
         break;
     case SHOT_BEHIND_BOSS:
@@ -243,7 +243,7 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
         target_id = get_boss_target();
         subject = (TObjBase *)get_enemy_entity(target_id);
         if (subject != NULL) {
-            orbit_angle = subject->rotation_y - 0x8000;
+            orbit_angle = subject->rotation.y - 0x8000;
         }
         break;
     case SHOT_ARENA:
@@ -290,11 +290,11 @@ void TObjLiveMonitor::load_resources() {  }
 
 void TObjLiveMonitor::free_resources() {  }
 
-void *TObjLiveCamera::create(void *set_data) {
+void *TObjLiveCamera::create(ObjectSetData *set_data) {
     return new TObjLiveCamera(tl_05, set_data);
 }
 
-TObjLiveCamera::TObjLiveCamera(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjLiveCamera::TObjLiveCamera(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = live_camera_class_name;
     apply_object_set_data(set_data);
 }
@@ -333,7 +333,7 @@ void TObjLiveMonitor::render() {
     if (camera != NULL && camera->is_enabled() != 0) {
         camera->load_view_texture();
     } else if (is_split_screen() == 0) {
-        TObjPlayer::load_capture_texture();
+        load_capture_texture();
     } else {
         render_live_monitor_screen();
     }
@@ -370,7 +370,7 @@ int TObjLiveMonitor::render_live_monitor_screen() {
         if (camera != NULL && camera->is_enabled() != 0) {
             camera->load_view_texture();
         } else if (is_split_screen() == 0) {
-            TObjPlayer::load_capture_texture();
+            load_capture_texture();
         } else {
             set_texlist(texlist);
         }
@@ -392,7 +392,7 @@ int TObjLiveMonitor::render_live_monitor_screen() {
         break;
     case 4:
         if (is_split_screen() == 0) {
-            TObjPlayer::load_capture_texture();
+            load_capture_texture();
         }
         slot = 0;
         break;

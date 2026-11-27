@@ -1152,7 +1152,6 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 flags, NetI
     NetBufferRef cur;
     Ipv6NdNeighbor *e;
     u8 *p6;
-    void netbuf_copy_by_ref(NetBufferRef *, NetBufferRef *, int);
     if (NetIPv6IsMulticast(address) != 0) {
         return -0x10E;
     }
@@ -1221,7 +1220,7 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 flags, NetI
             q->len = 0;
             seg = (NetPacketFragment *)pkt + n; /* &arg0->fragments[n - 1]: the 12-byte header is one fragment long */
             while (n != 0) {
-                s16 l = seg->length;
+                s32 l = seg->length;
                 q->len += l;
                 if (q->len > ipv6_neighbor_discovery_state.mtu) {
                     ret = -0x10E;

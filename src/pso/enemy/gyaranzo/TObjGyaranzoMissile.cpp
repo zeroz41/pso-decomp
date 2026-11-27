@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -28,7 +27,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
 #include "pso/render/DebugFont.h"
@@ -56,7 +55,7 @@ void TObjGyaranzoMissile::explode() {
             if (target == NULL) {
                 break;
             }
-            if (TObjPlayer::is_valid_and_active(target) != 0) {
+            if (TObjCollidable::is_valid_and_active(target) != 0) {
                 DirectAttackPayload hit = gyaranzo_missile_explosion_attack[0];
                 hit.power = get_gyaranzo_missile_int_parameter(2);
                 target->receive_direct_attack(owner, hit, NULL, -1, -1);
@@ -72,8 +71,8 @@ void TObjGyaranzoMissile::render() {
     set_texture_list(get_bml_texlist(gyaranzo_bml_resource, 6));
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_x(0, rotation_x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_x(0, rotation.x);
+    rotate_matrix_y(0, rotation.y);
     translate_matrix(0, 0.0f, wobble_height * sin_table_lookup(wobble_phase), 0.0f);
     model_render_flags &= ~0x400;
     draw_chunk_object(get_bml_model(gyaranzo_bml_resource, 6));
@@ -96,7 +95,7 @@ void TObjGyaranzoMissile::run_task() {
     }
     VecCopy(&prev_position, &position);
     vec3_add_to(&position, &velocity);
-    direction_to_rotation_xy(&velocity, &rotation_x, &rotation_y);
+    direction_to_rotation_xy(&velocity, &rotation.x, &rotation.y);
     wobble_phase += wobble_speed;
     if (timer >= 10) {
         if (csnVector(&prev_position, &position, -1) != NULL) {
@@ -138,8 +137,8 @@ TObjGyaranzoMissile::TObjGyaranzoMissile(TObjEneGyaranzo *owner, GyaranzoMissile
     bodies->radius = 4.0f;
     VecCopy(&position, launch->position);
     target_id = target;
-    rotation_x = launch->rotation_x;
-    rotation_y = launch->rotation_y;
+    rotation.x = launch->rotation_x;
+    rotation.y = launch->rotation_y;
     wobble_phase = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
     wobble_speed = (s32)(launch->wobble_speed * (0.5f * ((3.0517578e-05f * (f32)rand()) + 1.0f)));
     wobble_height = launch->wobble_height;
@@ -149,8 +148,8 @@ TObjGyaranzoMissile::TObjGyaranzoMissile(TObjEneGyaranzo *owner, GyaranzoMissile
     velocity.y = 0.0f;
     velocity.z = gyaranzo_missile_speed_scale;
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, rotation_y);
-    rotate_matrix_x(0, rotation_x);
+    rotate_matrix_y(0, rotation.y);
+    rotate_matrix_x(0, rotation.x);
     matrix_mult_vec(NULL, &velocity, &velocity);
     pop_matrix();
     timer = 0;

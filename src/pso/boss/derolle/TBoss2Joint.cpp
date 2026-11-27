@@ -70,7 +70,7 @@ void TBoss2Joint::start_pad_flash() { start_flash(1); }
 void TBoss2Joint::update_flash_color() {
     f32 t;
     if (joint_flags & SHELL_BROKEN) {
-        unk_3a4 = 0.0f;
+        pad_3a4 = 0.0f;
         color = 0;
         return;
     }
@@ -159,7 +159,7 @@ void TBoss2Joint::run_death_reaction() { actorFlags &= 0xfffff7ff; }
 void TBoss2Joint::refresh_target() {}
 
 void TBoss2Joint::run_task() {
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         VecCopy(&position, anchor);
         update_status_effects();
         if (has_action_state_changed() == 0) {
@@ -200,7 +200,7 @@ void TBoss2Joint::init_params() {
     joint_flags = 0;
     shell_hp = TBoss2DeRolLe::get_shell_max_hp();
     color = 0xFFFFFFFF;
-    unk_3a4 = 1.0f;
+    pad_3a4 = 1.0f;
     flash = 0.0f;
     copy_argb(&flash_color, (NJS_ARGB *)joint_flash_colors);
 }

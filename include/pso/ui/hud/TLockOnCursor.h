@@ -7,7 +7,7 @@
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/player/TargetCursorList.h"
-#include "pso/unk/LockOnPaletteOverride.h"
+#include "pso/ui/hud/LockOnPaletteOverride.h"
 #include "pso/ui/hud/MarkerColor.h"
 
 // A priority and an index into the player's action palette.
@@ -36,7 +36,7 @@ public:
     s32 get_count();
     ActionPriorityEntry *get_entries();
     void set_count(s32 v);
-    void set_entries(s32 v);
+    void set_entries(ActionPriorityEntry *v);
 };
 
 // TLockOnCursor +0x24.
@@ -138,6 +138,8 @@ public:
     s32 quick_sort_partition(TargetCursorRecord *a, s32 lo, s32 hi);
     void store_sorted_record(TargetCursorRecord *src, TargetCursorRecord *dst);
     s32 get_body_exclude_mask();
+    int get_selected_entry();
+    u8 get_active();
     s32 get_body_include_mask();
     s32 get_actor_exclude_mask();
     s32 get_actor_include_mask();
@@ -238,7 +240,7 @@ struct TLockOnCursor : public TObject {
     LockOnActionSlot *find_by_pos(s16 mode, s16 kind);
     // Fills the four action slots from the player's action palette.
     void bind_action_channels();
-    void setup_action_channel(TObjPlayer *player, s32 slot, s32 kind, s16 id);
+    void setup_action_channel(TObjPlayer *player, s32 slot, s16 kind, s16 id);
     s32 get_action_cursor_priority(TObjPlayer *player, s32 index);
     void set_cursor_color(TObjPlayer *player, LockOnActionSlot *main_cursor);
     void set_display_flags(TObjPlayer *player, LockOnActionSlot *main_cursor);

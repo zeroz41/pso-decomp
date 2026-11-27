@@ -27,7 +27,6 @@ TItemMenuCtrl::TItemMenuCtrl(TObject *parent) : TObject(parent) {
     m_name = TItemMenuCtrl_name;
 }
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 
 extern "C" {
 

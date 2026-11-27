@@ -32,5 +32,7 @@ s32 is_stat_over_limit(s32 floor);
 s32 is_entry_valid(s32 floor);
 void free_boss_rocks();
 void alloc_objects();
+void reset_floor_items();
+void clear_object_count();
 
 #endif

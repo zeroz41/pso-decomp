@@ -53,7 +53,7 @@ void G_SwitchStateChanged_6x05::bswap() {
     bswap_16(&switch_id);
 }
 
-void TOKey::vfunc_25() {}
+void TOKey::debug_draw_key_extra() {}
 
 void TOKey::update_switch_off() {}
 
@@ -74,11 +74,11 @@ TOKey::TOKey(TObject *parent) : TObjMapObject(parent) {
 
 TOKey::~TOKey() {}
 
-void TOKey::init_key(void *set_entry) {
+void TOKey::init_key(ObjectSetData *set_entry) {
     apply_object_set_data(set_entry);
     init_switch_id();
     VecCopy(&center, &position);
-    m_20 = 2;
+    pad_20 = 2;
 }
 
 void TOKey::init_switch_id() {
@@ -109,7 +109,7 @@ void TOKey::debug_draw_key_id() {
     set_debug_text_color(0xFF00FF);
     debug_printf_at(0x130020, "<- KEY ID : %d", switch_id);
     set_debug_text_color(0xF0F0F0FF);
-    vfunc_25();
+    debug_draw_key_extra();
 }
 
 void TOKey::update_armed_switch() {

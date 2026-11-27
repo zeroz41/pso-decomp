@@ -1,5 +1,4 @@
-#include "pso/npc/TNpcPlayer_800D87A8.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -72,7 +71,7 @@ void TObjFreezeShell::freeze_shell_hold() {
     if (owner == NULL) {
         return;
     }
-    this->rotation_y += 0x10;
+    this->rotation.y += 0x10;
     if (owner->test_actor_flags(0x800) == 0) {
         if (owner->test_actor_flags(0x20) != 0) {
             return;
@@ -94,7 +93,7 @@ void TObjFreezeShell::freeze_shell_hold() {
 void TObjFreezeShell::freeze_shell_grow() {
     Vec mist_pos;
     f32 size;
-    this->rotation_y = (this->rotation_y + 0x1000);
+    this->rotation.y = (this->rotation.y + 0x1000);
     this->scale.z += 0.1f;
     size = this->scale.z;
     this->scale.y = size;
@@ -108,7 +107,7 @@ void TObjFreezeShell::freeze_shell_grow() {
         mist_pos.y = 0.0f;
         mist_pos.z = 10.0f * this->scale.x;
         push_matrix_from(&identity_matrix);
-        rotate_matrix_y(0, (int) (this->rotation_y * 2));
+        rotate_matrix_y(0, (int) (this->rotation.y * 2));
         rotate_vector_by_matrix(0, &mist_pos, &mist_pos);
         pop_matrix();
         vec3_add_to(&mist_pos, &this->position);
@@ -161,7 +160,7 @@ void TObjFreezeShell::render() {
         set_texture_list(get_bml_texlist(freeze_shell_bml_resource, 1));
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         scale_current_matrix(&this->scale.x);
         switch (this->state) {
         case 0:
@@ -234,7 +233,7 @@ TObjFreezeShell::TObjFreezeShell(TObjChara *chara, CollisionBody *body, s32) : T
                 this->max_scale = 1.5f;
             }
         }
-        this->rotation_y = chara->rotation_y;
+        this->rotation.y = chara->rotation.y;
         this->scale.z = 0.0f;
         this->scale.y = 0.0f;
         this->scale.x = 0.0f;

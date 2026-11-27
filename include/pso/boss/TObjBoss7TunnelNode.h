@@ -2,7 +2,7 @@
 #define PSO_BOSS_TOBJBOSS7TUNNELNODE_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 
 struct NJS_OBJECT;
 

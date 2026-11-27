@@ -16,7 +16,7 @@ const char *TObjNpcHHM00::name = "TObjNpcHHM00";
 NJS_OBJECT **TObjNpcHHM00::model_object;
 NJS_TEXLIST *TObjNpcHHM00::body_texture_gvm_handle;
 
-void *TObjNpcHHM00::create(void *set_data) {
+void *TObjNpcHHM00::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcHHM00(control, set_data);
 }
@@ -40,7 +40,7 @@ void TObjNpcHHM00::load_resources() {
 
 TObjNpcHHM00::~TObjNpcHHM00() {}
 
-TObjNpcHHM00::TObjNpcHHM00(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+TObjNpcHHM00::TObjNpcHHM00(TObject *parent, EnemyPlacement *set_data) : TObjNpcMale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

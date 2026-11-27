@@ -5,9 +5,9 @@
 #include "pso/object/cave/TORockCave.h"
 
 struct TORockCaveM01 : public TORockCave {
-    TORockCaveM01(void *set_data);
+    TORockCaveM01(ObjectSetData *set_data);
     virtual ~TORockCaveM01();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TORockCaveM01_size, sizeof(TORockCaveM01) == 0xB4);

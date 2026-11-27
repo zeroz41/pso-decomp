@@ -46,7 +46,7 @@ const char *TODoorAncient04_name = "TODoorAncient04";
 static BmlResource *door_ancient04_archive;
 static NJS_TEXLIST **door_ancient04_texlists;
 
-TODoorAncient04::TODoorAncient04(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorAncient04::TODoorAncient04(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = TODoorAncient04_name;
     apply_object_set_data(set_data);
     model = door_ancient04_archive->models[0].model;
@@ -76,7 +76,7 @@ void TODoorAncient04::load_resources() {
 
 void TODoorAncient04::free_resources() {
     if (door_ancient04_texlists != NULL) {
-        TObjPlayer::free_if_valid(door_ancient04_texlists[1]);
+        free_if_valid(door_ancient04_texlists[1]);
         if (door_ancient04_texlists != NULL) {
             mem_free(door_ancient04_texlists);
             door_ancient04_texlists = NULL;
@@ -88,7 +88,7 @@ void TODoorAncient04::free_resources() {
     }
 }
 
-void *TODoorAncient04::create(void *set_data) {
+void *TODoorAncient04::create(ObjectSetData *set_data) {
     return new TODoorAncient04(tl_05, set_data);
 }
 
@@ -96,7 +96,7 @@ void TODoorAncient04::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(door_ancient04_texlists[door_flags & DOOR_FLAG_UNLOCKED]));
         if (object_state == DOOR_CLOSED) {
             NJS_OBJECT *node = model;
@@ -107,7 +107,7 @@ void TODoorAncient04::render() {
             post_translate_matrix(node->pos);
             draw_ginja_model(node->model);
             pop_matrix();
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             node = node->sibling;
             push_matrix();
             post_translate_matrix(node->pos);
@@ -118,7 +118,7 @@ void TODoorAncient04::render() {
             post_translate_matrix(node->pos);
             draw_ginja_model(node->model);
             pop_matrix();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         } else {
             draw_ginja_model_with_motion(model, motion, animation_frame);
         }

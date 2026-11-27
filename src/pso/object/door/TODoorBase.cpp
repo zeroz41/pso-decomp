@@ -27,7 +27,7 @@ TODoorBase::TODoorBase(TObject *parent) : TObjMapObject(parent) {
 TODoorBase::~TODoorBase() {}
 
 void TODoorBase::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         update_demo();
         return;
     }
@@ -53,9 +53,9 @@ void TODoorBase::run_task() {
         break;
     }
     if (door_flags & DOOR_FLAG_UNLOCKED) {
-        minimap_render_gate(&position, 0xFF00FF00, rotation_y, 0, 0);
+        minimap_render_gate(&position, 0xFF00FF00, rotation.y, 0, 0);
     } else {
-        minimap_render_gate(&position, 0xFFFF0000, rotation_y, 0, 0);
+        minimap_render_gate(&position, 0xFFFF0000, rotation.y, 0, 0);
     }
 }
 

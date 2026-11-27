@@ -10,13 +10,13 @@ struct BmlResource;
 
 // The Ruins' 6x4 fence (fd_obj_n_saku_6x4).
 struct TOFenceAncient04 : public TOFenceBase {
-    TOFenceAncient04(TObject *parent, void *set_data);
+    TOFenceAncient04(TObject *parent, ObjectSetData *set_data);
     virtual ~TOFenceAncient04();
     virtual void open();
     virtual void close();
     virtual void update_demo();
 
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void unload_resources();
     static void load_resources();
 

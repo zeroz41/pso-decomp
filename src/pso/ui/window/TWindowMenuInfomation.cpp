@@ -175,7 +175,7 @@ TWindowMenuInfomation *create_information_counter_window(s32 rows) {
     TWindowMenuInfomation *window;
 
     set_choice_setting_popup_size(&choice_setting_popup_extent, rows);
-    window = new TWindowMenuInfomation((void *)get_window_layout_position(0xAE), rows);
+    window = new TWindowMenuInfomation(get_window_layout_position(0xAE), rows);
     window->create_sub_window("Information Counter");
     return window;
 }
@@ -192,10 +192,7 @@ void TWindowMenuInfomation::render() {
 
     draw_context = get_draw_context();
     this->draw_window_frame(draw_context);
-    draw_visible_window_entries(
-        reinterpret_cast<const void *>((this)),
-        &entry_list,
-        draw_context);
+    draw_visible_window_entries(this, &entry_list, draw_context);
     draw_setting(draw_context);
     if (this->heading != 0) {
         this->heading->render(draw_context);
@@ -258,8 +255,8 @@ TWindowMenuInfomation::~TWindowMenuInfomation() {
     delete scroll_bar;
     delete this->heading;
 }
-TWindowMenuInfomation::TWindowMenuInfomation(void *parent, s32 rows)
-    : TWindowAddition((u8 *)&choice_setting_popup_window_descriptor, 4, (u8 *)parent) {
+TWindowMenuInfomation::TWindowMenuInfomation(const NJS_POINT2 *position, s32 rows)
+    : TWindowAddition((u8 *)&choice_setting_popup_window_descriptor, 4, (u8 *)position) {
     init_entries((u32)rows);
 }
 

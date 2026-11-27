@@ -29,13 +29,13 @@ TObjWarpBoss03::~TObjWarpBoss03() {
 
 const char *warp_boss03_name = "TObjWarpBoss03";
 
-TObjWarpBoss03::TObjWarpBoss03(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjWarpBoss03::TObjWarpBoss03(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = warp_boss03_name;
     warp_range = 2e+01f;
 }
 
 
-void *TObjWarpJungMain::create(void *set_data) {
+void *TObjWarpJungMain::create(ObjectSetData *set_data) {
     return new TObjWarpJungMain(tl_05, set_data);
 }
 

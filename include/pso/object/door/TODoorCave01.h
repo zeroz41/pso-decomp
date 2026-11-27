@@ -21,18 +21,18 @@ struct TODoorCave01 : public TODoorBase {
         PULSE_RISING = 0x100000    // light_color.r is rising
     };
 
-    TODoorCave01(TObject *parent, void *set_data);
+    TODoorCave01(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorCave01();
     virtual void update_demo();
     void send_state(QuestObjectEntry *);
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual s32 init_door_switch_binding();
     virtual void update_open();
     virtual void update_closed();
     virtual void update_door_switch_state();
     void draw_switch_light(NJS_OBJECT *node, s32 lit);
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void destroy();
     static void load_resources();
 

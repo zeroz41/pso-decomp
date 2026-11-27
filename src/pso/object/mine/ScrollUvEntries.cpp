@@ -5,7 +5,7 @@
 
 UvScrollEntry *scroll_uv_entry_write_cursor;
 s16 *scroll_uv_coordinate_write_cursor;
-void collect_scroll_uv_entries(s32, GinjaModel *model, s32 id) {
+void collect_scroll_uv_entries(UvScrollBuffer *, GinjaModel *model, s32 id) {
     s32 hit;
     GinjaVertexArray *e;
     s16 *q;

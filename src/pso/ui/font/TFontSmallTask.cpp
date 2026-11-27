@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer.h"
@@ -25,15 +24,16 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/render/DebugFont.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/map/area/AreaScene.h"
+#include "pso/ui/window/DeferredPackets.h"
 const char *font_small_task_class_name = "TFontSmallTask";
 
 static const Vec font_small_forward_vec = {0.0f, 0.0f, -1.0f};
 
 void update_card_window_flags(saddr client_id, s32 card_status_bits) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(card_status_bits << 0xD), (s32)0xFFFF1FFF);
+    set_card_window_flags(client_id, (s32)(card_status_bits << 0xD), (s32)0xFFFF1FFF);
 }
 s32 get_player_status_color(TObjPlayer *player) { return player->appearance.nameColor; }
 
@@ -181,8 +181,8 @@ s32 create_font_small_task_default_color(Vec *pos, s32 color, s32 life, s32 dela
     return (saddr)new TFontSmallTask(pos, color, life, delay, get_shared_text_buffer(), 0xFFFF);
 }
 
-void create_boss_health_font(Vec *pos, s32 color, s32 life, const char *label, void *value) {
-    create_font_small_task(pos, color, life, 0, label, (saddr)value, 0xFFFF);
+void create_boss_health_font(Vec *pos, s32 color, s32 life, const char *label, s32 value) {
+    create_font_small_task(pos, color, life, 0, label, value, 0xFFFF);
 }
 
 s32 TObjEneEpsilonGuard::create_damage_font(s32 pos, s32 color, s32 life, s32 damage) {
@@ -248,7 +248,7 @@ void LeaderSelection::find_leader_section_id(s32 client_id) {
     }
 }
 
-void TLobby::call_funcs_reverse(void *table, unsigned int size) {
+void call_funcs_reverse(void *table, unsigned int size) {
     s32 n = size / sizeof(LobbyFrameEntry);
     LobbyFrameEntry *p = (LobbyFrameEntry *)table + n;
     while (n > 0) {
@@ -266,10 +266,11 @@ s32 run_load_callback_table(void *table, u32 size) {
         if (is_area_transfer_pending() != 0) {
             return 0;
         }
-        if (static_cast<LoadFrameEntry *>(table)->fn != NULL) {
-            static_cast<LoadFrameEntry *>(table)->fn();
+        LoadFrameEntry *entry = static_cast<LoadFrameEntry *>(table);
+        if (entry->fn != NULL) {
+            entry->fn();
         }
-        table = static_cast<LoadFrameEntry *>(table) + 1;
+        table = entry + 1;
         n--;
     }
     return 1;

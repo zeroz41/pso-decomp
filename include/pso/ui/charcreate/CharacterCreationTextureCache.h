@@ -63,4 +63,8 @@ extern CreationBodyModelStates creation_body_shape_destination;
 extern CreationBodyModelStates creation_body_shape_samples[7];
 extern CreationShapeBlend creation_shape_blend;
 extern CreationTextureCacheEntry creation_texture_cache[CREATION_TEXTURE_CACHE_CAPACITY];
+s32 count_remaining_slots();
+s32 has_matching_entry(CharacterAppearanceFields *character);
+CreationTextureCacheEntry *find_free_slot();
+s32 evict_char_entries(s32 limit);
 #endif

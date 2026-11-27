@@ -122,11 +122,11 @@ void TObjLazerFenceNorm::free_resources() {
 }
 
 
-void *TObjLazerFenceNorm::create(void *set_data) {
+void *TObjLazerFenceNorm::create(ObjectSetData *set_data) {
     return new TObjLazerFenceNorm(tl_05, set_data);
 }
 
-TObjLazerFenceNorm::TObjLazerFenceNorm(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjLazerFenceNorm::TObjLazerFenceNorm(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     m_name = obj_lazer_fence_norm_class_name;
     apply_object_set_data(set_data);
     state = 0;
@@ -199,7 +199,7 @@ void TObjLazerFenceNorm::draw_model() {
     set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(NULL, this->rotation_y);
+    rotate_matrix_y(NULL, this->rotation.y);
     draw_ginja_object(this->base_model);
     pop_matrix();
 }
@@ -207,16 +207,16 @@ void TObjLazerFenceNorm::draw_model() {
 void TObjLazerFenceNorm::draw_animated_beam() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        set_ginja_model_texture_slot(reinterpret_cast<void *>(beam_part_models[i]), (lazer_fence_texture_slots[scale_level]));
+        set_ginja_model_texture_slot(beam_part_models[i], (lazer_fence_texture_slots[scale_level]));
     }
     set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     draw_ginja_object(base_model);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     draw_ginja_model_with_motion(beam_model, beam_motion, frame);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -249,11 +249,11 @@ void TObjLazerFenceNorm::select_models() {
 }
 
 
-void *TObjLazerFenceExtra::create(void *set_data) {
+void *TObjLazerFenceExtra::create(ObjectSetData *set_data) {
     return new TObjLazerFenceExtra(tl_05, set_data);
 }
 
-TObjLazerFenceExtra::TObjLazerFenceExtra(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjLazerFenceExtra::TObjLazerFenceExtra(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     s32 i;
     m_name = lazer_fence_extra_class_name;
     apply_object_set_data(set_data);
@@ -338,7 +338,7 @@ void TObjLazerFenceExtra::render_lazer_fence_model() {
     set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(NULL, this->rotation_y);
+    rotate_matrix_y(NULL, this->rotation.y);
     draw_ginja_object(this->base_model);
     pop_matrix();
 }
@@ -346,15 +346,15 @@ void TObjLazerFenceExtra::render_lazer_fence_model() {
 void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        set_ginja_model_texture_slot(reinterpret_cast<void *>((beam_part_models[i])), lazer_fence_texture_slots[this->scale_level]);
+        set_ginja_model_texture_slot(beam_part_models[i], lazer_fence_texture_slots[this->scale_level]);
     }
     set_texture_list(lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, this->rotation_y);
+    rotate_matrix_y(NULL, this->rotation.y);
     draw_ginja_object(this->base_model);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     draw_ginja_model_with_motion(beam_model, this->beam_motion, this->frame);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }

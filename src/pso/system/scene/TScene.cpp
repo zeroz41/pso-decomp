@@ -1,5 +1,5 @@
 #include "pso/system/memory.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaUvScroll.h"
@@ -52,6 +52,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/FileExtension.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma readonly_strings on
 
@@ -69,9 +70,10 @@ __declspec(section ".rodata") s32 boss_area_id_table[] = {
     AREA_GAL_GRYPHON, AREA_OLGA_FLOW, AREA_BARBA_RAY, AREA_GOL_DRAGON, -1,
 };
 const char *TScene::class_name = "TScene";
-__declspec(section ".rodata") Vec lbl_8044A840[1] = {{0.0f, 0.0f, -1.0f}};
-__declspec(section ".rodata") Vec lbl_8044A84C[1] = {{0.0f, 0.0f, -1.0f}};
-__declspec(section ".rodata") Vec lbl_8044A858[1] = {{0.0f, 0.0f, -1.0f}};
+// The unrotated view axis of each culling pass; the camera yaw turns it into the view direction.
+__declspec(section ".rodata") Vec map_radius_cull_view_axis = {0.0f, 0.0f, -1.0f};
+__declspec(section ".rodata") Vec section_cull_view_axis = {0.0f, 0.0f, -1.0f};
+__declspec(section ".rodata") Vec room_visibility_view_axis = {0.0f, 0.0f, -1.0f};
 __declspec(section ".rodata") s32 item_disabled_area_table[] = {AREA_PIONEER2_EP1, AREA_LOBBY, AREA_PIONEER2_EP2, -1};
 __declspec(section ".rodata") GroupSelectionAreaList group_selection_area_id_table = {{
     AREA_CENTRAL_CONTROL_AREA, AREA_JUNGLE_NORTH, AREA_JUNGLE_EAST, AREA_MOUNTAIN,
@@ -94,7 +96,7 @@ s32 lobby_online_ready_flag;
 s32 reflection_pass_active;
 f32 visibility_radius_margin;
 s32 scene_format_index;
-void (*map_section_render_callback)(Vec *, SceneSectionAngles *, u32);
+void (*map_section_render_callback)(Vec *, Angle3 *, u32);
 void (*active_scene_callback)(s32);
 void (*render_callback)(void);
 s32 lbl_805D5FF8;
@@ -117,14 +119,14 @@ s32 player_auxiliary_surfaces_enabled() {
     return table.enabled[get_current_floor_area()];
 }
 
-SceneMaterialNode *resolve_indirect_object_record(void *, SceneMaterialAnimated *record) {
+NJS_OBJECT *resolve_indirect_object_record(void *, SceneMaterialAnimated *record) {
     if (record->flags & 0x200) {
         return record->indirect->node;
     }
     return record->node;
 }
 
-SceneMaterialNode *resolve_indirect_node_record(void *, SceneMaterialStatic *record) {
+NJS_OBJECT *resolve_indirect_node_record(void *, SceneMaterialStatic *record) {
     if (record->flags & 0x200) {
         return record->indirect->node;
     }
@@ -135,7 +137,7 @@ void TScene::set_instance(void (*callback)(void)) { render_callback = callback; 
 
 void TScene::set_active_scene(void (*callback)(s32 flags)) { active_scene_callback = callback; }
 
-void TScene::set_id(void (*callback)(Vec *pos, SceneSectionAngles *angles, u32 flags)) {
+void TScene::set_id(void (*callback)(Vec *pos, Angle3 *angles, u32 flags)) {
     map_section_render_callback = callback;
 }
 
@@ -241,7 +243,7 @@ void TScene::tick_material_fmt2() {
     SceneMaterialStatic *object;
     s32 i;
     SceneMaterialAnimated *anim;
-    SceneMaterialNode *node;
+    NJS_OBJECT *node;
     SceneMaterialUv *uv;
     if (texture_animation_buffer == NULL || scene_material_root == NULL) {
         return;
@@ -273,7 +275,7 @@ void TScene::tick_material_fmt2() {
             if (object->flags & 0x04000000) {
                 continue;
             }
-            node = ((SceneMaterialNode *)resolve_indirect_node_record(this, object));
+            node = resolve_indirect_node_record(this, object);
             if (object->flags & 0x20) {
                 uv = object->uv;
                 uv->u += uv->du;
@@ -307,7 +309,7 @@ void TScene::tick_material_fmt2() {
             if (anim->flags & 0x04000000) {
                 continue;
             }
-            node = ((SceneMaterialNode *)resolve_indirect_object_record(this, anim));
+            node = resolve_indirect_object_record(this, anim);
             if (anim->flags & 0x20) {
                 uv = anim->uv;
                 uv->u += uv->du;
@@ -340,7 +342,7 @@ void TScene::tick_material_fmt1() {
     SceneMaterialStatic *object;
     s32 i;
     SceneMaterialAnimated *anim;
-    SceneMaterialNode *node;
+    NJS_OBJECT *node;
     SceneMaterialUv *uv;
     if (texture_animation_buffer == NULL || scene_material_root == NULL) {
         return;
@@ -372,13 +374,14 @@ void TScene::tick_material_fmt1() {
             if (object->flags & 0x04000000) {
                 continue;
             }
-            node = ((SceneMaterialNode *)resolve_indirect_node_record(this, object));
+            node = resolve_indirect_node_record(this, object);
             if (object->flags & 0x20) {
                 uv = object->uv;
                 uv->u += uv->du;
                 uv->v += uv->dv;
                 if (fabs_float(uv->u) >= 1.0f || fabs_float(uv->v) >= 1.0f) {
-                    scroll_ginja_mesh_uvs(&node->model->model, (s32)uv->u, (s32)uv->v, uv->texture, 1);
+                    GinjaModel *model = node->ginja_model;
+                    scroll_ginja_mesh_uvs(model, (s32)uv->u, (s32)uv->v, uv->texture, 1);
                     uv->u -= (f32)(s32)uv->u;
                     uv->v -= (f32)(s32)uv->v;
                 }
@@ -404,13 +407,14 @@ void TScene::tick_material_fmt1() {
             if (anim->flags & 0x04000000) {
                 continue;
             }
-            node = ((SceneMaterialNode *)resolve_indirect_object_record(this, anim));
+            node = resolve_indirect_object_record(this, anim);
             if (anim->flags & 0x20) {
                 uv = anim->uv;
                 uv->u += uv->du;
                 uv->v += uv->dv;
                 if (uv->u >= 1.0f || uv->v >= 1.0f) {
-                    scroll_ginja_mesh_uvs(&node->model->model, (s32)uv->u, (s32)uv->v, uv->texture, 1);
+                    GinjaModel *model = node->ginja_model;
+                    scroll_ginja_mesh_uvs(model, (s32)uv->u, (s32)uv->v, uv->texture, 1);
                     uv->u -= (f32)(s32)uv->u;
                     uv->v -= (f32)(s32)uv->v;
                 }
@@ -461,7 +465,7 @@ void TScene::load_current_floor() {
     TScene::load_scene_rel_file(ent);
     if (scene_material_root != NULL && scene_material_root->texlist != NULL) {
         found = 0;
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (is_not_split_screen() == 1) {
             replace_file_extension(path, tbl[scene_resource_index].name, "m.gvm");
             found = get_resource_file_size(path);
         }
@@ -497,7 +501,7 @@ void TScene::load_scene_data(saddr name) {
     size = get_resource_file_size(filename);
     if (get_current_floor_area() == AREA_LOBBY) {
         if ((size > 0) && ((u32) size <= 0x10000U)) {
-            lobby_buffer = TQuestVmDownLoadServer::alloc(0x10000);
+            lobby_buffer = alloc(0x10000);
             collision_file_buffer = lobby_buffer;
             if (lobby_buffer != NULL) {
                 scene_collision_data = (CsnGroup **)load_relocatable_file(filename, lobby_buffer);
@@ -505,7 +509,7 @@ void TScene::load_scene_data(saddr name) {
             }
         }
     } else if (size > 0) {
-        buffer = TQuestVmDownLoadServer::alloc(size);
+        buffer = alloc(size);
         collision_file_buffer = buffer;
         if (buffer != NULL) {
             scene_collision_data = (CsnGroup **)load_relocatable_file(filename, buffer);
@@ -530,7 +534,7 @@ void TScene::load_scene_rel_file(saddr ent) {
     map_rel_load_buffer = NULL;
     map_rel_load_size_limit = 0;
     scene_format_index = -1;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         replace_file_extension(id, (char *)ent, "nm.rel");
         size = get_resource_file_size(id);
     }
@@ -540,14 +544,14 @@ void TScene::load_scene_rel_file(saddr ent) {
     }
     if (area == AREA_LOBBY) {
         if (size > 0 && (u32)size <= 0x80000U) {
-            map_rel_load_buffer = TQuestVmDownLoadServer::alloc(0x80000);
+            map_rel_load_buffer = alloc(0x80000);
             if (map_rel_load_buffer != NULL) {
                 scene_material_root = (SceneMaterialRoot *)load_relocatable_file(id, map_rel_load_buffer);
                 map_rel_load_size_limit = 0x80000;
             }
         }
     } else if (size > 0) {
-        map_rel_load_buffer = TQuestVmDownLoadServer::alloc(size);
+        map_rel_load_buffer = alloc(size);
         if (map_rel_load_buffer != NULL) {
             scene_material_root = (SceneMaterialRoot *)load_relocatable_file(id, map_rel_load_buffer);
             map_rel_load_size_limit = size;
@@ -573,7 +577,7 @@ void TScene::load_supplementary_t_rel(saddr name) {
     replace_file_extension(id, (char *)name, "t.rel");
     n = get_resource_file_size(id);
     if (n > 0) {
-        supplementary_rel_buffer = TQuestVmDownLoadServer::alloc(n);
+        supplementary_rel_buffer = alloc(n);
         if (supplementary_rel_buffer != NULL) {
             texture_wave_resource = (TextureWaveEntry **)load_relocatable_file(id, supplementary_rel_buffer);
             loaded_floor_rel_file_index = n;
@@ -592,7 +596,7 @@ void TScene::load_map_texture_archive(saddr name) {
     texture_animation_buffer = NULL;
     size = 0;
     texture_animation_size_limit = 0;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         replace_file_extension(filename, (char *)name, "m.tam");
         size = get_resource_file_size(filename);
     }
@@ -602,7 +606,7 @@ void TScene::load_map_texture_archive(saddr name) {
     }
     if (area == AREA_LOBBY) {
         if ((size > 0) && ((u32) size <= 0x100U)) {
-            lobby_buffer = TQuestVmDownLoadServer::alloc(0x100);
+            lobby_buffer = alloc(0x100);
             texture_animation_buffer = lobby_buffer;
             if (lobby_buffer != NULL) {
                 read_disc_file(filename, lobby_buffer);
@@ -610,7 +614,7 @@ void TScene::load_map_texture_archive(saddr name) {
             }
         }
     } else if (size > 0) {
-        buffer = TQuestVmDownLoadServer::alloc(size);
+        buffer = alloc(size);
         texture_animation_buffer = buffer;
         if (buffer != NULL) {
             read_disc_file(filename, buffer);
@@ -624,7 +628,7 @@ void TScene::load_floor_bin_file(saddr name) {
     s32 size;
     floor_bin_buffer = NULL;
     floor_bin_file_size = 0;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         replace_file_extension(filename, (char *)name, "bm.bin");
     } else {
         replace_file_extension(filename, (char *)name, "b.bin");
@@ -632,14 +636,14 @@ void TScene::load_floor_bin_file(saddr name) {
     size = get_resource_file_size(filename);
     if (get_current_floor_area() == AREA_LOBBY) {
         if (size > 0 && (u32)size <= 0x100U) {
-            floor_bin_buffer = TQuestVmDownLoadServer::alloc(0x100);
+            floor_bin_buffer = alloc(0x100);
             if (floor_bin_buffer != NULL) {
                 read_disc_file(filename, floor_bin_buffer);
                 floor_bin_file_size = 0x100;
             }
         }
     } else if (size > 0) {
-        floor_bin_buffer = TQuestVmDownLoadServer::alloc(size);
+        floor_bin_buffer = alloc(size);
         if (floor_bin_buffer != NULL) {
             read_disc_file(filename, floor_bin_buffer);
             floor_bin_file_size = size;
@@ -659,7 +663,7 @@ void TScene::load_file_to_buffer(saddr name) {
     size = get_resource_file_size(filename);
     if (get_current_floor_area() == AREA_LOBBY) {
         if ((size > 0) && ((u32) size <= 0x100U)) {
-            lobby_buffer = TQuestVmDownLoadServer::alloc(0x100);
+            lobby_buffer = alloc(0x100);
             material_info_buffer = lobby_buffer;
             if (lobby_buffer != NULL) {
                 read_disc_file(filename, lobby_buffer);
@@ -667,7 +671,7 @@ void TScene::load_file_to_buffer(saddr name) {
             }
         }
     } else if (size > 0) {
-        buffer = TQuestVmDownLoadServer::alloc(size);
+        buffer = alloc(size);
         material_info_buffer = buffer;
         if (buffer != NULL) {
             read_disc_file(filename, buffer);
@@ -743,7 +747,7 @@ void load_floor_scene(void) {
     load_scene_collision_file(ent);
     if (scene_material_root != NULL && scene_material_root->texlist != NULL) {
         found = 0;
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (is_not_split_screen() == 1) {
             replace_file_extension(path, tbl[scene_resource_index].name, "m.gvm");
             found = get_resource_file_size(path);
         }
@@ -909,8 +913,8 @@ void TScene::initialize_fmt2_materials() {
                 if (find_uv_animation(&def) == 1) {
                     uv->id = def.id; uv->texture = def.texture;
                     uv->u = def.u; uv->v = def.v; uv->du = def.du; uv->dv = def.dv;
-                    SceneMaterialNode *node = resolve_indirect_node_record(task, object);
-                    uv->buffer = new UvScrollBuffer(reinterpret_cast<NJS_OBJECT *>(node), uv->texture);
+                    NJS_OBJECT *node = resolve_indirect_node_record(task, object);
+                    uv->buffer = new UvScrollBuffer(node, uv->texture);
                 } else {
                     object->flags &= ~0x20;
                 }
@@ -927,8 +931,8 @@ void TScene::initialize_fmt2_materials() {
                 if (find_uv_animation(&def2) == 1) {
                     uv2->id = def2.id; uv2->texture = def2.texture;
                     uv2->u = def2.u; uv2->v = def2.v; uv2->du = def2.du; uv2->dv = def2.dv;
-                    SceneMaterialNode *node2 = resolve_indirect_object_record(task, anim);
-                    uv2->buffer = new UvScrollBuffer(reinterpret_cast<NJS_OBJECT *>(node2), uv2->texture);
+                    NJS_OBJECT *node2 = resolve_indirect_object_record(task, anim);
+                    uv2->buffer = new UvScrollBuffer(node2, uv2->texture);
                 } else {
                     anim->flags &= ~0x20;
                 }
@@ -1228,7 +1232,7 @@ void TScene::render_map_sections() {
 void TScene::render_static_map_section(SceneMaterialSection *scene_material_section, s32 flagged_only) {
     SceneMaterialStatic *e;
     s32 i;
-    SceneMaterialNode *node;
+    NJS_OBJECT *node;
     TEffIndirect *tex;
 
     for (i = 0, e = scene_material_section->objects; i < scene_material_section->count; i++, e++) {
@@ -1245,37 +1249,37 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
             continue;
         }
         if (e->flags & 1) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
         }
         if (e->flags & 2) {
             model_render_flags |= 1;
         }
         if (e->flags & 0x10) {
-            SceneMaterialNode *sh = resolve_indirect_node_record(this, e);
+            NJS_OBJECT *sh = resolve_indirect_node_record(this, e);
             if (sh != NULL) {
                 Vec v;
-                SceneSectionAngles a;
-                v.x = sh->position[0];
-                v.y = sh->position[1];
-                v.z = sh->position[2];
+                Angle3 a;
+                v.x = sh->pos[0];
+                v.y = sh->pos[1];
+                v.z = sh->pos[2];
                 vec3_add_to(&v, &scene_material_section->position);
-                a.x = sh->angles[0] + scene_material_section->angles[0];
-                a.y = sh->angles[1] + scene_material_section->angles[1];
-                a.z = sh->angles[2] + scene_material_section->angles[2];
+                a.x = sh->ang[0] + scene_material_section->angles[0];
+                a.y = sh->ang[1] + scene_material_section->angles[1];
+                a.z = sh->ang[2] + scene_material_section->angles[2];
                 render_projected_shadow_receiver(&v.x, &a.x);
             }
         }
         node = resolve_indirect_node_record(this, e);
         if (map_section_render_callback != NULL) {
             Vec v;
-            SceneSectionAngles a;
-            v.x = node->position[0];
-            v.y = node->position[1];
-            v.z = node->position[2];
+            Angle3 a;
+            v.x = node->pos[0];
+            v.y = node->pos[1];
+            v.z = node->pos[2];
             vec3_add_to(&v, &scene_material_section->position);
-            a.x = node->angles[0] + scene_material_section->angles[0];
-            a.y = node->angles[1] + scene_material_section->angles[1];
-            a.z = node->angles[2] + scene_material_section->angles[2];
+            a.x = node->ang[0] + scene_material_section->angles[0];
+            a.y = node->ang[1] + scene_material_section->angles[1];
+            a.z = node->ang[2] + scene_material_section->angles[2];
             map_section_render_callback(&v, &a, e->flags);
         }
         if (e->flags & 0x200) {
@@ -1294,13 +1298,13 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 SceneIndirectRecord *m = e->indirect;
                 if (m != NULL && TMainTask::get_render_pass() == 1) {
                     IndirectDrawRecord l;
-                    l.placement.position.x = node->position[0];
-                    l.placement.position.y = node->position[1];
-                    l.placement.position.z = node->position[2];
+                    l.placement.position.x = node->pos[0];
+                    l.placement.position.y = node->pos[1];
+                    l.placement.position.z = node->pos[2];
                     vec3_add_to(&l.placement.position, &scene_material_section->position);
-                    l.placement.angles.x = node->angles[0] + scene_material_section->angles[0];
-                    l.placement.angles.y = node->angles[1] + scene_material_section->angles[1];
-                    l.placement.angles.z = node->angles[2] + scene_material_section->angles[2];
+                    l.placement.angles.x = node->ang[0] + scene_material_section->angles[0];
+                    l.placement.angles.y = node->ang[1] + scene_material_section->angles[1];
+                    l.placement.angles.z = node->ang[2] + scene_material_section->angles[2];
                     l.texlist = scene_material_root->texlist;
                     l.model = (NJS_OBJECT *)node;
                     l.scene = scene_material_root->flags;
@@ -1330,7 +1334,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
             model_render_flags &= ~1;
         }
         if (e->flags & 1) {
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
         if (active_scene_callback != NULL) {
             active_scene_callback(e->flags);
@@ -1341,7 +1345,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
   TEffIndirect *texture;
   SceneMaterialAnimated *e;
   s32 i;
-  SceneMaterialNode *node;
+  NJS_OBJECT *node;
   for (i = 0, e = scene_material_section->animated; i < scene_material_section->animatedCount; i++, e++)
   {
     if ((flagged_only != 0) && (!(e->flags & 0x10000)))
@@ -1366,7 +1370,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     }
     if (e->flags & 1)
     {
-      TParticleCtrl::begin_effect_render();
+      begin_effect_render();
     }
     if (e->flags & 2)
     {
@@ -1376,27 +1380,27 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     if (e->flags & 0x10)
     {
       Vec v;
-      SceneSectionAngles a;
-      v.x = node->position[0];
-      v.y = node->position[1];
-      v.z = node->position[2];
+      Angle3 a;
+      v.x = node->pos[0];
+      v.y = node->pos[1];
+      v.z = node->pos[2];
       vec3_add_to(&v, &scene_material_section->position);
-      a.x = node->angles[0] + scene_material_section->angles[0];
-      a.y = node->angles[1] + scene_material_section->angles[1];
-      a.z = node->angles[2] + scene_material_section->angles[2];
+      a.x = node->ang[0] + scene_material_section->angles[0];
+      a.y = node->ang[1] + scene_material_section->angles[1];
+      a.z = node->ang[2] + scene_material_section->angles[2];
       render_projected_shadow_receiver(&v.x, &a.x);
     }
     if (map_section_render_callback != 0)
     {
       Vec v;
-      SceneSectionAngles a;
-      v.x = node->position[0];
-      v.y = node->position[1];
-      v.z = node->position[2];
+      Angle3 a;
+      v.x = node->pos[0];
+      v.y = node->pos[1];
+      v.z = node->pos[2];
       vec3_add_to(&v, &scene_material_section->position);
-      a.x = node->angles[0] + scene_material_section->angles[0];
-      a.y = node->angles[1] + scene_material_section->angles[1];
-      a.z = node->angles[2] + scene_material_section->angles[2];
+      a.x = node->ang[0] + scene_material_section->angles[0];
+      a.y = node->ang[1] + scene_material_section->angles[1];
+      a.z = node->ang[2] + scene_material_section->angles[2];
       map_section_render_callback(&v, &a, e->flags);
     }
     if (e->flags & 0x200)
@@ -1418,7 +1422,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
       }
     }
     else
-      if (TRaderMapCore::is_not_split_screen() == 1)
+      if (is_not_split_screen() == 1)
     {
       set_material_alpha_compare_reference(scene_material_root->flags);
       draw_ginja_object((NJS_OBJECT *)node);
@@ -1438,7 +1442,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
     }
     if (e->flags & 1)
     {
-      TParticleCtrl::end_effect_render();
+      end_effect_render();
     }
     if (active_scene_callback != 0)
     {
@@ -1451,7 +1455,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
 void TScene::cull_sections_within_map_radius() {
     Vec dir;
     Vec d;
-    Vec up = lbl_8044A840[0];
+    Vec up = map_radius_cull_view_axis;
     Vec p;
     f32 far2;
     SceneMaterialSection *sec;
@@ -1604,7 +1608,7 @@ void TScene::cull_sections() {
     static f32 s_pad = 80.0f;
     Vec dir;
     Vec d;
-    Vec up = lbl_8044A84C[0];
+    Vec up = section_cull_view_axis;
     Vec p;
     Vec v;
     s32 i;
@@ -1698,10 +1702,11 @@ void TScene::cull_sections() {
             SceneMaterialStatic *st = sec->objects;
             s32 j;
             for (j = 0; j < sec->count; j++, st++) {
-                SceneMaterialNode *n = resolve_indirect_node_record(this, st);
-                v.x = n->model->center[0] + (sec->position.x + n->position[0]);
-                v.y = n->model->center[1] + (sec->position.y + n->position[1]);
-                v.z = n->model->center[2] + (sec->position.z + n->position[2]);
+                NJS_OBJECT *n = resolve_indirect_node_record(this, st);
+                f32 *center = static_cast<SceneModel *>(n->model)->center;
+                v.x = center[0] + (sec->position.x + n->pos[0]);
+                v.y = center[1] + (sec->position.y + n->pos[1]);
+                v.z = center[2] + (sec->position.z + n->pos[2]);
                 if (is_in_view_depth(&v, s_near + s_pad, 100.0f) != 0) {
                     st->flags |= 0x10000;
                 } else {
@@ -1711,10 +1716,10 @@ void TScene::cull_sections() {
             {
                 SceneMaterialAnimated *an = sec->animated;
                 for (j = 0; j < sec->animatedCount; j++, an++) {
-                    SceneMaterialNode *n = resolve_indirect_object_record(this, an);
-                    v.x = sec->position.x + n->position[0];
-                    v.y = sec->position.y + n->position[1];
-                    v.z = sec->position.z + n->position[2];
+                    NJS_OBJECT *n = resolve_indirect_object_record(this, an);
+                    v.x = sec->position.x + n->pos[0];
+                    v.y = sec->position.y + n->pos[1];
+                    v.z = sec->position.z + n->pos[2];
                     if (is_in_view_depth(&v, s_near + s_pad, 100.0f) != 0) {
                         an->flags |= 0x10000;
                     } else {
@@ -1791,7 +1796,7 @@ void TScene::update_room_visibility_from_camera() {
         }
     }
     {
-        Vec w = lbl_8044A858[0];
+        Vec w = room_visibility_view_axis;
         Vec out2;
         SceneMaterialSection *s;
         s32 k;
@@ -1865,10 +1870,12 @@ BOOL TScene::is_in_view_depth(Vec *pos, f32 depth, f32) {
     }
     return TRUE;
 }
-s32 TScene::is_node_visible(SceneMaterialNode *node, f32 depth, f32 near_depth) {
+s32 TScene::is_node_visible(NJS_OBJECT *node, f32 depth, f32 near_depth) {
     if (node->model != NULL && camera_ctrl_instance != NULL) {
-        Vec *pos = (Vec *)node->position;
-        if (xz_distance_squared(&camera_ctrl_instance->pos, pos) < node->model->radius * node->model->radius) {
+        Vec *pos = (Vec *)node->pos;
+        f32 distance = xz_distance_squared(&camera_ctrl_instance->pos, pos);
+        f32 radius = static_cast<SceneModel *>(node->model)->radius;
+        if (distance < radius * radius) {
             return 1;
         }
         return is_in_view_depth(pos, depth, near_depth);

@@ -130,6 +130,9 @@ struct InventorySortEntry {
     InventorySortEntry &operator=(InventorySortEntry &other);
 };
 
+// The constructor by symbol, for InventorySortBuffer's array allocation (C++ cannot take a constructor's address).
+extern "C" void *__ct__18InventorySortEntryFv(void *object);
+
 // The 8-byte list TPlyItem::sort_items allocates with new and frees with
 // delete (the destructor's s16 argument is MWCC's delete flag).
 struct InventorySortBuffer {

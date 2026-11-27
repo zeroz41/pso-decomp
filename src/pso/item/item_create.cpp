@@ -135,7 +135,7 @@
 #include "pso/item/TItemTimerEvent.h"
 #include "pso/item/TItemTexLoad.h"
 #include "pso/effect/item/TItemEffectWeapon.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/item/drop/TItemDropSub.h"
 #include "pso/network/protocol/choice_search.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -209,12 +209,8 @@
 
 // ---- TLobby_80104374.cpp
 
-extern "C" {
-s32 get_item_icon_index();
-}
-
 // This unit's .sbss, in address order.
-void *item_object_set_data;
+ObjectSetData *item_object_set_data;
 s32 item_ground_placement_enabled;
 FlagWord floor_item_respawn_requested;
 LoadUnloadSet *item_class_load_handle;
@@ -424,9 +420,9 @@ ItemCreateFunction item_tool_factory_table[24] = {
 
 void set_boss_buf_entry(int value, u16 index) { item_sync_counter_table[index] = value; }
 int get_sync_counter(u16 index) { return item_sync_counter_table[index]; }
-s32 get_item_data(TItemData *item) {
+s32 get_item_data(const TItemData *item) {
     if (item != NULL) {
-        return get_item_icon_index();
+        return get_item_icon_index(item);
     }
     return 0;
 }
@@ -563,7 +559,7 @@ s32 TShopEquipmentSellWindow::get_item_data_value(TItem *item) {
     }
     return 0;
 }
-s32 TItemData::calc_price_of(TItemData *data) {
+s32 calc_price_of(TItemData *data) {
     if (data != NULL) {
         return data->calc_price();
     }
@@ -600,7 +596,7 @@ s32 is_local_player_off_current_floor() {
 }
 
 
-u8 TObjPlayer::find_adjacent_matching_slot(u8 slot) {
+u8 find_adjacent_matching_slot(u8 slot) {
     s16 prev_type;
     s16 type;
     s16 amount;
@@ -618,7 +614,7 @@ u8 TObjPlayer::find_adjacent_matching_slot(u8 slot) {
     return slot;
 }
 
-u8 TObjPlayer::get_next_matching_special_index(u8 slot) {
+u8 get_next_matching_special_index(u8 slot) {
     s16 type;
     s16 next_type;
     s16 amount;
@@ -639,7 +635,7 @@ s32 item_identity_matches(u8 *item, u8 *other) {
   s32 result;
   u8 item_type;
   u8 item_group;
-  if (((((item) != 0) && ((other) != 0)) && ((item_type = item[0], (item_type == other[0]) != 0))) && ((item_group = item[1], (item_group == other[1]) != 0)))
+  if (item != NULL && other != NULL && (item_type = item[0], item_type == other[0]) && (item_group = item[1], item_group == other[1]))
   {
     switch ((s32) item_type)
     {
@@ -732,7 +728,7 @@ s32 compare_item_data_masked(void *item, void *other, s32 mode) {
 
 // ---- TMainTask_80104C40.cpp
 
-void TMainTask::cleanup_game_objects() {
+void cleanup_game_objects() {
     s32 floor;
     s32 main_phase;
     s32 area;
@@ -745,7 +741,7 @@ void TMainTask::cleanup_game_objects() {
     area = get_current_floor_area();
     floor = get_current_floor();
     item_ground_placement_enabled = 0;
-    TLobby::clear_object_count();
+    clear_object_count();
     respawn_missing_floor_items(floor);
     if ((area == AREA_PIONEER2_EP1) || (area == AREA_PIONEER2_EP2)) {
         floor_item_respawn_requested.set(1);
@@ -888,7 +884,6 @@ ItemCreateFunction item_create_fn_table[5] = {
     create_weapon_for_item, create_armor_for_item, TItemMag::create, TItemObject::create_tool,
     TItemMoney::create,
 };
-void send_6x60_standard_drop_item_request(TObjEnemy *enemy);
 }
 s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
   TObjPlayer *player_alias;
@@ -1159,10 +1154,9 @@ TItem *create_armor_for_item(u8 *item) {
     }
     return 0;
 }
-extern "C" {
 
 // Clears a drop request's position. Dead-stripped from the game: only its 0.0f literal remains.
-void clear_drop_request_position(Vec *v) {
+extern "C" void clear_drop_request_position(Vec *v) {
     v->x = 0.0f;
     v->y = 0.0f;
     v->z = 0.0f;
@@ -1240,7 +1234,6 @@ void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
         }
     }
 }
-}
 
 TItem *spawn_dropped_item_from_msg(FloorItem *drop, s32 quiet) {
     TItem *item;
@@ -1271,9 +1264,9 @@ TItem *spawn_dropped_item_from_msg(FloorItem *drop, s32 quiet) {
     return item;
 }
 
-void TObjPlayer::free_item_globals() { delete item_class_load_handle; item_class_load_handle = 0; TItemLoad::free_all(); TItemBuff::free_all_and_init(); }
+void free_item_globals() { delete item_class_load_handle; item_class_load_handle = 0; TItemLoad::free_all(); TItemBuff::free_all_and_init(); }
 
-void TObjPlayer::init_game_resources() {
+void init_game_resources() {
     init_item_chunk_buffers();
     TItemLoad::init_resources();
     item_class_load_handle = create_load_unload_set(item_class_load_unload_table);

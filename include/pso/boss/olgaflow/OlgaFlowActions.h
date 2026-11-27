@@ -41,6 +41,9 @@ struct Boss6Type2FlowAction {
     void decode_target(Boss6Type2MoveTarget *target);
 };
 
+// 6xA4: Olga Flow's first form action. Sent by TBoss6Type1::send_6xA4_action and
+// send_flow_action_if_idle; received by handle_6xA4_olga_flow_boss_actions. The header holds the
+// boss's entity id; initialize sets the header size to 5 words.
 struct OlgaFlowActionMsg {
     G_ClientIDHeader header;
     Boss6FlowAction flow;
@@ -54,6 +57,9 @@ struct OlgaFlowActionMsg {
     void send();
 };
 
+// 6xA5: Olga Flow's second form action. Sent by TBoss6Type2::send_action_packet and
+// send_action_packet_if_idle; received by handle_6xA5_olga_flow_boss_actions. initialize sets the
+// header size to 5 words.
 struct OlgaFlowType2ActionMsg {
     G_ClientIDHeader header;
     Boss6Type2FlowAction flow;
@@ -79,6 +85,8 @@ LAYOUT_ASSERT(OlgaFlowType2ActionMsg_size, sizeof(OlgaFlowType2ActionMsg) == 0x1
 LAYOUT_ASSERT(OlgaFlowType2ActionMsg_action_offset, offsetof(OlgaFlowType2ActionMsg, flow) == 4);
 LAYOUT_ASSERT(OlgaFlowType2ActionMsg_sync_offset, offsetof(OlgaFlowType2ActionMsg, random_factor) == 8);
 
+// 6xA3: Olga Flow's plot phase and spawn variant. Sent by TBoss6PlotFalz::send_6xA3_action;
+// received by handle_6xA3_olga_flow_boss_actions. initialize sets the header size to 5 words.
 struct OlgaFlowPlotActionMsg {
     G_ClientIDHeader header;
     s8 phase;

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -7,7 +6,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/vector.h"
 #include "pso/object/ambient/TObjLight.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/technique/TTecShot.h"
@@ -130,7 +129,7 @@ void offset_point_toward_camera(Vec *center, Vec *out, f32 distance) {
 #pragma pop
 
 
-s32 TTecLuker::is_parents_unqueued(TObject *object) {
+s32 TObject::is_parents_unqueued(TObject *object) {
     if (object == NULL) {
         return 0;
     }
@@ -144,8 +143,9 @@ s32 TTecLuker::is_parents_unqueued(TObject *object) {
 extern "C" {
 
 const f64 actor_light_half[1] = {0.5};
+}
 
-s32 TObjPlayer::is_valid_and_active(const TObjCollidable *actor) {
+s32 TObjCollidable::is_valid_and_active(const TObjCollidable *actor) {
     if (actor == 0U) {
         return 0;
     }
@@ -154,11 +154,9 @@ s32 TObjPlayer::is_valid_and_active(const TObjCollidable *actor) {
     }
     return 0;
 }
-}
 TechniqueContactList technique_contact_query_results;
 
 void resetTechniqueContactQuery();
-
 
 TechniqueContactList *TTecPlayerInfluence::find_support_technique_contact(TObjCollidable *target, CollisionBody *body, TObjBase *player) {
     Vec pos;
@@ -363,7 +361,7 @@ TechniqueContactList *TTecShot::query_technique_enemy_contacts(TObjBase *source)
     pos.y = 0.5f * (pos.y + prev->y);
     pos.z = 0.5f * (pos.z + prev->z);
     VecCopy(&collidable->position, &pos);
-    copy_xyz(&collidable->rotation_x, angles);
+    copy_xyz(&collidable->rotation, angles);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
         pd = TObjPlayer::get_player_data(i);
         if (pd == 0) continue;
@@ -421,7 +419,7 @@ TechniqueContactList *TTecShot::query_technique_player_contacts(TObjBase *source
     pos.y = 0.5f * (pos.y + prev->y);
     pos.z = 0.5f * (pos.z + prev->z);
     VecCopy(&collidable->position, &pos);
-    copy_xyz(&collidable->rotation_x, angles);
+    copy_xyz(&collidable->rotation, angles);
     if (source->get_entity_id() < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {

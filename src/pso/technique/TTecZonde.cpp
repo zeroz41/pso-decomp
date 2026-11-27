@@ -1,5 +1,4 @@
 #include "pso/player/TargetCursorList.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/math/MatrixVector.h"
 #include "types.h"
@@ -22,12 +21,12 @@ const char *TTecZonde_class_name = "TTecZonde"; // TTecZonde__name
 void TTecZonde::init_parameters() {
     TechniqueParams *scaled = calc_technique_parameters(6, level, 0xFFFF);
     params.copy(scaled);
-    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+    if (level >= 15 && is_technique_ready() == 0) {
         params.power = (f32)(tech_high_level_linear_power_table[6].base + tech_high_level_linear_power_table[6].per_level * level);
         return;
     }
     params.power = params.power + (f32)(params.power_per_level * level);
-    if (TTecCtrl::is_technique_ready()) {
+    if (is_technique_ready()) {
         params.power = params.power * technique_scale_table[6].power;
     }
 
@@ -84,7 +83,7 @@ void TTecZonde::run_task() {
         return;
     }
     t = static_cast<TObjChara *>(find_entity_by_id(targets.records[0].id));
-    if (TTecLuker::is_parents_unqueued(t) != 0) {
+    if (TObject::is_parents_unqueued(t) != 0) {
         for (i = 0; i < 14; i++) {
             s = &segs[i];
             s->start.y = 100.0f + t->position.y;
@@ -173,7 +172,7 @@ void TTecZonde::run_task() {
             }
         }
     }
-    if (t != NULL && TTecLuker::is_parents_unqueued(t) != 0 && TObjPlayer::is_valid_and_active(t) != 0) {
+    if (t != NULL && TObject::is_parents_unqueued(t) != 0 && TObjCollidable::is_valid_and_active(t) != 0) {
         apply_to_target(t);
     }
     queue_destruction();

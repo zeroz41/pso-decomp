@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -91,7 +90,7 @@ void TTecResta::run_task() {
     TObjCollidable *member;
     s32 i;
     source = find_entity_by_id(sourceId);
-    if (TTecLuker::is_parents_unqueued(source) == 0) {
+    if (TObject::is_parents_unqueued(source) == 0) {
         queue_destruction();
         return;
     }
@@ -103,7 +102,7 @@ void TTecResta::run_task() {
             if (targets.count != 0) {
                 for (i = 0; i < targets.count; i++) {
                     member = find_entity_by_id(targets.records[i].id);
-                    if (TTecLuker::is_parents_unqueued(member) != 0) {
+                    if (TObject::is_parents_unqueued(member) != 0) {
                         apply_to_player((TObjPlayer *)member);
                     }
                 }
@@ -204,7 +203,7 @@ void TTecResta::init_parameters() {
     res = calc_technique_parameters(0xF, level, 0xFFFF);
     params.copy(res);
     params.power = params.power + (f32)(params.power_per_level * level);
-    if (TTecCtrl::is_technique_ready() != 0) {
+    if (is_technique_ready() != 0) {
         params.power *= technique_scale_table[15].power;
     }
 }
@@ -213,7 +212,7 @@ f32 TTecResta::calc_heal_amount(s32 level) {
     f32 amount;
     amount = calc_technique_parameters(0xF, level, 0xFFFF)->power;
     amount = amount + (f32)(level * 5);
-    if (TTecCtrl::is_technique_ready() != 0) {
+    if (is_technique_ready() != 0) {
         amount *= technique_scale_table[15].power;
     }
     return amount;

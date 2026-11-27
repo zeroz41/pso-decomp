@@ -22,17 +22,18 @@ struct TAdPlyPltAnimCtrlGC : public TObject {
     static void render(void *self);
     void init(void* a1);
     virtual void run_task();
-    static u32 get_instance(saddr parent);
+    static TAdPlyPltAnimCtrlGC *get_instance(TObject *parent);
+    s32 is_plate_animation_running();
     static TAdPlyPltAnimGC *get_table_value(int index);
 };
 
 LAYOUT_ASSERT(TAdPlyPltAnimCtrlGC_size, sizeof(TAdPlyPltAnimCtrlGC) == 0x2C);
 
+extern TAdPlyPltAnimCtrlGC *plyplt_anim_ctrl_instance;
+
 void reset_plate_animations(TAdPlyPltAnimCtrlGC *ctrl);
 
 // Whether every bit of `mask` is set in the flag word.
 s32 test_flags_all(s32 *flags, s32 mask);
-
-extern u32 plyplt_anim_ctrl_instance;
 
 #endif

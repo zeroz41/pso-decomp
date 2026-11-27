@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -28,7 +27,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -109,9 +108,10 @@ s32 bm5_wolf_render_node_index;
 s32 bm5_wolf_render_joint_y_rotation;
 }
 #include <stddef.h>
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/audio/SoundRequests.h"
 
 #pragma defer_codegen on
 #pragma push
@@ -122,11 +122,10 @@ Vec bm5_wolf_zero_vector;  // zeroed by the resource loader, never read
 u32 lbl_80500B6C[3];
 u32 bm5_wolf_pack_member_list[5];
 u32 bm5_wolf_instance_list[3];
-void __register_global_object(void *obj, void (*dtor)(), void *chain);
-void __dt__18TObjEneBm5WolfListFv();
 }
 
-__declspec(section ".ctors") static void *const __sinit_TObjEneBm5Wolf_cpp_ref = TObjEneBm5Wolf::register_global_objects;
+void __sinit_TObjEneBm5Wolf_cpp();
+__declspec(section ".ctors") static void *const bm5_wolf_global_initializer = (void *)__sinit_TObjEneBm5Wolf_cpp;
 
 s32 TObjEneBm5Wolf::get_group_id() { return this->group_id; }
 
@@ -134,10 +133,12 @@ s32 actor_rand_int(TObjChara *actor, s32 range) {
     return (s32) ((f32) range * actor->random_ratio());
 }
 
-void TObjEneBm5Wolf::register_global_objects() {
+// Builds the two global lists after bm5_wolf_stat_params and registers their destructors, spelled out because
+// the original's static initializer precedes this file's inline copies.
+void __sinit_TObjEneBm5Wolf_cpp() {
     WolfGlobalObjects *g = (WolfGlobalObjects *)bm5_wolf_stat_params;
-    __register_global_object(g->list0.reset(), __dt__18TObjEneBm5WolfListFv, g->chain0);
-    __register_global_object(g->list1.reset(), __dt__18TObjEneBm5WolfListFv, g->chain1);
+    __register_global_object(g->list0.reset(), __dt__18TObjEneBm5WolfListFv, &g->chain0);
+    __register_global_object(g->list1.reset(), __dt__18TObjEneBm5WolfListFv, &g->chain1);
 }
 
 TObjEneBm5WolfNode::TObjEneBm5WolfNode() {
@@ -232,7 +233,7 @@ static f32 actor_rand_float(saddr actor, s32 range) {
     return (f32)range * ((TObjChara *)actor)->random_ratio();
 }
 
-void *TObjEneBm5Wolf::create(void *set_data) {
+void *TObjEneBm5Wolf::create(EnemyPlacement *set_data) {
     return new TObjEneBm5Wolf(tl_04, set_data);
 }
 
@@ -271,7 +272,7 @@ TObjEneBm5Wolf *TObjEneBm5Wolf::find_pack_leader(s32 id) {
 }
 #pragma push
 #pragma bool off
-TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
     s32 n;
     m_name = bm5_wolf_class_name;
     invoke_initialization_hook(set_data);
@@ -358,7 +359,7 @@ void TObjEneBm5Wolf::run_task() {
     s16 cur_mode;
     s16 idle_mode;
     s32 delay;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->update_state();
         return;
     }
@@ -435,7 +436,7 @@ void TObjEneBm5Wolf::select_subtype() {
 
 void TObjEneBm5Wolf::advance_pose_turn(s32 target) {
     s32 d;
-    d = angle_diff_s16(this->rotation_y, target);
+    d = angle_diff_s16(this->rotation.y, target);
     if (d > 0x4000) {
         d = 0x4000;
     } else if (d < -0x4000) {
@@ -458,8 +459,8 @@ void TObjEneBm5Wolf::advance_pose_turn(s32 target) {
 void TObjEneBm5Wolf::turn_pose_to_target() {
     f32 x;
     f32 z;
-    x = this->position.x + 0.0f * sin_table_lookup(this->rotation_y);
-    z = this->position.z + 0.0f * cos_table_lookup(this->rotation_y);
+    x = this->position.x + 0.0f * sin_table_lookup(this->rotation.y);
+    z = this->position.z + 0.0f * cos_table_lookup(this->rotation.y);
     f32 dx = this->current_target->position.x - x;
     f32 dz = this->current_target->position.z - z;
     z = atan2_float((0, dx), dz);
@@ -541,10 +542,10 @@ void TObjEneBm5Wolf::set_anim_state() {
 f32 TObjEneBm5Wolf::calc_circle_offset(Vec *target, Vec *out) {
     f32 dx;
     f32 dz;
-    dz = position.z - target->z;
     dx = position.x - target->x;
+    dz = position.z - target->z;
     f32 distSq = dx * dx + dz * dz;
-    f32 inv = 1.0f / ((f32 (*)(f32, f32))newton_sqrtf)(distSq, position.x);
+    f32 inv = 1.0f / newton_sqrtf(distSq);
     out->x = dx * inv;
     out->y = 0.0f;
     out->z = dz * inv;
@@ -559,8 +560,8 @@ s32 TObjEneBm5Wolf::select_death_direction(s32 *heading) {
     v.y = 0.0f;
     if (0.0f != normalize_vector_xz(&v)) {
         *heading = (s32)(RADIANS_TO_ANGLE * atan2_float(v.x, v.z));
-        side.x = sin_table_lookup(this->rotation_y);
-        side.z = cos_table_lookup(this->rotation_y);
+        side.x = sin_table_lookup(this->rotation.y);
+        side.z = cos_table_lookup(this->rotation.y);
         if (is_vec_xz_cross_negative(&side, &v) != 0) {
             ret = 0;
             *heading += 0x4000;
@@ -570,7 +571,7 @@ s32 TObjEneBm5Wolf::select_death_direction(s32 *heading) {
         }
     } else {
         ret = 0;
-        *heading = this->rotation_y;
+        *heading = this->rotation.y;
     }
     *heading = (s16)*heading;
     return ret;
@@ -604,14 +605,14 @@ void TObjEneBm5Wolf::spawn_recoil_dust(Vec *dir) {
 void TObjEneBm5Wolf::play_footsteps() {
     if ((this->is_passing_frame(7.0f) != 0) || (this->is_passing_frame(24.0f) != 0)) {
         play_sound_effect(this->remap_sound_for_area(0x3C618), &this->position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x1000);
+        play_effect_if_v2(-0x1000);
     }
 }
 
 void TObjEneBm5Wolf::play_proximity_effect() {
     if (this->is_passing_frame(18.0f) != 0) {
         play_sound_effect(this->remap_sound_for_area(0x3C618), &this->position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x1000);
+        play_effect_if_v2(-0x1000);
     }
 }
 
@@ -641,14 +642,14 @@ s32 TObjEneBm5Wolf::calc_lunge_aim() {
         this->update_velocity();
         return (s32) (RADIANS_TO_ANGLE * atan2_float((f64) this->destination_direction.x, (f64) this->destination_direction.z));
     }
-    this->destination_direction.x = sin_table_lookup(this->rotation_y);
+    this->destination_direction.x = sin_table_lookup(this->rotation.y);
     this->destination_direction.y = (f32) (0.0f);
-    this->destination_direction.z = cos_table_lookup(this->rotation_y);
+    this->destination_direction.z = cos_table_lookup(this->rotation.y);
     VecCopy(&this->destination, &this->position);
     this->destination.x = (f32) ((30.0f * this->destination_direction.x) + this->destination.x);
     this->destination.z = (f32) ((30.0f * this->destination_direction.z) + this->destination.z);
     this->destination_distance = 30.0f;
-    return this->rotation_y;
+    return this->rotation.y;
 }
 #pragma pop
 void TObjEneBm5Wolf::schedule_pack_reaction(s32 delay, u16 attacker_id) {
@@ -781,8 +782,8 @@ void TObjEneBm5Wolf::appearing_state(s32 event) {
         this->enemy_clear_target();
         this->turn_offset = 0;
         VecCopy(home, &this->position);
-        this->position.x -= 100.0f * sin_table_lookup(this->rotation_y);
-        this->position.z -= 100.0f * cos_table_lookup(this->rotation_y);
+        this->position.x -= 100.0f * sin_table_lookup(this->rotation.y);
+        this->position.z -= 100.0f * cos_table_lookup(this->rotation.y);
         this->stopping_distance = 3.3333333f;
         this->jump_height = 0.0f;
         this->circle_radius = this->position.y;
@@ -808,7 +809,7 @@ void TObjEneBm5Wolf::appearing_state(s32 event) {
             }
             if (this->is_passing_frame(24.0f) != 0) {
                 play_sound_effect(this->remap_sound_for_area(0x4003A821), &this->position, 0, 0);
-                TObjPlayer::play_effect_if_v2(-0x500);
+                play_effect_if_v2(-0x500);
             }
             if (this->frame <= 30.0f) {
                 t = this->frame - 15.0f;
@@ -816,8 +817,8 @@ void TObjEneBm5Wolf::appearing_state(s32 event) {
             } else {
                 this->stopping_distance *= 0.8f;
             }
-            this->position.x += this->stopping_distance * sin_table_lookup(this->rotation_y);
-            this->position.z += this->stopping_distance * cos_table_lookup(this->rotation_y);
+            this->position.x += this->stopping_distance * sin_table_lookup(this->rotation.y);
+            this->position.z += this->stopping_distance * cos_table_lookup(this->rotation.y);
         }
         this->update_ground_contact();
         this->update_body_colliders();
@@ -960,7 +961,7 @@ void TObjEneBm5Wolf::howling_state(s32 event) {
             is_passing_frame(7.0f);
         } else if (this->requested_action == 0xB && is_passing_frame(9.0f) != 0) {
             play_sound_effect(this->remap_sound_for_area(0x3A819), &this->position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x200);
+            play_effect_if_v2(-0x200);
         }
         if (this->substate == 0x3C) {
             for (p = ((TObjEneBm5WolfList *)bm5_wolf_instance_list)->head; p != NULL; p = p->next) {
@@ -1034,7 +1035,7 @@ void TObjEneBm5Wolf::roaming_state(int event) {
             }
             turn_pose_to_target();
         } else {
-            advance_pose_turn(this->rotation_y);
+            advance_pose_turn(this->rotation.y);
         }
         switch (this->substate) {
         case 0:
@@ -1191,8 +1192,8 @@ void TObjEneBm5Wolf::flanking_state(s32 event) {
                 VecCopy(dst, src);
                 this->base_heading = *ang;
             }
-            this->rotation_y = approach_angle_limited(this->rotation_y, this->base_heading, 0x800);
-            this->rotation_y = (s16)this->rotation_y;
+            this->rotation.y = approach_angle_limited(this->rotation.y, this->base_heading, 0x800);
+            this->rotation.y = (s16)this->rotation.y;
             if (this->frame >= 15.0f) {
                 this->current_speed *= 0.9f;
                 this->play_speed = 0.5f * this->current_speed;
@@ -1258,8 +1259,8 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
                 this->transition_enemy_state(11);
             } else {
                 f32 c;
-                vx = sin_table_lookup(this->current_target->rotation_y);
-                c = cos_table_lookup(this->current_target->rotation_y);
+                vx = sin_table_lookup(this->current_target->rotation.y);
+                c = cos_table_lookup(this->current_target->rotation.y);
                 vz = vx * b->x + c * b->z;
                 if (vz < cos_table_lookup(0x6AAA)) {
                     this->transition_enemy_state(11);
@@ -1277,9 +1278,9 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
                 VecCopy(a, &this->current_target->position);
                 this->stopping_distance = calc_circle_offset(a, b);
                 this->circle_radius = this->rand_range(50.0f, 80.0f);
-                fwd.x = sin_table_lookup(this->rotation_y);
+                fwd.x = sin_table_lookup(this->rotation.y);
                 fwd.y = 0.0f;
-                fwd.z = cos_table_lookup(this->rotation_y);
+                fwd.z = cos_table_lookup(this->rotation.y);
                 to.x = this->current_target->position.x - this->position.x;
                 to.y = 0.0f;
                 to.z = this->current_target->position.z - this->position.z;
@@ -1342,9 +1343,9 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
                 approach_target(0.12f);
                 this->state_timer++;
                 if (this->state_timer >= 40) {
-                    ang = this->rotation_y;
+                    ang = this->rotation.y;
                 } else {
-                    ang = this->rotation_y + (this->target_heading << 11);
+                    ang = this->rotation.y + (this->target_heading << 11);
                 }
                 sx = sin_table_lookup(ang);
                 cz = cos_table_lookup(ang);
@@ -1361,10 +1362,10 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
                 break;
             }
             }
-            this->rotation_y = approach_angle_limited(this->rotation_y,
+            this->rotation.y = approach_angle_limited(this->rotation.y,
                 (s32)(RADIANS_TO_ANGLE * atan2_float(this->position.x - this->prev_position.x, this->position.z - this->prev_position.z)),
                 0x200);
-            this->rotation_y = (s16)this->rotation_y;
+            this->rotation.y = (s16)this->rotation.y;
             this->play_speed = 1.1f * this->current_speed;
             this->turn_pose_to_target();
             this->check_collisions();
@@ -1430,7 +1431,7 @@ void TObjEneBm5Wolf::update_lunge(s32 event) {
             }
             if (this->is_passing_frame(24.0f) != 0) {
                 play_sound_effect(this->remap_sound_for_area(0x4003A821), &this->position, 0, 0);
-                TObjPlayer::play_effect_if_v2(-0x500);
+                play_effect_if_v2(-0x500);
             }
             if (this->is_passing_frame((f32) (20.0f)) != 0) {
                 this->near_target = 0;
@@ -1450,9 +1451,9 @@ void TObjEneBm5Wolf::update_lunge(s32 event) {
                 }
             }
             approach_target((f32) (0.1f));
-            this->rotation_y = approach_angle_limited(this->rotation_y, this->target_heading, 0x1000);
-            this->rotation_y = (s32) (s16) this->rotation_y;
-            advance_pose_turn(this->rotation_y);
+            this->rotation.y = approach_angle_limited(this->rotation.y, this->target_heading, 0x1000);
+            this->rotation.y = (s32) (s16) this->rotation.y;
+            advance_pose_turn(this->rotation.y);
             if (this->frame <= 30.0f) {
                 this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->current_speed);
                 t = this->frame - 15.0f;
@@ -1471,7 +1472,7 @@ void TObjEneBm5Wolf::update_lunge(s32 event) {
             if (this->state_timer >= 0xA) {
                 this->substate = 2;
             }
-            advance_pose_turn(this->rotation_y);
+            advance_pose_turn(this->rotation.y);
             if (this->near_target == 0) {
                 this->current_speed *= 0.8f;
                 this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->current_speed);
@@ -1498,13 +1499,13 @@ void TObjEneBm5Wolf::returning_state(s32 event) {
         this->substate = 0;
         VecCopy(home, &this->position);
         TObjBoss2Tunnel::calc_scaled_value(0x200, 1.6f);
-        this->base_heading = this->rotation_y;
+        this->base_heading = this->rotation.y;
         if (this->enemy_has_live_target() != 0) {
             Vec a;
             Vec d;
             TObjChara *t;
-            a.x = sin_table_lookup(this->rotation_y);
-            a.z = cos_table_lookup(this->rotation_y);
+            a.x = sin_table_lookup(this->rotation.y);
+            a.z = cos_table_lookup(this->rotation.y);
             t = this->current_target;
             d.x = t->position.x - this->position.x;
             d.z = t->position.z - this->position.z;
@@ -1582,7 +1583,7 @@ void TObjEneBm5Wolf::repositioning_state(s32 event) {
             if (get_flag_bit0() == 0) {
                 this->target_heading = -this->target_heading;
             }
-            this->target_heading += this->rotation_y;
+            this->target_heading += this->rotation.y;
             (this->state_timer)++;
             if (this->state_timer > 8) {
                 this->substate = 2;
@@ -1619,7 +1620,7 @@ void TObjEneBm5Wolf::repositioning_state(s32 event) {
             }
             play_proximity_effect();
             this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, 1.8f);
-            this->rotation_y = approach_angle_limited(this->rotation_y, this->target_heading, 0xF00);
+            this->rotation.y = approach_angle_limited(this->rotation.y, this->target_heading, 0xF00);
             advance_pose_turn(this->target_heading);
             this->check_collisions();
             break;
@@ -1645,10 +1646,10 @@ void TObjEneBm5Wolf::action(s32 event) {
         return;
     case 0:
         this->advance_animation();
-        advance_pose_turn(this->rotation_y);
+        advance_pose_turn(this->rotation.y);
         if (this->is_passing_frame(10.0f) != 0) {
             play_sound_effect(this->remap_sound_for_area(0x3AA1A), &this->position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x100);
+            play_effect_if_v2(-0x100);
         }
         this->substate = (this->substate + 1);
         if (this->substate == 0x1E) {
@@ -1665,14 +1666,14 @@ void TObjEneBm5Wolf::hurt_state(s32 event) {
     switch (event) {
     case 4:
         this->clear_intangible();
-        debug_effect_hook(this, 0xF1);
+        debug_effect_hook(0xF1);
         this->state_timer = 0;
         this->target_heading = 0;
         this->requested_action = 6;
         this->substate = 0;
         if (this->referenceHp - this->hp < 0x14) {
             play_sound_effect(this->remap_sound_for_area(0x3AB1B), &this->position, 0, 0);
-            TObjPlayer::play_effect_if_v2(-0x500);
+            play_effect_if_v2(-0x500);
         }
         this->set_active();
         break;
@@ -1705,8 +1706,8 @@ void TObjEneBm5Wolf::hurt_state(s32 event) {
         } else {
             this->velocity.x *= 0.9f;
             this->velocity.z *= 0.9f;
-            this->rotation_y = approach_angle_limited(this->rotation_y, this->target_heading, 0x300);
-            this->rotation_y = (s16) this->rotation_y;
+            this->rotation.y = approach_angle_limited(this->rotation.y, this->target_heading, 0x300);
+            this->rotation.y = (s16) this->rotation.y;
             if (this->is_passing_frame(22.0f) != 0) {
                 spawn_recoil_dust(&v);
             }
@@ -1735,13 +1736,13 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
         this->clear_intangible();
         this->refresh_and_send_entity_flags();
         play_sound_effect(this->remap_sound_for_area(0x3AD1D), &this->position, 0, 0);
-        TObjPlayer::play_effect_if_v2(-0x300);
+        play_effect_if_v2(-0x300);
         if (select_death_direction(tgt) == 0) {
             this->requested_action = 0xF;
         } else {
             this->requested_action = 0xE;
         }
-        debug_effect_hook(this, 0xF1);
+        debug_effect_hook(0xF1);
         this->substate = 0;
         this->stopping_distance = calc_death_slide_speed(this->action_table[9].speed);
         this->wall_reach = this->sink_depth = 0.0f;
@@ -1777,13 +1778,13 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
                     pos.x = -12.0f;
                     pos.z = -10.0f;
                 }
-                rotate_xz_pair_by_angle(&pos.x, &pos.z, this->rotation_y);
+                rotate_xz_pair_by_angle(&pos.x, &pos.z, this->rotation.y);
                 vec3_add_to(&pos, &this->position);
-                TDeadSpot::spawn_kind2_scale7_5(&pos, 0x32);
+                spawn_dead_spot_kind2_scale7_5(&pos, 0x32);
                 spawn_effect_at_ground(&pos, 0x46);
             }
-            this->rotation_y = approach_angle_limited(this->rotation_y, *tgt, 0x300);
-            this->rotation_y = (s16)this->rotation_y;
+            this->rotation.y = approach_angle_limited(this->rotation.y, *tgt, 0x300);
+            this->rotation.y = (s16)this->rotation.y;
             if (this->wall_reach < 28.0f) {
                 this->wall_reach = this->wall_reach + this->stopping_distance;
             }
@@ -1795,7 +1796,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
             }
             this->velocity.x *= 0.8f;
             this->velocity.z *= 0.8f;
-            advance_pose_turn(this->rotation_y);
+            advance_pose_turn(this->rotation.y);
             this->update_body_colliders();
             break;
         case 1:
@@ -1833,7 +1834,7 @@ void TObjEneBm5Wolf::advance_spawn_timer(NJS_OBJECT *) {
 void TObjEneBm5Wolf::render() {
     s32 rot[3];
     s32 detail;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->render_debug();
         return;
     }
@@ -1853,7 +1854,7 @@ void TObjEneBm5Wolf::render() {
                 translate_matrix(0, 0.0f, 0.3f, 0.0f);
                 rotate_matrix_z(0, rot[2]);
                 rotate_matrix_x(0, rot[0]);
-                rotate_matrix_y(0, this->rotation_y);
+                rotate_matrix_y(0, this->rotation.y);
                 translate_matrix(0, 0.0f, 0.0f, -10.0f);
                 scale_matrix(0, 1.2f, 1.0f, 3.0f);
                 rotate_matrix_x(0, -0x4000);
@@ -1864,7 +1865,7 @@ void TObjEneBm5Wolf::render() {
             set_texture_list(this->texlist);
             push_matrix();
             post_translate_matrix(&this->position.x);
-            rotate_matrix_y(0, this->rotation_y);
+            rotate_matrix_y(0, this->rotation.y);
             translate_matrix(0, 0.0f, 0.0f, -10.0f);
             if (this->status_flags & 4) {
                 translate_matrix(0, 0.0f, this->jump_height, 0.0f);
@@ -1883,7 +1884,7 @@ void TObjEneBm5Wolf::render() {
             pop_matrix();
             this->update_primary_light();
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -1926,7 +1927,7 @@ void TObjEneBm5Wolf::render_debug() {
         set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         idx = (s32) this->parameters[3];
         if (idx < 0) {
             idx = 0;
@@ -1948,7 +1949,7 @@ void TObjEneBm5Wolf::render_debug() {
         set_motion_packed_rotation();
         draw_model_motion(this->model, motion, frame);
         clear_motion_packed_rotation();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
     leader = TObjEneBm5Wolf::find_pack_leader(this->group_id);

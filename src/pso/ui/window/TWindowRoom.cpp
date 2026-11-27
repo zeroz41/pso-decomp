@@ -1,6 +1,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -10,7 +11,6 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/WindowTextEntry.h"
 
 RoomWindowLayout room_window_layout_entries = {
     1, 1,
@@ -28,7 +28,7 @@ void *TWindowRoom::get_title_entry() {
     return (void *)this->get_array_entry(0);
 }
 
-void TWindowSubStatusDisp::set_entry_display_value(const char *str) {
+void TWindowRoom::set_entry_display_value(const char *str) {
     set_text_entry_string((WindowTextEntry *)(get_array_entry(0)), str, 0x60);
 }
 
@@ -41,7 +41,7 @@ void TWindowRoom::render() {
     draw_tab(context);
     draw_visible_window_entries(this, &entry_list, context);
 }
-void TWindowRoom::run_task() { update_window(); this->update_window_entry_list(&entry_list); }
+void TWindowRoom::run_task() { update_window(); update_window_entry_list(&entry_list); }
 
 TWindowRoom::~TWindowRoom() {}
 

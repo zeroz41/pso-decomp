@@ -46,7 +46,7 @@ enum {
 };
 
 struct TObjEneRe7Berura : public TObjEneDD_ST {
-    TObjEneRe7Berura(TObject *parent, void *set_data);
+    TObjEneRe7Berura(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneRe7Berura();
     virtual void update_body_colliders();
     virtual void run_demo_task();
@@ -92,7 +92,7 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     void update_collision_center();
     void init_enemy();
     static void destroy_children();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void load_static_resources();
     static void advance_state(NJS_OBJECT *);
     static void demo_frame_callback(NJS_OBJECT *);
@@ -118,7 +118,7 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     s32 step;                    // state work variables
     s32 counter;
     s32 target_angle;
-    s32 pad_4cc;
+    s32 mode_turn_limit;         // get_turn_limit() as mode 6 starts, never read
     f32 accum;
     f32 emit_end_frame;
     Vec walk_dir;                // sin, 0, cos of rotation_y when the walk starts

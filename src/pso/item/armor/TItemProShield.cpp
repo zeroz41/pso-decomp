@@ -1,6 +1,5 @@
 #include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/item/drop/TItemDrop.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "types.h"
 #include "pso/item/armor/TItemProShield.h"
@@ -11,7 +10,7 @@
 #include "pso/effect/item/TItemEffShield.h"
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/byteswap.h"
 #include "pso/render/GinjaMaterial.h"
@@ -25,6 +24,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/item/item_pmt.h"
 
+// The item file helpers (MallocLoadFilePrc.cpp).
 // The class name and the effect table's file name.
 const char *TItemProShield::name = "TItemProShield";
 extern "C" {
@@ -81,10 +81,10 @@ TItemProShield::TItemProShield(TObject *parent, u8 *item) : TItemEquipBase(paren
     set_attach_slot(3);
     pmt = (ShieldPmtEntry *)lookup_item_pmt_record(item);
     effect_entry = &shield_table[pmt->block_effect];
-    technique_boosts = (const TechniqueBoostParam *)TObjPlayer::get_shield_pmt_entry(pmt->technique_boost);
+    technique_boosts = (const TechniqueBoostParam *)get_shield_pmt_entry(pmt->technique_boost);
     dfp_range = pmt->dfp_range;
     evp_range = pmt->evp_range;
-    dfp_bonus = TItemData::getS16_06(item);
+    dfp_bonus = TItemData::get_dfp_bonus(item);
     evp_bonus = TItemData::get_evp_bonus(item);
     shield_flags = 0;
     set_attach_joint(0x24);
@@ -188,12 +188,12 @@ void TItemProShield::draw_at_joint(s32 joint) {
         model_render_flags &= ~0x10;
         TEquippedWeaponDrawTask::set_fade_alpha(get_owner_alpha());
         if (shield_flags & SHIELD_FLAG_EFFECT_RENDER) {
-            TParticleCtrl::begin_effect_render();
+            ::begin_effect_render();
         }
         set_texlist(texlist);
         draw_ginja_object(item_model);
         if (shield_flags & SHIELD_FLAG_EFFECT_RENDER) {
-            TParticleCtrl::end_effect_render();
+            ::end_effect_render();
         }
         TEquippedWeaponDrawTask::end_fade();
         TEquippedWeaponDrawTask::restore_model_render_state();

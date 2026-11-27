@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdSnAkPassConfirmGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
@@ -40,7 +41,7 @@ TAdSnAkPassConfirmGC::~TAdSnAkPassConfirmGC() {
 TAdSnAkPassConfirmGC::TAdSnAkPassConfirmGC(TObject *parent) : TAdYesNoBaseGC(parent) {
     m_name = TAdSnAkPassConfirmGC_class_name;
     new TAdTitleGC(this, 0x11);
-    info_window = (TWindowBase *)TWindowOptionCtrl::create_serial_info_window(&sn_ak_pass_confirm_info_window_pos, 0);
+    info_window = TWindowOptionCtrl::create_serial_info_window(&sn_ak_pass_confirm_info_window_pos, 0);
     init_parts((void *)&sn_ak_pass_confirm_message_pos, (void *)&sn_ak_pass_confirm_message_size);
 }
 

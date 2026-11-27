@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/player/PlayerAttackParams.h"
 
 class BmlResource;
@@ -11,16 +12,10 @@ struct NJS_MOTION;
 struct TBoss6Type2;
 struct TParticleCtrl;
 
-// The spawn record TBoss6Type2 hands to create_mag: the enemy set data apply_set_data reads, then the mag's
-// owner and placement.
+// The spawn record TBoss6Type2 hands to create_mag: the placement apply_set_data reads, then
+// the mag's owner and placement.
 struct TBoss6MagSpawnParams {
-    s16 x;
-    u8 pad_2[4];
-    u16 z;
-    s16 active;
-    u8 pad_a[6];
-    Vec pos;
-    u8 pad_1c[0x24];
+    EnemyPlacement placement;
     TBoss6Type2 *owner;
     Vec origin;
     s32 rotation_y;

@@ -32,7 +32,7 @@ void TObjNpcCloakroomBase::play_voice() {
     play_sound_effect(0x40003802, &position, 0, 0);
 }
 
-void *TObjNpcCloakroomBase::create(void *set_data) {
+void *TObjNpcCloakroomBase::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcCloakroomBase(control, set_data);
 }
@@ -50,7 +50,7 @@ void TObjNpcCloakroomBase::load_shared_resource() {
 
 TObjNpcCloakroomBase::~TObjNpcCloakroomBase() {}
 
-TObjNpcCloakroomBase::TObjNpcCloakroomBase(TObject *parent, void *set_data) : TObjNpcFemale(parent) {
+TObjNpcCloakroomBase::TObjNpcCloakroomBase(TObject *parent, EnemyPlacement *set_data) : TObjNpcFemale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

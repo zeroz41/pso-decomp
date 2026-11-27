@@ -20,7 +20,7 @@ struct TObjDoaEx01 : public TODoorBase {
     NJS_ARGB glow_color;
     void try_open();
     void draw_model();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjDoaEx01_size, sizeof(TObjDoaEx01) == 0xE4);

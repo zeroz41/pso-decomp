@@ -25,7 +25,7 @@ struct TObjFishEntry {
 };
 
 struct TObjFish : public TObjBase {
-    TObjFish(TObject *parent, void *set_data);
+    TObjFish(TObject *parent, ObjectSetData *data);
     virtual ~TObjFish();
     s32 init_fish_school(Vec *bounds, s32 anim0_count, s32 anim1_count);
     s32 update_state();
@@ -39,7 +39,7 @@ struct TObjFish : public TObjBase {
     TObjFishEntry *fish;   // the fish
     static void free_resource();
     static void load_area_resource();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjFishEntry_size, sizeof(TObjFishEntry) == 0x44);
@@ -54,16 +54,6 @@ LAYOUT_ASSERT(TObjFishEntry_timer_offset, offsetof(TObjFishEntry, timer) == 0x32
 LAYOUT_ASSERT(TObjFishEntry_seen_offset, offsetof(TObjFishEntry, seen) == 0x34);
 LAYOUT_ASSERT(TObjFishEntry_mode_offset, offsetof(TObjFishEntry, mode) == 0x38);
 LAYOUT_ASSERT(TObjFish_size, sizeof(TObjFish) == 0xA4);
-
-// The placement record passed by object factory 0x220. Only these fields
-// are read by the fish constructor; the leading set metadata stays opaque.
-struct TObjFishSetData {
-    u8 metadata[0xC];
-    Vec position;
-    s32 rotation[3];
-    Vec scale;
-    s32 counts[3];
-};
 
 struct TObjFishAreaResource {
     const char *models[4];

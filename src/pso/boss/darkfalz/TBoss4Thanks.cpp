@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
@@ -17,7 +16,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
+#include "pso/boss/darkfalz/DarkFalzUtil.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/item/TItem.h"
 #include "pso/item/armor/TItemProShield.h"
@@ -109,7 +108,6 @@ void TBoss4Thanks::render() {
   f32 fade;
   int hidden;
   fade = fade_amount;
-  fade = fade;
   hidden = 0.0f == fade;
   if (hidden)
   {
@@ -191,7 +189,7 @@ TBoss4Thanks::~TBoss4Thanks() {
 TBoss4Thanks::TBoss4Thanks(TObject *parent) : TObject(parent) {
     BmlResource *archive;
     m_name = TBoss4Thanks::class_name;
-    archive = TBoss4Uro::get_instance_count();
+    archive = TBoss4DarkFalz::get_dat_resource();
     this->model = get_bml_model(archive, 1);
     this->texture_list = get_bml_texlist(archive, 1);
     motions[0] = get_bml_motion(archive, 0x46);

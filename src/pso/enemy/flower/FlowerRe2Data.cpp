@@ -49,8 +49,8 @@ __declspec(section ".rodata") extern const DragonAttackParams re2_flower_tower_a
 };
 
 // draw_ground_shadow scales: render, then render_demo.
-__declspec(section ".rodata") extern const f32 re2_flower_shadow_scale[3] ATTRIBUTE_ALIGN(4) = {
-    2.0f, 1.0f, 2.0f,
+__declspec(section ".rodata") extern const Vec re2_flower_shadow_scale[1] ATTRIBUTE_ALIGN(4) = {
+    {2.0f, 1.0f, 2.0f},
 };
 
 __declspec(section ".rodata") extern const f32 re2_flower_demo_shadow_scale[4] ATTRIBUTE_ALIGN(4) = {

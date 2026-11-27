@@ -7,7 +7,6 @@
 #include "pso/player/PlayerCommands.h"
 #include "pso/player/PlayerScaleState.h"
 #include "pso/render/ChunkMaterialState.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/TPlyOnCountOver.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -57,7 +56,6 @@
 #undef get_player_by_client_id
 
 
-#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/vector.h"
@@ -202,7 +200,7 @@ void TPlayerLobbyMarker::render() {
     player = get_player_by_client_id(player_id);
     if ((player != NULL) && (player->all_parents_unqueued_for_destruction() != 0) && (get_material_index() != 0) && (player->is_body_collision_inactive() == 0)) {
         push_matrix();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         saved_model_render_flags = model_render_flags;
         copy_argb(&saved_model_draw_color, &model_material_color);
         set_texture_list(&shared_effect_texture_list);
@@ -214,7 +212,7 @@ void TPlayerLobbyMarker::render() {
         draw_chunk_object(TMainCursor::get_cursor_model());
         copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -323,11 +321,11 @@ void PlayerMoveSpeed::update(TObjPlayer *player) { set_speed(calc_speed(player))
 void PlayerMoveSpeed::update(TObjPlayer *player, f32 speed) { set_speed(calc_speed(player, speed)); }
 
 
-TItem *TObjPlayer::get_slot_value(TItem **equipped_items, int slot) {
+TItem *TObjPlayer::get_slot_value(TItem **slots, int slot) {
     if (slot < 0 || slot >= 13) {
         return 0;
     }
-    return equipped_items[slot];
+    return slots[slot];
 }
 
 

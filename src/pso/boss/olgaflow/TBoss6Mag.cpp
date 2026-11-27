@@ -25,12 +25,13 @@
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
+#include "pso/boss/olgaflow/Boss6SubordinateActions.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/render/GinjaDrawUtil.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
@@ -89,10 +90,10 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     m_name = boss6_mag_name;
     owner = params->owner;
     VecCopy(&position, &params->origin);
-    rotation_y = params->rotation_y;
+    rotation.y = params->rotation_y;
     index = params->index;
     TBoss6Mag::instance_slots[index] = this;
-    apply_set_data(params);
+    apply_set_data(&params->placement);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
         record.damage = 0;
@@ -155,7 +156,7 @@ TBoss6Mag::~TBoss6Mag() {
 void TBoss6Mag::run_task() {
     s32 marker_color;
 
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         if (TBoss6PlotFalz::is_boss_active() == 0) {
             owner = NULL;
             queue_destruction();
@@ -212,8 +213,8 @@ void TBoss6Mag::render_body_effects() {
     toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
-    rotate_matrix_x(NULL, rotation_x);
+    rotate_matrix_y(NULL, rotation.y);
+    rotate_matrix_x(NULL, rotation.x);
     flash = hit_flash;
     tinted = 0;
     if (flash > 0.0f) {
@@ -231,7 +232,7 @@ void TBoss6Mag::render_body_effects() {
         TBoss6PlotFalz::update_camera_target();
     }
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TBoss6Mag::save_position() {
@@ -496,7 +497,7 @@ s32 TBoss6Mag::snap_to_shoulder() {
     owner->get_shoulder_point(index, &v, &t);
     v.y += 35.0f;
     VecCopy(&position, &v);
-    rotation_y = t;
+    rotation.y = t;
     return 1;
 }
 
@@ -530,8 +531,8 @@ s32 TBoss6Mag::fly_toward_target() {
             d.z *= 4.4444447f;
         }
         vec3_add_to(&position, &d);
-        rotation_y = step_angle_toward(rotation_y, t, 0x5B0);
-        rotation_x = approach_angle_limited(rotation_x, 0, 0x5B0);
+        rotation.y = step_angle_toward(rotation.y, t, 0x5B0);
+        rotation.x = approach_angle_limited(rotation.x, 0, 0x5B0);
         return 1;
     }
     VecCopy(&h, &d);
@@ -539,11 +540,11 @@ s32 TBoss6Mag::fly_toward_target() {
     len = vector_length(&h);
     if (!(len < 100.0f)) {
         f32 dy;
-        rotation_y = step_angle_toward(rotation_y, (s32)((10430.38043493439) * atan2_float(d.x, d.z)), 0x5B0);
-        rotation_x = approach_angle_limited(rotation_x, 0, 0x5B0);
+        rotation.y = step_angle_toward(rotation.y, (s32)((10430.38043493439) * atan2_float(d.x, d.z)), 0x5B0);
+        rotation.x = approach_angle_limited(rotation.x, 0, 0x5B0);
         VecCopy(&a, &position);
-        a.x += 4.4444447f * sin_table_lookup(rotation_y);
-        a.z += 4.4444447f * cos_table_lookup(rotation_y);
+        a.x += 4.4444447f * sin_table_lookup(rotation.y);
+        a.z += 4.4444447f * cos_table_lookup(rotation.y);
         if (project_actor_to_ground(this, &a, 0) == 0) {
             position.x = a.x;
             position.z = a.z;
@@ -563,18 +564,18 @@ s32 TBoss6Mag::fly_toward_target() {
     }
     if (len < 10.0f) {
         s32 ang;
-        rotation_y = step_angle_toward(rotation_y, t, 0x5B0);
+        rotation.y = step_angle_toward(rotation.y, t, 0x5B0);
         ang = 0x7FFF;
         if (tgt.y > position.y) {
             ang *= -1;
         }
-        rotation_x = approach_angle_limited(rotation_x, ang, 0x5B0);
+        rotation.x = approach_angle_limited(rotation.x, ang, 0x5B0);
     } else {
         calc_dir_angles(&rx, &ry, &d);
-        rotation_y = step_angle_toward(rotation_y, rx, 0x5B0);
-        rotation_x = approach_angle_limited(rotation_x, ry, 0x5B0);
+        rotation.y = step_angle_toward(rotation.y, rx, 0x5B0);
+        rotation.x = approach_angle_limited(rotation.x, ry, 0x5B0);
     }
-    compute_random_dir_vec(&r, rotation_y, rotation_x);
+    compute_random_dir_vec(&r, rotation.y, rotation.x);
     r.x *= 4.4444447f;
     r.y *= 4.4444447f;
     r.z *= 4.4444447f;
@@ -602,7 +603,7 @@ void TBoss6Mag::turn_toward_target() {
             VecCopy(&v, &home_position);
         } else {
             s32 ang;
-            ang = (s32)(12288.0f * apply_direction_sign(1.0f) + (f32)owner->rotation_y);
+            ang = (s32)(12288.0f * apply_direction_sign(1.0f) + (f32)owner->rotation.y);
             VecCopy(&v, &owner->position);
             v.x += 50.0f * sin_table_lookup(ang);
             v.z += 50.0f * cos_table_lookup(ang);
@@ -621,15 +622,15 @@ void TBoss6Mag::turn_toward_target() {
         turn = 0x6D0;
     }
     calc_dir_angles(&yaw, &pitch, &v);
-    rotation_y = step_angle_toward(rotation_y, yaw, turn);
-    rotation_x = approach_angle_limited(rotation_x, pitch, 0x1B4);
+    rotation.y = step_angle_toward(rotation.y, yaw, turn);
+    rotation.x = approach_angle_limited(rotation.x, pitch, 0x1B4);
 }
 #pragma pop
 
 void TBoss6Mag::apply_random_drift() {
     Vec v;
     f32 k;
-    compute_random_dir_vec(&v, rotation_y, rotation_x);
+    compute_random_dir_vec(&v, rotation.y, rotation.x);
     k = 1.3333334f;
     if (owner->get_state() == 0xE) {
         k *= chase_speed_scale;
@@ -655,7 +656,7 @@ void TBoss6Mag::spawn_falling_rocks() {
     s32 ang;
     f32 r;
     for (i = 0; i < 3; i++) {
-        ang = rotation_y + boss6_mag_rock_spread_angles[i] + (s32)(4096.0f * (0.5f - 3.0517578e-05f * (f32)rand()));
+        ang = rotation.y + boss6_mag_rock_spread_angles[i] + (s32)(4096.0f * (0.5f - 3.0517578e-05f * (f32)rand()));
         r = 40.0f * (3.0517578e-05f * (f32)rand()) + 80.0f;
         p = &pts[i];
         VecCopy(p, &node_positions[0]);
@@ -664,7 +665,7 @@ void TBoss6Mag::spawn_falling_rocks() {
         p->z = r * cos_table_lookup(ang) + p->z;
         TBoss6Rock::push_out_of_rocks(p, 10.0f);
     }
-    TBoss6Type2::send_6xAD_grid_positions(index, pts, 3);
+    send_6xAD_grid_positions(index, pts, 3);
 }
 #pragma pop
 
@@ -760,15 +761,15 @@ s32 TBoss6Mag::is_target_in_front_range() {
     a.y = 0.0f;
     Vec b = node_positions[0];
     if (0.0f == ramp.aim) {
-        if (angle_difference_abs(rotation_y, (s32)((10430.38043493439) * atan2_float(a.x - b.x, a.z - b.z))) > 0x2000) {
+        if (angle_difference_abs(rotation.y, (s32)((10430.38043493439) * atan2_float(a.x - b.x, a.z - b.z))) > 0x2000) {
             return 0;
         }
     }
     Vec c;
     VecCopy(&c, &b);
-    c.x += 90.0f * sin_table_lookup(rotation_y);
+    c.x += 90.0f * sin_table_lookup(rotation.y);
     c.y = 0.0f;
-    c.z += 90.0f * cos_table_lookup(rotation_y);
+    c.z += 90.0f * cos_table_lookup(rotation.y);
     if (xyz_distance(&c, &a) <= 100.0f) {
         return 1;
     }

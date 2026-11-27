@@ -5,6 +5,7 @@
 
 struct GinjaDrawRecord;
 struct GinjaModel;
+class UvScrollBuffer;
 
 // Scrolls the UVs of one mesh of a Ginja model; rewrite != 0 also patches
 // the model's display list. The coordinate sums wrap at 16 bits.
@@ -16,7 +17,7 @@ void set_ginja_texture_wrap_repeat(GinjaDrawRecord *record);
 // appends the model's uv vertex arrays (attributes 5 and 6) to the scene's
 // scroll list at scroll_uv_entry_write_cursor, copying their uvs to
 // scroll_uv_coordinate_write_cursor.
-void collect_scroll_uv_entries(s32 scene, GinjaModel *model, s32 texture_id);
+void collect_scroll_uv_entries(UvScrollBuffer *buffer, GinjaModel *model, s32 texture_id);
 
 // Adds (du, dv) mod 256 to the uvs of every strip after each texture-id chunk
 // (type 8) for texture_id in a Ninja chunk polygon list.

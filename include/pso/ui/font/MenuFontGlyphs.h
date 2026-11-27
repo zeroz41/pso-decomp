@@ -18,5 +18,7 @@ void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f3
 void draw_menu_font_string_white(const char *text, f32 x, f32 y);
 }
 void upload_font_glyph(u16 c, MenuGlyphEntry *glyph);
+s32 upload_glyph_if_needed(u16 code, MenuGlyphEntry *free_slot, MenuGlyphEntry **pending_slot);
+MenuGlyphEntry *find_cached_glyph(u16 code);
 
 #endif

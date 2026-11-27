@@ -12,15 +12,14 @@
 #include "pso/render/GinjaView.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/MusicControl.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/SmallFontMetrics.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/system/scene/TEndingAB.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
+#include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjEndingPlayer.h"
@@ -40,6 +39,8 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/item/item_create.h"
+#include "pso/ui/TCharSaveSequence.h"
 
 const char TEnding::class_name_string[] = "TEnding";
 
@@ -52,8 +53,8 @@ void (*ending_scene_callbacks[26])(void) = {
     set_ending_callback, free_ending_callback,
     ending_scene_nop_load, ending_scene_nop_release,
     register_texture_ed_512kabe_c, TEndingC::release_lobby,
-    TScene::bind_ending_wall_textures, TEndingAB::destroy_instance,
-    alloc_quest_download_buffer, TLobby::free_chr_select_singleton,
+    TEndingAB::bind_ending_wall_textures, TEndingAB::destroy_instance,
+    alloc_quest_download_buffer, free_chr_select_singleton,
     init_item_system, free_item_system,
     create_player_ending_motion, free_player_ending_motion,
     init_game_player_actions, release_game_player_actions,
@@ -64,7 +65,7 @@ void (*ending_scene_callbacks[26])(void) = {
 void release_ending_scene(void) {
     stop_audio_streams();
     main_task.delete_layer_children();
-    TLobby::call_funcs_reverse(ending_scene_callbacks, sizeof(ending_scene_callbacks));
+    call_funcs_reverse(ending_scene_callbacks, sizeof(ending_scene_callbacks));
     render_tick();
 }
 void run_game_frame(void) {
@@ -77,11 +78,11 @@ void run_game_frame(void) {
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
-    TAdSinglePlyChrSelectGC::noop();
+    noop();
     if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         request_main_phase(0);
     }
     render_tick();
@@ -107,7 +108,7 @@ void TEnding::start_ending_scene() {
     set_fallback_main_phase(2);
     set_queued_main_phase(2);
     play_area_music("ending.adx");
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     new TEnding;
     render_tick();
 }
@@ -165,7 +166,7 @@ TEnding::~TEnding() {
 TEnding::TEnding() : TObject(tl_window) {
     m_name = TEnding::class_name;
     reset_ending_stub();
-    TMainTask::cleanup_game_objects();
+    cleanup_game_objects();
     set_current_floor_area(1);
     switch (get_video_standard()) {
     case 0: timing_rate = 30; break;

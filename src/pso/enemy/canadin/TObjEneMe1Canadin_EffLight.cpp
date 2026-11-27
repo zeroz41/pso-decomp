@@ -1,5 +1,4 @@
 #include "pso/system/TrailStrip.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/vector.h"
@@ -163,7 +162,7 @@ TObjEneMe1Canadin_EffLight::TObjEneMe1Canadin_EffLight(TObject *parent, s32 coun
     capacity = count;
     head = 0;
     tail = 0;
-    vertices = (TObjEneMe1Canadin_EffLightVertex *)mem_alloc(capacity << 5);
+    vertices = (TrailStripVertex *)mem_alloc(capacity << 5);
     points = (TObjEneMe1Canadin_EffLightPoint *)mem_alloc(capacity * 0x14);
     for (i = 0; i < capacity; i++) {
         points[i].width = 0.0f;
@@ -230,7 +229,7 @@ void TObjEneMe1Canadin_EffLight::run_task() {
 
 void TObjEneMe1Canadin_EffLight::render() {
     Vec up;
-    TObjEneMe1Canadin_EffLightVertex *v;
+    TrailStripVertex *v;
     s32 i;
     TObjEneMe1Canadin_EffLightPoint *p;
     f32 w;
@@ -251,14 +250,14 @@ void TObjEneMe1Canadin_EffLight::render() {
             p = &points[i];
             w = p->width;
             c = p->color;
-            v[0].pos.x = up.x * w + p->pos.x;
-            v[0].pos.y = up.y * w + p->pos.y;
-            v[0].pos.z = up.z * w + p->pos.z;
+            v[0].x = up.x * w + p->pos.x;
+            v[0].y = up.y * w + p->pos.y;
+            v[0].z = up.z * w + p->pos.z;
             v[0].color = c;
             w *= -1.0f;
-            v[1].pos.x = up.x * w + p->pos.x;
-            v[1].pos.y = up.y * w + p->pos.y;
-            v[1].pos.z = up.z * w + p->pos.z;
+            v[1].x = up.x * w + p->pos.x;
+            v[1].y = up.y * w + p->pos.y;
+            v[1].z = up.z * w + p->pos.z;
             v[1].color = c;
             v += 2;
         }
@@ -266,14 +265,14 @@ void TObjEneMe1Canadin_EffLight::render() {
             p = &points[j];
             w = p->width;
             c = p->color;
-            v[0].pos.x = up.x * w + p->pos.x;
-            v[0].pos.y = up.y * w + p->pos.y;
-            v[0].pos.z = up.z * w + p->pos.z;
+            v[0].x = up.x * w + p->pos.x;
+            v[0].y = up.y * w + p->pos.y;
+            v[0].z = up.z * w + p->pos.z;
             v[0].color = c;
             w *= -1.0f;
-            v[1].pos.x = up.x * w + p->pos.x;
-            v[1].pos.y = up.y * w + p->pos.y;
-            v[1].pos.z = up.z * w + p->pos.z;
+            v[1].x = up.x * w + p->pos.x;
+            v[1].y = up.y * w + p->pos.y;
+            v[1].z = up.z * w + p->pos.z;
             v[1].color = c;
             v += 2;
         }
@@ -283,14 +282,14 @@ void TObjEneMe1Canadin_EffLight::render() {
             p = &points[k];
             w = p->width;
             c = p->color;
-            v[0].pos.x = up.x * w + p->pos.x;
-            v[0].pos.y = up.y * w + p->pos.y;
-            v[0].pos.z = up.z * w + p->pos.z;
+            v[0].x = up.x * w + p->pos.x;
+            v[0].y = up.y * w + p->pos.y;
+            v[0].z = up.z * w + p->pos.z;
             v[0].color = c;
             w *= -1.0f;
-            v[1].pos.x = up.x * w + p->pos.x;
-            v[1].pos.y = up.y * w + p->pos.y;
-            v[1].pos.z = up.z * w + p->pos.z;
+            v[1].x = up.x * w + p->pos.x;
+            v[1].y = up.y * w + p->pos.y;
+            v[1].z = up.z * w + p->pos.z;
             v[1].color = c;
             v += 2;
         }

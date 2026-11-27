@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -8,7 +7,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/WindowMenuFactory.h"
 class TChCrTagPlBack;
 struct TWindowShortCut;
 #include "pso/ui/chat/TWindowChat.h"
@@ -52,7 +50,7 @@ TWindowSubShortCut::~TWindowSubShortCut() {
     if (chat_window != NULL) { chat_window->queue_destruction(); this->chat_window = 0; }
     if (confirm_window != NULL) { confirm_window->close(); this->confirm_window = 0; }
     if (shortcut_window != NULL) { shortcut_window->close(); this->shortcut_window = 0; }
-    if (menu != NULL) { menu->close(); menu = 0; }
+    if (menu != NULL) { menu->close(); menu = NULL; }
     if (com_card_list != NULL) { com_card_list->close(); com_card_list = NULL; }
 }
 

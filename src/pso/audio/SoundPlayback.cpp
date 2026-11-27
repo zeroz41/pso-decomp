@@ -23,9 +23,9 @@ void update_voice_stream_mix(AdxtPlayer *tracks) {
 #include "pso/system/scene/TScene.h"
 #include "pso/system/main_loop.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/LoadingInfoIcon.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/system/MallocLoadFilePrc.h"
 
 void set_sound_request_position(s32 slot, const Vec *position) { set_sound_voice_position(slot, position); }
@@ -129,7 +129,7 @@ s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 
         flags |= 0x10;
     }
     m = id & 0xBFFF00FF;
-    if (((s32 (*)(void))is_sound_enabled)() == 1) {
+    if (is_sound_enabled() == 1) {
         h = alloc_looping_sound_slot(m, actor, position, r, flags);
         if (is_special_sound_id(m) != 0) {
             set_sound_slot_special_scale(h, 1.0f);
@@ -173,7 +173,7 @@ s32 play_packed_sound_once(u32 id, const Vec *position, s32 offset, s32 options)
         flags |= 0x10;
     }
     m = id & 0xBFFF00FF;
-    if (((s32 (*)(void))is_sound_enabled)() == 1) {
+    if (is_sound_enabled() == 1) {
         h = alloc_one_shot_sound_slot(m, position, r, flags);
         if (is_special_sound_id(m) != 0) {
             set_sound_slot_special_scale(h, 1.0f);
@@ -184,8 +184,8 @@ s32 play_packed_sound_once(u32 id, const Vec *position, s32 offset, s32 options)
 }
 
 
-void is_sound_enabled(void) {
-    sound_control_state.is_ready();
+s32 is_sound_enabled(void) {
+    return sound_control_state.is_ready();
 }
 
 
@@ -225,7 +225,6 @@ void load_floor_sound_bank(s32 floor) {
     }
 }
 
-
 void run_sound_retrace(void) {
     sound_control_state.sound_retrace_stub();
 }
@@ -245,7 +244,7 @@ void wait_for_sound_init() {
         run_disk_error_check();
         exec_adx_server();
         render_tick();
-    } while (((s32 (*)())is_sound_enabled)() == 0);
+    } while (is_sound_enabled() == 0);
 }
 
 SoundControlState sound_control_state;

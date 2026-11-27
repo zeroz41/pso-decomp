@@ -2,6 +2,7 @@
 #define PSO_BOSS_BARBARAY_TBOSS7DEROLLEC_H
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -34,11 +35,9 @@ struct TBoss7DeRolLeCParams {
     s32 shell_hp;                 // TBoss7DeRolLeC::shell_hp's start
 };
 
-// An s32 rotation triple (x, y, z) as a set entry stores it.
-struct Boss7Angles { s32 x, y, z; };
 
 struct TBoss7DeRolLeC : public TObjEneDD_ST {
-    TBoss7DeRolLeC(TObject *parent, void *set_data);
+    TBoss7DeRolLeC(TObject *parent, EnemyPlacement *set_data);
     virtual ~TBoss7DeRolLeC();
     void update_projectile_spawns();
     virtual void run_task();
@@ -48,6 +47,10 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void flee_if_disturbed();
     void set_state_and_send(s32 state);
     static NJS_TEXLIST *get_archive_textures();
+    // set_texture_list(get_archive_textures()).
+    static void set_archive_textures();
+    // The live boss (boss7_joint_state).
+    static TBoss7DeRolLeC *get_instance();
     static NJS_OBJECT *get_archive_model(s32 index);
     void emit_hit_effect(const Vec *position);
     s32 is_ready();                // name from the TBoss2DeRolLe twin
@@ -126,7 +129,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void restore_joint_polygons();
     void calc_joint_positions();
     s16 find_free_crawfish_slot();
-    void spawn_crawfish_child(s16 slot, const Vec *position, Boss7Angles *angle, s32 flags);
+    void spawn_crawfish_child(s16 slot, const Vec *position, Angle3 *angle, s32 flags);
     void try_spawn_pattern_crawfish(s32 variant, s32 index);
     void handle_intro_camera_state(u32 event);
     void handle_debug_pad_input(u32 event); // name from the TBoss2DeRolLe twin; reads controller 2 (debug_pad)
@@ -195,7 +198,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     u16 needle_targets[4];        // client ids of the players handle_tentacle_needle_barrage_state sends a TBoss7TentacleNeedle under
     static void load_resources();
     static void run_exit_callbacks();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static const char *class_name;
     static const char class_name_string[];
 };
@@ -233,24 +236,6 @@ struct Boss7LoadCallback {
 struct Boss7ActionStep {
     s32 action;
     s32 param;
-};
-// The set entry a crawfish spawned by De Rol Le C is built from. TObjEnemy::apply_set_data
-// reads set_index, entity_id, room, wave, position, rotation, parameters and variant from
-// it; kind sits where TBoss4DarkFalzSetEntry has it.
-struct Boss7CrawfishSetData {
-    s16 set_index;
-    s16 kind;
-    s16 unk_04;
-    u16 entity_id;
-    s16 room;
-    s16 wave;
-    s16 unk_0C;
-    s16 unk_0E;
-    Vec position;
-    Boss7Angles rotation;
-    f32 parameters[5];
-    s16 variant;
-    s16 state;  // apply_set_data copies it to state36C
 };
 // Spawns a crawfish in child slot `slot` unless one with that entity id is
 // already alive.

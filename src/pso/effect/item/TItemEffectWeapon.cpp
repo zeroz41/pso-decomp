@@ -1,6 +1,5 @@
 #include "pso/system/memory.h"
 #include "pso/system/TrailStrip.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include <string.h>
 #include "pso/effect/item/TItemEffectWeapon.h"
 #include "pso/render/render_util.h"
@@ -117,7 +116,7 @@ void TItemEffectWeapon::push_trail_entry(const f32* first, const f32* second) {
 void TItemEffectWeapon::render_trail() {
     if ((s32)main_task.get_task_flags() & 0x200) {
         if (vertex_count != 0 && vertices != NULL) {
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             saved_model_render_flags = model_render_flags;
             set_depth_buffer_settings_1();
             model_render_flags |= 0x8000;
@@ -130,7 +129,7 @@ void TItemEffectWeapon::render_trail() {
             set_default_alpha_blend();
             model_render_flags = saved_model_render_flags;
             restore_saved_depth_alpha_state();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
         }
     } else {
         set_render_deferred();

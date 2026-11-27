@@ -7,11 +7,11 @@
 struct BmlResource;
 
 struct TObjNpcCloakroomBase : public TObjNpcFemale {
-    TObjNpcCloakroomBase(TObject *parent, void *set_data);
+    TObjNpcCloakroomBase(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjNpcCloakroomBase();
     virtual void play_voice();
     virtual f32 receive_direct_attack(TObjBase *, DirectAttackPayload, CollisionBody *, s32, s32);
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void destroy_static_instance();
     static void load_shared_resource();
     static const char *name;

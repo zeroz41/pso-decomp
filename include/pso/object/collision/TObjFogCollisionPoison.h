@@ -5,14 +5,14 @@
 #include "pso/object/collision/TObjFogCollisionSwitch.h"
 
 struct TObjFogCollisionPoison : public TObjFogCollisionSwitch {
-    TObjFogCollisionPoison(TObject *parent, void *set);
+    TObjFogCollisionPoison(TObject *parent, ObjectSetData *set);
     virtual ~TObjFogCollisionPoison();
     virtual void draw_debug_text();
     virtual void init_params();
     virtual void run_task();
     s32 poison_damage;  // damage per hit: the floor of scale.y times the difficulty factor
     static void create();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void clear_state_array();
     s32 check_switch();
     void apply_poison_damage(s32 client);

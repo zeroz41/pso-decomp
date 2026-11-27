@@ -12,7 +12,7 @@ struct TTecFoie : public TTecShot {
     TTecFoie(TObjBase *source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecFoie();
     virtual void apply_to_target(TObjChara *);
-    virtual void spawn_impact_effect();
+    virtual void spawn_miss_effect();
     void play_foie_cast_sound();
     void run_task();
     void render();

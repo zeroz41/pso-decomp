@@ -1,4 +1,4 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/map/MapSetArchive.h"
 #include <stddef.h>
 #include "pso/map/FloorPopulation.h"
@@ -52,7 +52,7 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/system/scene/TSceneMaterial.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -63,6 +63,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/FileExtension.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma readonly_strings on
 
@@ -171,7 +172,7 @@ s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
     }
     floor_set_archives[idx].enemies = floor_set_archive_pool->alloc(sz);
     if ((uaddr)src & 0x1F) {
-        buf = TQuestVmDownLoadServer::alloc(sz);
+        buf = alloc(sz);
         memcpy(buf, src, sz);
         if (floor_set_archives[idx].enemies != NULL) {
             floor_set_archive_pool->transfer(buf, floor_set_archives[idx].enemies, sz, 0);
@@ -223,7 +224,7 @@ s32 TLobby::load_floor_enemy_group_entries(s32 idx, FloorObjectSetRow *src, u32 
     }
     floor_set_archives[idx].objects = floor_set_archive_pool->alloc(sz);
     if ((uaddr)src & 0x1F) {
-        buf = TQuestVmDownLoadServer::alloc(sz);
+        buf = alloc(sz);
         memcpy(buf, src, sz);
         if (floor_set_archives[idx].objects != NULL) {
             floor_set_archive_pool->transfer(buf, floor_set_archives[idx].objects, sz, 0);
@@ -366,7 +367,7 @@ void apply_floor_set_flags_packet(FloorSetFlagsHeader *buffer, u16) {
 int get_floor_set_flags_size(void) {
     s32 count = 0;
     count += get_total_object_set_count();
-    count += TLobby::sum_floor_enemy_counts();
+    count += sum_floor_enemy_counts();
     return count * 2 + 0x10;
 }
 
@@ -385,7 +386,7 @@ s32 get_enemy_factory_child_count(s32 area, s16 *enemy_type) {
     return 0;
 }
 
-s32 TLobby::find_floor_object_factory(s32 area, s16 *object_type) {
+s32 find_floor_object_factory(s32 area, s16 *object_type) {
     ObjectFactoryEntry *base = floor_object_factory_tables[area];
     ObjectFactoryEntry *p = base;
     for (; base != 0 && p->type != -1; p++) {
@@ -409,7 +410,7 @@ void set_wave_object_flags(s32 pl, s16 b, s16 a, s32 mask, s32 set) {
     }
 }
 
-s32 TLobby::count_quest_enemies_flag8() {
+s32 count_quest_enemies_flag8() {
     s32 n = 0;
     s32 i;
     s32 j;
@@ -587,7 +588,7 @@ s32 TObjCollidable::set_flag8() {
 }
 
 
-s32 TLobby::spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members) {
+s32 spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members) {
     s16 set_index;
     s16 flags;
     s32 row_count;
@@ -615,7 +616,7 @@ s32 TLobby::spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_memb
                 enemy->set_entry = row;
                 set_index = enemy->set_index;
                 if (set_index != -1) {
-                    enemy->apply_enemy_state(&enemy_state_records[set_index].flags);
+                    enemy->apply_enemy_state(&enemy_state_records[set_index]);
                 }
                 append_wave_member(wave_members, enemy);
                 spawned += 1;
@@ -660,7 +661,7 @@ s32 unhide_enemies_at(s32 floor, s16 room, s16 wave) {
                 obj->set_index = set->placement.enemy_index;
                 obj->set_entry = set;
                 if (obj->set_index != -1) {
-                    obj->apply_enemy_state(&enemy_state_records[obj->set_index].flags);
+                    obj->apply_enemy_state(&enemy_state_records[obj->set_index]);
                 }
                 count++;
             } else {
@@ -702,7 +703,7 @@ s32 link_matching_objects(s16 room, s16 wave) {
                 enemy->set_entry = row;
                 set_index = enemy->set_index;
                 if (set_index != -1) {
-                    enemy->apply_enemy_state(&enemy_state_records[set_index].flags);
+                    enemy->apply_enemy_state(&enemy_state_records[set_index]);
                 }
                 spawned += 1;
             } else {
@@ -746,7 +747,7 @@ s32 unhide_room_set_objects(s32 floor, s16 room, s16 group) {
                 obj->set_index = set->placement.set_index;
                 obj->set_entry = set;
                 if (obj->set_index != -1) {
-                    obj->apply_saved_state(&quest_object_entries[obj->set_index].flags, 0);
+                    obj->apply_saved_state(&quest_object_entries[obj->set_index], 0);
                 }
                 count++;
             } else {
@@ -785,7 +786,7 @@ s32 spawn_objects_at_pos(s16 room, s16 wave) {
                 set_object->set_entry = row;
                 set_index = set_object->set_index;
                 if (set_index != -1) {
-                    set_object->apply_saved_state(&quest_object_entries[set_index].flags, 0);
+                    set_object->apply_saved_state(&quest_object_entries[set_index], 0);
                 }
                 spawned += 1;
             } else {
@@ -814,7 +815,7 @@ s32 find_enemy_factory_entry(const volatile EnemySetRecord *row, EnemyFactoryEnt
 void copy_enemy_factory_entry(EnemyFactoryEntry *out, EnemyFactoryEntry *entry) {
     out->type = entry->type;
     out->create = entry->create;
-    out->field_08 = entry->field_08;
+    out->creation_distance_squared = entry->creation_distance_squared;
     out->child_count = entry->child_count;
 }
 
@@ -849,7 +850,7 @@ void create_objects(s32 floor) {
                 enemy->set_entry = row;
                 set_index = enemy->set_index;
                 if (set_index != -1) {
-                    enemy->apply_enemy_state(&enemy_state_records[set_index].flags);
+                    enemy->apply_enemy_state(&enemy_state_records[set_index]);
                 }
             } else {
                 row->enemy = NULL;
@@ -880,7 +881,7 @@ void assign_display_objects(EnemySetRecord *rows, s32 enemy_count) {
                 enemy->set_entry = row;
                 set_index = enemy->set_index;
                 if (set_index != -1) {
-                    enemy->apply_enemy_state(&enemy_state_records[set_index].flags);
+                    enemy->apply_enemy_state(&enemy_state_records[set_index]);
                 }
             } else {
                 row->enemy = NULL;
@@ -950,7 +951,7 @@ void attach_objects_by_id(s32 floor) {
                 set_object->set_entry = row;
                 set_index = set_object->set_index;
                 if (set_index != -1) {
-                    set_object->apply_saved_state(&quest_object_entries[set_index].flags, 0);
+                    set_object->apply_saved_state(&quest_object_entries[set_index], 0);
                 }
             } else {
                 row->object = NULL;
@@ -980,7 +981,7 @@ void assign_objects_to_slots(FloorObjectSetRow *rows, s32 object_count) {
                 set_object->set_entry = row;
                 set_index = set_object->set_index;
                 if (set_index != -1) {
-                    set_object->apply_saved_state(&quest_object_entries[set_index].flags, 0);
+                    set_object->apply_saved_state(&quest_object_entries[set_index], 0);
                 }
             } else {
                 row->object = NULL;
@@ -1017,9 +1018,6 @@ s32 enemy_condition_count;
 
 void apply_room_transform_to_enemy_rows(EnemySetRecord *rows, s32 count);
 void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n);
-extern "C" {
-s32 is_battle_mode_running();
-}
 void apply_room_transform(Vec *position, s32 *angles, SceneMaterialSection *room);
 void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int count);
 s32 is_within_camera_distance(void *unused, Vec *pos, f32 max_dist_sq);
@@ -1094,7 +1092,7 @@ void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int 
 s32 is_within_camera_distance(void *unused, Vec *pos, f32 max_dist_sq) {
     s32 n;
     s32 i;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         if (camera_ctrl_instance != NULL) {
             n = TCameraCtrl::get_view_count();
             for (i = 0; i < n; i++) {
@@ -1146,7 +1144,6 @@ void TSetManager::update_decoration_spawning() { spawn_decorations_in_range(this
 #pragma opt_common_subs off
 #pragma opt_propagation off
 void TSetManager::apply_floor_set_rows() {
-    u8 *self = (u8 *)this;
     s32 current_floor;
     LobbyFloorRows *floor;
     current_floor = get_current_floor();
@@ -1168,7 +1165,7 @@ void TSetManager::apply_floor_set_rows() {
     }
     if (floor_decoration_row_count > 0) {
         apply_room_transform_to_object_rows(floor_decoration_rows, floor_decoration_row_count);
-        resolve_set_row_factory_indices(self, floor_decoration_rows, floor_decoration_row_count);
+        resolve_set_row_factory_indices(this, floor_decoration_rows, floor_decoration_row_count);
     }
     this->step = 1;
 }
@@ -1236,9 +1233,9 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
         return 0;
     }
     if (is_online_ready() != 0) {
-        replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_online);
+        replace_file_extension(path, (char *)r->decoration_set_name, decoration_file_suffix_online);
     } else {
-        replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_offline);
+        replace_file_extension(path, (char *)r->decoration_set_name, decoration_file_suffix_offline);
     }
     size = get_resource_file_size(path);
     if (size < 0) {
@@ -1451,7 +1448,7 @@ void arrive_floor_population() {
     bytes = floor->object_count * 0x44;
     if (bytes > 0) {
         bytes = (bytes + 0x1F) & ~0x1F;
-        current_floor_object_set_rows = (FloorObjectSetRow *)TQuestVmDownLoadServer::alloc(bytes);
+        current_floor_object_set_rows = (FloorObjectSetRow *)alloc(bytes);
     }
     if (current_floor_object_set_rows != NULL) {
         floor_set_archive_pool->transfer(floor_set_archives[index].objects, current_floor_object_set_rows, bytes, 1);
@@ -1468,7 +1465,7 @@ void arrive_floor_population() {
     bytes = floor->enemy_count * 0x48;
     if (bytes > 0) {
         bytes = (bytes + 0x1F) & ~0x1F;
-        current_floor_enemy_set_rows = (EnemySetRecord *)TQuestVmDownLoadServer::alloc(bytes);
+        current_floor_enemy_set_rows = (EnemySetRecord *)alloc(bytes);
     }
     if (current_floor_enemy_set_rows != NULL) {
         floor_set_archive_pool->transfer(floor_set_archives[index].enemies, current_floor_enemy_set_rows, bytes, 1);

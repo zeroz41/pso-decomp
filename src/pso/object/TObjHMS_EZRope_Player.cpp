@@ -45,7 +45,7 @@ Vec ez_bone_rot_player_chain_gravity = {0.0f, -0.75f, 0.0f};
 // Built with -inline off,deferred: functions are emitted last to first, so they are written in reverse.
 
 MtxP TObjMotion::get_joint_matrix(s32 joint) {
-    return (MtxP)((saddr)this->joint_matrices + (joint * 0x30));
+    return (MtxP)(this->joint_matrices[joint]);
 }
 
 TObjEZRopeBase::TObjEZRopeBase(TObject *parent) : TObject(parent) {
@@ -77,7 +77,7 @@ void TObjEZRopeBase::init_ropes(TObjEZRopeSegment *segment_list, TObjEZRopeEnd *
         total += s->count;
         segment_count++;
     }
-    points = (Vec *)TQuestVmDownLoadServer::alloc(total * sizeof(Vec));
+    points = (Vec *)alloc(total * sizeof(Vec));
     s = segments;
     p = ends;
     out = points;
@@ -252,8 +252,8 @@ void TObjHMS_EZRope_Player::draw_rope() {
     }
 }
 
-void *TObjPlayer::create_hairmove(void *rope_spec, void *collider_spec) {
-    return new TObjHMS_EZRope_Player(this, static_cast<TObjHMSRopeSpec *>(rope_spec), static_cast<TObjHMSColliderSpec *>(collider_spec));
+TObjHMS_EZRope_Player *TObjHMS_EZRope_Player::create_hairmove(TObjPlayer *player, TObjHMSRopeSpec *rope_spec, TObjHMSColliderSpec *collider_spec) {
+    return new TObjHMS_EZRope_Player(player, rope_spec, collider_spec);
 }
 
 void copy_ezrope_segment(TObjEZRopeSegment *dst, TObjEZRopeSegment *src) {
@@ -268,7 +268,7 @@ void copy_ezrope_collider(TObjEZRopeCollider *dst, TObjEZRopeCollider *src) {
     *dst = *src;
 }
 
-TObjHMS_EZRope_Player::TObjHMS_EZRope_Player(TObject *parent, TObjHMSRopeSpec *ropes, TObjHMSColliderSpec *colliders)
+TObjHMS_EZRope_Player::TObjHMS_EZRope_Player(TObjMotion *parent, TObjHMSRopeSpec *ropes, TObjHMSColliderSpec *colliders)
     : TObjEZRopeBase(parent) {
     s32 rope_count;
     s32 collider_count;
@@ -286,12 +286,12 @@ TObjHMS_EZRope_Player::TObjHMS_EZRope_Player(TObject *parent, TObjHMSRopeSpec *r
         for (collider = collider_specs; collider->bone >= 0; collider++, collider_count++) {
         }
     }
-    segment_buffer = (TObjEZRopeSegment *)TQuestVmDownLoadServer::alloc((rope_count + 1) * sizeof(TObjEZRopeSegment));
-    end_buffer = (TObjEZRopeEnd *)TQuestVmDownLoadServer::alloc(rope_count * sizeof(TObjEZRopeEnd));
+    segment_buffer = (TObjEZRopeSegment *)alloc((rope_count + 1) * sizeof(TObjEZRopeSegment));
+    end_buffer = (TObjEZRopeEnd *)alloc(rope_count * sizeof(TObjEZRopeEnd));
     if (collider_count == 0) {
         collider_buffer = NULL;
     } else {
-        collider_buffer = (TObjEZRopeCollider *)TQuestVmDownLoadServer::alloc((collider_count + 1) * sizeof(TObjEZRopeCollider));
+        collider_buffer = (TObjEZRopeCollider *)alloc((collider_count + 1) * sizeof(TObjEZRopeCollider));
     }
     {
         TObjHMSRopeSpec *spec;

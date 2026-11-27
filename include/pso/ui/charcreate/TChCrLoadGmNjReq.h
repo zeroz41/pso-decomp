@@ -13,7 +13,7 @@ struct TChCrLoadGmNjReqArgs {
     NJS_OBJECT **model_out;
     s32 load_slot;
     s32 completion_mask;
-    u32 *completion_flags;
+    s32 *completion_flags;
 };
 LAYOUT_ASSERT(TChCrLoadGmNjReqArgs_size, sizeof(TChCrLoadGmNjReqArgs) == 0x14);
 
@@ -23,7 +23,7 @@ public:
     NJS_OBJECT **model_out;
     s32 completion_mask;
     s32 load_slot;
-    u32 *completion_flags;
+    s32 *completion_flags;
     s32 state;
     char name[48];
     // The model-list terminator also serves as the empty motion list.

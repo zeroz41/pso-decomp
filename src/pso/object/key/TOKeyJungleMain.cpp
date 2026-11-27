@@ -4,7 +4,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/npc/TObjNpcEnemy.h"
@@ -48,7 +48,7 @@ void TOKeyJungleMain::play_activate_sound() {
     play_sound_effect(sound, &position, 0, 0);
 }
 
-void *TOKeyJungleMain::create(void *set_data) {
+void *TOKeyJungleMain::create(ObjectSetData *set_data) {
     return new TOKeyJungleMain(tl_05, set_data);
 }
 
@@ -85,7 +85,7 @@ void TOKeyJungleMain::render() {
             set_texture_list(get_bml_texlist(key_jungle_main_static_model_resource, 1));
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             draw_ginja_object(get_bml_model(key_jungle_main_static_model_resource, 1));
             pop_matrix();
             return;
@@ -93,13 +93,13 @@ void TOKeyJungleMain::render() {
             set_texture_list(get_bml_texlist(key_jungle_main_static_model_resource, 1));
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             draw_ginja_model_with_motion(get_bml_model(key_jungle_main_static_model_resource, 1),
                                          get_bml_motion(key_jungle_main_static_model_resource, 1), switch_frame);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             draw_ginja_model_with_motion(get_bml_model(key_jungle_main_static_model_resource, 0),
                                          get_bml_motion(key_jungle_main_static_model_resource, 0), sw_naka_frame);
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             pop_matrix();
             break;
         }
@@ -149,7 +149,7 @@ TOKeyJungleMain::~TOKeyJungleMain() {
     free_collision_body_parts(this);
 }
 
-TOKeyJungleMain::TOKeyJungleMain(TObject *parent, void *set_data) : TOKey(parent) {
+TOKeyJungleMain::TOKeyJungleMain(TObject *parent, ObjectSetData *set_data) : TOKey(parent) {
     m_name = key_jungle_main_class_name;
     apply_object_set_data(set_data);
     init_switch_id();

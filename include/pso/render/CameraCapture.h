@@ -69,5 +69,9 @@ void load_projected_texture_matrix(f32 aspect);
 void setup_particle_tev(s32 modulate);
 void setup_capture_blend_tev();
 void reset_particle_tev();
+void draw_capture_caption_bar();
+int is_shadow_pass_requested();
+void clear_shadow_pass_request();
+void load_capture_texture();
 
 #endif

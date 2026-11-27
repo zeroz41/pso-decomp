@@ -21,5 +21,8 @@ public:
     static const char *name;
 };
 LAYOUT_ASSERT(TObjBoss1Floor_size, sizeof(TObjBoss1Floor) == 0x38);
+void update_boss1_objects();
+void forward_floor_2CB44();
+void init_bosses();
 
 #endif

@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void *create_city_vertical_model(void *set_data);
+void *create_city_vertical_model(ObjectSetData *set_data);
 
 #endif

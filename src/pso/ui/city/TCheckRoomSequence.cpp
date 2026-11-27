@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/MesetaWindowCreate.h"
@@ -20,7 +19,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/GameModeQueries.h"
 #include "pso/ui/CounterTextLookup.h"
@@ -37,6 +36,7 @@
 #include "pso/item/shop/ShopItemSort.h"
 #include "pso/system/MemoryMove.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma readonly_strings on
 
@@ -59,16 +59,10 @@ s32 bank_item_count_by_slot[4];
 s32 bank_meseta_by_slot[4];
 u32 TCheckRoomSequence::slot_active_flags[4];
 
-extern "C" {
-// The runtime's array new and BankItemRecord::BankItemRecord(), whose address
-// C++ does not let alloc_item_buffers take.
-void *__construct_new_array(void *block, void (*ctor)(), void *dtor, u32 size, u32 n);
-void __ct__14BankItemRecordFv();
-}
 s32 add_to_bank_stack(TItemData *item, s32 amount, s32 slot);
 
 s32 TCheckRoomSequence::check_room_ready() {
-    if (TRaderMapCore::is_not_split_screen() == 0) {
+    if (is_not_split_screen() == 0) {
         return 1;
     }
     return (u32)__cntlzw(get_game_play_mode()) >> 5;
@@ -834,15 +828,13 @@ void copy_bank_from_card_window(s32 slot) {
 
 #pragma push
 #pragma optimization_level 1
+#pragma inline_depth(1)
+#pragma dont_inline off
 void TCheckRoomSequence::free_bank_item_records() {
-    BankItemRecord *recs;
     s32 i;
     for (i = 3; i >= 0; i--) {
         if (bank_item_records_by_slot[i] != NULL) {
-            recs = bank_item_records_by_slot[i];
-            if (recs != NULL) {
-                mem_free((u8 *)recs - 0x10);
-            }
+            delete[] bank_item_records_by_slot[i];
             bank_item_records_by_slot[i] = NULL;
         }
         bank_meseta_by_slot[i] = 0;
@@ -851,6 +843,9 @@ void TCheckRoomSequence::free_bank_item_records() {
 }
 #pragma pop
 
+#pragma push
+#pragma inline_depth(1)
+#pragma dont_inline off
 void TCheckRoomSequence::alloc_item_buffers() {
     s32 i;
     s32 j;
@@ -862,14 +857,13 @@ void TCheckRoomSequence::alloc_item_buffers() {
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            bank_item_records_by_slot[i] = (BankItemRecord *)__construct_new_array(mem_alloc(200 * sizeof(BankItemRecord) + 0x10),
-                __ct__14BankItemRecordFv, NULL, sizeof(BankItemRecord), 200);
+            bank_item_records_by_slot[i] = new BankItemRecord[200];
         }
     } else {
-        bank_item_records_by_slot[0] = (BankItemRecord *)__construct_new_array(mem_alloc(200 * sizeof(BankItemRecord) + 0x10),
-            __ct__14BankItemRecordFv, NULL, sizeof(BankItemRecord), 200);
+        bank_item_records_by_slot[0] = new BankItemRecord[200];
     }
 }
+#pragma pop
 
 #pragma push
 #pragma optimization_level 1

@@ -16,7 +16,7 @@ struct TObjCollision : public TObjCollidable {
     CollisionBody body;  // the one body; its size comes from the scale and it is a box when scale.z is negative
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjCollision_size, sizeof(TObjCollision) == 0xD8);

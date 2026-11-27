@@ -1,7 +1,6 @@
 // The needle effects a weapon leaves where it hits. Built with deferred code
 // generation, so its functions come out in reverse source order.
 #pragma readonly_strings on
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/item/TItemEffNeedle.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -9,7 +8,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
@@ -33,7 +32,7 @@ TItemEffNeedle::~TItemEffNeedle() {}
 TItemEffNeedleBase::TItemEffNeedleBase(TObject *parent, TItem *item) : TObject(parent) {
     m_name = class_name;
     item_id = item->get_item_id();
-    rotation[1] = item->rotation_y;
+    rotation[1] = item->rotation.y;
     rotation[2] = 0;
     rotation[0] = 0;
     model = NULL;
@@ -70,13 +69,13 @@ void TItemEffNeedleBase::render() {
         copy_argb(&saved_model_draw_color, &model_material_color);
         set_constant_material(&material_color);
         set_texlist(texlist);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_by_node_angles(rotation, 1);
         draw_ginja_object(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
     }
@@ -113,7 +112,7 @@ TItemEffNeedle::TItemEffNeedle(TObject *parent, TItem *item, u16 target_id, s32 
     if (target != NULL) {
         VecCopy(&position, &target->bodies[this->body_index].center);
         copy_xyz(rotation_offset, rotation);
-        rotation_offset[1] -= target->rotation_y;
+        rotation_offset[1] -= target->rotation.y;
     }
 }
 
@@ -124,7 +123,7 @@ int TItemEffNeedle::update_attachment() {
         return 0;
     }
     VecCopy(&position, &target->bodies[body_index].center);
-    rotation[1] = rotation_offset[1] + target->rotation_y;
+    rotation[1] = rotation_offset[1] + target->rotation.y;
     return 1;
 }
 

@@ -19,7 +19,7 @@ struct DoorModelSet {
 };
 
 struct TObjDoor : public TObjCollidable {
-    TObjDoor(TObject *parent, void *set_data);
+    TObjDoor(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjDoor();
     virtual void render();
     virtual void run_task();
@@ -54,7 +54,7 @@ struct TObjDoor : public TObjCollidable {
     static void free_resources();
     static void load_resources();
     static void set_main_warp_id(int main_warp_id);
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 
     static CollisionBody collision_desc;
     static NJS_ARGB label_color_table[10];

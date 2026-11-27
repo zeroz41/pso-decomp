@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 

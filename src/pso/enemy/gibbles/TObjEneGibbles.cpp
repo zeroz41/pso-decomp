@@ -2,7 +2,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnQuery.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -41,10 +40,10 @@ struct NJS_OBJECT;
 #include "pso/network/TLobby.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
@@ -117,8 +116,8 @@ TObjMotionAction gibbles_action_table[10] = {
 };
 const char *gibbles_class_name = gibbles_class_name_string;
 const NpcAnimationBinding gibbles_resource_binding_desc = { NULL, gibbles_action_table, 0, 1, 10 };
-const Vec lbl_80472768 = {0.0f, 0.0f, 0.0f};
-const Vec lbl_80472774 = {0.0f, 0.0f, 0.0f};
+const Vec gibbles_target_zero_vec = {0.0f, 0.0f, 0.0f};
+const Vec gibbles_target_pair_zero_vec = {0.0f, 0.0f, 0.0f};
 const Vec gibbles_joint_zero_vec = {0.0f, 0.0f, 0.0f};
 EnemyMoveParams gibbles_move_params = {
     250.0f, 1.25f, 0x400, {0, 0x64, 0, 0},
@@ -143,7 +142,7 @@ void TObjEneGibbles::select_model_record(s32 i) {
     texlist = gibbles_resource_bundle->models[i].texlist;
 }
 
-void *TObjEneGibbles::get_center() { return &body_center; }
+Vec *TObjEneGibbles::get_center() { return &body_center; }
 
 TObjEneGibbles::TObjEneGibbles(TObject *parent, EnemyPlacement *setData) : TObjEnemy(parent) {
     s32 i;
@@ -240,9 +239,9 @@ void TObjEneGibbles::free_static() {
     }
 }
 
-void *TObjEneGibbles::create(void *setData) {
+void *TObjEneGibbles::create(EnemyPlacement *setData) {
     TObjControl *parent = new TObjControl(tl_04);
-    return new TObjEneGibbles(parent, static_cast<EnemyPlacement *>(setData));
+    return new TObjEneGibbles(parent, setData);
 }
 
 void TObjEneGibbles::init_params() {
@@ -265,7 +264,7 @@ void TObjEneGibbles::init_params() {
 
 void TObjEneGibbles::run_task() {
     TObjChara *chased;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_task_stub();
         return;
     }
@@ -324,7 +323,6 @@ void TObjEneGibbles::run_task() {
 }
 
 void TObjEneGibbles::render() {
-    TObjMotion *motion = (TObjMotion *)this;
     Vec v;
     s32 fade;
     s32 vis;
@@ -353,7 +351,7 @@ void TObjEneGibbles::render() {
             break;
         }
         translate_matrix_vec3(NULL, (u8 *)&v);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         scale_matrix_vec3(NULL, (u8 *)&scale);
         gibbles_render_node_index = 0;
         gibbles_render_rotation_x = this->head_angle;
@@ -372,7 +370,7 @@ void TObjEneGibbles::render() {
                 model_render_flags |= 1;
                 this->fade.set_flags_and_apply_damage_color();
                 if (defer_render() == 0) {
-                    motion->draw();
+                    draw();
                 }
                 this->fade.clear_flag_and_notify();
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -388,7 +386,7 @@ void TObjEneGibbles::render() {
                 this->fades[cam].set_flags_and_apply_damage_color();
                 if (defer_render() == 0) {
                     if (vis == 1) {
-                        motion->draw();
+                        draw();
                     } else {
                         draw_motion_model();
                     }
@@ -398,13 +396,13 @@ void TObjEneGibbles::render() {
                 chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                 model_render_flags = saved_model_render_flags;
             } else if (vis == 1) {
-                motion->draw();
+                draw();
             } else {
                 draw_motion_model();
             }
             break;
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         set_chunk_model_node_callback(NULL);
         pop_matrix();
         restore_scene_lighting();
@@ -436,7 +434,7 @@ void TObjEneGibbles::turn_toward_target() {
     Vec d;
     VecCopy(&d, &target->body_center);
     subtract_vector(&d, &body_center);
-    clamp_angle(angle_diff_s16(rotation_y, (s32)(10430.38043493439 * atan2_float(d.x, d.z))));
+    clamp_angle(angle_diff_s16(rotation.y, (s32)(10430.38043493439 * atan2_float(d.x, d.z))));
 }
 
 void TObjEneGibbles::refresh_target() {
@@ -458,11 +456,11 @@ void TObjEneGibbles::refresh_target() {
         u16 tid;
         i = 0;
         best_id = 0xFFFF;
-        Vec v = lbl_80472768;
+        Vec v = gibbles_target_zero_vec;
         best = movementParameters->search_range * movementParameters->search_range;
         for (; i < registered_player_count + registered_enemy_count; i++) {
             p = TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active(p) != 0 && p != (TObjChara *)this) {
+            if (TObjCollidable::is_valid_and_active(p) != 0 && p != (TObjChara *)this) {
                 id = p->get_entity_id();
                 if (id < 0x4000 && id != entity_id && !(p->actorFlags & 0x02000800)) {
                     VecCopy(&v, &p->body_center);
@@ -503,7 +501,7 @@ void TObjEneGibbles::refresh_target() {
         f32 best2;
         f32 best;
         f32 d;
-        Vec v = lbl_80472774;
+        Vec v = gibbles_target_pair_zero_vec;
         best_id = 0xFFFF;
         best_p2 = NULL;
         best_id2 = best_id;
@@ -895,7 +893,7 @@ s32 TObjEneGibbles::is_target_in_attack_range() {
         obj = this->target;
         if (obj != NULL && this->attack_params != NULL && !(obj->actorFlags & 0x02000800)) {
             dist = calc_xz_distance_sq(this, obj, &v);
-            ang = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
+            ang = angle_difference_abs(this->rotation.y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
             body = this->target->bodies;
             if (body != NULL) {
                 rad = body->radius;
@@ -981,7 +979,7 @@ void TObjEneGibbles::slam_damage_players(s32 node) {
         }
         for (i = 0; i < entity_table_count; i++) {
             p = TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active(p) != 0 && p->get_entity_id() < 0x1000) {
+            if (TObjCollidable::is_valid_and_active(p) != 0 && p->get_entity_id() < 0x1000) {
                 d = horizontal_distance_squared(&p->body_center, &v);
                 if (d <= gibbles_combat_stat_entries[0]->get_damage_radius() * gibbles_combat_stat_entries[0]->get_damage_radius()) {
                     a.kind = 0;
@@ -1001,7 +999,7 @@ s32 TObjEneGibbles::landing_damage_players() {
 
     for (i = 0; i < entity_table_count; i++) {
         pl = TObjPlayer::get_player_data(i);
-        if (TObjPlayer::is_valid_and_active(pl) != 0 && pl->get_entity_id() < 0x1000U) {
+        if (TObjCollidable::is_valid_and_active(pl) != 0 && pl->get_entity_id() < 0x1000U) {
             f32 dist = horizontal_distance_squared(&pl->body_center, &position);
             if (dist <= gibbles_combat_stat_entries[1]->get_damage_radius() * gibbles_combat_stat_entries[1]->get_damage_radius()) {
                 DirectAttackPayload attack;
@@ -1363,7 +1361,7 @@ void TObjEneGibbles::state_jump_attack() {
                     goto done;
                 }
             }
-            enemy_set_heading_velocity(0.0f, this, rotation_y);
+            enemy_set_heading_velocity(0.0f, this, rotation.y);
             status_flags &= ~0x100;
             mode = 3;
             phase = 0;
@@ -1409,7 +1407,7 @@ void TObjEneGibbles::state_jump_attack() {
         }
         if (is_passing_frame(frame_count - 1.0f - play_speed) != 0) {
             actorFlags &= ~0x200000;
-            enemy_set_heading_velocity(0.0f, this, rotation_y);
+            enemy_set_heading_velocity(0.0f, this, rotation.y);
             status_flags &= ~0x100;
             mode = 3;
             phase = 0;
@@ -1437,11 +1435,11 @@ int TObjEneGibbles::test_flag_256() {
             pl = TObjPlayer::get_player_data(i);
             if (pl != NULL && !(pl->actorFlags & 0x800)
                 && TObjPlayer::calc_distance_to_client(this, i, &v) < 900.0f
-                && angle_difference_abs(this->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA
+                && angle_difference_abs(this->rotation.y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA
                 && pl->test_action_mask(0xE0) != 0) {
                 VecCopy(&v, &body_center);
                 subtract_vector(&v, &pl->body_center);
-                if (angle_difference_abs(pl->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA) {
+                if (angle_difference_abs(pl->rotation.y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA) {
                     this->guarded_player = pl;
                     this->status_flags |= 0x20;
                     return 1;
@@ -1530,7 +1528,7 @@ void TObjEneGibbles::run_hit_reaction() {
             if (pl != NULL) {
                 VecCopy(&v, &pl->body_center);
                 subtract_vector(&v, &body_center);
-                angle_difference_abs(this->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z)));
+                angle_difference_abs(this->rotation.y, (s32) (10430.38043493439 * atan2_float(v.x, v.z)));
             }
             this->mode = 8;
             this->requested_action = 8;
@@ -1610,9 +1608,9 @@ void TObjEneGibbles::state_dead() {
             point.x = 0.0f;
             point.y = 0.0f;
             point.z = -10.0f;
-            rotate_xz_pair_by_angle(&point.x, &point.z, this->rotation_y);
+            rotate_xz_pair_by_angle(&point.x, &point.z, this->rotation.y);
             vec3_add_to(&point, &position);
-            TDeadSpot::spawn_kind2_scale25(&point, 0xA);
+            spawn_dead_spot_kind2_scale25(&point, 0xA);
             spawn_effect_at_ground(&point, 0x46);
         }
     case 2:
@@ -1695,7 +1693,7 @@ void TObjEneGibbles::render_and_get_joint_pos(Vec *out, s32 node) {
     set_motion_packed_rotation();
     push_matrix_from(identity_matrix);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     scale_matrix_vec3(NULL, (u8 *)&scale);
     set_motion_packed_rotation();
     calc_joint_matrices(frame);

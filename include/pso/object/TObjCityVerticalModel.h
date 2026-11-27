@@ -6,7 +6,7 @@
 // City model that rises and sinks along y every 300 frames.
 class TObjCityVerticalModel : public TObjBase {
 public:
-    TObjCityVerticalModel(TObject *parent, void *set_data);
+    TObjCityVerticalModel(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjCityVerticalModel();
     virtual void run_task();
     virtual void render();

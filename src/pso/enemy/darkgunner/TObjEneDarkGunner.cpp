@@ -8,7 +8,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 
@@ -88,7 +88,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/enemy/TeneFakeTecThunderEff.h"
 #include "pso/object/TObjControl.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -102,30 +102,9 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/enemy/saver/TObjEneSaver.h"
 
 #pragma readonly_strings on
-
-extern "C" {
-
-struct VecBits { u8 b[12]; };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
 
 extern "C" {
 player_stats *dark_gunner_base_params_by_variant[1];
@@ -299,7 +278,7 @@ void TObjEneDarkGunner::refresh_target() {  }
 }
 
 extern "C" {
-TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     s32 i;
 
     m_name = dark_gunner_class_name;
@@ -308,7 +287,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     variant = 0;
     set_param(0x22);
     add_flags_2e4(8);
-    state36C = ((EnemyPlacement *)set_data)->state;
+    state36C = set_data->state;
     resetTimer = 0xF;
     timer = resetTimer;
     VecCopy(&prev_position, &position);
@@ -332,7 +311,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     update_prev_position();
     behavior_flags = 0x550000;
     set_actor_flags(0x04040000);
-    rotation_z = 0x8000;
+    rotation.z = 0x8000;
     render_y_offset = 0.0f;
     hover_speed = 0.0f;
     hover_height = 0.0f;
@@ -375,8 +354,8 @@ void load_darkgunner_effect_resources() {
     dark_gunner_shadow_chunk_object = get_bml_model(TObjEneDarkGunner::bml_resource, 0);
     dark_gunner_cly_line_texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, 0);
     dark_gunner_rcly_line_texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, 2);
-    dark_gunner_body_child_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 1)->child->model)->polygon_list;
-    dark_gunner_cly_line_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 0)->model)->polygon_list;
+    dark_gunner_body_child_polygons = get_bml_model(TObjEneDarkGunner::bml_resource, 1)->child->chunk_model->polygon_list;
+    dark_gunner_cly_line_polygons = get_bml_model(TObjEneDarkGunner::bml_resource, 0)->chunk_model->polygon_list;
     init_fake_tec_texlist();
     TEneEffHamon::init_fish_effects();
     dark_gunner_effect_resource = LoadPvmFileTls("re5_b_gunner_body_pika.gvm");
@@ -394,14 +373,14 @@ void TObjEneDarkGunner::cleanup_effects() {
         TObjEneDarkGunner::bml_resource = NULL;
     }
     if (dark_gunner_effect_resource != NULL) {
-        TObjPlayer::free_if_valid(dark_gunner_effect_resource);
+        free_if_valid(dark_gunner_effect_resource);
         dark_gunner_effect_resource = NULL;
     }
-    TObjPlayer::reset_effect_count();
+    reset_effect_count();
     TEneEffHamon::free_fish_effects();
 }
 
-void *TObjEneDarkGunner::create(void *set_data) {
+void *TObjEneDarkGunner::create(EnemyPlacement *set_data) {
     return new TObjEneDarkGunner(tl_04, set_data);
 }
 
@@ -415,7 +394,7 @@ void TObjEneDarkGunner::run_task() {
         scroll_chunk_plist_uvs(dark_gunner_body_child_polygons, 8, 0, 1);
         scroll_chunk_plist_uvs(dark_gunner_cly_line_polygons, 8, 0, 0);
     }
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         load_params();
         run_demo_task();
         return;
@@ -511,7 +490,7 @@ void TObjEneDarkGunner::update_wait() {
     case 0:
         if (behavior_flags & 0x10000) {
             actorFlags |= 0x04040000;
-            rotation_z = 0x8000;
+            rotation.z = 0x8000;
             state = 1;
         } else {
             requested_action = 0;
@@ -558,12 +537,12 @@ void TObjEneDarkGunner::update_move() {
         break;
     case 1:
         apply_actor_gravity(this, NULL, 0.0f);
-        rotation_z -= 0x1000;
-        if (rotation_z < 0) {
-            rotation_z = 0;
+        rotation.z -= 0x1000;
+        if (rotation.z < 0) {
+            rotation.z = 0;
         }
         if (actorFlags & 0x800000) {
-            rotation_z = 0;
+            rotation.z = 0;
             requested_action = 2;
             state = 2;
             actorFlags &= 0xFBFBFFFF;
@@ -581,7 +560,7 @@ void TObjEneDarkGunner::update_move() {
         }
         break;
     case 3:
-        rotation_z = 0;
+        rotation.z = 0;
         bodies->flags &= ~4;
         bodies->flags |= 2;
         advance_animation();
@@ -600,21 +579,21 @@ void TObjEneDarkGunner::update_move() {
         }
         break;
     case 6:
-        rotation_y += 0x555;
+        rotation.y += 0x555;
         spin_count++;
         if (spin_count >= 4) {
             state = 4;
         }
         break;
     case 4:
-        move_heading = rotation_y;
+        move_heading = rotation.y;
         move_speed = get_float_parameter(0);
         move_distance = 0.0f;
         turn_delay = 0;
         pad_39e = 0;
         requested_action = 1;
         state = 5;
-        rotation_z = 0;
+        rotation.z = 0;
         bodies->flags &= ~4;
         bodies->flags |= 2;
     case 5:
@@ -840,7 +819,7 @@ void TObjEneDarkGunner::update_dying() {
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         if (render_control.decay_value_toward_floor() == 1) {
-            TDeadSpot::spawn_kind0_scale7_5(&position, 0);
+            spawn_dead_spot_kind0_scale7_5(&position, 0);
             queue_destruction();
         }
         break;
@@ -866,8 +845,8 @@ void TObjEneDarkGunner::render() {
             saved_model_render_flags = model_render_flags;
             model_render_flags &= ~0x10;
             translate_matrix(0, position.x, position.y + render_y_offset, position.z);
-            rotate_matrix_z(0, rotation_z);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_z(0, rotation.z);
+            rotate_matrix_y(0, rotation.y);
             if (behavior_flags & 0x400000) {
                 f32 s;
                 model_render_flags |= 0x820;
@@ -913,7 +892,7 @@ void TObjEneDarkGunner::render() {
             pop_matrix();
             render_shadow();
             restore_scene_lighting();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             cancel = view == 1 && (behavior_flags & 0x200000) && test_actor_flags(0x22) == 0;
             for (i = 0; i < 4; i++) {
                 if (children[i] != NULL) {
@@ -1013,8 +992,8 @@ void TObjEneDarkGunner::update_hover() {
     hover_height = (hover_height < 0.0f) ? 0.0f : ((hover_height < 9.0f) ? hover_height : 9.0f);
     push_matrix_from(identity_matrix);
     post_translate_matrix(&position.x);
-    rotate_matrix_z(0, rotation_z);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_z(0, rotation.z);
+    rotate_matrix_y(0, rotation.y);
     Vec t = dark_gunner_shadow_origin;
     lo = 5.0f + hover_height;
     t.y = lo + render_y_offset;
@@ -1130,9 +1109,6 @@ void TObjEneDarkGunner::load_params() {
 extern "C" {
 void TObjEneDarkGunner::step_along_ground() {
     Vec pos;
-    VecBits vel;
-    Vec dir;
-    Vec v;
     s32 ang;
     s32 sign;
     s32 b;
@@ -1143,9 +1119,9 @@ void TObjEneDarkGunner::step_along_ground() {
 
     VecCopy(&prev_position, &position);
     VecCopy(&pos, &body_center);
-    vel = *(VecBits *)&velocity;
-    vec_set_length((Vec *)&vel, 10.0f + get_float_parameter(0));
-    vec3_add_to(&pos, (Vec *)&vel);
+    Vec vel = velocity;
+    vec_set_length(&vel, 10.0f + get_float_parameter(0));
+    vec3_add_to(&pos, &vel);
     hit = csnVector(&body_center, &pos, -1);
     if (hit != NULL) {
         a = 10430.38043493439 * atan2_float(velocity.x, velocity.z);
@@ -1158,6 +1134,8 @@ void TObjEneDarkGunner::step_along_ground() {
     } else {
         sign = 1;
     }
+    Vec dir;
+    Vec v;
     for (i = 0, ang = 0; i < 15; i++, ang += 0x1000) {
         if (i == 0) {
             VecCopy(&dir, &velocity);

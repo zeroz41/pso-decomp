@@ -42,8 +42,8 @@ LAYOUT_ASSERT(TObjDFHorming_effects_offset, offsetof(TObjDFHorming, effects) == 
 LAYOUT_ASSERT(TObjDFHorming_size, sizeof(TObjDFHorming) == 0x380);
 
 struct TBoss4DarkFalz;
-// Copies one 0x40-byte enemy set entry (see TBoss4DarkFalzSetEntry) field by field. Name inferred
-// from that body; every boss spawner that clones a set entry template calls it.
+// Copies one EnemyPlacement field by field; every boss spawner that clones a placement
+// template calls it.
 void copy_set_entry(void *dst, void *src);
 
 // One arena zone of the fight (push_players_out_of_zone): players farther than radius from the center of
@@ -56,12 +56,12 @@ struct SetEntryWords5 { u32 w[5]; };
 struct SetEntryCopy {
   s16 set_index;
   s16 kind;
-  s16 unknown_04;
+  s16 pad_04;
   u16 entity_id;
   s16 room;
   s16 wave;
-  s16 unknown_0C;
-  s16 unknown_0E;
+  s16 pad_0C;
+  s16 pad_0E;
   struct SetEntryWords3 position;
   struct SetEntryWords3 rotation;
   struct SetEntryWords5 params;

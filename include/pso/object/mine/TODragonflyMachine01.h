@@ -13,14 +13,14 @@ struct BmlResource;
 struct NJS_OBJECT;
 
 struct TODragonflyMachine01 : public TODragonfly {
-    TODragonflyMachine01(void *set_data);
+    TODragonflyMachine01(ObjectSetData *set_data);
     virtual ~TODragonflyMachine01();
     virtual void render();
     virtual void run_task();
     void update_yaw_animation();
     // The model-node callback render installs: turns node 6 (the head).
     static void rotate_animated_node(NJS_OBJECT *);
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void unload_static_data();
     static void load_resources();
 

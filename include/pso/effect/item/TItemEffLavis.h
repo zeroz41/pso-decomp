@@ -5,7 +5,7 @@
 
 class TItemEffLavis : public TItemShootModel {
 public:
-    TItemEffLavis(void* owner, const Vec* start, const Vec* endpoint, f32 life);
+    TItemEffLavis(TItemWeapon *owner, const Vec* start, const Vec* endpoint, f32 life);
     virtual ~TItemEffLavis();
     virtual void hook();
 

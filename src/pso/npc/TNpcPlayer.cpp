@@ -1,11 +1,11 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/player/TPlyCharData.h"
+#include "pso/system/CxxRuntime.h"
 #include "pso/player/TPlyInventory.h"
 #include <stdlib.h>
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/system/ResourceFile.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/TGameProtocol.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/npc/TNpcPlayer.h"
@@ -51,22 +51,13 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/render_util.h"
+#include "pso/player/PhotonBlastResults.h"
 
 disp_data_part2 *npc_player_char_data_buffer;
 s32 quest_npc_visual_pending;
 
-extern "C" {
-
-s32 __dt__12TPlyCharDataFv(s32 object, s16 free_flags);
-void * __ct__12TPlyCharDataFv(void *object);
-s8 get_cast_technique_level(void *, s16);
-void __register_global_object(void *obj, void *dtor, void *link);
-
-void __sinit_TNpcPlayer_cpp();
-}
-
 disp_data_part2 npc_player_visual_record;
-u32 npc_player_ply_char_data_global[3];
+DestructorChain npc_player_char_data_dtor_chain;
 #pragma push
 #pragma suppress_init_code on
 #pragma no_static_dtors on
@@ -88,6 +79,7 @@ const char *TNpcPlayer::name = "TNpcPlayer";
 // npc_player_char_data is constructed by __sinit_TNpcPlayer_cpp, spelled out below because
 // the original's static initializer precedes the out-of-line helpers at the end
 // of this file, which no compiler-generated __sinit reproduces.
+void __sinit_TNpcPlayer_cpp();
 __declspec(section ".ctors") static void *const npc_player_global_initializer = (void *)__sinit_TNpcPlayer_cpp;
 
 int get_registered_object_count(void);
@@ -1009,7 +1001,7 @@ void PartnerCounters::reset(s32 index) { count[index] = 0; }
 void PlayerTechniqueState::set_technique_level(s16 technique, u8 level) { levels[technique] = level; }
 
 void __sinit_TNpcPlayer_cpp() {
-    __register_global_object(__ct__12TPlyCharDataFv(&npc_player_char_data), __dt__12TPlyCharDataFv, npc_player_ply_char_data_global);
+    __register_global_object(__ct__12TPlyCharDataFv(&npc_player_char_data), __dt__12TPlyCharDataFv, &npc_player_char_data_dtor_chain);
 }
 
 void TNpcPlayer::ensure_rock_singleton() {
@@ -1818,11 +1810,11 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
             if (kind == TECHNIQUE_RESTA) {
                 ai_flags |= NPC_AI_CAST_RESTA;
             }
-            cmd.params.level = get_cast_technique_level(&player->technique_state, kind);
+            cmd.params.level = player->technique_state.get_cast_technique_level(kind);
             cmd.targets[0].set_entity_id(leader_view->get_client_id());
             cmd.targets[0].set_index(0);
         } else {
-            cmd.params.level = get_cast_technique_level(&player->technique_state, kind);
+            cmd.params.level = player->technique_state.get_cast_technique_level(kind);
             cmd.targets[0].set_entity_id((u16)self_view->get_target_id());
             cmd.targets[0].set_index(self_view->get_target_collider());
         }
@@ -2467,7 +2459,7 @@ s32 NpcPlayerView::probe_obstacles() {
         return 0;
     }
     VecCopy(&sweep->position, &player->position);
-    probe->rotation_y = goal_angle;
+    probe->rotation.y = goal_angle;
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count() + get_registered_object_count(); i++) {
         actor = (TObjCollidable *)TObjPlayer::get_player_data(i);
         if ((actor != NULL) && !(actor->actorFlags & 0x80000000)) {
@@ -2476,7 +2468,7 @@ s32 NpcPlayerView::probe_obstacles() {
                 if (actor->actorFlags & 0x40000000) {
                     if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {
                         copy_collision_body(&obstacle_body, contact);
-                        obstacle_angle = actor->rotation_y;
+                        obstacle_angle = actor->rotation.y;
                         status |= NPC_STATUS_OBSTACLE_AHEAD;
                         return 1;
                     }
@@ -2850,7 +2842,7 @@ void TNpcPlayer::deliver_partner_chatter() {
         chatter_id = 0x19;
         return;
     }
-    if (TObjPlayer::is_any_teammate_in_state() != 0) {
+    if (is_any_teammate_in_state() != 0) {
         return;
     }
     id = self_view->player->get_entity_id();

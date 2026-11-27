@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/quest/TOQuestTalkBase.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -22,8 +23,8 @@
 
 void TOQuestTalkBase::update_demo() {}
 
-void TOQuestTalkBase::apply_saved_state(s16 *state, s32) {
-    object_state = *state;
+void TOQuestTalkBase::apply_saved_state(QuestObjectEntry *state, s32) {
+    object_state = state->flags;
 }
 
 void TOQuestTalkBase::interact(u16 client) {
@@ -97,7 +98,7 @@ void TOQuestTalkBase::run_task() {
     TObjPlayer *player;
     f32 frame;
     f32 end;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         update_demo();
         return;
     }
@@ -162,7 +163,7 @@ void TOQuestTalkBase::render() {
     if (visible == 1) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texlist));
         if (active == 1) {
             if (motion != NULL) {

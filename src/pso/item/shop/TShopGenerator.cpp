@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
@@ -30,8 +29,11 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/math/MatrixReflect.h"
+#include "pso/math/MatrixVector.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 ShopService TShopGenerator::service_dispatch_table[7] = {
     {"WEAPON STORE", TShopEquipmentSequence::init_slot_active_flags, TShopEquipmentSequence::release_slot_active_flags,
@@ -42,10 +44,8 @@ ShopService TShopGenerator::service_dispatch_table[7] = {
      TShopEquipmentGearSequence::create_instance, get_equipment_gear_shop_window_slot},
     {"ITEM STORE", TShopItemTecSequence::init_slot_table, TShopItemTecSequence::release_slot_table,
      create_shop_item_tec_sequence, get_item_technique_shop_slot},
-    // handle_main_phase and is_in_hunter_guild still carry recovered s32 prototypes; the table
-    // proves create(void *) / int(int) (follow-up: retype them with their callers).
-    {"HUNTER GUILD", TLobby::update_guild_or_quest_phase, update_hunter_guild_phase,
-     (void *(*)(void *))handle_main_phase, (int (*)(int))is_in_hunter_guild},
+    {"HUNTER GUILD", update_guild_or_quest_phase, update_hunter_guild_phase,
+     handle_main_phase, is_in_hunter_guild},
     {"CHECK ROOM", TCheckRoomSequence::reset_slots, TCheckRoomSequence::reset_slot_state,
      TCheckRoomSequence::create, get_check_room_slot_active_flag},
     {"JUDGMENT", TJudgmentSequence::init_slot_flags, TJudgmentSequence::release_slot_flags,
@@ -56,35 +56,30 @@ const char *TShopGenerator::class_name = "TShopGenerator";
 
 s32 TShopGenerator::slot_active_table[4];
 
-extern "C" {
-s32 rotate_vector_by_matrix(int, void *, void *);
-// run_task reads the bool through an int-returning call (no clrlwi after either call); kept as found.
-bool is_player_in_service_range__14TShopGeneratorFP8TObjBasef(u8 *self, u8 *player, f32 range);
-}
 
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-bool TShopGenerator::is_player_in_service_range(TObjBase *player, f32 range) {
+BOOL TShopGenerator::is_player_in_service_range(TObjBase *player, f32 range) {
     Vec to_self;
     if (xyz_distance_squared(&player->position, &position) > (range * range)) {
-        return 0;
+        return FALSE;
     }
     Vec facing = {0.0f, 0.0f, -1.0f};
     push_matrix_from(&identity_matrix);
-    rotate_matrix_y(0, (int) player->rotation_y);
+    rotate_matrix_y(0, (int) player->rotation.y);
     rotate_vector_by_matrix(0, &facing, &facing);
     pop_matrix();
     to_self.x = this->position.x - player->position.x;
     to_self.y = this->position.y - player->position.y;
     to_self.z = this->position.z - player->position.z;
     normalize_vector(&to_self);
-    return (vec3_dot(&facing, &to_self) > -0.5f) == 0;
+    return (vec3_dot(&facing, &to_self) > -0.5f) == 0 ? TRUE : FALSE;
 }
 #pragma pop
 
-s32 TShopGenerator::is_no_service_active(void *self, TObjBase *player) {
+s32 TShopGenerator::is_no_service_active(TObjBase *player) {
     s32 i;
     int (*get_slot_flag)(int);
     for (i = 0; i < 7; i++) {
@@ -112,14 +107,14 @@ void TShopGenerator::run_task() {
     if (poll_memcard_result((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
         return;
     }
-    if (TAdPlayerLoadGC::get_instance() != 0) {
+    if (get_card_load_sequence_state() != 0) {
         return;
     }
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
             if (p == 0) continue;
-            if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFP8TObjBasef)((u8 *)this, (u8 *)p, 20.0f) == 0) continue;
+            if (is_player_in_service_range(p, 20.0f) == 0) continue;
             if (is_slot_active(p->get_entity_id()) == 1) continue;
             if (TMedicalCenterMes::get_slot_flag(p->get_entity_id()) == 1) continue;
             if (p->is_action_input_disabled() == 1) continue;
@@ -138,10 +133,10 @@ void TShopGenerator::run_task() {
         if (TMedicalCenterMes::get_slot_flag(q->get_entity_id()) == 1) return;
         if (q->is_action_input_disabled() == 1) return;
         if (q->is_controls_locked() == 1) return;
-        if (is_no_service_active(this, q) == 0) return;
+        if (is_no_service_active(q) == 0) return;
         get_slot_flag2 = service->get_slot_flag;
         if (get_slot_flag2((u16)get_client_split_screen_slot(q->get_entity_id())) == 1) return;
-        if (((s32 (*)(u8 *, u8 *, f32))is_player_in_service_range__14TShopGeneratorFP8TObjBasef)((u8 *)this, (u8 *)q, 20.0f) == 0) return;
+        if (is_player_in_service_range(q, 20.0f) == 0) return;
         if (test_pressed_buttons_packed(&controller_input_state.controllers[q->get_controller_port()], 4) == 0) return;
         service->create(q);
     }
@@ -150,11 +145,11 @@ void TShopGenerator::run_task() {
 TShopGenerator::~TShopGenerator() {
 }
 
-TShopGenerator::TShopGenerator(void *set_data) : TObjBase(tl_05) {
+TShopGenerator::TShopGenerator(ObjectSetData *set_data) : TObjBase(tl_05) {
     s32 service_index;
     m_name = class_name;
     this->apply_object_set_data(set_data);
-    this->m_90 = 0;
+    this->pad_90 = 0;
     this->service_check_delay = 5;
     service_index = this->set_params[0];
     if (service_index < 0) {
@@ -182,7 +177,7 @@ void set_shop_slot_active(u16 client) {
     TShopGenerator::slot_active_table[idx] = 1;
 }
 
-void *TShopGenerator::create(void *set_data) {
+void *TShopGenerator::create(ObjectSetData *set_data) {
     return new TShopGenerator(set_data);
 }
 
@@ -219,38 +214,38 @@ void TShopGenerator::run_fn_table_forward() {
     }
 }
 
-void *TShopEquipmentSequence::create_instance(void *player) {
-    return new TShopEquipmentSequence(tl_05, (TObjPlayer *)player);
+void *TShopEquipmentSequence::create_instance(TObjPlayer *player) {
+    return new TShopEquipmentSequence(tl_05, player);
 }
 
 int get_equipment_shop_slot_active_flag(int slot) { return TShopEquipmentSequence::slot_active_flags[slot]; }
 
-void *create_medical_center_sequence(void *player) {
-    return new TMedicalCenterSequence(tl_05, (TObjPlayer *)player);
+void *create_medical_center_sequence(TObjPlayer *player) {
+    return new TMedicalCenterSequence(tl_05, player);
 }
 
 int get_medical_center_slot_active_flag(int slot) { return medical_center_slot_active_flags[slot]; }
 
-void *TShopEquipmentGearSequence::create_instance(void *player) {
-    return new TShopEquipmentGearSequence(tl_05, (TObjPlayer *)player);
+void *TShopEquipmentGearSequence::create_instance(TObjPlayer *player) {
+    return new TShopEquipmentGearSequence(tl_05, player);
 }
 
 int get_equipment_gear_shop_window_slot(int slot) { return TShopEquipmentGearSequence::window_slot_table[slot]; }
 
-void *create_shop_item_tec_sequence(void *player) {
-    return new TShopItemTecSequence(tl_05, (TObjPlayer *)player);
+void *create_shop_item_tec_sequence(TObjPlayer *player) {
+    return new TShopItemTecSequence(tl_05, player);
 }
 
 int get_item_technique_shop_slot(int slot) { return TShopItemTecSequence::slot_table[slot]; }
 
-void *TCheckRoomSequence::create(void *player) {
-    return new TCheckRoomSequence(tl_05, (TObjPlayer *)player);
+void *TCheckRoomSequence::create(TObjPlayer *player) {
+    return new TCheckRoomSequence(tl_05, player);
 }
 
 int get_check_room_slot_active_flag(int slot) { return TCheckRoomSequence::slot_active_flags[slot]; }
 
-void *TJudgmentSequence::create(void *player) {
-    return new TJudgmentSequence(tl_05, (TObjPlayer *)player);
+void *TJudgmentSequence::create(TObjPlayer *player) {
+    return new TJudgmentSequence(tl_05, player);
 }
 
 int get_judgment_shop_slot_flags(int slot) { return TJudgmentSequence::slot_flags[slot]; }

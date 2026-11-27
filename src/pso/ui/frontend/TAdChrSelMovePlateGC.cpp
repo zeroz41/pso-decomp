@@ -1,10 +1,10 @@
 #include "pso/ui/frontend/TAdChrSelMovePlateGC.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/TextureState.h"
 

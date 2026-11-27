@@ -11,13 +11,13 @@ class TBoss3Volopt;
 class TBoss3VoloptCore : public TObjEnemyCustom {
 public:
     TBoss3VoloptCore(TBoss3Volopt *parent, u16 id, s32 param);
-    TBoss3VoloptCore(TObject *parent, void *set_data);
+    TBoss3VoloptCore(TObject *parent, EnemyPlacement *set_data);
     virtual ~TBoss3VoloptCore();
     virtual void run_task();
     virtual void render();
     virtual s32 is_target_in_attack_range();
 
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static TBoss3VoloptCore *create(TBoss3Volopt *parent, u16 id, s32 group);
     static void load_resources();
     static void release();

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/TScreenFadeOut.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
@@ -6,7 +5,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/frontend/TAdMultiSaveGC.h"
@@ -15,8 +14,8 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 
 static const f32 save_message_window_pos[2] = { 80.0f, 176.0f };
@@ -126,7 +125,7 @@ void TAdMultiSaveGC::run_task() {
         m_state = 5U;
         return;
     case 5:
-        if (TAdPlayerLoadGC::get_instance() == 0) {
+        if (get_card_load_sequence_state() == 0) {
             m_state = 6U;
             return;
         }
@@ -136,7 +135,7 @@ void TAdMultiSaveGC::run_task() {
         m_state = 7U;
         return;
     case 7:
-        if (TAdPlayerLoadGC::get_instance() == 0) {
+        if (get_card_load_sequence_state() == 0) {
             if (saving_window != NULL) {
                 saving_window->close();
                 saving_window = NULL;

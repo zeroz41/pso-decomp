@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/switch/TSwitch.h"
 #include "types.h"
 #include "pso/object/collision/TObjRaderCol.h"
@@ -13,6 +12,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma readonly_strings on
 
@@ -33,7 +33,7 @@ TObjRaderCol::~TObjRaderCol() {
 
 }
 
-TObjRaderCol::TObjRaderCol(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjRaderCol::TObjRaderCol(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = rader_col_name;
     apply_object_set_data(set_data);
     radius = scale.x;
@@ -51,7 +51,7 @@ void TObjRaderCol::run_task() {
         this->state = 1;
         return;
     case 1:
-        if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (is_not_split_screen() == 1) {
             check_any_player_in_range();
             return;
         }
@@ -113,7 +113,7 @@ void TObjRaderCol::check_any_player_in_range() {
 
 void TObjRaderCol::render() {  }
 
-TObjRaderHideCol::TObjRaderHideCol(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjRaderHideCol::TObjRaderHideCol(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = rader_hide_col_name;
     apply_object_set_data(set_data);
     hide_radius = scale.x;
@@ -143,7 +143,7 @@ void TObjRaderHideCol::run_task() {
 void TObjRaderHideCol::render() {  }
 
 
-TObjRaderIcon::TObjRaderIcon(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjRaderIcon::TObjRaderIcon(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = rader_icon_name;
     apply_object_set_data(set_data);
     initialize_from_placement();
@@ -200,13 +200,13 @@ void TObjRaderIcon::run_task() {
             }
         }
         if (all == 1) {
-            add_radar_scaled_gate(&position, 0xFF00FF00, rotation_y, 0, 0, size);
+            add_radar_scaled_gate(&position, 0xFF00FF00, rotation.y, 0, 0, size);
         } else {
-            add_radar_scaled_gate(&position, 0xFFFF0000, rotation_y, 0, 0, size);
+            add_radar_scaled_gate(&position, 0xFFFF0000, rotation.y, 0, 0, size);
         }
         break;
     case 1:
-        add_radar_scaled_gate(&position, color, rotation_y, 0, 0, size);
+        add_radar_scaled_gate(&position, color, rotation.y, 0, 0, size);
         break;
     }
 }
@@ -214,6 +214,6 @@ void TObjRaderIcon::run_task() {
 void TObjRaderIcon::render() {  }
 
 
-void *TObjRaderIcon::create(void *set_data) {
+void *TObjRaderIcon::create(ObjectSetData *set_data) {
     return new TObjRaderIcon(tl_05, set_data);
 }

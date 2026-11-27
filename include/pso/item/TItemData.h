@@ -94,10 +94,9 @@ struct TItemData {
     void set_stack_count(u8 count);
     void set_unit_modifier(s16 modifier);
     // The item data's byte-swapped s16 at +6 (a unit's modifier).
-    static s16 get_field6_bswap(void *data);
-    // The byte-swapped s16s at +6 and +8 (an armor's or shield's DFP and
-    // EVP bonus).
-    static s16 getS16_06(void *data);
+    static s16 get_unit_modifier(void *data);
+    // The byte-swapped s16s at +6 and +8 (an armor's or shield's DFP and EVP bonus).
+    static s16 get_dfp_bonus(void *data);
     static s16 get_evp_bonus(void *data);
     void set_evp_bonus(s16 evp_bonus);
     void set_dfp_bonus(s16 dfp_bonus);
@@ -122,7 +121,7 @@ struct TItemData {
     void add_armor_stat_contribution(TObjPlayer *player, AttackParams *attack, ActorParamBlock *params,
                                      EquipStatBonus *stats, EquipHpTpBonus *hp_tp);
     f32 calc_clock_bonus(TObjPlayer *player);
-    saddr calc_buy_price();
+    const char *calc_buy_price();
     void format_item_name(char *buf);
     int calc_display_grade();
     s32 get_base_rarity();
@@ -140,7 +139,6 @@ struct TItemData {
     s32 calc_action_flags(s32 mask, TObjPlayer *player);
     s32 calc_price();
     // calc_price, or 0 without an item.
-    static s32 calc_price_of(TItemData *data);
     u16 get_packed_value();
     void decode_packed_name_chars(s8 *out);
     void add_mag_stat_bonuses(TObjPlayer *player, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,
@@ -153,6 +151,8 @@ void *lookup_item_pmt_record(u8 *item);
 void init_srank_weapon_item(TItemData *item_data, const char *name, u8 group);
 // The help text of an item: its description, with a unit's modifier or a tool's count filled in.
 const char *format_item_description(TItemData *item);
+// The inventory icon of an item: 1-3 by weapon class for a weapon, 0 otherwise.
+s32 get_item_icon_index(const TItemData *item);
 
 #include <stddef.h>
 LAYOUT_ASSERT(ItemDataSize, sizeof(TItemData) == 0x14);

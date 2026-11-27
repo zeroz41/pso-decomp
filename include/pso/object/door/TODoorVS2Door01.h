@@ -13,7 +13,7 @@ struct BmlResource;
 struct TODoorVS2Door01 : public TODoorBase {
     enum { SLIDE_DISTANCE = 19 };  // slide_offset when fully open
 
-    TODoorVS2Door01(TObject *parent, void *set_data);
+    TODoorVS2Door01(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorVS2Door01();
     virtual void update_demo();
     virtual void update_closing();
@@ -23,7 +23,7 @@ struct TODoorVS2Door01 : public TODoorBase {
     // Also in view while it is not closed.
     s32 is_in_view_depth(f32 min_radius);
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void destroy();
     static void load_resources();
 

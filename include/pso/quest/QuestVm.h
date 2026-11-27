@@ -28,11 +28,12 @@ enum quest_suspend_reason {
     QST_WAIT_ITEM_CHOICE       = 12, // item id to a register, -1 on cancel
 };
 
-// One quest VM cell: opcodes read it as an integer, a float or an address.
+// One quest VM cell: opcodes read it as an integer, a float, an address or the address of a string.
 union QuestValue {
     s32 i;
     f32 f;
     void *p;
+    char *str;
 };
 
 struct QuestVmContext {
@@ -42,19 +43,19 @@ struct QuestVmContext {
     TWindowMessageQuest *message_window;
     TWindowMenu *list_window;
     u8 result_register;
-    s32 unk18;
+    s32 pad_18;
     s32 call_stack_depth;
     s32 pc;
-    s32 unk24;
-    s32 unk28;
+    s32 pad_24;
+    s32 pad_28;
     s32 message_speaker;
     s32 arg_count;
     saddr args[8];
     s32 call_stack[64];
-    u8 unk154;
-    u8 unk155;
-    u16 unk156;
-    u16 unk158;
+    u8 pad_154;
+    u8 pad_155;
+    u16 pad_156;
+    u16 pad_158;
     TObjItemNameEntry *item_name_entry;
     TObjItemNameSelect *item_name_select;
     TObjItemOKWindow *item_ok_window;

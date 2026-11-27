@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "types.h"
 #include "pso/unk/TLobbyEventTheme.h"

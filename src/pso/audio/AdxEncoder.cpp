@@ -97,19 +97,20 @@ void adx_encoder_step_context(AdxEncoder *enc) {
 
 void adx_process_encoder_output(AdxEncoder *enc) {
     s32 encoded_samples;
-loop_1:
-    if (enc->end_of_input == 0) {
-loop_2:
-        encoded_samples = adx_encode_available_blocks(enc);
-        if (encoded_samples != 0) {
-            enc->bytes_written += encoded_samples;
-            if (enc->samples_encoded >= enc->total_samples) {
-                enc->end_of_input = 1;
-                goto loop_1;
-            }
-            goto loop_2;
+    for (;;) {
+        if (enc->end_of_input != 0) {
+            break;
         }
-    } else if (adx_write_zero_padded_block(enc) > 0) {
+        do {
+            encoded_samples = adx_encode_available_blocks(enc);
+            if (encoded_samples == 0) {
+                return;
+            }
+            enc->bytes_written += encoded_samples;
+        } while (enc->samples_encoded < enc->total_samples);
+        enc->end_of_input = 1;
+    }
+    if (adx_write_zero_padded_block(enc) > 0) {
         enc->state = 3;
     }
 }

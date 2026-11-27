@@ -28,7 +28,7 @@ public:
     s32 lifetime_ticks;
     u32 player_id;
 
-    TFontSmallHelp(u32 player, u32 text_color, s32 lifetime, uaddr text_id);
+    TFontSmallHelp(u32 player, u32 text_color, s32 lifetime, const char *text);
     virtual ~TFontSmallHelp();
     virtual void run_task();
     virtual void render();

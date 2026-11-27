@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TObjItemLight.h"
 
@@ -11,18 +10,18 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/NinjaUtil.h"
+#include "pso/object/TObjRoomId.h"
 
 
 #pragma readonly_strings on
 
-extern "C" s32 is_item_light_interaction_blocked();
 
 void TObjItemLight::run_task() {
     s32 i;
     TObjPlayer *p;
     if (m_particle != 0) {
         m_particle->set_position(&position);
-        m_particle->set_direction(&rotation_x);
+        m_particle->set_direction(&rotation);
     }
     if (is_item_light_interaction_blocked() != 0) {
         return;
@@ -46,7 +45,7 @@ TObjItemLight::~TObjItemLight() {
 
 const char *TObjItemLight::class_name = "TObjItemLight";
 
-TObjItemLight::TObjItemLight(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjItemLight::TObjItemLight(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = TObjItemLight::class_name;
     apply_object_set_data(set_data);
     m_particle = 0;
@@ -54,6 +53,6 @@ TObjItemLight::TObjItemLight(TObject *parent, void *set_data) : TObjBase(parent)
     if (m_radius < 0.0f) {
         m_radius = 30.0f;
     }
-    m_particle = spawn_particle_effect_with_rotation(&position, &rotation_x, 0x1CA, 0x40);
+    m_particle = spawn_particle_effect_with_rotation(&position, &rotation, 0x1CA, 0x40);
 }
 

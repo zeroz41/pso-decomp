@@ -1,5 +1,4 @@
 #include "pso/ui/chat/SymbolChatPreset.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/NinjaTypes.h"

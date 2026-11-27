@@ -1,6 +1,5 @@
 #include "pso/enemy/EnemyPlacement.h"
 #include "pso/system/SoundEffect.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
@@ -18,7 +17,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/SoundEffect.h"
@@ -30,10 +29,10 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/PlayerCommands.h"
@@ -79,9 +78,9 @@ TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, TObjEneBalClawBody *body
     set_group = body->set_group;
     VecCopy(&position, pos);
     VecCopy(&home_position, &body->home_position);
-    rotation_z = 0;
-    rotation_x = 0;
-    rotation_y = rot_y;
+    rotation.z = 0;
+    rotation.x = 0;
+    rotation.y = rot_y;
     init();
     set_entry = NULL;
     wobble_angle = body->wobble_angle;
@@ -125,9 +124,9 @@ TObjEneBalClawClaw::~TObjEneBalClawClaw() {
     free_collision_body_parts(this);
 }
 
-void *TObjEneBalClawClaw::create(void *set_data) {
+void *TObjEneBalClawClaw::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    return new TObjEneBalClawClaw(control, static_cast<EnemyPlacement *>(set_data));
+    return new TObjEneBalClawClaw(control, set_data);
 }
 
 TObjEneBalClawClaw *TObjEneBalClawClaw::create_from_body(TObjEneBalClawBody *body, u16 id, s32 index, const Vec *pos, s32 rot_y, s32 hp) {
@@ -139,7 +138,7 @@ void TObjEneBalClawClaw::run_task() {
     u32 flags;
     TObjBase *parent;
     scroll_part_uvs();
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         load_params();
         run_demo_task();
         return;
@@ -377,7 +376,7 @@ void TObjEneBalClawClaw::run_death_sequence() {
     case 1:
         advance_animation();
         if (fade.decay_value_toward_floor() == 1) {
-            TDeadSpot::spawn_kind0_scale7_5(&position, 0);
+            spawn_dead_spot_kind0_scale7_5(&position, 0);
             send_entity_set_flags();
             queue_destruction();
         }
@@ -507,16 +506,16 @@ void TObjEneBalClawClaw::render() {
             toggle_particle_effect();
             push_matrix();
             model_render_flags &= 0xFFFFFBFF;
-            if (TObjPlayer::check_demo_mode() == 1) {
+            if (check_demo_mode() == 1) {
                 post_translate_matrix(&position.x);
-                rotate_matrix_x(0, rotation_x);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_x(0, rotation.x);
+                rotate_matrix_y(0, rotation.y);
                 draw_chunk_object(model);
             } else {
                 translate_matrix(0, 0.0f, hover_height + wobble_offset, 0.0f);
                 post_translate_matrix(&position.x);
-                rotate_matrix_x(0, rotation_x);
-                rotate_matrix_y(0, rotation_y);
+                rotate_matrix_x(0, rotation.x);
+                rotate_matrix_y(0, rotation.y);
                 if (behavior_flags & 4) {
                     if (fade.has_visible_opacity() != 0) {
                         fade.set_flags_and_apply_damage_color();
@@ -543,7 +542,7 @@ void TObjEneBalClawClaw::render() {
             }
             pop_matrix();
             restore_scene_lighting();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             render_scaled(shadow);
         }
     }
@@ -576,7 +575,7 @@ void TObjEneBalClawClaw::update_follow_parent() {
 
 void TObjEneBalClawClaw::detach_at(Vec *pos, s32 rot_y, s16 hp) {
     VecCopy(&position, pos);
-    rotation_y = rot_y;
+    rotation.y = rot_y;
     referenceHp = hp;
     this->hp = hp;
     detach();

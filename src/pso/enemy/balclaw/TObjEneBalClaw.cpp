@@ -167,7 +167,7 @@ void TObjEneBalClaw::load_resources() {
     }
     for (m = 0; m < 7; m++) {
         e = &balclaw_parts[m];
-        e->plist = ((NJS_CNK_MODEL *)(find_model_node(get_bml_model(balclaw_bml_resource, e->model_index), e->part_index))->model)->polygon_list;
+        e->plist = find_model_node(get_bml_model(balclaw_bml_resource, e->model_index), e->part_index)->chunk_model->polygon_list;
     }
     for (n = 0; n < 2; n++) {
         balclaw_body_base_params[n] = register_boss(31);

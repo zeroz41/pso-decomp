@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/render/psoLoadTexture.h"
@@ -49,7 +49,7 @@ struct NJS_TEXLIST;
 
 NJS_TEXLIST **key_generic_sw_texture_lists;
 
-void TOKeyGenericSw::vfunc_25() {}
+void TOKeyGenericSw::debug_draw_key_extra() {}
 
 void TOKeyGenericSw::render() {
     if (update_object_view_visibility(view_range, model_radius) == 0) {
@@ -59,11 +59,11 @@ void TOKeyGenericSw::render() {
     texlist = key_generic_sw_texture_lists[0];
     model = key_generic_sw_shared_resource_ptrs[0]->models[0].model;
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     set_texture_list(texlist);
     draw_ginja_object(model);
     pop_matrix();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     switch (is_on) {
     case 0:
@@ -75,11 +75,11 @@ void TOKeyGenericSw::render() {
     }
     model = key_generic_sw_shared_resource_ptrs[1]->models[0].model;
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     set_texture_list(texlist);
     draw_ginja_model_with_motion(model, motion, animation_frame);
     pop_matrix();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TOKeyGenericSw::update_switch_off() {
@@ -100,13 +100,13 @@ void TOKeyGenericSw::update_switch_on() {
     on_state_copy = on_state;
 }
 
-void *TOKeyGenericSw::create(void *set_data) {
+void *TOKeyGenericSw::create(ObjectSetData *set_data) {
     return new TOKeyGenericSw(tl_05, set_data);
 }
 
 void TOKeyGenericSw::free_shared_resources() {
     if (key_generic_sw_texture_lists != NULL) {
-        TObjPlayer::free_if_valid(key_generic_sw_texture_lists[2]);
+        free_if_valid(key_generic_sw_texture_lists[2]);
         if (key_generic_sw_texture_lists != NULL) {
             mem_free(key_generic_sw_texture_lists);
             key_generic_sw_texture_lists = NULL;
@@ -152,7 +152,7 @@ TOKeyGenericSw::~TOKeyGenericSw() {
     free_collision_body_parts(this);
 }
 
-TOKeyGenericSw::TOKeyGenericSw(TObject *parent, void *set_data) : TOKey(parent) {
+TOKeyGenericSw::TOKeyGenericSw(TObject *parent, ObjectSetData *set_data) : TOKey(parent) {
     m_name = key_generic_sw_name;
     apply_object_set_data(set_data);
     init_switch_id();

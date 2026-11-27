@@ -1,3 +1,4 @@
+#include "pso/weapon/shoot/TItemShootModel.h"
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponBelraCannon.h"
@@ -46,8 +47,8 @@ TItemShoot *belra_cannon_create_extra_shot(TItemWeapon *player, const Vec *pos, 
     NJS_OBJECT *model;
     u32 flags;
 
-    model_shot = TObjPlayer::create_shoot_model(player, pos, dir, life);
-    particle_shot = TObjPlayer::spawn_shoot_particle(player, pos, dir, life);
+    model_shot = TItemShootModel::create_shoot_model(player, pos, dir, life);
+    particle_shot = TItemShootParticle::spawn_shoot_particle(player, pos, dir, life);
     if ((model_shot != NULL) && (particle_shot != NULL)) {
         model = player->second_model;
         if (model != NULL) {
@@ -65,7 +66,7 @@ TItemShoot *belra_cannon_create_extra_shot(TItemWeapon *player, const Vec *pos, 
 }
 
 TItemShoot *belra_cannon_create_shot(TItemWeapon *owner, const Vec *pos, const Vec *dir, f32 life) {
-    TItemShoot *shot = TObjPlayer::create_shoot_model(owner, pos, dir, life);
+    TItemShoot *shot = TItemShootModel::create_shoot_model(owner, pos, dir, life);
     if (shot != NULL) {
         NJS_OBJECT *model = owner->second_model;
         if (model != NULL) {

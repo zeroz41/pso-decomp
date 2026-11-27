@@ -4,16 +4,7 @@
 #include <stddef.h>
 
 struct AdxStreamFile;
-struct SjHandle;
-
-struct SjInterface {
-    void *slots[9];
-    s32 (*GetNumData)(SjHandle *, s32);
-};
-
-struct SjHandle {
-    SjInterface *vt;
-};
+struct SjRingBuffer;
 
 struct LscQueueEntry {
     s32 stream_id;
@@ -31,7 +22,7 @@ struct LscStream {
     s8 read_started;
     u8 repeat;
     u8 paused;
-    void* stream;
+    SjRingBuffer* stream;
     u8 pad_0C[8];
     s32 min_buffer_bytes;
     s32 buffer_capacity;
@@ -91,7 +82,7 @@ s32 lsc_enqueue_range(LscStream* stream, const char* filename,
     s32 open_mode, s32 range_offset, s32 range_length);
 s32 lsc_enqueue_file(LscStream* stream, const char* filename);
 void lsc_destroy(LscStream* stream);
-LscStream* LSC_Create(void* sj_handle);
+LscStream* LSC_Create(SjRingBuffer* sj);
 void lsc_shutdown(void);
 void lsc_init(void);
 void lsc_poll(LscStream* stream);

@@ -1,9 +1,7 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/system/BmlAccessors.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

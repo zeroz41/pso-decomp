@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/item/TItemEffCane.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"

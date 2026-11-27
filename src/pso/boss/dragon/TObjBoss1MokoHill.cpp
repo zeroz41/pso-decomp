@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma defer_codegen on
 #pragma readonly_strings on
 
@@ -36,7 +35,6 @@
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
-#include "pso/boss/goldragon/ChunkStripGrid.h"
 
 #include "pso/system/BmlResource.h"
 
@@ -256,7 +254,7 @@ void TObjBoss1MokoHill_SoloM::load_resources() {
     ChunkStripGrid *grid;
     s32 width = 11;
     resource = dragon_ground_resource;
-    material = ((NJS_CNK_MODEL *)resource->models[4].model->model)->polygon_list;
+    material = resource->models[4].model->chunk_model->polygon_list;
     grid = new ChunkStripGrid(width, 10, 8, material);
     dragon_trail_grid = grid;
     verts = grid->get_vertices();
@@ -329,7 +327,7 @@ void TObjBoss1MokoHill_SoloM::load_resources() {
     dragon_trail_strip = grid;
     {
         s16 *start;
-        trail = (NJS_CNK_MODEL *)dragon_ground_resource->models[3].model->model;
+        trail = dragon_ground_resource->models[3].model->chunk_model;
         vtx = (f32 *)trail->vertex_list;
         poly = trail->polygon_list;
         poly[6] = 0x408;
@@ -361,7 +359,7 @@ void TObjBoss1MokoHill_SoloM::load_resources() {
             }
         }
     }
-    vertex_count = ((u32 *)((NJS_CNK_MODEL *)dragon_ground_resource->models[3].model->model)->vertex_list)[1] >> 16;
+    vertex_count = ((u32 *)dragon_ground_resource->models[3].model->chunk_model->vertex_list)[1] >> 16;
     dragon_trail_raised_count = 0;
     vstart = vtx;
     for (count_index = 0; count_index < vertex_count; count_index++, vtx += 6) {

@@ -16,4 +16,6 @@ public:
     s32 second_spin_angle;
 };
 
+void spawn_fire_explosion_for_item(s32 id, const Vec *position, Vec *velocity);
+
 #endif

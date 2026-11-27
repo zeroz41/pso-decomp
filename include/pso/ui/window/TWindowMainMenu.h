@@ -51,7 +51,7 @@ struct TWindowMainMenu : public TObject {
     s32 close_active_submenu();
     void reset_depth_base();
     TWindowMenuMainMenu *menu_window;
-    TObject *submenu;
+    TObject *submenu;  // the window create_submenu opened
     TWindowMessage *help_window;
     MainMenuSlotState slots[4];
     u32 description_item_id;

@@ -19,7 +19,6 @@
 #include "pso/ui/chat/ChatLogText.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/ui/window/TWindowCtrlMessageLog.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -256,7 +255,7 @@ void post_chat_log_message(u16 id, const char *text) {
     text = get_shared_text_buffer();
     chat_log_add_line(text);
     {
-        TWindowMessageLog *log = TWindowCtrl::get_field44();
+        TWindowMessageLog *log = TWindowCtrl::get_message_log();
         if (log != NULL) {
             log->append_line(text);
         }
@@ -313,3 +312,48 @@ TWindowMessageLog::TWindowMessageLog(const NJS_POINT2 *position, s32 client) : T
     this->load_chat_history();
 }
 
+void free_chat_log_lines(void) {
+    s32 i;
+    char *v;
+    for (i = 29; i >= 0; i--) {
+        v = chat_log_lines[i];
+        if (v != 0) {
+            scroll_win_chat_log_heap->heap_free(v);
+            chat_log_lines[i] = 0;
+        }
+    }
+    if (chat_last_line_buffer != NULL) {
+        scroll_win_chat_log_heap->heap_free(chat_last_line_buffer);
+        chat_last_line_buffer = NULL;
+    }
+    delete scroll_win_chat_log_heap;
+    scroll_win_chat_log_heap = NULL;
+}
+
+void init_chat_log_heap(void) {
+    s32 i;
+    scroll_win_chat_log_heap = new THeap(0x2000, 8);
+    chat_last_line_buffer = NULL;
+    for (i = 0; i < 0x1E; i++) {
+        chat_log_lines[i] = NULL;
+    }
+}
+
+TWindowMessageLog *TWindowCtrl::get_message_log() {
+    if (instance == NULL) {
+        return 0;
+    }
+    return instance->message_log;
+}
+
+void clear_message_log_window(void) {
+    if (TWindowCtrl::instance != NULL) {
+        TWindowCtrl::instance->message_log = NULL;
+    }
+}
+
+void set_message_log_window(TWindowMessageLog *window_message_log) {
+    if (TWindowCtrl::instance != NULL) {
+        TWindowCtrl::instance->message_log = window_message_log;
+    }
+}

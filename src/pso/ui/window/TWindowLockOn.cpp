@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -31,7 +30,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/object/TObjLukerNames.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 

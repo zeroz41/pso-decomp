@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/enemy/berura/ChunkModelNodeCallback.h"
 
@@ -33,7 +32,7 @@ struct NJS_OBJECT;
 
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjBase.h"
 
 player_stats *epsilon_guard_boss_stat_handle;
@@ -128,7 +127,7 @@ void TObjEneEpsilonGuard::set_flag_2_and_clear_status() {
 
 void TObjEneEpsilonGuard::set_target(const Vec *pos, s32 angle, s32 reverse) {
     VecCopy(&position, pos);
-    rotation_y = angle;
+    rotation.y = angle;
     if (reverse != 0) {
         flags |= 0x100;
     } else {
@@ -194,7 +193,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
     push_matrix();
     post_translate_matrix(&this->position.x);
     translate_matrix(0, 0.0f, 24.0f, 0.0f);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     TObjEneDD::clear_global_flag_400();
     epsilon_guard_camera_step = 0;
     epsilon_guard_camera_ctrl_ptr = &this->effect_anchor;
@@ -208,7 +207,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
     } else {
         this->draw_motion_model();
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     set_chunk_model_node_callback(NULL);
     pop_matrix();
     this->update_primary_light();
@@ -224,7 +223,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
 
 void TObjEneEpsilonGuard::render() {
     s32 detail;
-    if ((TObjPlayer::check_demo_mode() == 0) && !(actorFlags & 0x02000000)) {
+    if ((check_demo_mode() == 0) && !(actorFlags & 0x02000000)) {
         detail = 0;
         if (!(flags & 0x10)) {
             if (TObjEneDD::is_main_phase_15() != 0) {
@@ -296,8 +295,8 @@ void TObjEneEpsilonGuard::handle_break_state(s32 msg) {
         break_timer++;
         if (break_timer >= 0x14) {
             clear_intangible();
-            TBoss3Volopt::create_breakup_mdl(epsilon_guard_breakup_model, &epsilon_guard_breakup_params,
-                               texlist, &position, rotation_y);
+            create_breakup_mdl(epsilon_guard_breakup_model, &epsilon_guard_breakup_params,
+                               texlist, &position, rotation.y);
             play_sound_effect(0x4003AD4C, &body_center, 0, 0);
             trigger_dell_biter_events(&body_center);
             state_step = 1;
@@ -344,7 +343,7 @@ void TObjEneEpsilonGuard::state_orbit(s32 msg) {
         flags &= ~0x18;
         clear_intangible();
         state_step = 0;
-        orbit_angle = rotation_y;
+        orbit_angle = rotation.y;
         orbit_angle_step = 0;
         return;
     case 3:
@@ -388,7 +387,7 @@ orbit:
             }
             break;
         }
-        rotation_y = calc_angle_to_target();
+        rotation.y = calc_angle_to_target();
         check_collisions();
         break;
     }
@@ -420,7 +419,7 @@ void TObjEneEpsilonGuard::state_move_out(s32 msg) {
                 move_with_wall_slide_commit(-destination_direction.x, -destination_direction.z, d->move_out_speed);
             }
         }
-        rotation_y = calc_angle_to_target();
+        rotation.y = calc_angle_to_target();
         check_collisions();
         break;
     }
@@ -728,9 +727,9 @@ TObjEneEpsilonGuard::TObjEneEpsilonGuard(TObject *parent, TObjEneEpsilonBody *bo
     set_group = body->set_group;
     VecCopy(&position, pos);
     VecCopy(&home_position, &body->home_position);
-    rotation_z = 0;
-    rotation_x = 0;
-    rotation_y = angle;
+    rotation.z = 0;
+    rotation.x = 0;
+    rotation.y = angle;
     init_model_and_state();
     set_intangible();
     flags |= 0x10;

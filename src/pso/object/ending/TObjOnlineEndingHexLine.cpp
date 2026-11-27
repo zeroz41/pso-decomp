@@ -43,7 +43,7 @@ void reset_hex_line_params(void) {
         TObjOnlineEndingHexMove::copy_move_params(&online_ending_hex_line_param, &online_ending_hex_line_defaults));
 }
 
-void *TObjOnlineEndingHexMove::create(TObject *parent) {
+TObjOnlineEndingHexMove *TObjOnlineEndingHexMove::create(TObject *parent) {
     return new TObjOnlineEndingHexMove(parent);
 }
 
@@ -72,7 +72,7 @@ TObjOnlineEndingHexMove::~TObjOnlineEndingHexMove() {}
 
 void TObjOnlineEndingHexMove::run_task() {
     G_Unknown_6x92 pkt;
-    void *pad;
+    ControllerInputContext *pad;
     f32 v;
     f32 step;
     f32 max;
@@ -279,7 +279,7 @@ void handle_6x92(u8 *packet) {
     }
 }
 
-void *TObjOnlineEndingHexLine::create(TObject *parent, EndingHexPoint *start) {
+TObjOnlineEndingHexLine *TObjOnlineEndingHexLine::create(TObject *parent, EndingHexPoint *start) {
     return new TObjOnlineEndingHexLine(parent, start);
 }
 

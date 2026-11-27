@@ -29,7 +29,7 @@ enum {
 // item_render_state bits: what the item model draw switched on.
 enum {
     ITEM_RENDER_MATERIAL = 0x1,       // the material colour was overridden
-    ITEM_RENDER_EFFECT = 0x2,         // TParticleCtrl::begin_effect_render ran
+    ITEM_RENDER_EFFECT = 0x2,         // begin_effect_render ran
     ITEM_RENDER_PARTICLE_TEV = 0x8,
     ITEM_RENDER_SHIELD_TEV = 0x10,
 };

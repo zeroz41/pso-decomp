@@ -108,5 +108,6 @@ s8 find_indirect_effect_ctrl(s32 kind);
 void register_indirect_effect_ctrl(s32 kind);
 void enable_indirect_tev(TEffIndirect *effect, s32 sampler, s32 scale, s32 mode);
 void disable_indirect_tev(TEffIndirect *effect, s32 direct);
+void play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 alternate, s32 unused, s32 second);
 
 #endif

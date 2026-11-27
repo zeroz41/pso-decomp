@@ -64,13 +64,13 @@ void TOCakeshopCave01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         node = model;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
         node = node->child;
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         for (i = 0; i < 8; i++) {
             if (blink_fade[i] < 0.0f) {
                 push_matrix();
@@ -81,12 +81,12 @@ void TOCakeshopCave01::render() {
             }
             node = node->sibling;
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
 
-void *TOCakeshopCave01::create(void *set_data) {
+void *TOCakeshopCave01::create(ObjectSetData *set_data) {
     return new TOCakeshopCave01(set_data);
 }
 
@@ -107,7 +107,7 @@ TOCakeshopCave01::~TOCakeshopCave01() {
     unregister_object_by_id();
 }
 
-TOCakeshopCave01::TOCakeshopCave01(void *set_data) : TObjMapObject(tl_05) {
+TOCakeshopCave01::TOCakeshopCave01(ObjectSetData *set_data) : TObjMapObject(tl_05) {
     s32 i;
     m_name = TOCakeshopCave01_class_name;
     apply_object_set_data(set_data);

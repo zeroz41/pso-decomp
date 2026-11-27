@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/PageIndicator.h"
-#include "pso/ui/window/TWindowSubComCardEntries.h"
+#include "pso/ui/window/TWindowSubComCard_CardSlots.h"
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/ui/chat/SymbolChatCommand.h"
 #include "pso/ui/window/HelpWindowToggle.h"
@@ -26,7 +26,6 @@
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/player/LocalClientId.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
-#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/HeadingEntry.h"
 void TWindowSubComCardList::draw_card_list_selection(WindowDrawContext *window_key_board_soft) {
   s16 page_row;

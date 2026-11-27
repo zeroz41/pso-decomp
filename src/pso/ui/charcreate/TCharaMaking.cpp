@@ -2,7 +2,7 @@
 #include "pso/render/model_render_state.h"
 #include "types.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include <string.h>
@@ -23,7 +23,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
+#include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/system/save/TSaveChCr.h"
@@ -31,11 +31,12 @@
 #include <dolphin/mtx.h>
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/ScreenSpriteDraw.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 
@@ -119,7 +120,6 @@ void reset_current_char_appearance(void) {
 int char_select_check_stub(void) { return 1; }
 int reset_char_appearance_callback(void) { reset_current_char_appearance(); return 1; }
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 
 // The character-creation motion archive: no models, 49 body motions.
 const char *charamakingmot_model_names[1] = {NULL};
@@ -249,7 +249,7 @@ static const s32 hair_render_flags[1] = {0x81C};
 #pragma opt_dead_assignments off
 #pragma opt_propagation off
 
-void draw_colored_hair(f32 alpha, void *child, CharacterAppearanceFields *character_appearance_fields, s32 specialColor) {
+void draw_colored_hair(f32 alpha, NJS_OBJECT *model, CharacterAppearanceFields *character_appearance_fields, s32 specialColor) {
     NJS_ARGB color;
     s32 flags_masked;
     s32 second;
@@ -276,15 +276,15 @@ void draw_colored_hair(f32 alpha, void *child, CharacterAppearanceFields *charac
         color.b = (1.0f / 255.0f) * (f32) character_appearance_fields->blue;
         set_constant_material((const NJS_ARGB *)((&color.a)));
     }
-    draw_chunk_object(child);
+    draw_chunk_object(model);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     model_render_flags = saved_model_render_flags;
 }
 #pragma pop
 
-void TCharaMaking::setup_from_data(s32 model, CharacterAppearanceFields *appearance) {
-    draw_colored_hair(1.0f, (void *)model, appearance, 0);
+void TCharaMaking::setup_from_data(NJS_OBJECT *model, CharacterAppearanceFields *appearance) {
+    draw_colored_hair(1.0f, model, appearance, 0);
 }
 
 CharacterAppearanceFields *get_class_appearance_preset(s32 class_id) {
@@ -547,25 +547,25 @@ void CharacterTextureLoadSet::build_appearance_texture_names(CharacterAppearance
 
 void request_chara_making_archives(void) {
     s32 i;
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         return;
     }
     for (i = 0; i < 0x13; i++) {
-        if (TQuestVmDownLoadServer::is_ready() != 0) {
+        if (is_ready() != 0) {
             return;
         }
         if (open_afs_file_wait_render(player_class_texture_archive_table[i].archiveId, player_class_texture_archive_table[i].archiveName, player_class_texture_buffer_table[i], player_class_texture_archive_length[i]) != 0) {
-            if (TQuestVmDownLoadServer::is_ready() == 0) {
+            if (is_ready() == 0) {
                 return;
             }
             return;
         }
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         return;
     }
     if (open_afs_file_wait_render(0xDB, "PLZSMPNJ.AFS", chara_making_load_buffer, 0x17A) != 0) {
-        if (TQuestVmDownLoadServer::is_ready() == 0) {
+        if (is_ready() == 0) {
             return;
         }
     }
@@ -605,13 +605,13 @@ s32 TCharaMaking::update_main_menu() {
 }
 
 void TCharaMaking::run_task() {
-    if (!TAdSinglePlyChrSelectGC::is_active()) return;
+    if (!is_char_select_active()) return;
     if (update_main_menu()) return;
 }
 
-void *TCharaMaking::create(void *parent, void *appearance) {
+void *TCharaMaking::create(TObject *parent, void *appearance) {
     creation_player_character = (CharacterAppearanceFields *)appearance;
-    return new TCharaMaking((TObject *)parent);
+    return new TCharaMaking(parent);
 }
 
 TCharaMaking::~TCharaMaking() {

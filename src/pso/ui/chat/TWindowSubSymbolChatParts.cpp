@@ -152,7 +152,7 @@ void TWindowSubSymbolChatParts::update_cursor_input() {
     u8 col_now;
     u8 row;
     u8 row_now;
-    u8 rows;
+    s8 rows;
     ControllerInputContext *input;
     input = &controller_input_state.controllers[0];
     if ((test_buttons_press_or_repeat(input, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
@@ -182,8 +182,8 @@ void TWindowSubSymbolChatParts::update_cursor_input() {
             cursor_row = (u8) (row + row_count);
         }
         row_now = cursor_row;
-        rows = *(u8 *)&row_count;
-        if ((s8) row_now >= (s8) rows) {
+        rows = row_count;
+        if ((s8) row_now >= rows) {
             cursor_row = (u8) (row_now - rows);
         }
     }

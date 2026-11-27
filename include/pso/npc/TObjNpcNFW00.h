@@ -5,11 +5,11 @@
 #include "pso/npc/TObjNpcFemale.h"
 
 struct TObjNpcNFW00 : public TObjNpcFemale {
-    TObjNpcNFW00(TObject *parent, void *set_data);
+    TObjNpcNFW00(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjNpcNFW00();
     static void free_resources();
     static void load_assets();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static const char *name;
     static NJS_OBJECT **named_object_resource;
     static NJS_TEXLIST *texture_gvm_handle;

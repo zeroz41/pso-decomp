@@ -27,7 +27,7 @@ void TItemWeaponSRankSlicer::emit_marker_effects() {
     tec.color.r = 0.6f;
     tec.color.g = 0.5f;
     tec.color.b = 0.3f;
-    tec.facing = owner->rotation_y;
+    tec.facing = owner->rotation.y;
     get_joint_position(1, &tec.first_joint);
     get_joint_position(2, &tec.second_joint);
     TTecSlicer::create(&tec);

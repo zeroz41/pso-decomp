@@ -23,7 +23,7 @@ s32 lbl_805D7838;
 s32 lbl_805D783C;
 s32 lbl_805D7840;
 s32 lbl_805D7844;
-s32 lbl_805D7848;
+s32 text_input_mode;
 extern u8 candidate_number_label[];
 
 // Handlers by request id (1..63); unassigned ids return -1.
@@ -246,15 +246,15 @@ s32 quest_download_request_open(saddr *args) {
     allowed_char_bitmap = ask_header_buffer + 0x4E;
     quest_download_file_handle = -1;
     ask_header_dirty = 0;
-    lbl_805D7900 = 0;
+    ask_learning_enabled = 0;
     number_format_mode = 0;
     ask_dictionary_open_mode = 0x8002;
     ask_convert_mode = 0;
     lbl_805D7884 = 1;
     lbl_805D7880 = 0;
-    lbl_805D78E4 = 1;
+    japanese_punctuation_enabled = 1;
     lbl_805D78E0 = 0x4000;
-    lbl_805D7848 = 0;
+    text_input_mode = 0;
     quest_download_match_length_limit = 0x24;
     strcpy((char *)candidate_number_label, (const char *)"  1.");
     strcpy((char *)quest_download_display_prefix.text, (const char *)"  \x8E\x63      "); // "  残      " (remaining)
@@ -281,7 +281,7 @@ s32 quest_download_request_edit_word(saddr *args) {
   u8 r;
   s32 ret;
   QuestDownloadRequest req;
-  if ((lbl_805D7848 >= 2) || (quest_download_state >= 2))
+  if ((text_input_mode >= 2) || (quest_download_state >= 2))
   {
     return 4;
   }
@@ -544,19 +544,18 @@ s32 convert_jis_to_sjis_string(saddr *args) {
     } else {
         flag = 0x4000;
     }
-    new (quest_download_text_buffer.bytes, quest_download_scratch_words_or_ids) QuestDownloadScratchWords;
-    p = quest_download_text_buffer.words.values;
+    p = quest_download_text_buffer.words;
     n = 0;
-    while (*src != 0 && p < quest_download_text_buffer.words.values + 0x200) {
+    while (*src != 0 && p < quest_download_text_buffer.words + 0x200) {
         *p++ = *src++ | flag;
         n++;
     }
-    p = quest_download_text_buffer.words.values;
+    p = quest_download_text_buffer.words;
     while (n > 0) {
         r = convert_romaji_to_kana(p, n, buf, &cnt);
         if (r <= 0) {
             if (r != -1) {
-                return (p - quest_download_text_buffer.words.values) + 1;
+                return (p - quest_download_text_buffer.words) + 1;
             }
             r = 1;
         }
@@ -594,7 +593,7 @@ s32 ime_dispatch_request(ImeRequest *request) {
     return keyboard_soft_dispatch_fn_table[i - 1](args);
 }
 
-s32 ime_request_0x28(char *text, char *rest) {
+s32 ime_request_convert_to_fullwidth(char *text, char *rest) {
     ImeTextRequest req;
     req.id = 0x28;
     req.text = text;
@@ -602,7 +601,7 @@ s32 ime_request_0x28(char *text, char *rest) {
     return ime_dispatch_request(&req);
 }
 
-s32 ime_request_0x27(char *text, char *rest) {
+s32 ime_request_convert_to_halfwidth_kana(char *text, char *rest) {
     ImeTextRequest req;
     req.id = 0x27;
     req.text = text;
@@ -610,7 +609,7 @@ s32 ime_request_0x27(char *text, char *rest) {
     return ime_dispatch_request(&req);
 }
 
-s32 ime_request_0x26(char *text, char *rest) {
+s32 ime_request_convert_to_hiragana(char *text, char *rest) {
     ImeTextRequest req;
     req.id = 0x26;
     req.text = text;
@@ -618,7 +617,7 @@ s32 ime_request_0x26(char *text, char *rest) {
     return ime_dispatch_request(&req);
 }
 
-s32 ime_request_0x25(char *text, char *rest) {
+s32 ime_request_convert_to_katakana(char *text, char *rest) {
     ImeTextRequest req;
     req.id = 0x25;
     req.text = text;

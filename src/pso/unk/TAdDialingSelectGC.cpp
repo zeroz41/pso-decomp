@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
@@ -12,7 +11,7 @@
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -24,6 +23,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/audio/MusicControl.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 void TAdDialingSelectGC::run_task() {
     Vec pos = {0.0f, 0.0f, 0.0f};
@@ -52,7 +52,7 @@ void TAdDialingSelectGC::run_task() {
         }
         this->state = 3;
     case 3:
-        if (TAdPlayerLoadGC::get_instance() == 0) {
+        if (get_card_load_sequence_state() == 0) {
             this->state = 4;
         }
         break;
@@ -73,7 +73,7 @@ void TAdDialingSelectGC::run_task() {
         }
         break;
     case 6:
-        if (TAdPlayerLoadGC::get_instance() == 0) {
+        if (get_card_load_sequence_state() == 0) {
             this->state = 8;
         } else {
             DialingWindowPos a = {80.0f, 176.0f};
@@ -84,7 +84,7 @@ void TAdDialingSelectGC::run_task() {
         }
         break;
     case 7:
-        if (TAdPlayerLoadGC::get_instance() == 0) {
+        if (get_card_load_sequence_state() == 0) {
             this->window->close();
             this->window = NULL;
             this->state = 8;
@@ -147,7 +147,7 @@ s32 TWindowShortListCtrl::get_card_window_flags(s32 client_id) {
 }
 
 // Bits 13-15 of the client's character save record word at +0x10.
-s32 TWindowShortListCtrl::get_card_status_bits(s32 client_id) {
+s32 get_card_status_bits(s32 client_id) {
     CharacterSaveRecord *record = get_character_save_record(client_id);
     if (record == NULL) {
         return 0;

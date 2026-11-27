@@ -4,6 +4,7 @@
 #include "pso/network/TradeItemEntry.h"
 
 struct G_ModifyTradeProposal_6xA6;
+struct TTradeList;
 struct TWindowSubTrade;
 struct TWindowSubTradeMain;
 class TWindowSubTradeMessage;
@@ -38,8 +39,6 @@ const char *format_trade_out_of_range_message(s32 client_id);
 void handle_6xA6_modify_trade_proposal(G_ModifyTradeProposal_6xA6 *packet);
 void handle_6xA7(void);
 void handle_state_init(G_ModifyTradeProposal_6xA6 *proposal);
-struct TTradeList;
-void handle_trade_received_items(TTradeList *trade_list);
 void handle_trade_final_confirmation(G_ModifyTradeProposal_6xA6 *proposal);
 void handle_trade_item_amount(G_ModifyTradeProposal_6xA6 *proposal);
 void handle_trade_item_move(G_ModifyTradeProposal_6xA6 *proposal);
@@ -60,6 +59,8 @@ const char *build_trade_partner_status_text(void);
 void send_6xA6_modify_trade_proposal(saddr client_id);
 
 void snapshot_trade_inventories(void);
+// Buys the partner's traded items (the D3 list) once the trade reached state 8.
+void handle_trade_received_items(TTradeList *trade_list);
 s32 are_both_trade_offers_confirmed(void);
 void clear_local_trade_final_confirmation(void);
 void clear_local_trade_offer_confirmation(void);
@@ -77,5 +78,17 @@ void update_trade_list_send();
 void update_trade_partner();
 void update_battle_mode();
 void update_trade_proposal_state();
+
+
+// Trade window steps the lobby and the trade windows run.
+void apply_trade_items(u8 state);
+void cancel_trade();
+void close_trade_request();
+void reset_trade_state();
+void check_flags_and_proceed();
+void handle_reset_choice(s32 choice);
+const char *check_trade_items_and_show_error();
+void send_trade_proposal_modify();
+const char *show_event_message(s32 client_id, s32 result, s32 item_id);
 
 #endif

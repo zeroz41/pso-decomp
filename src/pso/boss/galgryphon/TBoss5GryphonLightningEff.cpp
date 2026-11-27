@@ -64,7 +64,7 @@ void TBoss5GryphonLightningEff::render() {
     flags = model_render_flags;
     saved_model_render_flags = flags;
     model_render_flags = flags | 0x10;
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     set_depth_buffer_settings_1();
     set_additive_blend();
     project_lightning_points(points, widths, heights);
@@ -75,7 +75,7 @@ void TBoss5GryphonLightningEff::render() {
         draw_window_vertices((WindowVertex *)strip, this->point_count * 2, calc_segment_uvs(strip), 1);
     }
     set_default_alpha_blend();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
     restore_saved_depth_alpha_state();

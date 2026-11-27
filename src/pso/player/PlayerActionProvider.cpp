@@ -21,7 +21,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/AramPool.h"
 #include "pso/system/BmlResource.h"
-#include "pso/item/drop/TItemDrop.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/quest/TQuestListVM.h"
 

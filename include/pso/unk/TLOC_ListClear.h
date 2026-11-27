@@ -1,9 +1,9 @@
 #ifndef PSO_UNK_TLOC_LISTCLEAR_H
 #define PSO_UNK_TLOC_LISTCLEAR_H
 #include "types.h"
-#include "pso/unk/LockOnTask.h"
+#include "pso/ui/hud/LockOnTask.h"
 
-// The table in this class's data is TLOC_ListClear's vtable, but it sits in the TU's user data ahead of the jump
+// TLOC_ListClear's vtable sits in the TU's user data ahead of the jump
 // tables, where no CW-emitted vtable goes: a real class here (key function in or out of the defer_codegen
 // off stretch, class defined in the .cpp, inline virtuals) always gets its vtable written after the jump
 // tables with the other vtables. So the original spelled the table out, and the ctor (init_lockon) and dtor

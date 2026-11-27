@@ -3,7 +3,6 @@
 #include "pso/render/GinjaTextureHeader.h"
 #include "pso/render/ColorLineList.h"
 #include <stdlib.h>
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowTextEntry.h"
@@ -27,13 +26,12 @@
 #include "pso/render/render_util.h"
 #include "pso/render/TextureState.h"
 #include "pso/render/ProjectedStripDraw.h"
-#include "pso/ui/chat/TWindowSubShortMailActiveChecks.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/TLanguage.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/system/vector.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/BmlResource.h"
@@ -439,16 +437,16 @@ void begin_window_sweep_draw(s32 texture) {
 }
 #pragma push
 #pragma fp_contract on
-BOOL scanline_crosses_window(void *ctx, void *position, void *size) {
+BOOL scanline_crosses_window(void *ctx, f32 *position, f32 *size) {
     f32 limit_x;
     f32 start_x;
 
-    start_x = *(f32 *)position;
+    start_x = *position;
     limit_x = (5.0f * (f32) window_scanline_timer) - 100.0f;
     if (limit_x <= start_x) {
         return FALSE;
     }
-    if (limit_x >= (start_x + *(f32 *)size)) {
+    if (limit_x >= (start_x + *size)) {
         return FALSE;
     }
     return TRUE;
@@ -829,7 +827,7 @@ void TWindowBase::update_open_close() {
 }
 
 
-void TWindowDD::update_com_card() { update_window_scanline(); }
+void update_com_card() { update_window_scanline(); }
 void TWindowBase::update_window() { update_open_close(); }
 void TWindowBase::render() {  }
 void TWindowBase::run_task() {  }
@@ -919,81 +917,3 @@ int TWindowFukidasi::is_bit8_set() { return ((u32)window_flags >> 8) & 0x1; }
 int TWindowFukidasi::get_visible_flag() { return ((u32)window_flags >> 9) & 0x1; }
 
 int TWindowFukidasi::is_overlapped() { return ((u32)window_flags >> 10) & 0x1; }
-void TWindowSubStatusDisp::update_entry_visibility() {
-    TWindowLayoutEntry *entry7;
-    TWindowLayoutEntry *entry6;
-    TWindowLayoutEntry *entry5;
-    TWindowLayoutEntry *entry4;
-    TWindowLayoutEntry *entry3;
-    TWindowLayoutEntry *entry2;
-    TWindowLayoutEntry *entry1;
-    TWindowLayoutEntry *entry0;
-    entry7 = (TWindowLayoutEntry *)this->get_array_entry(7);
-    entry6 = (TWindowLayoutEntry *)this->get_array_entry(6);
-    entry5 = (TWindowLayoutEntry *)this->get_array_entry(5);
-    entry4 = (TWindowLayoutEntry *)this->get_array_entry(4);
-    entry3 = (TWindowLayoutEntry *)this->get_array_entry(3);
-    entry2 = (TWindowLayoutEntry *)this->get_array_entry(2);
-    entry1 = (TWindowLayoutEntry *)this->get_array_entry(1);
-    entry0 = (TWindowLayoutEntry *)this->get_array_entry(0);
-    if (is_guild_card_receive_active() != 0) {
-        if (entry7 != NULL) {
-            entry7->show();
-        }
-        if (entry6 != NULL) {
-            entry6->show();
-        }
-    } else {
-        if (entry7 != NULL) {
-            entry7->hide();
-        }
-        if (entry6 != NULL) {
-            entry6->hide();
-        }
-    }
-    if (is_com_card_active() != 0) {
-        if (entry5 != NULL) {
-            entry5->show();
-        }
-        if (entry4 != NULL) {
-            entry4->show();
-        }
-    } else {
-        if (entry5 != NULL) {
-            entry5->hide();
-        }
-        if (entry4 != NULL) {
-            entry4->hide();
-        }
-    }
-    if (TWindowSubShortMail::is_active() != 0) {
-        if (entry3 != NULL) {
-            entry3->show();
-        }
-        if (entry2 != NULL) {
-            entry2->show();
-        }
-    } else {
-        if (entry3 != NULL) {
-            entry3->hide();
-        }
-        if (entry2 != NULL) {
-            entry2->hide();
-        }
-    }
-    if (is_trade_active() != 0) {
-        if (entry1 != NULL) {
-            entry1->show();
-        }
-        if (entry0 != NULL) {
-            entry0->show();
-        }
-    } else {
-        if (entry1 != NULL) {
-            entry1->hide();
-        }
-        if (entry0 != NULL) {
-            entry0->hide();
-        }
-    }
-}

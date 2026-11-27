@@ -7,7 +7,7 @@
 
 struct BmlModelEntry {
     u32 flags; // 1 once its texture list is loaded, 2 when that load failed
-    s32 m_4;
+    s32 pad_04;
     NJS_OBJECT *model;
     // The model's texture list, set as the global texture list before it is drawn.
     NJS_TEXLIST *texlist;
@@ -51,7 +51,7 @@ struct BmlResource {
     s32 loaded_motions;
     s32 loaded_textures;
     s32 load_state;
-    s32 unknown_14;
+    s32 pad_14;  // zeroed by the constructor, never read
     void *handles[256];
     s32 handle_count;
     BmlLoadCallback callback;
@@ -82,7 +82,6 @@ void check_bin_model_loaded(BmlResource *resource);
 void increment_ref_and_set_flag(void *context);
 struct BmlModelLoadRequest;
 struct BmlMotionLoadRequest;
-struct NJS_MOTION;
 void LoadBinModelCallBack(BmlModelLoadRequest *request);
 void LoadBinMotionCallBack(BmlMotionLoadRequest *request);
 

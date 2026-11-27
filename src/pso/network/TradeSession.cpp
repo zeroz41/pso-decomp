@@ -17,7 +17,7 @@
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/network/TradeProposalCmd.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/ui/chat/TWindowSubShortMailActiveChecks.h"
+#include "pso/ui/window/TWindowBreakIn.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/ui/window/TWindowSubTradeMessage.h"
@@ -25,7 +25,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include <stddef.h>
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/PlayerSlots.h"
@@ -42,7 +42,7 @@ void TWindowTradeRequest::reset_trade() {
 }
 
 
-void TLobby::send_trade_proposal_modify() {
+void send_trade_proposal_modify() {
   G_ModifyTradeProposal_6xA6 packet;
   TObjPlayer *player;
   player_stats *stats;
@@ -145,7 +145,7 @@ const char *build_trade_partner_status_text(void) {
 }
 #pragma pop
 
-const char *TLobby::check_trade_items_and_show_error() {
+const char *check_trade_items_and_show_error() {
     s32 code;
     TradeSide buf;
     s32 r;
@@ -157,7 +157,7 @@ const char *TLobby::check_trade_items_and_show_error() {
     if (r == 4) {
         flag = 1;
     } else if (r != 0) {
-        return TLobby::show_event_message(local_client_id, r, code);
+        return show_event_message(local_client_id, r, code);
     }
     buf.clear();
     buf.lists[0] = trade_window_state[0].lists[0];
@@ -165,10 +165,10 @@ const char *TLobby::check_trade_items_and_show_error() {
     r = check_trade_offer_inventory(&buf, &code);
     if (r == 4) {
         if (flag) {
-            return TLobby::show_event_message(trade_partner_client_id, 4, code);
+            return show_event_message(trade_partner_client_id, 4, code);
         }
     } else if (r != 0) {
-        return TLobby::show_event_message(trade_partner_client_id, r, code);
+        return show_event_message(trade_partner_client_id, r, code);
     }
     return 0;
 }
@@ -295,7 +295,7 @@ s32 claim_trade_sub_window(TWindowSubTrade *window) {
     return 1;
 }
 
-void TLobby::apply_trade_items() {
+void apply_trade_items(u8) {
     s32 allowed;
     struct TradeItemEntry *list;
     u32 id;
@@ -329,14 +329,14 @@ void TLobby::apply_trade_items() {
                 }
                 if ((flag == 0) || (TAdSinglePlyChrSelectGC::load_character_from_card() == 0)) {
                     trade_proposal_state = 8;
-                    protocol_instance->send_trade_ready();
+                    TLobby::protocol_instance->send_trade_ready();
                 }
             }
         }
     }
 }
 
-void TLobby::handle_reset_choice(s32 choice) {
+void handle_reset_choice(s32 choice) {
     if ((s8) trade_proposal_state != 0) {
         switch (choice) {
         case 0:
@@ -393,12 +393,12 @@ void TLobby::clear_flag400() {
 }
 
 
-void TLobby::check_flags_and_proceed() {
+void check_flags_and_proceed() {
     if ((trade_sub_window == NULL) && (trade_main_window == NULL) && (trade_message_controller == NULL)) {
-        TLobby::cancel_trade();
+        cancel_trade();
     }
 }
-void TLobby::cancel_trade() {
+void cancel_trade() {
     s8 s = trade_proposal_state;
     switch (s) {
     case 0:
@@ -409,7 +409,7 @@ void TLobby::cancel_trade() {
         break;
     case 7:
     case 8:
-        protocol_instance->send_cancel_trade();
+        TLobby::protocol_instance->send_cancel_trade();
         break;
     case 9:
         break;
@@ -427,7 +427,7 @@ const char *format_trade_out_of_range_message(s32 client_id) {
     return get_shared_text_buffer();
 }
 
-const char *TLobby::show_event_message(s32 client_id, s32 result, s32 item_id) {
+const char *show_event_message(s32 client_id, s32 result, s32 item_id) {
     TItem *item;
 
     switch (result) {
@@ -590,7 +590,7 @@ void send_6xA6_modify_trade_proposal(saddr client_id) {
         if ((s32) (u8)trade_partner_client_id != 4) {
             TWindowTradeRequest::close_request_window();
             if (trade_partner_client_id == client_id) {
-                TLobby::send_trade_proposal_modify();
+                send_trade_proposal_modify();
                 TWindowCtrl::replace_submenu(local_client_id, 0x1D);
                 return;
             }
@@ -784,7 +784,7 @@ void handle_state_init(G_ModifyTradeProposal_6xA6 *proposal) {
 void update_battle_mode() {
     if ((s8) trade_proposal_state != 0) {
         if (get_player_by_client_id(local_client_id) == NULL) {
-            TLobby::cancel_trade();
+            cancel_trade();
             return;
         }
         if (is_trade_range_bit_set(local_client_id) == 0) {
@@ -801,7 +801,7 @@ void update_trade_partner() {
         return;
     }
     if (get_player_by_client_id(trade_partner_client_id) == NULL) {
-        TLobby::cancel_trade();
+        cancel_trade();
         return;
     }
     if (is_trade_range_bit_set(trade_partner_client_id) == 0) {
@@ -809,8 +809,8 @@ void update_trade_partner() {
     }
 }
 
-void TLobby::close_trade_request() { trade_protocol_flags = 0; TWindowTradeRequest::close_request_window(); }
-void TLobby::reset_trade_state() {
+void close_trade_request() { trade_protocol_flags = 0; TWindowTradeRequest::close_request_window(); }
+void reset_trade_state() {
     s32 i;
     trade_partner_client_id = 4;
     trade_proposal_state = 0;
@@ -822,7 +822,7 @@ void TLobby::reset_trade_state() {
     for (i = 0; i < 2; i++) {
         trade_window_state[i].clear();
     }
-    TLobby::close_trade_request();
+    close_trade_request();
 }
 
 TradeProposalHandler trade_proposal_state_handlers[10][8] = {

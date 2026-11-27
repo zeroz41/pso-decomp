@@ -1,5 +1,4 @@
 #pragma readonly_strings on
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
@@ -78,7 +77,7 @@ void TBoss8DragonColli_C::enable_at(Vec *pos, s32 angle) {
     rotate_matrix_y(NULL, angle);
     matrix_mult_vec(NULL, &local_position, &position);
     pop_matrix();
-    rotation_y = angle;
+    rotation.y = angle;
     refresh_collision_body_centers();
     set_segment_flags();
 }

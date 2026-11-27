@@ -7,11 +7,11 @@
 struct BmlResource;
 
 struct TObjNpcSecretaryBase : public TObjNpcFemale {
-    TObjNpcSecretaryBase(TObject *parent, void *set_data);
+    TObjNpcSecretaryBase(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjNpcSecretaryBase();
     static void free_static_data();
     static void load_static_data();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static const char *name;
     static BmlResource *static_model_resource;
 };

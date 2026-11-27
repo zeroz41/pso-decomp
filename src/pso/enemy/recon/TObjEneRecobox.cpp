@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/math/FloatRound.h"
 #include "pso/system/EnemyBmlResource.h"
@@ -152,7 +153,7 @@ const NpcAnimationBinding recobox_resource_binding_desc = { NULL, recobox_animat
 
 #pragma dont_inline off
 #pragma inline_depth(4)
-void *TObjEneRecon::get_field_38_ptr() {
+Vec *TObjEneRecobox::get_position_ptr() {
     return &position;
 }
 
@@ -181,7 +182,7 @@ void TObjEneRecobox::load_resources() {
     }
 }
 
-void *TObjEneRecobox::create(void *set_data) {
+void *TObjEneRecobox::create(EnemyPlacement *set_data) {
     return new TObjEneRecobox(tl_04, set_data);
 }
 
@@ -215,7 +216,7 @@ u32 TObjEneRecobox::remap_area_sound_id(u32 id) {
     return ret;
 }
 
-TObjEneRecobox::TObjEneRecobox(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+TObjEneRecobox::TObjEneRecobox(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
     s32 i;
     s32 n;
     m_name = TObjEneRecobox_name_ref;
@@ -237,7 +238,7 @@ TObjEneRecobox::TObjEneRecobox(TObject *parent, void *set_data) : TObjEneDD_ST(p
     initialize_enemy_state(0x43);
     wall_reach = 10.0f;
     apply_set_parameters();
-    n = ((s16 *)set_data)[1];
+    n = set_data->child_count;
     if (n <= 1) {
         recon_total = 0;
     } else if (recon_total >= n) {
@@ -271,7 +272,7 @@ TObjEneRecobox::TObjEneRecobox(TObject *parent, void *set_data) : TObjEneDD_ST(p
     pad_4E0[1] = 0;
     pad_4E0[2] = 0;
     pad_4E0[3] = 0;
-    m_4f0 = 0.0f;
+    pad_4f0 = 0.0f;
     mode = 0;
     dispatch_action(mode, 4);
 }
@@ -281,7 +282,7 @@ TObjEneRecobox::~TObjEneRecobox() {
 }
 
 void TObjEneRecobox::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->update_demo_mode();
         return;
     }
@@ -400,13 +401,13 @@ void TObjEneRecobox::update_child_spawn() {
         dir.y = -5.0f;
         break;
     case 2:
-        dir.x = 2.0f * sin_table_lookup(rotation_y);
-        dir.z = 2.0f * cos_table_lookup(rotation_y);
+        dir.x = 2.0f * sin_table_lookup(rotation.y);
+        dir.z = 2.0f * cos_table_lookup(rotation.y);
         break;
     }
     id = alloc_child_id();
     set_index = this->set_index + (id - entity_id);
-    VecCopy(&pos, (const Vec *)((TObjEneRecon *)this)->get_field_38_ptr());
+    VecCopy(&pos, get_position_ptr());
     if (id == 0xFFFF) {
         spawned_recons = recon_total;
         return;
@@ -736,7 +737,7 @@ void TObjEneRecobox::render() {
     s32 camera_mode;
     s32 view_detail;
     s32 fading_in;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         draw_with_debug_info();
         return;
     }
@@ -754,79 +755,75 @@ void TObjEneRecobox::render() {
         }
         if (view_detail != 0) {
             fading_in = 0;
-            if (render_trap_model_if_visible() == 0) {
-                saved_model_render_flags = model_render_flags;
-                saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
-                saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-                if ((s16)mode == 1) {
-                    if (this->fade.has_visible_opacity() != 0) {
-                        if (defer_render() != 0) {
-                            model_render_flags = saved_model_render_flags;
-                            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
-                            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-                            return;
-                        }
-                        fading_in = 1;
-                        this->fade.set_flags_and_apply_damage_color();
-                    } else {
-                        model_render_flags = saved_model_render_flags;
-                        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
-                        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-                        return;
-                    }
-                }
-                camera_fade = &this->fades[camera_mode];
-                camera_fade->update();
-                camera_fading = camera_fade->updateFromCamera(&body_center);
-                if ((fading_in == 0) && (camera_fading != 0)) {
+            if (render_trap_model_if_visible() != 0) {
+                return;
+            }
+            saved_model_render_flags = model_render_flags;
+            saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+            saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
+            if ((s16)mode == 1) {
+                if (this->fade.has_visible_opacity() != 0) {
                     if (defer_render() != 0) {
                         model_render_flags = saved_model_render_flags;
                         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
                         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                         return;
                     }
-                    camera_fade->set_flags_and_apply_damage_color();
-                }
-                update_secondary_light();
-                set_texture_list(texlist);
-                push_matrix();
-                post_translate_matrix(&position.x);
-                rotate_matrix_y(0, rotation_y);
-                switch (mount_type) {
-                case 1:
-                    rotate_matrix_x(0, 0x8000);
-                    break;
-                case 2:
-                    rotate_matrix_x(0, 0x4000);
-                    break;
-                }
-                TObjEneDD::clear_global_flag_400();
-                toggle_particle_effect();
-                if (view_detail == 1) {
-                    draw();
+                    fading_in = 1;
+                    this->fade.set_flags_and_apply_damage_color();
                 } else {
-                    draw_motion_model();
+                    model_render_flags = saved_model_render_flags;
+                    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+                    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+                    return;
                 }
-                TParticleCtrl::end_effect_render();
-                pop_matrix();
-                update_primary_light();
-                if (fading_in != 0) {
-                    this->fade.clear_flag_and_notify();
-                } else if (camera_fading != 0) {
-                    camera_fade->clear_flag_and_notify();
-                }
-                model_render_flags = saved_model_render_flags;
-                chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
-                chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-                goto block_37;
             }
-        } else {
-            goto block_37;
+            camera_fade = &this->fades[camera_mode];
+            camera_fade->update();
+            camera_fading = camera_fade->updateFromCamera(&body_center);
+            if ((fading_in == 0) && (camera_fading != 0)) {
+                if (defer_render() != 0) {
+                    model_render_flags = saved_model_render_flags;
+                    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+                    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+                    return;
+                }
+                camera_fade->set_flags_and_apply_damage_color();
+            }
+            update_secondary_light();
+            set_texture_list(texlist);
+            push_matrix();
+            post_translate_matrix(&position.x);
+            rotate_matrix_y(0, rotation.y);
+            switch (mount_type) {
+            case 1:
+                rotate_matrix_x(0, 0x8000);
+                break;
+            case 2:
+                rotate_matrix_x(0, 0x4000);
+                break;
+            }
+            TObjEneDD::clear_global_flag_400();
+            toggle_particle_effect();
+            if (view_detail == 1) {
+                draw();
+            } else {
+                draw_motion_model();
+            }
+            end_effect_render();
+            pop_matrix();
+            update_primary_light();
+            if (fading_in != 0) {
+                this->fade.clear_flag_and_notify();
+            } else if (camera_fading != 0) {
+                camera_fade->clear_flag_and_notify();
+            }
+            model_render_flags = saved_model_render_flags;
+            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         }
-    } else {
-block_37:
-        VecCopy(&body_center, &position);
     }
+    VecCopy(&body_center, &position);
 }
 
 // pool_data off: each debug string is reached with its own lis/addi.
@@ -854,7 +851,7 @@ void TObjEneRecobox::draw_with_debug_info() {
         set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         switch (this->mount_type) {
         case 1:
             rotate_matrix_x(0, 0x8000);
@@ -866,12 +863,12 @@ void TObjEneRecobox::draw_with_debug_info() {
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();
         draw_chunk_object(this->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_chunk_object(debug_chunk_object);
     pop_matrix();
 }
@@ -883,7 +880,7 @@ s32 TObjEneRecobox::render_trap_model_if_visible() {
             set_texture_list(texlist);
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             draw();
             pop_matrix();
             restore_render_scissor(1);

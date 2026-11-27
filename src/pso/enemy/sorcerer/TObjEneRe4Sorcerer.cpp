@@ -30,7 +30,7 @@
 
 #include "pso/enemy/berura/ChunkModelNodeCallback.h"
 
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 
 #include "pso/system/vector.h"
 
@@ -209,7 +209,7 @@ void TObjEneRe4Sorcerer::load_resources() {
     TObjNpcEnemy::register_animated_chunk((s16)0x2A, sorcerer_bml_resource->models->model, sorcerer_bml_resource->models->texlist, &p, re4_sorcerer_collision_body_part_table[0].radius, 15.0f);
 }
 
-void *TObjEneRe4Sorcerer::create(void *set_data) {
+void *TObjEneRe4Sorcerer::create(EnemyPlacement *set_data) {
     return new TObjEneRe4Sorcerer((TObject *)tl_04, set_data);
 }
 
@@ -225,7 +225,7 @@ void TObjEneRe4Sorcerer::free_bits() {
     }
 }
 
-TObjEneRe4Sorcerer::TObjEneRe4Sorcerer(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+TObjEneRe4Sorcerer::TObjEneRe4Sorcerer(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
     m_name = re4_sorcerer_name;
     invoke_initialization_hook(set_data);
     apply_parameters();
@@ -306,7 +306,7 @@ TObjEneRe4Sorcerer::~TObjEneRe4Sorcerer() {
 void TObjEneRe4Sorcerer::run_task() {
     s32 i;
     TObjCollidable *p;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -493,7 +493,7 @@ void TObjEneRe4Sorcerer::warp_around_target(f32 speed) {
     this->update_ground_contact();
     VecCopy(&this->prev_position, &this->position);
     this->update_collision_center();
-    this->rotation_y = this->warp_angle + 0x8000;
+    this->rotation.y = this->warp_angle + 0x8000;
     this->calc_orb_positions();
     this->warp_angle += 0x2AAA;
     this->transform_part_positions();
@@ -600,8 +600,8 @@ void TObjEneRe4Sorcerer::calc_orb_positions() {
     f32 offset_z;
     f32 offset_x;
 
-    offset_x = 15.0f * cos_table_lookup(rotation_y);
-    offset_z = 15.0f * -sin_table_lookup(rotation_y);
+    offset_x = 15.0f * cos_table_lookup(rotation.y);
+    offset_z = 15.0f * -sin_table_lookup(rotation.y);
     bit_anchors[1].x = position.x + offset_x;
     bit_anchors[1].y = 18.0f + position.y;
     bit_anchors[1].z = position.z + offset_z;
@@ -613,7 +613,7 @@ void TObjEneRe4Sorcerer::calc_orb_positions() {
 void TObjEneRe4Sorcerer::turn_to_target() {
     enemy_copy_target_destination();
     update_velocity();
-    rotation_y = approach_angle_limited(rotation_y, (saddr)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z)), 0xA00);
+    rotation.y = approach_angle_limited(rotation.y, (saddr)(RADIANS_TO_ANGLE * atan2_float(destination_direction.x, destination_direction.z)), 0xA00);
 }
 
 s32 TObjEneRe4Sorcerer::cast_technique() {
@@ -778,7 +778,7 @@ void TObjEneRe4Sorcerer::update_enter_state(s32 reason) {
         for (i = 0; i < 2; i++) {
             if ((bit = (TObjEneRe4Bit *)find_entity_by_id(this->bit_ids[i])) != NULL) {
                 bit->reset_transform();
-                bit->clear_flag_and_notify();
+                bit->reappear_with_sorcerer();
             }
         }
         this->effect_scale = 0.0f;
@@ -839,7 +839,7 @@ void TObjEneRe4Sorcerer::update_fade_out_state(s32 reason) {
         for (i = 0; i < 2; i++) {
             TObjEneRe4Bit *bit = (TObjEneRe4Bit *)find_entity_by_id(this->bit_ids[i]);
             if (bit != NULL) {
-                bit->set_flag_and_notify();
+                bit->vanish_with_sorcerer();
             }
         }
         this->state_timer = 0;
@@ -955,7 +955,7 @@ void TObjEneRe4Sorcerer::update_attack_state(s32 reason) {
                         this->behavior_flags |= 8;
                         this->set_photon_state();
                     }
-                    this->rotation_y = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
+                    this->rotation.y = (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
                 }
             } else if (this->state_timer >= 0xF0) {
                 this->state_step = 5;
@@ -1145,7 +1145,7 @@ void TObjEneRe4Sorcerer::update_cure_state(s32 reason) {
                             this->behavior_flags |= 8;
                             this->apply_mylla_effect();
                         }
-                        this->rotation_y = (saddr)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
+                        this->rotation.y = (saddr)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z));
                     } else {
                         this->state_step = 1;
                         this->requested_action = 1;
@@ -1258,7 +1258,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 mode) {
     case 0:
         advance_animation();
         if (fade.decay_value_toward_floor() != 0) {
-            TDeadSpot::spawn_kind0_scale15(&position, 0);
+            spawn_dead_spot_kind0_scale15(&position, 0);
             queue_destruction();
         }
     case 3:
@@ -1285,7 +1285,7 @@ void TObjEneRe4Sorcerer::step_effect_sequence(NJS_OBJECT *) {
         re4_sorcerer_saved_render_flags = t;
         model_render_flags = t & 0xFFFF7FFF;
         scale_matrix(0, k, k, k);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         break;
     }
     case 0x37:
@@ -1305,7 +1305,7 @@ void TObjEneRe4Sorcerer::render() {
     s32 fading;
     s32 detail;
     s32 draw_model;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         render_demo();
         return;
     }
@@ -1353,7 +1353,7 @@ void TObjEneRe4Sorcerer::render() {
             push_matrix();
             post_translate_matrix(&position.x);
             translate_matrix(0, 0.0f, 22.0f, 0.0f);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             re4_sorcerer_render_node_index = 0;
             re4_sorcerer_saved_render_flags = 0;
             re4_sorcerer_effect_render_scale = effect_scale;
@@ -1376,7 +1376,7 @@ void TObjEneRe4Sorcerer::render() {
         }
         model_render_flags = saved_model_render_flags;
         update_primary_light();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 }
@@ -1396,7 +1396,7 @@ void TObjEneRe4Sorcerer::render_demo() {
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, 22.0f, 0.0f);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         strip_scroll = (strip_scroll + 5);
         re4_sorcerer_uv_scroll_buffer->scroll_uvs(strip_scroll, 0);
         texture_scroll += 0.01f;
@@ -1404,7 +1404,7 @@ void TObjEneRe4Sorcerer::render_demo() {
         set_texture_scroll(0.0f, texture_scroll);
         toggle_particle_effect();
         draw_chunk_object(model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         model_render_flags &= 0xFFFDFFFF;
         pop_matrix();
     }

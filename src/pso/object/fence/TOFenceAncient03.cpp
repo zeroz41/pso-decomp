@@ -48,7 +48,7 @@ void TOFenceAncient03::open() {
     }
 }
 
-void *TOFenceAncient03::create(void *set_data) {
+void *TOFenceAncient03::create(ObjectSetData *set_data) {
     return new TOFenceAncient03(tl_05, set_data);
 }
 
@@ -56,7 +56,7 @@ void TOFenceAncient03::unload_resources() {
     s32 i;
     if (texlists != NULL) {
         for (i = 1; i < 4; i++) {
-            TObjPlayer::free_if_valid(texlists[i]);
+            free_if_valid(texlists[i]);
         }
         if (texlists != NULL) {
             mem_free(texlists);
@@ -90,7 +90,7 @@ TOFenceAncient03::~TOFenceAncient03() {
     free_collision_body_parts(this);
 }
 
-TOFenceAncient03::TOFenceAncient03(TObject *parent, void *set_data) : TOFenceBase(parent) {
+TOFenceAncient03::TOFenceAncient03(TObject *parent, ObjectSetData *set_data) : TOFenceBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = model_resource->models[0].model;

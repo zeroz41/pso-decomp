@@ -13,7 +13,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -235,7 +235,7 @@ s32 TItemMagSub::resolve_owner_heading() {
 
     player = owner;
     pose = (MagOwnerPose **)player->current_motion;
-    heading = player->rotation_y;
+    heading = player->rotation.y;
     if (pose != NULL) {
         current = *pose;
         if (current != NULL) {
@@ -263,13 +263,13 @@ void TItemMagSub::render() {
             clear_motion_packed_rotation();
             set_chunk_model_node_callback(0);
         } else {
-            draw_node_tree_with_callback((NJS_OBJECT *)model, TItemMagSub::update_node_oscillation);
+            draw_node_tree_with_callback(model, TItemMagSub::update_node_oscillation);
         }
         drawn_node = 0;
         pop_matrix();
         drawing = NULL;
         if (test_flags(0x20)) {
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             copy_argb(&model_material_color, &saved_model_draw_color);
             model_render_flags = saved_model_render_flags;
             clear_flags(0x20);
@@ -307,7 +307,7 @@ void TItemMagSub::render_shadows() {
         pop_matrix();
         drawing = NULL;
         if (test_flags(0x20)) {
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             copy_argb(&model_material_color, &saved_model_draw_color);
             model_render_flags = saved_model_render_flags;
             clear_flags(0x20);
@@ -329,7 +329,7 @@ void TItemMagSub::apply_placement_matrix() {
         heading = resolve_owner_heading();
         rotate_matrix_y(NULL, heading);
     } else {
-        rotate_matrix_y(NULL, owner->rotation_y);
+        rotate_matrix_y(NULL, owner->rotation.y);
     }
     post_translate_matrix(translation_offset);
     follow = motion;
@@ -402,14 +402,14 @@ void TItemMagSub::apply_node_oscillation(void *node) {
         if (test_flags(0x20) == 0) {
             model_render_flags |= 0x10;
             set_constant_material((const NJS_ARGB *)material_parameters);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             set_flags(0x20);
         }
         if (selected_node != 2) {
             selected_node++;
         }
     } else if (test_flags(0x20) != 0) {
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         clear_flags(0x20);

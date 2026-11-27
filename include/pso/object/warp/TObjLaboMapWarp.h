@@ -6,7 +6,7 @@
 
 struct TObjLaboMapWarp : public TObjMapWarp {
     static const char *class_name;
-    TObjLaboMapWarp(TObject *parent, void *set_data);
+    TObjLaboMapWarp(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjLaboMapWarp();
     virtual void open_confirm_window(s32 client_id);
     virtual void draw_debug_destinations();
@@ -16,7 +16,7 @@ struct TObjLaboMapWarp : public TObjMapWarp {
     void clamp_index();
     static void release_static_resource();
     static void load_static_resource();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     f32 animation_frame;
 };
 

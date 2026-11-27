@@ -7,8 +7,8 @@
 #include "pso/item/TItemData.h"
 #include "pso/system/scene/EndingSceneTables.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/object/ambient/SceneLighting.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/TLevelSelect.h"
 
@@ -19,20 +19,20 @@ player_class_type ending_player_class_type;
 void TEndingPicStage::pose_player(player_class_type class_type, s8 picture) {
     switch (class_type) {
         case CLASS_TYPE_HUNTER: {
-            ending_player->set_position_from((void *)&ending_player_positions_hunter[picture]);
-            ending_player->rotation_y = 182.04445f * (f32)ending_player_angles_hunter[picture].y;
+            ending_player->set_position_from(&ending_player_positions_hunter[picture]);
+            ending_player->rotation.y = 182.04445f * (f32)ending_player_angles_hunter[picture].y;
             ending_player->set_animation_from_data(picture);
             break;
         }
         case CLASS_TYPE_RANGER: {
-            ending_player->set_position_from((void *)&ending_player_positions_ranger[picture]);
-            ending_player->rotation_y = 182.04445f * (f32)ending_player_angles_ranger[picture].y;
+            ending_player->set_position_from(&ending_player_positions_ranger[picture]);
+            ending_player->rotation.y = 182.04445f * (f32)ending_player_angles_ranger[picture].y;
             ending_player->set_animation_from_data(picture);
             break;
         }
         case CLASS_TYPE_FORCE: {
-            ending_player->set_position_from((void *)&ending_player_positions_force[picture]);
-            ending_player->rotation_y = 182.04445f * (f32)ending_player_angles_force[picture].y;
+            ending_player->set_position_from(&ending_player_positions_force[picture]);
+            ending_player->rotation.y = 182.04445f * (f32)ending_player_angles_force[picture].y;
             ending_player->set_animation_from_data(picture);
             break;
         }

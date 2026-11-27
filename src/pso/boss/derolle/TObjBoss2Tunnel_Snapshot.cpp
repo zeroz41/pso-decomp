@@ -10,7 +10,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/render/gjSystem.h"
 #include "pso/system/main_loop.h"
@@ -18,7 +18,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_Snapshot.h"
@@ -38,14 +38,13 @@
 #include "pso/boss/derolle/DisplayCopyFilter.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/LoadingInfoIcon.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/protocol/protocol_types.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/render/DebugFont.h"
@@ -54,13 +53,15 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/MemoryMove.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MallocLoadFilePrc.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
+#include "pso/ui/frontend/CardFileAccess.h"
 
 static s16 debug_chunk_a_strips[59] = {
     0x2517, 0x0006, 0xB2B2, 0xFFB2, 0x7F7F, 0xFF7F, 0xFFFF, 0x0BFF, 0x0040, 0x0030, 0x0006, 0xFFFA,
@@ -810,7 +811,7 @@ s32 take_snapshot(void) {
     if (is_split_screen() != 0) {
         return 0;
     }
-    if (TAdPlayerLoadGC::get_instance() != 0) {
+    if (get_card_load_sequence_state() != 0) {
         return 0;
     }
     pad = get_pad_slot(0x12);
@@ -903,9 +904,9 @@ s32 take_snapshot(void) {
         strcpy(card.title, snapshot_card_title);
         memcpy(card.key, snapshot_card_icon, 0x10);
         set_card_banner_and_icon(&card, 4);
-        card.field_4c = 1;
-        card.field_4e = 1;
-        card.field_50 = 0;
+        card.pad_4c = 1;
+        card.pad_4e = 1;
+        card.pad_50 = 0;
         card.omit_title_space = 0;
         card.data = (u8 *)snap;
         card.size = sizeof(ScreenSnapshot);
@@ -919,7 +920,7 @@ s32 take_snapshot(void) {
         cmd.sound_id = 0x52B20;
         send_6xB2_play_sound(&cmd);
         if (memcard_check_snapshot(0, NULL) != 0) {
-            if (TAdSinglePlyChrSelectGC::load_player(1, snapshot_card_filename, frame->save_image, 0xF) == 0) {
+            if (write_card_file(1, snapshot_card_filename, frame->save_image, 0xF) == 0) {
                 t = 0.0f;
                 graph = (TDLGraph *)TDLGraph::create();
                 if (get_main_phase() == 0xF) {
@@ -938,7 +939,7 @@ s32 take_snapshot(void) {
                     pos[1] = 144.0f;
                     size[0] = 256.0f;
                     size[1] = 192.0f;
-                    TParticleCtrl::begin_effect_render();
+                    begin_effect_render();
                     draw_textured_screen_quad(-1, pos, size, 1);
                     if (graph != NULL) {
                         TDLGraph::update_graph((s32)t, (s32)limit);
@@ -947,7 +948,7 @@ s32 take_snapshot(void) {
                     }
                     update_pulse_colors(1);
                     draw_loading_overlay();
-                    TParticleCtrl::end_effect_render();
+                    end_effect_render();
                     render_tick();
                 } while (poll_memcard_result(1) == 0xFFFFFFFF);
                 if (TAdPlayerLoadGC::get_load_result(1) == 0xFFFFFF81) {
@@ -959,7 +960,7 @@ s32 take_snapshot(void) {
                 if (get_main_phase() == 0xF) {
                     TLobby::process_deferred_player_setup();
                 }
-                TParticleCtrl::end_effect_render();
+                end_effect_render();
             } else {
                 TObjBoss2Tunnel::show_message_and_wait(-2);
             }
@@ -975,7 +976,7 @@ s32 take_snapshot(void) {
 s32 memcard_check_snapshot(s32 for_save, s32 *error) {
     s32 card_file;
 
-    if (TAdPlayerLoadGC::get_instance() != 0) {
+    if (get_card_load_sequence_state() != 0) {
         return 0;
     }
     if (TAdPlayerLoadGC::probe_card_slot(1) == 0) {
@@ -1128,10 +1129,10 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     strcpy(c.title, snapshot_card_title);
     memcpy(c.key, snapshot_card_icon, 0x10);
     set_card_banner_and_icon(&c, 4);
-    c.field_4c = 1;
+    c.pad_4c = 1;
     checksum = &boss2_tunnel_snapshot_buffer->checksum;
-    c.field_4e = 1;
-    c.field_50 = 0;
+    c.pad_4e = 1;
+    c.pad_50 = 0;
     c.omit_title_space = 0;
     *checksum = 0;
     *checksum = calc_crc32_bitwise(reinterpret_cast<u8 *>(boss2_tunnel_snapshot_buffer), sizeof(ScreenSnapshot));
@@ -1139,7 +1140,7 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     c.size = sizeof(ScreenSnapshot);
     TAdPlayerLoadGC::build_save_file_image(TObjBoss2Tunnel::snapshot_buffer, &c);
     release_card_banner_and_icon(&c);
-    if (TAdSinglePlyChrSelectGC::load_player(1, snapshot_card_filename, TObjBoss2Tunnel::snapshot_buffer, 0xF) != 0) {
+    if (write_card_file(1, snapshot_card_filename, TObjBoss2Tunnel::snapshot_buffer, 0xF) != 0) {
         return 0;
     }
     memcard_access_active = 1;
@@ -1151,7 +1152,7 @@ s32 save_screen_snapshot(void) {
     if (memcard_check_snapshot(1, 0) == 0) {
         return 0;
     }
-    if (TAdSinglePlyChrSelectGC::load_player_slot(1, snapshot_card_filename, TObjBoss2Tunnel::snapshot_buffer) != 0) {
+    if (read_card_file(1, snapshot_card_filename, TObjBoss2Tunnel::snapshot_buffer) != 0) {
         return 0;
     }
     TObjBoss2Tunnel::snapshot_state = 2;
@@ -1302,14 +1303,14 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         if (static_cast<s8>(poll_reset_request()) != 0) {
             break;
         }
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         if (graph != NULL) {
             TDLGraph::update_graph(frames, 0x78);
             graph->run_task();
             graph->render();
         }
         win->render();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         if (frames >= 6.0) {
             if (test_pressed_buttons_packed(pad, 2) != 0 || frames >= 0x78) {
                 result = 0;

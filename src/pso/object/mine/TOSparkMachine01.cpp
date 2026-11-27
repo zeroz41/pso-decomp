@@ -72,10 +72,10 @@ void TOSparkMachine01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         n = model->child;
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         for (i = 0; i < 4; i++) {
             switch (spark_on[i]) {
             case 1:
@@ -87,12 +87,12 @@ void TOSparkMachine01::render() {
             }
             n = n->sibling;
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
 
-void *TOSparkMachine01::create(void *set_data) {
+void *TOSparkMachine01::create(ObjectSetData *set_data) {
     return new TOSparkMachine01(set_data);
 }
 
@@ -113,7 +113,7 @@ TOSparkMachine01::~TOSparkMachine01() {
 
 }
 
-TOSparkMachine01::TOSparkMachine01(void *set_data) : TObjBase(tl_05) {
+TOSparkMachine01::TOSparkMachine01(ObjectSetData *set_data) : TObjBase(tl_05) {
     s32 i;
     m_name = spark_machine01_name;
     apply_object_set_data(set_data);

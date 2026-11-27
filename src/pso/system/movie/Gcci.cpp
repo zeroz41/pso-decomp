@@ -17,7 +17,6 @@ extern const char gcci_version_string[] = "\nGCCI Ver.1.07 Build:Jun 13 2002 19:
 s32 fileio_error_context;
 CvFsErrorCallback fileio_error_callback;
 volatile s32 gcci_init_guard;
-extern char dvd_default_path_buffer[0x100];
 extern GcciStatus dvd_active_request;
 extern GcciRequest dvd_request_table[40];
 s32 gcci_get_num_transferred(void *context) {
@@ -105,9 +104,9 @@ void cancel_dvd_request(void *arg) {
     }
     DVDGetCommandBlockStatus(&r->block.cb);
     DVDGetDriveStatus();
-    dvd_active_request.unknown08 = 1;
+    dvd_active_request.cancelling = 1;
     result = DVDCancel(&r->block.cb);
-    dvd_active_request.unknown08 = 0;
+    dvd_active_request.cancelling = 0;
     if (result < 0) {
         if (fileio_error_callback != NULL) {
             fileio_error_callback(fileio_error_context, "E0092917:DVDCancel failed.", r);
@@ -317,9 +316,9 @@ void close_dvd_request(void *arg) {
         }
         DVDGetCommandBlockStatus(&rr->block.cb);
         DVDGetDriveStatus();
-        dvd_active_request.unknown08 = 1;
+        dvd_active_request.cancelling = 1;
         result = DVDCancel(&rr->block.cb);
-        dvd_active_request.unknown08 = 0;
+        dvd_active_request.cancelling = 0;
         if (result < 0) {
             if (fileio_error_callback != NULL) {
                 fileio_error_callback(fileio_error_context, "E0092917:DVDCancel failed.", rr);

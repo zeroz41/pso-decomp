@@ -1,6 +1,5 @@
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/system/NinjaChunk.h"
@@ -12,7 +11,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/MallocLoadFilePrc.h"

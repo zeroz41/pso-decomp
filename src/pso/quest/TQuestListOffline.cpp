@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/quest/TQuestListOffline.h"
@@ -18,6 +17,7 @@
 #include "pso/ui/CounterTextLookup.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 OfflineQuestEntry offline_quest_catalog_ep1[28] = {
     {1, 0, 1, 2, 106, 107, 0, "quest04"},
@@ -63,7 +63,7 @@ const char *quest_list_offline_class_name = "TQuestListOffline";
 void *story_quest_list_resource;
 
 void TQuestListOffline::reset_global_if_not_split_screen() {
-    if (TRaderMapCore::is_not_split_screen() != 1) {
+    if (is_not_split_screen() != 1) {
         story_quest_list_resource = NULL;
     }
 }
@@ -84,7 +84,7 @@ TQuestListOffline::TQuestListOffline(TObject *parent, TShopWindowBase *sequence,
     description_window = NULL;
     confirm_window = NULL;
     this->player = player;
-    unk_48 = 0;
+    pad_48 = 0;
     shown_index = 0;
     on_cancel = NULL;
     on_accept = NULL;

@@ -25,6 +25,7 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 const char *bm_fe_obj_kaifuku_moto_model_names[2] = { "fe_obj_kaifuku_moto.nj", NULL };
 const char *bm_fe_obj_kaifuku_moto_motion_names[1] = { NULL };
@@ -45,7 +46,7 @@ BmlResource *TOHealGeneral::model_resource;
 
 // In a game without a split screen every player counts as local.
 s32 TOHealGeneral::is_local_player(u16 client) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         return 1;
     }
     return (u32)__cntlzw((u32)(local_client_id - client)) >> 5;
@@ -155,7 +156,7 @@ void TOHealGeneral::find_heal_target() {
 #pragma pop
 
 void TOHealGeneral::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         update_demo();
         return;
     }
@@ -182,7 +183,7 @@ void TOHealGeneral::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         base = model;
         post_translate_matrix(base->pos);
@@ -203,7 +204,7 @@ void TOHealGeneral::render() {
     }
 }
 
-void *TOHealGeneral::create(void *set_data) {
+void *TOHealGeneral::create(ObjectSetData *set_data) {
     return new TOHealGeneral(set_data);
 }
 
@@ -245,7 +246,7 @@ TOHealGeneral::~TOHealGeneral() {
     free_collision_body_parts(this);
 }
 
-TOHealGeneral::TOHealGeneral(void *set_data) : TObjMapObject(tl_05) {
+TOHealGeneral::TOHealGeneral(ObjectSetData *set_data) : TObjMapObject(tl_05) {
     s32 i;
     m_name = class_name;
     apply_object_set_data(set_data);
@@ -276,4 +277,4 @@ TOHealGeneral::TOHealGeneral(void *set_data) : TObjMapObject(tl_05) {
     heal_target = 0xFFFF;
 }
 
-void *TOHealGeneral::get_center() { return &effect_pos[1]; }
+Vec *TOHealGeneral::get_center() { return &effect_pos[1]; }

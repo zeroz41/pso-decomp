@@ -6,7 +6,7 @@
 
 struct TObjCityAreaWarp : public TObjAreaWarp {
     static const char *class_name;
-    TObjCityAreaWarp(TObject *parent, void *set_data);
+    TObjCityAreaWarp(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjCityAreaWarp();
     virtual void open_confirm_window(s32 client_id);
     virtual void debug_print_area_num();
@@ -14,7 +14,7 @@ struct TObjCityAreaWarp : public TObjAreaWarp {
     void render();
     void do_warp();
     void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     f32 frame;
 };
 

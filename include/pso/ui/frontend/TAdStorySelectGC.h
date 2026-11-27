@@ -15,7 +15,7 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    // The story list's cursor (story_select_cursor); TKeyBoardControl::dispatch_select_phase
+    // The story list's cursor (story_select_cursor); dispatch_select_phase
     // switches on it after the ending.
     static int get_story_select();
 

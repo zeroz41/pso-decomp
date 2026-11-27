@@ -13,7 +13,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 
-void *TObjNpcConnoisseur::create(void *set_data) {
+void *TObjNpcConnoisseur::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcConnoisseur(control, set_data);
 }
@@ -74,7 +74,7 @@ void TObjNpcConnoisseur::load_section_motion() {
 
 TObjNpcConnoisseur::~TObjNpcConnoisseur() {}
 
-TObjNpcConnoisseur::TObjNpcConnoisseur(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+TObjNpcConnoisseur::TObjNpcConnoisseur(TObject *parent, EnemyPlacement *set_data) : TObjNpcMale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

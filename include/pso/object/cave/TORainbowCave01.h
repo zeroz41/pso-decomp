@@ -6,13 +6,13 @@
 
 class TORainbowCave01 : public TObjMapObject {
 public:
-    TORainbowCave01(TObject *parent, void *set_data);
+    TORainbowCave01(TObject *parent, ObjectSetData *set_data);
     virtual ~TORainbowCave01();
     virtual void run_task();
     virtual void render();
     s32 is_player_in_range(f32 range_sq);
     void init_light_params();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_static_data();
     static void load_resource_instance();
     f32 fade_step;  // added to or taken from fade each frame

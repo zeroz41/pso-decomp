@@ -5,9 +5,9 @@
 #include "pso/object/door/TODoorFourLightBase.h"
 
 struct TODoorFourLightSeabed : public TODoorFourLightBase {
-    TODoorFourLightSeabed(TObject *parent, void *set_data);
+    TODoorFourLightSeabed(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorFourLightSeabed();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     virtual s32 get_unlit_textures();
     virtual s32 get_lit_textures();
 };

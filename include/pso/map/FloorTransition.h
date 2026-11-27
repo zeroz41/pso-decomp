@@ -4,14 +4,13 @@
 #include "types.h"
 #include "pso/player/LocalClientId.h"
 
-// --- C functions defined in FloorTransition.cpp ---
+// --- Free functions defined in FloorTransition.cpp ---
 struct NJS_SPRITE;
 
 void draw_screen_sprite(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth);
-extern "C" {
-void load_area_scene_and_init(FloorTransition *transition);
-}
-// --- end of C functions
+// Returns the area initializer's result.
+s32 load_area_scene_and_init(FloorTransition *transition);
+// --- end of free functions
 
 struct TLobbyScreenQuad {
     f32 x0, y0, x1, y1;

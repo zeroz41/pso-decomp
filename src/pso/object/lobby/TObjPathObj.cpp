@@ -1,4 +1,4 @@
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/system/memory.h"
@@ -124,7 +124,7 @@ void TObjPathObj::update() {  }
 
 void TObjPathObj::draw() {  }
 
-TObjPathObj::TObjPathObj(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjPathObj::TObjPathObj(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = path_obj_name;
     apply_object_set_data(set_data);
     view_distance = 5e+02f;
@@ -181,7 +181,7 @@ void TObjPathObj::draw_line_strip(NJS_OBJECT *node, NJS_MOTION *motion, f32 step
         more = sample_clamped_path_position(node, motion, &to, frame);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         debug_draw_line(&from, &to, 0xF0F0F0FF, 0xF0F0F0FF);
         pop_matrix();
     } while (more != 0);
@@ -190,7 +190,7 @@ void TObjPathObj::draw_line_strip(NJS_OBJECT *node, NJS_MOTION *motion, f32 step
 
 #pragma push
 #pragma fp_contract on
-TObjSeabedDolphin::TObjSeabedDolphin(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjSeabedDolphin::TObjSeabedDolphin(TObject *parent, ObjectSetData *set_data) : TObjPathObj(parent, set_data) {
   s32 clamped_profile;
   s32 raw_profile;
   model = get_bml_model(seabed_dolphin_bml_archive, 0);
@@ -233,13 +233,13 @@ void TObjSeabedDolphin::update() {
 }
 
 void TObjSeabedDolphin::draw() {
-    if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
+    if ((check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
     set_texture_list(seabed_dolphin_texture_handle);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     post_translate_matrix(&this->path_position.x);
     rotate_matrix_y(0, this->path_yaw);
     rotate_matrix_z(0, this->path_roll);
@@ -352,14 +352,14 @@ void TObjSeabedDolphin::destroy_instance() {
     }
 }
 
-void *TObjSeabedDolphin::create(void *set_data) {
+void *TObjSeabedDolphin::create(ObjectSetData *set_data) {
     return new TObjSeabedDolphin(tl_05, set_data);
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-TObjJungleEbi::TObjJungleEbi(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjJungleEbi::TObjJungleEbi(TObject *parent, ObjectSetData *set_data) : TObjPathObj(parent, set_data) {
   s32 clamped_profile;
   s32 raw_profile;
   model = get_bml_model(jungle_ebi_model_resource, 0);
@@ -401,13 +401,13 @@ void TObjJungleEbi::update() {
 }
 
 void TObjJungleEbi::draw() {
-    if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
+    if ((check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
     set_texture_list(jungle_ebi_texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     post_translate_matrix(&this->path_position.x);
     rotate_matrix_y(0, this->path_yaw);
     rotate_matrix_z(0, this->path_roll);
@@ -530,11 +530,11 @@ void TObjJungleEbi::destroy_instance() {
     }
 }
 
-void *TObjJungleEbi::create(void *set_data) {
+void *TObjJungleEbi::create(ObjectSetData *set_data) {
     return new TObjJungleEbi(tl_05, set_data);
 }
 
-TObjJungleBird::TObjJungleBird(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjJungleBird::TObjJungleBird(TObject *parent, ObjectSetData *set_data) : TObjPathObj(parent, set_data) {
   s32 clamped_profile;
   s32 raw_profile;
   model = get_bml_model(jungle_bird_bml_resource, 0);
@@ -573,13 +573,13 @@ void TObjJungleBird::update() {
 }
 
 void TObjJungleBird::draw() {
-    if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
+    if ((check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
     set_texture_list(lobby_pigeon_texture_gvm);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     post_translate_matrix(&this->path_position.x);
     rotate_matrix_y(0, this->path_yaw);
     rotate_matrix_z(0, this->path_roll);
@@ -685,14 +685,14 @@ void TObjJungleBird::destroy_instance() {
 #pragma push
 #pragma fp_contract on
 
-void *TObjJungleBird::create(void *set_data) {
+void *TObjJungleBird::create(ObjectSetData *set_data) {
     return new TObjJungleBird(tl_05, set_data);
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-TObjJungleKamome::TObjJungleKamome(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjJungleKamome::TObjJungleKamome(TObject *parent, ObjectSetData *set_data) : TObjPathObj(parent, set_data) {
     s32 raw_profile;
     s32 clamped_profile;
 
@@ -729,7 +729,7 @@ void TObjJungleKamome::update() {
         Vec v = path_zero_vec;
         set_matrix_identity((u8 *)m);
         translate_matrix_vec3((u8 *)m, (u8 *)&this->position);
-        rotate_matrix_y(m, this->rotation_y);
+        rotate_matrix_y(m, this->rotation.y);
         translate_matrix_vec3((u8 *)m, (u8 *)&this->path_position);
         matrix_mult_vec(m, &v, &v);
         play_sound_effect(0x4BC04, &this->position, 0x7F, 0);
@@ -738,13 +738,13 @@ void TObjJungleKamome::update() {
 }
 
 void TObjJungleKamome::draw() {
-    if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
+    if ((check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
     set_texture_list(lobby_kamome_texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     post_translate_matrix(&this->path_position.x);
     rotate_matrix_y(0, this->path_yaw);
     rotate_matrix_z(0, this->path_roll);
@@ -846,11 +846,11 @@ void TObjJungleKamome::destroy_instance() {
     }
 }
 
-void *TObjJungleKamome::create(void *set_data) {
+void *TObjJungleKamome::create(ObjectSetData *set_data) {
     return new TObjJungleKamome(tl_05, set_data);
 }
 
-TObjLobbyPigeon::TObjLobbyPigeon(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjLobbyPigeon::TObjLobbyPigeon(TObject *parent, ObjectSetData *set_data) : TObjPathObj(parent, set_data) {
     s32 movement;
     s32 selector;
     select_lobby_pigeon_model();
@@ -926,7 +926,7 @@ void TObjLobbyPigeon::update() {
     Vec v = lobby_pigeon_zero_vec;
     set_matrix_identity((u8 *)m);
     translate_matrix_vec3((u8 *)m, (u8 *)&this->position);
-    rotate_matrix_y(m, this->rotation_y);
+    rotate_matrix_y(m, this->rotation.y);
     translate_matrix_vec3((u8 *)m, (u8 *)&this->path_position);
     matrix_mult_vec(m, &v, &v);
     this->random_delay =
@@ -936,7 +936,7 @@ void TObjLobbyPigeon::update() {
 }
 
 void TObjLobbyPigeon::draw() {
-  if (TObjPlayer::check_demo_mode() == 1 &&
+  if (check_demo_mode() == 1 &&
       TMainTask::get_render_pass() == 0)
     draw_line_strip(this->model, this->path, (1.0f));
   if (this->phase == 0 || lobby_pigeon_lobby_type == NULL)
@@ -944,7 +944,7 @@ void TObjLobbyPigeon::draw() {
   set_texture_list(lobby_pigeon_lobby_type);
   push_matrix();
   post_translate_matrix(&this->position.x);
-  rotate_matrix_y(0, this->rotation_y);
+  rotate_matrix_y(0, this->rotation.y);
   post_translate_matrix(&this->path_position.x);
   rotate_matrix_y(0, this->path_yaw);
   rotate_matrix_z(0, this->path_roll);
@@ -1085,6 +1085,6 @@ void TObjLobbyPigeon::destroy_instance() {
     }
 }
 
-void *TObjLobbyPigeon::create(void *set_data) {
+void *TObjLobbyPigeon::create(ObjectSetData *set_data) {
     return new TObjLobbyPigeon(tl_05, set_data);
 }

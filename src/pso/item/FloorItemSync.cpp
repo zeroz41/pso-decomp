@@ -68,7 +68,7 @@ void reset_map(void) {
             ((TObject *)p)->queue_destruction();
         }
     }
-    TLobby::reset_floor_items();
+    reset_floor_items();
 }
 void evict_lowest_key_floor_item(s32 n);
 void handle_6x63_destroy_floor_item(G_DestroyFloorItem_6x63 *destroy) {
@@ -120,7 +120,7 @@ void G_SyncItemState_6x6D_Decompressed::apply() {
     s32 count;
     FloorItem *p;
     s32 n;
-    TLobby::reset_floor_items();
+    reset_floor_items();
     bswap_sync_item_state_header(this);
     for (i = 0; i < 0x10; i++) {
         floor_item_next_sort_keys[i] = next_drop_number_per_floor[i];
@@ -351,9 +351,9 @@ s32 insert_item_condition(FloorItem *item) {
     return 0;
 }
 
-void TLobby::clear_object_count() { floor_item_free_id_count = 0; }
+void clear_object_count() { floor_item_free_id_count = 0; }
 
-void TLobby::reset_floor_items() {
+void reset_floor_items() {
     s32 i;
     s32 j;
     s32 k;
@@ -373,7 +373,7 @@ void TLobby::reset_floor_items() {
             floor_item_counts_by_floor[k] = 0;
         }
     }
-    TLobby::clear_object_count();
+    clear_object_count();
 }
 
 void free_boss_rocks() {
@@ -400,7 +400,7 @@ void alloc_objects() {
     floor_item_free_id_count = 0;
     floor_item_next_sort_keys = static_cast<u16 *>(mem_alloc(0x24));
     floor_items_synced_flag.reset();
-    TLobby::reset_floor_items();
+    reset_floor_items();
 }
 int TLobby::get_lobby_flag() {  return entity_table_count; }
 void G_DestroyFloorItem_6x63::bswap() {

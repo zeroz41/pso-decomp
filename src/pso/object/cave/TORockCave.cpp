@@ -1,7 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #include <stddef.h>
 #pragma readonly_strings on
-#define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -166,7 +165,7 @@ void TORockCave::render() {
         pre_draw();
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         draw_ginja_object(model);
         pop_matrix();
@@ -184,7 +183,7 @@ void TORockCaveSimple::render() {
     if (update_object_view_visibility(view_far_depth, view_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         draw_ginja_object(model);
         pop_matrix();
@@ -200,7 +199,7 @@ TORockCaveBrakable::TORockCaveBrakable() {
 TORockCaveBrakable::~TORockCaveBrakable() {}
 
 void TORockCaveBrakable::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_demo_task();
         return;
     }
@@ -247,7 +246,7 @@ void TORockCaveBrakable::throw_debris() {
     for (i = 0; i < 6; i++) {
         VecCopy(&offset, &offsets[i]);
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         rotate_vector_by_matrix(0, &offset, &offset);
         pop_matrix();
         VecCopy(&params.pos, &position);
@@ -264,7 +263,7 @@ void TORockCaveBrakable::play_break_sound() {
 
 void TORockCaveBrakable::run_demo_task() {}
 
-TORockCaveS01::TORockCaveS01(void *set_data) {
+TORockCaveS01::TORockCaveS01(ObjectSetData *set_data) {
     m_name = rock_cave_s01_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 2);
@@ -280,11 +279,11 @@ TORockCaveS01::~TORockCaveS01() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveS01::create(void *set_data) {
+void *TORockCaveS01::create(ObjectSetData *set_data) {
     return new TORockCaveS01(set_data);
 }
 
-TORockCaveM01::TORockCaveM01(void *set_data) {
+TORockCaveM01::TORockCaveM01(ObjectSetData *set_data) {
     m_name = rock_cave_m01_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 1);
@@ -300,11 +299,11 @@ TORockCaveM01::~TORockCaveM01() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveM01::create(void *set_data) {
+void *TORockCaveM01::create(ObjectSetData *set_data) {
     return new TORockCaveM01(set_data);
 }
 
-TORockCaveL01::TORockCaveL01(void *set_data) {
+TORockCaveL01::TORockCaveL01(ObjectSetData *set_data) {
     m_name = TORockCaveL01_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 0);
@@ -320,11 +319,11 @@ TORockCaveL01::~TORockCaveL01() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveL01::create(void *set_data) {
+void *TORockCaveL01::create(ObjectSetData *set_data) {
     return new TORockCaveL01(set_data);
 }
 
-TORockCaveS02::TORockCaveS02(void *set_data) {
+TORockCaveS02::TORockCaveS02(ObjectSetData *set_data) {
     m_name = rock_cave_s02_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 2);
@@ -340,11 +339,11 @@ TORockCaveS02::~TORockCaveS02() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveS02::create(void *set_data) {
+void *TORockCaveS02::create(ObjectSetData *set_data) {
     return new TORockCaveS02(set_data);
 }
 
-TORockCaveM02::TORockCaveM02(void *set_data) {
+TORockCaveM02::TORockCaveM02(ObjectSetData *set_data) {
     m_name = rock_cave_m02_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 1);
@@ -360,11 +359,11 @@ TORockCaveM02::~TORockCaveM02() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveM02::create(void *set_data) {
+void *TORockCaveM02::create(ObjectSetData *set_data) {
     return new TORockCaveM02(set_data);
 }
 
-TORockCaveL02::TORockCaveL02(void *set_data) {
+TORockCaveL02::TORockCaveL02(ObjectSetData *set_data) {
     m_name = rock_cave_l02_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 0);
@@ -380,11 +379,11 @@ TORockCaveL02::~TORockCaveL02() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveL02::create(void *set_data) {
+void *TORockCaveL02::create(ObjectSetData *set_data) {
     return new TORockCaveL02(set_data);
 }
 
-TORockCaveSS02::TORockCaveSS02(void *set_data) {
+TORockCaveSS02::TORockCaveSS02(ObjectSetData *set_data) {
     m_name = rock_cave_ss02_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 5);
@@ -400,11 +399,11 @@ TORockCaveSS02::~TORockCaveSS02() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveSS02::create(void *set_data) {
+void *TORockCaveSS02::create(ObjectSetData *set_data) {
     return new TORockCaveSS02(set_data);
 }
 
-TORockCaveSM02::TORockCaveSM02(void *set_data) {
+TORockCaveSM02::TORockCaveSM02(ObjectSetData *set_data) {
     m_name = rock_cave_sm02_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 4);
@@ -420,11 +419,11 @@ TORockCaveSM02::~TORockCaveSM02() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveSM02::create(void *set_data) {
+void *TORockCaveSM02::create(ObjectSetData *set_data) {
     return new TORockCaveSM02(set_data);
 }
 
-TORockCaveSL02::TORockCaveSL02(void *set_data) {
+TORockCaveSL02::TORockCaveSL02(ObjectSetData *set_data) {
     m_name = rock_cave_sl02_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 3);
@@ -440,11 +439,11 @@ TORockCaveSL02::~TORockCaveSL02() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveSL02::create(void *set_data) {
+void *TORockCaveSL02::create(ObjectSetData *set_data) {
     return new TORockCaveSL02(set_data);
 }
 
-TORockCaveS03::TORockCaveS03(void *set_data) {
+TORockCaveS03::TORockCaveS03(ObjectSetData *set_data) {
     m_name = rock_cave_s03_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 2);
@@ -460,11 +459,11 @@ TORockCaveS03::~TORockCaveS03() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveS03::create(void *set_data) {
+void *TORockCaveS03::create(ObjectSetData *set_data) {
     return new TORockCaveS03(set_data);
 }
 
-TORockCaveM03::TORockCaveM03(void *set_data) {
+TORockCaveM03::TORockCaveM03(ObjectSetData *set_data) {
     m_name = rock_cave_m03_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 1);
@@ -480,11 +479,11 @@ TORockCaveM03::~TORockCaveM03() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveM03::create(void *set_data) {
+void *TORockCaveM03::create(ObjectSetData *set_data) {
     return new TORockCaveM03(set_data);
 }
 
-TORockCaveL03::TORockCaveL03(void *set_data) {
+TORockCaveL03::TORockCaveL03(ObjectSetData *set_data) {
     m_name = rock_cave_l03_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 0);
@@ -500,11 +499,11 @@ TORockCaveL03::~TORockCaveL03() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveL03::create(void *set_data) {
+void *TORockCaveL03::create(ObjectSetData *set_data) {
     return new TORockCaveL03(set_data);
 }
 
-TORockCaveBL01::TORockCaveBL01(void *set_data) {
+TORockCaveBL01::TORockCaveBL01(ObjectSetData *set_data) {
     m_name = rock_cave_bl01_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 0);
@@ -524,11 +523,11 @@ TORockCaveBL01::~TORockCaveBL01() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveBL01::create(void *set_data) {
+void *TORockCaveBL01::create(ObjectSetData *set_data) {
     return new TORockCaveBL01(set_data);
 }
 
-TORockCaveBL02::TORockCaveBL02(void *set_data) {
+TORockCaveBL02::TORockCaveBL02(ObjectSetData *set_data) {
     m_name = rock_cave_bl02_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 0);
@@ -548,11 +547,11 @@ TORockCaveBL02::~TORockCaveBL02() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveBL02::create(void *set_data) {
+void *TORockCaveBL02::create(ObjectSetData *set_data) {
     return new TORockCaveBL02(set_data);
 }
 
-TORockCaveBL03::TORockCaveBL03(void *set_data) {
+TORockCaveBL03::TORockCaveBL03(ObjectSetData *set_data) {
     m_name = rock_cave_bl03_name;
     apply_object_set_data(set_data);
     model = get_bml_model(cave_rock_resource_bundle, 0);
@@ -572,6 +571,6 @@ TORockCaveBL03::~TORockCaveBL03() {
     free_collision_body_parts(this);
 }
 
-void *TORockCaveBL03::create(void *set_data) {
+void *TORockCaveBL03::create(ObjectSetData *set_data) {
     return new TORockCaveBL03(set_data);
 }

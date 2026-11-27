@@ -30,14 +30,14 @@ TBoss7LaserImpact::TBoss7LaserImpact(TObject *parent, const Vec *origin) : TObje
 }
 
 void TBoss7LaserImpact::destroy_instance() {  }
-void TBoss7LaserImpact::load_static_resource() {  }
+void load_static_resource() {  }
 void PhotonChairSeat::update() {}
 
 
 int PhotonChairSeat::create_chair() {
     TPlyPhotonChair *chair;
 
-    FOREACH_NODE(TPlyPhotonChair, tl_05->m_down, node) {
+    for (TPlyPhotonChair *node = (TPlyPhotonChair *)tl_05->m_down; node != NULL; node = (TPlyPhotonChair *)node->m_next) {
         if (node->check_value_equals(TPlyPhotonChair::class_name) != 0
             && owner_id == node->get_owner_id()
             && node->is_owner_seated() != 0) {

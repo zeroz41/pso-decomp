@@ -87,7 +87,7 @@ s32 TObjMapCsn::build_box_triangles() {
     corners[7].z = -(0.5f * scale.z);
     push_matrix_from(identity_matrix);
     translate_matrix_vec3(0, (u8 *)&position);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     for (i = 0; i < 8; i++) {
         matrix_mult_vec(0, &corners[i], &collision_vertices[i]);
     }
@@ -119,7 +119,7 @@ s32 TObjMapCsn::build_box_triangles() {
     return pop_matrix();
 }
 
-TObjMapCsn *TObjMapCsn::create(void *set_data) {
+TObjMapCsn *TObjMapCsn::create(ObjectSetData *set_data) {
     return new TObjMapCsn(get_collision_controller(), set_data);
 }
 
@@ -128,7 +128,7 @@ TObjMapCsn::~TObjMapCsn() {
         TObjMapCsn::get_collision_controller()->remove_object(this);
     }
 }
-TObjMapCsn::TObjMapCsn(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjMapCsn::TObjMapCsn(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     f32 half_width;
     f32 half_depth;
     m_name = class_name;

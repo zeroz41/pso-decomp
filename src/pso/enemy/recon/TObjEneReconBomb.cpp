@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -70,7 +69,7 @@ void TObjEneReconBomb::render() {
     texlist = get_bml_texlist(recon_bomb_bml_resource, 2);
     push_matrix();
     translate_matrix(0, position.x, 2.0f + position.y, position.z);
-    rotate_matrix_zyx(0, rotation_x, rotation_y, rotation_z);
+    rotate_matrix_zyx(0, rotation.x, rotation.y, rotation.z);
     set_texture_list(texlist);
     draw_chunk_object(bml_model);
     pop_matrix();
@@ -145,7 +144,7 @@ void TObjEneReconBomb::run_task() {
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
         for (i = 0; i < entity_table_count; i++) {
             pl = TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active(pl) != 0 && pl != 0 && pl->get_entity_id() < 0x1000 && pl->is_actor_dead() == 0) {
+            if (TObjCollidable::is_valid_and_active(pl) != 0 && pl != 0 && pl->get_entity_id() < 0x1000 && pl->is_actor_dead() == 0) {
                 if (horizontal_distance_squared(&pl->body_center, &body_center) <= blast_radius * blast_radius) {
                     DirectAttackPayload attack;
                     attack.kind = 0;
@@ -178,10 +177,10 @@ TObjEneReconBomb::TObjEneReconBomb(TObject *parent, TObjEneRecon *recon, const V
     blast_power = owner->get_bomb_power();
     launch_speed = owner->get_bomb_speed();
     lifetime = owner->calc_scaled_value();
-    rotation_y = ((TObjBase *)m_up)->rotation_y;
+    rotation.y = ((TObjBase *)m_up)->rotation.y;
     VecCopy(&position, pos);
-    s = sin_table_lookup(rotation_y);
-    c = cos_table_lookup(rotation_y);
+    s = sin_table_lookup(rotation.y);
+    c = cos_table_lookup(rotation.y);
     velocity.x = launch_speed * s;
     velocity.y = 0.0f;
     velocity.z = launch_speed * c;
@@ -194,7 +193,7 @@ const char *recon_bomb_name = "TObjEneReconBomb";
 
 void TObjEneReconBomb::release_resources() {  }
 
-void *TObjEneReconBomb::create(TObject *parent, TObjEneRecon *recon, const Vec *pos) {
+TObjEneReconBomb *TObjEneReconBomb::create(TObject *parent, TObjEneRecon *recon, const Vec *pos) {
     return new TObjEneReconBomb(parent, recon, pos);
 }
 

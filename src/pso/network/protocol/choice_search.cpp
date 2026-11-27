@@ -47,6 +47,8 @@ u32 find_table_entry_id(TRecvChoiceSearchOptions *t, u16 a, u32 b) {
     return 0;
 }
 
+}
+
 void set_value_by_key(ChoiceSearchSelection *arr, u16 key, s32 val) {
     s32 i;
     for (i = 0; i < 5; i++) {
@@ -56,8 +58,6 @@ void set_value_by_key(ChoiceSearchSelection *arr, u16 key, s32 val) {
         }
         arr++;
     }
-}
-
 }
 
 s32 find_choice_search_value(ChoiceSearchSelection *selections, u16 parent_choice_id) {

@@ -19,8 +19,7 @@ struct TWindowSubShortCut : public TObject {
     static const char *class_name;
     TWindowSubShortCutList *open_com_card_list();
     u8 state;
-    u8 pad_1D[0x1];
-    u16 m_1e;
+    u8 pad_1D[0x3];
     uaddr client_id;
     uaddr shortcut_slot;
     TWindowMainMenu *parent_menu;

@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/gee/TObjEneMe1Gee_NEEDLE.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
@@ -64,13 +63,13 @@ void TObjEneMe1Gee_NEEDLE::render() {
         return;
     }
     push_matrix();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, rotation_x);
     set_texture_list(get_bml_texlist(gee_needle_resource, 1));
     draw_ginja_object(get_bml_model(gee_needle_resource, 1));
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 

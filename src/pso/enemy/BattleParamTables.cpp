@@ -7,7 +7,7 @@
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/system/date.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/memory.h"
@@ -23,6 +23,7 @@
 #include "pso/system/MemoryMove.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/map/FloorMapSelection.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma readonly_strings on
 
@@ -54,7 +55,7 @@ void load_battle_param_entry(void) {
   {
     name = "BattleParamEntry_on.dat";
   }
-  if (TRaderMapCore::is_not_split_screen() == 1)
+  if (is_not_split_screen() == 1)
   {
     name = "BattleParamEntry_on.dat";
   }
@@ -65,7 +66,7 @@ void load_battle_param_entry(void) {
     {
       name = "BattleParamEntry_lab_on.dat";
     }
-    if (TRaderMapCore::is_not_split_screen() == 1)
+    if (is_not_split_screen() == 1)
     {
       name = "BattleParamEntry_lab_on.dat";
     }

@@ -22,6 +22,7 @@
 #include "pso/audio/MusicUnlockFlags.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/AdxManager.h"
+#include "pso/audio/AdxUiBridge.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "dolphin/ar.h"
 #include "dolphin/ai.h"
@@ -34,7 +35,7 @@
 s32 lbl_805D3710 = -140;
 s32 area_music_fade_frame_count = 60;
 f32 music_fade_full_scale = 200.0f;
-s16 lbl_805D371C = -1;
+s16 music_playing_slot_number = -1;
 char *lobby_current_slot_entry = "";
 
 extern "C" {
@@ -44,15 +45,15 @@ u32 ar_stack_index[6] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
 AdxtPlayer *adxt_players[3] = { NULL, NULL, NULL };
 
 void *se_stream_buffer;
-void *adx_rna_work_buffer;
+u8 *adx_rna_work_buffer;
 s32 music_active;
 s32 music_state;
 s32 music_fade_slot_index;
-u32 lbl_805D62EC;
+void *lbl_805D62EC;
 s32 music_next_cue;
 s32 music_cue_threshold;
-s32 lbl_805D62F8;
-s32 lbl_805D62FC;
+s32 bgm_stream_buffer_total_size;
+s32 se_stream_buffer_size;
 s32 music_program_index;
 TLoadCtrlProgram *music_program;
 s32 music_sequencer_passage_index;
@@ -138,7 +139,7 @@ extern TLoadCtrlProgram *music_programs[];
 
 void init_music_sequencer(s32 program) {
     unlock_sequencer_flag(program);
-    lbl_805D371C = 0;
+    music_playing_slot_number = 0;
     release_bgm_resource();
     music_program_index = program;
     music_program = music_programs[program];
@@ -276,12 +277,6 @@ void turn_off_bgm_p2(void) {
     adxt_pause(adxt_players[music_fade_slot_index], 1);
     adxt_pause(adxt_players[2], 1);
     music_state = 2;
-}
-
-
-
-extern "C" {
-void gcrna_bridge_init_buffers(void *work, s32 size, s32 count);
 }
 
 // The four .acx streams start_bgm_stream starts by index.
@@ -482,7 +477,7 @@ void stop_audio_streams() {
 
 void play_area_music(char *name) {
     s32 flag;
-    TObjBgmColCtrl::update_all_zones(name);
+    update_all_zones(name);
     release_bgm_resource();
     flag = 1;
     if (music_state != 0) {
@@ -500,7 +495,7 @@ void play_area_music(char *name) {
     if (flag) {
         music_fade_slot_index = 0;
     }
-    lbl_805D371C = music_fade_slot_index + 1;
+    music_playing_slot_number = music_fade_slot_index + 1;
     ADXT_StartFname(adxt_players[music_fade_slot_index], name);
     adxt_pause(adxt_players[music_fade_slot_index], 0);
     close_option_window();
@@ -556,8 +551,8 @@ void shutdown_buffers() {
         adx_rna_work_buffer = NULL;
     }
     adxt_finish();
-    if (lbl_805D62EC != 0U) {
-        safe_free(reinterpret_cast<void *>(lbl_805D62EC));
+    if (lbl_805D62EC != NULL) {
+        safe_free(lbl_805D62EC);
     }
 }
 
@@ -569,7 +564,7 @@ void init_adx_audio_system(void) {
     bgm_stream_buffers[0] = xmalloc(0x2D1E4);
     bgm_stream_buffers[1] = xmalloc(0x2D1E4);
     se_stream_buffer = xmalloc(0xA924);
-    adx_rna_work_buffer = xmalloc(0xA000);
+    adx_rna_work_buffer = static_cast<u8 *>(xmalloc(0xA000));
     gcrna_bridge_init_buffers(adx_rna_work_buffer, 0xA000, 5);
     adxt_init();
     setup_adx_file_systems(NULL);
@@ -599,11 +594,11 @@ void init_adx_audio_system(void) {
             file_debug_printf("can't create ADXT-SE #%d", i);
         }
     }
-    lbl_805D62F8 = 0x5A3C8;
-    lbl_805D62FC = 0xA924;
+    bgm_stream_buffer_total_size = 0x5A3C8;
+    se_stream_buffer_size = 0xA924;
     music_active = 0;
     music_state = 0;
-    lbl_805D62EC = 0;
+    lbl_805D62EC = NULL;
     music_fade_frames_remaining = 0;
     music_slot_entries[1][0] = 0;
     music_slot_entries[0][0] = 0;

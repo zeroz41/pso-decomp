@@ -9,7 +9,7 @@ class TParticleCtrl;
 // A lobby set object that runs one particle effect while the lobby's event
 // theme is the one its set data names, fading the effect in and out.
 struct TObjParticleLobby : public TObjMapObject {
-    TObjParticleLobby(TObject *parent, void *set_data);
+    TObjParticleLobby(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjParticleLobby();
     virtual void render();
     virtual void run_task();
@@ -20,7 +20,7 @@ struct TObjParticleLobby : public TObjMapObject {
     s32 get_event_theme_index();
     void demo_step();
     void setup_emitter();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_resources();
     static void load_resources();
 };

@@ -7,8 +7,10 @@ struct Vec;
 
 #include "types.h"
 #include "musyx/musyx.h"
+#include "pso/audio/SoundReverb.h"
 #include <stddef.h>
 
+// One sound group's bank files, as sndPushGroup takes them.
 struct SoundBankGroup {
     void *file_data[4];
     s32 file_index[4];
@@ -25,7 +27,7 @@ public:
     // Clamps the mix to 0..0x7F and sets the stream mix; surround only in output mode 2.
     void set_stream_mix(AdxtPlayer *tracks, s32 vol, s32 pan, s32 span, s32 fxvol);
     s32 is_ready();
-    s32 get_field_308();
+    s32 get_ms();
     // Steps the sound random generator (x * 0x10DCD + 1) and returns it.
     s32 advance_rng();
     f32 get_surround_scale();
@@ -47,14 +49,7 @@ public:
     s32 update_sound_frame();
     s32 init_sound_aux_effects();
 
-    u8 reverb[0x1C4];             // MusyX SND_AUX_REVERBHI work area
-    u8 reverb_temp_disable;       // SND_AUX_REVERBHI.tempDisable
-    f32 reverb_coloration;
-    f32 reverb_mix;
-    f32 reverb_time;
-    f32 reverb_damping;
-    f32 reverb_pre_delay;
-    f32 reverb_crosstalk;
+    SoundReverb reverb;
     SND_AUX_CHORUS chorus;
     f32 reverb_level;
     s32 voice_volume_adjustment;

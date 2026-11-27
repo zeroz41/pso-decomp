@@ -25,6 +25,8 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/BattleParamTables.h"
 
+// The mine's attack template: state_explode copies it, sets the power from the boss and
+// hands it to setup_attack_at_owner, whose setup_instance installs the collision radius.
 static const DragonAttackParams boss2_mine_collision_desc = { 1, 2.0f, 50.0f, {5.0f, 1} };
 
 const char *TBoss2Mine::name = "TBoss2Mine";
@@ -118,7 +120,7 @@ void TBoss2Mine::init(s32 variant) {
     this->pulse_phase = 2;
     this->step = 0;
     this->timer = 0;
-    this->m_3d0 = 0;
+    this->pad_3d0 = 0;
     this->tilt = 0;
     this->throw_distance = 0.0f;
     this->throw_distance_left = 0.0f;
@@ -134,7 +136,7 @@ TBoss2Mine::~TBoss2Mine() {
 }
 
 void TBoss2Mine::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -319,8 +321,7 @@ void TBoss2Mine::state_explode(s32 reason) {
     case 0:
         step++;
         if (step > 30) {
-            *reinterpret_cast<TBoss2MineCollisionWords *>(&hit) =
-                *reinterpret_cast<const TBoss2MineCollisionWords *>(&boss2_mine_collision_desc);
+            __memcpy(&hit, &boss2_mine_collision_desc, sizeof(hit));
             hit.attack.power = TBoss2DeRolLe::get_mine_power();
             setup_attack_at_owner(this, &hit);
             spawn_particle_effect_with_flags(&bodies->center, 0x16B, 0x40);
@@ -349,7 +350,7 @@ void TBoss2Mine::state_destroyed(s32 reason) {
 }
 
 void TBoss2Mine::render() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         render_demo();
         return;
     }
@@ -371,9 +372,9 @@ void TBoss2Mine::render() {
     push_matrix();
     post_translate_matrix(&position.x);
     translate_matrix(0, 0.0f, body_center.y - position.y, 0.0f);
-    rotate_matrix_y(NULL, rotation_y);
-    rotate_matrix_x(NULL, rotation_x);
-    rotate_matrix_y(NULL, rotation_z);
+    rotate_matrix_y(NULL, rotation.y);
+    rotate_matrix_x(NULL, rotation.x);
+    rotate_matrix_y(NULL, rotation.z);
     translate_matrix(0, 0.0f, -10.0f, 0.0f);
     if (mine_flags & 4) {
         model_render_flags |= 0x20;
@@ -397,7 +398,7 @@ void TBoss2Mine::render() {
         pop_matrix();
     }
     model_render_flags = saved_model_render_flags;
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 
 void TBoss2Mine::run_demo_task() {  }
@@ -438,8 +439,8 @@ void TBoss2FloorMine::state_launch(s32 reason) {
         subtract_vector(&throw_dir, &body_center);
         throw_distance = normalize_vector_xz(&throw_dir);
         angle = (s32)(10430.38043493439 * atan2_float(throw_dir.x, throw_dir.z));
-        rotation_y = angle;
-        rotation_x = 0x4000;
+        rotation.y = angle;
+        rotation.x = 0x4000;
         y = body_center.y;
         fall_time = newton_sqrtf((2.0f * (y - target_pos.y)) / 0.2f);
         drop_distance = 10.0f * fall_time;
@@ -463,14 +464,14 @@ void TBoss2FloorMine::state_launch(s32 reason) {
         if (throw_distance_left < drop_distance) {
             fall_speed = fall_speed - 0.2f;
             body_center.y = body_center.y + fall_speed;
-            if (rotation_x >= 0x8000) {
-                rotation_x = 0x8000;
+            if (rotation.x >= 0x8000) {
+                rotation.x = 0x8000;
             } else {
                 tilt = tilt + 0x300;
-                rotation_x = tilt + 0x4000;
+                rotation.x = tilt + 0x4000;
             }
         } else {
-            rotation_x = 0x4000;
+            rotation.x = 0x4000;
         }
         update_move_flag();
         break;
@@ -488,7 +489,7 @@ void TBoss2FloorMine::state_armed(s32 reason) {
         clear_intangible();
         mine_flags &= ~5;
         mine_flags |= 2;
-        rotation_x = 0x8000;
+        rotation.x = 0x8000;
         flash_level = 0;
         step = 0;
         extra = (s32)(30.0f * calc_elapsed_scaled());
@@ -579,12 +580,12 @@ void TBoss2TargetMine::init_launch(Vec *pos, TObjBase *owner, s32 slot) {
     this->direction.x = sin_table_lookup(heading);
     this->direction.y = 0.0f;
     this->direction.z = cos_table_lookup(heading);
-    this->rotation_y = heading;
+    this->rotation.y = heading;
     this->target_pos.x = 0.0f;
     this->target_pos.y = 0.0f;
     this->target_pos.z = 0.0f;
     this->move_mine();
-    this->rotation_x = 0x4000;
+    this->rotation.x = 0x4000;
     VecCopy(&this->position, &this->body_center);
     this->spike_angle = 0;
     this->hp = this->hpmax;
@@ -601,8 +602,8 @@ void TBoss2TargetMine::state_launch(s32 reason) {
         set_intangible();
         mine_flags &= ~7;
         spike_angle = 0;
-        rotation_x = 0x4000;
-        rotation_z = 0;
+        rotation.x = 0x4000;
+        rotation.z = 0;
         step = 1;
         timer = 0;
         launch_speed = 8.0f;
@@ -634,11 +635,11 @@ void TBoss2TargetMine::state_launch(s32 reason) {
             body_center.z = direction.z * launch_speed + body_center.z;
             break;
         case 2:
-            rotation_x -= 0x600;
-            if (rotation_x < 0) {
-                rotation_x = 0;
+            rotation.x -= 0x600;
+            if (rotation.x < 0) {
+                rotation.x = 0;
             }
-            rotation_z += 2560.0f;
+            rotation.z += 2560.0f;
             launch_speed -= 0.2f;
             if (launch_speed <= 3.0f) {
                 launch_speed = 3.0f;
@@ -681,7 +682,7 @@ void TBoss2TargetMine::state_armed(s32 reason) {
         clear_intangible();
         mine_flags &= ~5;
         mine_flags |= 2;
-        rotation_x = 0;
+        rotation.x = 0;
         flash_level = 0;
         step = 0;
         timer = (s32)(60.0f * calc_elapsed_scaled()) + 240;
@@ -701,7 +702,7 @@ void TBoss2TargetMine::state_armed(s32 reason) {
         if (timer <= 0) {
             step = 1;
         }
-        rotation_z += 2560.0f;
+        rotation.z += 2560.0f;
         move_mine();
         VecCopy(&to_target, &target_pos);
         subtract_vector(&to_target, &body_center);

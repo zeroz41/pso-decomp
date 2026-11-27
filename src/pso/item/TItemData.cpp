@@ -40,11 +40,9 @@
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/system/TLanguage.h"
+#include "pso/ui/window/TObjBagWarnWin.h"
 
-
-extern "C" {
-u8 get_cast_technique_level(void *, int);
-}
 
 
 static const ItemIconIndexTable item_icon_index_by_category_table = {{1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 3, 2}};
@@ -144,7 +142,7 @@ void TItemData::apply_bonuses(TObjPlayer *player, AttackParams *attack, ActorPar
             attack->add_atp_max(boost->amount);
             break;
         case 2:
-            attack->add_ata((s16)(boost->amount * 10));
+            attack->add_ata(boost->amount * 10);
             break;
         case 3:
             params->add_evp(boost->amount);
@@ -164,7 +162,7 @@ void TItemData::apply_bonuses(TObjPlayer *player, AttackParams *attack, ActorPar
         case 8:
             attack->add_atp_min(boost->amount);
             attack->add_atp_max(boost->amount);
-            attack->add_ata((s16)(boost->amount * 10));
+            attack->add_ata(boost->amount * 10);
             params->add_evp(boost->amount);
             params->add_dfp(boost->amount);
             stats->mst += boost->amount;
@@ -175,7 +173,7 @@ void TItemData::apply_bonuses(TObjPlayer *player, AttackParams *attack, ActorPar
             attack->sub_atp_max(boost->amount);
             break;
         case 10:
-            attack->sub_ata((s16)(boost->amount * 10));
+            attack->sub_ata(boost->amount * 10);
             break;
         case 11:
             params->sub_evp(boost->amount);
@@ -195,7 +193,7 @@ void TItemData::apply_bonuses(TObjPlayer *player, AttackParams *attack, ActorPar
         case 16:
             attack->sub_atp_min(boost->amount);
             attack->sub_atp_max(boost->amount);
-            attack->sub_ata((s16)(boost->amount * 10));
+            attack->sub_ata(boost->amount * 10);
             params->sub_evp(boost->amount);
             params->sub_dfp(boost->amount);
             stats->mst -= boost->amount;
@@ -228,7 +226,7 @@ void TItemData::apply_unit_stat_bonus(TObjPlayer *player, AttackParams *attack, 
     parm = (UnitPmtEntry *)lookup_item_pmt_record(data1.data_u8);
     if (parm != NULL && stats != NULL && params != NULL) {
     kind = parm->stat;
-    amount = parm->stat_amount + get_field6_bswap(data1.data_u8);
+    amount = parm->stat_amount + get_unit_modifier(data1.data_u8);
     switch (kind) {
     case 0:
         stats->atp += amount;
@@ -302,7 +300,7 @@ void TItemData::add_shield_stat_contribution(TObjPlayer *player, AttackParams *a
     f32 add = calc_clock_bonus(player);
     parm = (ShieldPmtEntry *)lookup_item_pmt_record(data1.data_u8);
     if (parm != 0) {
-        b06 = ((s32 (*)(void *))TItemData::getS16_06)(this);
+        b06 = ((s32 (*)(void *))TItemData::get_dfp_bonus)(this);
         s32 b08 = ((s32 (*)(void *))TItemData::get_evp_bonus)(this);
         s32 v = (s32)(parm->evp * mult + add);
         if (params != 0) {
@@ -328,7 +326,7 @@ void TItemData::add_armor_stat_contribution(TObjPlayer *player, AttackParams *at
     f32 add = calc_clock_bonus(player);
     parm = (ArmorPmtEntry *)lookup_item_pmt_record(data1.data_u8);
     if (parm != 0) {
-        dfpBonus = ((s32 (*)(void *))TItemData::getS16_06)(this);
+        dfpBonus = ((s32 (*)(void *))TItemData::get_dfp_bonus)(this);
         s16 evpBonus = get_evp_bonus(data1.data_u8);
         s32 dfp = (s32)(parm->dfp * mult + add);
         if (params != 0) {
@@ -348,7 +346,7 @@ void TItemData::add_armor_stat_contribution(TObjPlayer *player, AttackParams *at
 #pragma fp_contract on
 void TItemData::add_weapon_stat_bonuses(TObjPlayer *player, AttackParams *attack, ActorParamBlock *params,
                                         EquipStatBonus *stats, EquipHpTpBonus *hp_tp) {
-  s16 hi;
+  s32 hi;
   s32 i;
   WeaponParams *parm;
   f32 mult = get_set_bonus_multiplier(player);
@@ -359,16 +357,16 @@ void TItemData::add_weapon_stat_bonuses(TObjPlayer *player, AttackParams *attack
     if (attack != 0)
     {
       s16 grind = ((u8) (hi = data1.data_s8[3])) * 2;
-      s16 lo = (mult * ((f32) (parm->atp_min + grind))) + add;
+      s32 lo = (mult * ((f32) (parm->atp_min + grind))) + add;
       hi = (mult * ((f32) (parm->atp_max + grind))) + add;
       attack->add_atp_min(lo);
       attack->add_atp_max(hi);
-      attack->add_ata((s16) (parm->ata * 10));
+      attack->add_ata(parm->ata * 10);
       for (i = 0; i != 3; i++)
       {
         if (data1.data_u8[6 + (i * 2)] == 5)
         {
-          attack->add_ata((s16) (data1.data_s8[7 + (i * 2)] * 10));
+          attack->add_ata(data1.data_s8[7 + (i * 2)] * 10);
         }
       }
     }
@@ -438,8 +436,6 @@ u16 TItemData::get_packed_value() {
     return 0U;
 }
 
-s32 get_item_icon_index(const u8 *q);
-
 s32 TItemData::is_usable() {
     u8 kind;
 
@@ -505,11 +501,13 @@ void TItemData::unpack_from_item(ObjectSetData *set) {
         }
     }
 }
-s32 get_item_icon_index(const u8 *q) {
+}
+
+s32 get_item_icon_index(const TItemData *item) {
     u8 v;
-    if (q[0] == 0) {
+    if (item->data1.data_u8[0] == 0) {
         ItemIconIndexTable t = item_icon_index_by_category_table;
-        if ((v = q[1]) < 0xAA) {
+        if ((v = item->data1.data_u8[1]) < 0xAA) {
             v = get_weapon_class_motion_type(v);
         }
         if (v < 0x13) {
@@ -519,7 +517,6 @@ s32 get_item_icon_index(const u8 *q) {
     return 0;
 }
 
-}
 int TItemData::isValidGroundDrop() {
     u8 category;
     u8 group;
@@ -660,7 +657,7 @@ extern "C" {
 s32 TItemData::lookup_item_def() {
     return is_item_stackable(data1.data_u8[0], data1.data_u8[1]);
 }
-s16 TItemData::get_field6_bswap(void *data) {
+s16 TItemData::get_unit_modifier(void *data) {
     s16 value = *(s16 *)((u8 *)data + 6);
     bswap_16((u16 *)&value);
     return value;
@@ -682,7 +679,7 @@ void TItemData::set_evp_bonus(s16 evp_bonus) {
     bswap_16(&this->data1.data_u16[4]);
 }
 
-s16 TItemData::getS16_06(void *data) {
+s16 TItemData::get_dfp_bonus(void *data) {
     s16 value = *(s16 *)((u8 *)data + 6);
     bswap_16((u16 *)&value);
     return value;
@@ -722,12 +719,12 @@ s32 TItemData::has_bonus_stats() {
                 return 1;
             }
         case 2:
-            if (getS16_06(this) > 0 || get_evp_bonus(this) > 0) {
+            if (get_dfp_bonus(data1.data_u8) > 0 || get_evp_bonus(data1.data_u8) > 0) {
                 return 1;
             }
             break;
         case 3:
-            if (get_field6_bswap(this) > 0) {
+            if (get_unit_modifier(data1.data_u8) > 0) {
                 return 1;
             }
             break;
@@ -837,7 +834,7 @@ s32 TItemData::calc_action_flags(s32 mask, TObjPlayer *player) {
       }
         break;
       case 7:
-        if (TObjWarpBossMulti::is_flag_clear(player) == 0)
+        if (player->is_flag_clear() == 0)
       {
         result |= 1;
       }
@@ -855,7 +852,7 @@ s32 TItemData::calc_action_flags(s32 mask, TObjPlayer *player) {
           {
             result |= 0x10001;
           }
-          cur = get_cast_technique_level(&player->technique_state, (s16) data1.data_u8[4]);
+          cur = player->technique_state.get_cast_technique_level((s32) data1.data_u8[4]);
           if ((TObjPlayer::is_invalid_slot(cur) == 0) && (data1.data_u8[2] <= cur))
           {
             result |= 0x10001;
@@ -1337,8 +1334,8 @@ s32 TItemData::calc_price() {
       armor = (ArmorPmtEntry *) lookup_item_pmt_record(data1.data_u8);
       if ((0.0f != coef) && (armor != 0))
       {
-        s32 a = TItemData::getS16_06(this);
-        atp = (f32) (((armor->dfp + armor->evp) + a) + TItemData::get_evp_bonus(this));
+        s32 a = get_dfp_bonus(data1.data_u8);
+        atp = (f32) (((armor->dfp + armor->evp) + a) + get_evp_bonus(data1.data_u8));
         {
           s32 dv = (s32) ((atp * atp) / coef);
           f32 sl = 70.0f * ((f32)(data1.data_u8[5] + 1));
@@ -1406,7 +1403,7 @@ void TItemData::init() {
     id = -1;
 }
 
-saddr TItemData::calc_buy_price() {
+const char *TItemData::calc_buy_price() {
     u8 special;
 
     if ((u8) this->data1.data_u8[0] == 0) {
@@ -1418,21 +1415,21 @@ saddr TItemData::calc_buy_price() {
             return get_item_description_text(0x1F4);
         }
     }
-    return (saddr)empty_string;
+    return empty_string;
 }
 }
 
 const char *format_item_description(TItemData *item) {
-    char *format;
+    const char *format;
     UnitPmtEntry *p;
     char *out;
     s32 name;
     p = (UnitPmtEntry *)lookup_item_pmt_record(item->data1.data_u8);
-    out = (char *)get_item_chunk_buffer(0);
+    out = get_item_chunk_buffer(0);
     if (p != NULL && out != NULL) {
         format = NULL;
         if (item->is_wrapped() != 0) {
-            format = (char *)get_item_description_text(0x77);
+            format = get_item_description_text(0x77);
         } else {
             name = p->id;
             if (name == 0x1F4) {
@@ -1440,21 +1437,21 @@ const char *format_item_description(TItemData *item) {
             }
             if (item->data1.data_u8[0] == 0) {
                 if (item->is_rare_item() != 0 && item->check_item_flags() == 0) {
-                    format = (char *)get_item_description_text(0x17E);
+                    format = get_item_description_text(0x17E);
                 } else {
-                    format = (char *)get_item_description_text(name);
+                    format = get_item_description_text(name);
                 }
             } else if (item->data1.data_u8[0] == 1 && item->data1.data_u8[1] == 3) {
                 if (name < 0x2E2) {
                     if (p != NULL && out != NULL && p->stat != 0x1C) {
-                        sprintf(out, (char *)get_item_description_text(name), p->stat_amount + TItemData::get_field6_bswap(item));
+                        sprintf(out, get_item_description_text(name), p->stat_amount + TItemData::get_unit_modifier(item));
                         return out;
                     }
                 } else {
-                    format = (char *)get_item_description_text(name);
+                    format = get_item_description_text(name);
                 }
             } else {
-                format = (char *)get_item_description_text(name);
+                format = get_item_description_text(name);
             }
         }
         if (format != NULL) {
@@ -1466,9 +1463,10 @@ const char *format_item_description(TItemData *item) {
 }
 
 void TItemData::format_item_name(char *buf) {
-    s8 *slot;
+    const char *slot;
     const char *name;
     s32 *pmt;
+    UnitPmtEntry *unit;
     s8 tmp[10];
     s8 sign[3];
     s16 lim;
@@ -1509,7 +1507,7 @@ void TItemData::format_item_name(char *buf) {
             }
             return;
         }
-        slot = (s8 *)TObjPlayer::get_item_by_slot_flag(data1.data_u8[4]);
+        slot = get_item_by_slot_flag(data1.data_u8[4]);
         if (is_rare_item() != 0) {
             if (check_item_flags() == 1) {
                 if (data1.data_u8[3] != 0) {
@@ -1558,10 +1556,10 @@ void TItemData::format_item_name(char *buf) {
         }
     } else if (t == 1 && data1.data_u8[1] == 3) {
         memset(sign, 0, 3);
-        pmt = (s32 *)lookup_item_pmt_record(data1.data_u8);
-        if (pmt != NULL) {
-            lim = ((UnitPmtEntry *)pmt)->modifier_amount;
-            v = get_field6_bswap(this);
+        unit = static_cast<UnitPmtEntry *>(lookup_item_pmt_record(data1.data_u8));
+        if (unit != NULL) {
+            lim = unit->modifier_amount;
+            v = get_unit_modifier(this);
             if (v < -lim) {
                 sign[0] = '-';
                 sign[1] = '-';
@@ -1586,7 +1584,7 @@ void *lookup_item_pmt_record(u8 *item) {
     void *r = 0;
     switch (item[0]) {
     case 0:
-        r = TObjPlayer::get_item_pmt_record(item[1], item[2]);
+        r = get_item_pmt_record(item[1], item[2]);
         break;
     case 1:
         switch (item[1]) {
@@ -1595,20 +1593,20 @@ void *lookup_item_pmt_record(u8 *item) {
             r = get_armor_pmt_record(item[1], item[2]);
             break;
         case 3:
-            r = TObjPlayer::get_pmt_record_by_index(item[2]);
+            r = get_pmt_record_by_index(item[2]);
             break;
         }
         break;
     case 2:
-        r = TObjPlayer::get_pmt_record(item[1]);
+        r = get_pmt_record(item[1]);
         break;
     case 3:
         if (item[1] == 2) {
             if (item[2] <= 0x1D) {
-                r = TObjPlayer::get_pmt_record_by_type_id(item[1], item[4]);
+                r = get_pmt_record_by_type_id(item[1], item[4]);
             }
         } else {
-            r = TObjPlayer::get_pmt_record_by_type_id(item[1], item[2]);
+            r = get_pmt_record_by_type_id(item[1], item[2]);
         }
         break;
     }
@@ -1634,7 +1632,7 @@ int TItemData::calc_display_grade() {
         break;
     case 1:
         if ((u8) this->data1.data_u8[1] == 3) {
-            rarity_modifier = TItemData::get_field6_bswap(this);
+            rarity_modifier = get_unit_modifier(data1.data_u8);
             if (rarity_modifier < 0) {
                 base_rarity -= 1;
             } else if (rarity_modifier > 0) {
@@ -1704,3 +1702,76 @@ s32 TItemData::get_stack_count() {
     }
     return 1;
 }
+
+void TItemData::set_stack_count(u8 count) {
+    if (lookup_item_def() != 0) {
+        data1.data_u8[5] = count;
+        return;
+    }
+    if (data1.data_u8[0] == 3) {
+        data1.data_u8[5] = 0;
+    }
+}
+
+void ActorParamBlock::add_elt(s32 amount) {
+    values[4] = values[4] + amount;
+}
+
+void ActorParamBlock::add_edk(s32 amount) {
+    values[5] = values[5] + amount;
+}
+
+void ActorParamBlock::add_eth(s32 amount) {
+    values[3] = values[3] + amount;
+}
+
+void ActorParamBlock::add_eic(s32 amount) {
+    values[2] = values[2] + amount;
+}
+
+void ActorParamBlock::add_efr(s32 amount) {
+    values[1] = values[1] + amount;
+}
+
+void ActorParamBlock::add_evp(s32 amount) {
+    values[0] += amount;
+}
+
+void ActorParamBlock::add_dfp(s16 amount) {
+    value_1c = value_1c + amount;
+}
+
+void ActorParamBlock::sub_dfp(s16 amount) {
+    value_1c = value_1c - amount;
+}
+void ActorParamBlock::sub_evp(s32 amount) {
+    values[0] -= amount;
+}
+
+s16 MagStats::get_mind_level() const {
+    return mind / 100;
+}
+
+s16 MagStats::get_def_level() const {
+    return def / 100;
+}
+
+s16 MagStats::get_dex_level() const {
+    return dex / 100;
+}
+
+s16 MagStats::get_pow_level() const {
+    return pow / 100;
+}
+
+s32 TObjPlayer::can_use_more_materials_for_class() {
+    return this->materials.can_use_more_materials(get_class_index());
+}
+const char *get_item_description_text(s32 name) {
+    return text_language_group_table[1][name];
+}
+const char *get_text_collection(s32 index) {
+    return text_language_group_table[0][index];
+}
+
+const char *TWindowSubStatusDisp::get_meseta_unit() { return get_message_text(0); }

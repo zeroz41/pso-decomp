@@ -80,7 +80,7 @@ static NpcBodyResourceSlot npc_seabed_resource_descriptor_list[] = {
 
 BmlResource *TObjNpcNgcBase::body_resources[14];
 
-void *TObjNpcNgcBase::create_kenkyuw2(void *set_data) {
+void *TObjNpcNgcBase::create_kenkyuw2(EnemyPlacement *set_data) {
     if (body_resources[13] != NULL) {
         TObjControl *control = new TObjControl(tl_04);
         return new TObjNpcNgcBase(control, set_data, body_resources[13]);
@@ -88,7 +88,7 @@ void *TObjNpcNgcBase::create_kenkyuw2(void *set_data) {
     return NULL;
 }
 
-void *TObjNpcNgcBase::create_nctrunk2(void *set_data) {
+void *TObjNpcNgcBase::create_nctrunk2(EnemyPlacement *set_data) {
     if (body_resources[12] != NULL) {
         TObjControl *control = new TObjControl(tl_04);
         return new TObjNpcNgcBase(control, set_data, body_resources[12]);
@@ -96,7 +96,7 @@ void *TObjNpcNgcBase::create_nctrunk2(void *set_data) {
     return NULL;
 }
 
-void *TObjNpcNgcBase::create_nctrunk(void *set_data) {
+void *TObjNpcNgcBase::create_nctrunk(EnemyPlacement *set_data) {
     if (body_resources[11] != NULL) {
         TObjControl *control = new TObjControl(tl_04);
         return new TObjNpcNgcBase(control, set_data, body_resources[11]);
@@ -104,7 +104,7 @@ void *TObjNpcNgcBase::create_nctrunk(void *set_data) {
     return NULL;
 }
 
-void *TObjNpcNgcBase::create_gunsinei(void *set_data) {
+void *TObjNpcNgcBase::create_gunsinei(EnemyPlacement *set_data) {
     if (body_resources[10] != NULL) {
         TObjControl *control = new TObjControl(tl_04);
         return new TObjNpcNgcBase(control, set_data, body_resources[10]);
@@ -112,7 +112,7 @@ void *TObjNpcNgcBase::create_gunsinei(void *set_data) {
     return NULL;
 }
 
-void *TObjNpcNgcBase::create_ncman(void *set_data) {
+void *TObjNpcNgcBase::create_ncman(EnemyPlacement *set_data) {
     if (body_resources[9] != NULL) {
         TObjControl *control = new TObjControl(tl_04);
         return new TObjNpcNgcBase(control, set_data, body_resources[9]);
@@ -120,7 +120,7 @@ void *TObjNpcNgcBase::create_ncman(void *set_data) {
     return NULL;
 }
 
-void *TObjNpcNgcBase::create_ncwoman(void *set_data) {
+void *TObjNpcNgcBase::create_ncwoman(EnemyPlacement *set_data) {
     if (body_resources[8] != NULL) {
         TObjControl *control = new TObjControl(tl_04);
         return new TObjNpcNgcBase(control, set_data, body_resources[8]);
@@ -128,7 +128,7 @@ void *TObjNpcNgcBase::create_ncwoman(void *set_data) {
     return NULL;
 }
 
-void *TObjNpcNgcBase::create_ncchild(void *set_data) {
+void *TObjNpcNgcBase::create_ncchild(EnemyPlacement *set_data) {
     if (body_resources[7] != NULL) {
         TObjControl *control = new TObjControl(tl_04);
         return new TObjNpcNgcBase(control, set_data, body_resources[7]);
@@ -136,7 +136,7 @@ void *TObjNpcNgcBase::create_ncchild(void *set_data) {
     return NULL;
 }
 
-void *TObjNpcNgcBase::create_elly_t(void *set_data) {
+void *TObjNpcNgcBase::create_elly_t(EnemyPlacement *set_data) {
     if (body_resources[6] != NULL) {
         TObjControl *control = new TObjControl(tl_04);
         return new TObjNpcNgcBase(control, set_data, body_resources[6]);
@@ -144,7 +144,7 @@ void *TObjNpcNgcBase::create_elly_t(void *set_data) {
     return NULL;
 }
 
-void *TObjNpcNgcBase::create_nol_t(void *set_data) {
+void *TObjNpcNgcBase::create_nol_t(EnemyPlacement *set_data) {
     if (body_resources[5] != NULL) {
         TObjControl *control = new TObjControl(tl_04);
         return new TObjNpcNgcBase(control, set_data, body_resources[5]);
@@ -152,7 +152,7 @@ void *TObjNpcNgcBase::create_nol_t(void *set_data) {
     return NULL;
 }
 
-void *TObjNpcNgcBase::create_delta_w(void *set_data) {
+void *TObjNpcNgcBase::create_delta_w(EnemyPlacement *set_data) {
     if (body_resources[4] != NULL) {
         TObjControl *control = new TObjControl(tl_04);
         return new TObjNpcNgcBase(control, set_data, body_resources[4]);
@@ -160,7 +160,7 @@ void *TObjNpcNgcBase::create_delta_w(void *set_data) {
     return NULL;
 }
 
-void *TObjNpcNgcBase::create_paganini_t(void *set_data) {
+void *TObjNpcNgcBase::create_paganini_t(EnemyPlacement *set_data) {
     if (body_resources[3] != NULL) {
         TObjControl *control = new TObjControl(tl_04);
         return new TObjNpcNgcBase(control, set_data, body_resources[3]);
@@ -168,7 +168,7 @@ void *TObjNpcNgcBase::create_paganini_t(void *set_data) {
     return NULL;
 }
 
-void *TObjNpcNgcBase::create_leo_w(void *set_data) {
+void *TObjNpcNgcBase::create_leo_w(EnemyPlacement *set_data) {
     if (body_resources[2] != NULL) {
         TObjControl *control = new TObjControl(tl_04);
         return new TObjNpcNgcBase(control, set_data, body_resources[2]);
@@ -176,7 +176,7 @@ void *TObjNpcNgcBase::create_leo_w(void *set_data) {
     return NULL;
 }
 
-void *TObjNpcNgcBase::create_karen_t(void *set_data) {
+void *TObjNpcNgcBase::create_karen_t(EnemyPlacement *set_data) {
     if (body_resources[1] != NULL) {
         TObjControl *control = new TObjControl(tl_04);
         return new TObjNpcNgcBase(control, set_data, body_resources[1]);
@@ -184,7 +184,7 @@ void *TObjNpcNgcBase::create_karen_t(void *set_data) {
     return NULL;
 }
 
-void *TObjNpcNgcBase::create_michel_t(void *set_data) {
+void *TObjNpcNgcBase::create_michel_t(EnemyPlacement *set_data) {
     if (body_resources[0] != NULL) {
         TObjControl *control = new TObjControl(tl_04);
         return new TObjNpcNgcBase(control, set_data, body_resources[0]);
@@ -240,7 +240,7 @@ TObjNpcNgcBase::~TObjNpcNgcBase() {}
 
 const char *TObjNpcNgcBase::class_name = "TObjNpcNgcBase";
 
-TObjNpcNgcBase::TObjNpcNgcBase(TObject *parent, void *set_data, BmlResource *resource) : TObjNpcMale(parent) {
+TObjNpcNgcBase::TObjNpcNgcBase(TObject *parent, EnemyPlacement *set_data, BmlResource *resource) : TObjNpcMale(parent) {
     m_name = class_name;
     apply_set_data(set_data);
     init_position_vectors();

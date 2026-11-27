@@ -41,7 +41,7 @@ public:
     TWindowMenuIconLine *list_window;     // 0x3C
     TWindowMessage *description_window;   // 0x40
     TWindowMessage *confirm_window;       // 0x44
-    s32 unk_48;
+    s32 pad_48;
     u8 pad_4c[0x4];
     s32 shown_index;                      // 0x50: entry whose description is shown
     OfflineQuestEntry *quests;            // 0x54: offline_quest_catalog_ep1 or offline_quest_entries

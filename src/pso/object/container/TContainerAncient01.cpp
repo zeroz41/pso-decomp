@@ -1,7 +1,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 
@@ -109,10 +108,11 @@ const char *container_ancient01_r_name = "TContainerAncient01R";
 
 #include "pso/object/container/TObjContainerIdo.h"
 
-#include "pso/item/TUnk_804B97C0.h"
+#include "pso/object/container/TObjContainerIdoBase.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/ModelDrawContext.h"
+#include "pso/quest/QuestFloorDesignation.h"
 
 BmlResource *container_ancient01_bml_resource;
 BmlResource *container_ancient01_r_bml_resource;
@@ -147,7 +147,7 @@ f32 TContainerAncient01R::receive_weapon_special_attack(TObjChara *, CollisionBo
 
 #pragma push
 #pragma fp_contract on
-TContainerAncient01::TContainerAncient01(TObject *parent, void *set_data) : TObjChara(parent) {
+TContainerAncient01::TContainerAncient01(TObject *parent, ObjectSetData *set_data) : TObjChara(parent) {
     m_name = container_ancient01_name;
     this->apply_object_set_data(set_data);
     this->model = get_bml_model(container_ancient01_bml_resource, 0);
@@ -202,14 +202,14 @@ void TContainerAncient01::release_static_resource() {
     }
 }
 
-void *TContainerAncient01::create(void *set_data) {
+void *TContainerAncient01::create(ObjectSetData *set_data) {
     return new TContainerAncient01(tl_05, set_data);
 }
 
 void TContainerAncient01::run_task() {
     f32 frame_timer;
     f32 y;
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         if ((s32) this->opened == 0) {
             switch (this->mode) {
             case 0:
@@ -257,11 +257,11 @@ void TContainerAncient01::render() {
         set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         if ((s32) this->opened != 0) {
             scale_current_matrix(&this->open_scale.x);
         }
-        if (TObjPlayer::check_demo_mode() == 1) {
+        if (check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
             draw_ginja_model_with_motion((this->model), (this->current_motion), this->frame);
@@ -287,12 +287,12 @@ f32 TContainerAncient01::receive_direct_attack(TObjBase *, DirectAttackPayload p
 }
 
 f32 TContainerAncient01::receive_physical_attack(TObjChara *, f32) {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
 
     if ((u16) this->entity_id >= 0x1000U) {
         reset_state();
         if (((uaddr) this->set_entry != 0U) && (access_object_saved_state(&saved_state, 1) != 0)) {
-            saved_state = 1;
+            saved_state.flags = 1;
             access_object_saved_state(&saved_state, 0);
             send_object_state_update(&saved_state);
         }
@@ -313,13 +313,13 @@ void TContainerAncient01::open_container() {
     }
 }
 
-void TContainerAncient01::apply_saved_state(s16 *state, s32 live) {
+void TContainerAncient01::apply_saved_state(QuestObjectEntry *state, s32 live) {
     if (live != 0) {
-        if ((s16) *state == 1) {
+        if (state->flags == 1) {
             open_container();
             this->opened = 1;
         }
-    } else if ((s16) *state == 1) {
+    } else if (state->flags == 1) {
         this->opened = 1;
     }
 }
@@ -448,7 +448,7 @@ void TContainerAncient01::spawn_effect(const Vec *position, s32 effect_id) {
 }
 #pragma push
 #pragma fp_contract on
-TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TObjChara(parent) {
+TContainerAncient01R::TContainerAncient01R(TObject *parent, ObjectSetData *set_data) : TObjChara(parent) {
     m_name = container_ancient01_r_name;
     apply_object_set_data(set_data);
     model = get_bml_model(container_ancient01_r_bml_resource, 0);
@@ -482,14 +482,14 @@ void TContainerAncient01R::init_table_entries() {
 
 void TContainerAncient01R::free_resources() { container_ancient01_r_bml_resource = NULL; }
 
-void *TContainerAncient01R::create(void *parent) {
+void *TContainerAncient01R::create(ObjectSetData *parent) {
     return new TContainerAncient01R(tl_05, parent);
 }
 
 void TContainerAncient01R::run_task() {
     f32 frame_timer;
     f32 y;
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         if ((s32) this->opened == 0) {
             switch (this->mode) {
             case 0:
@@ -537,11 +537,11 @@ void TContainerAncient01R::render() {
         set_texture_list(this->texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         if ((s32) this->opened != 0) {
             scale_current_matrix(&this->open_scale.x);
         }
-        if (TObjPlayer::check_demo_mode() == 1) {
+        if (check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
             draw_ginja_model_with_motion((this->model), (this->current_motion), this->frame);
@@ -567,11 +567,11 @@ f32 TContainerAncient01R::receive_direct_attack(TObjBase *, DirectAttackPayload 
 }
 
 f32 TContainerAncient01R::receive_physical_attack(TObjChara *, f32) {
-    s16 saved_state;
+    QuestObjectEntry saved_state;
     if ((u16) this->entity_id >= 0x1000U) {
         this->hit_count = (this->hit_count + 1);
         if (((uaddr) this->set_entry != 0U) && (access_object_saved_state(&saved_state, 1) != 0)) {
-            saved_state = this->hit_count;
+            saved_state.flags = this->hit_count;
             access_object_saved_state(&saved_state, 0);
             send_object_state_update(&saved_state);
         }
@@ -592,8 +592,8 @@ void TContainerAncient01R::open_container() {
     }
 }
 
-void TContainerAncient01R::apply_saved_state(s16 *state, s32 live) {
-    this->hit_count = (s16) *state;
+void TContainerAncient01R::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    this->hit_count = state->flags;
     if (live != 0) {
         if ((this->hp - this->hit_count) <= 0) {
             this->reset_state();
@@ -619,7 +619,7 @@ void TContainerAncient01R::init_positions() {
     this->open_scale.x = (f32) ancient01_one[0];
     this->open_scale.y = (f32) ancient01_one[0];
     this->open_scale.z = (f32) ancient01_one[0];
-    this->hp = (s16) this->rotation_z;
+    this->hp = (s16) this->rotation.z;
     if ((s16) this->hp < 1) {
         this->hp = 1;
     }

@@ -18,26 +18,9 @@ enum {
     LAPPY_GIANT = 0x400,        // drawn at 2 x 1.5 x 2 scale (v2 mode, 1 in 30)
 };
 
-// The enemy set entry create hands the constructor (TBoss4DarkFalzSetEntry's layout; field
-// names from TObjEnemy::apply_set_data, which reads the same entry). A Rappy of a later wave
-// drops in; a non-zero variant makes it the rare one.
-struct LappySetData {
-    s16 set_index;
-    s16 kind;
-    u8 pad_04[0x2];
-    u16 entity_id;
-    s16 room;
-    s16 wave;
-    u8 pad_0c[0x4];
-    Vec position;
-    s32 rotation[3];
-    f32 parameters[5];
-    s16 variant;
-    s16 state;
-};
-
 struct TObjEneLappy : public TObjEnemy {
-    TObjEneLappy(TObject *parent, void *set_data);
+    // A Rappy of a later wave drops in; a non-zero variant makes it the rare one.
+    TObjEneLappy(TObject *parent, EnemyPlacement *set);
     virtual ~TObjEneLappy();
     virtual void run_task();
     virtual void render();
@@ -83,7 +66,7 @@ struct TObjEneLappy : public TObjEnemy {
     void update_moving();
     void update_idle_state();
     void run_task_stub();
-    static void *create(void *set);
+    static void *create(EnemyPlacement *set);
     static void load_resources();
     static void free_resources();
     s32 pad_398;

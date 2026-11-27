@@ -30,6 +30,9 @@ struct QuestDownloadFile {
     u8 data[1];
 
     u32 decrypt(s32 size, void *dst, u32 capacity);
+    // Decrypts and decompresses the file into a new download buffer of
+    // decompressed_size bytes; NULL when that cannot be allocated.
+    void *alloc_download_quest(s32 size, s32 *out_size);
 };
 
 // Decrypts and decompresses a downloaded quest file into dst; returns the
@@ -106,7 +109,7 @@ public:
     u8 *tmp_buffer;
     void *card_buffer;
     u8 pad_238C[0x4];
-    s32 unk_2390;
+    s32 pad_2390;
     u8 pad_2394[0x4];
     s32 scan_index;
     s32 scan_card_slot;

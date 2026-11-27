@@ -11,6 +11,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 #pragma readonly_strings on
 
@@ -46,7 +47,7 @@ void TShopSequence::close_message_window() {
 u32 TShopSequence::create_message_window(const NJS_POINT2 *position, const NJS_POINT2 *extent) {
     if (message_window != NULL) {
         if (player != NULL) {
-            return (uaddr)message_window->create_message_window(position, extent, (u16)((TObjBase *)((uaddr)player))->get_entity_id());
+            return (uaddr)message_window->create_message_window(position, extent, (u16)player->get_entity_id());
         }
         return (uaddr)message_window->create_window(position, extent);
     }
@@ -87,7 +88,7 @@ void TShopSequence::close_window() {
 
     if (player != NULL) {
         TWindowCtrl::unsuppress_slot((u16)player->get_entity_id());
-        if (TRaderMapCore::is_not_split_screen() != 1) {
+        if (is_not_split_screen() != 1) {
             client = 0;
             do {
                 TObjPlayer *other = (TObjPlayer *)get_player_by_client_id(client);
@@ -97,7 +98,7 @@ void TShopSequence::close_window() {
                 client += 1;
             } while (client < 4);
         }
-        TObjPlayer::clear_lobby_flag(player);
+        player->clear_lobby_flag();
     }
 }
 void TShopSequence::restore_player_state() {
@@ -105,7 +106,7 @@ void TShopSequence::restore_player_state() {
 
     if (player != NULL) {
         player->init_effect_5f0();
-        if (TRaderMapCore::is_not_split_screen() != 1) {
+        if (is_not_split_screen() != 1) {
             client = 0;
             do {
                 TObjPlayer *other = (TObjPlayer *)get_player_by_client_id(client);

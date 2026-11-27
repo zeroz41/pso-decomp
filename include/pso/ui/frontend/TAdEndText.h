@@ -20,7 +20,6 @@ public:
     static void load_ending_font();
     static void draw_end_font_text(s32 color, char *str, f32 x, f32 y, f32 depth);
 public:
-    static void cleanup();
 
     static const char *class_name;
     // Ending font height per size index.

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/npc/TObjNpcKenkyu.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/object/TObjControl.h"
@@ -228,8 +227,8 @@ TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *seque
     description_window = NULL;
     info_window = NULL;
     this->player = player;
-    unk_44 = 0;
-    unk_48 = 0;
+    pad_44 = 0;
+    pad_48 = 0;
     mode = get_game_play_mode();
     switch (mode) {
     case 1:

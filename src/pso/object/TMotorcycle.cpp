@@ -73,7 +73,7 @@ void TMotorcycle::render() {
             set_texture_list(motorcycle_texture_list);
             push_matrix();
             post_translate_matrix(&position.x);
-            rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
+            rotate_matrix_yxz(0, (this->rotation.x), (this->rotation.y), (this->rotation.z));
             draw_ginja_object(get_bml_model(motorcycle_bml_resource, model_index));
             pop_matrix();
         }
@@ -84,8 +84,8 @@ void TMotorcycle::render() {
 void TMotorcycle::update_idle() {  }
 
 
-void *create_stage_motorcycle(void *placement) {
-    return new TMotorcycle(static_cast<TObject *>(tl_05), static_cast<ObjectSetData *>(placement));
+void *create_stage_motorcycle(ObjectSetData *placement) {
+    return new TMotorcycle(static_cast<TObject *>(tl_05), placement);
 }
 
 void TMotorcycle::free_statics() {

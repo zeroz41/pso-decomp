@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/memory.h"
 #include "pso/system/AsyncFileRead.h"
@@ -11,15 +10,15 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/TCharSaveSequence.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include <string.h>
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/map/area/AreaScene.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #pragma push
 
 #include "types.h"
-#include "pso/ui/frontend/TAdPlayerLoadGCMemCard.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/render/gjSystem.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -41,10 +40,11 @@
 #include "pso/system/save/CharacterFile.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
-#include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/system/MallocLoadFilePrc.h"
+#include "pso/ui/frontend/CardLoadSequenceState.h"
 
 // Window position and size setup passes to create_message_window_for_size
 static const f32 char_save_message_window_pos[2] = { 80.0f, 146.0f };
@@ -71,13 +71,13 @@ void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
 }
 void TAdSinglePlyChrSelectGC::set_quest_download_server(int quest_download_server) { single_ply_quest_download_server = quest_download_server; }
-void TAdSinglePlyChrSelectGC::init_logo_state(s32 state) {
+void init_logo_state(s32 state) {
     lbl_805D6D88 = 0;
     lbl_805D6D84 = 0;
     chr_select_logo_state = state;
     single_ply_quest_download_server = 0xFFFF;
 }
-void TAdSinglePlyChrSelectGC::noop() {  }
+void noop() {  }
 void TCharSaveSequence::free_buffer() {
     if (download_buffer != NULL) {
         safe_free(download_buffer);
@@ -93,7 +93,7 @@ void TCharSaveSequence::clear_buffer() {
 void TCharSaveSequence::alloc_download_buffer() {
     if (download_buffer == NULL) {
         download_buffer_size = 0x16000;
-        download_buffer = (void *)TQuestVmDownLoadServer::alloc(download_buffer_size);
+        download_buffer = (void *)alloc(download_buffer_size);
     }
 }
 void TCharSaveSequence::report_missing_file() {
@@ -129,7 +129,7 @@ void TCharSaveSequence::handle_player_load() {
         close_message_window();
         return;
     }
-    switch (TAdPlayerLoadGC::get_instance()) {
+    switch (get_card_load_sequence_state()) {
     case 0:
         switch (poll_memcard_result(chr_select_state)) {
         case 0:
@@ -188,7 +188,7 @@ void TCharSaveSequence::wait_character_file_write() {
         close_message_window();
         return;
     }
-    switch (TAdPlayerLoadGC::get_instance()) {
+    switch (get_card_load_sequence_state()) {
     case 0:
         switch (poll_memcard_result(chr_select_state)) {
         case 0:
@@ -226,13 +226,13 @@ void TCharSaveSequence::update_select_state() {
 void TCharSaveSequence::handle_load_result() {
     s32 r;
     CharacterFile *obj;
-    saddr src;
+    u8 *src;
     switch (poll_memcard_result(chr_select_state)) {
     case 0:
         seed_character_select_serial_rng(TAdEnterSerialAccessGC::get_serial_seed());
-        src = (saddr)download_buffer;
+        src = (u8 *)download_buffer;
         obj = new CharacterFile;
-        memcpy(obj, (void *)(src + 0x2048), 0x1156C);
+        memcpy(obj, src + sizeof(CardSaveHeader), sizeof(CharacterFile));
         TAdSinglePlyChrSelectGC::decrypt_char_data(obj);
         if (TAdSinglePlyChrSelectGC::init_and_register(obj) == 0) {
             char_save_message_flags &= ~1;
@@ -342,11 +342,11 @@ void release_single_ply_chr_select_scene(void) {
     main_task.delete_layer_children();
     stop_audio_streams();
     set_and_notify(0);
-    TLobby::call_funcs_reverse(&character_select_scene_resource_callbacks, 0x30);
+    call_funcs_reverse(&character_select_scene_resource_callbacks, 0x30);
     render_tick();
 }
 
-void TAdSinglePlyChrSelectGC::run_frame() {
+void run_single_player_char_select_frame() {
     begin_gx_frame();
     controller_stuff();
     update_keyboard_input_frame();
@@ -361,12 +361,12 @@ void TAdSinglePlyChrSelectGC::run_frame() {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
-    TAdSinglePlyChrSelectGC::noop();
+    noop();
     if (!(char_save_message_flags & 1)) {
         if (static_cast<s8>(poll_reset_request()) != 0) {
             switch_to_fallback_main_phase();
         }
-        if (TQuestVmDownLoadServer::is_ready() != 0) {
+        if (::is_ready() != 0) {
             request_main_phase(0);
         }
     }
@@ -426,14 +426,10 @@ void TCharSaveSequence::init_warps() {
 
 typedef void (TCharSaveSequence::*Handler)();
 
-LAYOUT_ASSERT(ChrSelectSerialSeeds_size, sizeof(ChrSelectSerialSeeds) == 0x10);
-
-
-extern ChrSelectSerialSeeds chr_select_serial_seeds;
 
 void *character_select_scene_resource_callbacks[12] = {
     (void *)&TCameraCtrl::reset_view_state, (void *)&TCameraCtrl::reset, (void *)&TCameraCtrl::init_default_view, (void *)&TCameraCtrl::reset_default_view,
-    (void *)&register_texture_f256_ad_pic_2, (void *)&TAdSinglePlyChrSelectGC::free_global, (void *)&register_texture_f256_backtext, (void *)&TAdSinglePlyChrSelectGC::free_texture_f256_backtext,
+    (void *)&register_texture_f256_ad_pic_2, (void *)&free_global, (void *)&register_texture_f256_backtext, (void *)&free_texture_f256_backtext,
     (void *)&TWindowCtrlMain::reset_windows, (void *)&TWindowCtrlMain::free_all_windows, (void *)&update_keyboard_menu, (void *)&free_keyboard_soft_resources,
 };
 
@@ -492,8 +488,8 @@ TCharSaveSequence::TCharSaveSequence() : TObject(tl_01) {
 }
 
 void seed_character_select_serial_rng(s32 seed) {
-    chr_select_serial_seeds.seed_b = seed;
-    chr_select_serial_seeds.seed_a = seed;
+    chr_select_serial_seeds[1] = seed;
+    chr_select_serial_seeds[0] = seed;
 }
 
 #pragma pop

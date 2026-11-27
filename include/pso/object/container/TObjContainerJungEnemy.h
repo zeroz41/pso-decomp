@@ -4,15 +4,17 @@
 #include "types.h"
 #include "pso/object/container/TObjContainerBase.h"
 
+struct QuestObjectEntry;
+
 struct NJS_OBJECT;
 
 struct TObjContainerJungEnemy : public TObjContainerBase {
-    TObjContainerJungEnemy(TObject *parent, void *set_data);
+    TObjContainerJungEnemy(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjContainerJungEnemy();
     virtual void spawn_break_effects() const;
     virtual void draw_model();
     virtual void debug_print_item_box_info();
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual void update_state();
     virtual f32 receive_physical_attack(TObjChara *, f32);
     NJS_OBJECT *body_model;
@@ -20,7 +22,7 @@ struct TObjContainerJungEnemy : public TObjContainerBase {
     NJS_OBJECT *small_fragment_model;
     NJS_OBJECT *light_model;
     void load_models();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjContainerJungEnemy_size, sizeof(TObjContainerJungEnemy) == 0x378);

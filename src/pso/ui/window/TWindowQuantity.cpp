@@ -1,20 +1,22 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #pragma readonly_strings on
 #include "types.h"
-#include "pso/ui/font/MenuFontGlyphs.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowQuantity.h"
+#include "pso/item/TItem.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/font/MenuFontGlyphs.h"
 
 QuantityWindowLayout quantity_window_layout_entries = {
     2, 1,
@@ -27,6 +29,29 @@ WindowDescriptor quantity_window_layout = {
 };
 
 const char *TWindowQuantity::class_name = "TWindowQuantity";
+
+void TWindowQuantity::set_quantity(s32 quantity) {
+    ((TWindowLayoutNumber *)get_array_entry(1))->value = quantity;
+}
+
+// Shows how many of the item the player carries (1 for an item that does not stack).
+void TWindowQuantity::set_entry_count(TItem *item) {
+    s32 amount;
+    TWindowLayoutNumber *entry;
+
+    entry = (TWindowLayoutNumber *)get_array_entry(1);
+    if (item == NULL) {
+        entry->value = 0;
+        return;
+    }
+    amount = item->get_amount();
+    if (amount <= 0) {
+        entry->value = 1;
+        return;
+    }
+    entry->value = amount;
+}
+
 void TWindowQuantity::set_position(WindowDrawContext *context) {
     draw_window_tab(context, &context->inner_x, width, 3);
 }

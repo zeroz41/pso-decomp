@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "types.h"
@@ -193,7 +192,7 @@ void TItemEffPGModel::render() {
         copy_argb(&saved_model_draw_color, &model_material_color);
         model_render_flags |= 0x20;
         set_constant_material(&color);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(texture_list);
         push_matrix();
         post_translate_matrix(&position.x);
@@ -208,7 +207,7 @@ void TItemEffPGModel::render() {
         draw_ginja_model(model->child->model);
         pop_matrix();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         copy_argb(&model_material_color, &saved_model_draw_color);
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;

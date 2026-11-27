@@ -1,6 +1,5 @@
 #include "pso/system/memory.h"
 #include "pso/system/BmlResourceLoader.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlAccessors.h"
 // Compiled -inline off,deferred: the functions are written from the last
 // (load_resources) back to the first, so CodeWarrior
@@ -160,7 +159,7 @@ void TBoss6Rock::run_task() {
     if (marker != NULL) {
         NJS_OBJECT *model = get_bml_model(boss6_rock_resource, boss6_rock_kind_params[kind_index].model_id);
         u64 pos = (saddr)&position;
-        marker->set_target(fall_state != 0, (Vec *)pos, &rotation_x, boss6_rock_texture_list, model,
+        marker->set_target(fall_state != 0, (Vec *)pos, &rotation.x, boss6_rock_texture_list, model,
                          boss6_rock_kind_params[kind_index].radius);
     }
 }
@@ -182,9 +181,9 @@ void TBoss6Rock::draw_model() {
     }
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
-    rotate_matrix_x(NULL, rotation_x);
-    rotate_matrix_z(NULL, rotation_z);
+    rotate_matrix_y(NULL, rotation.y);
+    rotate_matrix_x(NULL, rotation.x);
+    rotate_matrix_z(NULL, rotation.z);
     set_texture_list(boss6_rock_texture_list);
     draw_ginja_object(get_bml_model(boss6_rock_resource, boss6_rock_kind_params[kind_index].model_id));
     pop_matrix();
@@ -202,7 +201,7 @@ void TBoss6Rock::init_spin_params() {
 void TBoss6Rock::update_fall() {
     f32 accel = -0.75f;
     f32 max_speed = -9.0f;
-    rotation_y += spin_speed;
+    rotation.y += spin_speed;
     if (fast_fall == 1) {
         accel = -0.9375f;
         max_speed = -11.25f;
@@ -323,9 +322,9 @@ const RockKindParams *TBoss6Rock::get_rock_entry(s32 i) {
 }
 
 void TBoss6Rock::randomize_motion() {
-    rotation_x = 2048.0f * (3.0517578125e-05f * rand() - 0.5f);
-    rotation_y = 65535.0f * (3.0517578125e-05f * rand());
-    rotation_z = 2048.0f * (3.0517578125e-05f * rand() - 0.5f);
+    rotation.x = 2048.0f * (3.0517578125e-05f * rand() - 0.5f);
+    rotation.y = 65535.0f * (3.0517578125e-05f * rand());
+    rotation.z = 2048.0f * (3.0517578125e-05f * rand() - 0.5f);
     spin_speed = 8192.0f * (3.0517578125e-05f * rand() - 0.5f);
     VecCopy(&position, &rock_point);
     position.y = 450.0f;
@@ -333,14 +332,14 @@ void TBoss6Rock::randomize_motion() {
 
 void TBoss6Rock::create_map_csn() {
     const RockKindParams *e;
-    MapCsnSetData set;
+    ObjectSetData set;
     if (map_csn == 0) {
         VecCopy(&set.position, &rock_point);
-        copy_xyz(&set.rotation_x, (void *)boss6_rock_set_rotation);
+        copy_xyz(set.rotation, (void *)boss6_rock_set_rotation);
         e = boss6_rock_kind_params;
         e += kind_index;
-        set.params[0] = 2;
-        set.params[1] = 0;
+        set.set_params[0] = 2;
+        set.set_params[1] = 0;
         set.scale.z = e->width;
         set.scale.x = e->width;
         set.scale.y = e->height;

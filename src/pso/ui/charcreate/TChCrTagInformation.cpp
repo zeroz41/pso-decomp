@@ -97,3 +97,6 @@ TChCrTagInformation *TChCrTagInformation::create(s32 index) {
 
 TChCrTagInformation *TChCrTagInformation::create_default() { return TChCrTagInformation::create(0); }
 
+int TChCrCharSelect::get_selected_char() {  return TChCrCharSelect::selected_char_index; }
+
+int TChCrCharSelect::get_instance() {  return TChCrCharSelect::selected_slot_index; }

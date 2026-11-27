@@ -30,12 +30,12 @@ const char *TObjEneDD_ST::name = "TObjEneDD_ST";
 
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/network/TLobby.h"
 extern const f32 enemy_gravity_accel = -0.1f;
 extern const f32 view_detail_far_depth = 310.0f;
 extern const f32 view_detail_near_depth = 155.0f;
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/ambient/TObjLight.h"
 
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -95,6 +95,7 @@ TargetCandidate enemy_target_candidate_table[4];
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/LocalClientId.h"
+#include "pso/player/PhotonBlastResults.h"
 
 
 s32 tick_period_counter(TObjEnemy *enemy, s32 *counter, s32 limit) {
@@ -135,11 +136,11 @@ TObjEneDD::TObjEneDD(TObject *parent) : TObjEnemy(parent) {
 TObjEneDD::~TObjEneDD() {}
 
 void TObjEneDD::init_position_vectors() {
-    VecCopy(&this->prev_position, (const Vec *)&this->position);
-    VecCopy(&this->home_position, (const Vec *)&this->position);
-    VecCopy(&this->center, (const Vec *)&this->position);
+    VecCopy(&this->prev_position, &this->position);
+    VecCopy(&this->home_position, &this->position);
+    VecCopy(&this->center, &this->position);
     register_by_id();
-    VecCopy(&this->body_center, (const Vec *)&this->position);
+    VecCopy(&this->body_center, &this->position);
     this->velocity.x = 0.0f;
     this->velocity.y = 0.0f;
     this->velocity.z = 0.0f;
@@ -221,7 +222,7 @@ BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *descriptor, co
     return load_enemy_bml_resource(&copy);
 }
 
-void TObjEneDD::apply_enemy_state(s32 *state) {
+void TObjEneDD::apply_enemy_state(EnemyStateRecord *state) {
     s16 mode;
 
     mode = this->mode;
@@ -229,7 +230,7 @@ void TObjEneDD::apply_enemy_state(s32 *state) {
     this->mode = mode;
 }
 
-void TObjEneDD::invoke_initialization_hook(void *set_data) {
+void TObjEneDD::invoke_initialization_hook(EnemyPlacement *set_data) {
     apply_set_data(set_data);
 }
 
@@ -238,9 +239,9 @@ void TObjEneDD::reset_state_fields() {
     position.x = 0.0f;
     position.y = 0.0f;
     position.z = 0.0f;
-    rotation_x = 0;
-    rotation_y = 0;
-    rotation_z = 0;
+    rotation.x = 0;
+    rotation.y = 0;
+    rotation.z = 0;
     for (i = 0; i < 5; i++) {
         parameters[i] = 0.0f;
     }
@@ -266,13 +267,13 @@ void TObjEneDD::init_common_from(TObjBase *source) {
 
 void TObjEnemy::submit_default_cursor_candidate() { submit_cursor_candidate(this, -1); }
 
-void enemy_death_stub(void *self) {  }
+void TObjEneDD::enemy_death_stub() {  }
 
-void debug_effect_hook_scaled(void *self, s32 id, f32 scale) {  }
+void TObjEneDD::debug_effect_hook_scaled(s32 id, f32 scale) {  }
 
-void debug_effect_hook(void *self, int id) {  }
+void TObjEneDD::debug_effect_hook(int id) {  }
 
-void TBoss8Dragon::noop() {  }
+void TObjEneDD::noop() {  }
 
 void TObjEneDD::clear_attack_receipts() {
     s32 i;
@@ -288,7 +289,7 @@ int TObjEneBm3Fly::was_hit_by_ranged() { return (this->hit_flags >> 1) & 0x1; }
 
 void TObjEnemy::refresh_and_send_entity_flags() { refresh_lobby_state(); send_entity_set_flags(); }
 
-u16 TObjChara::enemy_nearest_visible_player_sq(f32 range) {
+u16 TObjEneDD::enemy_nearest_visible_player_sq(f32 range) {
     f32 d;
     f32 best;
     s32 n;
@@ -312,7 +313,7 @@ u16 TObjChara::enemy_nearest_visible_player_sq(f32 range) {
 }
 
 
-u16 TObjChara::enemy_find_nearest_player_in_range(f32 range) {
+u16 TObjEneDD::enemy_find_nearest_player_in_range(f32 range) {
     return this->enemy_nearest_visible_player_sq(range * range);
 }
 
@@ -381,7 +382,7 @@ s32 TObjEneDD::collect_target_candidates(TObjEneDD *actor, f32 range) {
     return actor->collect_enemy_target_candidates(enemy_target_candidate_table, range);
 }
 
-u16 TObjChara::enemy_nearest_visible_enemy_sq(f32 range) {
+u16 TObjEneDD::enemy_nearest_visible_enemy_sq(f32 range) {
     s32 count;
     s32 base;
     TObjChara *p;
@@ -405,7 +406,7 @@ u16 TObjChara::enemy_nearest_visible_enemy_sq(f32 range) {
     return best;
 }
 
-u16 TObjChara::enemy_nearest_visible_enemy(f32 range) {
+u16 TObjEneDD::enemy_nearest_visible_enemy(f32 range) {
     return this->enemy_nearest_visible_enemy_sq(range * range);
 }
 
@@ -501,14 +502,12 @@ void TObjEneDD::calc_wall_clamped_destination(Vec *out, f32 dx, f32 dz, f32 dist
     } else {
         Vec *p;
         f32 ddx;
-        f32 px;
         f32 ddz;
         this->wall_probe_failures++;
         p = &n->contact->point;
-        px = p->x;
+        ddx = p->x - this->position.x;
         ddz = p->z - this->position.z;
-        ddx = px - this->position.x;
-        dist = ((f32 (*)(f32, f32, f32))newton_sqrtf)(ddx * ddx + ddz * ddz, px, ddz) - this->wall_reach;
+        dist = newton_sqrtf(ddx * ddx + ddz * ddz) - this->wall_reach;
     }
     out->x = dx * dist + this->position.x;
     out->y = this->position.y;
@@ -635,14 +634,14 @@ void TObjEneDD::set_part_local_pos(Vec *v, s32 i) {
     p = &bodies[i].offset;
     VecCopy(p, v);
     subtract_vector(p, &position);
-    rotate_xz_pair_by_angle(&p->x, &p->z, -rotation_y);
+    rotate_xz_pair_by_angle(&p->x, &p->z, -rotation.y);
 }
 
 void TObjEneDD::update_local_colliders_from_world(Vec *world_points) {
     s32 i;
     push_matrix();
     set_matrix_identity(0);
-    rotate_matrix_y(NULL, -this->rotation_y);
+    rotate_matrix_y(NULL, -this->rotation.y);
     translate_matrix(0, -this->position.x, -this->position.y, -this->position.z);
     for (i = 0; i < this->body_count; i++) {
         VecCopy(&this->bodies[i].center, world_points);
@@ -657,7 +656,7 @@ void TObjEneDD::set_part_position(TObjCollidable *actor, Vec *v, int i) {
     VecCopy(&actor->bodies[i].offset, v);
     p = &actor->bodies[i].center;
     VecCopy(p, v);
-    rotate_xz_pair_by_angle(&p->x, &p->z, actor->rotation_y);
+    rotate_xz_pair_by_angle(&p->x, &p->z, actor->rotation.y);
     vec3_add_to(p, &actor->position);
 }
 
@@ -666,7 +665,7 @@ void TObjEneDD::transform_part_positions() {
     push_matrix();
     set_matrix_identity(0);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     set_motion_packed_rotation();
     for (i = 0; i < this->body_count; i++) {
         matrix_mult_vec(NULL, &bodies[i].offset, &bodies[i].center);
@@ -755,9 +754,9 @@ s32 TObjBase::is_alive() {
     return (u8)alive;
 }
 
-int is_target_ranger(void* p) { return (((TObjPlayer *)p)->appearance.classFlags & CLASS_FLAG_RANGER) != 0; }
+int is_target_ranger(TObjChara *target) { return (static_cast<TObjPlayer *>(target)->appearance.classFlags & CLASS_FLAG_RANGER) != 0; }
 
-int is_target_android(void* p) { return (((TObjPlayer *)p)->appearance.classFlags & CLASS_FLAG_ANDROID) != 0; }
+int is_target_android(TObjChara *target) { return (static_cast<TObjPlayer *>(target)->appearance.classFlags & CLASS_FLAG_ANDROID) != 0; }
 
 void TObjEneDD::setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *params, AreaAttackHistory *attack_history) {
     obj_ene_dd_instance->set_owner(owner);
@@ -969,7 +968,7 @@ s32 TObjEneDD::is_phase_e() {
 
 int TObjEneDD::update_lobby_state() { return is_local_client_floor_leader(); }
 
-int TObjEneDD::query_teammate_state() { return TObjPlayer::is_any_teammate_in_state(); }
+int TObjEneDD::query_teammate_state() { return is_any_teammate_in_state(); }
 
 void project_sound_origin_from_camera(const Vec *source, Vec *out, f32 distance) {
     f32 scale;
@@ -1165,7 +1164,7 @@ s32 TObjEneDD_ST::validate_target() {
 }
 
 void TObjEneDD_ST::turn_toward_target_direction(s32 max_step) {
-    this->rotation_y = (s16) approach_angle_limited(this->rotation_y, (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), max_step);
+    this->rotation.y = (s16) approach_angle_limited(this->rotation.y, (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), max_step);
 }
 
 void TObjEneDD_ST::turn_and_calc_shot_destination(Vec *shot_pos, s32 iscale, f32 scale) {
@@ -1173,7 +1172,7 @@ void TObjEneDD_ST::turn_and_calc_shot_destination(Vec *shot_pos, s32 iscale, f32
 
     dist = scale;
     turn_toward_target_direction(iscale);
-    this->calc_shot_position(shot_pos, (f32)(sin_table_lookup(this->rotation_y)), (f32)(cos_table_lookup(this->rotation_y)), dist);
+    this->calc_shot_position(shot_pos, (f32)(sin_table_lookup(this->rotation.y)), (f32)(cos_table_lookup(this->rotation.y)), dist);
 }
 
 void TObjEneDD_ST::turn_and_calc_slide_destination(Vec *out, s32 max_step, f32 distance) {
@@ -1182,8 +1181,8 @@ void TObjEneDD_ST::turn_and_calc_slide_destination(Vec *out, s32 max_step, f32 d
 
     dist = distance;
     turn_toward_target_direction(max_step);
-    dz = cos_table_lookup(this->rotation_y);
-    calc_wall_slide_destination(out, (f32)(sin_table_lookup(this->rotation_y)), (dz), (dist));
+    dz = cos_table_lookup(this->rotation.y);
+    calc_wall_slide_destination(out, (f32)(sin_table_lookup(this->rotation.y)), (dz), (dist));
 }
 
 void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32 distance) {
@@ -1191,7 +1190,7 @@ void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32
 
     dist = distance;
     turn_toward_target_direction(max_step);
-    calc_wall_clamped_destination(out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (dist));
+    calc_wall_clamped_destination(out, (f32)(sin_table_lookup(this->rotation.y)), (f32)((f32)cos_table_lookup(this->rotation.y)), (dist));
 }
 
 CsnHit *TObjEneDD_ST::enemy_turn_and_move_shot_step(s32 iscale, f32 scale) {

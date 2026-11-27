@@ -10,9 +10,10 @@ class TAttackTraceStrip;
 
 class TObjEneShark : public TObjEneBeastBase {
 public:
-    TObjEneShark(TObject *parent, void *setData);
+    TObjEneShark(TObject *parent, EnemyPlacement *setData);
     virtual ~TObjEneShark();
-    static void *create(void *setData);
+    static void *create(EnemyPlacement *setData);
+    static void load_resources();
     static void free_resources();
     virtual void render();
     virtual void beast_update_appear();
@@ -39,5 +40,6 @@ LAYOUT_ASSERT(SharkFadeStride, sizeof(RenderFadeState) == 0x1C);
 LAYOUT_ASSERT(SharkSize, sizeof(TObjEneShark) == 0x43C);
 
 void moja_run_task_stub(void *);
+void update_particle_by_phase(NJS_OBJECT *);
 
 #endif

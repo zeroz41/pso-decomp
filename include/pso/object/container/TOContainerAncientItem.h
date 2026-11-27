@@ -5,7 +5,7 @@
 
 class TOContainerAncientItem : public TObjContainerBase {
 public:
-    TOContainerAncientItem(void *set_data);
+    TOContainerAncientItem(ObjectSetData *set_data);
     virtual ~TOContainerAncientItem();
     virtual void draw_model();
     virtual void update_state();

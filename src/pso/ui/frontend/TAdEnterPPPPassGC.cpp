@@ -1,6 +1,5 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/network/NetworkSettings.h"
@@ -119,7 +118,7 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
 }
 
 void TAdEnterPPPPassGC::open_keyboard_window(void *arg) {
-    prompt_window = TAdEnterSerialAccessGC::show_message_window(this, 3);
+    prompt_window = show_message_window(this, 3);
     callback_window = create_default_callback();
     if (select_cursor != NULL) {
         select_cursor->reset_entries();
@@ -130,10 +129,7 @@ void TAdEnterPPPPassGC::open_keyboard_window(void *arg) {
     password_entry_dispatch_state = 1;
 }
 
-void *ppp_password_buffer[8] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-};
+char ppp_password_buffer[0x20] = "";
 
 void TAdEnterPPPPassGC::run_task() {
     this->get_title_position(password_screen_status_line_position);
@@ -157,7 +153,7 @@ void TAdEnterPPPPassGC::set_password(const char *password) {
         return;
     }
     memset(ppp_password_buffer, 0, 0x20);
-    strncpy((char *)ppp_password_buffer, password, 0x1F);
+    strncpy(ppp_password_buffer, password, 0x1F);
 }
 
 TAdEnterPPPPassGC::~TAdEnterPPPPassGC() {}

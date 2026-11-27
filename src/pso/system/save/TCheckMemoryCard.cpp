@@ -383,7 +383,7 @@ TCheckMemoryCard::~TCheckMemoryCard() {
 
 TCheckMemoryCard::TCheckMemoryCard(TObject *parent, void *context, s32 main_ctrl, s32 system_only) : TObject(parent) {
     m_name = TCheckMemoryCard::class_name;
-    unk_48 = context;
+    pad_48 = context;
     system_file_only = system_only;
     use_main_ctrl = main_ctrl;
     reset();

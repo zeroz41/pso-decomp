@@ -55,7 +55,7 @@ s32 TObjMapObject::is_any_player_within_radius_xz(f32 radius_sq) {
 }
 
 void TObjMapObject::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_task_stub();
         return;
     }
@@ -70,7 +70,7 @@ void TObjMapObject::render() {
     if (detail != 0 && is_in_view_depth(30.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         if (motion != NULL) {
             if (detail == 1) {

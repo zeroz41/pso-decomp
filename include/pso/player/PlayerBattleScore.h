@@ -60,4 +60,9 @@ LAYOUT_ASSERT(PlayerSubObjectSlots_size, sizeof(PlayerSubObjectSlots) == 0x18);
 LAYOUT_ASSERT(PlayerBattleScore_kills_offset, offsetof(PlayerBattleScore, kills) == 0x8);
 LAYOUT_ASSERT(PlayerBattleScore_size, sizeof(PlayerBattleScore) == 0x70);
 
+class TObject;
+// Adds amount to the slot's raw sum and its weight-scaled amount (damage_weight) to its total.
+s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *target, s32 amount);
+f32 damage_weight(DamageStatSlot *slot, TObject *target, s32 amount);
+
 #endif

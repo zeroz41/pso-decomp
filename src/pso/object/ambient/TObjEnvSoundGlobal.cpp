@@ -1,7 +1,6 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/network/FloorEventCommand.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
@@ -14,6 +13,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 // Per-area {sound cue, mode} rows, indexed by the object's set parameter.
 const EnvSoundRow env_sound_table_pioneer2[] = {
@@ -94,7 +94,7 @@ void handle_6x67_trigger_set_event(game_command_header *command) {
     }
 }
 
-TObjEnvSound::TObjEnvSound(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjEnvSound::TObjEnvSound(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     const EnvSoundRow *table;
     m_name = env_sound_class_name;
     apply_object_set_data(set_data);
@@ -142,8 +142,8 @@ void TObjEnvSound::run_task() {
 
 void TObjEnvSound::render() {  }
 
-void *TObjEnvSound::create(void *set_data) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+void *TObjEnvSound::create(ObjectSetData *set_data) {
+    if (is_not_split_screen() == 1) {
         return NULL;
     }
     return new TObjEnvSound(tl_05, set_data);
@@ -154,7 +154,7 @@ s32 TObjEnvSound::is_within_camera_distance_sq(f32 distance_sq) {
 }
 
 s32 TObjEnvSound::is_sound_enabled(s32 cue) {
-    if (TRaderMapCore::is_not_split_screen() == 1 && get_current_floor_area() == AREA_FOREST2) {
+    if (is_not_split_screen() == 1 && get_current_floor_area() == AREA_FOREST2) {
         switch (cue) {
         case 0x43704:
         case 0x4BC05:
@@ -164,7 +164,7 @@ s32 TObjEnvSound::is_sound_enabled(s32 cue) {
     return 1;
 }
 
-TObjEnvSoundEx::TObjEnvSoundEx(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjEnvSoundEx::TObjEnvSoundEx(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = env_sound_ex_class_name;
     apply_object_set_data(set_data);
     init_sound_params();
@@ -241,14 +241,14 @@ s32 TObjEnvSoundEx::init_sound_params() {
     return ok;
 }
 
-void *TObjEnvSoundEx::create(void *set_data) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+void *TObjEnvSoundEx::create(ObjectSetData *set_data) {
+    if (is_not_split_screen() == 1) {
         return NULL;
     }
     return new TObjEnvSoundEx(tl_05, set_data);
 }
 
-TObjEnvSoundGlobal::TObjEnvSoundGlobal(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjEnvSoundGlobal::TObjEnvSoundGlobal(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = env_sound_global_class_name;
     apply_object_set_data(set_data);
     setup_sound();

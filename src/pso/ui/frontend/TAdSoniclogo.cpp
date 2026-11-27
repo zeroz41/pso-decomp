@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/TScreenFadeOut.h"
 #include "pso/system/TScreenFadeIn.h"
 #include "pso/ui/frontend/TAdADXlogo.h"
@@ -12,6 +11,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/TCharSaveSequence.h"
 
 #pragma readonly_strings on
 
@@ -50,7 +50,7 @@ TAdSoniclogo::TAdSoniclogo(TObject *parent) : TObject(parent) {
     m_wait_frames = 0;
     TAdSoniclogo::state = 0;
     TLogo::exit_requested_flag = 0;
-    TAdSinglePlyChrSelectGC::init_logo_state(1);
+    init_logo_state(1);
     new TScreenFadeIn(tl_00, request_destroy);
 }
 

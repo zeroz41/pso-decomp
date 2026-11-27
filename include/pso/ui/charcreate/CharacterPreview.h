@@ -19,12 +19,12 @@ public:
     // Nonzero once no part is still pending (completion_flags all clear).
     int is_unloaded();
 
-    s32 get_hair_model();
+    NJS_OBJECT *get_hair_model();
     NJS_TEXLIST *get_chara_making_data();
-    s32 get_head_model();
-    s32 get_attachment_model();
+    NJS_OBJECT *get_head_model();
+    NJS_OBJECT *get_attachment_model();
     NJS_TEXLIST *get_status_data();
-    saddr get_body_model();
+    NJS_OBJECT *get_body_model();
     NJS_TEXLIST *get_status_sub();
 
     TChCrLoadReq *request;
@@ -32,9 +32,9 @@ public:
     CharacterTextureLoadSet head_textures;
     CharacterTextureLoadSet other_textures;
     CharacterTextureLoadSet body_textures;
-    s32 part_models[3];  // hair, head, attachment (TChCrLoadReq fills them)
-    s32 body_model;
-    u32 completion_flags;
+    NJS_OBJECT *part_models[3];  // hair, head, attachment (TChCrLoadReq fills them)
+    NJS_OBJECT *body_model;
+    s32 completion_flags;
 };
 
 LAYOUT_ASSERT(CharacterPreview_head_textures, offsetof(CharacterPreview, head_textures) == 0x54);

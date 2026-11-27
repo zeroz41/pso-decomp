@@ -129,7 +129,7 @@ u8 *TGStream::load_file(const char *name) {
         return 0;
     }
     sectors = (size + 0x7FF) / 2048;
-    buf = (u8 *)TQuestVmDownLoadServer::alloc(sectors << 0xB);
+    buf = (u8 *)alloc(sectors << 0xB);
     if (buf == 0) {
         return 0;
     }
@@ -169,7 +169,7 @@ s32 TGStream::gsSctLoadFile(const char *name, u8 *dst) {
     }
     sectors = (size + 0x7FF) / 2048;
     if (stream.archive_entry != NULL && stream.archive_entry->decoded_size != 0) {
-        buf = (u8 *)TQuestVmDownLoadServer::alloc(((stream.archive_entry->decoded_size + 0x7FF) / 2048) << 11);
+        buf = (u8 *)alloc(((stream.archive_entry->decoded_size + 0x7FF) / 2048) << 11);
         if (buf == 0) {
             file_debug_printf("TGStream::gsSctLoadFile Malloc Failed.");
         }
@@ -229,7 +229,7 @@ void close_gsl_archive(void) {
     } else {
         n = strlen(gsl_archive_path_buffer_ptr);
         if (n > 0) {
-            change_file_extension(buf, gsl_archive_filename, (char *)"txt");
+            change_file_extension(buf, gsl_archive_filename, "txt");
             on_gsl_archive_close(buf, gsl_archive_entries, n);
         }
         gsl_archive_write_started = 0;
@@ -270,14 +270,11 @@ void open_gsl_archive(char *name) {
     }
 }
 
-void TLobby::read_data_sync(AdxfHandle *handle, s32 sector_count, void *destination) {
-    AdxfHandle *handle_addr;
-
-    handle_addr = handle;
-    ADXF_ReadNw(handle_addr, sector_count, destination);
-    set_read_params(&handle_addr, (int)sector_count, destination);
+void read_data_sync(AdxfHandle *handle, s32 sector_count, void *destination) {
+    ADXF_ReadNw(handle, sector_count, destination);
+    set_read_params(&handle, (int)sector_count, destination);
     for (;;) {
-        if (ADXF_GetStat(handle_addr) == 3) {
+        if (ADXF_GetStat(handle) == 3) {
             break;
         }
         run_frame();
@@ -333,7 +330,7 @@ s32 refill_gstream_buffer(AdxfHandle *handle) {
         if (chunk_size > 0) {
             gstream_buffer_valid_size = chunk_size;
             gstream_buffer_read_offset = 0;
-            TLobby::read_data_sync(handle, (chunk_size + 0x7FF) / 2048, gstream_tmp_buffer);
+            read_data_sync(handle, (chunk_size + 0x7FF) / 2048, gstream_tmp_buffer);
         }
     }
     return get_gstream_buffered_bytes();
@@ -364,7 +361,7 @@ TGStream::TGStream(const char *file, s32 direct_read_mode) {
         size = get_disc_file_size(file);
         gstream_file_size = size;
         if (size > 0) {
-            adxf_handle = ADXF_Open((char *)file, 0);
+            adxf_handle = ADXF_Open(file, 0);
             strncpy(name, file, 0x20);
         } else {
             gstream_file_size = 0;

@@ -5,9 +5,9 @@
 #include "pso/object/container/TOContainerAncientEnemy.h"
 
 struct TOContainerAncientEnemyCommon : public TOContainerAncientEnemy {
-    TOContainerAncientEnemyCommon(void *set_data);
+    TOContainerAncientEnemyCommon(ObjectSetData *set_data);
     virtual ~TOContainerAncientEnemyCommon();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TOContainerAncientEnemyCommon_size, sizeof(TOContainerAncientEnemyCommon) == 0x368);

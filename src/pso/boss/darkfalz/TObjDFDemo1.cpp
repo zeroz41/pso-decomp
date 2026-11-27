@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TObjDFDemo1.h"
@@ -57,7 +56,7 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     m_name = TObjDFDemo1::name;
     VecCopy(&this->pos, pos);
     this->angle = angle;
-    res = TBoss4Uro::get_instance_count();
+    res = TBoss4DarkFalz::get_dat_resource();
     for (i = 0; i < 6; i++) {
         int id = boss4_type1_model_ids[i];
         body_parts[i].model = get_bml_model(res, id);
@@ -76,7 +75,7 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     }
     activate_camera_mode(5);
     {
-        CameraAngles angles = {0, this->angle, 0};
+        Angle3 angles = {0, this->angle, 0};
         set_scripted_camera_origin(&this->pos, &this->pos, &angles);
     }
     df_demo1_camera_playback.play(0x4000);
@@ -215,7 +214,7 @@ void TObjDFDemo1::draw_zanzo_parts() {
     if (timer < 0x88) {
         alpha = (timer - 0x7C) / 12.0f;
     }
-    col = ((NJS_CNK_MODEL *)find_model_node(zanzo_parts[1].model, 0x6A)->model)->polygon_list;
+    col = find_model_node(zanzo_parts[1].model, 0x6A)->chunk_model->polygon_list;
     f = 0.0f;
     if (timer >= 0xF0) {
         f = 1.0f;
@@ -231,7 +230,7 @@ void TObjDFDemo1::draw_zanzo_parts() {
     }
     for (i = 0; i < 3; i++) {
         e = &df_demo1_node_colors[i];
-        col = ((NJS_CNK_MODEL *)find_model_node(zanzo_parts[e->part].model, e->node)->model)->polygon_list;
+        col = find_model_node(zanzo_parts[e->part].model, e->node)->chunk_model->polygon_list;
         s32 old = col[e->slot];
         col[e->slot] = (old & 0xFF) | ((s32)(255.0f * f) << 8);
     }

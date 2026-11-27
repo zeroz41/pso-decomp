@@ -32,14 +32,24 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/ui/hud/TLockOnCursor.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/ui/charcreate/PaletteCursorAction.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/DeferredPackets.h"
 
+void TWindowCtrl::clear_flag_8() {
+    if (instance != NULL) {
+        instance->flags &= ~8;
+    }
+}
+
+void TWindowCtrl::set_flag_active() {
+    if (instance != NULL) {
+        instance->flags |= 8;
+    }
+}
 
 // The class name TObject::m_name points at.
 const char *TWindowShortListCtrl::class_name = "TWindowShortListCtrl";
@@ -59,7 +69,7 @@ void TWindowMenu::update_cursor_pos() {
 s16 TWindowMenu::get_cursor_pos() { return selected_row; }
 
 void TWindowShortListCtrl::set_card_window_flags(saddr client_id, s32 page) {
-    TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(page << 0x10), (s32)0xFFFCFFFF);
+    ::set_card_window_flags(client_id, (s32)(page << 0x10), (s32)0xFFFCFFFF);
 }
 
 TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TObject(parent) {
@@ -100,7 +110,6 @@ TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TOb
 }
 
 TWindowShortListCtrl::~TWindowShortListCtrl() {
-    s32 is_com_card_window_open();
     TObjPlayer *player = get_player_by_client_id(client_id);
     if (player != NULL && TWindowCtrl::has_player_active_menu(client_id) == 0 && is_com_card_window_open() == 0) {
         player->init_parts();
@@ -394,7 +403,7 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
             if (item != NULL && item->get_item_type() == 3) {
                 s32 slot = get_tool_palette_index(item);
                 if (slot != -1) {
-                    if (canSetMenuCursorAction((PaletteCursorOverride *)&cursor->palette_override, player, 4, slot) != 0) {
+                    if (canSetMenuCursorAction(&cursor->palette_override, player, 4, slot) != 0) {
                         set_action_palette_tag_mode(&cursor->palette_override, 4);
                         set_action_palette_tag_slot(&cursor->palette_override, slot);
                         set_action_channel_active(&cursor->palette_override);
@@ -429,7 +438,7 @@ s32 TWindowShortListCtrl::is_technique_usable() {
     if (appearance == NULL) {
         return 0;
     }
-    if (TTecCtrl::is_technique_ready() != 0) {
+    if (is_technique_ready() != 0) {
         return 1;
     }
     return (appearance->classFlags >> 4) & 1;

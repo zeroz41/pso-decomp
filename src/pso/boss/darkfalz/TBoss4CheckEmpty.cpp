@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/darkfalz/TBoss4CheckEmpty.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/audio/MusicControl.h"
@@ -8,13 +7,14 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
 #pragma readonly_strings on
 
 const char *TBoss4CheckEmpty::name = "TBoss4CheckEmpty";
 void TBoss4CheckEmpty::render() {  }
 void TBoss4CheckEmpty::run_task() {
-    if (TBoss4Type2::is_active() != 0) {
+    if (TBoss4DarkFalz::has_instance() != 0) {
         queue_destruction();
         return;
     }

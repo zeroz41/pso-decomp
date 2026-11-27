@@ -34,7 +34,7 @@ void OlgaFlowPlotActionMsg::initialize() {
     header.subcommand = 0xA3;
     header.size = 5;
 }
-void TWindowCallBack::set_field_60(WindowCallback callback_function) { callback = callback_function; }
+void TWindowCallBack::set_callback(WindowCallback callback_function) { callback = callback_function; }
 
 void TWindowCallBack::render() {
     WindowDrawContext *context = draw_default_entry();
@@ -51,5 +51,5 @@ TWindowCallBack::TWindowCallBack(u8 *position, u8 *scale, WindowCallback callbac
     m_name = TWindowCallBack::class_name;
     copy_vec2(target_size, scale);
     save_position();
-    set_field_60(callback_function);
+    set_callback(callback_function);
 }

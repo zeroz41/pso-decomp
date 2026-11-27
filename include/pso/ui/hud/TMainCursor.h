@@ -13,6 +13,7 @@ class TObjCollidable;
 struct TObjPlayer;
 class TPlyDispConfigSmth;
 class LockOnNearestTarget;
+class LockOnPaletteOverride;
 
 // TMainCursor +0x24: the client id of the player whose lock-on cursor made the cursor.
 class CursorOwner {
@@ -48,8 +49,6 @@ public:
 class LockOnActionSlot;
 
 struct TMainCursor : public TObject {
-    static void free_resources();
-    static void load_resources();
     TMainCursor(TObject *parent, u16 entity_id, s32 target_id, s32 action_palette, s32 active, u16 client_id, f32 size);
     virtual ~TMainCursor();
     void set_size(f32);
@@ -72,7 +71,6 @@ struct TMainCursor : public TObject {
     void update_photon_chair();
     virtual void render();
     virtual void run_task();
-    s32 is_channel_active();
     static s32 check_visible(TPlyDispConfigSmth *palette, TObjPlayer *player, s16 type, s32 enabled);
     static NJS_OBJECT *get_cursor_model();
     TObjPlayer *get_owner_player();
@@ -88,9 +86,7 @@ struct TMainCursor : public TObject {
     u8 get_palette_slot();
     u8 get_palette_mode();
     void set_client_id(u16 id);
-    void set_palette_slot(u8 v);
-    int get_selected_entry();
-    u8 get_active();
+    void set_palette_slot(u8 slot);
     void refresh_target_marker();
     void update_chair();
     void validate_target();
@@ -108,14 +104,16 @@ s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist);
 void set_cursor_action_palette_mode(TMainCursor *cursor, u8 mode);
 void set_cursor_palette_slot(ActionPaletteTag *tag, u8 slot);
 void set_cursor_palette_mode(ActionPaletteTag *tag, u8 mode);
-u8 get_cursor_palette_mode(void *p);
+u8 get_cursor_palette_mode(LockOnActionSlot *slot);
 void set_target_part(class LockOnTargetPart *target, u16 part, s32 index, s32 flag);
-void set_cursor_slot(void *p, u8 v);
-void set_cursor_mode(void *p, u8 v);
+void set_cursor_slot(LockOnActionSlot *slot, u8 v);
+void set_cursor_mode(LockOnActionSlot *slot, u8 v);
 void load_target_cursor_models(void);
 void render_marker(TMainCursor *main_cursor);
 struct CsnHit *is_target_obstructed(class LockOnActionSlot *unused, const Vec *to, const Vec *from);
-s32 is_active_channel_matching(saddr cursor, u8 type, u8 enabled);
+s32 is_active_channel_matching(LockOnActionSlot *slot, u8 type, u8 enabled);
+s32 is_channel_active(const gc_tag *tag);
+s32 canSetMenuCursorAction(LockOnPaletteOverride *cursor, TObjPlayer *player, u8 kind, u8 parameter);
 void set_action_channel_inactive(gc_tag *tag);
 void set_action_channel_active(gc_tag *tag);
 NJS_OBJECT *get_lock_on_cursor_model(void);

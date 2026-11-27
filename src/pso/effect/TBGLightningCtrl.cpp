@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma defer_codegen on
 #pragma fp_contract on
 #pragma readonly_strings on
@@ -54,12 +53,12 @@ void TBGLightning::render() {
         dir.x = sin_table_lookup(angle);
         dir.y = -1.0f;
         dir.z = cos_table_lookup(angle);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_additive_blend();
         draw_flash(&dir);
         draw_bolt(&dir);
         set_default_alpha_blend();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -168,11 +167,11 @@ void TBGLightningCtrl::destroy_instance() {
     }
 }
 
-void *TBGLightningCtrl::create(void *set_data) {
+void *TBGLightningCtrl::create(ObjectSetData *set_data) {
     return new TBGLightningCtrl(tl_05, set_data);
 }
 
-TBGLightningCtrl::TBGLightningCtrl(TObject *parent, void *set_data) : TObjBase(parent) {
+TBGLightningCtrl::TBGLightningCtrl(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     strike_timer = 0;

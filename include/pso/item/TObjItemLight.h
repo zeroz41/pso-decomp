@@ -5,12 +5,12 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjItemLight : public TObjBase {
-    TObjItemLight(TObject *parent, void *set_data);
+    TObjItemLight(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjItemLight();
     void run_task();
     f32 m_radius;
     struct TParticleCtrl *m_particle;
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static const char *class_name;
 };
 

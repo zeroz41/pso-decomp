@@ -5,7 +5,8 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/NinjaTypes.h"
 
-// Window placement helpers shared by the menu windows.
+// Window placement helpers shared by the menu windows. get_window_layout_position is defined in
+// WindowLayoutOrder.cpp.
 const NJS_POINT2 *get_window_layout_position(s32 idx);
 
 // The y of a window id's screen position.

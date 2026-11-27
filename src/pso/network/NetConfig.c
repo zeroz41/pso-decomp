@@ -89,7 +89,7 @@ void term_dns_config(DnsResolverState *cfg) {
 
 void init_net_config(DnsResolverState *c) {
     c->next_id = 0;
-    c->f2 = 0x3F;
+    c->max_label = 0x3F;
     c->max_name = 0xFF;
     c->msg_size = 0x200;
     c->ntimeouts = 3;

@@ -4,14 +4,16 @@
 #include "types.h"
 #include "pso/object/door/TODoorBase.h"
 
+struct QuestObjectEntry;
+
 struct TObjMapCsn;
 struct BmlResource;
 
 struct TODoorJungleMain : public TODoorBase {
-    TODoorJungleMain(TObject *parent, void *set_data);
+    TODoorJungleMain(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorJungleMain();
     virtual s32 update_object_view_visibility(f32, f32);
-    virtual void apply_saved_state(s16 *, s32);
+    virtual void apply_saved_state(QuestObjectEntry *, s32);
     virtual void update_door_switch_state();
     s32 switch_count;     // how many of the three jungle switches are set
     s32 smoke_timer;      // frames the opening door has smoked; a puff every 30
@@ -20,7 +22,7 @@ struct TODoorJungleMain : public TODoorBase {
     static void load_resources();
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static const char *class_name;
     static BmlResource *bml_resource;
 };

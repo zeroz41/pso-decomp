@@ -1,5 +1,4 @@
 #pragma readonly_strings on
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/item/TItemEffHeaven.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/base/TObjChara.h"

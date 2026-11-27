@@ -1,7 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaTexture.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
@@ -18,7 +17,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/render/TextureState.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
@@ -26,7 +25,6 @@
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/task/TObject.h"
@@ -37,6 +35,7 @@
 #include "pso/system/GameModeQueries.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -92,11 +91,11 @@ void TObjWarpJungMain::render() {
         set_texture_list(warp_jung_textures);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_ginja_object(get_bml_model(warp_jung_beam_bml_resource, 0));
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(get_bml_model(warp_jung_beam_bml_resource, 1), warp_jung_beam_motion, beam_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -141,7 +140,7 @@ void TObjWarpJungMain::run_task() {
 
 TObjWarpJungMain::~TObjWarpJungMain() {}
 
-TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjWarpJungMain::TObjWarpJungMain(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = warp_jung_main_name;
     beam_frame = 0.0f;
     set_params[2] = fabs_float(set_params[2] % 2);
@@ -150,18 +149,14 @@ TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWa
         return;
     }
     warp_range = 15.0f;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
-        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
-        if (p != NULL) {
-            p = p->init(&position, 20.0f);
-        }
-        vi_config = p;
+    if (is_not_split_screen() == 1) {
+        party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
-        vi_config = NULL;
+        party_check = NULL;
     }
 }
 
-void *TObjWarpJung::create(void *set_data) {
+void *TObjWarpJung::create(ObjectSetData *set_data) {
     return new TObjWarpJung(tl_05, set_data);
 }
 
@@ -181,11 +176,11 @@ void TObjWarpJung::render() {
         TObjWarpJung::set_global_render_param();
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         TObjWarpJung::render_warp(0);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         TObjWarpJung::render_warp_effect(1, (s32)beam_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -202,7 +197,7 @@ void TObjWarpJung::run_task() {
 
 TObjWarpJung::~TObjWarpJung() {}
 
-TObjWarpJung::TObjWarpJung(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjWarpJung::TObjWarpJung(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = warp_jung_name;
     beam_frame = 0.0f;
     set_params[2] = fabs_float(set_params[2] % 2);
@@ -211,14 +206,10 @@ TObjWarpJung::TObjWarpJung(TObject *parent, void *set_data) : TObjAreaWarp(paren
         return;
     }
     warp_range = 15.0f;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
-        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
-        if (p != NULL) {
-            p = p->init(&position, 20.0f);
-        }
-        vi_config = p;
+    if (is_not_split_screen() == 1) {
+        party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
-        vi_config = NULL;
+        party_check = NULL;
     }
 }
 
@@ -286,13 +277,13 @@ void load_warp_beam_resources(void) {
     warp_jung_beam_motion = get_bml_motion(resource, 0);
     warp_jung_textures = get_bml_texlist(warp_jung_beam_bml_resource, 0);
     root = (get_bml_model(warp_jung_beam_bml_resource, 1))->child;
-    warp_jung_beam_models[0] = (GinjaModel *)root->child->model;
-    warp_jung_beam_models[1] = (GinjaModel *)root->child->sibling->model;
-    warp_jung_beam_models[2] = (GinjaModel *)root->child->sibling->sibling->model;
-    warp_jung_beam_models[3] = (GinjaModel *)root->child->sibling->sibling->sibling->model;
-    warp_jung_beam_models[4] = (GinjaModel *)root->child->sibling->sibling->sibling->sibling->model;
-    warp_jung_beam_models[5] = (GinjaModel *)root->sibling->model;
-    warp_jung_beam_uv_model = (GinjaModel *)root->sibling->sibling->sibling->model;
+    warp_jung_beam_models[0] = root->child->ginja_model;
+    warp_jung_beam_models[1] = root->child->sibling->ginja_model;
+    warp_jung_beam_models[2] = root->child->sibling->sibling->ginja_model;
+    warp_jung_beam_models[3] = root->child->sibling->sibling->sibling->ginja_model;
+    warp_jung_beam_models[4] = root->child->sibling->sibling->sibling->sibling->ginja_model;
+    warp_jung_beam_models[5] = root->sibling->ginja_model;
+    warp_jung_beam_uv_model = root->sibling->sibling->sibling->ginja_model;
     warp_jung_last_scroll_tick = 0;
     warp_jung_beam_entry_index = find_texture_entry_by_name(warp_jung_textures, "ts064_beam_aka");
     warp_jung_beam_blue_tex_entry = find_texture_entry_by_name(warp_jung_textures, "ts064_beam_ao");

@@ -10,8 +10,8 @@ struct NJS_OBJECT;
 class TAttackTraceStrip;
 
 struct TObjEneDolmOlm : public TObjEneBeastBase {
-    TObjEneDolmOlm(TObject *parent, void *set_data);
-    static void *create(void *set_data);
+    TObjEneDolmOlm(TObject *parent, EnemyPlacement *set_data);
+    static void *create(EnemyPlacement *set_data);
     virtual ~TObjEneDolmOlm();
     virtual void run_task();
     virtual void render();

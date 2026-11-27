@@ -2,7 +2,6 @@
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/enemy/EnemyTargeting.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/AreaSound.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -29,6 +28,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueBarrier.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
@@ -49,14 +49,14 @@
 #include "pso/render/TextureState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/enemy/BattleParamTables.h"
@@ -149,14 +149,14 @@ void TObjEneMe1GiGue::run_attack_action() {  }
 
 void TObjEneMe1GiGue::run_idle_action() {  }
 
-TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     m_name = me1_gi_gue_name;
     apply_set_data(set_data);
     VecCopy(&move_origin, VecCopy(&move_destination, &position));
     motion_list = gigue_resource->motions;
     variant = 0;
     add_flags_2e4(0x11);
-    state36C = ((EnemyPlacement *)set_data)->state;
+    state36C = set_data->state;
     load_params_from_table(variant);
     action_table = gigue_enemy_param_table;
     set_action_table(action_table);
@@ -174,7 +174,7 @@ TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCus
     referenceHp = hp;
     update_prev_position();
     initialize_enemy_photon_effect(this);
-    m_38c = 0;
+    pad_38c = 0;
     scale.x = 1.0f;
     moveSpeed = movementParameters->move_speed * scale.x;
     VecCopy(&home_position, &position);
@@ -247,13 +247,13 @@ void TObjEneMe1GiGue::delete_barrier() {
     }
 }
 
-void *TObjEneMe1GiGue::create(void *set_data) {
+void *TObjEneMe1GiGue::create(EnemyPlacement *set_data) {
     TObjControl *parent = new TObjControl(tl_04);
     return new TObjEneMe1GiGue(parent, set_data);
 }
 
 void TObjEneMe1GiGue::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         load_params();
         run_demo_task();
         return;
@@ -358,7 +358,7 @@ void TObjEneMe1GiGue::render() {
     if (vis == 0) {
         return;
     }
-    if (TObjPlayer::check_demo_mode() != 1 && (behavior_flags & 0x40000)) {
+    if (check_demo_mode() != 1 && (behavior_flags & 0x40000)) {
         return;
     }
     saved_model_render_flags = model_render_flags;
@@ -375,9 +375,9 @@ void TObjEneMe1GiGue::render() {
     ok = 1;
     push_matrix();
     translate_matrix(0, position.x, flightHeight + (position.y + sinkingOffset), position.z);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     model_render_flags &= ~0x400;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         draw_chunk_object(model);
     } else if (behavior_flags & 4) {
         if (appearFade.has_visible_opacity() != 0) {
@@ -408,7 +408,7 @@ void TObjEneMe1GiGue::render() {
     }
     pop_matrix();
     restore_scene_lighting();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     if (!(actorFlags & 0x800) && ok != 0) {
         Vec v;
         v.x = v.y = v.z = (1.0f - 0.01f * flightHeight) * (5.0f * scale.x);
@@ -500,7 +500,7 @@ void TObjEneMe1GiGue::update_circling_state() {
             Vec d = ((TObjBase *)target)->position;
             subtract_vector(&d, &position);
             if (d.x * d.x + d.z * d.z <= attackRange * attackRange &&
-                angle_difference_abs(-(s32)(10430.38043493439 * atan2_float(d.z, d.x)) + 0x4000, rotation_y) < attackAngle / 2) {
+                angle_difference_abs(-(s32)(10430.38043493439 * atan2_float(d.z, d.x)) + 0x4000, rotation.y) < attackAngle / 2) {
                 s32 next;
                 approachCount++;
                 if (approachCount > 2) {
@@ -514,8 +514,8 @@ void TObjEneMe1GiGue::update_circling_state() {
                 break;
             }
         }
-        rotation_y += movementParameters->turn_speed / 2;
-        enemy_set_heading_velocity(moveSpeed, this, rotation_y);
+        rotation.y += movementParameters->turn_speed / 2;
+        enemy_set_heading_velocity(moveSpeed, this, rotation.y);
         move_with_wall_slide(this);
         circlingAngle += movementParameters->turn_speed / 2;
         if (circlingAngle > 0x10000) {
@@ -586,7 +586,7 @@ void TObjEneMe1GiGue::update_missile_state() {
             if (frame >= 20.0f) {
                 capture_shot_origins();
                 if ((particle = spawn_particle_effect(&missileOrigin, 0x203)) != NULL) {
-                    GiGueShotAngles dir = {0x4000, 0, 0};
+                    Angle3 dir = {0x4000, 0, 0};
                     particle->set_direction(&dir);
                 }
                 TObjEneMe1GiGueMissile::create(this, &missileOrigin, &target->body_center, gigue_missile_speed, (f32)gigue_missile_power);
@@ -982,8 +982,8 @@ void TObjEneMe1GiGue::break_apart() {
     Vec pos;
     VecCopy(&pos, &position);
     pos.y += 40.0f + flightHeight;
-    TBoss3Volopt::create_breakup_mdl(gigue_breakup_model, NULL,
-                       texlist, &pos, rotation_y);
+    create_breakup_mdl(gigue_breakup_model, NULL,
+                       texlist, &pos, rotation.y);
     refresh_lobby_state();
     send_entity_set_flags();
     spawn_particle_effect(&pos, 0x205);
@@ -1001,15 +1001,15 @@ void TObjEneMe1GiGue::move_around_center(const Vec *center, f32 radius) {
     }
     VecCopy(&this->move_destination, &this->moveDestination);
     enemy_turn_toward_dest(this->movementParameters->turn_speed);
-    enemy_set_heading_velocity(this->moveSpeed, this, this->rotation_y);
+    enemy_set_heading_velocity(this->moveSpeed, this, this->rotation.y);
     move_with_wall_slide(this);
 }
 
 void TObjEneMe1GiGue::spawn_targeted_shot(s32 index) {
     if (find_entity_by_id(targetIds[index]) != 0) {
-        GiGueShotAngles angles;
+        Angle3 angles;
         angles.x = 0;
-        angles.y = rotation_y + ((index & 1) ? -0x2000 : 0x2000);
+        angles.y = rotation.y + ((index & 1) ? -0x2000 : 0x2000);
         angles.z = 0;
         new TObjEneMe1GiGueHomingShot(&shotOrigin, targetIds[index], &angles, index * 3,
                           random_ratio() <= get_gigue_float_parameter(5),
@@ -1154,7 +1154,7 @@ void TObjEneMe1GiGue::add_target_in_cone(TObjChara *target) {
         subtract_vector(&v, &this->position);
         if (!(v.x * v.x + v.z * v.z > this->attackRange * this->attackRange)) {
             angle = -(s32)(10430.38043493439 * atan2_float(v.z, v.x)) + 0x4000;
-            if (angle_difference_abs(angle, this->rotation_y) <= this->attackAngle / 2) {
+            if (angle_difference_abs(angle, this->rotation.y) <= this->attackAngle / 2) {
                 this->targetIds[this->targetCount++] = target->get_entity_id();
             }
         }
@@ -1174,7 +1174,7 @@ s32 TObjEneMe1GiGue::collect_shot_targets() {
 void TObjEneMe1GiGue::capture_shot_origins() {
     push_matrix_from(&identity_matrix);
     translate_matrix(0, position.x, flightHeight + (position.y + sinkingOffset), position.z);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     set_motion_packed_rotation();
     calc_joint_matrices(frame);
     clear_motion_packed_rotation();
@@ -1279,7 +1279,7 @@ Vec *TObjEneMe1GiGue::update_and_get_pos() {
     return &rootPosition;
 }
 
-s32 TObjEneMe1GiGue::get_rotation_y() { return rotation_y; }
+s32 TObjEneMe1GiGue::get_rotation_y() { return rotation.y; }
 
 s32 TObjEneMe1GiGue::get_barrier_duration() { return barrierDuration; }
 

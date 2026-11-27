@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
@@ -112,14 +111,13 @@ void TTecPlayerInfluence::deliver_technique_to_party_targets() {
         list = find_support_technique_contact_for_target(source);
     }
     for (i = 0; i < list->count; i++) {
-        if (TObjPlayer::is_valid_and_active(list->actors[i]) != 0) {
+        if (TObjCollidable::is_valid_and_active(list->actors[i]) != 0) {
             apply_to_player((TObjPlayer *)list->actors[i]);
         }
     }
 }
 
 const s32 support_tec_range_effect_id_table[4] = {493, 505, 506, 507};
-const SupportEffectParticles lbl_8044D908 = {{NULL, NULL, NULL}};
 void TTecPlayerInfluence::spawn_support_tec_range_effect() {
     s16 kind;
     Vec pos;
@@ -140,7 +138,7 @@ void TTecPlayerInfluence::spawn_support_tec_range_effect() {
     }
     {
         VecCopy(&pos, &player->position);
-        switch (params.pad_16) {
+        switch (params.effect_kind) {
         case 8:
             break;
         case 6:
@@ -158,7 +156,7 @@ void TTecPlayerInfluence::spawn_support_tec_range_effect() {
         }
         distanceBand = TTecCtrl::classify_distance_band(kind, level, sourceId);
         {
-            SupportEffectParticles fx = lbl_8044D908;
+            SupportEffectParticles fx = {{NULL, NULL, NULL}};
             fx.w[0] = spawn_particle_effect(&pos, support_tec_range_effect_id_table[distanceBand]);
             if (distanceBand == 3) {
                 fx.w[1] = spawn_particle_effect(&pos, 0x1F2);

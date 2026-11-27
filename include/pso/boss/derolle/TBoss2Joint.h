@@ -51,7 +51,7 @@ struct TBoss2Joint : public TObjEneDD {
     TBoss2JointMaterial *body_material;  // from TBoss2DeRolLe's derolle_segment_joint_node_offsets
     TBoss2JointMaterial *rim_material;   // from TBoss2DeRolLe's boss2_derolle_segment_color_targets
     u32 color;           // packed ARGB that apply_flash_color writes into the materials
-    f32 unk_3a4;
+    f32 pad_3a4;
     f32 flash;           // flash_color's weight, fading by 0.05 per frame
     NJS_ARGB flash_color;
     static const char *name;

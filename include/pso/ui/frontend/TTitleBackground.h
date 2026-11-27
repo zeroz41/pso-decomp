@@ -41,4 +41,6 @@ struct TitleQuad {
     u8 pad_38[0x8];
 };
 
+void set_global_flags(s32 global_flags);
+
 #endif

@@ -33,6 +33,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/quest/QuestFloorDesignation.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 // One monument model per area: Cave 1 (default), Cave 2 and Mine 2.
 const char *bm_fs_obj_o_monument01_model_names[] = {"fs_obj_o_monument01.gj", NULL};
@@ -58,8 +60,8 @@ BmlResource *monument_ancient02_bml_resource;
 
 // Restores the saved state: 2 (activated) replays its main-phase step. Once
 // all three tablets' flags (0x2C-0x2E) are set, phase 0x2F runs.
-void TOMonumentAncient02::apply_saved_state(s16 *state, s32) {
-    object_state = *state;
+void TOMonumentAncient02::apply_saved_state(QuestObjectEntry *state, s32) {
+    object_state = state->flags;
     switch (object_state) {
     case 2:
         set_story_flag_or_send_quest_flag(story_flag);
@@ -79,7 +81,7 @@ void TOMonumentAncient02::apply_saved_state(s16 *state, s32) {
 }
 
 void TOMonumentAncient02::interact(u16 client) {
-    s16 state;
+    QuestObjectEntry state;
     TObjPlayer *player;
     switch (object_state) {
     case 1:
@@ -88,7 +90,7 @@ void TOMonumentAncient02::interact(u16 client) {
             object_state = 2;
             player->start_camera_pan(0xC, calc_angle_to(&player->position, &position));
             if (access_object_saved_state(&state, 1) != 0) {
-                state = object_state;
+                state.flags = object_state;
                 access_object_saved_state(&state, 0);
                 send_object_state_update(&state);
             }
@@ -107,7 +109,7 @@ void TOMonumentAncient02::run_task() {
         }
         return;
     case 1:
-        if ((TRaderMapCore::is_not_split_screen() != 1) && (in_view == 1)) {
+        if ((is_not_split_screen() != 1) && (in_view == 1)) {
             submit_cursor_candidate(this, -1);
         }
         if (effect != NULL) {
@@ -132,7 +134,7 @@ void TOMonumentAncient02::render() {
             post_translate_matrix(&scale.x);
         }
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(texlist);
         node = model;
         post_translate_matrix(node->pos);
@@ -154,21 +156,21 @@ void TOMonumentAncient02::render() {
             node = node->child;
             push_matrix();
             translate_matrix(0, node->pos[0], node->pos[1], node->pos[2]);
-            TParticleCtrl::begin_effect_render();
+            begin_effect_render();
             saved_model_render_flags = model_render_flags;
             model_render_flags |= 0x20;
             set_constant_material(&light_color);
             draw_ginja_model(node->model);
             set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             pop_matrix();
         }
         pop_matrix();
     }
 }
 
-void *TOMonumentAncient02::create(void *set_data) {
+void *TOMonumentAncient02::create(ObjectSetData *set_data) {
     return new TOMonumentAncient02(tl_05, set_data);
 }
 
@@ -203,7 +205,7 @@ TOMonumentAncient02::~TOMonumentAncient02() {
     free_collision_body_parts(this);
 }
 
-TOMonumentAncient02::TOMonumentAncient02(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TOMonumentAncient02::TOMonumentAncient02(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     s32 area;
     m_name = monument_ancient02_class_name;
     apply_object_set_data(set_data);

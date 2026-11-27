@@ -14,7 +14,7 @@ BmlResourceDescriptor bm_n_eom_i_body_resource_descriptor = { "bm_n_eom_i_body.b
 const char *TObjNpcMaleOld::name = "TObjNpcMaleOld";
 BmlResource *TObjNpcMaleOld::shared_model_resource;
 
-void *TObjNpcMaleOld::create(void *set_data) {
+void *TObjNpcMaleOld::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcMaleOld(control, set_data);
 }
@@ -33,7 +33,7 @@ void TObjNpcMaleOld::load_resource_instance() {
 
 TObjNpcMaleOld::~TObjNpcMaleOld() {}
 
-TObjNpcMaleOld::TObjNpcMaleOld(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+TObjNpcMaleOld::TObjNpcMaleOld(TObject *parent, EnemyPlacement *set_data) : TObjNpcMale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

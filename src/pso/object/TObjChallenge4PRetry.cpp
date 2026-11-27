@@ -1,5 +1,4 @@
 #include "pso/system/SoundEffect.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/object/TObjChallenge4PRetry.h"
 #include "pso/quest/challenge/TChallenge4P.h"
@@ -21,7 +20,6 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/map/FloorArea.h"
-#include "pso/ui/window/WindowMenuFactory.h"
 
 #include "types.h"
 
@@ -38,11 +36,12 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/map/area/AreaScene.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/audio/SoundPlayback.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 void update_floor_state_deferred() { refresh_render_state(); stop_audio_streams(); unload_current_floor_resources(); update_current_floor(); TLobby::clear_session_buffers(); }
 
@@ -66,7 +65,7 @@ s32 init_jungle_area(void) {
     } else {
         init_music_sequencer(5);
     }
-    if ((TRaderMapCore::is_not_split_screen() == 0) && (((s32)get_current_floor_area()) == AREA_CENTRAL_CONTROL_AREA)) {
+    if ((is_not_split_screen() == 0) && (((s32)get_current_floor_area()) == AREA_CENTRAL_CONTROL_AREA)) {
         TObjMistCtrl::create(tl_05, NULL);
     }
     return 1;

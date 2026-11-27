@@ -19,4 +19,4 @@ s32 get_display_copy_filter(void) {  return display_copy_filter_enabled; }
 
 void reset_display_copy_filter(void) { display_copy_filter_enabled = 1; }
 
-void TObjBoss2Tunnel::enable_and_trigger() { display_copy_filter_enabled = 1; set_display_copy_filter(1); }
+void enable_display_copy_filter(void) { display_copy_filter_enabled = 1; set_display_copy_filter(1); }

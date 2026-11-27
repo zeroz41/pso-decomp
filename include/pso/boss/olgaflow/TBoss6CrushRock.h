@@ -2,12 +2,14 @@
 #define PSO_BOSS_OLGAFLOW_TBOSS6CRUSHROCK_H
 
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include <stddef.h>
 
 struct NJS_TEXLIST;
+struct NJS_OBJECT;
 
 class TBoss6CrushRock : public TObject {
 public:
@@ -17,13 +19,12 @@ public:
     virtual void render();
     static s32 is_falz_alive();
 
-    struct Angles { s32 x, y, z; };
     NJS_OBJECT *model;
     NJS_TEXLIST *texture_list;
     Vec position;
     Vec velocity;
-    Angles angles;
-    Angles angular_velocity;
+    Angle3 angles;
+    Angle3 angular_velocity;
     static const char *name;
     static const char class_name_string[];
 };

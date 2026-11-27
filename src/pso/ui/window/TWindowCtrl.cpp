@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
@@ -8,7 +7,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/network/protocol/choice_search.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TProtocol.h"
 #include "pso/player/TPlyDispData.h"
@@ -35,13 +34,11 @@
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
-#include "pso/ui/chat/TWindowSubShortMailActiveChecks.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowPartyStatus.h"
@@ -49,14 +46,11 @@
 #include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/ui/chat/ChatLogLines.h"
-#include "pso/ui/chat/ChatLogHeap.h"
 #include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/network/TradeProposalCmd.h"
 
 TWindowCtrl *TWindowCtrl::instance;
@@ -89,7 +83,7 @@ LAYOUT_ASSERT(WindowCtrlChildOffset, offsetof(TWindowCtrl, com_card_window) == 0
 
 s32 TWindowSimpleStatus::get_width() { return this->client_index; }
 
-s16 TWindowFukidasi::get_field_20() { return this->client_index; }
+s16 TWindowFukidasi::get_client_index() { return this->client_index; }
 
 s32 TWindowCtrlPlayer::is_suppressed() { return this->flags & 0x1; }
 
@@ -223,7 +217,7 @@ void TWindowChat::clear_flag1e_bit8() { flags &= 0xfffffff7; }
 
 void TWindowChat::set_flag1e_bit8() { flags |= 0x8; }
 
-int TWindowCtrl::is_flag_2_set() { return this->m_flags & 0x4; }
+int TObject::is_update_suspended() { return m_flags & SUSPEND_UPDATE; }
 
 void TWindowCtrl::close() {
     window_ctrl_close_stub();
@@ -391,7 +385,7 @@ void TWindowCtrl::update_party_status_rows() {
     y = get_window_layout_y(0xAB);
     for (i = 0; i < 3; i++) {
         w = simple_status[i];
-        if (w != NULL && ((TWindowCtrl *)w)->is_flag_2_set() == 0) {
+        if (w != NULL && w->is_update_suspended() == 0) {
             pl = get_player_by_client_id(w->get_width());
             if (pl == NULL || TWindowCtrl::has_player_active_menu(local_client_id) != 0 ||
                 TWindowCtrl::is_slot_visible(local_client_id) != 0 || is_flag_bit2_set() != 0 ||
@@ -546,28 +540,28 @@ void TWindowCtrl::update_pulse_color() {
 
 
 
-saddr get_party_member_name(s32 n) {
+const char *get_party_member_name(s32 n) {
     s32 i;
     TWindowSimpleStatus *status;
     TObjPlayer *player;
 
     if (TWindowCtrl::instance == NULL) {
-        return 0;
+        return NULL;
     }
     if (get_current_floor_area() == AREA_LOBBY) {
-        return 0;
+        return NULL;
     }
     for (i = 0; i < 3; i++) {
         status = TWindowCtrl::instance->simple_status[i];
         if (status != NULL && status->is_open_and_unblocked() != 0 && n-- == 0) {
             player = get_player_by_client_id(status->get_width());
             if (player == NULL) {
-                return 0;
+                return NULL;
             }
-            return (saddr)player->get_name();
+            return player->get_name();
         }
     }
-    return 0;
+    return NULL;
 }
 
 
@@ -735,7 +729,7 @@ s8 TWindowFukidasi::alloc_nearest_free_slot() {
     cy = (0.5f * frame_size[1]) + frame_position[1];
     do {
         if (!(TWindowCtrl::instance->flags & mask)) {
-            m = TWindowCtrl::get_message_by_type((s8)i, get_field_20());
+            m = TWindowCtrl::get_message_by_type((s8)i, get_client_index());
             if (m != NULL) {
                 dx = cx - m->x;
                 dy = cy - m->y;
@@ -941,7 +935,7 @@ void TWindowCtrl::handle_recv_chat(TPlyGuildCardTag &tag, char *message) {
     char *v;
     TObjPlayer *p;
     if (TWindowCtrl::instance != NULL) {
-        v = TWindowCtrl::skip_name_prefix(TWindowCtrl::instance, message);
+        v = TWindowCtrl::instance->skip_name_prefix(message);
         key = tag.m_guildcard_number;
         for (i = 0; i < 12; i++) {
             p = get_player_by_client_id(i);
@@ -1116,7 +1110,7 @@ void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, char **name) {
 
 
 
-char *TWindowCtrl::skip_name_prefix(void *self, char *s) {
+char *TWindowCtrl::skip_name_prefix(char *s) {
     char *p;
     for (p = s; *p != '\0'; p++) {
         if (*p == '\t') break;
@@ -1258,11 +1252,11 @@ void TWindowCtrl::start_client_countdown(s32 client_id) {
 
 
 
-bool is_com_card_window_open(void) {
+s32 is_com_card_window_open(void) {
     if (TWindowCtrl::instance == NULL) {
-        return 0;
+        return FALSE;
     }
-    return TWindowCtrl::instance->com_card_window != 0;
+    return TWindowCtrl::instance->com_card_window != NULL ? TRUE : FALSE;
 }
 
 

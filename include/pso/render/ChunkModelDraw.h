@@ -66,7 +66,7 @@ void init_chunk_draw(ChunkCachedVertex *vertex_buffer, s32 vertex_buffer_size);
 void apply_chunk_texture_command(s32 header, s32 texture_word);
 void draw_chunk_model(void *model);
 extern "C" {
-void draw_chunk_object(void *child);
+void draw_chunk_object(NJS_OBJECT *child);
 }
 void set_chunk_alpha_compare_ref(u8 ref);
 void set_chunk_blend(u32 x);

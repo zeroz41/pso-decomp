@@ -15,7 +15,7 @@
 #include "pso/object/TObjSinBoard.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/GinjaTexture.h"
@@ -28,6 +28,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MemoryMove.h"
 #include "pso/system/MallocLoadFilePrc.h"
+#include "pso/ui/frontend/CardFileAccess.h"
 
 // The lobby signboard: a textured quad showing the picture load_memcard_file reads from memory card file PSO______099.
 
@@ -63,7 +64,7 @@ void load_memcard_file(void) {
         return;
     }
     while (1) {
-        slot = find_card_file_channel((void *)memcard_file_099_name);
+        slot = find_card_file_channel(memcard_file_099_name);
         if (slot != -2) {
             break;
         }
@@ -78,12 +79,12 @@ void load_memcard_file(void) {
     if (r != 0) {
         return;
     }
-    buf = TQuestVmDownLoadServer::alloc(stat.blocks << 13);
+    buf = alloc(stat.blocks << 13);
     if (buf == 0) {
         return;
     }
     memset(buf, 0, stat.blocks << 13);
-    TAdSinglePlyChrSelectGC::load_player_slot(slot, memcard_file_099_name, buf);
+    read_card_file(slot, memcard_file_099_name, buf);
     while (poll_memcard_result(slot) != 0) {
         run_frame();
     }
@@ -97,7 +98,7 @@ void load_memcard_file(void) {
 
 void load_midi_stub(void) {}
 
-void TLobby::free_global_buffer() {
+void free_global_buffer() {
     if (sin_board_texture_buffer != 0) {
         safe_free(sin_board_texture_buffer);
         sin_board_texture_buffer = 0;
@@ -110,7 +111,7 @@ void TLobby::free_global_buffer() {
 void clear_signboard_texture_buffer_pointer(void) { sin_board_texture_buffer = 0; }
 
 void load_sin_board_image(const void *image, u32 size) {
-    void *buffer = TQuestVmDownLoadServer::alloc(size);
+    void *buffer = alloc(size);
     sin_board_texture_buffer = buffer;
     if (buffer != NULL) {
         move_data(buffer, image, size);
@@ -145,16 +146,16 @@ void TObjSinBoard::render() {
         set_default_alpha_blend();
         set_texture_list(&signboard_texture_list);
         set_texture_num(0);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         push_matrix();
         translate_matrix(0, position.x, position.y, position.z);
-        rotate_matrix_z(0, rotation_z);
-        rotate_matrix_x(0, rotation_x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_z(0, rotation.z);
+        rotate_matrix_x(0, rotation.x);
+        rotate_matrix_y(0, rotation.y);
         scale_matrix(0, scale.x, scale.y, scale.z);
         draw_tri_fan_3d(&fan, 4, 0xE);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -164,11 +165,11 @@ const char *memcard_file_099_name = "PSO______099";
 
 TObjSinBoard::~TObjSinBoard() {}
 
-TObjSinBoard::TObjSinBoard(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjSinBoard::TObjSinBoard(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = sin_board_class_name;
     apply_object_set_data(set_data);
 }
 
-void *TObjSinBoard::create(void *set_data) {
+void *TObjSinBoard::create(ObjectSetData *set_data) {
     return new TObjSinBoard(tl_05, set_data);
 }

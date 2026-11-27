@@ -10,7 +10,7 @@ struct NJS_OBJECT;
 
 struct TObjAreaWarpForest : public TObjAreaWarp {
     static const char *class_name;
-    TObjAreaWarpForest(TObject *parent, void *set_data);
+    TObjAreaWarpForest(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjAreaWarpForest();
     virtual void confirm_area_transfer(TObjPlayer *player);
     virtual void debug_print_area_num();
@@ -22,7 +22,7 @@ struct TObjAreaWarpForest : public TObjAreaWarp {
     NJS_OBJECT *beam_model;                // model 1, fs_obj_warp_beam.gj
     NJS_MOTION *beam_motion;  // motion 0, fs_obj_warp_beam.njm
     NJS_TEXLIST *textures;                  // get_forest_warp_textures(), fs_obj_warp.gvm
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjAreaWarpForest_size, sizeof(TObjAreaWarpForest) == 0xDC);

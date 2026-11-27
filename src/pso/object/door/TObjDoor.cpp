@@ -5,14 +5,13 @@
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/object/door/TObjDoor.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/NinjaTypes.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
@@ -68,7 +67,7 @@ s32 door_masterkey_on;
 
 #pragma push
 #pragma fp_contract on
-void *TObjDoorJung::create(void *set_data) {
+void *TObjDoorJung::create(ObjectSetData *set_data) {
     return new TObjDoorJung(tl_05, set_data);
 }
 
@@ -86,7 +85,7 @@ void TObjDoor::load_resources() {
 }
 
 void TObjDoor::free_resources() {
-    TObjPlayer::free_if_valid(resource_param);
+    free_if_valid(resource_param);
     resource_param = NULL;
     if (door_resource_handle != NULL) {
         delete door_resource_handle;
@@ -94,11 +93,11 @@ void TObjDoor::free_resources() {
     }
 }
 
-void *TObjDoor::create(void *set_data) {
+void *TObjDoor::create(ObjectSetData *set_data) {
     return new TObjDoor(tl_05, set_data);
 }
 
-TObjDoor::TObjDoor(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjDoor::TObjDoor(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     this->m_name = name;
     apply_object_set_data(set_data);
     this->state = 0;
@@ -141,9 +140,9 @@ void TObjDoor::run_task() {
     }
     (this->*update_fns[this->state])();
     if (this->state == 0) {
-        minimap_render_gate(&this->position, 0xFFFF0000, this->rotation_y, 0, 0);
+        minimap_render_gate(&this->position, 0xFFFF0000, this->rotation.y, 0, 0);
     } else {
-        minimap_render_gate(&this->position, 0xFF00FF00, this->rotation_y, 0, 0);
+        minimap_render_gate(&this->position, 0xFF00FF00, this->rotation.y, 0, 0);
     }
     if (door_masterkey_on != 0) {
         this->state = saved;
@@ -276,9 +275,9 @@ void TObjDoor::draw_locked() {
     set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_ginja_object(model_resource_ptrs.body);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     draw_ginja_model_with_motion(model_resource_ptrs.laser, motion_table[1], this->accentFrame);
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
@@ -295,7 +294,7 @@ void TObjDoor::draw_locked() {
     set_ginja_model_texture_slot(g2->signal_back->model, 0xB);
     draw_ginja_object(g1->signal_front);
     draw_ginja_object(g2->signal_back);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -311,9 +310,9 @@ void TObjDoor::draw_closed() {
     set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_ginja_object(model_resource_ptrs.body);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     NJS_ARGB color = label_color_table[this->label];
@@ -329,7 +328,7 @@ void TObjDoor::draw_closed() {
     set_ginja_model_texture_slot(g2->signal_back->model, 0xA);
     draw_ginja_object(g1->signal_front);
     draw_ginja_object(g2->signal_back);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -337,16 +336,16 @@ void TObjDoor::draw_closing() {
     set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_ginja_model_with_motion(model_resource_ptrs.body, motion_table[0], this->frame);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     DoorModelSet *g1 = &model_resource_ptrs;
     set_ginja_model_texture_slot(g1->signal_front->model, 0xA);
     DoorModelSet *g2 = &model_resource_ptrs;
     set_ginja_model_texture_slot(g2->signal_back->model, 0xA);
     draw_ginja_object(g1->signal_front);
     draw_ginja_object(g2->signal_back);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -354,9 +353,9 @@ void TObjDoor::draw_opening() {
     set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_ginja_model_with_motion(model_resource_ptrs.body, motion_table[0], this->frame);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     NJS_ARGB color = label_color_table[this->label];
@@ -372,7 +371,7 @@ void TObjDoor::draw_opening() {
     set_ginja_model_texture_slot(g2->signal_back->model, 0xA);
     draw_ginja_object(g1->signal_front);
     draw_ginja_object(g2->signal_back);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -380,16 +379,16 @@ void TObjDoor::draw_model() {
     set_texture_list(resource_param);
     push_matrix();
     post_translate_matrix(&this->position.x);
-    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_y(0, this->rotation.y);
     draw_ginja_model_with_motion(model_resource_ptrs.body, motion_table[0], this->frame);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     DoorModelSet *g1 = &model_resource_ptrs;
     set_ginja_model_texture_slot(g1->signal_front->model, 0xA);
     DoorModelSet *g2 = &model_resource_ptrs;
     set_ginja_model_texture_slot(g2->signal_back->model, 0xA);
     draw_ginja_object(g1->signal_front);
     draw_ginja_object(g2->signal_back);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 

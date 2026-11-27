@@ -17,7 +17,7 @@ struct Boss7CrawfishParams {
 };
 
 struct TBoss7Crawfish : public TObjEnemy {
-    TBoss7Crawfish(TObject *parent, void *set);
+    TBoss7Crawfish(TObject *parent, EnemyPlacement *set);
     virtual ~TBoss7Crawfish();
     s32 is_small_variant();
     s32 is_visible();

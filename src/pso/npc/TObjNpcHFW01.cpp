@@ -20,7 +20,7 @@ const char *TObjNpcHFW01::name = "TObjNpcHFW01";
 NJS_OBJECT **TObjNpcHFW01::resource_node;
 NJS_TEXLIST *TObjNpcHFW01::texture_handle;
 
-void *TObjNpcHFW01::create(void *set_data) {
+void *TObjNpcHFW01::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcHFW01(control, set_data);
 }
@@ -44,7 +44,7 @@ void TObjNpcHFW01::load_resources() {
 
 TObjNpcHFW01::~TObjNpcHFW01() {}
 
-TObjNpcHFW01::TObjNpcHFW01(TObject *parent, void *set_data) : TObjNpcFomarl(parent) {
+TObjNpcHFW01::TObjNpcHFW01(TObject *parent, EnemyPlacement *set_data) : TObjNpcFomarl(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

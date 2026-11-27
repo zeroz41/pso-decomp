@@ -66,7 +66,7 @@ public:
     f32 frame_size[2];
     u32 tween_ticks;
     f32 draw_depth;
-    f32 m_58;
+    f32 display_age;  // grows 0.1 a tick while a timed chat balloon shows; the older of two overlapping balloons hides
     s32 open_tick;
 };
 
@@ -86,7 +86,7 @@ LAYOUT_ASSERT(WindowOpenTickOffset, offsetof(TWindowBase, open_tick) == 0x5C);
 
 struct TWindowSubComCard;
 class TWindowFukidasi;
-BOOL scanline_crosses_window(void *ctx, void *position, void *size);
+BOOL scanline_crosses_window(void *ctx, f32 *position, f32 *size);
 void hide_window(TWindowBase *window);
 int get_area_total(void);
 void draw_selection_bar(WindowDrawContext *context, TWindowLayoutRect *entry, s32 active);
@@ -97,6 +97,8 @@ void draw_window_sweep_strip(TexturedQuad *quad, WindowDrawContext *context);
 void end_window_sweep_draw(s32 texture);
 void draw_window_scanlines(TWindowBase *window, WindowDrawContext *context);
 bool is_balloon_overlapping(u8 *balloon, u8 *position, u8 *size);
+void update_window_scanline(void);
+void update_com_card();
 
 struct NJS_TEXLIST;
 // The HUD palette and glyph texture list loaded for the window system.

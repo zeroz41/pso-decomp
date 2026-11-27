@@ -18,9 +18,10 @@ struct TChallenge4P : public TObject {
     void update_active();
 
     s32 frame_count;
-    s32 pad_20;
-    s32 pad_24;
-    s32 pad_28;
+    // TChallenge's record-sync fields, set up the same way; the split-screen task never reads them.
+    s32 missing_records_timer;
+    s32 records_save_pending;
+    s32 quest_send_timer;
 };
 
 LAYOUT_ASSERT(TChallenge4P_size, sizeof(TChallenge4P) == 0x2C);
@@ -56,12 +57,9 @@ struct RebuildPlayersForStageHdr { u32 w[2]; };
 
 struct RebuildPlayersForStageInfo { u8 pad0[0x31]; u8 cls; u8 pad32[2]; u32 flags; u8 pad38[0x50 - 0x38]; };
 
-struct ByteBlock_690 { u8 bytes[0x690]; };
-
 s32 calc_min_challenge_progress();
 s32 check_ready_status();
 void clamp_and_store_layout_index(s32 stage);
-void copy_global_value_block();
 void destroy_tombstone();
 void draw_if_ready2();
 s32 get_normalized_mode();
@@ -79,5 +77,6 @@ void update_screen();
 void set_split_screen_name(const char *name);
 
 s32 get_challenge_mode_flag();
+void destroy_global();
 
 #endif

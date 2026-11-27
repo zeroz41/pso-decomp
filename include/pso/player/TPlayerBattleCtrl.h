@@ -6,6 +6,7 @@
 #include "pso/player/BattleRanking.h"
 
 struct TWindowMessage;
+struct BattleRules;
 struct G_SetBattleModeData_6x7D;
 struct G_BattleScores_6x7F;
 struct TWindowMenu;
@@ -49,7 +50,7 @@ public:
     s32 state_1c;
     s32 state_20;
     s32 state_24;
-    s32 unk_28;
+    s32 pad_28;
     s32 timer;
     s64 start_time;
     s32 time_left;
@@ -82,9 +83,7 @@ LAYOUT_ASSERT(TPlayerBattleCtrl_timed_event_state_offset, offsetof(TPlayerBattle
 LAYOUT_ASSERT(TPlayerBattleCtrl_size, sizeof(TPlayerBattleCtrl) == 0x278);
 
 
-extern "C" {
-u8 is_battle_mode_running(void);
-}
+s32 is_battle_mode_running(void);
 s32 get_ranked_battle_ctrl_value(void);
 s32 is_duel_ranking_empty(void);
 // Fade-in callback: sends the controller back to its first state for the next round.
@@ -100,7 +99,7 @@ void record_local_battle_placement(void *battle_ctrl);
 void send_6x7D_set_battle_mode_data(void *battle_ctrl);
 // Battle-mode setup run outside any battle controller.
 void init_char_slots(void);
-void init_battle_ctrl(s32 config, saddr src);
+void init_battle_ctrl(BattleRules *config, saddr src);
 void init_and_set_flag(void);
 void finish_chr_select_scene_init(void);
 void send_battle_mode_params(s8 command, s32 value, s32 extra);
@@ -118,6 +117,10 @@ extern BattleRanking duel_result_table[4];
 void play_duel_result_stream(const char *file, saddr duration);
 
 extern s32 battle_ctrl_default_value;
+
+// The 12 saved character slots (init_char_slots); a battle copies each player into its slot and recreates
+// the players from them.
+extern struct PlayerCharDataEntry *lobby_char_slot_array;
 
 // Battle event times in seconds; start_duel_battle arms one pending event per non-zero entry.
 extern s16 battle_event_second_table[8];

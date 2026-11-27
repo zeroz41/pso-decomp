@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/TGameProtocol.h"
@@ -11,7 +10,7 @@
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
@@ -24,7 +23,7 @@
 #include "pso/ui/frontend/TAdGameStartBackGC.h"
 #include "pso/ui/frontend/TAdGameStartLineGC.h"
 #include "pso/ui/frontend/TAdGameStartShineGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 extern const char *ad_game_start_name_ptr[2];
 
@@ -34,7 +33,7 @@ void TAdGameStartGC::bswap_6x92(G_Unknown_6x92 *cmd) {
     bswap_32(&cmd->client_id);
     bswap_32((u32 *)&cmd->value);
 }
-void TAdGameStartGC::send_6x92(G_Unknown_6x92 *p) { bswap_6x92(p); send_subcommand((u8 *)p); }
+void TAdGameStartGC::send_6x92(G_Unknown_6x92 *cmd) { bswap_6x92(cmd); send_subcommand((u8 *)cmd); }
 void TAdGameStartGC::init_6x92(G_Unknown_6x92 *p) {
     p->header.subcommand = 0x92;
     p->header.size = 3;
@@ -150,7 +149,7 @@ TAdGameStartGC::TAdGameStartGC(TObject *parent) : TObject(parent) {
     }
 }
 
-void TAdGameStartSubGC::destroy_instance() {
+void release_texture_f512_multiplay() {
     if (multiplay_texture_f512_handle != NULL) {
         release_texture_list(multiplay_texture_f512_handle);
         multiplay_texture_f512_handle = NULL;

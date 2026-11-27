@@ -8,13 +8,7 @@ struct NJS_SPRITE;
 struct BmlResource;
 struct AsyncFileReadRequest;
 struct EnemySetRecord;
-struct LobbyPlayerEntry {
-    u8 tag[8];
-    u32 ip_addr;
-    saddr client_id;
-    char name[16];
-    u8 char_data[0x41C];
-};
+struct TChallenge;
 class TLobbyIdleTimer;
 class TEnemyTaskList;
 template <size_t size> struct TPlyText;
@@ -24,6 +18,7 @@ struct G_ClientIDHeader;
 struct AdxfHandle;
 struct extended_game_command_header;
 struct FloorObjectSetRow;
+struct ObjectSetData;
 class GameListEntry;
 class QuestListEntry;
 template <typename T, int num_entries, int num_pad_entries> class TMenuList;
@@ -47,11 +42,11 @@ struct NJS_TEXLIST;
 class TObjPlayer;
 class TProtocol;
 class TUserAns;
-class TChallenge;
 class TWindowMenuIconLine;
 struct TWindowMessage;
 struct TPlyChallenge;
 struct TRecvInfoBoard;
+class TRecvDownload;
 struct TRecvChoiceSearchOptions;
 struct ChoiceSearchResultList;
 s32 LoadBmlExec(BmlResource *bml, const char *name);
@@ -79,14 +74,11 @@ struct TLobby : public TObject {
     static void on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int disable_udp);
     void close_window();
     static s32 get_filtered_event_theme();
-    static void load_dimedian_resources();
-    static void load_gyaranzo_resources();
-    static void load_shark_resources();
     static s32 clear_record_flags_a();
     static s32 clear_record_flags_b();
     static void free_nodes_with_id(const void *root);
     static void dispatch_by_index(s32 index);
-    static void open_scroll_text_window(saddr src);
+    static void open_scroll_text_window(const char *text);
     void render();
     static void copy_player_records(TPlyChallenge *records, s32 count);
     static s32 get_option_state();
@@ -94,17 +86,9 @@ struct TLobby : public TObject {
     static s32 get_instance();
     static void close_result_windows();
     static s32 get_game_mode();
-    static void free_char_select();
-    static void update_boss1_objects();
-    static void forward_floor_2CB44();
-    static void init_bosses();
     void collect_active_card_ids();
     static void send_status_packet();
-    static void clear_flag_on_phase_e();
-    void *alloc_download_quest(s32 size, s32 *out_size);
     // Empty free half of set_ending_callback in the scene load/free tables
-    static void clear_object_count();
-    static void reset_floor_items();
     static int get_lobby_flag();
     void process_and_dispatch_packet();
     void bswap_6xa2_fields();
@@ -112,57 +96,33 @@ struct TLobby : public TObject {
     static void clear_counters();
     static void disconnect_protocol();
     static char *init_serial_access();
-    static s32 is_tone_dialing();
 
-    static void *create_npc(void *set_data);
     static s32 is_idle();
-    static void reset_keyboard_input();
-    static void shutdown_keyboard_control();
-    static void reset_quest_state();
     static void clear_counter();
     static void clear_quest_state();
     static void reset_quest_counter();
     static void set_cleanup_flag();
     static void reset_door_state();
     static void set_flag_and_update();
-    void bswap_udp_test_header();
     static void free_objects();
     static void reset_counter();
-    static void backup_story_select();
-    static void sync_story_select();
-    static void call_funcs_reverse(void* table, unsigned int size);
     static u32 clamp_min_drop(u32 min, u32 max);
     static void free_boss4rock();
     void bswap_vec3();
     static int rebuild_entry();
     static int init_sub_state();
-    static void load_set_gsl_files();
-    static s32 sum_floor_enemy_counts();
-    static s32 spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members);
-    static int get_selected_quest_id();
     static void *create_tl05_object(TObjPlayer *player);
-    static void free_singleton();
-    static void create_named_lobby_object();
     s32 get_id();
     static void clear_flag_bit2();
     static int get_com_card_data();
-    static void free_single_player_chr_select();
-    static void alloc_download_server();
-    static void free_chr_select_singleton();
     static s32 get_clamped_time_limit();
     static s32 is_value_out_of_range(s32 seed);
-    static void destroy_global();
     static void free_chr_select_slots();
-    static void queue_destruction_and_cleanup(TObject *fade);
     void set_flag_and_clear_download();
     void open_keyboard();
     void request_change_game_mode();
     void enter_game_mode_change();
     void enter_chg_game_mode();
-    static void destroy_global_object();
-    static void set_global_flags(s32 global_flags);
-    static void free_global_object();
-    static void update_menu_cursor_selection();
     static void init_once(TRecvInfoBoard *info_board);
     static char *get_info_board_text();  // the player's own info board text (CharacterSaveRecord)
     static TAdDialingMessageWindow *create_dialing_message_window(const char *message, u32 delay);
@@ -173,32 +133,9 @@ struct TLobby : public TObject {
     static void make_players();
     static void drain_deferred_packets();
     void add_status_disp_entry(s32 name, s32 id);
-    void handle_quest_download_chunk();
-    static void close_trade_request();
-    static void reset_trade_state();
-    static void read_data_sync(AdxfHandle *handle, s32 sector_count, void *destination);
-    static void send_challenge_with_value(TChallenge *challenge, s32 window_mode);
     static void send_challenge_records(TChallenge *challenge);
-    static void init_fadeout_state(void (*callback)());
     static void set_fade_params(void (*callback)());
-    static s32 get_quest_thread_state();
-    static void drop_item_from_source(s16 source, int client, s16 room, int slot, f32 x, f32 z);
-    static void reset_item_id_counters();
-    static void free_global_buffer();
-    static void reload_offline_area();
-    static void rebuild_area_keep_players();
-    static void teardown_scene();
-    static void send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty);
-    static void send_6x75_quest_flag_cur_difficulty(u16 flag, s16 action);
     void copy_record_entry(saddr src);
-    static s32 load_all_floor_enemy_sets();
-    static s32 load_all_floor_object_sets();
-    static s32 find_floor_object_factory(s32 area, s16 *object_type);
-    static s32 count_quest_enemies_flag8();
-    static void release_scene_resources();
-    static void send_trade_proposal_modify();
-    static const char *check_trade_items_and_show_error();
-    static void apply_trade_items();
 
     void update_alloc_size();
     static void create_tasks();
@@ -206,9 +143,9 @@ struct TLobby : public TObject {
     static s32 run_lobby_load_tables();
     static s32 check_disconnect_conditions();
     static void reset_and_invoke();
-    static void reset_keyboard_state();
     static void clear_callback_and_reset_keyboard();
-    static void set_keyboard_mode(int a0);
+    // Sets the callback invoke_callback runs (main_phase_deferred_callback).
+    static void set_keyboard_mode(void (*callback)());
     // Empties the com card list on floor load and unload.
     static void reset_state();
     static void reset_lobby_state(char *time);
@@ -229,38 +166,20 @@ struct TLobby : public TObject {
     static void handle_msg_type1_for_idle_slots();
     static s32 handle_msg_type2(s32 floor);
     static s32 handle_msg_type1(s32 floor);
-    static void setup_quest_list();
     static void init_id_tables();
     static s32 is_scene_ready();
-    static void reset_story_select();
-    static void reset_story_select(void* p);
     static s32 update_key_machine();
-    static void free_data_60F0();
-    static s32 init_handle(s32 size);
-    static void update_guild_or_quest_phase();
     static void free_global_buffers();
-    static void free_map_resources();
-    static s32 count_members();
-    static void handle_reset_choice(s32 choice);
     static void clear_flag400();
-    static void check_flags_and_proceed();
-    static void cancel_trade();
-    static const char *show_event_message(s32 client_id, s32 result, s32 item_id);
     void build_trade_item_list();
     static void send_modify_trade_proposal(s8 what, s32 item_id, s32 amount);
     static void send_trade_proposal_result(s8 what, s8 result);
     static s32 write_zero_padded_block(void *arg0p);
     static s32 init_floor_enemy_count(s32 floor, u8 *source, s32 size);
     static s32 load_object_set_entries(s32 floor, u8 *rows, s32 byte_size);
-    void capture_chat_sensor();
-    static void parse_message_tag();
-    static void append_unit_list_name();
-    static void append_card_window_text();
-    static void append_default_string();
     static void append_color_code(s32 color);
     static s32 parse_color_code(char *s);
     void destroy_matching_children();
-    static void destroy_download_server(TObject *fade);
     static void send_compressed_packet_6c(s32 client_id);
     static void send_cmd_6B(s32 client_id);
     u8 *create_new_floor_windows();
@@ -291,24 +210,20 @@ struct TLobby : public TObject {
     static void close_and_set_state_13(int msg);
     static void close_com_card_window();
     static void close_menu_windows();
-    static void construct_global_arrays();
     static void copy_all_data(int, int);
     static TPlyJoinLobbyEntry *copy_member_record(TPlyJoinLobbyEntry *dst, TPlyJoinLobbyEntry *src);
-    static void *copy_symbol_chat_entry(void *, void *);
-    static TObjQuestColApcINW *create_quest_col_apc_inw(ObjectSetData *set, s32 *out_id);
+    static SymbolChatPayload *copy_symbol_chat_entry(SymbolChatPayload *dst, SymbolChatPayload *src);
     static void create_warp_menu();
     static void destroy_all_objects();
     static void destroy_child_recursive(TObject *task, TObject *object);
-    static void destroy_join_entries();
     static void destroy_lobby_ui();
-    static void disable_window_flags(void*);
-    static void get_menu_field_280();
+    static void disable_window_flags(const char *mesg);
     static s32 get_progress_info(void *, void *, void *, void *);
     static const char *get_seq_phase(int);
     static void handle_com_card();
     static void handle_comcard_window();
     static void handle_create_game_window();
-    static void handle_game_join(TPlyJoinGame *);
+    static void handle_game_join(TPlyJoinGame &join_data);
     static void handle_game_list_select();
     static void handle_lobby_enter(TPlyJoinLobbyEntry *, int, int, int, int, int, int, int);
     static void handle_login_result(unsigned int);
@@ -332,14 +247,12 @@ struct TLobby : public TObject {
     static void open_lobby_warp_menu();
     static void open_make_team_window(int);
     static void open_menu_window();
-    static void open_session(const char *path);
     static void open_ship_block_select_menu(int entry_count, GameListEntry *entries, GameListEntry &entry_0);
     static void open_warp_menu();
     static void process_deferred_player_setup();
     static void queue_static_object_destruction();
     static s8 read_byte_advance();
     static void rebuild_all(u8 *quest);
-    static void refresh_quest_list(const char *path);
     static void remove_player(unsigned int, int, int);
     static void request_game_list();
     static void reset(int);
@@ -375,7 +288,6 @@ struct TLobby : public TObject {
     static void update_ship_select_window();
     static void update_short_list();
     static void update_state();
-    static int close_trade_request(void*);
     static saddr get_object_count(void*);
     static u8 is_ready(void *);
     static void send_modify_trade_proposal(int);
@@ -409,13 +321,28 @@ struct TLobby : public TObject {
     static s32 connection_lost;
     static s32 lobby_entered_flag;
     static s32 lobby_block_high;  // high byte of the 0x67 lobby join packet's block number; never read
-    static u32 join_entries_dtor_registration[3];
 };
+
+void call_funcs_reverse(void *table, unsigned int size);
+void send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty);
+void send_6x75_quest_flag_cur_difficulty(u16 flag, s16 action);
+
+void destroy_global_object();
+
+void destroy_download_server(TObject *fade);
+
+void queue_destruction_and_cleanup(TObject *fade);
+
+void release_scene_resources();
+
+void send_challenge_with_value(TChallenge *challenge, s32 window_mode);
+
+void init_fadeout_state(void (*callback)());
 
 LAYOUT_ASSERT(TLobby_size, sizeof(TLobby) == 0x1C);
 // The object set entry new ground items take their placement from, and
 // whether placing one shows the drop effect.
-extern void *item_object_set_data;
+extern ObjectSetData *item_object_set_data;
 extern s32 item_ground_placement_enabled;
 
 // 1 when the local player stands on another floor than the current one (never in split screen).
@@ -452,6 +379,15 @@ void queue_join_entry_exit_on_input(TObject *task);
 void show_card_list_message(TPlyText<288> &info);
 void show_join_entry_message(s32 id);
 void handle_game_list(int entry_count, GameListEntry *entries, GameListEntry &entry_0);
+
+// One player record of a lobby join (construct_lobby_players builds the players from them).
+struct LobbyPlayerEntry {
+    u8 tag[8];
+    u32 ip_addr;
+    saddr client_id;
+    char name[16];
+    u8 char_data[0x41C];
+};
 void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, s32 unused);
 
 class TPlyCharData;
@@ -461,11 +397,15 @@ TPlyCharData *copy_char_data(TPlyCharData *dst, TPlyCharData *src);
 u8 *get_password_input_buffer(void);
 
 extern TPlyChallenge lobby_player_status_records[];
-extern TObject *lobby_player_construction_window;
 
 u8 *copy_join_lobby_entry(u8 *dst, u8 *src);
 
+const char *get_connection_message_text(s32 id);
+u8 *get_access_key_input_buffer(void);
+u8 *get_raw_serial_input_buffer(void);
 void set_quest_list_online_state(s32 state);
 void set_item_drop_server_seed(int seed);
+
+extern TObject *lobby_player_construction_window;
 
 #endif

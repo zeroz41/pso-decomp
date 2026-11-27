@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-s32 find_card_file_channel(void *name);
+s32 find_card_file_channel(const char *name);
 
 #endif

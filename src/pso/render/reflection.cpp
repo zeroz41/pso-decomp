@@ -3,7 +3,6 @@
 // in first-use order from the floor ray's 35.0 through push_reflection_matrix's
 // 0.0/1.0 to the projection literals, and the task's vtable names functions of
 // both ends.
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/vector.h"
@@ -301,7 +300,7 @@ void end_projection_texture(s32 flags) {
     }
 }
 
-void setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags) {
+void setup_projection_texture(Vec *, Angle3 *, u32 flags) {
     GinjaMatrix mtx;
     f32 x;
     f32 y;

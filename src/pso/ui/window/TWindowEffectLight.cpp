@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowEffectLight.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -18,13 +17,11 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 #pragma readonly_strings on
 
 const char *TWindowEffectLight::class_name = "TWindowEffectLight";
-
-extern "C" {
 
 
 #pragma fp_contract on
@@ -32,8 +29,6 @@ extern "C" {
 #pragma defer_codegen on
 void *TWindowEffectLight::create(void *position, s16 effect_kind, u32 player_id) {
     return new TWindowEffectLight(position, effect_kind, player_id);
-}
-
 }
 
 TWindowEffectLight::TWindowEffectLight(void *position, s16 kind, u32 id) : TObject(tl_window) {
@@ -57,7 +52,7 @@ void TWindowEffectLight::run_task() {
 void TWindowEffectLight::render() {
   if ((is_window_display_enabled() != 0) && ((is_split_screen() == 0) || ((s32)this->player_id == (s32)TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no()))))
   {
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
     set_additive_blend();
     begin_screen_draw(1);
@@ -91,7 +86,7 @@ void TWindowEffectLight::render() {
     end_screen_draw();
     set_default_alpha_blend();
     TCameraCtrl::restore_saved_view();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
   }
 }
 
@@ -162,7 +157,7 @@ void TWindowEffectLight::draw_capped_bar(f32 width) {
 
 u32 TWindowEffectLight::calc_alpha() {
     s16 frame = this->age;
-    return (u32)__cvt_fp2unsigned(4278190080.0f * (-1.0f * (f32)frame / 8.0f + 1.0f));
+    return (u32)(4278190080.0f * (-1.0f * (f32)frame / 8.0f + 1.0f));
 }
 
 f32 TWindowEffectLight::calc_scale() {

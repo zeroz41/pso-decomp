@@ -6,6 +6,7 @@
 struct TWindowSubCustomEquip;
 
 struct TWindowMainMenu;
+struct TWindowSubCustomEquip;
 struct TWindowSubCustomSelect;
 struct TWindowMessage;
 struct PaletteAction;

@@ -53,7 +53,7 @@ void TechniqueParams::copy(TechniqueParams *src) {
     tp_cost = src->tp_cost;
     charge_speed = src->charge_speed;
     mental = src->mental;
-    pad_16 = src->pad_16;
+    effect_kind = src->effect_kind;
     angle = src->angle;
     pad_1C = src->pad_1C;
     duration = src->duration;
@@ -102,7 +102,7 @@ void TTecAnti::run_task() {
             if (targets.count != 0) {
                 for (i = 0; i < targets.count; i++) {
                     member = find_entity_by_id(targets.records[i].id);
-                    if ((TTecLuker::is_parents_unqueued(member) != 0) && (TObjPlayer::is_valid_and_active(member) != 0)) {
+                    if ((TObject::is_parents_unqueued(member) != 0) && (TObjCollidable::is_valid_and_active(member) != 0)) {
                         apply_to_player((TObjPlayer *)member);
                     }
                 }

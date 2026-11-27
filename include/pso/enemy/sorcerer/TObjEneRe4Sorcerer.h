@@ -11,7 +11,7 @@ struct NJS_OBJECT;
 #include <stddef.h>
 
 struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
-    TObjEneRe4Sorcerer(TObject *parent, void *set_data);
+    TObjEneRe4Sorcerer(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneRe4Sorcerer();
     virtual void dispatch_action(u32 state, s32 reason);
     virtual void update_body_colliders();
@@ -46,7 +46,7 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     void create_enabled(Vec *anchor, u16 id, s32 set_index);
     void create_disabled(Vec *anchor, u16 id, s32 set_index);
     static void free_bits();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void load_resources();
     s32 update_farthest_target(TObjChara *player, f32 *farthest);
 

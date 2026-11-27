@@ -5,7 +5,6 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/base/CollisionBodySet.h"
 #include "pso/render/GinjaTexture.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include <string.h>
@@ -59,7 +58,7 @@
 #include "pso/map/FloorMapSelection.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/GameModeQueries.h"
-#include "pso/object/TObjLukerNames.h"
+#include "pso/object/DisplayNames.h"
 #include "pso/render/render_util.h"
 #include "pso/network/client_id.h"
 #include "pso/quest/StoryQuestProgress.h"
@@ -92,6 +91,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -195,7 +195,7 @@ void TObjWarpBase::free_globals() {
 s32 quest_warp_enabled = 1;
 const char *TObjWarpBase::class_name = "TObjWarpBase";
 
-TObjWarpBase::TObjWarpBase(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjWarpBase::TObjWarpBase(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     warp_range = 10.0f;
@@ -269,13 +269,13 @@ s32 TObjWarpBase::is_choice_confirmed_by(s32 client_id) {
 const char *TObjMapWarp::class_name = "TObjMapWarp";
 
 // The set entry's scale holds the destination; each player gets a spot at its offset from it.
-TObjMapWarp::TObjMapWarp(TObject *parent, void *set_data) : TObjWarpBase(parent, set_data) {
+TObjMapWarp::TObjMapWarp(TObject *parent, ObjectSetData *set_data) : TObjWarpBase(parent, set_data) {
     s32 i;
     m_name = class_name;
     for (i = 0; i < 4; i++) {
         push_matrix_from(identity_matrix);
         post_translate_matrix(&scale.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         matrix_mult_vec(NULL, &map_warp_destination_offsets[i], &destinations[i]);
         pop_matrix();
         playerPopups[i] = 0;
@@ -342,7 +342,7 @@ void TObjMapWarp::process_player_warps() {
     s32 i;
     TObjPlayer *t;
     s32 j;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
             if (can_warp(i) == 0) {
                 if (playerPopups[i] != NULL) {
@@ -413,7 +413,7 @@ void TObjMapWarp::draw_debug_destinations() {
         Vec a = {0.0f, 0.0f, -3.0f};
         push_matrix_from(identity_matrix);
         post_translate_matrix(&scale.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         end = &destinations[i];
         matrix_mult_vec(NULL, &map_warp_destination_offsets[i], end);
         pop_matrix();
@@ -432,7 +432,7 @@ void TObjMapWarp::draw_debug_destinations() {
 
 const char *TObjMapWarpForest::class_name = "TObjMapWarpForest";
 
-TObjMapWarpForest::TObjMapWarpForest(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
+TObjMapWarpForest::TObjMapWarpForest(TObject *parent, ObjectSetData *set_data) : TObjMapWarp(parent, set_data) {
     m_name = class_name;
     baseModel = get_forest_warp_model(4);
     beamModel = get_forest_warp_model(5);
@@ -452,30 +452,30 @@ void TObjMapWarpForest::render() {
         set_texture_list(textures);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         draw_ginja_object(baseModel);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(beamModel, motion, frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
 
 const char *TObjAreaWarp::class_name = "TObjAreaWarp";
 
-TObjAreaWarp::TObjAreaWarp(TObject *parent, void *set_data) : TObjWarpBase(parent, set_data) {
+TObjAreaWarp::TObjAreaWarp(TObject *parent, ObjectSetData *set_data) : TObjWarpBase(parent, set_data) {
     m_name = class_name;
     dest_floor = set_params[0];
     if (lobby_quest_progress_flag != 0) {
         dest_floor = get_current_floor() + 1;
     }
-    vi_config = NULL;
+    party_check = NULL;
 }
 
 TObjAreaWarp::~TObjAreaWarp() {
-    if (vi_config != NULL) {
-        TAdVIConfigGC::destroy(vi_config, 1);
-        vi_config = NULL;
+    if (party_check != NULL) {
+        delete party_check;
+        party_check = NULL;
     }
     close_menu();
 }
@@ -503,7 +503,7 @@ void TObjAreaWarp::open_confirm_window(s32 client_id) {
 }
 
 s32 TObjAreaWarp::is_warp_enabled() {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         for (s32 i = 0; i < 4; i++) {
             TObjPlayer *player = get_player_by_client_id(i);
             if ((player != NULL) && (player->is_controls_locked() != 0)) {
@@ -530,9 +530,9 @@ void TObjAreaWarp::handle_area_selection() {
         }
         if (is_split_screen() != 0) {
             found = 0;
-            if (vi_config != NULL) {
-                vi_config->update_visibility();
-                if (vi_config->get_field_14() == 0) {
+            if (party_check != NULL) {
+                party_check->update_visibility();
+                if (party_check->get_all_in_range() == 0) {
                     this->close_menu();
                     return;
                 }
@@ -541,8 +541,8 @@ void TObjAreaWarp::handle_area_selection() {
                 t = find_warp_player_in_range(this, i, warp_range);
                 if (t != NULL) {
                     found = 1;
-                    if (vi_config != NULL) {
-                        this->open_confirm_window(((TObjAreaWarp *)vi_config)->find_active_player());
+                    if (party_check != NULL) {
+                        this->open_confirm_window(party_check->find_active_player());
                     } else {
                         this->open_confirm_window(t->get_entity_id());
                     }
@@ -602,7 +602,7 @@ void TObjAreaWarp::debug_print_area_num() {
 
 const char *TObjAreaWarpForest::class_name = "TObjAreaWarpForest";
 
-TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = class_name;
     beam_frame = 0.0f;
     beam_rotation = 0;
@@ -615,14 +615,10 @@ TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAr
     beam_model = get_forest_warp_model(1);
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
-    if (TRaderMapCore::is_not_split_screen() == 1) {
-        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
-        if (p != NULL) {
-            p = p->init(&position, 20.0f);
-        }
-        vi_config = p;
+    if (is_not_split_screen() == 1) {
+        party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
-        vi_config = NULL;
+        party_check = NULL;
     }
 }
 
@@ -648,7 +644,7 @@ void TObjAreaWarpForest::render() {
         n = beam_model->child;
         while (n != NULL) {
             if (n->model != 0) {
-                set_ginja_model_texture_slot(reinterpret_cast<void *>((n->model)), cols[this->set_params[2]]);
+                set_ginja_model_texture_slot(n->model, cols[this->set_params[2]]);
             }
             n = n->child;
         }
@@ -656,11 +652,11 @@ void TObjAreaWarpForest::render() {
         set_texture_list(textures);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         push_matrix();
         post_translate_matrix(m->pos);
         draw_ginja_model(m->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         m = m->child;
         while (m != NULL) {
             push_matrix();
@@ -671,11 +667,11 @@ void TObjAreaWarpForest::render() {
             pop_matrix();
             m = m->sibling;
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(beam_model, beam_motion, this->beam_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -699,7 +695,7 @@ void TObjAreaWarpForest::debug_print_area_num() {
 
 const char *TObjAreaWarpQuest::class_name = "TObjAreaWarpQuest";
 
-TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = class_name;
     beam_frame = 0.0f;
     beam_rotation = 0;
@@ -709,14 +705,10 @@ TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjArea
     beam_model = get_forest_warp_model(1);
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
-    if (TRaderMapCore::is_not_split_screen() == 1) {
-        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
-        if (p != NULL) {
-            p = p->init(&position, 20.0f);
-        }
-        vi_config = p;
+    if (is_not_split_screen() == 1) {
+        party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
-        vi_config = NULL;
+        party_check = NULL;
     }
 }
 
@@ -740,7 +732,7 @@ void TObjAreaWarpQuest::render() {
         n = beam_model->child;
         while (n != NULL) {
             if (n->model != 0) {
-                set_ginja_model_texture_slot(reinterpret_cast<void *>((n->model)), cols[set_params[2]]);
+                set_ginja_model_texture_slot(n->model, cols[set_params[2]]);
             }
             n = n->child;
         }
@@ -748,11 +740,11 @@ void TObjAreaWarpQuest::render() {
         set_texture_list(textures);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         push_matrix();
         post_translate_matrix(m->pos);
         draw_ginja_model(m->model);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         m = m->child;
         while (m != NULL) {
             push_matrix();
@@ -763,11 +755,11 @@ void TObjAreaWarpQuest::render() {
             pop_matrix();
             m = m->sibling;
         }
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model_with_motion(beam_model, beam_motion, this->beam_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -816,7 +808,7 @@ void TObjAreaWarpQuest::confirm_area_transfer(TObjPlayer *player) {
 
 const char *TObjAreaWarpEnding::class_name = "TObjAreaWarpEnding";
 
-TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = class_name;
     beam_frame = 0.0f;
     beam_rotation = 0;
@@ -825,14 +817,10 @@ TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAr
     beam_model = get_forest_warp_model(1);
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
-    if (TRaderMapCore::is_not_split_screen() == 1) {
-        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
-        if (p != NULL) {
-            p = p->init(&position, 20.0f);
-        }
-        vi_config = p;
+    if (is_not_split_screen() == 1) {
+        party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
-        vi_config = NULL;
+        party_check = NULL;
     }
 }
 
@@ -858,18 +846,18 @@ void TObjAreaWarpEnding::render() {
     u16 ids[2] = {3, 2};
     for (node = beam_model->child; node != 0; node = node->child) {
         if (node->model != 0) {
-            set_ginja_model_texture_slot(reinterpret_cast<void *>((node->model)), ids[set_params[2]]);
+            set_ginja_model_texture_slot(node->model, ids[set_params[2]]);
         }
     }
     root = warp_model;
     set_texture_list(textures);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     push_matrix();
     post_translate_matrix(root->pos);
     draw_ginja_model(root->model);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     for (root = root->child; root != 0; root = root->sibling) {
         push_matrix();
         post_translate_matrix(root->pos);
@@ -878,11 +866,11 @@ void TObjAreaWarpEnding::render() {
         draw_ginja_model(root->model);
         pop_matrix();
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -921,10 +909,10 @@ void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
 
 void TObjAreaWarpEnding::confirm_area_transfer(TObjPlayer *) {
     play_sound_effect(0x40003205, 0, 0, 0);
-    new TScreenFadeOut(tl_00, TKeyBoardControl::dispatch_select_phase);
+    new TScreenFadeOut(tl_00, dispatch_select_phase);
 }
 
-void TKeyBoardControl::dispatch_select_phase(TObject *) {
+void dispatch_select_phase(TObject *) {
 
     switch (TAdStorySelectGC::get_story_select()) {
     case 0:
@@ -944,7 +932,7 @@ void TKeyBoardControl::dispatch_select_phase(TObject *) {
 
 const char *TObjMapForceWarp::class_name = "TObjMapForceWarp";
 
-TObjMapForceWarp::TObjMapForceWarp(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
+TObjMapForceWarp::TObjMapForceWarp(TObject *parent, ObjectSetData *set_data) : TObjMapWarp(parent, set_data) {
     m_name = class_name;
     if ((s32) set_params[2] > 0) {
         display_number = 0;
@@ -1087,15 +1075,15 @@ void TObjWarpString::render() {
     draw_menu_text(pos.xy.x, yb, text, color);
     draw_menu_text(xr, yb, text, color);
     color = ((u8)alpha << 24) | 0xFFFFFF;
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     draw_menu_text(pos.xy.x, y, text, color);
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
 }
 #pragma pop
 
 s64 TObjWarpString::get_screen_position(u16 client_id) {
     const WarpStringScreenPosition *p = warp_string_screen_position_table;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         switch (TCameraCtrl::get_camera_id()) {
         case 2:
             p = warp_string_screen_position_table + 1;
@@ -1119,7 +1107,7 @@ TObjWarpString *create_TObjWarpString(char *text, u16 client_id) {
 
 const char *TObjAreaWarpEndingJung::class_name = "TObjAreaWarpEndingJung";
 
-TObjAreaWarpEndingJung::TObjAreaWarpEndingJung(TObject *parent, void *set_data) : TObjAreaWarpEnding(parent, set_data) {
+TObjAreaWarpEndingJung::TObjAreaWarpEndingJung(TObject *parent, ObjectSetData *set_data) : TObjAreaWarpEnding(parent, set_data) {
     m_name = class_name;
     if (set_params[2] < 0) {
         set_params[2] = 0;
@@ -1154,11 +1142,11 @@ void TObjAreaWarpEndingJung::render() {
         TObjWarpJung::set_global_render_param();
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, this->rotation_y);
+        rotate_matrix_y(0, this->rotation.y);
         TObjWarpJung::render_warp(0);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         TObjWarpJung::render_warp_effect(1, (s32) this->beam_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -1179,6 +1167,6 @@ void TObjAreaWarpEndingJung::debug_print_area_num() {
     set_debug_text_color(0xF0F0F0FF);
 }
 
-void *TObjAreaWarpEndingJung::create(void *set_data) {
+void *TObjAreaWarpEndingJung::create(ObjectSetData *set_data) {
     return new TObjAreaWarpEndingJung(tl_05, set_data);
 }

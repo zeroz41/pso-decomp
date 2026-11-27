@@ -8,7 +8,7 @@
 struct TObjMapCsn;
 
 struct TORockJungleM01 : public TORockCaveBrakable {
-    TORockJungleM01(void *set_data);
+    TORockJungleM01(ObjectSetData *set_data);
     virtual ~TORockJungleM01();
     virtual void throw_debris();
     virtual void post_draw();
@@ -18,7 +18,7 @@ struct TORockJungleM01 : public TORockCaveBrakable {
     s32 fade_active;         // fade.isFading() of the last pre_draw, 0 in split screen
     TObjMapCsn *map_csn;     // the rock's map collision
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TORockJungleM01_size, sizeof(TORockJungleM01) == 0xE0);

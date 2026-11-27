@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/scene/OfflineGameScene.h"
 #include "pso/unk/TQuestManager.h"
 #include "types.h"
@@ -47,19 +46,19 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
-#include "pso/object/ambient/SceneLighting.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
+#include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/item/TItem.h"
 #include "pso/map/MapSetData.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/ui/window/DeferredPackets.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TSnapshotFileSetup.h"
-#include "pso/ui/window/TWindowSubComCardEntries.h"
+#include "pso/ui/window/TWindowSubComCard_CardSlots.h"
 #include "pso/audio/SoundControlState.h"
 #include "pso/network/protocol/choice_search.h"
 #include "pso/player/TPlayerBattleCtrl.h"
@@ -79,7 +78,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/map/FloorTransition.h"
 #include "pso/player/PlayerCommands.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/quest/GlobalNewDelete.h"
 #include "pso/render/gjSystem.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/quest/QuestFlagCommand.h"
@@ -98,21 +97,25 @@
 #include "pso/quest/QuestActiveFlag.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/system/task/DestructorChain.h"
+#include "pso/system/CxxRuntime.h"
 #include "pso/map/MapCollisionSetup.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/map/FloorMapSelection.h"
+#include "pso/ui/TCharSaveSequence.h"
+#include "pso/item/FloorItemSync.h"
+#include "pso/item/TItemIdCounters.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
-void TLobby::reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
-void TLobby::shutdown_keyboard_control() { clear_controller_reset_request(); TLobby::reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
+void reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
+void shutdown_keyboard_control() { clear_controller_reset_request(); reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
 void offline_scene_init_stub_a(void) {  }
 void offline_scene_init_stub_b(void) {  }
 void offline_scene_init_stub_c(void) {  }
 
 void recreate_split_screen_players(void) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         switch (get_game_play_mode()) {
         case 1:
         case 2: {
@@ -152,12 +155,12 @@ void apply_char_to_players() {
         create_player_object(0, player_control_role_base, local_record);
     }
 }
-void TLobby::reset_quest_state() {
+void reset_quest_state() {
     TRaderMapCore::free_map_data();
     clear_switch_table();
     TTecLuker::apply_all_players();
-    TLobby::reset_item_id_counters();
-    TLobby::reset_floor_items();
+    reset_item_id_counters();
+    reset_floor_items();
     delete_npc_players();
     if (quest_mission_manager != NULL) {
         quest_mission_manager->queue_destruction();
@@ -188,8 +191,8 @@ s32 TCameraCtrl::get_camera_no() {
 
 
 // Load and release hooks of the offline game scene, in pairs: init_offline_game_scene runs
-// each load front to back (run_load_callback_table), TLobby::teardown_scene each release
-// back to front (TLobby::call_funcs_reverse).
+// each load front to back (run_load_callback_table), teardown_scene each release
+// back to front (call_funcs_reverse).
 FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TAdSelectGameModeGC::setup_views, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
     {init_game_player_actions, release_game_player_actions},
@@ -210,13 +213,13 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {init_entity_tables, clear_entity_tables},
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},
-    {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
+    {alloc_quest_download_buffer, free_chr_select_singleton},
     {load_item_data, free_forest_rel_work_buffer},
     {init_item_drop_tables, free_item_drop_tables},
     {init_item_system, free_item_system},
     {create_area_event_set_heap, free_area_event_set_heap},
     {TRaderMapCore::create_heap, TRaderMapCore::free_heap},
-    {TLobby::load_set_gsl_files, clear_map_set_data},
+    {load_set_gsl_files, clear_map_set_data},
     {load_area_event_sets, (FloorResourceCallback)free_area_event_sets},
     {alloc_work_buffer, free_deferred_packet_buffer},
     {TObjFreezeShell::load_freeze_ice_resource, TObjFreezeShell::free_freeze_ice_resource},
@@ -229,7 +232,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {clear_short_mail_on_load, clear_short_mail_on_unload},
     {(FloorResourceCallback)reset_auto_reply_flags_callback, (FloorResourceCallback)clear_auto_reply_flags},
     {reset_info_board_on_load, reset_info_board_on_unload},
-    {(FloorResourceCallback)init_received_guild_cards, (FloorResourceCallback)free_received_guild_cards},
+    {init_received_guild_cards, free_received_guild_cards},
     {reset_com_card_list_callback, TLobby::reset_state},
     {clear_received_symbol_chat, symbol_chat_on_floor_free_stub},
     {reset_choice_search_data, free_choice_search_data},
@@ -243,7 +246,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
 
 s32 lbl_805D5CE0;
 
-void TLobby::reload_offline_area() {
+void reload_offline_area() {
     TObject holder;
     TObjPlayer *p;
     s32 i;
@@ -259,38 +262,38 @@ void TLobby::reload_offline_area() {
             q->set_parent(&holder);
         }
     }
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         switch (get_game_play_mode()) {
         case 0:
             break;
         case 1:
-            TLobby::destroy_global();
+            destroy_global();
             break;
         case 2:
             break;
         }
     }
-    TLobby::reset_quest_state();
+    reset_quest_state();
     main_task.delete_layer_children();
     promote_area_floor(&floor_transition_state);
-    TLobby::backup_story_select();
+    backup_story_select();
     TKeyBoardControl::update();
     free_area_event_sets();
     clear_floor_population();
     randomize_offline_maps();
     create_map_csn_ctrl();
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     apply_phase_keyboard_mode();
     TLoadCtrl::start_loading(1);
     reset_enemy_and_object_ids();
-    TLobby::load_set_gsl_files();
+    load_set_gsl_files();
     load_area_event_sets();
     load_battle_param_entry();
     initialize_floor_transition(&floor_transition_state, 0, 0);
     load_area_scene_and_init(&floor_transition_state);
     TLoadCtrl::cleanup_scene();
     if (is_area_transfer_pending() != 0) {
-        TLobby::reset_keyboard_state();
+        reset_keyboard_state();
         TLobby::clear_callback_and_reset_keyboard();
     }
     TLobby::clear_callback_and_reset_keyboard();
@@ -310,7 +313,7 @@ void TLobby::reload_offline_area() {
     update_main_warp_visible_mask(0);
 }
 
-void TLobby::rebuild_area_keep_players() {
+void rebuild_area_keep_players() {
     TObject holder;
     s32 i;
     s32 j;
@@ -329,16 +332,16 @@ void TLobby::rebuild_area_keep_players() {
     }
     main_task.delete_layer_children();
     promote_area_floor(&floor_transition_state);
-    TLobby::sync_story_select();
+    sync_story_select();
     select_episode(0);
     TKeyBoardControl::update();
-    TLobby::reset_quest_state();
+    reset_quest_state();
     free_area_event_sets();
     clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
     create_map_csn_ctrl();
-    TParticleCtrl::create_quad_sprites();
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    create_quad_sprites();
+    if (is_not_split_screen() == 1) {
         switch (get_game_play_mode()) {
         case 0:
             break;
@@ -358,9 +361,9 @@ void TLobby::rebuild_area_keep_players() {
     }
     set_enemy_mode_flag();
     reset_enemy_and_object_ids();
-    TLobby::setup_quest_list();
+    setup_quest_list();
     TQuestListVM::load_vm();
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         load_area_scene_and_init(&floor_transition_state);
     } else {
         initialize_floor_transition(&floor_transition_state, 0, 0);
@@ -401,7 +404,7 @@ void run_offline_area_transfer(void) {
     promote_area_floor(&floor_transition_state);
     TKeyBoardControl::update();
     create_map_csn_ctrl();
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     TLoadCtrl::start_loading(2);
     leader_selection.find_leader_section_id(designated_client_id);
     load_area_scene_and_init(&floor_transition_state);
@@ -423,7 +426,7 @@ void run_offline_area_transfer(void) {
     }
 }
 
-void TLobby::teardown_scene() {
+void teardown_scene() {
     if (is_split_screen() != 0) {
         TCameraCtrl::set_fullscreen_viewport();
     }
@@ -431,12 +434,12 @@ void TLobby::teardown_scene() {
     TAdSelectGameModeGC::enable_camera();
     stop_audio_streams();
     update_lobby_subsystems();
-    TLobby::reset_quest_state();
+    reset_quest_state();
     main_task.delete_layer_children();
     main_task.resume_layers();
     (tl_su)->delete_children();
     run_area_scene_cleanup(&floor_transition_state);
-    TLobby::call_funcs_reverse(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
+    call_funcs_reverse(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
     clear_resource_load_tasks();
     TKeyBoardControl::update();
     render_tick();
@@ -458,17 +461,17 @@ void run_offline_game_frame(void) {
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     take_snapshot();
     if (static_cast<s8>(poll_reset_request()) != 0) {
-        TLobby::shutdown_keyboard_control();
+        shutdown_keyboard_control();
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         request_main_phase(0);
     }
-    if (TKeyBoardControl::get_key_state() != 0) {
+    if (get_key_state() != 0) {
         run_offline_area_transfer();
         clear_keyboard_key_state();
     }
-    if (TKeyBoardControl::get_input() != 0) {
-        TLobby::reload_offline_area();
+    if (get_input() != 0) {
+        reload_offline_area();
         clear_keyboard_input_flag();
     }
     render_tick();
@@ -488,20 +491,20 @@ void run_offline_transfer_frame(void) {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
-    TAdSinglePlyChrSelectGC::noop();
+    noop();
     take_snapshot();
     run_challenge_frame();
     if (static_cast<s8>(poll_reset_request()) != 0) {
-        TLobby::reset_keyboard_input();
+        reset_keyboard_input();
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         request_main_phase(0);
     }
-    if (TKeyBoardControl::get_input() != 0) {
-        TLobby::rebuild_area_keep_players();
+    if (get_input() != 0) {
+        rebuild_area_keep_players();
         clear_keyboard_input_flag();
     }
-    if (TKeyBoardControl::get_key_state() != 0) {
+    if (get_key_state() != 0) {
         run_offline_area_transfer();
         clear_keyboard_key_state();
     }
@@ -585,17 +588,17 @@ void init_offline_game_scene(void) {
     clear_keyboard_key_state();
     clear_resource_load_tasks();
     create_map_csn_ctrl();
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     TLoadCtrl::poll_default();
     TObjPlayer::send_local_player_invisible();
     set_current_floor_area(0);
     TScene::set_scene(0);
     floor_transition_state.init_range(0);
-    TLobby::reset_keyboard_state();
+    reset_keyboard_state();
     apply_phase_keyboard_mode();
     run_load_callback_table(offline_game_scene_callbacks, sizeof(offline_game_scene_callbacks));
     if (is_area_transfer_pending() != 0) {
-        TLobby::reset_keyboard_state();
+        reset_keyboard_state();
         invoke_callback();
         TLobby::clear_callback_and_reset_keyboard();
         TLoadCtrl::cleanup_scene();
@@ -630,9 +633,9 @@ void init_offline_game_scene(void) {
     }
     if (TAdSinglePlyChrSelectGC::save_character_to_card() == 0) {
         if (is_quest_active() != 0) {
-            TLobby::shutdown_keyboard_control();
+            shutdown_keyboard_control();
         } else {
-            TLobby::reset_keyboard_input();
+            reset_keyboard_input();
         }
     }
     set_fallback_main_phase(2);
@@ -656,22 +659,17 @@ void TScene::set_scene(int scene) { scene_resource_index = scene; }
 // The global character record. The original's static initializer precedes this
 // file's inline copies, which a compiler-generated one never does, so the
 // initializer is spelled out.
-extern "C" {
 static void __sinit_OfflineGameScene_cpp();
-TPlyCharData *__ct__12TPlyCharDataFv(TPlyCharData *self);
-void __dt__12TPlyCharDataFv(TPlyCharData *self, s16 mode);
-void *__register_global_object(void *object, void (*destructor)(TPlyCharData *, s16), void *chain);
-}
 #pragma push
 #pragma suppress_init_code on
 #pragma no_static_dtors on
 static DestructorChain global_character_data_dtor_chain;
-TPlyCharData TPlyCharData__global_character_data;
+TPlyCharData global_character_data;
 #pragma pop
 __declspec(section ".ctors") static void *const offline_game_scene_initializer = (void *)__sinit_OfflineGameScene_cpp;
 
 static void __sinit_OfflineGameScene_cpp() {
-    __register_global_object(__ct__12TPlyCharDataFv(&TPlyCharData__global_character_data),
+    __register_global_object(__ct__12TPlyCharDataFv(&global_character_data),
         __dt__12TPlyCharDataFv, &global_character_data_dtor_chain);
 }
 

@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/quest/QuestFloorDesignation.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -45,6 +46,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 const char *seabed_trap_model_filenames[] = {
@@ -81,7 +83,7 @@ NJS_OBJECT *trap_seabed01_ginja_model;
 s32 effect_uv_scroll_last_tick;
 s32 seabed01_ginja_mesh_index;
 
-TOTrapSeabed01::TOTrapSeabed01(TObject *parent, void *set_data) : TOTrap(parent) {
+TOTrapSeabed01::TOTrapSeabed01(TObject *parent, ObjectSetData *set_data) : TOTrap(parent) {
     m_name = TOTrapSeabed01_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(trap_seabed01_bml_resource, 0);
@@ -102,8 +104,8 @@ TOTrapSeabed01::~TOTrapSeabed01() {
     free_collision_body_parts(this);
 }
 
-void TOTrapSeabed01::apply_saved_state(s16 *state, s32 live) {
-    if (*state == 4) {
+void TOTrapSeabed01::apply_saved_state(QuestObjectEntry *state, s32 live) {
+    if (state->flags == 4) {
         if (live == 1) {
             this->play_sounds();
         }
@@ -141,7 +143,7 @@ void TOTrapSeabed01::free_static_resources() {
     }
 }
 
-void *TOTrapSeabed01::create(void *set_data) {
+void *TOTrapSeabed01::create(ObjectSetData *set_data) {
     return new TOTrapSeabed01(tl_05, set_data);
 }
 
@@ -212,17 +214,17 @@ void TOTrapSeabed01::render() {
 }
 
 void TOTrapSeabed01::draw() {
-    if (TRaderMapCore::is_not_split_screen() != 1 || projected == 0) {
+    if (is_not_split_screen() != 1 || projected == 0) {
         set_depth_buffer_settings_3();
         set_draw_list_mask(1);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         set_texture_list(trap_seabed01_texture_file);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         draw_object_tree(model);
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         restore_draw_list_mask();
         restore_saved_depth_alpha_state();
     }
@@ -265,7 +267,7 @@ void TOTrapSeabed01::render_effect_layers() {
     set_texture_list(trap_seabed01_texture_file);
     if (actor_frame_tick != effect_uv_scroll_last_tick) {
         if (trap_seabed01_ginja_model != NULL && seabed01_ginja_mesh_index != -1) {
-            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(trap_seabed01_ginja_model->model), 0, -20, seabed01_ginja_mesh_index, 1);
+            scroll_ginja_mesh_uvs(trap_seabed01_ginja_model->ginja_model, 0, -20, seabed01_ginja_mesh_index, 1);
             PPCSync();
         }
         effect_uv_scroll_last_tick = actor_frame_tick;
@@ -273,19 +275,19 @@ void TOTrapSeabed01::render_effect_layers() {
     set_model_node_callback(TOTrapSeabed01::trigger_by_id);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(NULL, rotation_y);
+    rotate_matrix_y(NULL, rotation.y);
     set_depth_buffer_settings_3();
     set_draw_list_mask(1);
     draw_ginja_model_with_motion(model, current_motion, frame);
     restore_draw_list_mask();
     restore_saved_depth_alpha_state();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     set_depth_buffer_settings_1();
     set_draw_list_mask(2);
     draw_ginja_model_with_motion(model, current_motion, frame);
     restore_draw_list_mask();
     restore_saved_depth_alpha_state();
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
     set_model_node_callback(NULL);
 }
@@ -294,9 +296,9 @@ void TOTrapSeabed01::render_effect_layers() {
 // with the effect render state.
 void TOTrapSeabed01::trigger_by_id(NJS_OBJECT *node) {
     if (node == trap_seabed01_ginja_model) {
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
     } else {
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
     }
 }
 
@@ -337,7 +339,7 @@ void TOTrapSeabed01::check_hold_player() {
             distance = horizontal_distance_squared(&target->position, &position);
             dist -= held->get_body_radius(0);
             if (distance < dist * dist) {
-                if (TRaderMapCore::is_not_split_screen() == 1) {
+                if (is_not_split_screen() == 1) {
                     send_6x2C_impose_hold(held, &position, -1, 0, dist);
                 } else if (player == local_client_id) {
                     send_6x2C_impose_hold(held, &position, -1, 0, dist);
@@ -356,7 +358,7 @@ int TOTrapSeabed01::deliver_attack_hits(f32) {
     TObjChara *chara;
     for (i = 0; i < 16; i++) {
         chara = TObjPlayer::get_battle_param(i);
-        if (TObjPlayer::is_valid_and_active(chara) != 0 &&
+        if (TObjCollidable::is_valid_and_active(chara) != 0 &&
             chara->check_value_equals(TObjPlayer_name) != 0) {
             chara->receive_direct_attack(this, payload, NULL, -1, -1);
             if (payload.kind < 5) {
@@ -384,7 +386,7 @@ void TOTrapSeabed01::play_sounds() {
         v.y = 0.0f;
         set_matrix_identity((u8 *)m);
         translate_matrix_vec3((u8 *)m, (u8 *)&position);
-        rotate_matrix_y(m, rotation_y);
+        rotate_matrix_y(m, rotation.y);
         matrix_mult_vec(m, &v, &v);
         TParticleCtrl *particle = spawn_particle_effect(&v, 0x8B);
         if (particle != NULL) {
@@ -402,7 +404,7 @@ f32 TOTrapSeabed01::receive_physical_attack(TObjChara *attacker, f32 damage) {
 // Lets the held player go (the twin of TOTrapAncient01::release_trapped_player).
 void TOTrapSeabed01::release_trapped_player() {
     TObjPlayer *held;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         if (target != NULL) {
             held = get_player_by_client_id(target->get_entity_id());
             if (held != NULL) {

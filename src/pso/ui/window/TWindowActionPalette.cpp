@@ -22,10 +22,9 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include <stddef.h>
 #include "pso/system/ControllerInput.h"
-#include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
@@ -75,7 +74,7 @@ PaletteIconUV action_palette_photon_blast_icon_uvs[6] = {
     {200.0f, 172.0f}, {150.0f, 129.0f}, {150.0f, 172.0f}, {200.0f, 129.0f},
     {100.0f, 172.0f}, {100.0f, 129.0f},
 };
-PaletteIconUV action_palette_group2_icon_uvs[3] = {
+PaletteIconUV action_palette_attack_icon_uvs[3] = {
     {200.0f, 43.0f}, {200.0f, 0.0f}, {200.0f, 86.0f},
 };
 PaletteIconUV action_palette_group7_icon_uvs[8] = {
@@ -121,7 +120,7 @@ TWindowActionPalette::TWindowActionPalette(s32 slot) : TWindowBase((u8 *)&twindo
         this->scale.x = 1.0f;
         this->scale.y = 1.0f;
     }
-    this->m_58 = -1.0f;
+    this->display_age = -1.0f;
     this->state = 0;
     this->client_index = slot;
     for (i = 0; i < 3; i++) {
@@ -367,7 +366,7 @@ void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index) {
         break;
     case 2:
         icon->kind = 4;
-        row = action_palette_group2_icon_uvs;
+        row = action_palette_attack_icon_uvs;
         icon->u0 = row[index].u;
         icon->v0 = row[index].v;
         break;

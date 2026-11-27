@@ -86,11 +86,12 @@ static inline SynthPoolMemData *GetLayerAddr(u16 id, SynthPoolData *pool) {
 
 void InsertData(u16 id, void *data, u8 dataType, u32 remove) {
     SynthPoolMemData *m;
+    SynthPoolData *pool = (SynthPoolData *)data;
 
     switch (dataType) {
     case 0:
         if (!remove) {
-            if ((m = GetMacroAddr(id, (SynthPoolData *)data)) != NULL) {
+            if ((m = GetMacroAddr(id, pool)) != NULL) {
                 dataInsertMacro(id, &m->data.cmd);
             } else {
                 dataInsertMacro(id, NULL);
@@ -102,7 +103,7 @@ void InsertData(u16 id, void *data, u8 dataType, u32 remove) {
     case 2: {
         id |= 0x4000;
         if (!remove) {
-            if ((m = GetKeymapAddr(id, (SynthPoolData *)data)) != NULL) {
+            if ((m = GetKeymapAddr(id, pool)) != NULL) {
                 dataInsertKeymap(id, &m->data.map);
             } else {
                 dataInsertKeymap(id, NULL);
@@ -114,7 +115,7 @@ void InsertData(u16 id, void *data, u8 dataType, u32 remove) {
     case 3: {
         id |= 0x8000;
         if (!remove) {
-            if ((m = GetLayerAddr(id, (SynthPoolData *)data)) != NULL) {
+            if ((m = GetLayerAddr(id, pool)) != NULL) {
                 dataInsertLayer(id, &m->data.layer.entry, m->data.layer.num);
             } else {
                 dataInsertLayer(id, NULL, 0);
@@ -125,7 +126,7 @@ void InsertData(u16 id, void *data, u8 dataType, u32 remove) {
     } break;
     case 4:
         if (!remove) {
-            if ((m = GetCurveAddr(id, (SynthPoolData *)data)) != NULL) {
+            if ((m = GetCurveAddr(id, pool)) != NULL) {
                 dataInsertCurve(id, &m->data.tab);
             } else {
                 dataInsertCurve(id, NULL);

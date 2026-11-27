@@ -4,12 +4,13 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/network/TLobby.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MemoryMove.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/TextureState.h"
+#include "pso/render/GinjaTextureAlloc.h"
+#include "pso/render/GinjaMaterialState.h"
 #include <dolphin/mtx.h>
 
 
@@ -20,8 +21,6 @@
 
 
 extern "C" {
-s32 init_texture_header_and_alloc(u8 *, s32, s32, s32);
-s32 init_texture_from_gvr_desc(InitTextureFromGvrDescA *texture, InitTextureFromGvrDescB *desc);
 void rotate_matrix_x(Matrix34* matrix, s32 angle);
 
 void rotate_matrix_x(Matrix34* matrix, s32 angle) {
@@ -157,7 +156,7 @@ void swap_gvrt_word(u32 *p) {
     *p = ((v & 0xFF000000) >> 24) | ((v & 0xFF0000) >> 8) | ((v & 0xFF00) << 8) | ((v & 0xFF) << 24);
 }
 
-u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *out_id, u32 *data) {
+u32 *find_gvrt_texture_chunk(GvrTextureDesc *desc, u32 *out_id, u32 *data) {
     u32 tag;
     u32 *p = data;
     if (out_id != NULL) {
@@ -168,7 +167,7 @@ u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *out_id, u32 *data) {
         swap_gvrt_word(&tag);
         switch (tag) {
         case 0x54525647:
-            move_data(lobby, p + 2, 8);
+            move_data(desc, p + 2, 8);
             return p + 4;
         case 0x58494247: {
             u32 len;
@@ -189,8 +188,8 @@ u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *out_id, u32 *data) {
     return p;
 }
 
-s32 init_texture_from_gvr_desc(InitTextureFromGvrDescA *texture, InitTextureFromGvrDescB *desc) {
-    if (init_texture_header_and_alloc(texture->p + 4, desc->b, desc->c, desc->a) != 0) {
+s32 init_texture_from_gvr_desc(GinjaTextureState *texture, GvrTextureDesc *desc) {
+    if (init_texture_header_and_alloc(&texture->surface->header, desc->width, desc->height, desc->format) != 0) {
         texture_error.code = 6;
         return -1;
     }

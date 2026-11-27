@@ -5,6 +5,7 @@
 #include "pso/system/NinjaTypes.h"
 
 struct GinjaVertexArray;
+struct NJS_OBJECT;
 
 // Called once a Ginja model draw ends (install_depth_alpha_state sets it).
 typedef void (*GinjaDrawEndCallback)(void);

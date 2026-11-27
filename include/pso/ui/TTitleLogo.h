@@ -9,7 +9,7 @@ public:
     virtual ~TTitleLogo();
     virtual void render();
     virtual void run_task();
-    u8 unk_1C[0x4];
+    TObject *owner;
 };
 LAYOUT_ASSERT(TTitleLogo_size, sizeof(TTitleLogo) == 0x20);
 

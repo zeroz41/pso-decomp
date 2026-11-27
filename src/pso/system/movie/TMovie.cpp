@@ -1,6 +1,5 @@
 #include "pso/system/RelModuleBuffer.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/gjSystem.h"
 #include "pso/render/GinjaView.h"
@@ -22,6 +21,7 @@
 #include "pso/ui/frontend/OpeningMovie.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/system/MallocLoadFilePrc.h"
+#include "pso/ui/keyboard/MainMenuScene.h"
 
 extern "C" {
 s32 DVDCheckDisk();
@@ -127,7 +127,7 @@ void MovieState::init_sfd_player(s32 is_ending, s32 is_normal_ending) {
     } else {
         ply->vt->start_fname(ply, filename);
     }
-    ply->vt->f2C(ply, get_lobby_data());
+    ply->vt->set_output_vol(ply, get_music_user_gain());
 }
 
 s32 MovieState::decode_frame() {

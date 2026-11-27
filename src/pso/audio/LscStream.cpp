@@ -2,6 +2,7 @@
 #include <string.h>
 #include "pso/audio/LscLog.h"
 #include "pso/audio/LscStream.h"
+#include "pso/audio/SjRingBuffer.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/network/TLobby.h"
 
@@ -250,7 +251,7 @@ s32 lsc_enqueue_range(LscStream *lsc_stream, const char *filename, s32 open_mode
 s32 lsc_enqueue_file(LscStream *lsc_stream, const char *filename) {
     AdxStreamFile *file;
     s32 sectors;
-    file = ADXSTM_OpenFnameEx(filename, (saddr)lsc_stream->stream);
+    file = ADXSTM_OpenFnameEx(filename, lsc_stream->stream);
     if (file == 0) {
         lsc_log_printf("E0004: Can not open '%s'", filename);
         return -1;
@@ -307,8 +308,7 @@ void lsc_destroy(LscStream *lsc_stream) {
     }
 }
 
-LscStream *LSC_Create(void *sj_handle) {
-    SjHandle *sj = (SjHandle *)sj_handle;
+LscStream *LSC_Create(SjRingBuffer *sj) {
     u8 lk[4];
     s32 i;
     LscStream *o;
@@ -323,7 +323,7 @@ LscStream *LSC_Create(void *sj_handle) {
     } else {
         o->stream = sj;
         o->state = 0;
-        o->buffer_capacity = sj->vt->GetNumData(sj, 0) + sj->vt->GetNumData(sj, 1);
+        o->buffer_capacity = sj->interface->get_available(sj, 0) + sj->interface->get_available(sj, 1);
         o->min_buffer_bytes = (o->buffer_capacity * 8) / 10;
         for (i = 0; i < 16; i++) {
             o->entries[i].status = 0;

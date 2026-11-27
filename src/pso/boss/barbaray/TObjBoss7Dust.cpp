@@ -1,6 +1,5 @@
 #include "pso/system/TrailStrip.h"
 #include "pso/system/MatrixStack.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/barbaray/TObjBoss7Dust.h"
 #include "pso/boss/barbaray/TObjBoss7DustCtrl.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
@@ -124,7 +123,7 @@ s32 TObjBoss7DustCtrl::next_strip_slot() {
 }
 
 void boss7_dust_draw_at(const Vec *position, s32 slot) {
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     push_matrix();
     post_translate_matrix(&position->x);
     draw_trail_strip(&TObjBoss7DustCtrl::transformed_vertices[slot * 6], 6, 0);

@@ -1,5 +1,4 @@
 #include "pso/player/TargetCursorList.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
 #include "types.h"
 #include "pso/technique/TTecZondeEff.h"
@@ -27,12 +26,12 @@ const char *TTecGiZonde_name_ref = "TTecGiZonde";
 void TTecGiZonde::init_parameters() {
     TechniqueParams *scaled = calc_technique_parameters(7, level, 0xFFFF);
     params.copy(scaled);
-    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+    if (level >= 15 && is_technique_ready() == 0) {
         params.power = (f32)(tech_high_level_linear_power_table[7].base + tech_high_level_linear_power_table[7].per_level * level);
         return;
     }
     params.power = params.power + (f32)(params.power_per_level * level);
-    if (TTecCtrl::is_technique_ready()) {
+    if (is_technique_ready()) {
         params.power = params.power * technique_scale_table[7].power;
     }
 
@@ -58,7 +57,7 @@ s32 TTecGiZonde::find_chain_targets() {
     TObjChara *b;
     void *p;
     e = (TObjChara *) find_entity_by_id(targetList.records[0].id);
-    if (TTecLuker::is_parents_unqueued(e) == 0) {
+    if (TObject::is_parents_unqueued(e) == 0) {
         return 0;
     }
     d.x = e->bodies[targetList.records[0].flag].center.x - position.x;
@@ -109,9 +108,9 @@ s32 TTecGiZonde::find_chain_targets() {
     for (i = 0; i < targetList.count - 1; i++) {
         a = (TObjChara *) find_entity_by_id(targetList.records[i].id);
         b = (TObjChara *) find_entity_by_id(targetList.records[i + 1].id);
-        if (TTecLuker::is_parents_unqueued(a) != 0 && TTecLuker::is_parents_unqueued(b) != 0) {
+        if (TObject::is_parents_unqueued(a) != 0 && TObject::is_parents_unqueued(b) != 0) {
         if ((a->actorFlags & 0x20000000) && (b->actorFlags & 0x20000000) &&
-            TObjPlayer::is_valid_and_active(a) != 0 && TObjPlayer::is_valid_and_active(b) != 0 &&
+            TObjCollidable::is_valid_and_active(a) != 0 && TObjCollidable::is_valid_and_active(b) != 0 &&
             a->is_actor_dead() != 0 && b->is_actor_dead() != 0) {
             return 0;
         }
@@ -167,7 +166,7 @@ void TTecGiZonde::deliver_chain_hits() {
     TObjCollidable *actor;
     for (i = 0; i < targetList.count; i++) {
         actor = find_entity_by_id(targetList.records[i].id);
-        if (TTecLuker::is_parents_unqueued(actor) != 0 && TObjPlayer::is_valid_and_active(actor) != 0) {
+        if (TObject::is_parents_unqueued(actor) != 0 && TObjCollidable::is_valid_and_active(actor) != 0) {
             apply_to_target((TObjChara *)actor);
         }
     }

@@ -1,7 +1,6 @@
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include <dolphin/mtx.h>
 #include "pso/render/ChunkModelDraw.h"
@@ -13,7 +12,7 @@
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include <stdlib.h>
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -85,11 +84,11 @@ void TBoss7Crawfish::register_attack_hits() {
     set.colliders = &collision_body;
     set.count = 1;
     VecCopy(&set.position, &position);
-    set.facing = rotation_y;
+    set.facing = rotation.y;
     collect_player_body_contacts(&set);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         if ((u32)hit_count < 4) {
-            entry = (ActorBodyHit *)TObjOnlineEnding::get_attack_entry(i);
+            entry = TObjOnlineEnding::get_attack_entry(i);
             for (j = 0; j != hit_count; j++) {
                 if (hits[j].target == entry->target && hits[j].body == entry->body) {
                     break;
@@ -177,7 +176,7 @@ void TBoss7Crawfish::render() {
         set_motion_packed_rotation();
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_yxz(0, rotation_x, rotation_y, rotation_z);
+        rotate_matrix_yxz(0, rotation.x, rotation.y, rotation.z);
         scale_current_matrix(&scale.x);
         draw();
         pop_matrix();
@@ -239,11 +238,11 @@ void TBoss7Crawfish::aim_at_nearest_player() {
         velocity.y *= speed;
         velocity.z *= speed;
     } else {
-        velocity.x = speed * sin_table_lookup(rotation_y);
+        velocity.x = speed * sin_table_lookup(rotation.y);
         velocity.y = 0.0f;
-        velocity.z = speed * cos_table_lookup(rotation_y);
+        velocity.z = speed * cos_table_lookup(rotation.y);
     }
-    rotation_y = 10430.38043493439 * atan2_float(velocity.x, velocity.z);
+    rotation.y = 10430.38043493439 * atan2_float(velocity.x, velocity.z);
     change_state(2);
 }
 
@@ -360,7 +359,7 @@ TBoss7Crawfish::~TBoss7Crawfish() {
     free_child();
 }
 
-TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *set) : TObjEnemy(parent) {
+TBoss7Crawfish::TBoss7Crawfish(TObject *parent, EnemyPlacement *set) : TObjEnemy(parent) {
     Vec still;
     m_name = TBoss7Crawfish::class_name;
     texlist = get_bml_texlist(TBoss7Crawfish::shared_resource, 0);

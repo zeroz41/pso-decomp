@@ -1,5 +1,4 @@
 #include "pso/map/CsnGroundCandidates.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecShot.h"
@@ -30,7 +29,7 @@ void TTecShot::check_technique_projectile_wall_hit() {
     wall = csnVector(&from, &to, 0x100);
     if (wall != NULL) {
         VecCopy(&position, &wall->contact->point);
-        this->spawn_impact_effect();
+        this->spawn_miss_effect();
         queue_destruction();
     }
 }
@@ -141,7 +140,7 @@ TTecShot::TTecShot(TObjBase *source, Vec *pos, Vec *target, s32 level) : TEffect
     this->scale.y = 1.0f;
     this->scale.z = 1.0f;
     this->traveled = 0.0f;
-    this->source = (TObjBase *)source;
+    this->source = source;
     if (level < 0) {
         this->level = 0;
     } else if (level >= 0x1E) {
@@ -198,7 +197,7 @@ TTecShot::TTecShot(TObjBase *source, Vec *pos, int angle, s32 level) : TEffect()
     this->scale.y = 1.0f;
     this->scale.z = 1.0f;
     this->traveled = 0.0f;
-    this->source = (TObjBase *)source;
+    this->source = source;
     if (level < 0) {
         this->level = 0;
     } else if (level >= 0x1E) {

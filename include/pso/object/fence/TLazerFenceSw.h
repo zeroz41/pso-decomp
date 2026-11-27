@@ -6,7 +6,7 @@
 #include "pso/camera/CameraDistanceFade.h"
 
 struct TLazerFenceSw : public TOKey {
-    TLazerFenceSw(TObject *parent, void *set_entry);
+    TLazerFenceSw(TObject *parent, ObjectSetData *set_entry);
     virtual ~TLazerFenceSw();
     virtual void trigger_deactivate_sound();
     virtual void trigger_activate_sound();
@@ -22,7 +22,7 @@ struct TLazerFenceSw : public TOKey {
     void draw_laser_beam();
     void render();
     void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void load_resources();
 
     static const char *class_name;

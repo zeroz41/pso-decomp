@@ -7,9 +7,10 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 s32 CameraDistanceFade::update_visibility(const Vec *pos) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         return 1;
     }
     if (xz_distance_squared(&camera_ctrl_instance->pos, pos) < fade_distance * fade_distance) {
@@ -21,7 +22,7 @@ s32 CameraDistanceFade::update_visibility(const Vec *pos) {
 }
 
 s32 CameraDistanceFade::is_translucent() {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         return 0;
     }
     return color.a < 0.0f;

@@ -9,7 +9,7 @@
 // Where a queued model is drawn: the scene node's position and rotation plus its section's.
 struct IndirectDrawPlacement {
     Vec position;
-    SceneSectionAngles angles;
+    Angle3 angles;
 };
 
 // One indirect-effect draw record (0x24 bytes): a scene model the scene's render pass queues for the

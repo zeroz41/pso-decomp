@@ -8,7 +8,7 @@ class TParticleCtrl;
 
 struct TObjCity_Season_EasterEgg : public TObjCitySeasonBase {
     static const char *class_name;
-    TObjCity_Season_EasterEgg(TObject *parent, void *set_data);
+    TObjCity_Season_EasterEgg(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjCity_Season_EasterEgg();
     virtual void render();
     virtual void run_task();
@@ -21,7 +21,7 @@ struct TObjCity_Season_EasterEgg : public TObjCitySeasonBase {
     TParticleCtrl *emitter;
     // Second emitter, 25 units above the egg (id 0x91; name inferred).
     TParticleCtrl *upper_emitter;
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjCity_Season_EasterEgg_size, sizeof(TObjCity_Season_EasterEgg) == 0xC0);

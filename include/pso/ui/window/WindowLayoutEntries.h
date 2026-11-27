@@ -5,12 +5,15 @@
 #include <stddef.h>
 
 struct WindowDrawContext;
+struct GuildCardRecord;
 
 struct WindowLayoutEntries {
     u32 count;
     void **items;
 
     void destroy_all_items();
+    // The user sort window's rows: name, ship, block and team of the card's owner.
+    void fill_card_text_entries(GuildCardRecord *record);
 };
 
 LAYOUT_ASSERT(WindowEntriesSize, sizeof(WindowLayoutEntries) == 8);

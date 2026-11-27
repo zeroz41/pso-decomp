@@ -5,10 +5,10 @@
 #include "pso/object/quest/TObjQuestColBase.h"
 
 struct TObjQuestCol : public TObjQuestColBase {
-    TObjQuestCol(TObject *parent, void *set_data);
+    TObjQuestCol(TObject *parent, ObjectSetData *set_data);
     virtual int is_triggered();
     virtual TQuestThread *start_quest_thread();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjQuestCol_size, sizeof(TObjQuestCol) == 0xBC);

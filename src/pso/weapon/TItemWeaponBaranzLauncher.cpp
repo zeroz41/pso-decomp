@@ -1,3 +1,4 @@
+#include "pso/weapon/shoot/TItemShootModel.h"
 #include "types.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
 #include "pso/system/task/TObject.h"
@@ -13,8 +14,8 @@ TItemShoot *baranz_launcher_create_shot(TItemWeapon *player, const Vec *pos, con
     TItemShootParticle *particle_shot;
     NJS_OBJECT *model;
 
-    model_shot = TObjPlayer::create_shoot_model(player, pos, dir, life);
-    particle_shot = TObjPlayer::spawn_shoot_particle(player, pos, dir, life);
+    model_shot = TItemShootModel::create_shoot_model(player, pos, dir, life);
+    particle_shot = TItemShootParticle::spawn_shoot_particle(player, pos, dir, life);
     if ((model_shot != NULL) && (particle_shot != NULL)) {
         model = player->second_model;
         if (model != NULL) {

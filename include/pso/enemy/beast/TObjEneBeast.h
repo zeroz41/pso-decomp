@@ -9,7 +9,7 @@ class TObject;
 class TAttackTraceStrip;
 
 struct TObjEneBeast : public TObjEneBeastBase {
-    TObjEneBeast(TObject *parent, void *set_data);
+    TObjEneBeast(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneBeast();
     virtual void render();
     void beast_update_appear();
@@ -24,7 +24,7 @@ struct TObjEneBeast : public TObjEneBeastBase {
     TAttackTraceStrip *attack_trails[2];  // fed by update_attack_trail from the claw samples
     RenderFadeState camera_fades[4];  // one per camera (render indexes it by camera mode)
     void select_subtype();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void load_resources();
     void select_model_record(s32 i);
 };

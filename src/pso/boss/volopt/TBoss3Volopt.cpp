@@ -56,6 +56,7 @@
 #include "pso/player/PlayerCommands.h"
 #include "pso/object/door/TODoorVoShip.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 #pragma readonly_strings on
 
 
@@ -276,7 +277,7 @@ void TBoss3VoloptAttackPacket::init() {
 
 void TBoss3VoloptAttackPacket::send() {
     swap();
-    send_subcommand((u8 *)this);
+    send_subcommand(this);
 }
 
 void TBoss3VoloptTargetsPacket::init() {
@@ -286,7 +287,7 @@ void TBoss3VoloptTargetsPacket::init() {
 
 void TBoss3VoloptTargetsPacket::send() {
     swap();
-    send_subcommand((u8 *)this);
+    send_subcommand(this);
 }
 
 void TBoss3VoloptActionPacket::init() {
@@ -296,7 +297,7 @@ void TBoss3VoloptActionPacket::init() {
 
 void TBoss3VoloptActionPacket::send() {
     swap();
-    send_subcommand((u8 *)this);
+    send_subcommand(this);
 }
 
 void TBoss3VoloptActionPacket::swap() {
@@ -304,7 +305,7 @@ void TBoss3VoloptActionPacket::swap() {
     bswap_16((u16 *)&action);
     bswap_16(&target_id);
     bswap_16((u16 *)&param);
-    bswap_16((u16 *)&param2);
+    bswap_16((u16 *)&moves);
 }
 
 void TBoss3VoloptTargetsPacket::swap() {
@@ -319,7 +320,7 @@ void TBoss3VoloptPositionPacket::init() {
 
 void TBoss3VoloptPositionPacket::send() {
     swap();
-    send_subcommand((u8 *)this);
+    send_subcommand(this);
 }
 
 void TBoss3VoloptPositionPacket::swap() {
@@ -354,7 +355,7 @@ void TObjEnemy::register_by_id() {
     this->register_object_by_id();
 }
 
-TBoss3Volopt::TBoss3Volopt(void *set_data) : TObjEnemyCustom(tl_04) {
+TBoss3Volopt::TBoss3Volopt(EnemyPlacement *set_data) : TObjEnemyCustom(tl_04) {
     m_name = TBoss3Volopt_name;
     apply_set_data(set_data);
     register_by_id();
@@ -365,7 +366,7 @@ TBoss3Volopt::TBoss3Volopt(void *set_data) : TObjEnemyCustom(tl_04) {
     volopt_cage_group = get_part_group(0x20);
     next_action = 0;
     mode = 0;
-    m_3bc = 0;
+    pad_3bc = 0;
     set_story_flag_or_send_quest_flag(0x29);
     volopt_camera_focus = NULL;
     volopt_p01_tech = -1;
@@ -430,7 +431,7 @@ void TBoss3Volopt::free_parts() {
     TBoss3VoloptMonitor::release();
 }
 
-void *TBoss3Volopt::create(void *set_data) {
+void *TBoss3Volopt::create(EnemyPlacement *set_data) {
     return new TBoss3Volopt(set_data);
 }
 
@@ -575,7 +576,7 @@ void TBoss3Volopt::select_phase1_attack() {
                     move_core.header.entity_id = entity_id;
                     move_core.action = 0;
                     move_core.param = core_slot;
-                    move_core.param2 = moves;
+                    move_core.moves = moves;
                     move_core.send();
                     core_slot -= moves;
                     if (core_slot < 0) {
@@ -639,7 +640,7 @@ void TBoss3Volopt::select_phase1_attack() {
                     move_core_v1.header.entity_id = entity_id;
                     move_core_v1.action = 0;
                     move_core_v1.param = core_slot;
-                    move_core_v1.param2 = moves;
+                    move_core_v1.moves = moves;
                     move_core_v1.send();
                     core_slot -= moves;
                     if (core_slot < 0) {
@@ -1103,7 +1104,7 @@ void TBoss3Volopt::update_phase2_intro() {
         playback.frame_step = 1.0f;
         activate_camera_mode(5);
         playback.play(0x160A);
-        set_scripted_camera_origin(&position, &position, (CameraAngles *)&rotation_x);
+        set_scripted_camera_origin(&position, &position, &rotation);
         state = 4;
         return;
     case 4:
@@ -1316,7 +1317,7 @@ void TBoss3Volopt::push_actors_out(s32 phase2) {
                     pos.z = offset.z + center_z;
                 }
             }
-            send_position(actor, &pos, actor->rotation_y);
+            send_position(actor, &pos, actor->rotation.y);
         }
     }
 }
@@ -1329,7 +1330,7 @@ void handle_6x15_vol_opt_boss_actions(TBoss3VoloptActionPacket *packet) {
     case 0: {
         TBoss3VoloptCore *core = (TBoss3VoloptCore *)find_entity_by_id(volopt_core_id);
         if (core != NULL) {
-            core->set_boss_target_pos(packet->param, packet->param2, 0x258);
+            core->set_boss_target_pos(packet->param, packet->moves, 0x258);
         }
         break;
     }
@@ -1412,7 +1413,7 @@ void handle_6x17_set_entity_position_and_angle(TBoss3VoloptPositionPacket *packe
     actor = find_entity_by_id(packet->header.entity_id);
     if (actor != NULL) {
         VecCopy(&actor->position, &packet->pos);
-        actor->rotation_y = packet->rotation_y;
+        actor->rotation.y = packet->rotation_y;
         actor->refresh_collision_body_centers();
         if ((s32)packet->header.entity_id == local_client_id) {
             reset_cameras_to_actor(static_cast<TObjPlayer *>(actor), 0);
@@ -1441,7 +1442,7 @@ void TBoss3Volopt::update_phase() {
         TBoss3VoloptCtrl::dispatch_state(0);
         return;
     }
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         TBoss3VoloptCtrl::dispatch_state(5);
         return;
     }

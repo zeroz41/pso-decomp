@@ -58,7 +58,7 @@ struct TBoss2DeRolLeParams {
 };
 
 struct TBoss2DeRolLe : public TObjEneDD_ST {
-    TBoss2DeRolLe(TObject *parent, void *set_data);
+    TBoss2DeRolLe(TObject *parent, EnemyPlacement *set_data);
     virtual ~TBoss2DeRolLe();
     virtual void run_task();
     virtual void render();
@@ -79,7 +79,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     virtual int vfunc_105();
     virtual void render_body();
     static TBoss2DeRolLe *get_instance();
-    static void *create(void *set_data);
+    static void *create(EnemyPlacement *set_data);
     static void load_resources();
     static void reset_parts();
     void advance_phase_wrap();

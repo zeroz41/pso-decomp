@@ -1,5 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
-
 #include "pso/technique/TTecCtrl.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
@@ -26,9 +24,9 @@ TTecCircle::TTecCircle(TObjBase *source, Vec *pos, Vec *target, s32 level) : TEf
     this->scale.x = 1.0f;
     this->scale.y = 1.0f;
     this->scale.z = 1.0f;
-    this->m_74 = 0;
+    this->pad_74 = 0;
     this->contact = 0;
-    this->source = (TObjBase *)source;
+    this->source = source;
     if (level < 0) {
         this->level = 0;
     } else if (level >= 0x1E) {
@@ -74,8 +72,8 @@ TTecCircle::TTecCircle(TObjBase *source, Vec *pos, s32 level) : TEffect() {
     this->scale.x = 1.0f;
     this->scale.y = 1.0f;
     this->scale.z = 1.0f;
-    this->m_74 = 0;
-    this->source = (TObjBase *)source;
+    this->pad_74 = 0;
+    this->source = source;
     if (level < 0) {
         this->level = 0;
     } else if (level >= 0x1E) {

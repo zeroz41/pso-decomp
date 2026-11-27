@@ -141,14 +141,6 @@ struct TBoss4Type1State {
     void (TBoss4Type1::*update)();
 };
 struct TBoss4Type1XZ { f32 x, z; };
-// Stand angle of each slot, then the weighted attack picks of choose_next_attack.
-struct TBoss4Type1AttackTables {
-    s32 slot_angles[4];
-    f32 low_hp_weights[3];
-    s32 low_hp_attacks[3];
-    f32 weights[2];
-    s32 attacks[2];
-};
 
 class TObject;
 

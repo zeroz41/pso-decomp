@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdLoadNetworkGC.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -12,7 +11,7 @@
 
 void TAdLoadNetworkGC::render() {  }
 
-ParticleAngles TAdLoadNetworkGC::object_offset_table[5] = {
+Angle3 TAdLoadNetworkGC::object_offset_table[5] = {
     {0x4000, 0, 0}, {0x4000, 0, 0}, {0, 0, 0}, {0x4000, 0, 0}, {0x4000, 0, 0},
 };
 

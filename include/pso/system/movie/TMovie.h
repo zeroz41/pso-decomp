@@ -34,7 +34,7 @@ struct MwsfdPlyVtbl {
     u8 pad_1C[0x20 - 0x1C];
     s32 (*get_status)(MwsfdPly *ply);
     u8 pad_24[0x2C - 0x24];
-    void (*f2C)(MwsfdPly *ply, s32 value);
+    void (*set_output_vol)(MwsfdPly *ply, s32 volume);
 };
 struct MwsfdPly {
     MwsfdPlyVtbl *vt;

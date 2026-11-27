@@ -23,10 +23,12 @@ public:
     void draw_overlay();
     static void set_fish_global_param();
     void init_float_table();
+    // Binds the wall texture list destroy_instance releases.
+    static void bind_ending_wall_textures();
     static void destroy_instance();
 
     s32 elapsed_ticks;
-    s32 field_20;
+    s32 pad_20;  // set to 255 by the constructor, never read
     s32 picture_index;
     s32 wall_index;
     EndingWallQuad quads[6];

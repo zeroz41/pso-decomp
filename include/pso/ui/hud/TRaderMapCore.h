@@ -22,12 +22,10 @@ struct RadarViewportParameters
     f32 screen_height;
 };
 
-// One player marker on the radar. draw_player_markers translates it to (x, z), turns it by rot_y,
-// scales it by scale and tints it with color; id -1 marks an empty slot.
+// One player marker on the radar. draw_player_markers translates it to (position.x, position.z),
+// turns it by rot_y, scales it by scale and tints it with color; id -1 marks an empty slot.
 struct RadarPlayerMarker {
-    f32 x;
-    f32 y;
-    f32 z;
+    Vec position;
     s32 rot_y;
     f32 scale;
     s16 unused_14;
@@ -115,13 +113,12 @@ struct TRaderMapCore : public TObjBase {
     static void free_statics();
     static void load_frame_texture();
     static NJS_OBJECT *init_map_ptr(const s32 *counter, s32 index);
-    static s32 is_not_split_screen();
     static void clear();
     void gather_player_markers();
     void draw_enemy_gate_markers();
     static void draw_backdrop(TRaderMapCore *unused, s32 mode);
     static void pick_target_position(void *, void *);
-    static s32 should_show_map();
+    s32 should_show_map();
 };
 
 // A TObject subclass of this unit: its destructor is the unit's last function and its

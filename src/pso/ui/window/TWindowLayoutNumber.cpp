@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 
 extern "C" {
 u8 get_small_font_glyph_width();
@@ -71,7 +71,7 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
   switch (mode)
   {
     case 0:
-      TWindowSubStatusDisp::reset_gauge(0);
+      reset_gauge(0);
       break;
     case 1:
       begin_screen_draw(1);
@@ -88,16 +88,13 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
     d = n % 10;
     switch (mode)
     {
-      if (1)
-      {
-        case 0:
-          r = bind_menu_font_glyph(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->color);
-          pos.y0 = y;
-          x -= r;
-          pos.x0 = x;
-          set_glyph_quad_extents(r, &pos);
-          break;
-      }
+      case 0:
+        r = bind_menu_font_glyph(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->color);
+        pos.y0 = y;
+        x -= r;
+        pos.x0 = x;
+        set_glyph_quad_extents(r, &pos);
+        break;
       case 1:
         g = get_small_font_glyph_id(d + 0x30);
         x -= get_small_font_glyph_width();
@@ -115,7 +112,7 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
   switch (mode)
   {
     case 0:
-      TWindowSubStatusDisp::end_render_forward();
+      end_render_forward();
       break;
     case 1:
       end_screen_draw();

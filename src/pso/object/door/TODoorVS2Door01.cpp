@@ -74,7 +74,7 @@ void TODoorVS2Door01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(texture_lists[door_flags & 1]));
         node = model;
         post_translate_matrix(node->pos);
@@ -90,7 +90,7 @@ void TODoorVS2Door01::render() {
         draw_ginja_model(node->model);
         pop_matrix();
         pop_matrix();
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         node = node->child;
         push_matrix();
         post_translate_matrix(node->pos);
@@ -123,18 +123,18 @@ void TODoorVS2Door01::render() {
         draw_ginja_model(node->model);
         pop_matrix();
         pop_matrix();
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
 
-void *TODoorVS2Door01::create(void *set_data) {
+void *TODoorVS2Door01::create(ObjectSetData *set_data) {
     return new TODoorVS2Door01(tl_05, set_data);
 }
 
 void TODoorVS2Door01::destroy() {
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid(texture_lists[0]);
+        free_if_valid(texture_lists[0]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;
@@ -159,7 +159,7 @@ TODoorVS2Door01::~TODoorVS2Door01() {
     free_collision_body_parts(this);
 }
 
-TODoorVS2Door01::TODoorVS2Door01(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorVS2Door01::TODoorVS2Door01(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = door_vs2door01_class_name;
     apply_object_set_data(set_data);
     model = bml_resource->models[0].model;

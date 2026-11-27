@@ -4,7 +4,7 @@
 #include "pso/weapon/shoot/TItemShootRocketPunch.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/PrsTextureLoad.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/shoot/TItemShootModel.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
@@ -51,8 +51,8 @@ void TItemShootRocketPunch::render() {
         push_matrix();
         set_texlist(this->texture_list);
         post_translate_matrix(&this->m_pos.x);
-        rotate_matrix_y(0, this->rot_y);
-        rotate_matrix_x(0, this->rot_x - 0x4000);
+        rotate_matrix_y(0, this->rot.y);
+        rotate_matrix_x(0, this->rot.x - 0x4000);
         draw_ginja_object(this->model);
         pop_matrix();
     }
@@ -72,7 +72,7 @@ TItemShoot *rocket_punch_create_shot(TItemWeapon *owner, const Vec *pos, const V
 
     if (owner != NULL) {
         shot = new TItemShootRocketPunch((TItemWeaponRocketPunch *)owner, pos, dir, life);
-        particle = TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
+        particle = TItemShootParticle::spawn_shoot_particle(owner, pos, dir, life);
         if ((shot != NULL) && (particle != NULL)) {
             particle->spawn_slot_emitter(0x1BB, 0);
             particle->set_parent(shot);
@@ -143,7 +143,7 @@ TItemWeaponRocketPunch::~TItemWeaponRocketPunch() {
 TItemWeaponRocketPunch::TItemWeaponRocketPunch(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     effect_flags.set(32);
     set_weapon_flags(515);
-    impact_callback = (WeaponHitCallback)rocket_punch_wall_impact;
+    impact_callback = (WeaponImpactCallback)rocket_punch_wall_impact;
     hit_callback = (WeaponHitCallback)rocket_punch_target_impact;
     shot_callback = rocket_punch_create_shot;
     shot_speed = 8.0f;

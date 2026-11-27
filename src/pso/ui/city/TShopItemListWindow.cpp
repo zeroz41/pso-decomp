@@ -25,8 +25,8 @@
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/window/TWindowMenu.h"
+#include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/shop/ShopItemSort.h"
 #include "pso/network/client_id.h"
@@ -42,6 +42,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/CounterTextLookup.h"
 #include "pso/system/GameModeQueries.h"
+#include "pso/item/item_create.h"
 
 
 #pragma readonly_strings on
@@ -54,9 +55,7 @@ static const size_t shop_price_offset = shop_items_offset + offsetof(TItemData, 
 // roll_shop_weapon_grind and is_section_favored_weapon.
 s32 section_id_favored_grind_table[10] = {9, 7, 2, 4, 8, 10, -1, 3, -1, 5};
 
-extern "C" {
 const char *shop_item_list_window_class_name = "TShopItemListWindow";
-}
 
 TShopItemListWindow::TShopItemListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     s32 count;
@@ -138,7 +137,7 @@ void TShopItemListWindow::build_item_list() {
     r = shop_items;
     for (j = 0; j < item_count; j++, r++) {
         if ((s32)r->data2.data_u32 != -1) {
-            r->data2.data_u32 = TItemData::calc_price_of(r);
+            r->data2.data_u32 = calc_price_of(r);
         }
     }
     if (item_list == NULL) {

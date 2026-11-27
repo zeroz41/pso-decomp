@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/network/NetworkWaitIcon.h"
 #include "pso/ui/chat/SymbolChatPayload.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -48,7 +48,7 @@ void draw_network_wait_icon(void) {
     s32 uv_angle;
     uv_angle = (-network_wait_icon_frame << 16) / 30;
     set_additive_blend();
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
     begin_screen_draw(1);
     set_texture_list(hud_texlist);

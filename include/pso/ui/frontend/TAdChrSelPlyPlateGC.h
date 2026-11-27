@@ -45,6 +45,7 @@ struct TAdChrSelPlyPlateGC : public TObject {
     void clear_slot_entries(s32 column);
     int get_instance();
     void set_select_mode(int mode);
+    static int get_cursor_texture_list();
     static TAdChrSelPlyPlateGC *create_singleton(TObject *parent, vec2f *pos);
     void draw_slot_tags_shifted();
     void draw_slot_tags();
@@ -91,9 +92,14 @@ extern int multi_ply_chr_select_active_player;
 
 u32 get_multiplayer_controller_active_index(int index);
 s32 is_multiplayer_character_slot_selected(s32 slot);
+NJS_TEXLIST *get_player_tex_texture_list(void);
 
 typedef struct CursorJump {
     s32 v[4];
 } CursorJump;
+
+s32 get_status();
+s32 is_selection_confirmed();
+void add_selected_slot();
 
 #endif

@@ -7,7 +7,7 @@
 
 #define ARRAY_HEADER_SIZE 16
 
-extern void* __construct_new_array(void* block, ConstructorDestructor ctor, ConstructorDestructor dtor, size_t size,
+extern "C" void* __construct_new_array(void* block, ConstructorDestructor ctor, ConstructorDestructor dtor, size_t size,
                                    size_t n) {
     char* ptr;
 
@@ -30,7 +30,7 @@ extern void* __construct_new_array(void* block, ConstructorDestructor ctor, Cons
     return ptr;
 }
 
-extern void __construct_array(void* ptr, ConstructorDestructor ctor, ConstructorDestructor dtor, size_t size,
+extern "C" void __construct_array(void* ptr, ConstructorDestructor ctor, ConstructorDestructor dtor, size_t size,
                               size_t n) {
     __partial_array_destructor pad(ptr, size, n, dtor);
     char* p;
@@ -40,7 +40,7 @@ extern void __construct_array(void* ptr, ConstructorDestructor ctor, Constructor
     }
 }
 
-extern void __destroy_arr(void* block, ConstructorDestructor* dtor, size_t size, size_t n) {
+extern "C" void __destroy_arr(void* block, ConstructorDestructor* dtor, size_t size, size_t n) {
     char* p;
 
     for (p = (char*)block + size * n; n > 0; n--) {
@@ -51,7 +51,7 @@ extern void __destroy_arr(void* block, ConstructorDestructor* dtor, size_t size,
 
 extern "C" void mem_free(void*);
 
-extern void __destroy_new_array(void* block, ConstructorDestructor dtor) {
+extern "C" void __destroy_new_array(void* block, ConstructorDestructor dtor) {
     if (block) {
         if (dtor) {
             size_t i, objects, objectsize;

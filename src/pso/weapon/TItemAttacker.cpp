@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/vector.h"
@@ -42,7 +41,7 @@ void TItemAttacker::deliver_delayed_weapon_hit() {
             }
         } else {
             if (horizontal_distance_squared(target_body, &origin) < horizontal_distance_squared(&target_pos, &origin)) {
-                ((TObjPlayer *)target)->show_miss_for_collider(hit.collider);
+                target->show_miss_for_collider(hit.collider);
             }
         }
     }
@@ -94,8 +93,8 @@ void deliver_attacker_timer_hit(TObject *attacker) {
 TItemAttacker::~TItemAttacker() {}
 void TItemAttacker::run_task() { if (done != 0) { queue_destruction(); } }
 
-__declspec(section ".data") saddr item_nj_chunk_buffer_table[2];
-saddr get_item_chunk_buffer(int a0) {  return item_nj_chunk_buffer_table[a0]; }
+__declspec(section ".data") char *item_nj_chunk_buffer_table[2];
+char *get_item_chunk_buffer(int index) { return item_nj_chunk_buffer_table[index]; }
 
 void free_item_buff() {
     if (item_buff_buffer != NULL) {

@@ -12,12 +12,12 @@ struct NJS_OBJECT;
 struct GinjaTextureList;
 
 struct TORockJungleS01 : public TORockCaveBrakable {
-    TORockJungleS01(void *set_data);
+    TORockJungleS01(ObjectSetData *set_data);
     virtual ~TORockJungleS01();
     virtual void throw_debris();
     virtual void play_break_sound();
     TObjMapCsn *map_csn;     // the rock's map collision
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static NJS_OBJECT *get_model(s32 index);
     static void free_globals();
     static void load_resources();

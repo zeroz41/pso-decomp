@@ -45,10 +45,10 @@ struct TObjOnlineEnding : public TObjBase {
     s32 elapsed_frames;
     static s32 get_card_window_value();
     static int get_instance();
-    static void *get_attack_entry(int index);
+    static ActorBodyHit *get_attack_entry(int index);
     void close_window();
     void create_result_window();
-    static void *create(TObject *parent);
+    static TObjOnlineEnding *create(TObject *parent);
     f32 scene_frame;
     TWindowChallengeResult *result_window;
 };

@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include <dolphin/mtx.h>
-#include "pso/camera/CameraAngles.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/camera/CameraPlayback.h"
 
 s32 approach_camera_scalar(f32 *current, f32 *target, f32 rate);
@@ -17,7 +17,7 @@ s32 approach_camera_angle(s32 angle, s32 target, s32 rate);
 BOOL approach_camera_vector(Vec *current, Vec *target, f32 rate);
 // Places the scripted camera: motions of banks without flag 4 play relative to
 // position and angles->yaw. target is kept in target_origin, which nothing reads.
-void set_scripted_camera_origin(const Vec *position, const Vec *target, const CameraAngles *angles);
+void set_scripted_camera_origin(const Vec *position, const Vec *target, const Angle3 *angles);
 // Copies playback into the scripted camera and picks its motion from the
 // current floor area's banks; fov is not used.
 void configure_scripted_camera_playback(CameraPlayback *playback, s32 fov);

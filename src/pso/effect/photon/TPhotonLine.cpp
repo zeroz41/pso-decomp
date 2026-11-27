@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
@@ -22,8 +21,8 @@ CollisionBody photon_line_collision_body_part[1] = {
 };
 
 void TPhotonLine::render() {
-    TParticleCtrl::begin_effect_render();
-    TParticleCtrl::end_effect_render();
+    begin_effect_render();
+    end_effect_render();
 }
 
 void TPhotonLine::run_task() {

@@ -7,7 +7,7 @@
 #include "pso/ui/city/BankItemRecord.h"
 #include "pso/system/ChoiceSearchSelection.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
-#include "pso/ui/window/WordSelectMessage.h"
+#include "pso/ui/chat/ChatShortcut.h"
 
 // A character's battle mode results: wins in each place (first to fourth) and battles left early.
 // The client keeps the remaining counts and values only to send them on.
@@ -21,29 +21,6 @@ struct BattleRecord {
 
 LAYOUT_ASSERT(BattleRecord_size, sizeof(BattleRecord) == 0x1C);
 
-// What a chat shortcut sends: 0 none, 1 chat text, 2 word select message, 3 symbol chat.
-struct ChatShortcutKind {
-    u32 value;
-
-    ChatShortcutKind &operator=(const ChatShortcutKind &src);
-};
-
-// What a chat shortcut sends, by its kind.
-union ChatShortcutBody {
-    char text[0x50];            // 1: chat text
-    WordSelectMessage message;  // 2: word select message
-    s32 symbol_chat_preset;     // 3: index of the symbol chat preset
-};
-
-// One chat shortcut of the character's save record: the kind and the text, message or symbol chat it sends.
-struct ChatShortcut {
-    ChatShortcutKind kind;
-    ChatShortcutBody body;
-
-    ChatShortcut &operator=(const ChatShortcut &src);
-};
-
-LAYOUT_ASSERT(ChatShortcut_size, sizeof(ChatShortcut) == 0x54);
 
 // The parts of a character's save record that are read by name.
 struct CharacterSaveRecord {
@@ -54,15 +31,17 @@ struct CharacterSaveRecord {
     s32 find_bank_item(TItemData *item);
     // Puts item in the first free bank row; 0 when the bank is full.
     s32 register_in_free_room_slot(TItemData *item);
-    // Marks the slot as holding a character and empties its bank.
+    // Marks the record as holding a character and empties its bank; 0 for a NULL record.
     s32 init_char_slot_record();
+    // Fills symbol_chat_presets from symbolchat.dat: six named presets, the rest cleared.
+    void load_symbol_chat_data();
 
     s32 flags;              // set_global_flags / clear_flags / check_flag
     s32 creation_seconds;   // when the character was made; tells two records of one slot apart
     u32 magic;              // 0xA205B064 once the slot holds a character
     // Seconds played; update_elapsed_time adds the time since the character was selected.
     s32 play_time;
-    s32 card_window_flags;  // test/set_card_window_flags (TWindowKeyBoardHard)
+    s32 card_window_flags;  // test_card_flag/set_card_window_flags
     u32 save_count;         // raised before every save; the copy with the higher count is newer
     u8 account[0x1C];       // the account's entry, copied in when the character is created
     u8 user_name[0x10];
@@ -95,6 +74,7 @@ LAYOUT_ASSERT(CharacterSaveRecord_online_battle, offsetof(CharacterSaveRecord, o
 LAYOUT_ASSERT(CharacterSaveRecord_challenge, offsetof(CharacterSaveRecord, challenge) == 0x21C4);
 LAYOUT_ASSERT(CharacterSaveRecord_choice_search, offsetof(CharacterSaveRecord, choice_search) == 0x22EC);
 LAYOUT_ASSERT(CharacterSaveRecord_quest_counters, offsetof(CharacterSaveRecord, quest_counters) == 0x2314);
+LAYOUT_ASSERT(CharacterSaveRecord_symbol_chat_presets, offsetof(CharacterSaveRecord, symbol_chat_presets) == 0x15A0);
 LAYOUT_ASSERT(CharacterSaveRecord_chat_shortcuts, offsetof(CharacterSaveRecord, chat_shortcuts) == 0x19C0);
 LAYOUT_ASSERT(CharacterSaveRecord_split_screen_battle, offsetof(CharacterSaveRecord, split_screen_battle) == 0x2354);
 LAYOUT_ASSERT(CharacterSaveRecord_size, sizeof(CharacterSaveRecord) == 0x2370);

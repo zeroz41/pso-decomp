@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/quest/TObjTagChallenge.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TObjNewFloorWin.h"

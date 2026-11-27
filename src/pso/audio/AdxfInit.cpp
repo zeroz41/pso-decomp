@@ -31,7 +31,7 @@ void adxf_finish(void) {
         adxf_log_write_index = 0;
         memset(&adxf_log_header, 0, sizeof(adxf_log_header));
         memset(adxf_log_entries, 0xFF, sizeof(adxf_log_entries));
-        memset(afs_archive_toc_table, 0, 0x400);
+        memset(afs_archive_toc_table, 0, sizeof(afs_archive_toc_table));
         memset(adxf_file_handle_pool, 0, sizeof(adxf_file_handle_pool));
     }
 }
@@ -40,7 +40,7 @@ void adxf_init(void) {
     adxf_build_string;
     if (adxf_init_count == 0) {
         memset(adxf_file_handle_pool, 0, sizeof(adxf_file_handle_pool));
-        memset(afs_archive_toc_table, 0, 0x400);
+        memset(afs_archive_toc_table, 0, sizeof(afs_archive_toc_table));
         memset(adxf_log_entries, 0xFF, sizeof(adxf_log_entries));
         memset(&adxf_log_header, 0, sizeof(adxf_log_header));
         adxf_log_write_index = 0;

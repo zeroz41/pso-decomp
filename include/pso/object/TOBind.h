@@ -10,7 +10,7 @@ struct NJS_TEXLIST;
 struct BmlResource;
 
 struct TOBind : public TObjCollidable {
-    TOBind(void *set_data);
+    TOBind(ObjectSetData *set_data);
     virtual ~TOBind();
     void run_task_stub();
     void update_motion();
@@ -25,7 +25,7 @@ struct TOBind : public TObjCollidable {
     NJS_MOTION *motion;
     virtual void run_task();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_static_model();
     static void load_static_resource();
     f32 draw_distance;

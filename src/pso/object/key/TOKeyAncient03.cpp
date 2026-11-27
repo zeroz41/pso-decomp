@@ -34,7 +34,7 @@ BmlResource *key_ancient03_model_archive;
 // The panel's own texture list while up, fs_obj_o_doorpanelg.gvm while down.
 NJS_TEXLIST **key_ancient03_texture_variants;
 
-void TOKeyAncient03::vfunc_25() {}
+void TOKeyAncient03::debug_draw_key_extra() {}
 
 // Pressed while a player stands on it (in once mode, latched once on).
 s32 TOKeyAncient03::is_confirm_pressed() {
@@ -128,7 +128,7 @@ void TOKeyAncient03::render() {
         set_texture_list(reinterpret_cast<NJS_TEXLIST *>(key_ancient03_texture_variants[is_on]));
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         object = model;
         post_translate_matrix(object->pos);
         draw_ginja_model(object->model);
@@ -146,9 +146,9 @@ void TOKeyAncient03::render() {
         object = object->child;
         push_matrix();
         post_translate_matrix(object->pos);
-        TParticleCtrl::begin_effect_render();
+        begin_effect_render();
         draw_ginja_model(object->model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
         pop_matrix();
         if (is_on != 1) {
@@ -159,13 +159,13 @@ void TOKeyAncient03::render() {
     }
 }
 
-void *TOKeyAncient03::create(void *set_data) {
+void *TOKeyAncient03::create(ObjectSetData *set_data) {
     return new TOKeyAncient03(tl_05, set_data);
 }
 
 void TOKeyAncient03::cleanup_refs() {
     if (key_ancient03_texture_variants != NULL) {
-        TObjPlayer::free_if_valid(key_ancient03_texture_variants[1]);
+        free_if_valid(key_ancient03_texture_variants[1]);
         if (key_ancient03_texture_variants != NULL) {
             mem_free(key_ancient03_texture_variants);
             key_ancient03_texture_variants = NULL;
@@ -189,7 +189,7 @@ void TOKeyAncient03::load_resources() {
 
 TOKeyAncient03::~TOKeyAncient03() {}
 
-TOKeyAncient03::TOKeyAncient03(TObject *parent, void *set_data) : TOKey(parent) {
+TOKeyAncient03::TOKeyAncient03(TObject *parent, ObjectSetData *set_data) : TOKey(parent) {
     m_name = key_ancient03_class_name;
     apply_object_set_data(set_data);
     init_switch_id();

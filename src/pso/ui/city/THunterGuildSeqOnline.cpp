@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/TScreenFadeOut.h"
 #include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -33,6 +32,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/quest/QuestActiveFlag.h"
+#include "pso/player/TObjPlayer.h"
 
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
 OnlineQuestDownloadState quest_list_online_dat_download_state;
@@ -86,14 +86,14 @@ THunterGuildSeqOnline_Server::~THunterGuildSeqOnline_Server() {
     hunter_guild_seq_online_server_instance = NULL;
 }
 
-void THunterGuildSeqOffline::zero_four_slots() {
+void zero_four_slots() {
     s32 i;
     for (i = 0; i < 4; i++) {
         hunter_guild_online_server_instance_table[i] = 0;
     }
 }
 
-void THunterGuildSeqOffline::clear_slot_flags() {
+void clear_slot_flags() {
     s32 i;
     for (i = 0; i < 4; i++) {
         hunter_guild_online_server_instance_table[i] = 0;
@@ -151,7 +151,7 @@ void THunterGuildSeqOnline_Server::handle_party_check() {
                     check_step = 2;
                     return;
                 }
-                switch (THunterGuildSeqOffline::check_party_gathered()) {
+                switch (check_party_gathered()) {
                 case 1:
                     check_step = 2;
                     return;
@@ -166,7 +166,7 @@ void THunterGuildSeqOnline_Server::handle_party_check() {
                 }
                 break;
             case 1:
-                if (THunterGuildSeqOffline::check_party_gathered() == 1) {
+                if (check_party_gathered() == 1) {
                     check_step = 2;
                 }
                 if (is_cancel_pressed() != 0) {
@@ -397,7 +397,7 @@ void clear_online_client_instance_table(void) {
     }
 }
 
-void THunterGuildSeqOffline::clear_slots() {
+void clear_slots() {
     s32 i;
     for (i = 0; i < 4; i++) hunter_guild_online_client_instance_table[i] = 0;
 }

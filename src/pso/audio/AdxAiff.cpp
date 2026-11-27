@@ -481,14 +481,14 @@ void adxb_exec_wav_pcm16(AdxbDecoder *adxb) {
 
 s32 adxb_decode_header_wav(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s16 n;
-    adxb->m_02 = 1;
+    adxb->header_decode_started = 1;
     if (parse_wav_header_info(hdr, size, &n, &adxb->encoding_type, &adxb->bits, &adxb->block_bytes,
                              &adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples, &adxb->encoding) < 0) {
         return 0;
     }
     adxb->cutoff = 0;
-    adxb->m_4A = 0;
-    adxb->m_48 = 0;
+    adxb->pad_4A = 0;
+    adxb->pad_48 = 0;
     adxb->loop_count = 0;
     adxb->loop_type = 0;
     adxb->loop_end_byte = 0;
@@ -502,13 +502,13 @@ s32 adxb_decode_header_wav(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     adxb->buf = adxb->output_buffer;
     adxb->bufLen = adxb->wrap_len;
     adxb->rOff = adxb->wrap_offset;
-    adxb->m_7C = adxb->m_48;
-    adxb->m_7E = adxb->m_4A;
-    adxb->m_80 = adxb->m_4C;
+    adxb->pad_7C = adxb->pad_48;
+    adxb->pad_7E = adxb->pad_4A;
+    adxb->pad_80 = adxb->pad_4C;
     adxb->write_pos = 0;
     adxb->total_written = 0;
     adxb->format = 1;
-    memset(adxb->m_4C, 0, 4);
+    memset(adxb->pad_4C, 0, 4);
     return n;
 }
 
@@ -714,7 +714,7 @@ s32 adxb_decode_header_aiff(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s16 len;
     s32 st;
     u8 *e;
-    adxb->m_02 = 1;
+    adxb->header_decode_started = 1;
     if (size < 0x1000) {
         len = 0;
         st = -1;
@@ -736,8 +736,8 @@ s32 adxb_decode_header_aiff(AdxbDecoder *adxb, u8 *hdr, s32 size) {
         return 0;
     }
     adxb->cutoff = 0;
-    adxb->m_4A = 0;
-    adxb->m_48 = 0;
+    adxb->pad_4A = 0;
+    adxb->pad_48 = 0;
     adxb->loop_count = 0;
     adxb->loop_type = 0;
     adxb->loop_end_byte = 0;
@@ -751,9 +751,9 @@ s32 adxb_decode_header_aiff(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     adxb->buf = adxb->output_buffer;
     adxb->bufLen = adxb->wrap_len;
     adxb->rOff = adxb->wrap_offset;
-    adxb->m_7C = adxb->m_48;
-    adxb->m_7E = adxb->m_4A;
-    adxb->m_80 = adxb->m_4C;
+    adxb->pad_7C = adxb->pad_48;
+    adxb->pad_7E = adxb->pad_4A;
+    adxb->pad_80 = adxb->pad_4C;
     adxb->write_pos = 0;
     adxb->total_written = 0;
     adxb->format = 3;
@@ -762,7 +762,7 @@ s32 adxb_decode_header_aiff(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     } else {
         adxb->encoding = 0;
     }
-    memset(adxb->m_4C, 0, 4);
+    memset(adxb->pad_4C, 0, 4);
     return len;
 }
 

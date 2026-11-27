@@ -15,7 +15,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/render/GinjaTexture.h"
 
-void *TObjNpcARW00::create(void *set_data) {
+void *TObjNpcARW00::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcARW00(control, set_data);
 }
@@ -44,7 +44,7 @@ void TObjNpcARW00::load_resources() {
 
 TObjNpcARW00::~TObjNpcARW00() {}
 
-TObjNpcARW00::TObjNpcARW00(TObject *parent, void *set_data) : TObjNpcFemale(parent) {
+TObjNpcARW00::TObjNpcARW00(TObject *parent, EnemyPlacement *set_data) : TObjNpcFemale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

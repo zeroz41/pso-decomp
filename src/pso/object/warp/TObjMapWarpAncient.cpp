@@ -1,5 +1,4 @@
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -10,7 +9,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/render/TextureState.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
@@ -67,7 +66,7 @@ void TObjGoalWarpAncient::load_resources() {
 }
 
 void TObjMapWarpAncient::free_globals() {
-    TObjPlayer::free_if_valid(goal_warp_ancient_gvm_texture);
+    free_if_valid(goal_warp_ancient_gvm_texture);
     goal_warp_ancient_gvm_texture = NULL;
     if (ancient_warp_shared_resource != NULL) {
         delete ancient_warp_shared_resource;
@@ -75,7 +74,7 @@ void TObjMapWarpAncient::free_globals() {
     }
 }
 
-TObjMapWarpAncient::TObjMapWarpAncient(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
+TObjMapWarpAncient::TObjMapWarpAncient(TObject *parent, ObjectSetData *set_data) : TObjMapWarp(parent, set_data) {
     m_name = map_warp_ancient_class_name;
     beam_frame = 0.0f;
     beam_model = get_ancient_warp_model(2);
@@ -116,26 +115,26 @@ void TObjMapWarpAncient::render() {
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
-        TParticleCtrl::begin_effect_render();
+        rotate_matrix_y(0, rotation.y);
+        begin_effect_render();
         if ((s32)set_params[1] >= 0) {
             set_texture_list(beam_textures);
             draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
         }
         set_texture_list(ksita_textures);
         draw_ginja_object(ksita_model);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         set_texture_list(nsita_textures);
         draw_ginja_object(nsita_model);
         pop_matrix();
     }
 }
 
-void *TObjMapWarpAncient::create(void *set_data) {
+void *TObjMapWarpAncient::create(ObjectSetData *set_data) {
     return new TObjMapWarpAncient(tl_05, set_data);
 }
 
-TObjGoalWarpAncient::TObjGoalWarpAncient(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjGoalWarpAncient::TObjGoalWarpAncient(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = goal_warp_ancient_class_name;
     naka_frame = 0.0f;
     beam_frame = 0.0f;
@@ -155,13 +154,9 @@ TObjGoalWarpAncient::TObjGoalWarpAncient(TObject *parent, void *set_data) : TObj
         queue_destruction();
     }
     if (is_split_screen() == 1) {
-        TAdVIConfigGC *p = (TAdVIConfigGC *)::operator new(0x88);
-        if (p != NULL) {
-            p = p->init(&position, 20.0f);
-        }
-        vi_config = p;
+        party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
-        vi_config = NULL;
+        party_check = NULL;
     }
 }
 
@@ -196,19 +191,19 @@ void TObjGoalWarpAncient::render() {
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
-        TParticleCtrl::begin_effect_render();
+        rotate_matrix_y(0, rotation.y);
+        begin_effect_render();
         set_texture_list(beam_textures);
         draw_ginja_model_with_motion(beam_model, beam_motion, beam_frame);
         set_texture_list(naka_textures);
         draw_ginja_model_with_motion(naka_model, naka_motion, naka_frame);
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         set_texture_list(gawa_textures);
         draw_ginja_object(gawa_model);
         pop_matrix();
     }
 }
 
-void *TObjGoalWarpAncient::create(void *set_data) {
+void *TObjGoalWarpAncient::create(ObjectSetData *set_data) {
     return new TObjGoalWarpAncient(tl_05, set_data);
 }

@@ -22,7 +22,6 @@ const char *multi_confirm_name = "TAdMultiConfirmGC";
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
 extern "C" {
-s32 is_player_model_shown(void *);
 extern const char multi_confirm_empty_line[] = "";
 }
 #pragma push

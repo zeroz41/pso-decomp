@@ -3,11 +3,11 @@
 #include "types.h"
 #include <stddef.h>
 struct GbaJoybootState {
-    u16 probe_counter;
+    volatile u16 probe_counter;
     u16 reserved_02;
     volatile s16 timeout_counter;
     s8 phase;
-    s8 device_present;
+    volatile s8 device_present;
 };
 LAYOUT_ASSERT(GbaJoybootTimeoutOffset, offsetof(GbaJoybootState,timeout_counter)==4);
 LAYOUT_ASSERT(GbaJoybootPhaseOffset, offsetof(GbaJoybootState,phase)==6);

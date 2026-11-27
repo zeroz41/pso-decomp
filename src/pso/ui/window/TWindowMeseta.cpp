@@ -8,12 +8,12 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/ui/window/WindowTextEntry.h"
 void TWindowMeseta::set_value(s32 value) {
     meseta = value;
     static_cast<TWindowLayoutCountingNumber *>(get_array_entry(1))->set_all_values((int)meseta);
@@ -75,7 +75,7 @@ void TWindowMeseta::run_task() {
 }
 
 TWindowMeseta::~TWindowMeseta() {}
-TWindowMeseta::TWindowMeseta(void *position, s32 client, const char *str)
+TWindowMeseta::TWindowMeseta(const NJS_POINT2 *position, s32 client, const char *str)
     : TWindowBase((u8 *)&TWindowMeseta::window_descriptor, (s16)client, (u8 *)position) {
     WindowTextEntry *a;
     TWindowLayoutCountingNumber *b;

@@ -47,10 +47,6 @@ struct TQuestListOnline : public TShopWindowBase {
     s32 get_selection_stage();
     static int get_quest_size();
     static u8 *get_quest_data();
-    static void begin_file_download(TRecvDownloadHead &file);
-    static void receive_quest_info(OnlineQuestInfo &info);
-    static void release_resources();
-    static void init_download_buffers();
     static s32 get_list_state();
     static const char *get_selected_entry();
     static int get_selected_quest_id();
@@ -59,8 +55,6 @@ struct TQuestListOnline : public TShopWindowBase {
     static s32 init();
     static void ensure_online_quests_loaded();
     static u8 *get_quest_list_flag();
-    static void close_windows_and_reset();
-    static void handle_quest_ready();
 };
 LAYOUT_ASSERT(QuestListOnlineSize, (sizeof(TQuestListOnline)==0x70));
 LAYOUT_ASSERT(QuestListOnline_state, (offsetof(TQuestListOnline,state)==0x20));

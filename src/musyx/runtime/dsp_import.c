@@ -1,5 +1,6 @@
 /* MusyX DSP slave program: the microcode image salInitDsp hands to the DSP task. */
 #include "types.h"
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 

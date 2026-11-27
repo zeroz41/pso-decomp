@@ -235,11 +235,11 @@ void load_city_season_resources() {
         if (city_season_index == 0) {
             object = resource->models[1].model;
             city_season_strips = new StripBufferPair(object, 3);
-            ((NJS_CNK_MODEL *)object->child->model)->polygon_list[6] &= ~0x1000;
+            object->child->chunk_model->polygon_list[6] &= ~0x1000;
         } else if (city_season_index == 4) {
             object = resource->models[1].model;
             city_season_strips = new StripBufferPair(object, 0);
-            ((NJS_CNK_MODEL *)object->child->model)->polygon_list[6] &= ~0x1000;
+            object->child->chunk_model->polygon_list[6] &= ~0x1000;
         } else {
             city_season_strips = NULL;
         }
@@ -260,7 +260,7 @@ void load_city_season_resources() {
     }
 
     city_season_board_strips = new StripBufferPair(city_season_board_model, 2);
-    ((NJS_CNK_MODEL *)city_season_board_model->model)->polygon_list[6] &= ~0x2000;
+    city_season_board_model->chunk_model->polygon_list[6] &= ~0x2000;
     city_season_board_resource = board;
     for (i = 0; i < board->model_count; i++) {
         if (board->models[i].texlist != NULL) {

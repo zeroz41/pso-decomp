@@ -25,11 +25,4 @@ public:
 
 LAYOUT_ASSERT(TWindowLayoutEntry_size, sizeof(TWindowLayoutEntry) == 8);
 
-extern "C" {
-// TWindowLayoutEntry::TWindowLayoutEntry(s32), called by the constructors that are still written by hand.
-void *__ct__18TWindowLayoutEntryFl(void *p, s32 client);
-// TWindowLayoutEntry::~TWindowLayoutEntry(), called by the destructors that are still written by hand.
-void *__dt__18TWindowLayoutEntryFv(void *p, s16 flags);
-}
-
 #endif

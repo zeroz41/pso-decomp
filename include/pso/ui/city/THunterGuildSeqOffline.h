@@ -25,7 +25,6 @@ struct THunterGuildSeqOffline : public TShopSequence {
     static void reset_quest_result_callbacks();
     static void unload_quest_result_callbacks();
     static THunterGuildSeqOffline *create(TObjPlayer *player);
-    static s32 check_party_gathered();
     static void set_state_close(TShopWindowBase *sequence);
     static void set_state_4(TShopWindowBase *sequence);
     void handle_click();
@@ -45,9 +44,6 @@ struct THunterGuildSeqOffline : public TShopSequence {
     TObject *counter_camera; // 0x30: set_service_counter_camera
     TQuestThread *quest_thread;       // 0x34: TQuestThread::create_in_root
     s32 exit_action;       // 0: close; 1-4: leave through a fade-out that sets enemy mode 0, 1, 3 or 5
-    static void clear_slots();
-    static void clear_slot_flags();
-    static void zero_four_slots();
 };
 
 LAYOUT_ASSERT(THunterGuildSeqOffline_size, sizeof(THunterGuildSeqOffline) == 0x3C);
@@ -69,7 +65,7 @@ s32 get_online_client_instance(s32 client_id);
 s32 get_online_server_instance(s32 client_id);
 s32 get_offline_instance(s32 client_id);
 s32 is_near_designated_player(void);
-
-struct GuildMenuCallbackBase { char pad[0x18]; };
+// 2 for a one-member party, 1 when every player is near the designated client, 0 otherwise.
+s32 check_party_gathered();
 
 #endif

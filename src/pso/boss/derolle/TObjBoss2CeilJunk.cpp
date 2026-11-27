@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
@@ -6,7 +5,7 @@
 #include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/boss/goldragon/ChunkStripGrid.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
@@ -68,8 +67,8 @@ void TObjBoss2CeilJunk::render() {
   push_matrix();
   set_texture_list(boss2_common_texture_list);
   post_translate_matrix(&position.x);
-  rotate_matrix_y(0, this->rotation_y);
-  rotate_matrix_x(0, this->rotation_x);
+  rotate_matrix_y(0, this->rotation.y);
+  rotate_matrix_x(0, this->rotation.x);
   draw_ginja_object(boss2_common_resource->models[boss2_ceil_junk_model_index_table[kind]].model);
   pop_matrix();
   model_render_flags = saved_model_render_flags;
@@ -153,8 +152,8 @@ void TObjBoss2CeilJunk::run_task() {
             }
             if (hit != 0) {
                 velocity.y *= (-0.5f);
-                velocity.x = (2.0f) * sin_table_lookup(rotation_y);
-                velocity.z = (2.0f) * cos_table_lookup(rotation_y);
+                velocity.x = (2.0f) * sin_table_lookup(rotation.y);
+                velocity.z = (2.0f) * cos_table_lookup(rotation.y);
                 state = 3;
                 play_sound_effect(0x4003A801, &position, 0, 0);
                 TCameraCtrl::set_shake_preset(0);
@@ -166,7 +165,7 @@ void TObjBoss2CeilJunk::run_task() {
         if (velocity.y < -10.0f) {
             velocity.y = -10.0f;
         }
-        rotation_x += 0x1323;
+        rotation.x += 0x1323;
         vec3_add_to(&position, &velocity);
         fade_timer++;
         if (fade_timer >= 10) {
@@ -203,8 +202,8 @@ TObjBoss2CeilJunk::TObjBoss2CeilJunk(TObject *parent, const Vec *position) : TOb
         state = 2;
         home_position.y = prev_position.y + TObjBoss2CeilJunk::height_offset_table[kind];
     }
-    rotation_y = random_angle();
-    rotation_x = (s32) (4096.0f * rand_signed_unit());
+    rotation.y = random_angle();
+    rotation.x = (s32) (4096.0f * rand_signed_unit());
     velocity.x = 0.0f;
     velocity.y = 0.0f;
     velocity.z = 0.0f;

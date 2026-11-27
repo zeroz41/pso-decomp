@@ -35,7 +35,7 @@ struct NJS_OBJECT;
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/DebugFont.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -96,7 +96,7 @@ void TObjEneEpsilonBody::set_guard_part_colors(NJS_ARGB *color) {
     }
 }
 
-TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEneEpsilon(parent) {
+TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, EnemyPlacement *set_data) : TObjEneEpsilon(parent) {
     s32 i;
     m_name = epsilon_body_class_name;
     invoke_initialization_hook(set_data);
@@ -136,12 +136,12 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     target_position.y = 0.0f;
     target_position.z = 0.0f;
     for (i = 0; i < 4; i++) {
-        TObjEneEpsilonGuard *guard = TObjEneEpsilonGuard::create(this, (u16)(entity_id + 1 + i), set_index + 1 + i, &position, rotation_y);
+        TObjEneEpsilonGuard *guard = TObjEneEpsilonGuard::create(this, (u16)(entity_id + 1 + i), set_index + 1 + i, &position, rotation.y);
         if (guard != NULL) {
             guard_ids[i] = guard->get_entity_id();
         }
         VecCopy(&guard_position[i], &position);
-        guard_rotation_y[i] = rotation_y;
+        guard_rotation_y[i] = rotation.y;
     }
     mode = 0;
     dispatch_action(mode, 4);
@@ -174,12 +174,12 @@ TObjEneEpsilonBody::~TObjEneEpsilonBody() {
     }
 }
 
-void *create_TObjEneEpsilonBody(void *set_data) {
+void *create_TObjEneEpsilonBody(EnemyPlacement *set_data) {
     return new TObjEneEpsilonBody(tl_04, set_data);
 }
 
 void TObjEneEpsilonBody::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -374,7 +374,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
         if (!(flags & 0x80)) {
             enemy_copy_target_destination();
             update_velocity();
-            effect_scale = destination_direction.x * sin_table_lookup(rotation_y) + destination_direction.z * cos_table_lookup(rotation_y);
+            effect_scale = destination_direction.x * sin_table_lookup(rotation.y) + destination_direction.z * cos_table_lookup(rotation.y);
             if (effect_scale < cos_table_lookup(0x1000)) {
                 turn_toward_target_direction(turn_step);
                 update_ground_contact();
@@ -383,7 +383,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
             }
             if (target_player != 0xFFFF) {
                 TObjPlayer *player = TObjPlayer::get_player_data(target_player);
-                if (TObjPlayer::is_valid_and_active(player) != 0) {
+                if (TObjCollidable::is_valid_and_active(player) != 0) {
                     if (check_path_obstructed(this, &player->body_center) == 1) {
                         action_timer = 0;
                         target_player = 0xFFFF;
@@ -409,7 +409,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
                 target_slot++;
                 target_player = select_slot_target(target_slot);
                 if (target_player != 0xFFFF) {
-                    if (TObjPlayer::is_valid_and_active(TObjPlayer::get_player_data(target_player)) != 0) {
+                    if (TObjCollidable::is_valid_and_active(TObjPlayer::get_player_data(target_player)) != 0) {
                         VecCopy(d, &position);
                         d->y += 10.0f;
                         if (project_actor_to_ground(this, d, 0) != 0) {
@@ -863,8 +863,8 @@ void TObjEneEpsilonBody::action_destroy(s32 reason) {
             action_timer++;
             if (action_timer >= 0x14) {
                 set_intangible();
-                TBoss3Volopt::create_breakup_mdl(epsilon_body_breakup_model, &epsilon_guard_destroy_breakup_params,
-                                   texlist, &body_center, rotation_y);
+                create_breakup_mdl(epsilon_body_breakup_model, &epsilon_guard_destroy_breakup_params,
+                                   texlist, &body_center, rotation.y);
                 play_sound_effect(0x4003AD4C, &body_center, 0, 0);
                 trigger_dell_biter_events(&body_center);
                 flags |= 1;
@@ -878,7 +878,7 @@ void TObjEneEpsilonBody::action_destroy(s32 reason) {
 void TObjEneEpsilonBody::render() {
     s32 detail;
     s32 i;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->render_demo();
         return;
     }
@@ -932,7 +932,7 @@ void TObjEneEpsilonBody::update_guard_anchor(s32 i) {
     }
     push_matrix_from(identity_matrix);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     set_motion_packed_rotation();
     calc_joint_matrices(frame);
     clear_motion_packed_rotation();
@@ -1002,7 +1002,7 @@ void TObjEneEpsilonBody::draw_with_fade(s32 detail) {
     push_matrix();
     post_translate_matrix(&position.x);
     translate_matrix(0, 0.0f, 24.0f, 0.0f);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     TObjEneDD::clear_global_flag_400();
     if (flags & 2) {
         set_chunk_model_node_callback(TObjEneEpsilonBody::record_camera_angle_samples);
@@ -1023,7 +1023,7 @@ void TObjEneEpsilonBody::draw_with_fade(s32 detail) {
             draw_motion_model();
         }
     }
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     if (flags & 2) {
         set_chunk_model_node_callback(NULL);
     }
@@ -1044,12 +1044,12 @@ void TObjEneEpsilonBody::render_body_effect() {
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, 24.0f, 0.0f);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         scale_matrix(0, effect_scale, 1.0f, effect_scale);
         set_texture_list(texlist);
         toggle_particle_effect();
         draw_chunk_object(get_bml_model(epsilon_bml_resource, 4));
-        TParticleCtrl::end_effect_render();
+        end_effect_render();
         pop_matrix();
     }
 }
@@ -1156,7 +1156,7 @@ u32 TObjEneEpsilonBody::select_slot_target(s32 slot) {
     }
     for (id = 0; id < count; id++) {
         player = TObjPlayer::get_player_data(id);
-        if (TObjPlayer::is_valid_and_active(player) == 0) continue;
+        if (TObjCollidable::is_valid_and_active(player) == 0) continue;
         if (player->actorFlags & 0x2000800) continue;
         VecCopy(&d, &player->body_center);
         subtract_vector(&d, &body_center);
@@ -1340,9 +1340,9 @@ f32 TObjEneEpsilonBody::receive_physical_attack(TObjChara *attacker, f32 scale) 
 }
 f32 TObjEneEpsilonBody::receive_weapon_special_attack(TObjChara *src, CollisionBody *hit) {
     if (!(flags & 2) && !(flags & 0x40)) {
-        s16 kind = ((TObjPlayer *)src)->obj_getS16_116();
+        s16 kind = src->get_special_kind();
         s32 strong;
-        obj_getS16_118((u8 *)src);
+        src->get_special_power();
         strong = 0;
         if (src == NULL || src->get_entity_id() == 0xFFFF) {
             show_miss_popup(&position);
@@ -1378,7 +1378,7 @@ f32 TObjEneEpsilonBody::receive_weapon_special_attack(TObjChara *src, CollisionB
             }
             return 0.0f;
         }
-        if (((TObjPlayer *)src)->obj_getS16_116() != get_immune_special_kind()) {
+        if (src->get_special_kind() != get_immune_special_kind()) {
             return TObjChara::receive_weapon_special_attack(src, hit);
         }
     }

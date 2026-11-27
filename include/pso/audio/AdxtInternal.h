@@ -28,10 +28,10 @@ struct AdxtPlayer {
     SjRingBuffer *input_ring;      /* 0x10 */
     SjRingBuffer *input_sj;        /* 0x14 */
     SjRingBuffer *output_rings[2]; /* 0x18 */
-    saddr input_buf_addr;          /* 0x20 */
+    u8 *input_buf;                 /* 0x20 */
     s32 input_buf_size;            /* 0x24 */
     s32 input_extra_size;          /* 0x28 */
-    saddr output_buf_addr;         /* 0x2C */
+    u8 *output_buf;                /* 0x2C */
     s32 output_buf_size;           /* 0x30 */
     s32 output_stride;             /* 0x34 */
     s32 server_freq;               /* 0x38 */
@@ -86,6 +86,7 @@ void adxt_set_output_vol(AdxtPlayer *player, s32 volume);
 extern "C" {
 void configure_audio_stream_output(AdxtPlayer *player);
 void start_stream_playback(AdxtPlayer *player, SjRingBuffer *sj);
+void adxt_start_sj(AdxtPlayer *player, SjRingBuffer *sj);
 void ADXT_SetOutPan(AdxtPlayer *player, s32 ch, s32 pan);
 void ADXT_StartMemIdx(AdxtPlayer *player, u8 *table_data, s32 entry_index);
 void ADXT_StartFname(AdxtPlayer *player, const char *name);
@@ -93,8 +94,6 @@ void set_sync_mode_flag(AdxtPlayer *player, s8 flag);
 s32 get_error_code(AdxtPlayer *player);
 void set_auto_repeat(AdxtPlayer *player, s8 flag);
 s32 adxt_get_sample_rate(AdxtPlayer *player);
-void adxt_exec_handle(AdxtPlayer *player);
-void adxt_start_sj(AdxtPlayer *player, SjRingBuffer *sj);
 extern AdxtPlayer adx_stream_player_pool[16];
 }
 

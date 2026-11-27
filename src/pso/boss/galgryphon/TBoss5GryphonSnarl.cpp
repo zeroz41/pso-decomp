@@ -3,14 +3,13 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/galgryphon/TBoss5GryphonSnarl.h"
 #include "pso/system/vector.h"
 
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
-#include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
+#include "pso/boss/goldragon/BossAssetVariant.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/ui/hud/TNowLoading.h"

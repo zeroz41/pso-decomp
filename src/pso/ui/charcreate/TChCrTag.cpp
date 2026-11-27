@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/charcreate/TChCrTag.h"
 #include "pso/system/task/TObject.h"

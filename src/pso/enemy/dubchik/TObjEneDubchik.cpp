@@ -33,7 +33,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/enemy/dubchik/TDubchikPart.h"
 #include "pso/enemy/dubchik/TDubchikShot.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/math/MatrixReflect.h"
@@ -47,8 +47,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/render/DebugFont.h"
 #include "pso/enemy/saver/SaverLifecycle.h"
-#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/boss/volopt/EnemyEffectHelpers.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TMainTask.h"
@@ -56,6 +56,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/enemy/saver/TObjEneSaver.h"
 
 extern "C" {
 BmlResource *dubchik_resource;
@@ -206,15 +207,14 @@ void TObjEneDubchik::run_move_action() {  }
 
 void TObjEneDubchik::run_idle_action() {  }
 
-TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
-    EnemyPlacement *set_data_enemyplacement = (EnemyPlacement *)set_data;
+TObjEneDubchik::TObjEneDubchik(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     s32 i;
     m_name = dubchik_class_name;
     apply_set_data(set_data);
     VecCopy(&move_origin, VecCopy(&move_destination, VecCopy(&prev_position, &position)));
     motion_list = dubchik_resource->motions;
-    variant = set_data_enemyplacement->variant ? 1 : 0;
-    state36C = set_data_enemyplacement->state;
+    variant = set_data->variant ? 1 : 0;
+    state36C = set_data->state;
     init_level_stats(variant);
     action_table = dubchik_action_table;
     set_action_table(action_table);
@@ -243,7 +243,7 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
         set_param(24);
     }
     saver = TAttackTraceStrip::create(0x00FFFFFF, 0xA0707070);
-    if (set_data_enemyplacement->wave != 0) {
+    if (set_data->wave != 0) {
         start_appear();
     }
     effect = NULL;
@@ -349,10 +349,10 @@ void TObjEneDubchik::free_resources() {
     }
     dubchik_texlist = NULL;
     if (dubchik_variant_texlist != NULL) {
-        TObjPlayer::free_if_valid(dubchik_variant_texlist);
+        free_if_valid(dubchik_variant_texlist);
         dubchik_variant_texlist = NULL;
     }
-    TObjPlayer::reset_effect_count();
+    reset_effect_count();
     if (dubchik_scratch_trail0_points[0] != NULL) {
         delete dubchik_scratch_trail0_points[0];
         dubchik_scratch_trail0_points[0] = NULL;
@@ -371,13 +371,13 @@ void TObjEneDubchik::free_resources() {
     }
 }
 
-void *TObjEneDubchik::create(void *set_data) {
+void *TObjEneDubchik::create(EnemyPlacement *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjEneDubchik(control, set_data);
 }
 
 void TObjEneDubchik::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_demo_task();
         return;
     }
@@ -437,10 +437,10 @@ void TObjEneDubchik::render() {
             saved_model_render_flags = model_render_flags;
             apply_broken_part_visibility();
             post_translate_matrix(&position.x);
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(0, rotation.y);
             scale_matrix(0, 1.3f, 1.3f, 1.3f);
             model_render_flags &= 0xFFFFFBFF;
-            if (TObjPlayer::check_demo_mode() == 1) {
+            if (check_demo_mode() == 1) {
                 draw_chunk_object(model);
             } else if (behavior_flags & 4) {
                 if (fade.has_visible_opacity() != 0) {
@@ -468,7 +468,7 @@ void TObjEneDubchik::render() {
             model_render_flags = saved_model_render_flags;
             pop_matrix();
             restore_scene_lighting();
-            TParticleCtrl::end_effect_render();
+            end_effect_render();
             if (!(actorFlags & 0x800) && (drew != 0)) {
                 Vec v = {1.5f, 1.5f, 1.5f};
                 draw_ground_shadow(&v, 0);
@@ -604,7 +604,7 @@ void TObjEneDubchik::update_knockback() {
             state = -1;
         } else {
             requested_action = 3;
-            enemy_set_heading_velocity(-7.0f, this, rotation_y);
+            enemy_set_heading_velocity(-7.0f, this, rotation.y);
             state = 1;
             play_sound_effect(remap_sound_for_area(0x4003A806), &position, 0, 0);
             knockback_timer = get_int_parameter(2);
@@ -677,7 +677,7 @@ void TObjEneDubchik::update_fall_apart() {
         behavior_flags &= ~0x800000;
         set_invuln_flags();
         requested_action = 4;
-        enemy_set_heading_velocity(-7.0f, this, rotation_y);
+        enemy_set_heading_velocity(-7.0f, this, rotation.y);
         render_model_and_set_attach_points();
         for (i = 0; i < 3; i++) {
             if (parts[i] == NULL && random_ratio() >= 0.5f) {
@@ -841,7 +841,7 @@ void TObjEneDubchik::update_scratch() {
         push_matrix();
         set_matrix_identity(0);
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         if (h0 != 0) {
             matrix_mult_vec_array(NULL, h0, &a1, 2);
             saver->add_segment(&a1, &b1);
@@ -932,7 +932,7 @@ void TObjEneDubchik::update_shoot() {
         }
         if (--timer <= 0) {
             shot_count--;
-            new TDubchikShot(&muzzle_position, rotation_y, this, get_int_parameter(3));
+            new TDubchikShot(&muzzle_position, rotation.y, this, get_int_parameter(3));
             state = 4;
             if (effect != NULL) {
                 effect->queue_destruction();
@@ -1165,8 +1165,8 @@ void TObjEneDubchik::update_dying() {
         } else {
             play_sound_effect(remap_sound_for_area(0x4003AD16), &position, 0, 0);
         }
-        TBoss3Volopt::create_breakup_mdl(breakup_model_ptr, &dubchik_breakup_params,
-                           texlist, &body_center, rotation_y);
+        create_breakup_mdl(breakup_model_ptr, &dubchik_breakup_params,
+                           texlist, &body_center, rotation.y);
         refresh_lobby_state();
         send_entity_set_flags();
         trigger_dell_biter_events(&body_center);

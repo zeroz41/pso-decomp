@@ -5,10 +5,10 @@
 #include "pso/object/base/TObjMapObject.h"
 
 struct TOAirconCave01 : public TObjMapObject {
-    TOAirconCave01(TObject *parent, void *set_data);
+    TOAirconCave01(TObject *parent, ObjectSetData *set_data);
     virtual ~TOAirconCave01();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void release_static_resource();
     static void load_shared_resource();
 };

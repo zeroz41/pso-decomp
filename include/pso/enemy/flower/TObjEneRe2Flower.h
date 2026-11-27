@@ -4,12 +4,13 @@
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/TObjEnemyColorFade.h"
+#include "pso/boss/DragonAttackParams.h"
 
 class TParticleCtrl;
 class TObjPlayer;
 
 struct TObjEneRe2Flower : public TObjEneDD_ST {
-    TObjEneRe2Flower(TObject *parent, void *setData);
+    TObjEneRe2Flower(TObject *parent, EnemyPlacement *setData);
     virtual ~TObjEneRe2Flower();
     virtual void run_task();
     virtual void render();
@@ -48,7 +49,7 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     void set_child_flags();
     TObjPlayer *find_target_in_range();
     static void destroy_instance();
-    static void *create(void *setData);
+    static void *create(EnemyPlacement *setData);
     int is_tower_variant();
 
     s32 base_yaw;            // the stem's yaw; rotation_y - base_yaw turns the head (node 1)
@@ -102,16 +103,20 @@ extern const f32 re2_flower_lose_target_distance;
 extern const f32 re2_flower_attack_distance;
 extern const f32 re2_flower_track_timeout;
 extern const f32 re2_flower_retarget_margin;
+// The tower variant's self-destruct blast and the draw_ground_shadow scale of render.
+extern const DragonAttackParams re2_flower_tower_attack_params;
+extern const Vec re2_flower_shadow_scale[];
 extern const f32 re2_flower_acquire_range;
 extern const f32 re2_flower_player_range_sq;
 extern const f32 re2_flower_body_center_height;
 extern const f32 re2_flower_rare_chance; // 0.002
 
-// State of the chunk node callback TObjPlayer::update_effect_sequence: the node counter, the head yaw
+// State of the chunk node callback update_effect_sequence: the node counter, the head yaw
 // applied at node 1 and the two points transformed at node 14.
 extern s32 re2_flower_node_index;
 extern s32 re2_flower_node_yaw;
-extern f32 *re2_flower_node_points;
+extern Vec *re2_flower_node_points;
+void update_effect_sequence(NJS_OBJECT *);
 
 LAYOUT_ASSERT(TObjEneRe2Flower_size, sizeof(TObjEneRe2Flower) == 0x42C);
 

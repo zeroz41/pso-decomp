@@ -21,5 +21,6 @@ public:
     void (*callback)(); // called once the fade ends
 };
 LAYOUT_ASSERT(TScreenFadeController_size, sizeof(TScreenFadeController) == 0x2C);
+s32 get_quest_thread_state();
 
 #endif

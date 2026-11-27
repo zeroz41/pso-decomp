@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemDisconnectCtrl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/network/TLobby.h"

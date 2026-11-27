@@ -23,6 +23,7 @@ struct TBoss4Thanks : public TObject {
     NJS_TEXLIST *texture_list;
     NJS_MOTION *motions[2];
     TParticleCtrl *particle_emitters[4];
+    // Story flag 151, set by check_ready (dispatch_main_phase) when the fight earns the thanks.
     // int: the body widens a bool (clrlwi) and its callers test r3 with a plain cmpwi.
     static s32 is_door_open();
     // Story flag 0x99 (153, set by mark_thanks_shown).
@@ -62,6 +63,7 @@ struct Boss4ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
 
 s32 any_player_has_listed_item(void);
 
+// Takes no argument: the body calls is_door_open() without setting r3.
 s32 is_boss4_door_open(void);
 
 #endif

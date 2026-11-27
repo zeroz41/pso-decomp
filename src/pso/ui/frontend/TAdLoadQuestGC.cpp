@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowCost.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -18,7 +17,7 @@ TWindowCost *create_cost_window(s32 client) {
     if (TCameraCtrl::get_camera_id() <= 2) {
         return NULL;
     }
-    return new TWindowCost(const_cast<NJS_POINT2 *>(get_window_layout_position(0x59)), client, TWindowSubStatusDisp::get_message_10(0x109));
+    return new TWindowCost(get_window_layout_position(0x59), client, TWindowSubStatusDisp::get_message_10(0x109));
 }
 
 void TAdLoadQuestGC::render() {}

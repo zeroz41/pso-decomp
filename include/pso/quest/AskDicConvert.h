@@ -21,7 +21,7 @@ s32 calc_quest_download_entry_cost(const QuestDownloadEntryNode *a, const QuestD
 s32 calc_quest_download_item_cost(const QuestDownloadEntryNode *entry, u8 k, u8 v, s32 base);
 u16 calc_quest_entry_score(const QuestDownloadEntryNode *entry, u16 attribute);
 u8 *convert_all_entry_text(void);
-s32 convert_romaji_to_kana(u16 *src, s32 n, u16 *out, s32 *count);
+s32 convert_romaji_to_kana(u16 *src, s32 count, u16 *out, s32 *written);
 s32 format_number_text_all_modes(const u8 *format, s32 length, QuestDownloadTextRecord *out, s32 *count);
 void free_quest_entry_chain(QuestDownloadEntryNode *p);
 void free_quest_queue_chain(QuestDownloadQueueNode *p);

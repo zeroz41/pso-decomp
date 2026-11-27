@@ -1,4 +1,4 @@
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
@@ -29,7 +29,7 @@
 #include "pso/network/client_id.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 
 // The whole unit is built with deferred inlining, so the compiler emits the
 // functions in reverse order: the last function here sits first in the DOL.
@@ -56,7 +56,7 @@ TObjEnemyCustom::~TObjEnemyCustom() {
 }
 
 void TObjEnemyCustom::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_demo_task();
         return;
     }
@@ -280,9 +280,9 @@ void TObjEnemyCustom::render() {
         set_texture_list(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         model_render_flags &= ~0x400;
-        if (TObjPlayer::check_demo_mode() == 1) {
+        if (check_demo_mode() == 1) {
             draw_chunk_object(model);
         } else {
             draw();
@@ -300,7 +300,7 @@ void TObjEnemyCustom::run_demo_task() {
 void TObjEnemyCustom::render_anim_model_at_pos() {
     push_matrix_from(identity_matrix);
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     calc_joint_matrices(frame);
     pop_matrix();
 }
@@ -361,8 +361,8 @@ s32 TObjEnemyCustom::turn_toward_point(Vec *point, s32 max_step, s32 angle_offse
     Vec delta = *point;
     subtract_vector(&delta, &position);
     angle_offset += (s32)(10430.38043493439 * atan2_float(delta.x, delta.z));
-    rotation_y = approach_angle_limited(rotation_y, angle_offset, max_step);
-    return angle_difference_abs(rotation_y, angle_offset);
+    rotation.y = approach_angle_limited(rotation.y, angle_offset, max_step);
+    return angle_difference_abs(rotation.y, angle_offset);
 }
 
 void TObjEneBalClawBody::return_home_or_idle() {
@@ -559,7 +559,7 @@ u16 TObjEnemyCustom::pick_random_nearby_player(f32 radius) {
     return candidates[(s32)((f32)found * random_ratio())];
 }
 
-void TObjEnemyCustom::apply_enemy_state(s32 *state) {
+void TObjEnemyCustom::apply_enemy_state(EnemyStateRecord *state) {
     s16 saved_mode = mode;
     TObjEnemy::apply_enemy_state(state);
     mode = saved_mode;

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -17,6 +16,7 @@
 #include "pso/player/PlayerCommands.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 #pragma defer_codegen on
@@ -45,7 +45,7 @@ void TBoss3VoloptCtrl::run_task() {
                 TObjPlayer::freeze_all_players();
                 play_area_music("vol_opt2.adx");
                 if (get_main_phase() != 0xF) {
-                    if (TRaderMapCore::is_not_split_screen() == 1) {
+                    if (is_not_split_screen() == 1) {
                         unhide_room_set_objects(get_current_floor(), 0, 1);
                     } else if (get_story_flag(0x2F) != 0) {
                         dispatch_state(4);

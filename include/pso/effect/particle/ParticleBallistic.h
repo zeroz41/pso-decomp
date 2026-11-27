@@ -5,12 +5,14 @@
 
 class TObject;
 class TParticle;
-struct ParticleAngles;
+struct Angle3;
 struct ParticleParam;
 struct Vec;
 
 // A child particle of an emitter that flies off along its direction.
-TParticle *create_ballistic_particle(ParticleParam *entry, Vec *position, ParticleAngles *direction,
+TParticle *create_ballistic_particle(ParticleParam *entry, Vec *position, Angle3 *direction,
                                          TObject *parent, u16 flags, u16 target_id);
+
+TParticle *create_random_spread(ParticleParam *param, Vec *pos, TObject *parent);
 
 #endif

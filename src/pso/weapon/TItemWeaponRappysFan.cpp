@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/ClampedStep.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
@@ -72,13 +71,13 @@ void TItemWeaponRappysFan::emit_marker_effects() {
     launch.damage_multiplier = owner->query_extended_state();
     get_weapon_color__11TItemWeaponFv(color_tmp, this);
     copy_argb(&launch.color, (NJS_ARGB *)color_tmp);
-    launch.facing = owner->rotation_y;
+    launch.facing = owner->rotation.y;
     launch.spin_velocity = 0;
     get_joint_position(3, &launch.first_joint);
     get_joint_position(2, &launch.second_joint);
     slicer = TTecSlicer::create(&launch);
     if (slicer != NULL) {
-        slicer->rotation_x += 0x4000;
+        slicer->rotation.x += 0x4000;
         slicer->scale.x = 2.0f;
         slicer->scale.y = 2.0f;
         slicer->scale.z = 2.0f;

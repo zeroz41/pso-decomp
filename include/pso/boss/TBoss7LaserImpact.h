@@ -19,7 +19,6 @@ public:
     // Empty load/unload pair in TBoss7DeRolLeC's resource table (names
     // inferred from the TBoss7Crawfish entry of the same table).
     static void destroy_instance();
-    static void load_static_resource();
 };
 LAYOUT_ASSERT(TBoss7LaserImpact_size, sizeof(TBoss7LaserImpact) == 0x60);
 

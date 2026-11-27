@@ -1,3 +1,4 @@
+#include "pso/weapon/shoot/TItemShootModel.h"
 #include "types.h"
 #include "pso/weapon/TItemWeaponSpreadNeedle.h"
 #include "pso/player/TObjPlayer.h"
@@ -26,8 +27,8 @@ void TItemWeaponSpreadNeedle::emit_marker_effects() {
 TItemWeaponSpreadNeedle::TItemWeaponSpreadNeedle(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(2);
     hit_callback = (WeaponHitCallback)spawn_target_needle;
-    impact_callback = (WeaponHitCallback)spawn_needle_wall_impact;
-    shot_callback = TObjPlayer::create_shoot_model;
+    impact_callback = spawn_needle_wall_impact;
+    shot_callback = TItemShootModel::create_shoot_model;
 }
 
 TItem *TItemWeaponSpreadNeedle::create(u8 *item) {

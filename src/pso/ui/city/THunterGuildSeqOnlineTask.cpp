@@ -73,9 +73,9 @@ void handle_6x73_exit_quest(void) {
     new TScreenFadeOut(tl_00, reset_random_enemies_mode);
 }
 
-void TQuestListOnline::close_windows_and_reset() {
+void close_windows_and_reset() {
     OnlineQuestDownloadState *q;
-    if (TKeyBoardControl::get_input() == 0) {
+    if (get_input() == 0) {
         TLobby::clear_counter();
         evt2_random_enemies_mode = 0;
         clear_keyboard_input_flag();
@@ -109,7 +109,7 @@ void TQuestListOnline::close_windows_and_reset() {
         TQuestVmDownLoadServer::reset_download();
     }
 }
-void TQuestListOnline::handle_quest_ready() {
+void handle_quest_ready() {
     s32 i;
     TObjPlayer *p;
     OnlineQuestDownloadState *q;
@@ -164,31 +164,31 @@ void TQuestListOnline::handle_quest_ready() {
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
         if (p != NULL) {
-            TObjPlayer::clear_lobby_flag(p);
+            p->clear_lobby_flag();
             p->activate_body_collision();
         }
     }
     TWindowCtrl::unsuppress_slot(local_client_id);
 }
-void TLobby::handle_quest_download_chunk() {
-    OnlineQuestFileChunk *p = (OnlineQuestFileChunk *)this;
+void handle_quest_download_chunk(TRecvDownload &download) {
+    TRecvDownload *p = &download;
     int *flag;
     u8 *buf;
     if (p != NULL) {
-        if (strncmp(quest_list_online_dat_download_state.name, p->name, 0x10) == 0) {
+        if (strncmp(quest_list_online_dat_download_state.name, p->filename, 0x10) == 0) {
             flag = &online_quest_dat_download_complete;
             buf = quest_list_online_dat_download_state.buffer;
-        } else if (strncmp(quest_list_online_bin_download_state.name, p->name, 0x10) == 0) {
+        } else if (strncmp(quest_list_online_bin_download_state.name, p->filename, 0x10) == 0) {
             flag = &online_quest_bin_download_complete;
             buf = quest_list_online_bin_download_state.buffer;
         } else {
             return;
         }
         if (buf != NULL) {
-            memcpy(buf + (p->chunk << 10), p->data, p->size);
-            quest_download_graph_current_bytes += p->size;
+            memcpy(buf + (p->header.flags << 10), p->data, p->data_size);
+            quest_download_graph_current_bytes += p->data_size;
             TDLGraph::update_graph(quest_download_graph_current_bytes, quest_download_received_bytes);
-            if (p->size < 0x400) {
+            if (p->data_size < 0x400) {
                 *flag = 1;
             }
         } else {
@@ -203,12 +203,12 @@ void TLobby::handle_quest_download_chunk() {
             online_quest_download_barrier_window->set_depth(36000.0f);
             online_quest_download_barrier_window->complete_reveal();
         }
-        protocol_instance->send_quest_barrier();
+        TLobby::protocol_instance->send_quest_barrier();
     }
 }
 
 
-void TQuestListOnline::begin_file_download(TRecvDownloadHead &file) {
+void begin_file_download(TRecvDownloadHead &file) {
     TRecvDownloadHead *head = &file;
     char buf[0x10];
     char *tok;
@@ -275,7 +275,7 @@ void TQuestListOnline::begin_file_download(TRecvDownloadHead &file) {
     }
 }
 
-void TQuestListOnline::receive_quest_info(OnlineQuestInfo &info) {
+void receive_quest_info(OnlineQuestInfo &info) {
     if (quest_list_online_selected_quest_info != NULL) {
         memcpy(quest_list_online_selected_quest_info, &info, sizeof(OnlineQuestInfo));
         set_quest_list_online_state(2);
@@ -302,7 +302,7 @@ void copy_quest_list_data(OnlineQuestMenu &menu) {
     }
 }
 
-void TQuestListOnline::release_resources() {
+void release_resources() {
     if (quest_list_online_bin_download_state.buffer != NULL) {
         mem_free(quest_list_online_bin_download_state.buffer);
         quest_list_online_bin_download_state.buffer = NULL;
@@ -339,9 +339,9 @@ void TQuestListOnline::release_resources() {
     quest_list_online_instance = 0;
 }
 
-void TQuestListOnline::init_download_buffers() {
-    quest_list_online_quest_list_buffer = (OnlineQuestMenu *)TQuestVmDownLoadServer::alloc(sizeof(OnlineQuestMenu));
-    quest_list_online_selected_quest_info = (OnlineQuestInfo *)TQuestVmDownLoadServer::alloc(sizeof(OnlineQuestInfo));
+void init_quest_list_online_buffers() {
+    quest_list_online_quest_list_buffer = (OnlineQuestMenu *)alloc(sizeof(OnlineQuestMenu));
+    quest_list_online_selected_quest_info = (OnlineQuestInfo *)alloc(sizeof(OnlineQuestInfo));
     online_quest_download_window = NULL;
     online_quest_info_window = NULL;
     online_quest_download_barrier_window = NULL;

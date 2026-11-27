@@ -13,7 +13,7 @@ struct TechniqueParams {
     s16 tp_cost;     // the TP the cast takes (callers subtract it from the player's TP)
     s16 charge_speed; // "CH_SPD" in TTecShot's readout; lowered per level above 4, at least 0
     s16 mental;      // "MENTAL" in TTecShot's readout; raised by mental_per_level per level
-    s16 pad_16;
+    s16 effect_kind; // 1 Foie line, 2 Barta line, 3 Zonde line and Grants, 5 Megid, 6-14 one per support technique
     s32 angle;       // degrees in the table; Foie, Rafoie, Barta, Gibarta and Megid turn it into angle units (65536 / 360)
     s32 pad_1C;
     s16 duration;       // frames an area lasts (RaBarta); lowered every 5 or 10 levels, at least 10
@@ -28,14 +28,14 @@ struct TechniqueParams {
 };
 
 // Per technique: the factors applied to a cast's power and to tp_cost while
-// TTecCtrl::is_technique_ready().
+// is_technique_ready().
 struct TechniqueCostScale {
     f32 power;
     f32 tp_cost;
 };
 
 // Per technique: the power of a cast at level 15 and up while not
-// TTecCtrl::is_technique_ready(), base + per_level * level.
+// is_technique_ready(), base + per_level * level.
 struct TechniqueLinearPower {
     s16 base;
     s16 per_level;
@@ -47,9 +47,7 @@ extern TechniqueLinearPower tech_high_level_linear_power_table[];
 extern TechniqueParams calculated_technique_params;
 extern TechniqueCostScale technique_scale_table[];
 
-extern "C" {
-TechniqueParams *calc_technique_parameters(s32 technique, s32 level, u16 client);
-}
+TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client);
 
 s32 clamp_nonnegative_int(s32 x);
 

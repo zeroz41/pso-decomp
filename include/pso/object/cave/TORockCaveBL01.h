@@ -5,9 +5,9 @@
 #include "pso/object/cave/TORockCaveBrakable.h"
 
 struct TORockCaveBL01 : public TORockCaveBrakable {
-    TORockCaveBL01(void *set_data);
+    TORockCaveBL01(ObjectSetData *set_data);
     virtual ~TORockCaveBL01();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TORockCaveBL01_size, sizeof(TORockCaveBL01) == 0xBC);

@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/system/MatrixStack.h"
@@ -17,7 +16,8 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/player/PhotonBlastResults.h"
 
 const char *bm_obj_boss8_piller_model_names[5] = {
     "fe_obj_gol_hasira5m.nj", "fe_obj_gol_hasira1m.nj", "fe_obj_gol_hasira5m_m.nj", "fe_obj_gol_hasira1m_m.nj", NULL,
@@ -36,7 +36,7 @@ extern "C" {
 void TObjBoss8Piller::render() {
     NJS_OBJECT *model;
 
-    if (TObjPlayer::is_any_teammate_in_state() == 0) {
+    if (is_any_teammate_in_state() == 0) {
         if (is_split_screen() != 0) {
             model = TObjBoss8Piller::shared_resource->models[2].model;
         } else {

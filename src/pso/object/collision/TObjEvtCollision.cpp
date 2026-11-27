@@ -1,6 +1,5 @@
 #include "pso/network/FloorEventCommand.h"
 #include "pso/render/NinjaUtil.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/collision/TObjEvtCollision.h"
 #include "pso/object/base/TObjMotion.h"
@@ -41,7 +40,7 @@ s32 TObjEvtCollision::is_any_player_in_range(f32 range_sq) {
 }
 
 
-void *TObjEvtCollision::create(void *set_data) {
+void *TObjEvtCollision::create(ObjectSetData *set_data) {
     return new TObjEvtCollision(tl_05, set_data);
 }
 
@@ -68,11 +67,11 @@ TObjEvtCollision::~TObjEvtCollision() {
 
 }
 
-TObjEvtCollision::TObjEvtCollision(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjEvtCollision::TObjEvtCollision(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     m_name = evt_collision_class_name;
     apply_object_set_data(set_data);
     trigger_radius = scale.x;
-    m_b0 = (s32)set_params[0];
+    event_id = (s32)set_params[0];
     countdown = 3;
     disallow_rendering();
 }

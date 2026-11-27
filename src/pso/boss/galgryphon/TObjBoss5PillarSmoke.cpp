@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarSmoke.h"
 #include "pso/system/task/TObject.h"
@@ -10,7 +9,7 @@
 #include "pso/boss/galgryphon/Boss5CommonResource.h"
 #include "pso/boss/galgryphon/TObjBoss5Pillar.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80067034.h"
+#include "pso/boss/goldragon/DragonAttackRange.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"
 #include "pso/system/BmlResource.h"
 
@@ -65,10 +64,10 @@ void park_pillar_smoke_particles(TObjBoss5PillarSmoke *smoke) {
     s32 i;
     for (i = 0; i < smoke->count; i++) {
         if (smoke->particles_a[i] != 0) {
-            smoke->particles_a[i]->set_position((void *)&pillar_smoke_parked_position);
+            smoke->particles_a[i]->set_position(const_cast<Vec *>(&pillar_smoke_parked_position));
         }
         if (smoke->particles_b[i] != 0) {
-            smoke->particles_b[i]->set_position((void *)&pillar_smoke_parked_position);
+            smoke->particles_b[i]->set_position(const_cast<Vec *>(&pillar_smoke_parked_position));
         }
     }
 }
@@ -112,8 +111,8 @@ TObjBoss5PillarSmoke::TObjBoss5PillarSmoke(TObject *parent, NJS_OBJECT *node) : 
     this->particles_a = (TParticleCtrl **)mem_alloc(this->count * 4);
     this->particles_b = (TParticleCtrl **)mem_alloc(this->count * 4);
     for (i = 0; i < this->count; i++) {
-        this->particles_a[i] = spawn_continuous_particle_effect_with_flags((void *)&pillar_smoke_parked_position, 0x213, 0x40);
-        this->particles_b[i] = spawn_continuous_particle_effect_with_flags((void *)&pillar_smoke_parked_position, 0x214, 0x40);
+        this->particles_a[i] = spawn_continuous_particle_effect_with_flags(&pillar_smoke_parked_position, 0x213, 0x40);
+        this->particles_b[i] = spawn_continuous_particle_effect_with_flags(&pillar_smoke_parked_position, 0x214, 0x40);
     }
 }
 
@@ -128,10 +127,10 @@ void trigger_pillars_in_range(TObjBoss5PillarCtrl *pillar_controller, const Vec 
     s32 i;
 
     n = boss5_common_bml_resource->models[2].model;
-    off = TBoss8Dragon::calc_sq_offset(params, 50.0f);
+    off = calc_sq_offset(params, 50.0f);
     n = n->child;
     for (i = 0; i < pillar_controller->count; i++) {
-        if (pillar_controller->pillars[i] != NULL && TBoss8Dragon::is_within_xz_distance(pos, n, off) != 0) {
+        if (pillar_controller->pillars[i] != NULL && is_within_xz_distance(pos, n, off) != 0) {
             pillar_controller->pillars[i]->play_sound_once();
         }
         n = n->sibling;

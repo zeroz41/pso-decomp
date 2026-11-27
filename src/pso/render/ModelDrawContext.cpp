@@ -101,7 +101,7 @@ void traverse_model_node_tree(NJS_OBJECT *node, s32 (*draw)(void *model)) {
                 if (f & 0x1000) {
                     copy_rotation_to_current_matrix(&node_saved_matrix);
                 } else if (f & 0x400) {
-                    apply_quat_rotation(node->quat_w, (f32 *)node->ang);
+                    apply_quat_rotation(node->quat_w, node->quat_xyz);
                 } else {
                     rotate_matrix_by_node_angles(node->ang, f & 0x20);
                 }

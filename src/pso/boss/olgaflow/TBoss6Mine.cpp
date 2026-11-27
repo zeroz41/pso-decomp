@@ -283,7 +283,7 @@ void TBoss6Mine::state_0() {
 
 void TBoss6Mine::run_task() {
     u32 color;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         return;
     }
     if (TBoss6PlotFalz::is_type1_active() == 0) {
@@ -346,7 +346,7 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
     heading = set_data->heading;
     seed = set_data->seed;
     add_flags_2e4(8);
-    apply_set_data(set_data);
+    apply_set_data(&set_data->placement);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
         record.damage = 0;

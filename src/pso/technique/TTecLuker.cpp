@@ -4,7 +4,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/MatrixStack.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/LocalClientId.h"
 #include "pso/network/protocol/protocol_types.h"
 
@@ -175,7 +174,7 @@ TTecLuker::TTecLuker(TObjBase *source, Vec *pos, Vec *target, s32 level) : TTecC
                 Vec v = luker_placement_offset;
                 TObjBase *owner;
                 push_matrix_from(identity_matrix);
-                rotate_matrix_y(0, this->source->rotation_y);
+                rotate_matrix_y(0, this->source->rotation.y);
                 matrix_mult_vec(0, &v, &v);
                 pop_matrices(1);
                 owner = this->source;
@@ -350,7 +349,7 @@ void TTecLuker::setup_telepipe_field() {
         s16 room;
         floor = get_current_floor();
         room = (s32)source->get_room();
-        write_telepipe_record(&((TObjPlayer *)source)->telepipe.state, source->get_entity_id(), floor, &pipe_pos, room);
+        ((TObjPlayer *)source)->telepipe.state.write_telepipe_record(source->get_entity_id(), floor, &pipe_pos, room);
         ((TObjPlayer *)source)->telepipe.state.send_telepipe_packet();
     }
 }
@@ -425,7 +424,7 @@ TTelepipeEffect::TTelepipeEffect(Vec *at, u32 id, TObject *parent) : TObject(par
 TTelepipeEffect::~TTelepipeEffect() {
     s32 i;
     for (i = 0; i < 3; i++) {
-        if (TTecLuker::is_parents_unqueued(particles[i]) != 0) {
+        if (TObject::is_parents_unqueued(particles[i]) != 0) {
             particles[i]->queue_destruction();
             particles[i] = NULL;
         }
@@ -468,7 +467,7 @@ void TTelepipeEffect::run_task() {
     {
       for (i = 0; i < 3; i++)
       {
-        if (TTecLuker::is_parents_unqueued(particles[i]) != 0)
+        if (TObject::is_parents_unqueued(particles[i]) != 0)
         {
           particles[i]->enable();
           if (marker != 0)
@@ -481,7 +480,7 @@ void TTelepipeEffect::run_task() {
     }
     for (i = 0; i < 3; i++)
     {
-      if (TTecLuker::is_parents_unqueued(particles[i]) != 0)
+      if (TObject::is_parents_unqueued(particles[i]) != 0)
       {
         particles[i]->clear_active_flag();
         if (marker != 0)
@@ -496,7 +495,7 @@ void TTelepipeEffect::run_task() {
   {
     for (i = 0; i < 3; i++)
     {
-      if (TTecLuker::is_parents_unqueued(particles[i]) != 0)
+      if (TObject::is_parents_unqueued(particles[i]) != 0)
       {
         particles[i]->enable();
         if (marker != 0)
@@ -509,7 +508,7 @@ void TTelepipeEffect::run_task() {
   }
   for (i = 0; i < 3; i++)
   {
-    if (TTecLuker::is_parents_unqueued(particles[i]) != 0)
+    if (TObject::is_parents_unqueued(particles[i]) != 0)
     {
       particles[i]->clear_active_flag();
       if (marker != 0)
@@ -540,7 +539,7 @@ void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     if (telepipe_record_differs(rec, command->state.floor, &command->state.pos, command->state.owner_client_id) == 0) {
         return;
     }
-    write_telepipe_record(rec, command->state.owner_client_id, command->state.floor, &command->state.pos, command->state.room_id);
+    rec->write_telepipe_record(command->state.owner_client_id, command->state.floor, &command->state.pos, command->state.room_id);
     if (is_split_screen() == 0 && command->state.owner_client_id == local_client_id) {
         return;
     }
@@ -553,16 +552,16 @@ void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     }
 }
 
-void write_telepipe_record(TelepipeState *record, u16 owner, s16 floor, const Vec *pos, s32 room) {
+void TelepipeState::write_telepipe_record(u16 owner, s16 floor_index, const Vec *position, s32 room) {
     TObjPlayer *player;
-    record->owner_client_id = owner;
-    record->floor = floor;
-    VecCopy(&record->pos, pos);
-    record->room_id = room;
+    owner_client_id = owner;
+    floor = floor_index;
+    VecCopy(&pos, position);
+    room_id = room;
     if (owner <= 4U) {
-        player = get_player_by_client_id((s32)((u32) owner));
+        player = get_player_by_client_id(owner);
         if (player != NULL) {
-            record->angle_y = player->rotation_y;
+            angle_y = player->rotation.y;
         }
     }
 }

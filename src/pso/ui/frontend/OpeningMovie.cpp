@@ -12,15 +12,18 @@
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_CardSequence.h"
 #include "pso/ui/Language.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/audio/SoundRequests.h"
+#include "pso/audio/MusicControl.h"
 #include "pso/system/AsyncFileRead.h"
 #include "pso/system/movie/TMovie.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/ui/TCharSaveSequence.h"
+#include "pso/system/MallocLoadFilePrc.h"
 
 
 s32 opening_movie_selector = 1;
@@ -112,14 +115,14 @@ void update_movie_phase(void) {
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
-    TAdSinglePlyChrSelectGC::noop();
+    noop();
     if (movie_finished_flag == 1) {
         request_queued_main_phase();
     }
     if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
-    if (TQuestVmDownLoadServer::is_ready() != 0) {
+    if (is_ready() != 0) {
         request_main_phase(0);
     }
     render_tick();

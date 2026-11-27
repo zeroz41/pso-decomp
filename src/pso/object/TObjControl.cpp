@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/enemy/BattleParameters.h"
 #pragma defer_codegen on
@@ -29,7 +30,7 @@
 
 #include "pso/system/ControllerInputState.h"
 
-#include "pso/npc/TNpcPlayer_800D87A8.h"
+#include "pso/npc/TargetPlayerLookup.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -50,17 +51,8 @@
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
 #include "pso/enemy/AreaSoundRemap.h"
-#include "pso/object/TObjLukerNames.h"
-
-
-extern "C" {
-
-
-int send_6x60_standard_drop_item_request(void*);
-
-s32 draw_player_status(void *, void *, const char *);
-
-}
+#include "pso/object/DisplayNames.h"
+#include "pso/item/item_create.h"
 
 
 s32 area_random_seed;
@@ -131,7 +123,7 @@ TObjEnemy::~TObjEnemy() {
     }
 }
 
-void TLobby::clear_flag_on_phase_e() {
+void clear_flag_on_phase_e() {
     if (get_main_phase() == 0xE) {
         area_random_seed = 0;
     }
@@ -529,7 +521,7 @@ void TObjEnemy::distribute_experience() {
     }
 }
 
-int TObjEnemy::query_lobby_state() { return send_6x60_standard_drop_item_request(this); }
+void TObjEnemy::query_lobby_state() { send_6x60_standard_drop_item_request(this); }
 
 void TObjEnemy::refresh_lobby_state() { distribute_experience(); query_lobby_state(); }
 
@@ -556,30 +548,28 @@ TObjChara *get_enemy_entity(u16 entity_id) {
     return 0;
 }
 
-void TObjEnemy::apply_set_data(void *set_data) {
-    EnemySetData *data = (EnemySetData *)set_data;
+void TObjEnemy::apply_set_data(EnemyPlacement *data) {
     s32 i;
-    entity_id = data->entity_id;
+    entity_id = data->id;
     VecCopy(&home_position, &data->position);
     VecCopy(&position, &home_position);
-    copy_xyz(&rotation_x, &data->rotation);
+    copy_xyz(&rotation, data->rotation);
     for (i = 0; i < 5; i++) {
         parameters[i] = data->parameters[i];
     }
     variant = data->variant;
     state36C = data->state;
     room = data->room;
-    set_group = data->group;
-    set_index = data->set_index;
+    set_group = data->wave;
+    set_index = data->enemy_index;
     rng.set_seed(entity_id + area_random_seed);
 }
 
-void TObjEnemy::apply_enemy_state(s32 *state) {
+void TObjEnemy::apply_enemy_state(EnemyStateRecord *state) {
     apply_hit_message_flags(state);
 }
 
-void TObjEnemy::apply_hit_message_flags(void *state_data) {
-    EnemyStateRecord *record = (EnemyStateRecord *)state_data;
+void TObjEnemy::apply_hit_message_flags(EnemyStateRecord *record) {
     s32 flags;
     StatStatusReceipt p;
     this->hp = this->hpmax - record->damage;
@@ -778,7 +768,7 @@ void TObjControl::run_task() {
         queue_destruction();
         return;
     }
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         if (enemy->is_actor_dead() != 0) {
             enemy->resume_update();
             enemy->run_death_reaction();

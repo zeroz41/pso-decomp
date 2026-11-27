@@ -30,7 +30,7 @@ public:
     void init_layout_entries();
     void init_child(s32 list_id);
     void free_child();
-    void init_and_mark_field8C();
+    void init_and_mark_text_refresh();
     s32 get_selected_token_index();
     s32 get_selected_row();
     s32 get_token_count();
@@ -38,7 +38,7 @@ public:
     void set_pos_and_data(f32 x);
     void use_active_strips();
     void use_dim_strips();
-    void draw_word_row_strips(struct WindowDrawContext *rect);
+    void draw_word_row_strips(WindowDrawContext *rect);
     s32 state_flags;
     s32 strip_point_index; // point table index for the strips; 0 also picks the first v range
     s32 selected_token_index;

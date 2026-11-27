@@ -1,7 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaUvScroll.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/object/door/TObjDoorKey.h"
@@ -36,6 +35,7 @@
 #include "pso/object/key/TOKey.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/psoLoadTexture.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 
 struct BmlResource;
@@ -114,27 +114,27 @@ void TObjDoorKey::render() {
 
 void TObjDoorKey::draw_active_beam() {
     if (beam_uv_scroll_last_tick != actor_frame_tick) {
-        scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(door_key_ginja_model_table[1]->model), 0, 0x14, 0xE, 1);
+        scroll_ginja_mesh_uvs(door_key_ginja_model_table[1]->ginja_model, 0, 0x14, 0xE, 1);
         PPCSync();
         beam_uv_scroll_last_tick = actor_frame_tick;
     }
     set_texture_list(door_key_texture_handle);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     draw_ginja_object(door_key_ginja_model_table[0]);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     set_constant_material(&door_key_beam_color_table[set_params[2]]);
     draw_ginja_object(door_key_ginja_model_table[1]);
     rotate_matrix_y(0, spin_angle);
     NJS_OBJECT **g = door_key_ginja_model_table;
-    set_ginja_model_texture_slot(g[2]->model, ((u16)set_params[2]));
+    set_ginja_model_texture_slot(g[2]->model, (u16)set_params[2]);
     draw_ginja_object(g[2]);
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -142,18 +142,18 @@ void TObjDoorKey::draw_inactive_badge() {
     set_texture_list(door_key_texture_handle);
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(0, rotation.y);
     draw_ginja_object(door_key_ginja_model_table[0]);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     set_constant_material(&door_key_beam_color_table[set_params[2]]);
     NJS_OBJECT **g = door_key_ginja_model_table;
-    set_ginja_model_texture_slot(g[2]->model, ((u16)set_params[2]));
+    set_ginja_model_texture_slot(g[2]->model, (u16)set_params[2]);
     draw_ginja_object(g[2]);
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
-    TParticleCtrl::end_effect_render();
+    end_effect_render();
     pop_matrix();
 }
 
@@ -197,7 +197,7 @@ void TObjDoorKey::trigger_activate_sound() {
 }
 
 void TObjDoorKey::update_switch_on() {
-    unk_F4 = unk_F4 + 0x14;
+    pad_F4 = pad_F4 + 0x14;
     spin_angle = (spin_angle + 0x200);
 }
 
@@ -215,13 +215,13 @@ TObjDoorKey::~TObjDoorKey() {
         particle = NULL;
     }
 }
-TObjDoorKey::TObjDoorKey(TObject *parent, void *set_entry) : TOKey(parent) {
+TObjDoorKey::TObjDoorKey(TObject *parent, ObjectSetData *set_entry) : TOKey(parent) {
     this->m_name = door_key_class_name;
     init_key(set_entry);
     activated = 0;
     spin_angle = 0;
-    unk_EC = 0x14;
-    unk_F4 = 0;
+    pad_EC = 0x14;
+    pad_F4 = 0;
     particle = NULL;
     this->m_id = door_key_id_counter++;
     if (this->set_params[2] < 0) {
@@ -240,7 +240,7 @@ TObjDoorKey::TObjDoorKey(TObject *parent, void *set_entry) : TOKey(parent) {
 }
 
 
-void *TObjDoorKey::create(void *set_entry) {
+void *TObjDoorKey::create(ObjectSetData *set_entry) {
     void *o = new TObjDoorKey(tl_05, set_entry);
     return o;
 }
@@ -250,7 +250,7 @@ void TObjDoorKey::free_key() {
         delete door_key_resource_handle;
         door_key_resource_handle = NULL;
     }
-    TObjPlayer::free_if_valid(door_key_texture_handle);
+    free_if_valid(door_key_texture_handle);
     door_key_texture_handle = NULL;
     beam_uv_scroll_last_tick = 0;
 }
@@ -267,8 +267,8 @@ void TObjDoorKey::load_resources() {
     beam_uv_scroll_last_tick = 0;
 }
 
-void *TObjEnvSoundGlobal::create(void *rader_map_core) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+void *TObjEnvSoundGlobal::create(ObjectSetData *rader_map_core) {
+    if (is_not_split_screen() == 1) {
         return NULL;
     }
     return new TObjEnvSoundGlobal((TObject *)tl_05, rader_map_core);

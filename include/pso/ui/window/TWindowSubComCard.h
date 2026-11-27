@@ -95,7 +95,7 @@ struct TWindowSubComCard : public TObject {
     static void swap_cards(s32 first_index, s32 second_index);
     static s32 init_com_card();
     static void remove_card_at(s32 i);
-    static void start_player_data_load(s32 ply_guild_card_tag);
+    static void start_player_data_load(GuildCardEntry *card);
     static s32 count_active_cards();
     static s32 count_leading_active(GuildCardEntry *cards, s32 count);
     static void handle_press_a(GuildCardEntry *card, s32 id);

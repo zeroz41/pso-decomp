@@ -8,20 +8,20 @@
 #include "pso/system/task/TMainTask.h"
 
 void TItemWeaponTwinPsychogun::emit_marker_effects() {
-    PlayerAttackController *counter;
+    PlayerAttackController *attack_state;
     s32 i;
     if (is_mode_two_and_ready() != 0) {
-        counter = &owner->attack_state;
+        attack_state = &owner->attack_state;
         for (i = 0; i != 2; i++) {
-            counter->increment_burst_count();
+            attack_state->increment_burst_count();
         }
         shot_callback = create_shoot_model_rot_z;
-        impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+        impact_callback = spawn_weapon_impact_effect;
         ((TItemWeapon *)this)->launch_rare_weapon_special(&gun_point, 1, 3.0f);
         ((TItemWeapon *)this)->launch_rare_weapon_special(&second_gun_point, 0, 3.0f);
     } else {
         shot_callback = create_gun_shot;
-        impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+        impact_callback = spawn_weapon_impact_effect;
         if (launch_shot(&gun_point, 0, 0, 1) != 0) {
             launch_shot(&second_gun_point, 0, 0, 0);
         } else {

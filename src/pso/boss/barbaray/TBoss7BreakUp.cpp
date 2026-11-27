@@ -4,13 +4,13 @@
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 #include "pso/boss/barbaray/TBoss7JointBreakUp.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/boss/goldragon/ChunkStripGrid.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/ambient/TObjLight.h"
-#include "pso/object/ambient/SceneLighting.h"
+#include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -190,7 +190,7 @@ void TBoss7JointBreakUp::render() {
     Vec scale = { 0.0f, 0.0f, 0.0f };
     scale.z = scale.y = scale.x = boss7_joint_breakup_scale;
     piece = pieces;
-    TObjPlayer::draw_effect();
+    TBoss7DeRolLeC::set_archive_textures();
     for (node = node->child; node != NULL; node = node->sibling) {
         push_matrix();
         post_translate_matrix(&piece->position.x);
@@ -276,7 +276,7 @@ void TBoss7BodyBreakUp::render() {
     NJS_ARGB color = { 1.0f, 1.0f, 1.0f, 1.0f };
     node = root->child;
     piece = pieces;
-    TObjPlayer::draw_effect();
+    TBoss7DeRolLeC::set_archive_textures();
     push_matrix();
     for (i = 0; i < count; i++) {
         push_matrix();
@@ -312,7 +312,7 @@ void TBoss7BodyBreakUp::render() {
 
 saddr get_multiplay_texture_list() { return (saddr)multiplay_texture_f512_handle; }
 
-f32 lbl_805D6910 = boss7_sea_level_y;
+f32 boss7_breakup_sea_level_y = boss7_sea_level_y;
 
 const f32 boss7_breakup_one = 1.0f;
 const f32 boss7_breakup_zero = 0.0f;

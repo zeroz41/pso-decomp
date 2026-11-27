@@ -1,6 +1,5 @@
 #include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
 #include "pso/object/jungle/TORockJungleL01.h"
@@ -28,6 +27,7 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 
 // The source is written from the last function back: the unit is built
 // -inline off,deferred, which emits it in reverse (the vtables L01, M01, S01
@@ -116,12 +116,12 @@ NJS_TEXLIST *get_jungle_rock_texture_resource(s32 index) {
     return NULL;
 }
 
-TORockJungleS01::TORockJungleS01(void *set_data) {
+TORockJungleS01::TORockJungleS01(ObjectSetData *set_data) {
     m_name = rock_jungle_s01_name;
     apply_object_set_data(set_data);
     model = get_model(0);
     texlist = get_jungle_rock_texture_resource(0);
-    view_radius = 50.0f + ((NJS_CNK_MODEL *)model->model)->r;
+    view_radius = 50.0f + model->chunk_model->r;
     init_collision_body_parts(this, &rock_jungle_collision_body_parts[0], 1);
     refresh_collision_body_centers();
     register_object_by_id();
@@ -129,7 +129,7 @@ TORockJungleS01::TORockJungleS01(void *set_data) {
     if (switch_id < 0 || switch_id >= 0x100) {
         switch_id = -1;
     }
-    ObjectSetData csn_data = *(ObjectSetData *)set_data;
+    ObjectSetData csn_data = *set_data;
     VecCopy(&csn_data.scale, &rock_jungle_vec3_table[0]);
     map_csn = TObjMapCsn::create(&csn_data);
 }
@@ -143,7 +143,7 @@ TORockJungleS01::~TORockJungleS01() {
     free_collision_body_parts(this);
 }
 
-void *TORockJungleS01::create(void *set_data) {
+void *TORockJungleS01::create(ObjectSetData *set_data) {
     return new TORockJungleS01(set_data);
 }
 
@@ -164,7 +164,7 @@ void TORockJungleS01::throw_debris() {
     for (i = 0; i < 1; i++) {
         VecCopy(&offset, &offsets[i]);
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         rotate_vector_by_matrix(0, &offset, &offset);
         pop_matrix();
         VecCopy(&params.pos, &position);
@@ -192,7 +192,7 @@ void TORockJungleM01::pre_draw() {
     } else {
         fade.restore();
     }
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         fade_active = 0;
     } else {
         fade_active = fade.isFading();
@@ -209,12 +209,12 @@ void TORockJungleM01::post_draw() {
     set_cull_none();
 }
 
-TORockJungleM01::TORockJungleM01(void *set_data) {
+TORockJungleM01::TORockJungleM01(ObjectSetData *set_data) {
     m_name = TORockJungleM01_name_ref;
     apply_object_set_data(set_data);
     model = TORockJungleS01::get_model(2);
     texlist = get_jungle_rock_texture_resource(2);
-    view_radius = 50.0f + ((NJS_CNK_MODEL *)model->model)->r;
+    view_radius = 50.0f + model->chunk_model->r;
     init_collision_body_parts(this, &rock_jungle_collision_body_parts[1], 1);
     refresh_collision_body_centers();
     register_object_by_id();
@@ -222,7 +222,7 @@ TORockJungleM01::TORockJungleM01(void *set_data) {
     if (switch_id < 0 || switch_id >= 0x100) {
         switch_id = -1;
     }
-    ObjectSetData csn_data = *(ObjectSetData *)set_data;
+    ObjectSetData csn_data = *set_data;
     VecCopy(&csn_data.scale, &rock_jungle_vec3_table[0]);
     map_csn = TObjMapCsn::create(&csn_data);
     fade.activate_and_dispatch();
@@ -237,7 +237,7 @@ TORockJungleM01::~TORockJungleM01() {
     free_collision_body_parts(this);
 }
 
-void *TORockJungleM01::create(void *set_data) {
+void *TORockJungleM01::create(ObjectSetData *set_data) {
     return new TORockJungleM01(set_data);
 }
 
@@ -258,7 +258,7 @@ void TORockJungleM01::throw_debris() {
     for (i = 0; i < 1; i++) {
         VecCopy(&offset, &offsets[i]);
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(NULL, rotation_y);
+        rotate_matrix_y(NULL, rotation.y);
         rotate_vector_by_matrix(0, &offset, &offset);
         pop_matrix();
         VecCopy(&params.pos, &position);
@@ -280,16 +280,16 @@ void TORockJungleM01::run_task() {
 
 const char *TORockJungleL01_name_ref = "TORockJungleL01";
 
-TORockJungleL01::TORockJungleL01(void *set_data) {
+TORockJungleL01::TORockJungleL01(ObjectSetData *set_data) {
     m_name = TORockJungleL01_name_ref;
     apply_object_set_data(set_data);
     model = TORockJungleS01::get_model(4);
     texlist = get_jungle_rock_texture_resource(4);
-    view_radius = 50.0f + ((NJS_CNK_MODEL *)model->model)->r;
+    view_radius = 50.0f + model->chunk_model->r;
     init_collision_body_parts(this, &rock_jungle_collision_body_parts[2], 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    ObjectSetData csn_data = *(ObjectSetData *)set_data;
+    ObjectSetData csn_data = *set_data;
     VecCopy(&csn_data.scale, &rock_jungle_vec3_table[0]);
     map_csn = TObjMapCsn::create(&csn_data);
     fade.activate_and_dispatch();
@@ -304,7 +304,7 @@ TORockJungleL01::~TORockJungleL01() {
     free_collision_body_parts(this);
 }
 
-void *TORockJungleL01::create(void *set_data) {
+void *TORockJungleL01::create(ObjectSetData *set_data) {
     return new TORockJungleL01(set_data);
 }
 
@@ -319,7 +319,7 @@ void TORockJungleL01::pre_draw() {
     } else {
         fade.restore();
     }
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         fade_active = 0;
     } else {
         fade_active = fade.isFading();

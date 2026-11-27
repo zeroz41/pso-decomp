@@ -27,7 +27,7 @@ BmlResourceDescriptor ograss_jungle_resource_descriptor = { "bm_o_grass_jungle.b
 const char *grass_jungle_class_name = "TOGrassJungle";
 
 
-void *TOGrassJungle::create(void *set_data) {
+void *TOGrassJungle::create(ObjectSetData *set_data) {
     return new TOGrassJungle(tl_05, set_data);
 }
 
@@ -56,7 +56,7 @@ void TOGrassJungle::render() {
         set_texture_list(grass_jungle_grass_gvm_texture);
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(NULL, this->rotation_y);
+        rotate_matrix_y(NULL, this->rotation.y);
         draw_ginja_object(get_bml_model((BmlResource *)grass_jungle_bml_resource, this->model_index));
         pop_matrix();
     }
@@ -68,7 +68,7 @@ TOGrassJungle::~TOGrassJungle() {
 }
 
 
-TOGrassJungle::TOGrassJungle(TObject *parent, void *set_data) : TObjBase(parent) {
+TOGrassJungle::TOGrassJungle(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = grass_jungle_class_name;
     apply_object_set_data(set_data);
     model_index = (s32)set_params[0];

@@ -6,8 +6,8 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/TextureState.h"
 
-void reload_texture_num(s32 n, saddr texaddr, u32 attr, u32 lod) {
-    saddr src;
+void reload_texture_num(s32 n, const void *texaddr, u32 attr, u32 lod) {
+    const void *src;
     if ((attr & NJD_TEXATTR_TYPE_MEMORY) != 0) {
         src = texaddr;
     } else {

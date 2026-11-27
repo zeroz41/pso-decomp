@@ -7,9 +7,10 @@
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/ScreenQuadDraw.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/TWindowDD_WordSelect.h"
 
 #pragma readonly_strings on
 
@@ -23,9 +24,6 @@ extern const NJS_POINT2 window_dd_quad_positions[7] = {
 extern const f32 window_dd_quad_scales[8] = {16.0f, 16.0f, 16.0f, 16.0f, 20.0f, 20.0f, 16.0f, 0.0f};
 
 const char *TWindowDD_WS_ScrollBar::class_name = "TWindowDD_WS_ScrollBar";
-
-extern "C" {
-
 
 f32 scroll_track_cap_offset;
 f32 scroll_track_inset;
@@ -81,7 +79,7 @@ void TWindowDD_WS_ScrollBar::render() {
     f32 len;
 
     calc_inner_rect(rect);
-    tex = TWindowDD::get_draw_count(hud_texlist);
+    tex = get_draw_count(hud_texlist);
     reset_window_vertices(verts, word_select_inverse_depth(draw_depth, 0.0f), -1);
     uv = word_select_quad_points[6];
     s = rect->scale[1];
@@ -181,7 +179,9 @@ void TWindowDD_WS_ScrollBar::render() {
 // Defer the remaining functions to preserve the original vtable and constructor layout.
 #pragma defer_codegen on
 
-void __sinit_TWindowDD_WS_ScrollBar_cpp(void) {
+// Fills in the bar's texture coordinates and layout, spelled out because the original's static initializer precedes
+// this file's deferred functions.
+void __sinit_TWindowDD_WS_ScrollBar_cpp() {
     scroll_track_cap_offset = 17.0f + scroll_arrow_margin;
     scroll_track_inset = 14.0f + (17.0f + scroll_arrow_margin);
     scroll_texel_scale = window_dd_texel_scale;
@@ -206,7 +206,7 @@ void __sinit_TWindowDD_WS_ScrollBar_cpp(void) {
     scroll_bar_descriptor.sort_depth = scroll_bar_depth;
 }
 
-__declspec(section ".ctors") static void *const __sinit_TWindowDD_WS_ScrollBar_cpp_ref = (void *)__sinit_TWindowDD_WS_ScrollBar_cpp;
+__declspec(section ".ctors") static void *const scroll_bar_global_initializer = (void *)__sinit_TWindowDD_WS_ScrollBar_cpp;
 
 TWindowDD_WS_ScrollBar *TWindowDD_WS_ScrollBar::create() { return new TWindowDD_WS_ScrollBar; }
 
@@ -234,6 +234,4 @@ void TWindowDD_WS_ScrollBar::set_first_index(s32 index) {
 void TWindowDD_WS_ScrollBar::run_task() {
     update_window();
     update_fade();
-}
-
 }

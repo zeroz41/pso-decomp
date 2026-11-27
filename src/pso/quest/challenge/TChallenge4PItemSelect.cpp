@@ -1,4 +1,3 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/quest/challenge/TChallenge4PItemSelect.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -29,9 +28,11 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
+#include "pso/system/task/TMainTask.h"
 
 
 s32 challenge4p_item_select_text_ids[8] = { 0x120, 0x13D, 0x159, 0x11D, 0x12A, 0x147, 0x11F, 0x14E };
@@ -54,7 +55,7 @@ TChallenge4PResult::TChallenge4PResult(TObject *parent, u16 slot, s32 resultCode
     state_1c = 0;
     message_window = 0;
     wait_frames = 90;
-    unknown_30 = 0;
+    pad_30 = 0;
     for (s32 i = 0; i < 3; ++i) {
         (&reward_items[i])->init();
         reward_available[i] = 0;
@@ -68,7 +69,7 @@ TChallenge4PResult::~TChallenge4PResult() {
 }
 
 void TChallenge4PResult::run_task() {
-    if ((get_current_floor_area() != AREA_DARK_FALZ) || (TBoss4Type2::is_active() != 1)) {
+    if ((get_current_floor_area() != AREA_DARK_FALZ) || (TBoss4DarkFalz::has_instance() != 1)) {
         switch (state_1c) {
         case 0:
             update_input();

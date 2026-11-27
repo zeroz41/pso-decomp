@@ -24,7 +24,7 @@
 s8 sound_mode_value = 1;
 s32 last_sound_effect_slot = -1;
 
-void TObjPlayer::play_effect_if_v2(s32 pitch) {
+void play_effect_if_v2(s32 pitch) {
     if (TObjEneDD::check_v2_mode() != 0) {
         set_sound_pitch_request(last_sound_effect_slot, pitch, 0);
     }
@@ -32,17 +32,21 @@ void TObjPlayer::play_effect_if_v2(s32 pitch) {
 
 
 s8 lbl_805D6278;
+// Nonzero stops update_sound_request_slots ageing and releasing the slots.
 s8 sound_request_expiry_suspended;
 s32 music_gain_offset;
 s32 music_user_gain;
 int music_gain_adjust;
 s32 music_stream_base_gain;
 s32 music_stream_gain;
-s32 cue_stream_layout_base;
+// The cue stream's counterpart of music_gain_offset.
+s32 cue_gain_offset;
 s32 cue_stream_user_gain;
 int lobby_layout_offset_c;
-s32 cue_stream_layout_end;
-s32 cue_stream_layout_start;
+// cue_gain_offset + cue_stream_user_gain + lobby_layout_offset_c, as music_stream_base_gain is for music.
+s32 cue_stream_base_gain;
+// cue_gain_offset + lobby_layout_offset_c: the cue stream gain without the user gain.
+s32 cue_stream_offset_gain;
 s32 lobby_layout_start_position;
 s32 cue_stream_scaled_gain;
 s32 cue_stream_gain;
@@ -70,17 +74,17 @@ void init_layout_positions() {
     if (init_sound_mode() == 1) {
         music_gain_offset -= 0x32;
     }
-    cue_stream_layout_base = -0xA;
+    cue_gain_offset = -0xA;
     close_option_window();
     reset_global();
 }
 
-int get_lobby_data() {  return music_user_gain; }
+int get_music_user_gain() { return music_user_gain; }
 void set_cue_stream_user_gain(s32 gain) {
     set_menu_index_main(gain);
     cue_stream_user_gain = gain;
-    cue_stream_layout_end = cue_stream_layout_base + cue_stream_user_gain + lobby_layout_offset_c;
-    cue_stream_layout_start = cue_stream_layout_base + lobby_layout_offset_c;
+    cue_stream_base_gain = cue_gain_offset + cue_stream_user_gain + lobby_layout_offset_c;
+    cue_stream_offset_gain = cue_gain_offset + lobby_layout_offset_c;
     cue_stream_scaled_gain = (s32)(2.3622048f * (f32)gain);
     cue_stream_gain = lobby_layout_start_position + cue_stream_scaled_gain;
     set_cue_stream_gain(cue_stream_gain);
@@ -108,7 +112,7 @@ void set_sound_pitch_request(s32 slot, s32 pitch, s32 duration) {
     }
 }
 extern SetSoundPitchRequestSndEnt sound_pitch_requests[];
-// Defined here: CodeWarrior emits it in definition order.
+// The request flags a released or reused slot keeps. Defined here: CodeWarrior emits it in definition order.
 const u32 sound_pitch_request_keep_mask = 1;
 
 void stop_sound_request(s32 idx) {
@@ -339,7 +343,7 @@ void update_sound_request_slots(void) {
     SetSoundPitchRequestSndEnt *e;
     s16 *t;
     if (sound_requests_enabled != 0) {
-        p = get_player_by_client_id((local_client_id));
+        p = get_player_by_client_id(local_client_id);
         if (p != NULL) {
             VecCopy((Vec *)sound_listener_position, &p->position);
         } else if (camera_ctrl_instance != NULL) {

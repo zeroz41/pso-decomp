@@ -11,7 +11,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/network/TLobby.h"
 
-s32 TBoss4Type2::is_active() {
+s32 TBoss4DarkFalz::has_instance() {
     return (u8)((u8) (dark_falz_controller_instance != 0));
 }
 void ModelNodeTables::scroll_strips() {
@@ -42,7 +42,7 @@ void ModelNodeTables::init(const ModelNodeSpec *specs, s32 spec_count) {
     const ModelNodeSpec *r;
     NJS_OBJECT *t;
     s32 j;
-    h = TBoss4Uro::get_instance_count();
+    h = TBoss4DarkFalz::get_dat_resource();
     if (h == 0 || specs == NULL || spec_count < 1) {
         return;
     }

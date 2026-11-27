@@ -1,7 +1,6 @@
 #include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffClitical.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -33,19 +32,12 @@
 #include "pso/technique/TechniqueRingwaveList.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/render/GinjaMaterial.h"
 #include "pso/technique/TTecCircle.h"
 #include <stddef.h>
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TargetCursorList.h"
 
-struct ZeroColorWords { u32 a; u32 b; u32 c; u32 d; };
-
-
-extern "C" {
-
-void draw_ginja_object(void);
-
-}
 
 // One-texture list that render() fills with a copy of the ring-wave frame and draws with; same shape as
 // TEffClitical's clitical_texture_list (the 8-byte list is placed in .data, its name in .bss).
@@ -111,12 +103,12 @@ void TTecGrants::run_task() {
         return;
     }
     entity = find_entity_by_id(targets.records[0].id);
-    if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0) && (frames == 0)) {
+    if ((TObject::is_parents_unqueued(entity) != 0) && (TObjCollidable::is_valid_and_active(entity) != 0) && (frames == 0)) {
         new TTecGrantsEffect(entity, level, tl_07);
     }
     frames = frames + 1;
     if (frames > 0x1E) {
-        if ((entity != NULL) && (TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
+        if ((entity != NULL) && (TObject::is_parents_unqueued(entity) != 0) && (TObjCollidable::is_valid_and_active(entity) != 0)) {
             apply_to_target((TObjChara *)entity);
         }
         queue_destruction();
@@ -293,23 +285,22 @@ void TTecGrantsFlash::render() {
     }
     init_texture_copy_rect(&ctx, &grants_ring_texlist, &technique_ringwave_texture_list, 0, frame + 1);
     Vec v = { 1.2f, 1.2f, 1.2f };
-    ZeroColorWords q = { 0, 0, 0, 0 };
-    approach_alpha_clamped(&color.a, (const f32 *)&q, 0.1f);
+    NJS_ARGB clear = { 0.0f, 0.0f, 0.0f, 0.0f };
+    approach_alpha_clamped(&color.a, &clear.a, 0.1f);
     approach_position_if_far(&scale, &v, scale_rate);
     copy_anim_frame_to_slot(&ctx);
     id = model_render_flags;
     saved_model_render_flags = id;
     model_render_flags = id | 0x10;
-    ((void (*)(NJS_ARGB *, s32))set_constant_material)(&color, id);
+    set_constant_material(&color);
     set_draw_list_mask(3);
-    TParticleCtrl::begin_effect_render();
+    begin_effect_render();
     push_matrix();
     post_translate_matrix(&position.x);
     scale_matrix(0, scale.x, scale.y, scale.z);
     translate_matrix(0, 0.0f, 1e+01f, 0.0f);
     set_texture_list(&grants_ring_texlist);
-    get_bml_model(technique_effect_bml, 10);
-    draw_ginja_object();
+    draw_ginja_object(get_bml_model(technique_effect_bml, 10));
     pop_matrix();
     copy_slot_to_anim_frame(&ctx);
     restore_draw_list_mask();
@@ -320,12 +311,12 @@ void TTecGrantsFlash::render() {
 void TTecGrants::init_parameters() {
     TechniqueParams *scaled = calc_technique_parameters(9, level, 0xFFFF);
     params.copy(scaled);
-    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+    if (level >= 15 && is_technique_ready() == 0) {
         params.power = (f32)(tech_high_level_linear_power_table[9].base + tech_high_level_linear_power_table[9].per_level * level);
         return;
     }
     params.power = params.power + (f32)(params.power_per_level * level);
-    if (TTecCtrl::is_technique_ready()) {
+    if (is_technique_ready()) {
         params.power = params.power * technique_scale_table[9].power;
     }
 }

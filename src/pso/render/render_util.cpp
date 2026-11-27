@@ -200,16 +200,16 @@ u32 calc_pulse_flash_color(u8 r, u8 g, u8 b, s32 frame, s32 period, s32 start, s
     return 0xFF000000 | (r << 16) | (g << 8) | b;
 }
 
-void *delete_object_if_delete_flag(void *self, s16 del) {
-    if (self != NULL && del > 0) {
-        operator delete(self);
+void *delete_object_if_delete_flag(void *object, s16 del) {
+    if (object != NULL && del > 0) {
+        operator delete(object);
     }
-    return self;
+    return object;
 }
 
-void *clear_first_word(void *self) {
-    *(s32 *)self = 0;
-    return self;
+void *clear_first_word(void *object) {
+    *(s32 *)object = 0;
+    return object;
 }
 
 // Debug-draw entry points; their bodies are compiled out of the release game.

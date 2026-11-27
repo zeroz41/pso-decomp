@@ -1,6 +1,5 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
@@ -152,13 +151,13 @@ WindowSpritePart *TWindowSubSymbolChatPartsSet::get_entry_offset_d(s32 sel) {
     return (WindowSpritePart *)this->get_array_entry(sel + 0xD);
 }
 
-void TWindowSubSymbolChatPartsSet::apply_part_to_window(WindowLayoutEntries *entries, SymbolChatPart *part, s32 index) {
+void apply_part_to_window(WindowLayoutEntries *entries, SymbolChatPart *part, s32 index) {
     WindowSpritePart *w;
     u8 f;
     w = static_cast<WindowSpritePart *>(entries->items[index + 13]);
-    set_pos(w, part->x, part->y);
+    TWindowSubSymbolChatPartsSet::set_pos(w, part->x, part->y);
     f = part->flags;
-    set_part_sprite(w, part->id, (s32)(f & 1), (s32)((f >> 1) & 1));
+    TWindowSubSymbolChatPartsSet::set_part_sprite(w, part->id, (s32)(f & 1), (s32)((f >> 1) & 1));
 }
 
 void TWindowSubSymbolChatPartsSet::setup_part_sprites(WindowSpritePart *help, WindowSpritePart *alternate, WindowSpritePart *shortcut_icon, u16 code, s32 color, s32 flip_u, s32 flip_v, s32 uv_index) {
@@ -247,17 +246,13 @@ void set_symbol_chat_parts(WindowLayoutEntries *entries, void *data) {
     }
     j = 0;
     do {
-        TWindowSubSymbolChatPartsSet::apply_part_to_window(entries, &payload->parts[j], j);
+        apply_part_to_window(entries, &payload->parts[j], j);
         j += 1;
     } while (j < 0xC);
 }
 
-void TWindowSubSymbolChat::init_layout_entries(saddr player) {
-    saddr window_addr = (saddr)this;
-    init_window_layout_entries(
-        reinterpret_cast<WindowLayoutEntries *>(window_addr),
-        &symbol_chat_layout_sprite_records,
-        player);
+void init_symbol_chat_layout_entries(WindowLayoutEntries *entries, saddr player) {
+    init_window_layout_entries(entries, &symbol_chat_layout_sprite_records, player);
 }
 
 void TWindowChatSymbol::update_visibility() {

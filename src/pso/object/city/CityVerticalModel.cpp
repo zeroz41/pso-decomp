@@ -27,7 +27,7 @@ void TObjCityVerticalModel::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         translate_matrix(0, 0.0f, y_offset, 0.0f);
-        rotate_matrix_y(0, rotation_y);
+        rotate_matrix_y(0, rotation.y);
         draw_ginja_object(get_city_common_model(8));
         pop_matrix();
     }
@@ -65,13 +65,13 @@ void TObjCityVerticalModel::run_task() {
     }
 }
 
-void *create_city_vertical_model(void *set_data) {
+void *create_city_vertical_model(ObjectSetData *set_data) {
     return new TObjCityVerticalModel(tl_05, set_data);
 }
 
 TObjCityVerticalModel::~TObjCityVerticalModel() {}
 
-TObjCityVerticalModel::TObjCityVerticalModel(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjCityVerticalModel::TObjCityVerticalModel(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     apply_object_set_data(set_data);
     state = 1;
     last_state = 2;

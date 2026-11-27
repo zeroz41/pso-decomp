@@ -22,7 +22,7 @@ void TOMineIcon03::spawn_blast_particle() {
     spawn_particle_effect(&body_center, 0x8D);
 }
 
-void *TOMineIcon03::create(void *set_data) {
+void *TOMineIcon03::create(ObjectSetData *set_data) {
     return new TOMineIcon03(tl_05, set_data);
 }
 
@@ -33,7 +33,7 @@ TOMineIcon03::~TOMineIcon03() {
 
 #pragma push
 #pragma fp_contract on
-TOMineIcon03::TOMineIcon03(TObject *parent, void *set_data) : TOMine(parent) {
+TOMineIcon03::TOMineIcon03(TObject *parent, ObjectSetData *set_data) : TOMine(parent) {
     m_name = mine_icon03_name;
     apply_object_set_data(set_data);
     init_position_vectors();

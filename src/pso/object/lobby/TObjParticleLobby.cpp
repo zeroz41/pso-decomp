@@ -13,7 +13,7 @@
 
 const char *obj_particle_lobby_class_name = "TObjParticleLobby";
 
-TObjParticleLobby::TObjParticleLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjParticleLobby::TObjParticleLobby(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = obj_particle_lobby_class_name;
     apply_object_set_data(set_data);
     emitter = create_particle_emitter(&position, 1);
@@ -32,7 +32,7 @@ void TObjParticleLobby::load_resources() {}
 
 void TObjParticleLobby::free_resources() {}
 
-void *TObjParticleLobby::create(void *set_data) {
+void *TObjParticleLobby::create(ObjectSetData *set_data) {
     return new TObjParticleLobby(tl_05, set_data);
 }
 
@@ -134,7 +134,7 @@ void TObjParticleLobby::setup_emitter() {
 }
 
 void TObjParticleLobby::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         demo_step();
         return;
     }

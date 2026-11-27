@@ -44,37 +44,37 @@ WindowHeading::WindowHeading(const char *title, s32 client_id)
 
 #pragma push
 #pragma scheduling off
-void TWindowSubStatusDisp::fill_card_text_entries(GuildCardRecord *record) {
-    WindowTextEntry **items;
+void WindowLayoutEntries::fill_card_text_entries(GuildCardRecord *record) {
+    WindowTextEntry **parts;
     WindowTextEntry *entry_1;
     WindowTextEntry *entry_3;
     WindowTextEntry *entry_5;
     WindowTextEntry *entry_7;
     TWindowLayoutEntry *entry_6;
     WindowTextEntry *entry_8;
-    items = (WindowTextEntry **)(*(u8 * *)&this->m_flags);
-    entry_1 = items[1];
-    entry_3 = items[3];
-    entry_5 = items[5];
-    entry_7 = items[7];
-    entry_6 = items[6];
-    entry_8 = items[8];
+    parts = (WindowTextEntry **)items;
+    entry_1 = parts[1];
+    entry_3 = parts[3];
+    entry_5 = parts[5];
+    entry_7 = parts[7];
+    entry_6 = parts[6];
+    entry_8 = parts[8];
     text_builder_reset();
     text_builder_append(":");
     text_builder_append(record->get_sub_disp_ptr());
     set_text_entry_string(entry_1, (get_shared_text_buffer()), 0x60);
     text_builder_reset();
     text_builder_append(":");
-    text_builder_append(record->get_name());
+    text_builder_append(record->get_ship_name());
     set_text_entry_string(entry_3, (get_shared_text_buffer()), 0x60);
     text_builder_reset();
     text_builder_append(":");
-    text_builder_append(get_guild_card_s2a(record));
+    text_builder_append(get_guild_card_block_name(record));
     set_text_entry_string(entry_5, (get_shared_text_buffer()), 0x60);
-    if ((s8) *(u8 *)record->get_card_data_ptr() != 0) {
+    if ((s8) *(u8 *)record->get_team_name() != 0) {
         text_builder_reset();
         text_builder_append(":");
-        text_builder_append(record->get_card_data_ptr());
+        text_builder_append(record->get_team_name());
         set_text_entry_string(entry_7, (get_shared_text_buffer()), 0x60);
         entry_6->show();
         entry_7->show();

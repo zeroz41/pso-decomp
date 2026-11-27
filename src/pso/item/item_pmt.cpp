@@ -40,13 +40,13 @@ typedef struct ShieldSoundEntry { s32 a; s32 b; } ShieldSoundEntry;
 typedef struct ItemPmtSoundRoot { u8 pad[4]; ShieldSoundCount *sub; u8 pad2[0x34]; ShieldSoundEntry *tbl; } ItemPmtSoundRoot;
 
 
-saddr TObjPlayer::get_item_pmt_entry(u8 index) {
+ItemChoiceList *get_item_pmt_entry(u8 index) {
     ItemChoiceListTable *table = item_pmt_tbl->random_items;
 
     if (table->count > index) {
-        return (saddr)&table->lists[index];
+        return &table->lists[index];
     }
-    return 0;
+    return NULL;
 }
 s32 is_unsealable_item(u8 *id) {
     ItemPmtCodeList *l = item_pmt_tbl->unsealable_items;
@@ -62,7 +62,7 @@ s32 is_unsealable_item(u8 *id) {
     return 0;
 }
 
-saddr TObjPlayer::get_shield_pmt_entry(u8 index) {
+saddr get_shield_pmt_entry(u8 index) {
     if (index == 0) {
         return 0;
     }
@@ -124,22 +124,21 @@ void find_tool_pmt_base_id(s32 tool_id, u8 *item) {
     }
 }
 
-f32 TObjPlayer::get_drop_random_float(u32 channel) {
+f32 get_drop_random_float(u32 channel) {
     if (item_mgr != NULL) {
         return item_mgr->roll_table_ratio(channel);
     }
     return 3.0517578e-05f * (f32) rand();
 }
 
-void roll_item_channel_below(u32 count, s32 channel) {
+u32 roll_item_channel_below(u32 count, s32 channel) {
     if (item_mgr != NULL) {
-        item_mgr->roll_channel_below(count, channel);
-        return;
+        return item_mgr->roll_channel_below(count, channel);
     }
-    __cvt_fp2unsigned((f32) count * TObjPlayer::get_drop_random_float(channel));
+    return (u32)((f32) count * get_drop_random_float(channel));
 }
 
-void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, TItemData *item) {
+void drop_item_from_slot(s32 area, s32 slot, TItemData *item) {
     s32 floor_slot;
     s32 idx;
     floor_slot = slot;
@@ -150,7 +149,7 @@ void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, TItemData *item) {
         item_mgr->select_enemy_drop(area, idx, item);
     }
 }
-void TObjPlayer::drop_item(s32 slot, TItemData *item) {
+void drop_item(s32 slot, TItemData *item) {
     s32 floor_slot;
     s32 off;
     floor_slot = slot;
@@ -161,7 +160,7 @@ void TObjPlayer::drop_item(s32 slot, TItemData *item) {
         item_mgr->select_box_item(off, item);
     }
 }
-void TObjPlayer::drop_meseta_from_slot(s32 slot, TItemData *item) {
+void drop_meseta_from_slot(s32 slot, TItemData *item) {
     s32 floor_slot;
     s32 idx;
     floor_slot = slot;
@@ -179,7 +178,7 @@ ItemStatBoost *get_item_stat_boost_record(s32 item_type, s32 type, s32 id) {
     idx = 0;
     switch ((u8) item_type) {
     case 0:
-        rec = (u8 *)TObjPlayer::get_item_pmt_record((u8)type, (u8)id);
+        rec = (u8 *)get_item_pmt_record((u8)type, (u8)id);
         if (rec != NULL) {
             idx = rec[0x1A];
         }
@@ -234,7 +233,7 @@ void play_weapon_hit_sound(ItemSoundRequest *request) {
     s32 key[2];
     s32 pitch[2];
     u8 group = request->group;
-    u8 *target;
+    TObjChara *target;
     u32 mode;
     const Vec *pos;
     u16 type;
@@ -247,18 +246,18 @@ void play_weapon_hit_sound(ItemSoundRequest *request) {
         group = 0x10;
     }
     if (group < 0xAA) {
-        target = (u8 *)request->target;
+        target = request->target;
         key[0] = item_pmt_tbl->weapon_sounds[group].target[0].key;
         pitch[0] = item_pmt_tbl->weapon_sounds[group].target[0].pitch;
         key[1] = item_pmt_tbl->weapon_sounds[group].target[1].key;
         pitch[1] = item_pmt_tbl->weapon_sounds[group].target[1].pitch;
-        pos = &((TObjCollidable *)target)->bodies[request->collider].center;
-        type = ((TObjBase *)(target))->get_entity_id();
+        pos = &target->bodies[request->collider].center;
+        type = target->get_entity_id();
         if (type < 0x1000) {
-            cls = ((TObjPlayer *)target)->appearance.classId;
+            cls = static_cast<TObjPlayer *>(target)->appearance.classId;
             mode = 1;
         } else if (type < 0x4000) {
-            cls = ((TObjEnemy *)target)->rt_index;
+            cls = static_cast<TObjEnemy *>(target)->rt_index;
             mode = 3;
         } else {
             mode = 3;
@@ -355,7 +354,7 @@ u8 roll_weapon_special_for_stars(u8 stars) {
     s32 i;
     result = 0;
     if (stars < 4U) {
-        n = ((u32 (*)(int, int))roll_item_channel_below)(weapon_special_roll_channel_table[stars], 0xF);
+        n = roll_item_channel_below(weapon_special_roll_channel_table[stars], 0xF);
         key = stars + 1;
         c = 0;
         i = 1;
@@ -398,16 +397,16 @@ u8 get_weapon_class_motion_type(u8 group) {
     return 0U;
 }
 
-saddr TObjPlayer::get_item_by_slot_flag(u8 flags) {
+const char *get_item_by_slot_flag(u8 flags) {
     if (flags & 0x3F) {
         if (flags & 0x80) {
-            return (saddr)get_text_collection(0x1F4);
+            return get_text_collection(0x1F4);
         }
         if ((flags != 0) && (flags < 0x29U)) {
-            return (saddr)get_text_collection(flags + 0x1CB);
+            return get_text_collection(flags + 0x1CB);
         }
     }
-    return (saddr)empty_string;
+    return empty_string;
 }
 WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode) {
     if (item != 0) {
@@ -432,7 +431,7 @@ WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode) {
 }
 
 
-void*TObjPlayer::get_pmt_record(int i) {
+void*get_pmt_record(int i) {
     ItemPmtList *c = item_pmt_tbl->mags;
     if (i < c->count) {
         return &c->records[i * 24];
@@ -440,7 +439,7 @@ void*TObjPlayer::get_pmt_record(int i) {
     return &c->records[c->count * 24];
 }
 
-void*TObjPlayer::get_item_pmt_record(int type, int id) {
+void*get_item_pmt_record(int type, int id) {
     if (type > 0) {
         ItemPmtList *lists = item_pmt_tbl->weapons;
         if (type < 170) {
@@ -454,7 +453,7 @@ void*TObjPlayer::get_item_pmt_record(int type, int id) {
     return NULL;
 }
 
-void*TObjPlayer::get_pmt_record_by_type_id(int type, int id) {
+void*get_pmt_record_by_type_id(int type, int id) {
     ItemPmtToolList *lists = item_pmt_tbl->tools;
     if (type < 24) {
         ItemPmtToolList *s = &lists[type];
@@ -465,7 +464,7 @@ void*TObjPlayer::get_pmt_record_by_type_id(int type, int id) {
     return lists[24].records;
 }
 
-void*TObjPlayer::get_pmt_record_by_index(int i) {
+void*get_pmt_record_by_index(int i) {
     ItemPmtList *c = item_pmt_tbl->units;
     if (i < c->count) {
         return &c->records[i * 0x10];

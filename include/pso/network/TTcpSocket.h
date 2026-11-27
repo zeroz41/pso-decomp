@@ -36,4 +36,7 @@ public:
     static void notify(short size, short sock_fd);
 };
 
+// The C library's letter test (the __ctype_map __letter mask).
+int is_alpha(int c);
+
 #endif

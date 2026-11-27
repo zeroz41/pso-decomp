@@ -1,6 +1,5 @@
 #pragma defer_codegen on
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"

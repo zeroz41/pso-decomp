@@ -6,12 +6,12 @@
 
 struct TObjAreaWarpEndingJung : public TObjAreaWarpEnding {
     static const char *class_name;
-    TObjAreaWarpEndingJung(TObject *parent, void *set_data);
+    TObjAreaWarpEndingJung(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjAreaWarpEndingJung();
     virtual void debug_print_area_num();
     void render();
     void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjAreaWarpEndingJung_size, sizeof(TObjAreaWarpEndingJung) == 0xDC);
@@ -23,5 +23,7 @@ union WarpStringPos {
         f32 y;
     } xy;
 };
+
+void dispatch_select_phase(TObject *);
 
 #endif

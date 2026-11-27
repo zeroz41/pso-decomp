@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/system/FileExtension.h"
+#include "pso/ui/hud/SplitScreenQuery.h"
 #include "pso/system/ByteBlocks.h"
 
 
@@ -45,7 +46,6 @@ EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 del
 }
 
 struct DestroyEventShuffleTableEntry;
-struct DestroyEventShuffleTableSpawnRecord;
 
 SubtractiveRng *item_drop_rng;
 EventShuffleTable *challenge_event_shuffle;
@@ -167,22 +167,22 @@ void select_event_shuffle_table(s16 id) {
     }
 }
 
-void pick_random_entry(PickRandomEntryOut *out) {
+void pick_random_entry(EnemySetRecord *out) {
     s32 i = next_event_shuffle_entry(challenge_event_shuffle);
     DestroyEventShuffleTableEntry e = destroy_event_entries[i];
     e.bswap();
-    out->a = e.a;
-    out->b = e.b;
-    out->c = e.c;
-    out->d = e.d;
-    out->e = e.e;
-    out->f = e.f;
+    out->placement.position.x = e.a;
+    out->placement.position.y = e.b;
+    out->placement.position.z = e.c;
+    out->placement.rotation[0] = e.d;
+    out->placement.rotation[1] = e.e;
+    out->placement.rotation[2] = e.f;
 }
 
 void *bsearch_record(void *records, int n, int key) {
     u8 *arr = (u8 *)records;
     u8 *e;
-    BsearchRecordTmp t;
+    AppendRecord t;
     s32 lo;
     s32 hi;
     s32 mid;
@@ -192,7 +192,7 @@ void *bsearch_record(void *records, int n, int key) {
         mid = (lo + hi) / 2;
         ((TLobby *)(&t))->copy_record_entry((saddr)(arr + mid * 32));
         bswap_item_data_record(&t);
-        if (t.v < key) {
+        if (t.h[2] < key) {
             lo = mid + 1;
         } else {
             hi = mid;
@@ -201,40 +201,40 @@ void *bsearch_record(void *records, int n, int key) {
     e = arr + lo * 32;
     ((TLobby *)(&t))->copy_record_entry((saddr)e);
     bswap_item_data_record(&t);
-    if (t.v == key) {
+    if (t.h[2] == key) {
         return (AppendRecord *)e;
     }
     return NULL;
 }
 
-void lookup_item_data_record(AppendOut *out, s32 key) {
-    TLobbyHdr hdr = *(TLobbyHdr *)item_data_table_buffer;
+void lookup_item_data_record(EnemySetRecord *out, s32 key) {
+    ItemDataTableHeader hdr = *(ItemDataTableHeader *)item_data_table_buffer;
     AppendRecord *p;
     bswap_table_header(&hdr);
-    p = (AppendRecord *)bsearch_record((item_data_table_buffer + hdr.table), hdr.count, key);
+    p = (AppendRecord *)bsearch_record((item_data_table_buffer + hdr.record_offset), hdr.record_count, key);
     if (p != NULL) {
         AppendRecord r = *p;
         bswap_item_data_record(&r);
-        out->f[0] = r.f[0];
-        out->f[1] = r.f[1];
-        out->f[2] = r.f[2];
-        out->f[3] = r.f[3];
-        out->f[4] = r.f[4];
-        out->f40 = r.h[1];
-        out->f42 = r.h[0];
-        out->f6 = TLobby::clamp_min_drop(r.h[4], r.h[5] + 1);
+        out->placement.parameters[0] = r.f[0];
+        out->placement.parameters[1] = r.f[1];
+        out->placement.parameters[2] = r.f[2];
+        out->placement.parameters[3] = r.f[3];
+        out->placement.parameters[4] = r.f[4];
+        out->placement.variant = r.h[1];
+        out->placement.state = r.h[0];
+        out->placement.child_count = TLobby::clamp_min_drop(r.h[4], r.h[5] + 1);
     }
 }
 void pick_weighted_entry(s32 *key, s32 *slot) {
-    PickWeightedEntryHdr hdr = *(PickWeightedEntryHdr *)item_data_table_buffer;
+    ItemDataTableHeader hdr = *(ItemDataTableHeader *)item_data_table_buffer;
     PickWeightedEntryEntry *tbl;
     u32 total;
     u32 r;
     s32 i;
     s32 n;
     bswap_table_header(&hdr);
-    tbl = (PickWeightedEntryEntry *)(item_data_table_buffer + hdr.table);
-    n = hdr.count;
+    tbl = (PickWeightedEntryEntry *)(item_data_table_buffer + hdr.weighted_offset);
+    n = hdr.weighted_count;
     total = 0;
     for (i = 0; i < n; i++) {
         total += tbl[i].weight;
@@ -243,8 +243,8 @@ void pick_weighted_entry(s32 *key, s32 *slot) {
     for (i = 0; i < n; i++) {
         if (tbl[i].weight != 0) {
             if (r < tbl[i].weight) {
-                *key = tbl[i].b1;
-                *slot = tbl[i].b0;
+                *key = tbl[i].record_key;
+                *slot = tbl[i].slot_index;
                 return;
             }
             r -= tbl[i].weight;
@@ -261,15 +261,15 @@ extern const s32 lobby_random_slot_id_table[42] = {
     214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 224, 225, 0,
 };
 
-s32 pick_random_slot(s16 *slot) {
+s32 pick_random_slot(EnemySetRecord *record) {
     s32 key;
     s32 entry;
 
     pick_weighted_entry(&key, &entry);
     if ((key != -1) && (entry != -1)) {
-        *slot = (s16) lobby_random_slot_id_table[entry];
-        lookup_item_data_record((AppendOut *)slot, key);
-        pick_random_entry((PickRandomEntryOut *)slot);
+        record->type = (s16) lobby_random_slot_id_table[entry];
+        lookup_item_data_record(record, key);
+        pick_random_entry(record);
         return 0;
     }
     return 1;
@@ -316,9 +316,6 @@ u32 TLobby::clamp_min_drop(u32 min, u32 max) {
 LAYOUT_ASSERT(ChallengeEventHeaderSize, sizeof(ChallengeEventHeader) == 0x10);
 LAYOUT_ASSERT(ChallengeRandomEventSize, sizeof(ChallengeRandomEvent) == 0x18);
 LAYOUT_ASSERT(ChallengeFixedEventSize, sizeof(ChallengeFixedEvent) == 0x14);
-LAYOUT_ASSERT(ChallengeEnemyPlacementSize, sizeof(DestroyEventShuffleTableSpawnRecord) == 0x48);
-LAYOUT_ASSERT(ChallengeEnemyRoomOffset, offsetof(DestroyEventShuffleTableSpawnRecord, room) == 0x0C);
-LAYOUT_ASSERT(ChallengeEnemyWaveOffset, offsetof(DestroyEventShuffleTableSpawnRecord, wave) == 0x0E);
 
 void build_challenge_enemy_set(s32 floor) {
     s32 enemyOffset;
@@ -359,11 +356,11 @@ void build_challenge_enemy_set(s32 floor) {
             select_event_shuffle_table(event.room);
             while (enemies-- > 0) {
                 u8 *placement = challenge_enemy_buffer + enemyOffset;
-                if (pick_random_slot(reinterpret_cast<s16 *>(placement)) == 0) {
-                    reinterpret_cast<DestroyEventShuffleTableSpawnRecord *>(challenge_enemy_buffer + enemyOffset)->wave = wave;
-                    reinterpret_cast<DestroyEventShuffleTableSpawnRecord *>(challenge_enemy_buffer + enemyOffset)->room = event.room;
+                if (pick_random_slot(reinterpret_cast<EnemySetRecord *>(placement)) == 0) {
+                    reinterpret_cast<EnemySetRecord *>(challenge_enemy_buffer + enemyOffset)->placement.wave = wave;
+                    reinterpret_cast<EnemySetRecord *>(challenge_enemy_buffer + enemyOffset)->placement.room = event.room;
                     ++enemyCount;
-                    enemyOffset += sizeof(DestroyEventShuffleTableSpawnRecord);
+                    enemyOffset += sizeof(EnemySetRecord);
                 }
             }
 
@@ -407,9 +404,8 @@ void build_challenge_enemy_set(s32 floor) {
 
     if (enemyCount > 0) {
         area = get_floor_area(floor);
-        reserve_enemy_set_actor_ids(
-            reinterpret_cast<DestroyEventShuffleTableSpawnRecord *>(challenge_enemy_buffer), enemyCount, area);
-        TLobby::init_floor_enemy_count(floor, challenge_enemy_buffer, enemyCount * sizeof(DestroyEventShuffleTableSpawnRecord));
+        reserve_enemy_set_actor_ids(challenge_enemy_buffer, enemyCount, area);
+        TLobby::init_floor_enemy_count(floor, challenge_enemy_buffer, enemyCount * sizeof(EnemySetRecord));
     }
 
     if (challenge_event_count > 0) {
@@ -451,10 +447,10 @@ void TLobby::init_buffers(int id, u8 *quest) {
     items = find_type5_header(chunks, id);
     item_data_table_buffer = (u8 *)items;
     if (challenge_event_source != NULL && destroy_event_data != NULL && items != NULL) {
-        challenge_enemy_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(ChallengeEnemyBufferSize));
-        challenge_event_buffer = static_cast<ChallengeFixedEvent *>(TQuestVmDownLoadServer::alloc(ChallengeEventBufferSize));
+        challenge_enemy_buffer = static_cast<u8 *>(alloc(ChallengeEnemyBufferSize));
+        challenge_event_buffer = static_cast<ChallengeFixedEvent *>(alloc(ChallengeEventBufferSize));
         challenge_event_count = 0;
-        challenge_action_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(ChallengeCommandBufferSize));
+        challenge_action_buffer = static_cast<u8 *>(alloc(ChallengeCommandBufferSize));
         challenge_action_size = 0;
         build_challenge_enemy_set(id);
         safe_free(challenge_action_buffer);
@@ -486,7 +482,7 @@ s32 map_set_file_buffer_size;
 void init_item_drop_rng(void) {
     static const f32 seed_scale = 4294967296.0f;
     static const f32 rand_reciprocal = 3.0517578e-05f;
-    if (TRaderMapCore::is_not_split_screen() == 1) {
+    if (is_not_split_screen() == 1) {
         item_drop_server_seed = (u32)(seed_scale * (rand_reciprocal * (f32)rand()));
     }
     item_drop_rng = new SubtractiveRng(item_drop_server_seed);
@@ -536,8 +532,7 @@ void DestroyEventShuffleTableEntry::bswap() {
     bswap_16(&h);
 }
 
-void bswap_item_data_record(void* p) {
-    AppendRecord *record = (AppendRecord *)p;
+void bswap_item_data_record(AppendRecord *record) {
     bswap_32((u32 *)&record->f[0]);
     bswap_32((u32 *)&record->f[1]);
     bswap_32((u32 *)&record->f[2]);
@@ -558,7 +553,7 @@ void bswap_item_data_record(void* p) {
 void TLobby::copy_record_entry(saddr src) {
     AppendRecord *dst = (AppendRecord *)this;
     AppendRecord *from = (AppendRecord *)src;
-    *(ByteBlock_14 *)dst = *(const ByteBlock_14 *)from;
+    __memcpy(dst->f, from->f, sizeof(dst->f));
     dst->h[0] = from->h[0];
     dst->h[1] = from->h[1];
     dst->h[2] = from->h[2];
@@ -567,12 +562,11 @@ void TLobby::copy_record_entry(saddr src) {
     dst->h[5] = from->h[5];
 }
 
-void bswap_table_header(void* p) {
-    TLobbyHdr *header = (TLobbyHdr *)p;
-    bswap_32((u32 *)&header->table);
-    bswap_32((u32 *)&header->b);
-    bswap_32((u32 *)&header->count);
-    bswap_32((u32 *)&header->d);
+void bswap_table_header(ItemDataTableHeader *header) {
+    bswap_32((u32 *)&header->record_offset);
+    bswap_32((u32 *)&header->weighted_offset);
+    bswap_32((u32 *)&header->record_count);
+    bswap_32((u32 *)&header->weighted_count);
 }
 
 void ChallengeRandomEvent::swap_endian() {
@@ -634,7 +628,7 @@ void init_sub_objects() { TLobby::init_sub_state(); TLobby::rebuild_entry(); }
 s32 load_enemy_set_file(s32 idx, const char *filename) {
     LoadEnemySetFileName name;
     s32 size;
-    LoadEnemySetFileEntry *p;
+    EnemySetRecord *p;
     s32 n;
     s32 i;
     s32 floor;
@@ -646,14 +640,14 @@ s32 load_enemy_set_file(s32 idx, const char *filename) {
     if (size > map_set_file_buffer_size) {
         return 0;
     }
-    p = (LoadEnemySetFileEntry *)map_set_file_buffer;
-    n = size / sizeof(LoadEnemySetFileEntry);
+    p = (EnemySetRecord *)map_set_file_buffer;
+    n = size / sizeof(EnemySetRecord);
     for (i = 0; i < n; i++, p++) {
         bswap_enemy_set_row(p);
-        p->b = 0;
+        p->flags = 0;
     }
     floor = get_floor_area(idx);
-    reserve_enemy_set_actor_ids((struct DestroyEventShuffleTableSpawnRecord *)map_set_file_buffer, n, floor);
+    reserve_enemy_set_actor_ids(map_set_file_buffer, n, floor);
     TLobby::init_floor_enemy_count(idx, map_set_file_buffer, size);
     return 1;
 }
@@ -694,36 +688,37 @@ void load_map_set_data(s32 idx, const char *filename) {
     map_set_enemy_id_counter = 0;
     copy_name("SET");
     floor_set_flags = 0;
-    if (TLobby::init_handle(0x8000) != 0) {
+    if (init_handle(0x8000) != 0) {
         load_object_set_file(idx, filename);
         load_enemy_set_file(idx, filename);
         advance_object_id_counter((u16) map_object_id_counter);
         object_condition_count = map_set_object_id_counter;
         advance_enemy_id_counter((u16) map_set_enemy_id_counter);
         enemy_condition_count = next_enemy_set_actor_id;
-        TLobby::free_data_60F0();
+        free_data_60F0();
         floor_set_flags |= 1;
     }
     copy_name("..");
 }
 
-void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *lobby, s32 count, s32 floor) {
-    DestroyEventShuffleTableSpawnRecord *r;
+void reserve_enemy_set_actor_ids(u8 *source, s32 count, s32 floor) {
+    EnemySetRecord *records = (EnemySetRecord *)source;
+    EnemySetRecord *r;
     s32 i;
     s32 n;
     for (i = 0; i < count; i++) {
-        r = &lobby[i];
-        r->actor_id = map_set_enemy_id_counter++ + 0x1000;
-        r->index = next_enemy_set_actor_id++;
-        if (r->children > 0) {
-            next_enemy_set_actor_id += r->children;
-            map_set_enemy_id_counter += r->children;
+        r = &records[i];
+        r->placement.id = map_set_enemy_id_counter++ + 0x1000;
+        r->placement.enemy_index = next_enemy_set_actor_id++;
+        if (r->placement.child_count > 0) {
+            next_enemy_set_actor_id += r->placement.child_count;
+            map_set_enemy_id_counter += r->placement.child_count;
         } else {
             n = get_enemy_factory_child_count(floor, &r->type);
             if (n > 0) {
                 next_enemy_set_actor_id += n;
                 map_set_enemy_id_counter += n;
-                r->children = n;
+                r->placement.child_count = n;
             }
         }
     }
@@ -735,7 +730,7 @@ void assign_object_ids(FloorObjectSetRow *rows, s32 count, s32 area) {
     for (i = 0; i < count; i++) {
         rows[i].placement.entity_id = map_object_id_counter++ + 0x4000;
         rows[i].placement.set_index = map_set_object_id_counter++;
-        r = TLobby::find_floor_object_factory(area, &rows[i].type);
+        r = find_floor_object_factory(area, &rows[i].type);
         if (r >= 0) {
             map_set_object_id_counter += r;
             map_object_id_counter += r;
@@ -749,7 +744,7 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     char buf[0x28];
     const char *filename;
     s32 size;
-    LoadEnemySetFileEntry *p;
+    EnemySetRecord *p;
     s32 count;
     s32 i;
     MapSetVariant *t2;
@@ -787,13 +782,13 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     if (size > map_set_file_buffer_size) {
         return 0;
     }
-    p = (LoadEnemySetFileEntry *)map_set_file_buffer;
-    count = (u32)size / sizeof(LoadEnemySetFileEntry);
+    p = (EnemySetRecord *)map_set_file_buffer;
+    count = (u32)size / sizeof(EnemySetRecord);
     for (i = 0; i < count; i++, p++) {
         bswap_enemy_set_row(p);
-        p->b = 0;
+        p->flags = 0;
     }
-    reserve_enemy_set_actor_ids((DestroyEventShuffleTableSpawnRecord *)map_set_file_buffer, count, area);
+    reserve_enemy_set_actor_ids(map_set_file_buffer, count, area);
     TLobby::init_floor_enemy_count(floor, map_set_file_buffer, size);
     return 1;
 }
@@ -857,7 +852,7 @@ s32 load_area_object_set(s32 floor, saddr lobby, s32 terrain, s32 entities) {
     return 1;
 }
 
-s32 TLobby::load_all_floor_enemy_sets() {
+s32 load_all_floor_enemy_sets() {
     FloorMapSelection stack;
     s32 floor;
     floor = 0;
@@ -872,10 +867,10 @@ s32 TLobby::load_all_floor_enemy_sets() {
     } while (floor < 0x12);
     advance_enemy_id_counter(((u16) map_set_enemy_id_counter));
     enemy_condition_count = next_enemy_set_actor_id;
-    TLobby::sum_floor_enemy_counts();
+    sum_floor_enemy_counts();
     return 1;
 }
-s32 TLobby::load_all_floor_object_sets() {
+s32 load_all_floor_object_sets() {
     FloorMapSelection stack;
     s32 floor;
     floor = 0;
@@ -895,7 +890,7 @@ s32 TLobby::load_all_floor_object_sets() {
 }
 
 
-void TLobby::free_data_60F0() {
+void free_data_60F0() {
     if (map_set_file_buffer != NULL) {
         safe_free(map_set_file_buffer);
         map_set_file_buffer = NULL;
@@ -903,8 +898,8 @@ void TLobby::free_data_60F0() {
     }
 }
 
-s32 TLobby::init_handle(s32 size) {
-    u8 *buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size));
+s32 init_handle(s32 size) {
+    u8 *buffer = static_cast<u8 *>(alloc(size));
     map_set_file_buffer = buffer;
     if (buffer != NULL) {
         map_set_file_buffer_size = size;
@@ -928,7 +923,7 @@ void clear_map_set_data(void) {
 }
 
 
-void TLobby::load_set_gsl_files() {
+void load_set_gsl_files() {
     map_set_data_handle_a = 0;
     map_set_data_handle_b = 0;
     map_set_object_id_counter = 0;
@@ -937,24 +932,24 @@ void TLobby::load_set_gsl_files() {
     map_set_enemy_id_counter = 0;
     map_set_file_buffer_size = 0;
     floor_set_flags = 0;
-    if (TLobby::init_handle(0x8000) != 0) {
+    if (init_handle(0x8000) != 0) {
         open_gsl_archive("gsl_set_object.gsl");
-        if (TLobby::load_all_floor_object_sets() == 0) {
+        if (load_all_floor_object_sets() == 0) {
             close_gsl_archive();
-            TLobby::free_data_60F0();
+            free_data_60F0();
             floor_set_flags |= 1;
             return;
         }
         close_gsl_archive();
         open_gsl_archive("gsl_set_enemy.gsl");
-        if (TLobby::load_all_floor_enemy_sets() == 0) {
+        if (load_all_floor_enemy_sets() == 0) {
             close_gsl_archive();
-            TLobby::free_data_60F0();
+            free_data_60F0();
             floor_set_flags |= 1;
             return;
         }
         close_gsl_archive();
-        TLobby::free_data_60F0();
+        free_data_60F0();
         floor_set_flags |= 1;
     }
 }
@@ -997,7 +992,7 @@ s32 set_room_group_flags(s32 floor, s16 room, s16 group, s32 bits) {
     return n;
 }
 
-s32 TLobby::sum_floor_enemy_counts() {
+s32 sum_floor_enemy_counts() {
     s32 sum = 0;
     s32 i;
     for (i = 0; i < 18; i++) sum += floor_enemy_set_counts[i];

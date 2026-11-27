@@ -8,9 +8,9 @@ struct BmlResource;
 // A TObjHashiBase: the forest bridge, one collision box.
 class TObjHashi : public TObjHashiBase {
 public:
-    TObjHashi(TObject *parent, void *set_data);
+    TObjHashi(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjHashi();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void load_shared_resource();
     static void unload_static_data();
     static const char *class_name;
