@@ -125,7 +125,7 @@ void TTecFoie::init_projectile_params() {
     range = params.range;
 }
 
-void TTecFoie::vfunc_6() {
+void TTecFoie::spawn_miss_effect() {
     spawn_particle_effect(&position, 0x1DC);
     spawn_particle_effect(&position, 0x1DD);
 }

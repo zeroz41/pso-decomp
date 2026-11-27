@@ -2954,7 +2954,7 @@ void TObjPlayer::update_status_effects() {
     }
   }
   this->clear_flag_2000000();
-  (this->vfunc_43());
+  (this->update_status_cleanse());
   (this->update_poison_status());
   (this->update_action_hold_status());
   (this->update_slow_status());

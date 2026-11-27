@@ -244,7 +244,7 @@ TTecBarta::TTecBarta(TObjBase *source, Vec *pos, s32 angle, s32 level)
     }
 }
 
-void TTecShot::vfunc_6() {  }
+void TTecShot::spawn_miss_effect() {  }
 struct TechniqueParticleEmitter;
 void TTecCircle::apply_technique_to_area_targets() {
     TechniqueContactList *list;

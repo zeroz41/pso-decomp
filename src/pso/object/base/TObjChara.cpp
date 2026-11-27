@@ -1073,7 +1073,7 @@ s32 TObjChara::is_target_in_attack_range() {
     return 0;
 }
 
-s32 TObjChara::vfunc_43() {
+s32 TObjChara::update_status_cleanse() {
     if (this->test_actor_flags(0x40) != 0) {
         this->clear_harmful_statuses();
         return 1;

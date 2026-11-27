@@ -57,7 +57,7 @@ void TTecShot::dispatch_all_technique_contacts() {
         list = query_technique_player_contacts(source);
     }
     if (list == NULL) {
-        this->vfunc_6();
+        this->spawn_miss_effect();
         queue_destruction();
         return;
     }
@@ -88,7 +88,7 @@ void TTecShot::dispatch_technique_contact(s32) {
         list = query_technique_player_contacts(source);
     }
     if (list == NULL) {
-        this->vfunc_6();
+        this->spawn_miss_effect();
         queue_destruction();
         return;
     }
