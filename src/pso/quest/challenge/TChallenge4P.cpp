@@ -126,8 +126,8 @@ void reset_menu_state_globals() {
             challenge4p_mode_state.client_time_records[i] = 0;
         }
         challenge_retry_object->frame_count = 0;
-        challenge_retry_object->pad_20 = 0;
-        challenge_retry_object->pad_24 = 1;
+        challenge_retry_object->missing_records_timer = 0;
+        challenge_retry_object->records_save_pending = 1;
         free_chat_last_line();
     }
 }
@@ -865,9 +865,9 @@ TChallenge4P::TChallenge4P(TObject *parent) : TObject(parent) {
     challenge4p_mode_state = challenge_default_settings;
     restore_challenge_from_save();
     frame_count = 0;
-    pad_20 = 0;
-    pad_24 = 1;
-    pad_28 = 0;
+    missing_records_timer = 0;
+    records_save_pending = 1;
+    quest_send_timer = 0;
     TObjWarnChime::create(this);
 }
 

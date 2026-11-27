@@ -18,9 +18,10 @@ struct TChallenge4P : public TObject {
     void update_active();
 
     s32 frame_count;
-    s32 pad_20;
-    s32 pad_24;
-    s32 pad_28;
+    // TChallenge's record-sync fields, set up the same way; the split-screen task never reads them.
+    s32 missing_records_timer;
+    s32 records_save_pending;
+    s32 quest_send_timer;
 };
 
 LAYOUT_ASSERT(TChallenge4P_size, sizeof(TChallenge4P) == 0x2C);
