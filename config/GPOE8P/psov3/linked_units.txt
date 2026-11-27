@@ -1631,7 +1631,6 @@ pso/ui/window/MessageWindowReveal.cpp
 pso/ui/window/MessageInformationWindow.cpp
 pso/ui/chat/ChatLogText.cpp
 pso/ui/chat/ChatLogLastLine.cpp
-pso/ui/chat/ChatLogHeap.cpp
 pso/ui/window/ListPageIndicator.cpp
 pso/math/Vec2Constants.cpp
 pso/object/door/GreenDoorResource.cpp

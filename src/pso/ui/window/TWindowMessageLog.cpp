@@ -27,6 +27,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/chat/ChatLogLines.h"
+#include "pso/ui/chat/ChatLogHeap.h"
 
 char *chat_log_lines[30];
 
@@ -330,4 +331,13 @@ void free_chat_log_lines(void) {
     }
     delete scroll_win_chat_log_heap;
     scroll_win_chat_log_heap = NULL;
+}
+
+void init_chat_log_heap(void) {
+    s32 i;
+    scroll_win_chat_log_heap = new THeap(0x2000, 8);
+    chat_last_line_buffer = NULL;
+    for (i = 0; i < 0x1E; i++) {
+        chat_log_lines[i] = NULL;
+    }
 }
