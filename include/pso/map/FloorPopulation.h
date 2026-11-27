@@ -55,15 +55,15 @@ struct LobbyPoolEntry {
 
 LAYOUT_ASSERT(FloorObjectSetRow_size, sizeof(FloorObjectSetRow) == 0x44);
 LAYOUT_ASSERT(FloorObjectSetRowPlacementOffset, offsetof(FloorObjectSetRow, placement) == 4);
-LAYOUT_ASSERT(FloorObjectSetRowPositionOffset, offsetof(FloorObjectSetRow, placement) + offsetof(ObjectSetData, position) == 0x10);
+LAYOUT_ASSERT(FloorObjectSetRowPositionOffset, offsetof(FloorObjectSetRow, placement.position) == 0x10);
 LAYOUT_ASSERT(FloorObjectSetRowObjectOffset, offsetof(FloorObjectSetRow, object) == 0x40);
 LAYOUT_ASSERT(EnemySetRecordSize, sizeof(EnemySetRecord) == 0x48);
 LAYOUT_ASSERT(EnemySetRecordFlags, offsetof(EnemySetRecord, flags) == 2);
 LAYOUT_ASSERT(EnemySetRecordPlacement, offsetof(EnemySetRecord, placement) == 4);
-LAYOUT_ASSERT(EnemySetRecordId, offsetof(EnemySetRecord, placement) + offsetof(EnemyPlacement, id) == 0xA);
-LAYOUT_ASSERT(EnemySetRecordIndex, offsetof(EnemySetRecord, placement) + offsetof(EnemyPlacement, enemy_index) == 4);
-LAYOUT_ASSERT(EnemySetRecordRoom, offsetof(EnemySetRecord, placement) + offsetof(EnemyPlacement, room) == 0xC);
-LAYOUT_ASSERT(EnemySetRecordWave, offsetof(EnemySetRecord, placement) + offsetof(EnemyPlacement, wave) == 0xE);
+LAYOUT_ASSERT(EnemySetRecordId, offsetof(EnemySetRecord, placement.id) == 0xA);
+LAYOUT_ASSERT(EnemySetRecordIndex, offsetof(EnemySetRecord, placement.enemy_index) == 4);
+LAYOUT_ASSERT(EnemySetRecordRoom, offsetof(EnemySetRecord, placement.room) == 0xC);
+LAYOUT_ASSERT(EnemySetRecordWave, offsetof(EnemySetRecord, placement.wave) == 0xE);
 LAYOUT_ASSERT(EnemySetRecordEnemy, offsetof(EnemySetRecord,enemy)==0x44);
 LAYOUT_ASSERT(FloorSavedSetRow_size, sizeof(FloorSavedSetRow) == 8);
 LAYOUT_ASSERT(LobbyFloorRows_size, sizeof(LobbyFloorRows) == 0x18);
