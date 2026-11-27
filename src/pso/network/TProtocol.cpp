@@ -783,7 +783,7 @@ void TProtocol::recv_burst_game(packet &pkt) {
 	}
 }
 
-void TProtocol::send_create_game(char *name, char *password, u8 difficulty, u8 battle_mode, u8 challenge_mode, u8 episode) {
+void TProtocol::send_create_game(char *name, char *password, u8 difficulty, u8 battle_mode, u8 challenge_mode, s32 episode) {
 	if (m_connected) {
 		TCreateGame tmp;
 		tmp.header.command = 0xC1;

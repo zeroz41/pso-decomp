@@ -1083,16 +1083,13 @@ void TLobby::update() {
     }
     reset_controller_input_state();
 }
-// The create-game call uses the low byte of the team's word result in r3.
-extern "C" u8 get_kind__15TWindowMakeTeamFv(TWindowMakeTeam *window);
-
 void TLobby::handle_create_game_window() {
     const char *name;
     const char *password;
     u8 battle_mode;
     u8 difficulty;
     u8 challenge_mode;
-    u8 episode;
+    s32 episode;
 
     if (lobby_make_team_window != NULL) {
         if (lobby_make_team_window->test_flag_1d_bit0() != 0) {
@@ -1102,7 +1099,7 @@ void TLobby::handle_create_game_window() {
                 battle_mode = (s8)lobby_make_team_window->read_mode() == 2;
                 difficulty = lobby_make_team_window->is_enabled();
                 challenge_mode = (s8)lobby_make_team_window->get_mode() == 1;
-                episode = get_kind__15TWindowMakeTeamFv(lobby_make_team_window);
+                episode = lobby_make_team_window->get_kind();
                 protocol_instance->send_create_game((char *)name, (char *)password, difficulty, battle_mode, challenge_mode, episode);
                 TLobby::destroy_lobby_ui();
                 return;

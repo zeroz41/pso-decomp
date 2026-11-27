@@ -516,7 +516,7 @@ public:
     void send_pso_data_long2(u32 flags, long_game_command &packet, size_t size);
     void send_room_change(int idx);
     void send_find_user(TPlyGuildCardTag tag, u32 gc_num);
-    void send_create_game(char *name, char *password, u8 difficulty, u8 battle_mode, u8 challenge_mode, u8 episode);
+    void send_create_game(char *name, char *password, u8 difficulty, u8 battle_mode, u8 challenge_mode, s32 episode);
 };
 
 extern s32 lobby_state_flags;
