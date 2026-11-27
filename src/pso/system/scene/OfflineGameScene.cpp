@@ -287,7 +287,7 @@ void TLobby::reload_offline_area() {
     load_area_event_sets();
     load_battle_param_entry();
     initialize_floor_transition(&floor_transition_state, 0, 0);
-    load_area_scene_and_init((u8 *)&floor_transition_state);
+    load_area_scene_and_init(&floor_transition_state);
     TLoadCtrl::cleanup_scene();
     if (is_area_transfer_pending() != 0) {
         TLobby::reset_keyboard_state();
@@ -361,10 +361,10 @@ void TLobby::rebuild_area_keep_players() {
     TLobby::setup_quest_list();
     TQuestListVM::load_vm();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        load_area_scene_and_init((u8 *)&floor_transition_state);
+        load_area_scene_and_init(&floor_transition_state);
     } else {
         initialize_floor_transition(&floor_transition_state, 0, 0);
-        load_area_scene_and_init((u8 *)&floor_transition_state);
+        load_area_scene_and_init(&floor_transition_state);
     }
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();
@@ -404,7 +404,7 @@ void run_offline_area_transfer(void) {
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(2);
     leader_selection.find_leader_section_id(designated_client_id);
-    load_area_scene_and_init((u8 *)&floor_transition_state);
+    load_area_scene_and_init(&floor_transition_state);
     unlock_main_warp_destination(get_current_floor());
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();
@@ -612,7 +612,7 @@ void init_offline_game_scene(void) {
     designated_client_id = 0;
     offline_scene_init_stub_a();
     leader_selection.find_leader_section_id(designated_client_id);
-    load_area_scene_and_init((u8 *)&floor_transition_state);
+    load_area_scene_and_init(&floor_transition_state);
     TLoadCtrl::cleanup_scene();
     main_task.begin_frame();
     main_task.run_task();
