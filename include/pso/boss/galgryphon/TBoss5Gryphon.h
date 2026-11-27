@@ -127,7 +127,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     s32 flight_mode;  // 0 ground, 2 low flight, 3 offscreen (the enter_*_mode setters), 1 enter_flight_mode
     Vec body_points[10];  // update_local_colliders_from_world turns them into body offsets
     Vec sound_origin;  // projected from the camera each frame; sounds play from it
-    Vec pad_56C;
+    Vec last_body_center;  // body_center, copied at the end of each run_task
     AreaAttackHistory *attack_history;
     TBoss5GryphonColli *collider;
     RenderFadeState renderFadeStates[4];

@@ -103,7 +103,7 @@ s32 set_shared_memory_data(u8 *src, u32 size) {
 #pragma optimize_for_size off
 void launch_iwanaga_dol(DolHeader *dol_image, s32 param) {
     strcpy(launch_dol_context->dol_name, "iwanaga.dol");
-    launch_dol_context->pad_100 = param;
+    launch_dol_context->dol_size = param;
     launch_dol_context->dol_image = dol_image;
     launch_dol_context->keep_size = sizeof(SharedMemory);
     LaunchDol(launch_dol_context);

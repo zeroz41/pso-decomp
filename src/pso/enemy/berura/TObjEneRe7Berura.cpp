@@ -327,7 +327,7 @@ void TObjEneRe7Berura::init_enemy() {
     step = 0;
     counter = 0;
     target_angle = 0;
-    pad_4cc = 0;
+    mode_turn_limit = 0;
     accum = 0.0f;
     emit_end_frame = 0.0f;
     walk_dir.x = 0.0f;
@@ -1067,7 +1067,7 @@ void TObjEneRe7Berura::update_melee_state(s32 reason) {
         step = 0;
         counter = 0;
         target_angle = 0;
-        pad_4cc = get_turn_limit();
+        mode_turn_limit = get_turn_limit();
         return;
     case 3:
         if (step != 0) {

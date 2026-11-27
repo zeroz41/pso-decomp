@@ -118,7 +118,7 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     s32 step;                    // state work variables
     s32 counter;
     s32 target_angle;
-    s32 pad_4cc;
+    s32 mode_turn_limit;         // get_turn_limit() as mode 6 starts, never read
     f32 accum;
     f32 emit_end_frame;
     Vec walk_dir;                // sin, 0, cos of rotation_y when the walk starts

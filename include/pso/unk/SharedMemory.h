@@ -93,7 +93,7 @@ LAYOUT_ASSERT(DolHeader_size, sizeof(DolHeader) == 0x100);
 // this header to keep across the reset.
 struct LaunchDolContext {
     char dol_name[0x100];
-    s32 pad_100;
+    s32 dol_size;
     DolHeader *dol_image;
     s32 keep_size;
     u8 pad_10C[4];

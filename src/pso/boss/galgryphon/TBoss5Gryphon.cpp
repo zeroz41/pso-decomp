@@ -568,7 +568,7 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, EnemyPlacement *data) : TObjEneDD_
     this->script_entry = 0;
     this->action_scripts = boss5_gryphon_action_scripts;
     VecCopy(&this->sound_origin, &this->position);
-    VecCopy(&this->pad_56C, &this->position);
+    VecCopy(&this->last_body_center, &this->position);
     stat_block->proportions = gryphon_ten;
     this->attack_history = new AreaAttackHistory(4);
     this->collider = new TBoss5GryphonColli(&this->sub_tasks);
@@ -696,7 +696,7 @@ void TBoss5Gryphon::run_task() {
     shift_position_history();
     submit_default_cursor_candidate();
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 2.0f);
-    VecCopy(&this->pad_56C, &this->body_center);
+    VecCopy(&this->last_body_center, &this->body_center);
     if (teammate_state == 0) {
         this->sub_tasks.run_tasks();
     }
