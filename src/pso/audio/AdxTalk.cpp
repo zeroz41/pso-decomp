@@ -561,7 +561,7 @@ void adx_destroy_stream_player(AdxtPlayer *player) {
 
 AdxtPlayer *adx_create_stream_player(s32 n, void *work, s32 size) {
     AdxtPlayer *c;
-    s32 aligned = ((saddr)work + 0x3F) & ~0x3F;
+    saddr aligned = ((saddr)work + 0x3F) & ~0x3F;
     s32 rem = size - (aligned - (saddr)work);
     s32 i;
     s32 t;

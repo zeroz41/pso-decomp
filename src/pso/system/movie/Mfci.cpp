@@ -61,7 +61,7 @@ MfciFileEntry *mfci_open_entry(s32 entry, s32 mode) { // inferred: mfCiOpenEntry
 // A file name is "<address>.<size>", two 8-digit hex numbers: returns the address, stores the size.
 static u8 *mfci_get_adr_size(char *fname, u32 *size) {
     char *end;
-    u32 v;
+    uaddr v;
     if (strlen(fname) != 17) {
         sprintf(mfci_error_message_buffer, "E01100308:length of '%s' is not 17 bytes.(mfci_get_adr_size)", fname);
         if (mfci_error_callback != NULL) {
