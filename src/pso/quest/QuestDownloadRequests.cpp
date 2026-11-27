@@ -23,7 +23,7 @@ s32 lbl_805D7838;
 s32 lbl_805D783C;
 s32 lbl_805D7840;
 s32 lbl_805D7844;
-s32 lbl_805D7848;
+s32 text_input_mode;
 extern u8 candidate_number_label[];
 
 // Handlers by request id (1..63); unassigned ids return -1.
@@ -254,7 +254,7 @@ s32 quest_download_request_open(saddr *args) {
     lbl_805D7880 = 0;
     lbl_805D78E4 = 1;
     lbl_805D78E0 = 0x4000;
-    lbl_805D7848 = 0;
+    text_input_mode = 0;
     quest_download_match_length_limit = 0x24;
     strcpy((char *)candidate_number_label, (const char *)"  1.");
     strcpy((char *)quest_download_display_prefix.text, (const char *)"  \x8E\x63      "); // "  残      " (remaining)
@@ -281,7 +281,7 @@ s32 quest_download_request_edit_word(saddr *args) {
   u8 r;
   s32 ret;
   QuestDownloadRequest req;
-  if ((lbl_805D7848 >= 2) || (quest_download_state >= 2))
+  if ((text_input_mode >= 2) || (quest_download_state >= 2))
   {
     return 4;
   }

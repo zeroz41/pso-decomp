@@ -66,7 +66,7 @@ extern "C" {
 extern u8 quest_download_scratch_storage[0x28] ATTRIBUTE_ALIGN(4);
 extern u16 quest_download_buffer_storage[0x64] ATTRIBUTE_ALIGN(4);
 extern s32 quest_download_state;
-extern s32 lbl_805D7848;
+extern s32 text_input_mode;
 extern u8 *input_code_end;
 extern u8 *input_code_cursor;
 extern s32 quest_text_end;

@@ -2114,7 +2114,7 @@ void process_entry_text_range(s32 pos, s32 end) {
         } else {
             node = advance_quest_text_entries(slot->chain, 0);
         }
-        if (lbl_805D7848 != 3 && quest_download_state <= 2) {
+        if (text_input_mode != 3 && quest_download_state <= 2) {
         plain:
             learn_conversion_result(pos, n, node, slot->head);
             pos += n;

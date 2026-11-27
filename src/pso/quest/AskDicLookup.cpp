@@ -749,7 +749,7 @@ s32 get_slot_entry_length(s32 slot_index) {
         return 0;
     }
     r = &quest_download_slot_chain_table[slot_index];
-    if (lbl_805D7848 == 2 && r->fixed == 0) {
+    if (text_input_mode == 2 && r->fixed == 0) {
         return 0;
     }
     return r->length;

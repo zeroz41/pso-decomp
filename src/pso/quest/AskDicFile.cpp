@@ -80,7 +80,7 @@ void reset_text_input_state(s32 mode) {
     reset_entry_text_accumulator();
     if (mode == 1) {
         quest_download_match_length_limit = 0x23;
-        lbl_805D7848 = 1;
+        text_input_mode = 1;
     }
 }
 
