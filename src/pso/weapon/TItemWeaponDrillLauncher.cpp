@@ -84,10 +84,10 @@ void TItemWeaponDrillLauncher::emit_marker_effects() {
     }
     recoil_phase = 2;
     attack_state = &owner->attack_state;
-    if (get_burst_counter(attack_state) == 0) {
+    if (attack_state->get_burst_counter() == 0) {
         burst_added = 0;
         do {
-            increment_burst_counter((u8 *)attack_state);
+            attack_state->increment_burst_counter();
             burst_added += 1;
         } while (burst_added != 2);
     }
@@ -173,7 +173,7 @@ void drill_launcher_return_timer(void *weapon) {
     }
 }
 
-void increment_burst_counter(u8 *counter) {
-    *(s32 *)((s8 *)counter + 0x18) = (s32) (*(s32 *)((s8 *)counter + 0x18) + 1);
+void PlayerAttackController::increment_burst_counter() {
+    burst_count++;
 }
-s32 get_burst_counter(void* p) { return *(s32*)((char*)p + 0x18); }
+s32 PlayerAttackController::get_burst_counter() { return burst_count; }

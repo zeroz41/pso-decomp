@@ -97,7 +97,6 @@ extern "C" {
 const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
 s32 telepipe_record_differs(TelepipeState *r, s16 floor, Vec *p, u16 unused);
 }
-void write_telepipe_record(u8 *record, u16 owner, s16 floor, u8 *pos, s32 room);
 s32 PlacementSlot::is_placed() { return (u8)(state == 2); }
 
 s32 PlacementQueue::is_first_slot_placed() { return slots[0].is_placed(); }
@@ -357,7 +356,7 @@ void TTecLuker::setup_telepipe_field() {
         s16 room;
         floor = get_current_floor();
         room = (s32)source->get_room();
-        write_telepipe_record((u8 *)&((TObjPlayer *)source)->telepipe.state, source->get_entity_id(), floor, (u8 *)&pipe_pos, room);
+        ((TObjPlayer *)source)->telepipe.state.write_telepipe_record(source->get_entity_id(), floor, &pipe_pos, room);
         ((TObjPlayer *)source)->telepipe.state.send_telepipe_packet();
     }
 }
@@ -547,7 +546,7 @@ void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     if (telepipe_record_differs(rec, command->state.floor, &command->state.pos, command->state.owner_client_id) == 0) {
         return;
     }
-    write_telepipe_record((u8 *)rec, command->state.owner_client_id, command->state.floor, (u8 *)&command->state.pos, command->state.room_id);
+    rec->write_telepipe_record(command->state.owner_client_id, command->state.floor, &command->state.pos, command->state.room_id);
     if (is_split_screen() == 0 && command->state.owner_client_id == local_client_id) {
         return;
     }
@@ -560,16 +559,16 @@ void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command) {
     }
 }
 
-void write_telepipe_record(u8 *record, u16 owner, s16 floor, u8 *pos, s32 room) {
-    u8 *player;
-    *(u16 *)((s8 *)record + 0) = owner;
-    *(s16 *)((s8 *)record + 2) = floor;
-    VecCopy((Vec *)(record + 8), (const Vec *)pos);
-    *(s32 *)((s8 *)record + 4) = room;
+void TelepipeState::write_telepipe_record(u16 owner, s16 floor_index, const Vec *position, s32 room) {
+    TObjPlayer *player;
+    owner_client_id = owner;
+    floor = floor_index;
+    VecCopy(&pos, position);
+    room_id = room;
     if (owner <= 4U) {
-        player = (u8 *)get_player_by_client_id((s32)((u32) owner));
+        player = get_player_by_client_id(owner);
         if (player != NULL) {
-            *(s32 *)((s8 *)record + 0x14) = (s32) *(s32 *)((s8 *)player + 0x60);
+            angle_y = player->rotation_y;
         }
     }
 }

@@ -205,9 +205,9 @@ void handle_6x66_use_star_atomizer(G_UseStarAtomizer_6x66 *packet) {
                     target->set_hp_clamped(target->get_hpmax());
                     if (is_current_area_item_enabled() != 0) {
                         if (i == 0) {
-                            spawn_particle_effect((const Vec *)((u8 *)target + 0x2FC), 0x19);
+                            spawn_particle_effect(&target->body_center, 0x19);
                         }
-                        spawn_particle_effect((const Vec *)((u8 *)target + 0x2FC), 0xC2);
+                        spawn_particle_effect(&target->body_center, 0xC2);
                     }
                 }
             }

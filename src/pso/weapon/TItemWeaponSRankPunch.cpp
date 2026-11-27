@@ -86,10 +86,10 @@ void TItemWeaponSRankPunch::emit_marker_effects() {
     player = owner;
     if (player == NULL) return;
     attack_state = &player->attack_state;
-    if (get_burst_counter(attack_state) == 0) {
+    if (attack_state->get_burst_counter() == 0) {
         i = 0;
         do {
-            increment_burst_counter((u8 *)attack_state);
+            attack_state->increment_burst_counter();
             i += 1;
         } while (i != 2);
         this->flags.set(2);

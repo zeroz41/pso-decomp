@@ -1038,7 +1038,7 @@ void TPlayerBattleCtrl::init_battle_round() {
     player->battle_score.meseta.reset();
     player->battle_score.slots.set_score(0);
   }
-  *((s32 *) (((s8 *) this) + 0x60)) = 0x5A;
+  state_send_wait = 0x5A;
   calc_player_rankings();
   for (i = 0; i < 4; i++)
   {

@@ -87,10 +87,10 @@ void TItemWeaponRocketPunch::emit_marker_effects() {
     TObjPlayer *player = owner;
     if (player == NULL) return;
     attack_state = &player->attack_state;
-    if (get_burst_counter(attack_state) == 0) {
+    if (attack_state->get_burst_counter() == 0) {
         burst_count = 0;
         do {
-            increment_burst_counter((u8 *)attack_state);
+            attack_state->increment_burst_counter();
             burst_count += 1;
         } while (burst_count != 2);
         punch_flags.set(2);

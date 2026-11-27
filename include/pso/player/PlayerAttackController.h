@@ -74,6 +74,8 @@ struct PlayerAttackController {
     // Queues the next combo stage from an action channel, up to maximum_stage.
     void queue_physical_attack_input(TObjPlayer *player, s32 channel, s16 maximum_stage);
     s32 tick_burst_recovery();
+    void increment_burst_counter();
+    s32 get_burst_counter();
     s32 tick_recovery_timer();
     void register_strike(TObjPlayer *player);
     void begin(TObjPlayer *player, s32 stage, s32 begun);

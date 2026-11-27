@@ -3613,8 +3613,8 @@ void TObjPlayer::update_anim_action() {
         if (this->attack_state.get_flags()->test_flags_any(8) == 0) {
             if (is_passing_frame(select_normal_attack_marker()) != 0) {
                 send_attack_target_packet();
-                increment_burst_counter((u8 *)&this->attack_state);
-                if (get_burst_counter(&this->attack_state) >= 3) {
+                attack_state.increment_burst_counter();
+                if (attack_state.get_burst_counter() >= 3) {
                     this->attack_state.get_flags()->set(8);
                     this->attack_state.register_strike(this);
                     pause_motion();
