@@ -93,7 +93,7 @@ public:
     s16 get_eic();
     s32 recalc_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats, f32 xscale, f32 yscale);
     s32 set_motion_params(player_stats *base_stats);
-    void show_miss_popup(const float *);
+    void show_miss_popup(Vec *pos);
     void show_miss_for_collider(s32 collider);
     void try_apply_damage(const Vec *pos, s32 damage);
     s32 subtract_actor_tp(s32);

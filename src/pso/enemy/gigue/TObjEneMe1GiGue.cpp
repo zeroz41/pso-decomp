@@ -1305,7 +1305,7 @@ void TObjEneMe1GiGue::clear_barrier_active() { behavior_flags &= ~0x80000; }
 f32 TObjEneMe1GiGue::receive_physical_attack(TObjChara *attacker, f32 power) {
     f32 damage = 0.0f;
     if (behavior_flags & 0x80000) {
-        show_miss_popup(&body_center.x);
+        show_miss_popup(&body_center);
         set_state(10);
     } else {
         damage = TObjChara::receive_physical_attack(attacker, power);
@@ -1316,7 +1316,7 @@ f32 TObjEneMe1GiGue::receive_physical_attack(TObjChara *attacker, f32 power) {
 f32 TObjEneMe1GiGue::receive_direct_attack(TObjBase *attacker, DirectAttackPayload hit, CollisionBody *source, s32, s32) {
     f32 damage = 0.0f;
     if (behavior_flags & 0x80000) {
-        show_miss_popup(&body_center.x);
+        show_miss_popup(&body_center);
         set_state(10);
     } else {
         damage = TObjChara::receive_direct_attack(attacker, hit, source, -1, -1);
@@ -1327,7 +1327,7 @@ f32 TObjEneMe1GiGue::receive_direct_attack(TObjBase *attacker, DirectAttackPaylo
 f32 TObjEneMe1GiGue::receive_weapon_special_attack(TObjChara *attacker, CollisionBody *weapon) {
     f32 damage = 0.0f;
     if (behavior_flags & 0x80000) {
-        show_miss_popup(&body_center.x);
+        show_miss_popup(&body_center);
         set_state(10);
     } else {
         damage = TObjChara::receive_weapon_special_attack(attacker, weapon);

@@ -18,6 +18,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/item/item_create.h"
+#include "pso/enemy/TObjEnemy.h"
 
 void *item_pmt;
 
@@ -231,9 +232,9 @@ void play_weapon_hit_sound(ItemSoundRequest *request) {
     s32 key[2];
     s32 pitch[2];
     u8 group = request->group;
-    u8 *target;
+    TObjChara *target;
     u32 mode;
-    u8 *pos;
+    const Vec *pos;
     u16 type;
     s32 cls;
     s32 i;
@@ -244,18 +245,18 @@ void play_weapon_hit_sound(ItemSoundRequest *request) {
         group = 0x10;
     }
     if (group < 0xAA) {
-        target = (u8 *)request->target;
+        target = request->target;
         key[0] = item_pmt_tbl->weapon_sounds[group].target[0].key;
         pitch[0] = item_pmt_tbl->weapon_sounds[group].target[0].pitch;
         key[1] = item_pmt_tbl->weapon_sounds[group].target[1].key;
         pitch[1] = item_pmt_tbl->weapon_sounds[group].target[1].pitch;
-        pos = (u8 *)((TObjCollidable *)target)->bodies + request->collider * 0x2C + 0x1C;
-        type = ((TObjBase *)(target))->get_entity_id();
+        pos = &target->bodies[request->collider].center;
+        type = target->get_entity_id();
         if (type < 0x1000) {
-            cls = ((TObjPlayer *)target)->appearance.classId;
+            cls = static_cast<TObjPlayer *>(target)->appearance.classId;
             mode = 1;
         } else if (type < 0x4000) {
-            cls = *(s32 *)(target + 0x370);
+            cls = static_cast<TObjEnemy *>(target)->rt_index;
             mode = 3;
         } else {
             mode = 3;
@@ -279,7 +280,7 @@ void play_weapon_hit_sound(ItemSoundRequest *request) {
                 }
             }
             if (k != 0) {
-                s32 handle = play_sound_effect(k, reinterpret_cast<const Vec *>(pos), 0, 0);
+                s32 handle = play_sound_effect(k, pos, 0, 0);
                 if (p != 0) {
                     set_sound_pitch_request(handle, p, 0);
                 }

@@ -635,7 +635,7 @@ s32 item_identity_matches(u8 *item, u8 *other) {
   s32 result;
   u8 item_type;
   u8 item_group;
-  if (((((item) != 0) && ((other) != 0)) && ((item_type = *((u8 *) (((s8 *) item) + 0)), (item_type == ((u8) (*((u8 *) (((s8 *) other) + 0))))) != 0))) && ((item_group = *((u8 *) (((s8 *) item) + 1)), (item_group == ((u8) (*((u8 *) (((s8 *) other) + 1))))) != 0)))
+  if (item != NULL && other != NULL && (item_type = item[0], item_type == other[0]) && (item_group = item[1], item_group == other[1]))
   {
     switch ((s32) item_type)
     {

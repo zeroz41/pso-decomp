@@ -55,23 +55,15 @@ void TObjLuker::hide_part(u16 part) {
     }
 }
 
-#pragma push
-#pragma opt_common_subs off
 void TObjLuker::show_part(u16 part_index) {
-    saddr self_addr = (saddr)this;
-    u8 *slot_base;
-    u8 *slot;
-    slot_base = (u8 *)(self_addr + ((part_index * 4) & 0x3FFFC));
-    slot = (u8 *)(*(u8 **)((s8 *)slot_base + 0x90));
-    if (slot != NULL) {
-        if (*(u16 *)((s8 *)slot + 4) & 4) {
+    if (windows[part_index] != NULL) {
+        if (windows[part_index]->m_flags & 4) {
             play_sound_effect(0x53703, NULL, 0, 0);
         }
-        ((TObject *)(*(u8 **)((s8 *)slot_base + 0x90)))->clear_update_suspension();
-        ((TObject *)(*(u8 **)((s8 *)slot_base + 0x90)))->allow_rendering();
+        windows[part_index]->clear_update_suspension();
+        windows[part_index]->allow_rendering();
     }
 }
-#pragma pop
 
 void TObjLuker::update_floor_name_windows() {
     s32 target = get_player_by_client_id(this->owner_id)->telepipe.state.floor;

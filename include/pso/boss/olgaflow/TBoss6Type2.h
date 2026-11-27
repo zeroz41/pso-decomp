@@ -141,7 +141,7 @@ struct TBoss6Type2 : public TObjEnemy
     s32 last_walk_def;  // 1 after a WALK_DEF* state, 0 after WALK_CMN*: the walks alternate
     s32 iai_count;      // IAI_* entries since the last BKJUMP (should_back_jump at 3)
     u32 action_flags;  // the action row's flags (update_parts_flags)
-    u8 random_factor;  // OlgaFlowType2ActionMsg::random_factor
+    s8 random_factor;  // OlgaFlowType2ActionMsg::random_factor
     u8 pad_479[0x3];
     u32 next_motion;   // OlgaFlowType2ActionMsg::next_motion
     Boss6Type2MoveTarget move_target;

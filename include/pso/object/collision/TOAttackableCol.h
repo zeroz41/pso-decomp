@@ -22,7 +22,7 @@ struct TOAttackableCol : public TObjChara {
     void init_params();
     void send_state_change(u16 state);
     void handle_6x91_update_state();
-    f32 apply_hit(saddr player);
+    f32 apply_hit(TObjChara *player);
     void release();
     void check_door_trigger();
     void run_task_stub();

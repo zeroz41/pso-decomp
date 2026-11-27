@@ -27,6 +27,7 @@
 #include "pso/item/item_create.h"
 #include "pso/item/TItemDisconnectCtrl.h"
 #include "pso/item/armor/TItemProArmor.h"
+#include "pso/item/armor/TItemProUnit.h"
 
 
 void *TItemDrop::relocatable_load_buffer;
@@ -113,7 +114,7 @@ void TItemDrop::apply_drop_restrictions(TItemData *it) {
     if (get_game_play_mode() == 1) {
         if (it->data1.data_u8[0] == 1) {
             if (it->data1.data_u8[1] == 3) {
-                if (static_cast<u8>(*reinterpret_cast<const s8 *>(&it->data1.data_u8[2])) >= 0x33 && static_cast<u8>(*reinterpret_cast<const s8 *>(&it->data1.data_u8[2])) <= 0x38) {
+                if (static_cast<u8>(it->data1.data_s8[2]) >= 0x33 && static_cast<u8>(it->data1.data_s8[2]) <= 0x38) {
                     it->init();
                 }
             }
@@ -201,7 +202,7 @@ void TItemDrop::select_unit_drop(u8 stars, TItemData *item) {
     s32 i;
     u32 pick;
     s32 r;
-    u8 *data;
+    UnitPmtEntry *unit;
     s16 v;
     u8 cnt;
     if (stars >= 0xD) {
@@ -223,11 +224,11 @@ void TItemDrop::select_unit_drop(u8 stars, TItemData *item) {
                 if (i < 0x50) {
                     item->data1.data_u8[2] = i / 5;
                     r = (u8)(i % 5);
-                    data = (u8 *)lookup_item_pmt_record(item->data1.data_u8);
-                    if (data == NULL) {
+                    unit = static_cast<UnitPmtEntry *>(lookup_item_pmt_record(item->data1.data_u8));
+                    if (unit == NULL) {
                         return;
                     }
-                    v = *(s16 *)(data + 0xC);
+                    v = unit->modifier_amount;
                     switch (r) {
                     case 0:
                         item->set_unit_modifier(-(v * 2));

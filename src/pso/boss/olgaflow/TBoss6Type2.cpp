@@ -1523,7 +1523,7 @@ void TBoss6Type2::pick_action_clients(u16 *first, u16 *second) {
             *second = id0;
         }
         if (TBoss6PlotFalz::get_phase() == 0) {
-            s8 flags = *(s8 *)&random_factor;
+            s8 flags = random_factor;
             if (flags & 2) {
                 if (flags & 4) {
                     *first = 0xFFFF;

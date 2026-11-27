@@ -102,12 +102,8 @@ const TPlyInventoryItem *get_class_starting_inventory(s32 cls) {
     return class_starting_inventory_table[(s8)cls];
 }
 
-u8 * TObjPlayer::get_cast_motion_record() {
-  s32 offset;
-  s8 *table_slot;
-  offset = this->get_handle_value() * 0x14;
-  table_slot = ((s8 *)player_cast_motion_record_table) + (this->has_valid_handle() * 4);
-  return *(u8 **)table_slot + offset;
+const PlayerCastMotionRecord *TObjPlayer::get_cast_motion_record() {
+    return &player_cast_motion_record_table[this->has_valid_handle()][this->get_handle_value()];
 }
 
 long TObjPlayer::get_anim_table_entry(s32 picture) {

@@ -3903,7 +3903,7 @@ force_active:
   - apply_ground_impact_attack__12TBoss1DragonFv
   - apply_head_fall_attack__12TBoss1DragonFv
   - apply_heal_to_target__13TOHealGeneralFv
-  - apply_hit__15TOAttackableColFl
+  - apply_hit__15TOAttackableColFP9TObjChara
   - apply_hit_if_active__26TBoss1DragonAttackColliderFP9TObjCharaPCf
   - apply_hit_if_active__19TBoss1DragonEffTailFP9TObjCharaPCf
   - apply_hit_if_active__21TObjEneRe7BeruraPunchFP9TObjCharaPCf

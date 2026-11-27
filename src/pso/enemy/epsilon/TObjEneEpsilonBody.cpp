@@ -1345,7 +1345,7 @@ f32 TObjEneEpsilonBody::receive_weapon_special_attack(TObjChara *src, CollisionB
         src->get_special_power();
         strong = 0;
         if (src == NULL || src->get_entity_id() == 0xFFFF) {
-            show_miss_popup(&position.x);
+            show_miss_popup(&position);
             return 0.0f;
         }
         if (test_actor_flags(0x04000000) != 0) {
@@ -1373,7 +1373,7 @@ f32 TObjEneEpsilonBody::receive_weapon_special_attack(TObjChara *src, CollisionB
             case 11:
             case 12:
             case 13:
-                show_miss_popup(&body_center.x);
+                show_miss_popup(&body_center);
                 break;
             }
             return 0.0f;

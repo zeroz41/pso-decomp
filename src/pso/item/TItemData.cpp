@@ -694,12 +694,12 @@ void TItemData::set_dfp_bonus(s16 dfp_bonus) {
 }
 
 s16 TItemData::get_technique_level() {
-    void *tech_params;
+    TechniqueParams *tech_params;
 
     if (((u8) this->data1.data_u8[0] == 3) && ((u8) this->data1.data_u8[1] == 2)) {
         tech_params = calc_technique_parameters(this->data1.data_u8[4], this->data1.data_u8[2], 0xFFFF);
         if (tech_params != NULL) {
-            return *(s16 *)((s8 *)tech_params + 0x14);
+            return tech_params->mental;
         }
     }
     return 0;
@@ -1469,6 +1469,7 @@ void TItemData::format_item_name(char *buf) {
     s8 *slot;
     const char *name;
     s32 *pmt;
+    UnitPmtEntry *unit;
     s8 tmp[10];
     s8 sign[3];
     s16 lim;
@@ -1558,9 +1559,9 @@ void TItemData::format_item_name(char *buf) {
         }
     } else if (t == 1 && data1.data_u8[1] == 3) {
         memset(sign, 0, 3);
-        pmt = (s32 *)lookup_item_pmt_record(data1.data_u8);
-        if (pmt != NULL) {
-            lim = *(s16 *)((u8 *)pmt + 0xC);
+        unit = static_cast<UnitPmtEntry *>(lookup_item_pmt_record(data1.data_u8));
+        if (unit != NULL) {
+            lim = unit->modifier_amount;
             v = get_unit_modifier(this);
             if (v < -lim) {
                 sign[0] = '-';

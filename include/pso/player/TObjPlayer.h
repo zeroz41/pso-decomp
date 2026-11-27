@@ -72,6 +72,7 @@ struct TMovie;
 struct CapturedTargetList;
 class TPlayerLobbyMarker;
 struct PlayerRequirementStats;
+struct PlayerCastMotionRecord;
 
 // The frames a player stays protected from hits (after getting up, being
 // hurt, or a mag's invincibility).
@@ -198,7 +199,7 @@ struct TObjPlayer : public TObjChara {
     void create_lockon_cursor();
     void update_lock_on_cursor();
     void clear_lock_on_cursor(void *data);
-    void setup_fresh_player_state(u8 *);
+    void setup_fresh_player_state(TPlyCharData *char_data);
     void init_class_flags(PlayerSyncRecord *record);
     void load_pending_actions_from_sync_record(u8 *record);
     void load_pending_actions(TPlyCharData *record);  // restores pending_actions (and record_flags_hi) from a save record; apply_pending_action is the inverse
@@ -1133,7 +1134,7 @@ struct TObjPlayer : public TObjChara {
     int is_mounted();
     void clear_lobby_pose_hold();
     s32 get_lobby_entry_yaw();
-    u8 * get_cast_motion_record();
+    const PlayerCastMotionRecord *get_cast_motion_record();
     static void restore_model_render_state();
     static void save_model_render_state();
     s32 can_equip_item(s32 tech);

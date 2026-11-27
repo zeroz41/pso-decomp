@@ -121,6 +121,7 @@
 #include "pso/player/TObjPlayerSet.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/player/TPlyCharData.h"
+#include "pso/player/PlayerClassStats.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -327,7 +328,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     this->load_character_state(record);
     this->update_if_active();
     assign_owner_ids();
-    this->setup_fresh_player_state((u8 *)record);
+    this->setup_fresh_player_state(record);
     this->load_pending_actions(record);
     TObjPlayer::set_com_card_window((saddr)((this->get_entity_id())));
 }
@@ -1019,7 +1020,7 @@ extern "C" {
 void init_from_sync_record_stub(TObjPlayer *player, PlayerSyncRecord *record) {}
 }
 
-void TObjPlayer::setup_fresh_player_state(u8 *char_data) {
+void TObjPlayer::setup_fresh_player_state(TPlyCharData *char_data) {
     this->hp = (s16) this->hpmax;
     this->tp = (s16) this->tpmax;
     if ((this->obj_isState2_324() != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (TObjPlayer::check_camera_mode() == 0)) {
@@ -1031,13 +1032,12 @@ void TObjPlayer::setup_fresh_player_state(u8 *char_data) {
     if (is_alive_and_ready() != 0) {
         refill_traps();
     }
-    this->set_language((int) (*(u8 *)((s8 *)char_data + 3)));
+    this->set_language(char_data->m_inventory.m_language);
     scale_state.set_actor_id(this->get_entity_id());
     this->disable_drop_weapon_on_death();
-    TPlyCharData *record = reinterpret_cast<TPlyCharData *>(char_data);
-    this->mag_level = record->get_class_flag_0();
-    this->class_flag_1 = record->get_class_flag_1();
-    this->battle_mode = record->get_class_flag_2();
+    this->mag_level = char_data->get_class_flag_0();
+    this->class_flag_1 = char_data->get_class_flag_1();
+    this->battle_mode = char_data->get_class_flag_2();
 }
 
 void TObjPlayer::restore_state_on_area_entry() {
@@ -2900,7 +2900,7 @@ CsnHit *TObjPlayer::apply_wall_response() {
 }
 
 void TObjPlayer::get_hand_joint_position(Vec *out_pos) {
-    this->get_anim_node_position(*(s32 *)(get_cast_motion_record() + 0x10), out_pos);
+    this->get_anim_node_position(get_cast_motion_record()->hand_joint, out_pos);
 }
 
 void TObjPlayer::init_effect_5f0() {
