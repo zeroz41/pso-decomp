@@ -346,7 +346,7 @@ void release_single_ply_chr_select_scene(void) {
     render_tick();
 }
 
-void TAdSinglePlyChrSelectGC::run_frame() {
+void run_single_player_char_select_frame() {
     begin_gx_frame();
     controller_stuff();
     update_keyboard_input_frame();

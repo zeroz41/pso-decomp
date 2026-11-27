@@ -339,7 +339,7 @@ void release_resources() {
     quest_list_online_instance = 0;
 }
 
-void TQuestListOnline::init_download_buffers() {
+void init_quest_list_online_buffers() {
     quest_list_online_quest_list_buffer = (OnlineQuestMenu *)alloc(sizeof(OnlineQuestMenu));
     quest_list_online_selected_quest_info = (OnlineQuestInfo *)alloc(sizeof(OnlineQuestInfo));
     online_quest_download_window = NULL;

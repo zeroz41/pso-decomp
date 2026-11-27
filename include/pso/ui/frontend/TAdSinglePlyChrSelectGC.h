@@ -108,7 +108,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 load_player_slot(s32 chan, const char *file_name, void *buffer);
     s32 try_acquire_slot();
     static void init_entry_tables(void* _w0);
-    static s32 is_active();
     void reset_creation_parts();
     static s32 map_button_code(s32 code);
     static void render(void *self);
@@ -140,7 +139,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     s32 menu_choice;                       // 0x5C  chr_menu entry that decides where the scene goes next
     static void reset_quest_id();
     static void set_quest_download_server(int quest_download_server);
-    static void run_frame();
     static TPlyCharData *get_char_index(unsigned int index);
     static TPlyCharData *get_char_table_entry(int index);
     static void run_save_load_sequence();

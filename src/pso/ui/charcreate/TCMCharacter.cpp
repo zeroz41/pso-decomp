@@ -357,7 +357,7 @@ void TCMCharacter::reset_model_parts() {
     }
     creation_models_ready = 0;
 }
-s32 TAdSinglePlyChrSelectGC::is_active() {
+s32 is_char_select_active() {
     return (u8)((u8) (char_select_active_flag == 1));
 }
 int get_char_creation_figure_draw_flag(void) { return char_creation_figure_draw_flag; }

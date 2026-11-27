@@ -45,7 +45,7 @@ void start_ending_sequence(void) {
     render_tick();
 }
 
-void TKeyBoardControl::run_main_frame() {
+void update_ending_sequence() {
     begin_gx_frame();
     controller_stuff();
     update_keyboard_input_frame();
@@ -63,7 +63,7 @@ void TKeyBoardControl::run_main_frame() {
     render_tick();
 }
 
-void TAdEndText::cleanup() { ending_sequence_active = 0; main_task.delete_layer_children(); free_ending_callback(); free_keyboard_soft_resources(); TAdEndText::free_resources(); render_tick(); }
+void exit_ending_sequence() { ending_sequence_active = 0; main_task.delete_layer_children(); free_ending_callback(); free_keyboard_soft_resources(); TAdEndText::free_resources(); render_tick(); }
 
 TEndingMovie::TEndingMovie() : TObject(tl_04) {
     ending_movie_active_flag = 0;

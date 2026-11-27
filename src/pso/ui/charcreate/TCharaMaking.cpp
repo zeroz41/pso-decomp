@@ -609,7 +609,7 @@ s32 TCharaMaking::update_main_menu() {
 }
 
 void TCharaMaking::run_task() {
-    if (!TAdSinglePlyChrSelectGC::is_active()) return;
+    if (!is_char_select_active()) return;
     if (update_main_menu()) return;
 }
 

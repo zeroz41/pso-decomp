@@ -32,6 +32,7 @@ void reset_globals(void);
 void close_windows_and_reset();
 void release_resources();
 void handle_quest_ready();
+void init_quest_list_online_buffers();
 void handle_quest_download_chunk(TRecvDownload &download);
 void begin_file_download(TRecvDownloadHead &file);
 void receive_quest_info(OnlineQuestInfo &info);

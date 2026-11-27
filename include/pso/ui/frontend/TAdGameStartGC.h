@@ -42,5 +42,6 @@ public:
 LAYOUT_ASSERT(TAdGameStartGC_size, sizeof(TAdGameStartGC) == 0xD4);
 
 void register_texture_f512_multiplay(void);
+void release_texture_f512_multiplay();
 
 #endif

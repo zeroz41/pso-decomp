@@ -47,7 +47,6 @@ struct TQuestListOnline : public TShopWindowBase {
     s32 get_selection_stage();
     static int get_quest_size();
     static u8 *get_quest_data();
-    static void init_download_buffers();
     static s32 get_list_state();
     static const char *get_selected_entry();
     static int get_selected_quest_id();

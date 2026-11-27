@@ -318,7 +318,7 @@ void update_guild_or_quest_phase() {
         clear_guild_warning_on_quest_exit();
     }
     if (get_main_phase() == 0xF) {
-        TQuestListOnline::init_download_buffers();
+        init_quest_list_online_buffers();
         zero_four_slots();
         clear_online_client_instance_table();
     }

@@ -30,4 +30,6 @@ LAYOUT_ASSERT(CreationShapeReadyOffset, offsetof(TCMCharacter,shape_rel_ready)==
 void blend_creation_proportion_shapes(f32 *point);
 void prefetch_creation_textures(s32 part);
 
+s32 is_char_select_active();
+
 #endif

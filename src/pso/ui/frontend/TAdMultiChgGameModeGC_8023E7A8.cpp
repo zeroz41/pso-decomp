@@ -109,7 +109,7 @@ FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {register_texture_f128_ray, TAdRayGC::destroy_instance},
     {load_multi_ply_chr_select_resources, free_multi_ply_chr_select_resources},
     {TAdTimeSetGC::load_scene_resources, TAdTimeSetGC::free_scene_resources},
-    {register_texture_f512_multiplay, TAdGameStartSubGC::destroy_instance},
+    {register_texture_f512_multiplay, release_texture_f512_multiplay},
     {TAdSinglePlyChrSelectGC::alloc_char_buffers, TAdSinglePlyChrSelectGC::free_callbacks},
     {TAdMultiChgGameModeGC::load_scene_resources, TAdMultiChgGameModeGC::free_scene_resources},
     {load_multi_confirm_textures, free_multi_confirm_textures},

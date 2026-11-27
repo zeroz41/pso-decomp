@@ -29,7 +29,6 @@ public:
     virtual void render();
 
     void draw_background();
-    static void destroy_instance();
 
     s32 m_cell;
     GameStartQuad m_rest;

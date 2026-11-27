@@ -151,7 +151,7 @@ TAdGameStartGC::TAdGameStartGC(TObject *parent) : TObject(parent) {
     }
 }
 
-void TAdGameStartSubGC::destroy_instance() {
+void release_texture_f512_multiplay() {
     if (multiplay_texture_f512_handle != NULL) {
         release_texture_list(multiplay_texture_f512_handle);
         multiplay_texture_f512_handle = NULL;

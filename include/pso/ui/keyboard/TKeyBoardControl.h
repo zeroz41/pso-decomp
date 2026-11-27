@@ -32,7 +32,6 @@ struct TKeyBoardControl : public TObject {
     char *realloc_buffer();
     int is_cancelled();
     int is_confirmed();
-    static void run_main_frame();
     static void update();
     void clear_keyboard_flag60_bit1();
     void set_composer_flag62_bit4();
