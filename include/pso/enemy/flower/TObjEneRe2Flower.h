@@ -111,7 +111,7 @@ extern const f32 re2_flower_rare_chance; // 0.002
 // applied at node 1 and the two points transformed at node 14.
 extern s32 re2_flower_node_index;
 extern s32 re2_flower_node_yaw;
-extern f32 *re2_flower_node_points;
+extern Vec *re2_flower_node_points;
 void update_effect_sequence(NJS_OBJECT *);
 
 LAYOUT_ASSERT(TObjEneRe2Flower_size, sizeof(TObjEneRe2Flower) == 0x42C);

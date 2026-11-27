@@ -269,10 +269,10 @@ void TObjEneMe3Stelth::load_shared_resources() {
         a.motions = me3_stelth_bml_resource->motions;
         NpcAnimationBinding b = stelth_attack_binding_desc_b;
         b.motions = me3_stelth_bml_resource->motions;
-        TObjNpcEnemy::register_animated_ginja(0x2B, reinterpret_cast<NJS_OBJECT *>(me3_stelth_bml_resource->models->model),
-                                                  reinterpret_cast<NJS_TEXLIST *>(me3_stelth_bml_resource->models->texlist), &a, 8.0f, 0.0f);
-        TObjNpcEnemy::register_animated_ginja(0x2D, reinterpret_cast<NJS_OBJECT *>(me3_stelth_bml_resource->models->model),
-                                                  reinterpret_cast<NJS_TEXLIST *>(me3_stelth_bml_resource->models->texlist), &b, 8.0f, 0.0f);
+        TObjNpcEnemy::register_animated_ginja(0x2B, me3_stelth_bml_resource->models->model,
+                                                  me3_stelth_bml_resource->models->texlist, &a, 8.0f, 0.0f);
+        TObjNpcEnemy::register_animated_ginja(0x2D, me3_stelth_bml_resource->models->model,
+                                                  me3_stelth_bml_resource->models->texlist, &b, 8.0f, 0.0f);
     }
 }
 void *TObjEneMe3Stelth::create_real(void *set_data) { return TObjEneMe3StelthReal::create(set_data); }
@@ -488,11 +488,11 @@ void TObjEneMe3Stelth::attack_and_unequip() {
         current_target->apply_knockback_from_attacker(this, 3.0f);
         if (d > 0.0f) {
             if (is_alternate_variant() != 0) {
-                TObjChara *t = current_target;
+                TObjPlayer *t = static_cast<TObjPlayer *>(current_target);
                 TItem *held;
                 if (t->is_locally_controlled() != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(t)) != 0) {
-                    TObjPlayer::send_6x26_unequip_item((TObjPlayer *)t, held->get_item_id());
-                    ((TObjPlayer *)t)->get_hand_joint_position(&hand_position);
+                    TObjPlayer::send_6x26_unequip_item(t, held->get_item_id());
+                    t->get_hand_joint_position(&hand_position);
                     spawn_particle_effect(&hand_position, 0x1D0);
                 }
             } else if (near != 0 && random_ratio() <= 0.1666f) {

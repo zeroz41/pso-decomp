@@ -940,7 +940,7 @@ void TObjEneBm5GibonU::returning_state(s32 msg) {
     Vec diff;
     Vec *home = &this->work_vector;
     f32 range = this->stopping_distance;
-    u8 *tgt;
+    TObjChara *tgt;
     switch (msg) {
     case 4:
         this->requested_action = 1;
@@ -954,9 +954,9 @@ void TObjEneBm5GibonU::returning_state(s32 msg) {
         if (this->enemy_has_live_target() != 0) {
             dir.x = sin_table_lookup(this->rotation_y);
             dir.z = cos_table_lookup(this->rotation_y);
-            tgt = (u8 *)this->current_target;
-            diff.x = ((TObjEneBm5GibonU *)tgt)->position.x - this->position.x;
-            diff.z = ((TObjEneBm5GibonU *)tgt)->position.z - this->position.z;
+            tgt = this->current_target;
+            diff.x = tgt->position.x - this->position.x;
+            diff.z = tgt->position.z - this->position.z;
             if (is_vec_xz_cross_negative(&dir, &diff) != 0) {
                 this->target_heading = 0x5000;
             } else {

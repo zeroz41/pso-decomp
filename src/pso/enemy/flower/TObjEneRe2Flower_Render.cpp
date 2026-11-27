@@ -116,7 +116,7 @@ void TObjEneRe2Flower::render() {
         TObjEneDD::clear_global_flag_400();
         translate_matrix(0, lbl_805D9FAC, draw_offset_y, lbl_805D9FAC);
         re2_flower_node_yaw = rotation_y - base_yaw;
-        re2_flower_node_points = &node_points[0].x;
+        re2_flower_node_points = &node_points[0];
         node_points[0].x = lbl_805D9FAC;
         node_points[0].y = re2_flower_node_point0_y;
         node_points[0].z = lbl_805D9FAC;
@@ -176,7 +176,7 @@ void update_effect_sequence(NJS_OBJECT *) {
     case 14:
         push_matrix();
         forward_split_screen_view_matrix();
-        matrix_mult_vec_array(NULL, (const Vec *)re2_flower_node_points, (Vec *)re2_flower_node_points, 2);
+        matrix_mult_vec_array(NULL, re2_flower_node_points, re2_flower_node_points, 2);
         pop_matrix();
         break;
     }

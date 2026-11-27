@@ -1340,9 +1340,9 @@ f32 TObjEneEpsilonBody::receive_physical_attack(TObjChara *attacker, f32 scale) 
 }
 f32 TObjEneEpsilonBody::receive_weapon_special_attack(TObjChara *src, CollisionBody *hit) {
     if (!(flags & 2) && !(flags & 0x40)) {
-        s16 kind = ((TObjPlayer *)src)->obj_getS16_116();
+        s16 kind = src->get_special_kind();
         s32 strong;
-        obj_getS16_118((u8 *)src);
+        src->get_special_power();
         strong = 0;
         if (src == NULL || src->get_entity_id() == 0xFFFF) {
             show_miss_popup(&position.x);
@@ -1378,7 +1378,7 @@ f32 TObjEneEpsilonBody::receive_weapon_special_attack(TObjChara *src, CollisionB
             }
             return 0.0f;
         }
-        if (((TObjPlayer *)src)->obj_getS16_116() != get_immune_special_kind()) {
+        if (src->get_special_kind() != get_immune_special_kind()) {
             return TObjChara::receive_weapon_special_attack(src, hit);
         }
     }

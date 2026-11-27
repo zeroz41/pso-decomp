@@ -204,6 +204,8 @@ public:
     void clear_attack_credit_slot(s32 index);
     void set_model_param(s16 v);
     void set_model_id(s16 v);
+    s16 get_special_kind();
+    s16 get_special_power();
     // The union and its byte view are kept: dropping these two anonymous types
     // renumbers the compiler's local statics in every includer.
     union {
@@ -301,6 +303,5 @@ s32 add_actor_hp_bonus(TObjChara *actor, s32 amount);
 s32 add_actor_tp_bonus(TObjChara *actor, s32 amount);
 
 void obj_copyVec2_0(u8 *d, u8 *s);
-s16 obj_getS16_118(u8 *p);
 
 #endif

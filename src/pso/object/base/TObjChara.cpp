@@ -134,7 +134,6 @@ void dispatch_weapon_special_effect(void *, void *, void *, s32);
 s32 calc_freeze_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *target, f32 base_chance);
 s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *target);
 void obj_copyVec2_0(u8* d, u8* s);
-s16 obj_getS16_118(u8* p);
 
 
 
@@ -364,12 +363,12 @@ s32 TObjChara::obj_isState3_324() {
     return this->control_state == 3;
 }
 
-s16 TObjPlayer::obj_getS16_116() {
+s16 TObjChara::get_special_kind() {
     return this->special_kind;
 }
 
-s16 obj_getS16_118(u8* p) {
-    return *(s16*)(p + 0x118);
+s16 TObjChara::get_special_power() {
+    return this->special_power;
 }
 
 s32 TObjChara::obj_testFlag_2E4(u32 mask) {
@@ -2320,8 +2319,8 @@ f32 TObjChara::receive_direct_attack(TObjBase *att, DirectAttackPayload payload,
     if (this->is_locally_controlled() != 0) {
         gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, (s32)((2e+01f) * dmg)));
     }
-    record_local_damage_if_enabled(this, ((TObjChara *)att), (s32)dmg);
-    empty_post_damage_hook(this, ((TObjChara *)att));
+    record_local_damage_if_enabled(this, att, (s32)dmg);
+    empty_post_damage_hook(this, att);
     return dmg;
 }
 
@@ -2351,8 +2350,8 @@ f32 TObjChara::receive_weapon_special_attack(TObjChara *att, CollisionBody *coll
     if (att->get_entity_id() == 0xFFFF) {
         return (0.0f);
     }
-    kind = ((TObjPlayer *)att)->obj_getS16_116();
-    power = ((s16 (*)(void *))obj_getS16_118)(att);
+    kind = att->get_special_kind();
+    power = att->get_special_power();
     blocked = 0;
     if (test_actor_flags(0x04000000) != 0) {
         blocked = 1;

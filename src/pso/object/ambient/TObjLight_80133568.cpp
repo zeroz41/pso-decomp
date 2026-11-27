@@ -115,7 +115,7 @@ void register_actor_light(s32 id, TObjLight *light) {
     }
 }
 
-void publish_light_direction_color(u32 id, void *dir, void *color) {
+void publish_light_direction_color(u32 id, const Vec *dir, void *color) {
     NJS_ARGB *color_njsargb = (NJS_ARGB *)color;
     s32 add;
     s32 i;
@@ -126,7 +126,7 @@ void publish_light_direction_color(u32 id, void *dir, void *color) {
             e = &light_table[i];
             if (id == e->id) {
                 light_table[i].id = id;
-                VecCopy(&e->direction, (const Vec *)dir);
+                VecCopy(&e->direction, dir);
                 copy_argb(&e->color, color_njsargb);
                 add = 0;
                 light_table[i].flags |= 2;
@@ -138,7 +138,7 @@ void publish_light_direction_color(u32 id, void *dir, void *color) {
         }
         if (add) {
             light_table[light_count].id = id;
-            VecCopy(&light_table[light_count].direction, (const Vec *)dir);
+            VecCopy(&light_table[light_count].direction, dir);
             copy_argb(&light_table[light_count].color, color_njsargb);
             light_table[light_count].flags |= 2;
             light_count++;
@@ -177,18 +177,18 @@ void publish_actor_light_scalars(u32 id, f32 intensity, f32 ambient) {
     }
 }
 
-void TObjLight::find_light_params(f32 *dir, f32 *color, u32 id) {
+void TObjLight::find_light_params(Vec *dir, NJS_ARGB *color, u32 id) {
     s32 i;
     for (i = 0; i < actor_light_count; i++) {
         ActorLight *e = &actor_light_table[i];
         if (id == e->id) {
-            VecCopy((Vec *)dir, &e->direction);
-            copy_argb((NJS_ARGB *)color, &e->color);
+            VecCopy(dir, &e->direction);
+            copy_argb(color, &e->color);
             return;
         }
     }
-    copy_argb((NJS_ARGB *)color, &scene_light_state.color);
-    VecCopy((Vec *)dir, &scene_light_state.view_direction);
+    copy_argb(color, &scene_light_state.color);
+    VecCopy(dir, &scene_light_state.view_direction);
 }
 
 

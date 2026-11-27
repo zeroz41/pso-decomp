@@ -3452,7 +3452,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             sound.collider = collider;
             play_weapon_hit_sound(&sound);
         } else {
-            switch (obj_getS16_116()) {
+            switch (get_special_kind()) {
             case 4:
             case 5:
             case 6:

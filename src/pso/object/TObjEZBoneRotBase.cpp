@@ -159,7 +159,7 @@ void TObjHMS_EZRope_Player::run_task() {
         while (rs->bone >= 0) {
             rd->radius = rs->radius;
             push_matrix();
-            concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(((TObjMotion *)owner)->get_joint_matrix(rs->bone)));
+            concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(owner->get_joint_matrix(rs->bone)));
             matrix_mult_vec(NULL, &rs->center, &rd->center);
             pop_matrix();
             rs++;
@@ -172,9 +172,9 @@ void TObjHMS_EZRope_Player::run_task() {
     ps = rope_specs;
     pd = end_buffer;
     while (ps->bone >= 0) {
-        pd->twist = ((TObjBase *)owner)->rotation_y + ps->twist_offset;
+        pd->twist = owner->rotation_y + ps->twist_offset;
         push_matrix();
-        concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(((TObjMotion *)owner)->get_joint_matrix(ps->bone)));
+        concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(owner->get_joint_matrix(ps->bone)));
         matrix_mult_vec(NULL, &ps->pos, &pd->pos);
         pop_matrix();
         ps++;

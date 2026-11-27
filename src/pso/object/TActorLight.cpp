@@ -45,7 +45,7 @@ void TActorLight::run_task() {
         queue_destruction();
         return;
     }
-    TObjLight::find_light_params((f32 *)&baseDir, (f32 *)&baseColor, actor);
+    TObjLight::find_light_params(&baseDir, &baseColor, actor);
     mid = 0.5f * (f32) duration;
     if (age < (s32) mid) {
         f32 amb1;
@@ -93,7 +93,7 @@ TActorLight::TActorLight(f32 step, f32 peak, f32 intensity, NJS_ARGB *color, Vec
     this->peak = peak;
     this->intensity = intensity;
     actor = this->source->get_entity_id();
-    TObjLight::find_light_params((f32 *)&direction, (f32 *)&scene_color, actor);
+    TObjLight::find_light_params(&direction, &scene_color, actor);
 }
 TActorLight::TActorLight(f32 step, NJS_ARGB *color, Vec *desired, s32 duration, TObjBase *source, TObject *parent)
     : TObject(parent) {
@@ -108,7 +108,7 @@ TActorLight::TActorLight(f32 step, NJS_ARGB *color, Vec *desired, s32 duration, 
     peak = actor_light_one[0];
     intensity = actor_light_one[0];
     actor = this->source->get_entity_id();
-    TObjLight::find_light_params((f32 *)&direction, (f32 *)&scene_color, actor);
+    TObjLight::find_light_params(&direction, &scene_color, actor);
 }
 
 #pragma push
@@ -258,7 +258,7 @@ TechniqueContactList *find_area_technique_contact(TTecCircle *self, TObjCollidab
     return &technique_contact_query_results;
 }
 
-TechniqueContactList *TTecCircle::collect_body_contacts(TObjCollidable *target, CollisionBody *body, void *player) {
+TechniqueContactList *TTecCircle::collect_body_contacts(TObjCollidable *target, CollisionBody *body, TObjBase *player) {
     Vec pos;
     TObjCollidable *e;
     TObjPlayer *pd;
@@ -273,11 +273,11 @@ TechniqueContactList *TTecCircle::collect_body_contacts(TObjCollidable *target, 
         return &technique_contact_query_results;
     }
     VecCopy(&target->position, &pos);
-    if (((TObjBase *)player)->get_entity_id() < 4) {
+    if (player->get_entity_id() < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {
             pd = TObjPlayer::get_player_data(i);
-            if (pd != 0 && pd->get_entity_id() != ((TObjBase *)player)->get_entity_id()) {
+            if (pd != 0 && pd->get_entity_id() != player->get_entity_id()) {
                 ok = 1;
                 if (pd->get_entity_id() < 4) {
                     if (((TObjPlayer *)player)->get_floor() == pd->get_floor()) {
@@ -302,7 +302,7 @@ TechniqueContactList *TTecCircle::collect_body_contacts(TObjCollidable *target, 
     } else {
         for (j = 0; j < 4; j++) {
             e = find_entity_by_id(j);
-            if (e != 0 && e->get_entity_id() != ((TObjBase *)player)->get_entity_id() && (e->actorFlags & 0x10000000)) {
+            if (e != 0 && e->get_entity_id() != player->get_entity_id() && (e->actorFlags & 0x10000000)) {
                 c = (CollisionBody *)target->find_actor_body_contact(e, 1e+04f);
                 if (c != 0) {
                     technique_contact_query_results.bodies[technique_contact_query_results.count] = c;

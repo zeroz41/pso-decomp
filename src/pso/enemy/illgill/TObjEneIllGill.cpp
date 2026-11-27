@@ -307,7 +307,7 @@ void TObjEneIllGill::render() {
 void TObjEneIllGill::refresh_target() {
     u16 best;
     s32 i;
-    u8 *pl;
+    TObjPlayer *pl;
     u16 id;
     f32 bestDist;
     f32 d;
@@ -325,17 +325,17 @@ void TObjEneIllGill::refresh_target() {
             Vec v = ill_gill_target_zero_vec;
             bestDist = movementParameters->search_range * movementParameters->search_range;
             for (; i < registered_player_count + registered_enemy_count; i++) {
-                pl = (u8 *)TObjPlayer::get_player_data(i);
+                pl = TObjPlayer::get_player_data(i);
                 if (pl == NULL) break;
-                if (obj_is_hit_receivable(reinterpret_cast<TObjCollidable *>(pl)) == 0) continue;
-                id = reinterpret_cast<TObjBase *>(pl)->get_entity_id();
+                if (obj_is_hit_receivable(pl) == 0) continue;
+                id = pl->get_entity_id();
                 if (id >= 0x4000) continue;
                 if (id == entity_id) continue;
-                if (((TObjChara *)pl)->actorFlags & 0x02000800) continue;
-                VecCopy(&v, (const Vec *)(pl + offsetof(TObjChara, body_center)));
+                if (pl->actorFlags & 0x02000800) continue;
+                VecCopy(&v, &pl->body_center);
                 subtract_vector(&v, &body_center);
                 d = v.x * v.x + v.z * v.z;
-                if (d < bestDist && check_path_obstructed(this, &((TObjChara *)pl)->body_center) == 0) {
+                if (d < bestDist && check_path_obstructed(this, &pl->body_center) == 0) {
                     best = id;
                     bestDist = d;
                 }
@@ -648,7 +648,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
         } else {
             rad = 10.0f;
         }
-        id = reinterpret_cast<TObjBase *>(pl)->get_entity_id();
+        id = pl->get_entity_id();
         if (id < 0x1000) {
             s32 i;
             pl = this->target;

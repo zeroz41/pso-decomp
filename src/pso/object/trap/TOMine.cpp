@@ -400,7 +400,7 @@ f32 TOMine::receive_weapon_special_attack(TObjChara *player, CollisionBody *) {
     if (is_target_in_list(player) == 1) {
         return 0.0f;
     }
-    if ((player->is_locally_controlled() != 0) && (((TObjPlayer *)player)->obj_getS16_116() != 0)) {
+    if ((player->is_locally_controlled() != 0) && (player->get_special_kind() != 0)) {
         this->receive_physical_attack(0, 1.0f);
     }
     return 0.0f;

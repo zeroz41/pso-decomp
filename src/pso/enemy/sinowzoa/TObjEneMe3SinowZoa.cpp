@@ -489,7 +489,7 @@ s32 TObjEneMe3SinowZoa::is_in_sword_range(f32) {
 void TObjEneMe3SinowZoa::attack_and_unequip() {
     f32 d;
     s32 near;
-    TObjChara *pl;
+    TObjPlayer *pl;
     near = is_passing_frame(23.0f);
     if (is_passing_frame(15.0f) != 0 || near != 0) {
         if (enemy_check_target_valid() != 0) {
@@ -498,11 +498,11 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
                 current_target->apply_knockback_from_attacker(this, 3.0f);
                 if (d > 0.0f) {
                     if (is_alternate_variant() != 0) {
-                        pl = current_target;
+                        pl = static_cast<TObjPlayer *>(current_target);
                         TItem *held;
                         if (pl->is_locally_controlled() != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(pl)) != 0) {
-                            TObjPlayer::send_6x26_unequip_item(static_cast<TObjPlayer *>(pl), held->get_item_id());
-                            ((TObjPlayer *)pl)->get_hand_joint_position(&hand_position);
+                            TObjPlayer::send_6x26_unequip_item(pl, held->get_item_id());
+                            pl->get_hand_joint_position(&hand_position);
                             spawn_particle_effect(&hand_position, 0x1D0);
                         }
                     } else if (near != 0 && this->random_ratio() <= 0.1666f) {

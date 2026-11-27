@@ -273,7 +273,7 @@ void TBoss3VoloptCore::update_charge_state() {
         }
         break;
     case 1:
-        VecCopy(&velocity, &((TObjPlayer *)target)->position);
+        VecCopy(&velocity, &target->position);
         subtract_vector(&velocity, &position);
         turn_toward_direction(0x800, &velocity);
         if (--charge_timer <= 0) {

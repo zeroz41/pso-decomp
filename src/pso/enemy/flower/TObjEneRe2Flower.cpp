@@ -53,7 +53,7 @@ BmlResource *re2_flower_bml_resource;
 // applied at node 1 and the two points transformed at node 14.
 s32 re2_flower_node_index;
 s32 re2_flower_node_yaw;
-f32 *re2_flower_node_points;
+Vec *re2_flower_node_points;
 
 
 EnemyMoveParams re2_flower_setup_data = { 225.0f, 0.0f, 0x200, { 0, 0, 0, 0 } };

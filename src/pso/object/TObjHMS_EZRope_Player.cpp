@@ -268,7 +268,7 @@ void copy_ezrope_collider(TObjEZRopeCollider *dst, TObjEZRopeCollider *src) {
     *dst = *src;
 }
 
-TObjHMS_EZRope_Player::TObjHMS_EZRope_Player(TObject *parent, TObjHMSRopeSpec *ropes, TObjHMSColliderSpec *colliders)
+TObjHMS_EZRope_Player::TObjHMS_EZRope_Player(TObjMotion *parent, TObjHMSRopeSpec *ropes, TObjHMSColliderSpec *colliders)
     : TObjEZRopeBase(parent) {
     s32 rope_count;
     s32 collider_count;

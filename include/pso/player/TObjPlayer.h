@@ -209,7 +209,6 @@ struct TObjPlayer : public TObjChara {
     s16 get_efr();
     s16 get_edk();
     s16 get_elt();
-    s16 obj_getS16_116();
     void set_hp_bonus(s16);
     void set_tp_bonus(s16);
     void update_body_parts(void *visual);

@@ -64,7 +64,7 @@ void TEndingPicStage::publish_light() {
     c.b = player_light_color_rgba_table[player_light_index].b / 255.0f;
     c.a = player_light_color_rgba_table[player_light_index].a / 255.0f;
 
-    publish_light_direction_color(0, (void *)&player_light_direction_color_table[player_light_index], &c);
+    publish_light_direction_color(0, &player_light_direction_color_table[player_light_index], &c);
 }
 
 void TEndingPicStage::set_camera() {

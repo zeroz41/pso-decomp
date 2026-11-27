@@ -1381,7 +1381,7 @@ force_active:
   - grass_resource_bundle
   - update_demo__9TObjGrassFv
   - clear_hit_targets__9TObjGrassFv
-  - __ct__21TObjHMS_EZRope_PlayerFP7TObjectP15TObjHMSRopeSpecP19TObjHMSColliderSpec
+  - __ct__21TObjHMS_EZRope_PlayerFP10TObjMotionP15TObjHMSRopeSpecP19TObjHMSColliderSpec
   - obj_item_name_entry_class_name
   - obj_item_name_select_class_name
   - obj_item_ok_window_class_name
@@ -5231,7 +5231,7 @@ force_active:
   - close_with_callback__22TChallenge4PItemSelectFv
   - cmicon_instance
   - collect_beam_targets__16TObjEneNanoDragoFv
-  - collect_body_contacts__10TTecCircleFP14TObjCollidableP13CollisionBodyPv
+  - collect_body_contacts__10TTecCircleFP14TObjCollidableP13CollisionBodyP8TObjBase
   - collect_candidate_players__12TBoss3VoloptFv
   - collect_hit_targets__12TPhotonGollaFv
   - collect_node_matrices__16TObjEneRe7BeruraFP10NJS_OBJECTl

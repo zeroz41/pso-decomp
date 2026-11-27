@@ -25,7 +25,7 @@ void set_light(const Vec *dir, const NJS_ARGB *color, f32 ambient);
 void init_menu_scene_lights(LightEntry *entry, s32);
 void load_light_entry_file(void);
 void publish_actor_light_scalars(u32 id, f32 intensity, f32 ambient);
-void publish_light_direction_color(u32 id, void *dir, void *color);
+void publish_light_direction_color(u32 id, const Vec *dir, void *color);
 void register_actor_light(s32 id, TObjLight *light);
 void restore_scene_lighting(void);
 void select_actor_lighting(TObjBase *obj);

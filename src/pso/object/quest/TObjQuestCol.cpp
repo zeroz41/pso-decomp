@@ -492,10 +492,10 @@ void TQuestColCtrl::delete_by_param(s32 id) {
 
 TObjQuestColBase *TQuestColCtrl::find_by_id(u16 id) {
     TObject *next;
-    TObject *cur;
+    TObjQuestColBase *cur;
     next = quest_collision_task_root->m_down;
     while (quest_collision_task_root->m_down != 0 && next != 0) {
-        cur = next;
+        cur = static_cast<TObjQuestColBase *>(next);
         next = cur->m_next;
         if ((cur->check_value_equals(quest_col_class_name) != 0
              || cur->check_value_equals(quest_col_a_class_name) != 0
@@ -503,8 +503,8 @@ TObjQuestColBase *TQuestColCtrl::find_by_id(u16 id) {
              || cur->check_value_equals(obj_quest_col_apc_class_name) != 0
              || cur->check_value_equals(quest_col_apc_in_name) != 0
              || cur->check_value_equals(quest_col_apc_inw_name) != 0)
-            && id == static_cast<TObjQuestColBase *>(cur)->get_entity_id()) {
-            return static_cast<TObjQuestColBase *>(cur);
+            && id == cur->get_entity_id()) {
+            return cur;
         }
     }
     return 0;
