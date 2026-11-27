@@ -52,11 +52,9 @@ s32 respond_to_body_contact(TObjCollidable *actor, TObjCollidable *other, Collis
 void init_entity_tables();
 void clear_entity_tables(void);
 
-extern "C" {
 // Gives the actor a copy of `count` collision bodies (once) and its contact
 // list; returns the actor's bodies.
 CollisionBody *init_collision_body_parts(TObjCollidable *actor, const CollisionBody *bodies, s32 count);
-}
 void check_enemy_body_collisions(TObjCollidable *actor);
 // Enters the actor in the id-sorted entity table; returns its entity id.
 u16 register_entity_by_id(TObjCollidable *actor);

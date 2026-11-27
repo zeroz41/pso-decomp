@@ -122,9 +122,7 @@ u8 get_target_palette_mode(ActionPaletteTag *p);
 void deactivate_action_channel(LockOnActionSlot *slot);
 void activate_action_channel(LockOnActionSlot *slot);
 void clear_marker_color(MarkerColor *marker);
-extern "C" {
 int get_empty_action_entry(void);
-}
 NJS_OBJECT *get_target_cursor_model(void);
 
 struct TechniqueCursorParams { u8 pad0[8]; f32 reach; f32 apex_offset; u8 pad10[0x18 - 0x10]; s32 horizontal_angle; s32 vertical_angle; u8 pad20[2]; s8 cursor_type; };

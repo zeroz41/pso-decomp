@@ -253,6 +253,6 @@ TChCrLoadAfsTextureReq *TChCrLoadAfsTextureReq::create(TObject *parent, TChCrLoa
     return new TChCrLoadAfsTextureReq(parent, args);
 }
 
-float logf(float x) {
+extern "C" float logf(float x) {
     return (float)log(x);
 }

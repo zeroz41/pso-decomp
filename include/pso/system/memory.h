@@ -3,10 +3,9 @@
 
 #include "types.h"
 
-extern "C" {
 void *mem_alloc(u32 bytes);
-void mem_free(void *allocation);
-}
+// C linkage: the runtime's __destroy_new_array frees through it.
+extern "C" void mem_free(void *allocation);
 
 // new[] takes its block, array header included, from mem_alloc.
 inline void *operator new[](size_t size) { return mem_alloc(size); }
