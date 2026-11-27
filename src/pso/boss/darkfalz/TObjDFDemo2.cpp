@@ -51,7 +51,7 @@ TObjDFDemo2::TObjDFDemo2(TObject *parent, const Vec *position, s32 angle, s32 va
     VecCopy(&this->camera_position, position);
     this->angle = angle;
     this->variant = variant;
-    archive = TBoss4Uro::get_instance_count();
+    archive = TBoss4DarkFalz::get_dat_resource();
     for (i = 0; i < 2; i++) {
         s32 t = boss4_zanzo_bml_index_table[i];
         k = t;

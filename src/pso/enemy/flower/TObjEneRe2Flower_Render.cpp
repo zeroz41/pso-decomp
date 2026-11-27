@@ -124,7 +124,7 @@ void TObjEneRe2Flower::render() {
         node_points[1].y = re2_flower_node_point1_y;
         node_points[1].z = lbl_805D9FAC;
         scale_matrix(0, re2_flower_draw_scale, re2_flower_draw_scale, re2_flower_draw_scale);
-        set_chunk_model_node_callback(TObjPlayer::update_effect_sequence);
+        set_chunk_model_node_callback(update_effect_sequence);
         if (mode == 8) {
             s32 c = (blink_level & 0xFF) << 16;
             re2_flower_node_index = -1;
@@ -167,8 +167,8 @@ void TObjEneRe2Flower::render() {
     node_points[1].y = re2_flower_node_point1_y + position.y;
     node_points[1].z = position.z;
 }
-extern "C" {
-void TObjPlayer::update_effect_sequence(NJS_OBJECT *) {
+
+void update_effect_sequence(NJS_OBJECT *) {
     switch ((s32) re2_flower_node_index) {
     case 1:
         rotate_matrix_y(0, re2_flower_node_yaw);
@@ -184,8 +184,6 @@ void TObjPlayer::update_effect_sequence(NJS_OBJECT *) {
 }
 
 void TObjEneRe2Flower::run_demo_task() {  }
-
-}
 
 void TObjEneRe2Flower::notify_bomb_hit() { flags |= 0x2; }
 

@@ -138,7 +138,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     TAdFadeGC *fade_task;                  // 0x54
     s32 last_cursor_index;                 // 0x58
     s32 menu_choice;                       // 0x5C  chr_menu entry that decides where the scene goes next
-    static void free_all_resources();
     s32 load_and_verify_character_save(char *desc);
     u8 *copy_character_data(u8 *source);
     static void reset_quest_id();

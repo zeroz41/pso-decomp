@@ -67,4 +67,7 @@ LAYOUT_ASSERT(TObjEneSaver_size, sizeof(TObjEneSaver) == 0x3CC);
 LAYOUT_ASSERT(TObjEneSaver_state_flags, offsetof(TObjEneSaver, state_flags) == 0x374);
 LAYOUT_ASSERT(TObjEneSaver_body_fade, offsetof(TObjEneSaver, body_fade) == 0x3A4);
 LAYOUT_ASSERT(TObjEneSaver_attack_traces, offsetof(TObjEneSaver, attack_traces) == 0x3C0);
+void reset_effect_count();
+void step_cutscene_frame(NJS_OBJECT *);
+
 #endif

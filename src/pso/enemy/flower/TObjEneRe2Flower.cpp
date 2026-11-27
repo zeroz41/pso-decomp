@@ -106,7 +106,7 @@ void load_re2_flower_resources(void) {
     re2_flower_node_index = 0;
     re2_flower_node_yaw = 0;
     re2_flower_node_points = 0;
-    TObjPlayer::create_render_texture();
+    create_render_texture();
     init_alt_model();
     __memcpy(&binding, &re2_flower_animation_binding, sizeof(binding));
     binding.motions = re2_flower_bml_resource->motions;

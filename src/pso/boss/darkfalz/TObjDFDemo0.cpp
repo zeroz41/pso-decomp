@@ -12,6 +12,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/CameraHelpers.h"
@@ -73,7 +74,7 @@ TObjDFDemo0::TObjDFDemo0(TObject *parent) : TObjBase(parent) {
     s32 j;
 
     m_name = TObjDFDemo0::name;
-    h = TBoss4Uro::get_instance_count();
+    h = TBoss4DarkFalz::get_dat_resource();
     for (i = 0; i < 6; i++) {
         {
             s32 t = boss4_type1_model_ids[i];

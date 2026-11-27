@@ -97,7 +97,7 @@ void load_memcard_file(void) {
 
 void load_midi_stub(void) {}
 
-void TLobby::free_global_buffer() {
+void free_global_buffer() {
     if (sin_board_texture_buffer != 0) {
         safe_free(sin_board_texture_buffer);
         sin_board_texture_buffer = 0;

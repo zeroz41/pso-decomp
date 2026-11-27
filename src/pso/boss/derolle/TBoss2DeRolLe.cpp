@@ -113,6 +113,7 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2RaftSplash.h"
 
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 
@@ -1560,7 +1561,7 @@ void TBoss2DeRolLe::update_particle_ctrls() {
 #pragma pop
 
 void TBoss2DeRolLe::release_splash_particles(TParticleCtrl *ctrl) {
-    TObjBoss2Tunnel::release_splash_children(ctrl);
+    TObjBoss2RaftSplash::release_splash_children(ctrl);
 }
 
 void TBoss2DeRolLe::spawn_ceil_junk(Vec *pos) {

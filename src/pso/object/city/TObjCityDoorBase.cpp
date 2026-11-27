@@ -508,7 +508,7 @@ void load_city_common_resources(void) {
     city_common_texture_list = LoadPvmFileTls(city_common_texture_filename);
 }
 
-void TLobby::free_map_resources() {
+void free_city_common_resources() {
     if (city_common_texture_list != NULL) {
         release_texture_list(city_common_texture_list);
         safe_free(city_common_texture_list);

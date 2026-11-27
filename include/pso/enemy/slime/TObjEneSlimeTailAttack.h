@@ -59,4 +59,7 @@ struct SlimeTailNodeCapture {
 extern SlimeTailNodeCapture slime_tail_node_capture;
 
 extern BmlResource *slime_bml_resource;
+
+void push_material_color_override(f32 alpha, f32 r, f32 g, f32 b);
+
 #endif

@@ -14,20 +14,8 @@ public:
     virtual ~TDeadSpot();
     virtual void run_task();
     virtual void render();
-    // Spawns a dead spot with the given texture selector and maximum scale; the wrappers fix both.
+    // Spawns a dead spot with the given texture selector and maximum scale.
     static void spawn(const Vec *point, s32 selector, s32 delay, f32 maxScale);
-    static void spawn_kind0_scale2_5(const Vec *point, s32 delay);
-    static void spawn_kind0_scale7_5(const Vec *point, s32 delay);
-    static void spawn_kind0_scale15(const Vec *point, s32 delay);
-    static void spawn_kind0_scale25(const Vec *point, s32 delay);
-    static void spawn_kind1_scale2_5(const Vec *point, s32 delay);
-    static void spawn_kind1_scale7_5(const Vec *point, s32 delay);
-    static void spawn_kind1_scale15(const Vec *point, s32 delay);
-    static void spawn_kind1_scale25(const Vec *point, s32 delay);
-    static void spawn_kind2_scale2_5(const Vec *point, s32 delay);
-    static void spawn_kind2_scale7_5(const Vec *point, s32 delay);
-    static void spawn_kind2_scale15(const Vec *point, s32 delay);
-    static void spawn_kind2_scale25(const Vec *point, s32 delay);
     // The shared corpse mark model the spots draw with, loaded and freed with the floor.
     static void load_resource();
     static void free_resource();
@@ -47,6 +35,20 @@ public:
     virtual void run_task();
     f32 alpha;  // 0-1, fades the spot in once it is drawn
 };
+// TDeadSpot::spawn (kinds 1 and 2) or spawn_dead_spot_fade (kind 0) with the selector and maximum scale fixed.
+void spawn_dead_spot_kind0_scale2_5(const Vec *point, s32 delay);
+void spawn_dead_spot_kind0_scale7_5(const Vec *point, s32 delay);
+void spawn_dead_spot_kind0_scale15(const Vec *point, s32 delay);
+void spawn_dead_spot_kind0_scale25(const Vec *point, s32 delay);
+void spawn_dead_spot_kind1_scale2_5(const Vec *point, s32 delay);
+void spawn_dead_spot_kind1_scale7_5(const Vec *point, s32 delay);
+void spawn_dead_spot_kind1_scale15(const Vec *point, s32 delay);
+void spawn_dead_spot_kind1_scale25(const Vec *point, s32 delay);
+void spawn_dead_spot_kind2_scale2_5(const Vec *point, s32 delay);
+void spawn_dead_spot_kind2_scale7_5(const Vec *point, s32 delay);
+void spawn_dead_spot_kind2_scale15(const Vec *point, s32 delay);
+void spawn_dead_spot_kind2_scale25(const Vec *point, s32 delay);
+
 LAYOUT_ASSERT(TDeadSpot_size, sizeof(TDeadSpot) == 0xC8);
 LAYOUT_ASSERT(TDeadSpotFade_size, sizeof(TDeadSpotFade) == 0xCC);
 

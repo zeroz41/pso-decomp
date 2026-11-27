@@ -225,7 +225,7 @@ TBoss4Type3::TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     add_flags_2e4(8);
     owner = set_data->owner;
     apply_set_data(&set_data->entry);
-    archive = TBoss4Uro::get_instance_count();
+    archive = TBoss4DarkFalz::get_dat_resource();
     texlist = 0;
     model = 0;
     VecCopy(&position, &boss4_type3_start_position);

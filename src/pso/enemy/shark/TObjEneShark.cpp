@@ -91,7 +91,7 @@ void TObjEneShark::spawn_death_effect() {
     pop_matrix();
     vec3_add_to(&stack, &position);
     spawn_ground_effect(&stack, 0x23);
-    TDeadSpot::spawn_kind1_scale7_5(&stack, 0xF);
+    spawn_dead_spot_kind1_scale7_5(&stack, 0xF);
 }
 
 void TObjEneShark::update_attack_trail() {
@@ -181,7 +181,7 @@ void TObjEneShark::beast_update_appear() {
     }
 }
 
-void TObjPlayer::update_particle_by_phase(NJS_OBJECT *) {
+void update_particle_by_phase(NJS_OBJECT *) {
     switch (shark_render_node_index) {
     case 0x10:
     case 0x1A:
@@ -264,7 +264,7 @@ void TObjEneShark::render() {
     }
     toggle_particle_effect();
     shark_render_node_index = 0;
-    set_chunk_model_node_callback(TObjPlayer::update_particle_by_phase);
+    set_chunk_model_node_callback(update_particle_by_phase);
     if (appearing == 1)
     {
       if (this->fade.has_visible_opacity() != 0)
@@ -449,7 +449,7 @@ void TObjEneShark::free_resources() {
     }
 }
 
-void TLobby::load_shark_resources() {
+void TObjEneShark::load_resources() {
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
         shark_bml_resource = load_enemy_bml_resource_named(&bm_ene_bm1_shark_resource_descriptor, bm_ene_bm1_shark_a_bml_filename);

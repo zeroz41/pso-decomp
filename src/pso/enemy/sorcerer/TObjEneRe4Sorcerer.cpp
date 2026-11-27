@@ -1258,7 +1258,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 mode) {
     case 0:
         advance_animation();
         if (fade.decay_value_toward_floor() != 0) {
-            TDeadSpot::spawn_kind0_scale15(&position, 0);
+            spawn_dead_spot_kind0_scale15(&position, 0);
             queue_destruction();
         }
     case 3:

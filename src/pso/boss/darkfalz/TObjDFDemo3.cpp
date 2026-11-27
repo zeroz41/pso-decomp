@@ -58,7 +58,7 @@ TObjDFDemo3::TObjDFDemo3(TObject *parent, const Vec *position, s32 angle) : TObj
         }
     }
     this->angle = angle;
-    cnt = TBoss4Uro::get_instance_count();
+    cnt = TBoss4DarkFalz::get_dat_resource();
     this->part.model = get_bml_model(cnt, 0x12);
     this->part.texlist = get_bml_texlist(cnt, 0x12);
     this->part.motion = get_bml_motion(cnt, 0x45);

@@ -34,9 +34,9 @@
 
 const char *TObjBoss1Floor::name = "TObjBoss1Floor";
 
-void TLobby::update_boss1_objects() { TObjBoss1MokoHill_SoloM::free_resources(); TObjBoss1Rock::free_resources(); TObjBoss1Crater::free_resources(); TObjBoss1Floor::free_resources(); TLobby::free_char_select(); }
-void TLobby::forward_floor_2CB44() { TObjBoss1Floor::create_instance(); }
-void TLobby::init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor::load_resources(); clear_boss1_crater_instances(); TObjBoss1Rock::load_resources(); TObjBoss1MokoHill_SoloM::load_resources(); }
+void update_boss1_objects() { TObjBoss1MokoHill_SoloM::free_resources(); TObjBoss1Rock::free_resources(); TObjBoss1Crater::free_resources(); TObjBoss1Floor::free_resources(); TLobby::free_char_select(); }
+void forward_floor_2CB44() { TObjBoss1Floor::create_instance(); }
+void init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor::load_resources(); clear_boss1_crater_instances(); TObjBoss1Rock::load_resources(); TObjBoss1MokoHill_SoloM::load_resources(); }
 
 
 void TObjBoss1Floor::render() {

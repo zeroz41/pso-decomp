@@ -866,7 +866,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 v.z = -8.0f;
                 rotate_xz_pair_by_angle(&v.x, &v.z, rotation_y);
                 vec3_add_to(&v, &position);
-                TDeadSpot::spawn_kind2_scale15(&v, 0x32);
+                spawn_dead_spot_kind2_scale15(&v, 0x32);
                 create_dead_spot_e4(&v, 0x46, 10.0f);
             }
             if (frame < 25.0f) {

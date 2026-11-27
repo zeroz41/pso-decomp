@@ -881,7 +881,7 @@ void TObjEneDolmOlm::spawn_death_effect() {
     pop_matrix();
     vec3_add_to(&stack, &position);
     spawn_ground_effect(&stack, 0x23);
-    TDeadSpot::spawn_kind1_scale7_5(&stack, 0xF);
+    spawn_dead_spot_kind1_scale7_5(&stack, 0xF);
 }
 void TObjEneDolmOlm::play_alert_sound() {
     play_sound_effect(remap_sound_for_area(0x4003AD00), &position, 0, 0);

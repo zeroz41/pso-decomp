@@ -320,12 +320,8 @@ struct TObjPlayer : public TObjChara {
     ActorParamBlock resistance_stats;
     // Guild card tag (tag triplet + guild card number) the lobby entry gives the player.
     PlayerGuildCardTag guild_card_tag;
-    static void draw_area_chunk_objects();
-    static void reset_effect_count();
-    static void step_cutscene_frame(NJS_OBJECT *);
     void enter_state_8();
     void tick_freeze_state();
-    static void create_render_texture();
     // The photon blast gauge's charge, 0-100.
     s32 get_photon_blast_charge();
     int is_frozen();
@@ -400,9 +396,7 @@ struct TObjPlayer : public TObjChara {
     int is_inactive();
     s16 get_atp();
     s16 get_atp_range();
-    static void update_effect_sequence(NJS_OBJECT *);
     static void init_render_globals();
-    static void push_material_color_override(f32 alpha, f32 r, f32 g, f32 b);
     // attack_state.get_validated_attack_stage(): the pending stage, 0 when it is not valid.
     s16 get_attack_stage();
     void *create_hairmove(void *rope_spec, void *collider_spec);
@@ -736,7 +730,6 @@ struct TObjPlayer : public TObjChara {
     static s32 is_valid_technique_slot(u8 slot);
     static void free_if_valid(saddr texlist);
     static void play_effect_if_v2(s32 pitch);
-    static s32 is_valid_and_active(const TObjCollidable *actor);
     static void play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 alternate, s32 unused, s32 second);
     static void setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette);
     static void begin_action_from_char_select();
@@ -789,9 +782,7 @@ struct TObjPlayer : public TObjChara {
     static TObjPlayer *create_player_instance(s32 slot, PlayerCharDataEntry *player);
     static void alloc_shared_buffers();
     static s8 get_rules_active();
-    static void draw_effect();
     void draw_trail_pair();
-    static void update_particle_by_phase(NJS_OBJECT *);
     void draw_blob_shadows();
     void set_flag_8_if_check_passes();
     static void new_child_object(u16 player_id);

@@ -56,7 +56,7 @@ void TObjGyaranzoMissile::explode() {
             if (target == NULL) {
                 break;
             }
-            if (TObjPlayer::is_valid_and_active(target) != 0) {
+            if (TObjCollidable::is_valid_and_active(target) != 0) {
                 DirectAttackPayload hit = gyaranzo_missile_explosion_attack[0];
                 hit.power = get_gyaranzo_missile_int_parameter(2);
                 target->receive_direct_attack(owner, hit, NULL, -1, -1);

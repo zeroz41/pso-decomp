@@ -51,7 +51,6 @@ public:
     virtual void apply_paralysis();
     virtual void apply_poison_status();
     static TBoss4Type2 *create(TBoss4FormSetData *set_data);
-    static s32 is_active();
     static TBoss4Zanzo *create_zanzo(TObject *parent, TBoss4ZanzoParams *params);
     static TObjDFJisin *create_jisin(TObject *parent, s32 angle);
     static s32 pick_weighted_random(s32 n, f32 *weights, s32 *values);

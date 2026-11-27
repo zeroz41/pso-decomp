@@ -28,6 +28,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
@@ -68,7 +69,7 @@ TChallenge4PResult::~TChallenge4PResult() {
 }
 
 void TChallenge4PResult::run_task() {
-    if ((get_current_floor_area() != AREA_DARK_FALZ) || (TBoss4Type2::is_active() != 1)) {
+    if ((get_current_floor_area() != AREA_DARK_FALZ) || (TBoss4DarkFalz::has_instance() != 1)) {
         switch (state_1c) {
         case 0:
             update_input();

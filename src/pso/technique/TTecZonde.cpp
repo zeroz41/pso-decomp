@@ -84,7 +84,7 @@ void TTecZonde::run_task() {
         return;
     }
     t = static_cast<TObjChara *>(find_entity_by_id(targets.records[0].id));
-    if (TTecLuker::is_parents_unqueued(t) != 0) {
+    if (TObject::is_parents_unqueued(t) != 0) {
         for (i = 0; i < 14; i++) {
             s = &segs[i];
             s->start.y = 100.0f + t->position.y;
@@ -173,7 +173,7 @@ void TTecZonde::run_task() {
             }
         }
     }
-    if (t != NULL && TTecLuker::is_parents_unqueued(t) != 0 && TObjPlayer::is_valid_and_active(t) != 0) {
+    if (t != NULL && TObject::is_parents_unqueued(t) != 0 && TObjCollidable::is_valid_and_active(t) != 0) {
         apply_to_target(t);
     }
     queue_destruction();

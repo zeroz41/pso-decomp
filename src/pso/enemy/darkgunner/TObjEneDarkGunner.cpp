@@ -102,6 +102,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/enemy/saver/TObjEneSaver.h"
 
 #pragma readonly_strings on
 
@@ -397,7 +398,7 @@ void TObjEneDarkGunner::cleanup_effects() {
         TObjPlayer::free_if_valid((saddr)dark_gunner_effect_resource);
         dark_gunner_effect_resource = NULL;
     }
-    TObjPlayer::reset_effect_count();
+    reset_effect_count();
     TEneEffHamon::free_fish_effects();
 }
 
@@ -840,7 +841,7 @@ void TObjEneDarkGunner::update_dying() {
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         if (render_control.decay_value_toward_floor() == 1) {
-            TDeadSpot::spawn_kind0_scale7_5(&position, 0);
+            spawn_dead_spot_kind0_scale7_5(&position, 0);
             queue_destruction();
         }
         break;

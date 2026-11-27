@@ -1127,7 +1127,7 @@ void TObjEneMorfos::state_death(s32 ev) {
             if (body_fade.decay_value_toward_floor() != 0) {
                 this->counter = 2;
                 morfos_flags = (s32) (morfos_flags | 1);
-                TDeadSpot::spawn_kind0_scale15(&position, 0);
+                spawn_dead_spot_kind0_scale15(&position, 0);
                 return;
             }
             break;

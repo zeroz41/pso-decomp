@@ -1779,7 +1779,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
                 }
                 rotate_xz_pair_by_angle(&pos.x, &pos.z, this->rotation_y);
                 vec3_add_to(&pos, &this->position);
-                TDeadSpot::spawn_kind2_scale7_5(&pos, 0x32);
+                spawn_dead_spot_kind2_scale7_5(&pos, 0x32);
                 spawn_effect_at_ground(&pos, 0x46);
             }
             this->rotation_y = approach_angle_limited(this->rotation_y, *tgt, 0x300);

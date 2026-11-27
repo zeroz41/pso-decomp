@@ -1302,7 +1302,7 @@ void TObjEneRe7Berura::update_death_state(s32 reason) {
             if (body_fade.decay_value_toward_floor() != 0) {
                 counter = 4;
                 status_flags |= 1;
-                TDeadSpot::spawn_kind0_scale15(&position, 0);
+                spawn_dead_spot_kind0_scale15(&position, 0);
                 queue_destruction();
             }
         }

@@ -130,7 +130,7 @@ void offset_point_toward_camera(Vec *center, Vec *out, f32 distance) {
 #pragma pop
 
 
-s32 TTecLuker::is_parents_unqueued(TObject *object) {
+s32 TObject::is_parents_unqueued(TObject *object) {
     if (object == NULL) {
         return 0;
     }
@@ -144,8 +144,9 @@ s32 TTecLuker::is_parents_unqueued(TObject *object) {
 extern "C" {
 
 const f64 actor_light_half[1] = {0.5};
+}
 
-s32 TObjPlayer::is_valid_and_active(const TObjCollidable *actor) {
+s32 TObjCollidable::is_valid_and_active(const TObjCollidable *actor) {
     if (actor == 0U) {
         return 0;
     }
@@ -153,7 +154,6 @@ s32 TObjPlayer::is_valid_and_active(const TObjCollidable *actor) {
         return 1;
     }
     return 0;
-}
 }
 TechniqueContactList technique_contact_query_results;
 

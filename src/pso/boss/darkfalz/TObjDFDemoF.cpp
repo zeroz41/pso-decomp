@@ -11,6 +11,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/render/ChunkModelDraw.h"
@@ -46,7 +47,7 @@ TObjDFDemoF::TObjDFDemoF(TObject *parent) : TObjBase(parent) {
 
     self = this;
     self->m_name = TObjDFDemoF::name;
-    archive = TBoss4Uro::get_instance_count();
+    archive = TBoss4DarkFalz::get_dat_resource();
     for (i = 0; i < 3; i++) {
         s32 model_index = TObjDFDemoF::bml_model_id_table[i];
         motion_indices = df_demof_motion_ids;

@@ -472,7 +472,7 @@ void TObjEneBalClawBody::run_death_sequence() {
     case 4:
         this->advance_animation();
         if ((&this->fade)->decay_value_toward_floor() == 1) {
-            TDeadSpot::spawn_kind0_scale7_5(&this->position, 0);
+            spawn_dead_spot_kind0_scale7_5(&this->position, 0);
             this->send_entity_set_flags();
             this->queue_destruction();
         }

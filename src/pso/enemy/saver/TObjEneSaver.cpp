@@ -135,7 +135,7 @@ CollisionBody saver_collision_body_part_table[1] = {
 };
 }
 
-void TObjPlayer::reset_effect_count() { fake_tec_texture = 0; }
+void reset_effect_count() { fake_tec_texture = 0; }
 
 void init_fake_tec_texlist() {
     fake_tec_texlist.textures = technique_ringwave_texnames;
@@ -223,7 +223,7 @@ void TObjEneSaver::update_collapse_and_destroy() {
         velocity.x *= 0.5f;
         velocity.z *= 0.5f;
         if (body_fade.decay_value_toward_floor() == 1) {
-            TDeadSpot::spawn_kind0_scale7_5(&position, 0);
+            spawn_dead_spot_kind0_scale7_5(&position, 0);
             phase = 2;
         }
         return;
@@ -828,7 +828,7 @@ void TObjEneSaver::render() {
         rotate_matrix_y(0, rotation_y);
         saver_render_node_index = 0;
         saver_render_rotation_x = facing_angle;
-        set_chunk_model_node_callback(TObjPlayer::step_cutscene_frame);
+        set_chunk_model_node_callback(step_cutscene_frame);
         toggle_particle_effect();
         switch (mode) {
         case 11:
@@ -892,7 +892,7 @@ void TObjEneSaver::render() {
     }
 }
 
-void TObjPlayer::step_cutscene_frame(NJS_OBJECT *) {
+void step_cutscene_frame(NJS_OBJECT *) {
     if (saver_render_node_index == 0x15) {
         rotate_matrix_x(NULL, saver_render_rotation_x);
     }
@@ -1399,7 +1399,7 @@ void TObjEneSaver::damage_targets_in_reach() {
     }
     for (i = 0; i < n; i++) {
         p = TObjPlayer::get_player_data(i);
-        if (TObjPlayer::is_valid_and_active(p) != 0 && p != this &&
+        if (TObjCollidable::is_valid_and_active(p) != 0 && p != this &&
             p->get_entity_id() < limit && !(p->actorFlags & 0x02000800) &&
             p->select_melee_contact_body(this, 1.0f) != 0) {
             f32 damage = p->receive_physical_attack(this, 1.0f);

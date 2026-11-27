@@ -96,7 +96,7 @@ void TObjEneDimedian::play_alert_sound() {
 
 void TObjEneDimedian::spawn_death_effect() {
     s32 area;
-    TDeadSpot::spawn_kind0_scale7_5(&position, 0);
+    spawn_dead_spot_kind0_scale7_5(&position, 0);
     create_particle_emitter_pair(&body_center);
     area = get_current_floor_area();
     if ((area == AREA_VR_TEMPLE_ALPHA) || (area == AREA_VR_TEMPLE_BETA)) {
@@ -407,7 +407,7 @@ void TObjEneDimedian::free_boss_objects() {
 }
 
 
-void TLobby::load_dimedian_resources() {
+void TObjEneDimedian::load_resources() {
     BmlModelEntry *models;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {

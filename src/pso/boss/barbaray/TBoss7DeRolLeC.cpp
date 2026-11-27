@@ -57,6 +57,7 @@ struct NJS_OBJECT;
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
+#include "pso/boss/barbaray/TObjBoss7RaftSplash.h"
 
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -488,7 +489,7 @@ void TBoss7DeRolLeC::apply_paralysis() {  }
 
 void TBoss7DeRolLeC::apply_poison_status() {  }
 
-TBoss7DeRolLeC *TBoss7Joint::get_state() { return boss7_joint_state; }
+TBoss7DeRolLeC *TBoss7DeRolLeC::get_instance() { return boss7_joint_state; }
 
 void TBoss7DeRolLeC::load_resources() {
     s32 i;
@@ -1449,11 +1450,11 @@ void TBoss7DeRolLeC::update_particle_ctrls() {
 }
 #pragma pop
 void TBoss7DeRolLeC::release_splash_particles(TParticleCtrl *ctrl) {
-    TObjBoss7Tunnel::release_splash_children(ctrl);
+    TObjBoss7RaftSplash::release_splash_children(ctrl);
 }
 
 void TBoss7DeRolLeC::spawn_particle_201(Vec *pos) {
-    TObjBoss7Tunnel::create_particle(pos, 0x201);
+    TObjBoss7RaftSplash::create_particle(pos, 0x201);
 }
 #pragma push
 #pragma fp_contract on
@@ -3642,7 +3643,7 @@ void TBoss7DeRolLeC::render() {
             } else {
                 boss7_derolle_c_hideable_node->child = boss7_derolle_c_hideable_node_child;
             }
-            TObjPlayer::draw_effect();
+            TBoss7DeRolLeC::set_archive_textures();
             this->node_recorder->draw_recorded_pose();
         }
         pop_matrix();
@@ -3656,7 +3657,7 @@ void TBoss7DeRolLeC::render() {
     }
 }
 
-void TObjPlayer::draw_effect() { set_texture_list(get_bml_texlist(boss7_derolle_c_bml_resource, 0)); }
+void TBoss7DeRolLeC::set_archive_textures() { set_texture_list(get_bml_texlist(boss7_derolle_c_bml_resource, 0)); }
 
 NJS_TEXLIST *TBoss7DeRolLeC::get_archive_textures() { return get_bml_texlist(boss7_derolle_c_bml_resource, 0); }
 

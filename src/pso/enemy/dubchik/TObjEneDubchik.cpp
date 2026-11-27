@@ -56,6 +56,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/enemy/saver/TObjEneSaver.h"
 
 extern "C" {
 BmlResource *dubchik_resource;
@@ -352,7 +353,7 @@ void TObjEneDubchik::free_resources() {
         TObjPlayer::free_if_valid((saddr)dubchik_variant_texlist);
         dubchik_variant_texlist = NULL;
     }
-    TObjPlayer::reset_effect_count();
+    reset_effect_count();
     if (dubchik_scratch_trail0_points[0] != NULL) {
         delete dubchik_scratch_trail0_points[0];
         dubchik_scratch_trail0_points[0] = NULL;

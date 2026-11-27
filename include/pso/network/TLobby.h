@@ -68,9 +68,6 @@ struct TLobby : public TObject {
     static void on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int disable_udp);
     void close_window();
     static s32 get_filtered_event_theme();
-    static void load_dimedian_resources();
-    static void load_gyaranzo_resources();
-    static void load_shark_resources();
     static s32 clear_record_flags_a();
     static s32 clear_record_flags_b();
     static void free_nodes_with_id(uaddr root);
@@ -84,12 +81,8 @@ struct TLobby : public TObject {
     static void close_result_windows();
     static s32 get_game_mode();
     static void free_char_select();
-    static void update_boss1_objects();
-    static void forward_floor_2CB44();
-    static void init_bosses();
     void collect_active_card_ids();
     static void send_status_packet();
-    static void clear_flag_on_phase_e();
     void *alloc_download_quest(s32 size, s32 *out_size);
     // Empty free half of set_ending_callback in the scene load/free tables
     static void clear_object_count();
@@ -173,7 +166,6 @@ struct TLobby : public TObject {
     static s32 get_quest_thread_state();
     static void drop_item_from_source(s16 source, int client, s16 room, int slot, f32 x, f32 z);
     static void reset_item_id_counters();
-    static void free_global_buffer();
     static void reload_offline_area();
     static void rebuild_area_keep_players();
     static void teardown_scene();
@@ -228,7 +220,6 @@ struct TLobby : public TObject {
     static s32 init_handle(s32 size);
     static void update_guild_or_quest_phase();
     static void free_global_buffers();
-    static void free_map_resources();
     static s32 count_members();
     static void handle_reset_choice(s32 choice);
     static void clear_flag400();

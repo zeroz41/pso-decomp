@@ -43,7 +43,7 @@ TBoss7PhotonPad::~TBoss7PhotonPad() {}
 void TBoss7PhotonPad::run_task() {
     timer--;
     if (timer <= 0) {
-        TBoss7DeRolLeC *boss = TBoss7Joint::get_state();
+        TBoss7DeRolLeC *boss = TBoss7DeRolLeC::get_instance();
         if (boss != NULL) {
             new TBoss7PhotonBullet(m_up, boss, origin, &pos, 1.5f * boss7_photon_bullet_level_table[level].speed);
         }

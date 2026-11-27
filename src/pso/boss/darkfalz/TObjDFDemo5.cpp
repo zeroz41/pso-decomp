@@ -45,7 +45,7 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     m_name = TObjDFDemo5::name;
     VecCopy(&this->pos, pos);
     this->angle = angle;
-    res = TBoss4Uro::get_instance_count();
+    res = TBoss4DarkFalz::get_dat_resource();
     for (i = 0; i < 3; i++) {
         id = boss4_type3_model_ids[i];
         parts[i].model = get_bml_model(res, id);

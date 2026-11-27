@@ -139,7 +139,7 @@ void play_appear_effects(Vec *position) {
         play_sound_effect(0x4003A359, position, 0, 0);
         break;
     default:
-        play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB20), position, 0, 0);
+        play_sound_effect(remap_area_sound_id(0x4003AB20), position, 0, 0);
         break;
     }
     spawn_particles_at(position);
@@ -165,7 +165,7 @@ void play_area_sound_effect(Vec *position) {
         play_sound_effect(0x4003A359, position, 0, 0);
         break;
     default:
-        play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB37), position, 0, 0);
+        play_sound_effect(remap_area_sound_id(0x4003AB37), position, 0, 0);
         break;
     }
     spawn_particles_at(position);
@@ -224,56 +224,50 @@ void spawn_effect_at_ground(const Vec *pos, s32 duration) {
 // .sdata2 pools 2.5f ahead of 7.5f/15.0f and 25.0f after them,
 // which first use by the surviving code cannot give. Bodies and names inferred
 // from the family.
-void TDeadSpot::spawn_kind0_scale2_5(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind0_scale2_5(const Vec *point, s32 delay) {
     spawn_dead_spot_fade(point, 0, delay, 2.5f);
 }
-extern "C" {
-
-void TDeadSpot::spawn_kind0_scale7_5(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind0_scale7_5(const Vec *point, s32 delay) {
     spawn_dead_spot_fade(point, 0, delay, 7.5f);
 }
 
-void TDeadSpot::spawn_kind0_scale15(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind0_scale15(const Vec *point, s32 delay) {
     spawn_dead_spot_fade(point, 0, delay, 15.0f);
 }
 
 // Dead-stripped, see spawn_dead_spot_kind0_scale2_5.
-}
-void TDeadSpot::spawn_kind0_scale25(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind0_scale25(const Vec *point, s32 delay) {
     spawn_dead_spot_fade(point, 0, delay, 25.0f);
 }
-extern "C" {
-
-void TDeadSpot::spawn_kind1_scale2_5(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind1_scale2_5(const Vec *point, s32 delay) {
     TDeadSpot::spawn(point, 1, delay, 2.5f);
 }
 
-void TDeadSpot::spawn_kind1_scale7_5(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind1_scale7_5(const Vec *point, s32 delay) {
     TDeadSpot::spawn(point, 1, delay, 7.5f);
 }
 
-void TDeadSpot::spawn_kind1_scale15(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind1_scale15(const Vec *point, s32 delay) {
     TDeadSpot::spawn(point, 1, delay, 15.0f);
 }
 
-void TDeadSpot::spawn_kind1_scale25(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind1_scale25(const Vec *point, s32 delay) {
     TDeadSpot::spawn(point, 1, delay, 25.0f);
 }
-}
 
-void TDeadSpot::spawn_kind2_scale2_5(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind2_scale2_5(const Vec *point, s32 delay) {
     TDeadSpot::spawn(point, 2, delay, 2.5f);
 }
 
-void TDeadSpot::spawn_kind2_scale7_5(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind2_scale7_5(const Vec *point, s32 delay) {
     TDeadSpot::spawn(point, 2, delay, 7.5f);
 }
 
-void TDeadSpot::spawn_kind2_scale15(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind2_scale15(const Vec *point, s32 delay) {
     TDeadSpot::spawn(point, 2, delay, 15.0f);
 }
 
-void TDeadSpot::spawn_kind2_scale25(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind2_scale25(const Vec *point, s32 delay) {
     TDeadSpot::spawn(point, 2, delay, 25.0f);
 }
 

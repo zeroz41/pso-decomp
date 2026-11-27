@@ -121,12 +121,12 @@ void draw_boss4_zako_entries() {
 #pragma pop
 }
 
-void TObjPlayer::draw_area_chunk_objects() {
+void draw_area_chunk_objects() {
     NJS_OBJECT *model;
     Boss4ZakoDrawBuffer *t = &boss4_zako_draw_buffers[TBoss4ZakoDraw::draw_buffer_index];
     Boss4ZakoDrawEntry *p = t->entries;
     s32 i;
-    model = get_bml_model(TBoss4Uro::get_instance_count(), 8);
+    model = get_bml_model(TBoss4DarkFalz::get_dat_resource(), 8);
     begin_alpha_blend(zako_fade_full);
     set_texture_list(falz_zako_texture_list);
     for (i = 0; i < t->count; i++, p++) {
@@ -154,9 +154,9 @@ void TBoss4ZakoDraw::draw_queued() {
         if (is_split_screen() == 0) {
             set_viewport_scissor(2, rect);
         }
-        NJS_OBJECT *model = get_bml_model(TBoss4Uro::get_instance_count(), 8);
+        NJS_OBJECT *model = get_bml_model(TBoss4DarkFalz::get_dat_resource(), 8);
         model->child->ang[1] = TBoss4ZakoDraw::rotation_phase << 12;
-        TObjPlayer::draw_area_chunk_objects();
+        draw_area_chunk_objects();
         draw_boss4_zako_entries();
     }
 }
@@ -189,8 +189,8 @@ Boss4ZakoDrawBuffer boss4_zako_draw_buffers[2];
 void TBoss4DarkFalz::release_uro_link() { clear_uro_link_state(); }
 
 void TBoss4DarkFalz::init_uro_link() {
-    falz_zako_texture_list = get_bml_texlist(TBoss4Uro::get_instance_count(), 8);
-    NJS_OBJECT *child = get_bml_model(TBoss4Uro::get_instance_count(), 8)->child;
+    falz_zako_texture_list = get_bml_texlist(TBoss4DarkFalz::get_dat_resource(), 8);
+    NJS_OBJECT *child = get_bml_model(TBoss4DarkFalz::get_dat_resource(), 8)->child;
     child->evalflags &= ~NJD_EVAL_UNIT_ANG;
     if (child->model != NULL) {
         falz_zako_chunk_model = child->model;

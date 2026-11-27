@@ -145,7 +145,7 @@ void TObjEneReconBomb::run_task() {
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
         for (i = 0; i < entity_table_count; i++) {
             pl = TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_valid_and_active(pl) != 0 && pl != 0 && pl->get_entity_id() < 0x1000 && pl->is_actor_dead() == 0) {
+            if (TObjCollidable::is_valid_and_active(pl) != 0 && pl != 0 && pl->get_entity_id() < 0x1000 && pl->is_actor_dead() == 0) {
                 if (horizontal_distance_squared(&pl->body_center, &body_center) <= blast_radius * blast_radius) {
                     DirectAttackPayload attack;
                     attack.kind = 0;

@@ -1257,7 +1257,7 @@ void TObjEneDf2Bringer::update_death_state(s32 reason) {
     case 0:
         this->advance_animation();
         if (this->body_fade.decay_value_toward_floor() != 0) {
-            TDeadSpot::spawn_kind0_scale15(&this->position, 0);
+            spawn_dead_spot_kind0_scale15(&this->position, 0);
             this->queue_destruction();
         }
     case 3:

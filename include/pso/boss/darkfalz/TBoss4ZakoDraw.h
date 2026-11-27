@@ -24,4 +24,6 @@ extern const f32 zako_fade_distance;
 extern const f32 zako_fade_full;
 extern const f32 zako_fade_color;
 
+void draw_area_chunk_objects();
+
 #endif

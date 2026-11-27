@@ -854,4 +854,4 @@ void *TBoss4DarkFalz::create(void *set_data) {
 
 s32 TBoss4DarkFalz::get_phase() { return state_index; }
 
-BmlResource *TBoss4Uro::get_instance_count() { return darkfalz_dat_resource; }
+BmlResource *TBoss4DarkFalz::get_dat_resource() { return darkfalz_dat_resource; }

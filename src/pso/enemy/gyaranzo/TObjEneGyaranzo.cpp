@@ -201,7 +201,7 @@ TObjEneGyaranzo::~TObjEneGyaranzo() {
 
 #pragma push
 #pragma opt_propagation off
-void TLobby::load_gyaranzo_resources() {
+void TObjEneGyaranzo::load_resources() {
     s32 i;
 
     if (TObjEneDD::check_v2_mode() != 0) {
@@ -821,7 +821,7 @@ void TObjEneGyaranzo::select_targets() {
     }
     for (i = 0; i < count; i++) {
         p = TObjPlayer::get_player_data(i);
-        if (TObjPlayer::is_valid_and_active(p) == 0) continue;
+        if (TObjCollidable::is_valid_and_active(p) == 0) continue;
         if (p == this) continue;
         if (p->actorFlags & 0x2000800) continue;
         VecCopy(&d, &p->body_center);

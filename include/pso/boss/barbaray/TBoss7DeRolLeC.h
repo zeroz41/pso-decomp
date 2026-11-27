@@ -48,6 +48,10 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void flee_if_disturbed();
     void set_state_and_send(s32 state);
     static NJS_TEXLIST *get_archive_textures();
+    // set_texture_list(get_archive_textures()).
+    static void set_archive_textures();
+    // The live boss (boss7_joint_state).
+    static TBoss7DeRolLeC *get_instance();
     static NJS_OBJECT *get_archive_model(s32 index);
     void emit_hit_effect(const Vec *position);
     s32 is_ready();                // name from the TBoss2DeRolLe twin

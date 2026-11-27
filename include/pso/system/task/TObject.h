@@ -149,6 +149,8 @@ public:
     void log(const char *str);
     int  get_node_count();
     int  all_parents_unqueued_for_destruction();
+    // 1 when object is set and all_parents_unqueued_for_destruction() holds.
+    static s32 is_parents_unqueued(TObject *object);
     int defer_render();
 public:
 };

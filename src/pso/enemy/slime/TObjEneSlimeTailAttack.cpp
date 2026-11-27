@@ -225,7 +225,7 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *vel
 #include "pso/enemy/BattleParamTables.h"
 
 
-void TObjPlayer::push_material_color_override(f32 alpha, f32 r, f32 g, f32 b) {
+void push_material_color_override(f32 alpha, f32 r, f32 g, f32 b) {
     NJS_ARGB color;
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -239,9 +239,9 @@ void TObjPlayer::push_material_color_override(f32 alpha, f32 r, f32 g, f32 b) {
     set_constant_material(&color);
 }
 
-// TObjPlayer::push_material_color_override with a black colour: fades what is drawn next to alpha.
+// push_material_color_override with a black colour: fades what is drawn next to alpha.
 void push_material_fade(f32 alpha) {
-    TObjPlayer::push_material_color_override(alpha, 0.0f, 0.0f, 0.0f);
+    push_material_color_override(alpha, 0.0f, 0.0f, 0.0f);
 }
 
 void TObjPlayer::init_render_globals() { chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask; chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask; model_render_flags = saved_model_render_flags; }
@@ -1236,7 +1236,7 @@ void TObjEneSlimeOne::render_trail() {
     if (s < 0.05f || b.x < 0.05f) {
         return;
     }
-    TObjPlayer::push_material_color_override(s, -1.0f, 0.0f, 1.0f);
+    push_material_color_override(s, -1.0f, 0.0f, 1.0f);
     push_matrix();
     post_translate_matrix(&c.x);
     rotate_matrix_y(0, ang);

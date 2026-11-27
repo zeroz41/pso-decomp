@@ -1034,7 +1034,7 @@ void TObjEnePanBARA::update_dead() {
     if (this->action_timer <= 0x78) {
         if (this->action_timer == 0x78) {
             spawn_ground_effect(&shadow_position, 0x78);
-            TDeadSpot::spawn_kind1_scale15(&shadow_position, 6);
+            spawn_dead_spot_kind1_scale15(&shadow_position, 6);
         }
         this->position.y += -0.15625f;
         if ((s32) this->action_timer < 0) {

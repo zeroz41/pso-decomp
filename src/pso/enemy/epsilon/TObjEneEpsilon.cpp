@@ -58,7 +58,7 @@ TObjEneEpsilon::TObjEneEpsilon(TObject *parent) : TObjEneDD_ST(parent) {
 
 TObjEneEpsilon::~TObjEneEpsilon() {}
 
-void TObjEneEpsilonGuard::load_assets() {
+void TObjEneEpsilon::load_assets() {
     epsilon_zero_vector.x = 0.0f;
     epsilon_zero_vector.y = 0.0f;
     epsilon_zero_vector.z = 0.0f;
@@ -90,7 +90,7 @@ void TObjEneEpsilonGuard::load_assets() {
     }
 }
 
-void TObjEneEpsilonGuard::free_shared_resources() {
+void TObjEneEpsilon::free_shared_resources() {
     if (epsilon_body_breakup_model != NULL) {
         delete epsilon_body_breakup_model;
         epsilon_body_breakup_model = NULL;

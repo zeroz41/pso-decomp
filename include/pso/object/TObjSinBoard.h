@@ -25,4 +25,6 @@ void load_memcard_file(void);
 void clear_signboard_texture_buffer_pointer(void);
 extern const char *memcard_file_099_name;
 
+void free_global_buffer();
+
 #endif

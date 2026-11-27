@@ -24,4 +24,6 @@ union WarpStringPos {
     } xy;
 };
 
+void dispatch_select_phase(TObject *);
+
 #endif

@@ -91,7 +91,7 @@ void TTecResta::run_task() {
     TObjCollidable *member;
     s32 i;
     source = find_entity_by_id(sourceId);
-    if (TTecLuker::is_parents_unqueued(source) == 0) {
+    if (TObject::is_parents_unqueued(source) == 0) {
         queue_destruction();
         return;
     }
@@ -103,7 +103,7 @@ void TTecResta::run_task() {
             if (targets.count != 0) {
                 for (i = 0; i < targets.count; i++) {
                     member = find_entity_by_id(targets.records[i].id);
-                    if (TTecLuker::is_parents_unqueued(member) != 0) {
+                    if (TObject::is_parents_unqueued(member) != 0) {
                         apply_to_player((TObjPlayer *)member);
                     }
                 }

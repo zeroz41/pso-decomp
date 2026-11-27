@@ -18,6 +18,7 @@
 #include "pso/system/vector.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TBoss4Zanzo.h"
 
 #pragma readonly_strings on
@@ -57,7 +58,7 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     m_name = TObjDFDemo4::name;
     VecCopy(&this->pos, pos);
     this->angle = angle;
-    res = TBoss4Uro::get_instance_count();
+    res = TBoss4DarkFalz::get_dat_resource();
     for (i = 0; i < 2; i++) {
         int id = boss4_zanzo_bml_index_table[i];
         zanzo_parts[i].model = get_bml_model(res, id);

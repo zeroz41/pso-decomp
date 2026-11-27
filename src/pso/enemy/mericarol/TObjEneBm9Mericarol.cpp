@@ -991,7 +991,7 @@ void TObjEneBm9Mericarol::state_die(s32 reason) {
                 pos.x = x;
                 pos.z = 10.0f * cos_table_lookup(rotation_y);
                 vec3_add_to(&pos, &position);
-                TDeadSpot::spawn_kind1_scale25(&pos, 0x32);
+                spawn_dead_spot_kind1_scale25(&pos, 0x32);
                 spawn_ground_effect(&pos, 0x46);
             }
             update_ground_contact();

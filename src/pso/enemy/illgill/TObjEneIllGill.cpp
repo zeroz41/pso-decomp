@@ -1007,7 +1007,7 @@ void TObjEneIllGill::update_death_fall() {
       if (this->is_passing_frame((f32)(52.0f)) != 0)
     {
       play_sound_effect(0x4003A358, &position, 0, 0);
-      TDeadSpot::spawn_kind0_scale15(&position, 0xA);
+      spawn_dead_spot_kind0_scale15(&position, 0xA);
       create_particle_emitter_pair(&position);
       this->phase = 4;
       this->deathTimer = 0xA;

@@ -921,10 +921,10 @@ void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
 
 void TObjAreaWarpEnding::confirm_area_transfer(TObjPlayer *) {
     play_sound_effect(0x40003205, 0, 0, 0);
-    new TScreenFadeOut(tl_00, TKeyBoardControl::dispatch_select_phase);
+    new TScreenFadeOut(tl_00, dispatch_select_phase);
 }
 
-void TKeyBoardControl::dispatch_select_phase(TObject *) {
+void dispatch_select_phase(TObject *) {
 
     switch (TAdStorySelectGC::get_story_select()) {
     case 0:

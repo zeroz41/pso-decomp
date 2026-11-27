@@ -22,5 +22,6 @@ void load_seabed_four_light_door_resources(void);
 void free_seabed_four_light_door_resources(void);
 void free_seabed_u_four_light_door_resources(void);
 void load_labo_door_resources(void);
+void free_labo_door_resources(void);
 
 #endif

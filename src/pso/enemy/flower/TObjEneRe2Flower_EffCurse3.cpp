@@ -83,7 +83,7 @@ void free_curse_resources(void) {
     }
 }
 
-void TObjPlayer::create_render_texture() {
+void create_render_texture() {
     player_render_target.set_render_rect(player_render_texture_buffer = mem_alloc(0x800), 0x902, 0x20, 0x20);
     set_texture_name(&player_render_texture_name, &player_render_target, 0x18696, 0x40800000);
     player_render_texlist.textures = &player_render_texture_name;

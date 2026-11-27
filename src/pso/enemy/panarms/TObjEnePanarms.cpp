@@ -898,7 +898,7 @@ void TObjEnePanarms::update_dead() {
             spot.y = this->position.y;
             spot.z = (0.5f * this->position.z) + (0.5f * draw_positions[0].z);
             spawn_ground_effect(&spot, 0x78);
-            TDeadSpot::spawn_kind1_scale15(&spot, 6);
+            spawn_dead_spot_kind1_scale15(&spot, 6);
         }
         if (this->state_timer == 0x5A) {
             this->shadow_visible = 0;

@@ -939,7 +939,7 @@ void TObjEneNanoDrago::update_dying_state() {
         timer = (timer - 1);
         if (timer <= 0) {
             spawn_ground_effect(&position, 0x1E);
-            TDeadSpot::spawn_kind1_scale7_5(&position, 0xF);
+            spawn_dead_spot_kind1_scale7_5(&position, 0xF);
             state = 4;
             return;
         }
@@ -1102,7 +1102,7 @@ s32 TObjEneNanoDrago::collect_beam_targets() {
     beamTargetCount = 0;
     for (i = 0; i < registered_player_count + registered_enemy_count; i++) {
         candidate = TObjPlayer::get_player_data(i);
-        if (TObjPlayer::is_valid_and_active(candidate) != 0) {
+        if (TObjCollidable::is_valid_and_active(candidate) != 0) {
             add_target_in_front_arc(candidate);
         }
     }

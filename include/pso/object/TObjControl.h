@@ -29,4 +29,6 @@ struct EnemySetData {
     Vec position; Vec rotation; f32 parameters[5]; s16 variant; s16 state;
 };
 
+void clear_flag_on_phase_e();
+
 #endif

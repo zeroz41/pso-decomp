@@ -5689,7 +5689,7 @@ force_active:
   - dispatch_page_update__20TWindowSubStatusDispFv
   - dispatch_quest_opcode__Fv
   - dispatch_reaction_state__16TBoss3VoloptCoreFv
-  - dispatch_select_phase__16TKeyBoardControlFP7TObject
+  - dispatch_select_phase__FP7TObject
   - dispatch_action__14TObjEneRecoboxFUll
   - dispatch_state__16TObjCityDoorBaseFv
   - dispatch_action__14TObjEneBm5WolfFUll
@@ -5763,7 +5763,7 @@ force_active:
   - render__15TObjEneDimedianFv
   - draw_agreement_text__18TAdAgreementBaseGCFPvPv
   - draw_animated_beam__18TObjLazerFenceNormFv
-  - draw_area_chunk_objects__10TObjPlayerFv
+  - draw_area_chunk_objects__Fv
   - draw_arrows__18TWindowInputNumberFP17WindowDrawContextP19TWindowLayoutNumberi
   - draw_at_joint__14TItemProShieldFl
   - draw_background__13TWindowStatusFP17WindowDrawContext
@@ -13784,7 +13784,7 @@ force_active:
   - push_key_to_buffer__16KeyboardKeyStateFUc
   - append_to__18TObjEneBm5WolfNodeFPP18TObjEneBm5WolfNodePP18TObjEneBm5WolfNode
   - append_to__20TObjEneBm5GibonUNodeFPP20TObjEneBm5GibonUNodePP20TObjEneBm5GibonUNode
-  - push_material_color_override__10TObjPlayerFffff
+  - push_material_color_override__Fffff
   - push_material_fade__Ff
   - push_fade_color__23TEquippedWeaponDrawTaskFP8NJS_ARGB
   - push_nearby_players__15TBoss3VoloptP01Fv
@@ -16019,7 +16019,7 @@ force_active:
   - step_angle_clamped__12TObjEneSaverFl
   - step_angle_toward__9TBoss6MagFlll
   - step_camera_scalar__FPCfPCfPff
-  - step_cutscene_frame__10TObjPlayerFP10NJS_OBJECT
+  - step_cutscene_frame__FP10NJS_OBJECT
   - step_demo_script__16TObjEneDellBiterFP10NJS_OBJECT
   - step_effect_sequence__18TObjEneRe4SorcererFP10NJS_OBJECT
   - step_fade_opacity_decrease__21TScreenFadeControllerFv
@@ -16991,7 +16991,7 @@ force_active:
   - update__16WindowSpritePartFv
   - update_part_positions__11TBoss6Type2Fv
   - update_particle__15TObjSuisouLobbyFv
-  - update_particle_by_phase__10TObjPlayerFP10NJS_OBJECT
+  - update_particle_by_phase__FP10NJS_OBJECT
   - update_particle_emitters__11TObjDFDemo5Fv
   - update_particle_emitters__12TBoss4ThanksFv
   - update_particle_emitters__12TBoss6ThanksFv

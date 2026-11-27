@@ -264,7 +264,7 @@ void TTecCircle::apply_technique_to_area_targets() {
         list = collect_body_contacts_for_target(source);
     }
     for (i = 0; i < list->count; i++) {
-        if (TObjPlayer::is_valid_and_active(list->actors[i]) != 0) {
+        if (TObjCollidable::is_valid_and_active(list->actors[i]) != 0) {
             target = (TObjChara *)list->actors[i];
             contact = list->bodies[i];
             apply_to_target(target);

@@ -10,6 +10,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/map/FloorWaveEvents.h"
+#include "pso/boss/dragon/TObjBoss1Floor.h"
 
 #pragma readonly_strings on
 
@@ -22,7 +23,7 @@ struct AreaLightParams {
 };
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
-void (*dragon_area_scene_callbacks[2])(void) = {TLobby::init_bosses, TLobby::update_boss1_objects};
+void (*dragon_area_scene_callbacks[2])(void) = {init_bosses, update_boss1_objects};
 
 void cleanup_dragon_area_scene(void) {
     refresh_render_state();
@@ -74,7 +75,7 @@ s32 init_dragon_area_scene(void) {
     }
     init_map_lights((LightEntry *)&l);
     TLobby::create_tasks();
-    TLobby::forward_floor_2CB44();
+    forward_floor_2CB44();
     play_area_music("dragon.adx");
     return 1;
 }

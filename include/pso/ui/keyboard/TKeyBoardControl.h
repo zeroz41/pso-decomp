@@ -41,7 +41,6 @@ struct TKeyBoardControl : public TObject {
     void set_composer_flag62_bit4();
     static void update_main_menu_scene();
     static void clear_main_menu_scene_flag();
-    static void dispatch_select_phase(TObject *fade);
 };
 
 LAYOUT_ASSERT(TKeyBoardControl_size, sizeof(TKeyBoardControl) == 0x2C);

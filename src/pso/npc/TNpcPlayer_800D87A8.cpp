@@ -6,7 +6,7 @@
 
 TObjCollidable *get_valid_target_player(int id) {
     TObjCollidable *player = reinterpret_cast<TObjCollidable *>(TObjPlayer::get_battle_param(id));
-    if (TObjPlayer::is_valid_and_active(player) != 0) {
+    if (TObjCollidable::is_valid_and_active(player) != 0) {
         return player;
     }
     return NULL;
@@ -14,7 +14,7 @@ TObjCollidable *get_valid_target_player(int id) {
 
 TObjCollidable *find_active_entity_by_id(u16 id) {
     TObjCollidable *entity = find_entity_by_id(id);
-    if (TObjPlayer::is_valid_and_active(entity) != 0) {
+    if (TObjCollidable::is_valid_and_active(entity) != 0) {
         return entity;
     }
     return NULL;

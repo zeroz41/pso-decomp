@@ -110,7 +110,6 @@ struct TBoss3Volopt : public TObjEnemyCustom {
     // TBoss3Volopt.
     static void create_breakup_mdl(TBreakUpMdlData *model, const BreakUpParamRow *params, NJS_TEXLIST *texlist,
                                     const Vec *position, s32 rotation_y);
-    static s32 remap_area_sound_id(s32 sound_id);
     void create_cage(u16 target_id);
 
     u8 pad_38C[0x18];

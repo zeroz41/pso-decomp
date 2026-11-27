@@ -11,6 +11,7 @@ struct G_DarkFalzActions_6x19;
 struct TBoss4Type3;
 struct TObjDFUsoTower;
 struct TBoss4DarkFalzSetEntry;
+struct BmlResource;
 
 struct TBoss4DarkFalz : public TObjEnemy {
     TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data);
@@ -102,6 +103,10 @@ struct TBoss4DarkFalz : public TObjEnemy {
     void count_minion_lost();
     static s32 is_state_ready();
     static s32 is_active();
+    // 1 while dark_falz_controller_instance is set.
+    static s32 has_instance();
+    // darkfalz_dat_resource, the archive the Dark Falz forms and demos draw from.
+    static BmlResource *get_dat_resource();
     void spawn_zako_rings();
     void enter_demo2_phase();
     // State handlers installed in the state table dark_falz_state_table (TBoss4DarkFalz_States.cpp).

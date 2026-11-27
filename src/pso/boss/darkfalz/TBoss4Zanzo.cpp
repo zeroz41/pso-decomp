@@ -143,7 +143,7 @@ TBoss4Type2::TBoss4Type2(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     owner = set_data->owner;
     apply_set_data(&set_data->entry);
     clear_lobby_object_state();
-    archive = TBoss4Uro::get_instance_count();
+    archive = TBoss4DarkFalz::get_dat_resource();
     texlist = 0;
     model = 0;
     VecCopy(&position, &boss4_type2_start_position);

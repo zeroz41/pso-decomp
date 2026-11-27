@@ -336,7 +336,7 @@ void TBoss7Tentacle::run_task() {
                 timer = 0;
                 attack_phase = 2;
                 {
-                    TBoss7DeRolLeC *boss = TBoss7Joint::get_state();
+                    TBoss7DeRolLeC *boss = TBoss7DeRolLeC::get_instance();
                     if (boss != NULL) {
                         boss->emit_hit_effect(&p);
                     }
@@ -439,7 +439,7 @@ void TBoss7Tentacle::update_extend_amount() {
 
 void TBoss7Tentacle::render() {
     s32 i;
-    TObjPlayer::draw_effect();
+    TBoss7DeRolLeC::set_archive_textures();
     push_matrix();
     switch (state) {
     case 0:
@@ -553,7 +553,7 @@ void TBoss7TentacleNeedle::run_task() {
 }
 
 void TBoss7TentacleNeedle::render() {
-    TObjPlayer::draw_effect();
+    TBoss7DeRolLeC::set_archive_textures();
     set_motion_packed_rotation();
     push_matrix();
     post_translate_matrix(&position.x);

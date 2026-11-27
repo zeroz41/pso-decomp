@@ -1339,7 +1339,7 @@ void TObjGrass::update_dying() {
             }
             }
             play_sound_effect(remap_sound_for_area(0x4003AB0A), &position, 0, 0);
-            TDeadSpot::spawn_kind1_scale15(&position, 0xA);
+            spawn_dead_spot_kind1_scale15(&position, 0xA);
             spawn_ground_effect(&position, 0x1E);
         }
         scale.y -= 0.01f;

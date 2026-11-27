@@ -18,5 +18,6 @@ public:
 LAYOUT_ASSERT(TObjEneRe2Flower_EffCurse3_size, sizeof(TObjEneRe2Flower_EffCurse3) == 0x28);
 
 void free_curse_resources(void);
+void create_render_texture();
 
 #endif

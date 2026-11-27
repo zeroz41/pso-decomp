@@ -41,12 +41,12 @@ TObjBoss7RaftSplash::TObjBoss7RaftSplash(TObject *parent, const Vec *position, c
     step = speed;
 }
 
-void TObjBoss7Tunnel::create_particle(const Vec *position, s32 particle_index) {
+void TObjBoss7RaftSplash::create_particle(const Vec *position, s32 particle_index) {
     create_particle_effect(position, particle_index, -5.0f);
 }
 
 // The particle helpers below share this TU's .sdata2 pool: -5.0f is used by
-// TObjBoss7Tunnel::create_particle and TObjBoss7Tunnel::release_splash_children, and the .text runs on without a pool of its own.
+// TObjBoss7RaftSplash::create_particle and TObjBoss7RaftSplash::release_splash_children, and the .text runs on without a pool of its own.
 
 void TObjBoss7RaftSplash::spawn_splash(const Vec *position, s32 particle_index, const Vec *offset) {
     TParticleCtrl *particle;
@@ -58,16 +58,16 @@ void TObjBoss7RaftSplash::spawn_splash(const Vec *position, s32 particle_index, 
     }
 }
 
-void TObjBoss7Tunnel::create_particle_effect(const Vec *position, s32 particle_index, f32 speed) {
+void TObjBoss7RaftSplash::create_particle_effect(const Vec *position, s32 particle_index, f32 speed) {
     TParticleCtrl *particle;
 
     particle = new TParticleCtrl(position, TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, 0x40);
     if (particle != NULL) {
         particle->run_task();
-        release_children(particle, speed);
+        TObjBoss7Tunnel::release_children(particle, speed);
     }
 }
 
-void TObjBoss7Tunnel::release_splash_children(TParticleCtrl *particle) {
-    release_children(particle, -5.0f);
+void TObjBoss7RaftSplash::release_splash_children(TParticleCtrl *particle) {
+    TObjBoss7Tunnel::release_children(particle, -5.0f);
 }

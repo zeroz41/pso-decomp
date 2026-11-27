@@ -192,7 +192,7 @@ TBoss4Thanks::~TBoss4Thanks() {
 TBoss4Thanks::TBoss4Thanks(TObject *parent) : TObject(parent) {
     BmlResource *archive;
     m_name = TBoss4Thanks::class_name;
-    archive = TBoss4Uro::get_instance_count();
+    archive = TBoss4DarkFalz::get_dat_resource();
     this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(archive, 1));
     this->texture_list = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(archive, 1));
     motions[0] = get_bml_motion(archive, 0x46);

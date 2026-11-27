@@ -37,6 +37,8 @@ public:
     s32 test_actor_flags(u32 flags);
     s32 access_object_saved_state(void *, s16);
     void clear_hit_receive_state();
+    // 1 when actor is set and obj_is_hit_receivable(actor) holds.
+    static s32 is_valid_and_active(const TObjCollidable *actor);
     // Empty in this build; the ancient trap and chainsaw call it from their demo and debug-draw updates.
     void collision_update_stub();
     void*set_collision_body(CollisionBody *body);

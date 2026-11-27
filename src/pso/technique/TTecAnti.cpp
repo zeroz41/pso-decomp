@@ -101,7 +101,7 @@ void TTecAnti::run_task() {
             if (targets.count != 0) {
                 for (i = 0; i < targets.count; i++) {
                     member = find_entity_by_id(targets.records[i].id);
-                    if ((TTecLuker::is_parents_unqueued(member) != 0) && (TObjPlayer::is_valid_and_active(member) != 0)) {
+                    if ((TObject::is_parents_unqueued(member) != 0) && (TObjCollidable::is_valid_and_active(member) != 0)) {
                         apply_to_player((TObjPlayer *)member);
                     }
                 }

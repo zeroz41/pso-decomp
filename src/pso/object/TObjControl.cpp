@@ -131,7 +131,7 @@ TObjEnemy::~TObjEnemy() {
     }
 }
 
-void TLobby::clear_flag_on_phase_e() {
+void clear_flag_on_phase_e() {
     if (get_main_phase() == 0xE) {
         area_random_seed = 0;
     }

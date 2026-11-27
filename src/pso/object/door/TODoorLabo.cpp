@@ -448,7 +448,7 @@ const char *odoor_labo_class_name = "TODoorLabo";
 const FourLightNodeTable door_labo_link_table = {{1, -1, -1, -1, 4, -1, -1, -1}};
 
 
-void TAdSinglePlyChrSelectGC::free_all_resources() {
+void free_labo_door_resources(void) {
     if (labo_door_red_textures != NULL) {
         release_texture_list(labo_door_red_textures);
         safe_free(labo_door_red_textures);

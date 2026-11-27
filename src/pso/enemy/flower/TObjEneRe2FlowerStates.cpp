@@ -66,11 +66,11 @@ void TObjEneRe2Flower::state_die(s32 reason) {
                 effect_pos.z = lbl_805D9FC4 * cos_table_lookup(rotation_y);
                 vec3_add_to(&effect_pos, &position);
                 if (is_tower_variant() != 0) {
-                    TDeadSpot::spawn_kind0_scale7_5(&effect_pos, 0x32);
+                    spawn_dead_spot_kind0_scale7_5(&effect_pos, 0x32);
                     create_particle_emitter_pair(&effect_pos);
                     appear_fade.init_death_params();
                 } else {
-                    TDeadSpot::spawn_kind1_scale2_5(&effect_pos, 0x32);
+                    spawn_dead_spot_kind1_scale2_5(&effect_pos, 0x32);
                     spawn_ground_effect(&effect_pos, 0x46);
                 }
             }

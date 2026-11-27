@@ -89,7 +89,7 @@ const char *TOContainerAncientEnemyRare::class_name = "TOContainerAncientEnemyRa
 
 // The three fragment texture lists of the current floor, loaded with the
 // archive (ancient_container_resource_bundle) by
-// TLanguage::load_container_fragment_textures. Both share one 8-aligned
+// load_ancient_container_resources. Both share one 8-aligned
 // .sbss block that stays unclaimed until the bundle can be
 // defined here (see spawn_break_effects).
 extern NJS_TEXLIST **ancient_container_fragment_texture_lists;
@@ -159,7 +159,7 @@ int TObjContainerBase::calc_distance_accuracy_penalty(TObjChara *, CollisionBody
 
 extern BmlResource *ancient_container_resource_bundle;
 
-void TLanguage::load_container_fragment_textures() {
+void load_ancient_container_resources(void) {
     // The archive bundles occupy three consecutive linker records in base, VS2,
     // and Episode II order. Use the record layout to reach their descriptors.
     const uaddr table = reinterpret_cast<uaddr>(&bm_o_container_ancient_resource_bundle);

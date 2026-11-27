@@ -721,9 +721,9 @@ void TObjEneBm5GibonU::update_dying_state(s32 msg) {
                 rotate_xz_pair_by_angle(&spot.x, &spot.z, this->rotation_y);
                 vec3_add_to(&spot, &this->position);
                 if (this->is_leader == 1) {
-                    TDeadSpot::spawn_kind2_scale15(&spot, 0x32);
+                    spawn_dead_spot_kind2_scale15(&spot, 0x32);
                 } else {
-                    TDeadSpot::spawn_kind2_scale7_5(&spot, 0x32);
+                    spawn_dead_spot_kind2_scale7_5(&spot, 0x32);
                 }
                 spawn_effect_at_ground(&spot, 0x46);
             }

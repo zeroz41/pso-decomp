@@ -190,7 +190,7 @@ void TBoss7JointBreakUp::render() {
     Vec scale = { 0.0f, 0.0f, 0.0f };
     scale.z = scale.y = scale.x = boss7_joint_breakup_scale;
     piece = pieces;
-    TObjPlayer::draw_effect();
+    TBoss7DeRolLeC::set_archive_textures();
     for (node = node->child; node != NULL; node = node->sibling) {
         push_matrix();
         post_translate_matrix(&piece->position.x);
@@ -276,7 +276,7 @@ void TBoss7BodyBreakUp::render() {
     NJS_ARGB color = { 1.0f, 1.0f, 1.0f, 1.0f };
     node = root->child;
     piece = pieces;
-    TObjPlayer::draw_effect();
+    TBoss7DeRolLeC::set_archive_textures();
     push_matrix();
     for (i = 0; i < count; i++) {
         push_matrix();

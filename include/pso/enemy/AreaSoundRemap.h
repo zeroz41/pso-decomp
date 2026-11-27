@@ -4,6 +4,7 @@
 #include "types.h"
 
 s32 remap_area_sound_id(s32 sound_id, s32 control);
+s32 remap_area_sound_id(s32 sound_id);
 
 struct AreaSoundRemapEntry {
     s32 base;

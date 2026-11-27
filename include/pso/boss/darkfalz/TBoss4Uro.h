@@ -18,7 +18,6 @@ struct TBoss4Uro : public TBoss4Zako {
     void vt4();
     void update_sink_state();
     void vt6();
-    static BmlResource *get_instance_count();
 
     Vec orbit_center;
     static const char *name;
