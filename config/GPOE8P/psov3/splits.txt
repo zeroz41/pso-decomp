@@ -5690,14 +5690,14 @@ pso/ui/window/TWindowCheckBox.cpp:
 	.sdata2     start:0x805DCBA8 end:0x805DCBAC
 
 pso/ui/window/TWindowChoiceSetting.cpp:
-	.text       start:0x80249078 end:0x80249610
+	.text       start:0x80249078 end:0x8024961C
 	.rodata     start:0x8044EAF0 end:0x8044EB18
 	.data       start:0x804CE808 end:0x804CE820
 	.sdata      start:0x805D38B8 end:0x805D38C0
 	.sdata2     start:0x805DCBB0 end:0x805DCBC4
 
 pso/ui/window/TWindowChoiceSetting_80249610.cpp:
-	.text       start:0x80249610 end:0x802497A8
+	.text       start:0x8024961C end:0x802497A8
 
 pso/ui/window/TWindowComCard.cpp:
 	.text       start:0x802497A8 end:0x80249CBC
