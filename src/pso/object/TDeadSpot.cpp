@@ -10,8 +10,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/TextureState.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TDeadSpotGroundEmitter.h"
-#include "pso/unk/TDeadSpotEmitter.h"
 #include "types.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
@@ -20,20 +18,14 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include "pso/system/task/TMainTask.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/math/QuaternionBlend.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/derolle/RandomAngle.h"
 #include "pso/render/model_render_state.h"
 
-
-extern "C" {
-extern const f32 lbl_805DA380;
-}
 
 #pragma push
 #pragma readonly_strings on
@@ -243,62 +235,3 @@ void TDeadSpotFade::run_task() {
         }
     }
 }
-#pragma push
-#pragma fp_contract on
-TDeadSpotEmitter::TDeadSpotEmitter(TObject *parent, Vec *position, TParticleCtrl *emitter, f32 radius) : TObject(parent) {
-    VecCopy(&this->position, position);
-    this->radius = radius;
-    timer = 0;
-    interval = 2;
-    this->emitter = emitter;
-}
-#pragma pop
-TDeadSpotEmitter::~TDeadSpotEmitter() {}
-
-void TDeadSpotEmitter::place_emitter() {
-  Vec stack;
-  f32 x;
-  s32 angle;
-  angle = random_angle();
-  x = radius * sin_table_lookup((int) (angle & 0xFFFFFFFFu));
-  stack.y = lbl_805DA380;
-  stack.x = x;
-  stack.z = radius * cos_table_lookup((int) angle);
-  vec3_add_to(&stack, &position);
-  emitter->set_position(&stack);
-}
-
-void TDeadSpotEmitter::run_task() {
-    if (emitter == NULL || emitter->all_parents_unqueued_for_destruction() == 0) {
-        queue_destruction();
-        return;
-    }
-    timer++;
-    if (timer >= interval) {
-        timer = 0;
-        place_emitter();
-    }
-}
-
-TDeadSpotGroundEmitter::TDeadSpotGroundEmitter(TObject *parent, Vec *position, TParticleCtrl *emitter, f32 radius) : TDeadSpotEmitter(parent, position, emitter, radius) {
-    interval = 8;
-}
-
-TDeadSpotGroundEmitter::~TDeadSpotGroundEmitter() {}
-#pragma push
-#pragma opt_common_subs off
-void TDeadSpotGroundEmitter::place_emitter() {
-    Vec stack;
-    f32 x;
-    s32 angle;
-    angle = random_angle();
-    x = radius * sin_table_lookup(angle);
-    stack.y = lbl_805DA380;
-    stack.x = x;
-    stack.z = radius * cos_table_lookup(angle);
-    vec3_add_to(&stack, &position);
-    TObjBoss2Tunnel::adjust_to_ground(&stack, &stack);
-    emitter->set_position(&stack);
-}
-
-#pragma pop

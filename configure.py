@@ -593,6 +593,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # vtables come out TSceneAmbientLight, F90, FA8 then FC0 (text order of their key functions): written last to
     # first, deferred.
     "pso/object/ambient/TObjLight_80133568.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/object/TDeadSpotEmitter.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/TDeadSpot.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/ui/hud/TMainCursor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # vtables come out StelthReal, then the dispatch_state jump table, then Stelth: written last to first, deferred.

@@ -1563,13 +1563,15 @@ pso/render/RenderFadeState.cpp:
 	.data       start:0x804949A0 end:0x804949D8
 	.sdata2     start:0x805DA368 end:0x805DA380
 
-pso/object/TDeadSpotSdata2.cpp:
+pso/object/TDeadSpotEmitter.cpp:
+	.text       start:0x800D7CF4 end:0x800D7FD4
+	.data       start:0x804949D8 end:0x80494A10
 	.sdata2     start:0x805DA380 end:0x805DA388
 
 pso/object/TDeadSpot.cpp:
-	.text       start:0x800D7CF4 end:0x800D87A8
+	.text       start:0x800D7FD4 end:0x800D87A8
 	.rodata     start:0x8043C710 end:0x8043C728
-	.data       start:0x804949D8 end:0x80494A40
+	.data       start:0x80494A10 end:0x80494A40
 	.sdata      start:0x805D2A98 end:0x805D2AA0
 	.sdata2     start:0x805DA388 end:0x805DA3C0
 
