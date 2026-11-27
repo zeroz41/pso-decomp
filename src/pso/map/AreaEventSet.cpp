@@ -26,6 +26,7 @@
 #include "pso/system/MemoryMove.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/system/GslArchive.h"
+#include "pso/system/TGStream.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/system/FileExtension.h"
 

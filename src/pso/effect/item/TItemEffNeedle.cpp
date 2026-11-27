@@ -91,7 +91,7 @@ void spawn_target_needle(TObject *parent, TItemEquipBase *weapon, u16 target_id,
     }
 }
 
-void create_needle_effect(s32 item_id, ActorBodyHit *hit) {
+void create_needle_effect(s32 item_id, ActorBodyHit *hit, Vec *velocity) {
     TItem *item = find_item_by_id(item_id);
     // The needle is given the target's body count as its body, not hit->body.
     TItemEffNeedle *needle = new TItemEffNeedle(tl_05, item, hit->target->get_entity_id(), hit->target->body_count);

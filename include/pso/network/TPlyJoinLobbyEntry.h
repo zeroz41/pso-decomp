@@ -38,7 +38,6 @@ TPlyDispConfig *copy_disp_config(TPlyDispConfig *dst, TPlyDispConfig *src);
 TPlyDispConfigSmth *copy_disp_config_palette(TPlyDispConfigSmth *dst, TPlyDispConfigSmth *src);
 void copy_gc_tag(gc_tag *dst, gc_tag *src);
 
-u8 *init_idle_timeout_timer(u8 *timer, TObject *parent);
 void queue_join_entry_exit_on_input(TObject *task);
 void show_join_entry_message(s32 id);
 void show_dialog_value_line(const char *text);

@@ -1,7 +1,7 @@
 #include <string.h>
 #include <dolphin/os/OSCache.h>
 #include "pso/audio/GcrnaStream.h"
-#include "pso/audio/GcrnaMusyxStream.h"
+#include "musyx/musyx.h"
 #include "pso/audio/GcrnaError.h"
 #include <dolphin/os/OSAlloc.h>
 #include "pso/audio/GcrnaControlBridge.h"

@@ -123,7 +123,6 @@ struct StickEscapeDetector {
 };
 
 LAYOUT_ASSERT(StickEscapeDetector_size, sizeof(StickEscapeDetector) == 0xC);
-void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerInputContext *input);
 
 class TPlyCharData;
 typedef GC_Mtx PlayerJointMatrixSet[32];
@@ -941,7 +940,7 @@ struct TObjPlayer : public TObjChara {
     void trade_item_by_group_kind(s16 group, s16 kind);
     f32 select_normal_attack_marker();
     static void spawn_particle_at_entity_slot(s32 layer, s32 weapon, s32 id, s32 body);
-    static void spawn_fire_explosion_at_item(s32 id, ActorBodyHit *hit);
+    static void spawn_fire_explosion_at_item(s32 id, ActorBodyHit *hit, Vec *velocity);
     static void spawn_fire_explosion(TItemWeapon *weapon, const Vec *position);
     void push_model_fade_color();
     static bool is_slot_within_limit(s32 cls, s32 tech, u8 level);

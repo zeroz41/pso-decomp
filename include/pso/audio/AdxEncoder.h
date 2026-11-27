@@ -87,9 +87,6 @@ LAYOUT_ASSERT(AdxEncoder_size, sizeof(AdxEncoder) == 0x2D0);
 LAYOUT_ASSERT(AdxEncoder_channel_offset, offsetof(AdxEncoder, channel) == 0x80);
 LAYOUT_ASSERT(AdxEncoder_start_history_offset, offsetof(AdxEncoder, start_hist1) == 0x2C8);
 
-// Defined in AdxHeader.cpp: predictor coefficients for a high-pass cutoff at a sample rate.
-void calc_adx_predictor_coeffs(s32 cutoff, s32 rate, s16 *k0, s16 *k1);
-
 // --- C functions defined in AdxEncoder.cpp ---
 extern "C" {
 void adx_encoder_exec_server(void);

@@ -15,5 +15,4 @@ struct EnemyFactoryEntry {
 
 extern EnemyFactoryEntry* enemy_factory_area_table[36];
 s32 find_enemy_factory_entry(const volatile EnemySetRecord *row, EnemyFactoryEntry *out);
-void copy_enemy_factory_entry(EnemyFactoryEntry* out, EnemyFactoryEntry* entry);
 #endif

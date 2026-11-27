@@ -19,6 +19,4 @@ void init_model_draw_queue(ModelDrawCallback draw);
 extern "C" {
 void queue_model_draw_matrix(void* model, GinjaMatrix matrix);
 }
-void flush_model_draw_queue();
-void draw_queued_models(u32 count);
 #endif

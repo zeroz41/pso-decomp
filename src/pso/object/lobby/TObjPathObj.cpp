@@ -34,7 +34,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/lobby/LobbyPigeonTheme.h"
 
 
 // Resource descriptors of the path-following objects: seabed dolphin, jungle ebi, jungle bird,

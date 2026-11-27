@@ -57,7 +57,6 @@ extern "C" {
 // list; returns the actor's bodies.
 CollisionBody *init_collision_body_parts(TObjCollidable *actor, const CollisionBody *bodies, s32 count);
 }
-void free_collision_body_parts(TObjCollidable *actor);
 void check_enemy_body_collisions(TObjCollidable *actor);
 // Enters the actor in the id-sorted entity table; returns its entity id.
 u16 register_entity_by_id(TObjCollidable *actor);

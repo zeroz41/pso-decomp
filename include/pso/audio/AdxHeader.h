@@ -47,6 +47,7 @@ s32 adx_parse_header_loop_points(u8 *hdr, s32 size, u16 *out0, u16 *out1);
 // The index of the first 0x8000 end marker among every other sample, -1 when there is none.
 s32 adx_find_end_marker(s16 *samples, s32 count, s16 *out_index);
 }
+// Predictor coefficients for a high-pass cutoff at a sample rate.
 void calc_adx_predictor_coeffs(s32 cutoff, s32 rate, s16 *k0, s16 *k1);
 // --- end of C functions
 

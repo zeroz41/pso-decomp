@@ -31,6 +31,4 @@ void advance_angle_wrap(s32 *angle, s32 blade_speed);
 TEffStarLight2D *spawn_star_light_2d(const Vec *position, const StarLightParameters *parameters, TObject *parent);
 s32 decrement_timer(u32 *packed, s32 step);
 
-void add_angle_clamped(s32 *value, s32 step, s32 limit);
-
 #endif

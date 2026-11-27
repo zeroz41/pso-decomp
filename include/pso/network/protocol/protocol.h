@@ -7,9 +7,7 @@
 
 #include "pso/forward.h"
 #include "types.h"
-
-extern void bswap_16(u16 *val);
-extern void bswap_32(u32 *val);
+#include "pso/system/byteswap.h"
 
 // The header of every lobby server command: the command, a flags byte whose meaning depends on the
 // command, and the size in bytes with the header.

@@ -18,5 +18,4 @@ struct TObjContainerItem : public TObjContainerBase {
 
 LAYOUT_ASSERT(TObjContainerItem_size, sizeof(TObjContainerItem) == 0x368);
 
-void load_forest_box_resources(void);
 #endif

@@ -7,7 +7,6 @@
 #include <string.h>
 #include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/audio/GcrnaBufferQuery.h"
-#include "pso/audio/GcrnaMusyxStream.h"
 #include "musyx/runtime/musyx_internal.h"
 
 void gcrna_interrupt_lock_leave(void) {

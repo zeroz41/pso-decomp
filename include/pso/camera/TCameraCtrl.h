@@ -233,6 +233,5 @@ s32 restore_player_cameras(void);
 void set_active_camera_pose(Vec *position, Vec *target);
 void set_active_camera_pose_from_params(CameraParams *params);
 void start_camera_shake(s32 frames, f32 amplitude);
-void calc_projection_screen_offset(f32 *x, f32 *y);
 
 #endif

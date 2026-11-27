@@ -77,8 +77,8 @@ TItemWeaponCard::TItemWeaponCard(TObject *parent, u8 *item) : TItemWeapon(parent
     set_weapon_flags(3);
     fan_flags = 0;
     effect_id = 445;
-    wall_effect = (void *)start_wall_card;
-    hit_effect = (void *)create_network_object;
+    wall_effect = start_wall_card;
+    hit_effect = create_network_object;
     effect_scale = 4.0f;
 }
 
@@ -192,14 +192,14 @@ TItemWeaponTalis::TItemWeaponTalis(TObject *parent, u8 *item) : TItemWeaponCard(
 
 TItemWeaponMahu::TItemWeaponMahu(TObject *parent, u8 *item) : TItemWeaponCard(parent, item) {
     effect_id = 341;
-    wall_effect = (void *)start_red_wall_card;
-    hit_effect = (void *)create_aux_object;
+    wall_effect = start_red_wall_card;
+    hit_effect = create_aux_object;
 }
 
 TItemWeaponHitogata::TItemWeaponHitogata(TObject *parent, u8 *item) : TItemWeaponCard(parent, item) {
     effect_id = 447;
-    wall_effect = (void *)alloc_and_init;
-    hit_effect = (void *)create_and_init_effect;
+    wall_effect = alloc_and_init;
+    hit_effect = create_and_init_effect;
 }
 
 void TItemWeaponHitogata::spawn_throw_effect(Vec *pos) {
@@ -218,8 +218,8 @@ TItemWeaponDancingHitogata::TItemWeaponDancingHitogata(TObject *parent, u8 *item
         origin->z = 0.0f;
         origin++;
     }
-    wall_effect = (void *)alloc_and_init;
-    hit_effect = (void *)create_and_init_effect;
+    wall_effect = alloc_and_init;
+    hit_effect = create_and_init_effect;
 }
 
 void TItemWeaponDancingHitogata::on_equipped() {
@@ -348,8 +348,8 @@ void TItemWeaponDancingHitogata::init_weapon_effect_descriptor(WeaponEffectDescr
 
 TItemWeaponSectionIdCard::TItemWeaponSectionIdCard(TObject *parent, u8 *item) : TItemWeaponCard(parent, item) {
     effect_id = 341;
-    hit_effect = (void *)spawn_hit_particles_at;
-    wall_effect = (void *)spawn_hit_particles_at_vec;
+    hit_effect = spawn_hit_particles_at;
+    wall_effect = spawn_hit_particles_at_vec;
 }
 
 void TItemWeaponSectionIdCard::spawn_hit_particles_at(s32 item_id, ActorBodyHit *hit, Vec *dir) {
@@ -358,7 +358,7 @@ void TItemWeaponSectionIdCard::spawn_hit_particles_at(s32 item_id, ActorBodyHit 
     spawn_hit_particles(&pos, dir);
 }
 
-void TItemWeaponSectionIdCard::spawn_hit_particles_at_vec(s32 item_id, Vec *point, Vec *dir) {
+void TItemWeaponSectionIdCard::spawn_hit_particles_at_vec(s32 item_id, const Vec *point, Vec *dir) {
     Vec pos;
     VecCopy(&pos, point);
     spawn_hit_particles(&pos, dir);
@@ -381,8 +381,8 @@ void TItemWeaponSectionIdCard::spawn_hit_particles(Vec *pos, const Vec *dir) {
 
 TItemWeaponAmoreRose::TItemWeaponAmoreRose(TObject *parent, u8 *item) : TItemWeaponCard(parent, item) {
     effect_scale = 1.0f;
-    wall_effect = (void *)create_needle_pos_effect;
-    hit_effect = (void *)create_needle_effect;
+    wall_effect = create_needle_pos_effect;
+    hit_effect = create_needle_effect;
 }
 
 void TItemWeaponAmoreRose::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
@@ -393,8 +393,8 @@ void TItemWeaponAmoreRose::init_weapon_effect_descriptor(WeaponEffectDescriptor 
 TItemWeaponGalWind::TItemWeaponGalWind(TObject *parent, u8 *item) : TItemWeaponCard(parent, item) {
     effect_scale = 5.0f;
     set_weapon_flags(32);
-    hit_effect = (void *)spawn_hit_effect;
-    wall_effect = (void *)create_needle_pos_effect;
+    hit_effect = spawn_hit_effect;
+    wall_effect = create_needle_pos_effect;
 }
 
 void TItemWeaponGalWind::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {

@@ -4,6 +4,7 @@
 #include "pso/quest/AskDicFile.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadServer.h"
+#include "pso/quest/AskDicConvert.h"
 
 // inferred: length-prefixed byte strings (the length counts itself), indexed by the off field of
 // the match entries below.

@@ -6,7 +6,7 @@
 
 void TItemWeaponFlameVisit::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->particle = 0x1BB;
-    desc->hit_effect = (void *)spawn_flame_effect;
+    desc->hit_effect = spawn_flame_effect;
     desc->hits = hits;
 }
 

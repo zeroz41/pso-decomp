@@ -1,5 +1,7 @@
 #include "types.h"
 #include "pso/quest/AskDicFile.h"
+#include "pso/quest/AskDicConvert.h"
+#include "pso/quest/QuestDownloadAramFile.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadServer.h"
 

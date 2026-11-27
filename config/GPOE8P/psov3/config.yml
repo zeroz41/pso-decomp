@@ -6449,7 +6449,7 @@ force_active:
   - freeze_shell_grow__15TObjFreezeShellFv
   - freeze_shell_hold__15TObjFreezeShellFv
   - frozen_shooter_ct__FPUcPUcl
-  - frozen_shooter_freeze_hit__FiP12ActorBodyHit
+  - frozen_shooter_freeze_hit__FlP12ActorBodyHitP3Vec
   - fs_obj_do_doa01_a_model_names
   - fs_obj_do_doa01_a_motion_names
   - fs_obj_do_doa01_model_names
@@ -15888,11 +15888,11 @@ force_active:
   - spawn_effects__19TBoss3VoloptMonitorFv
   - spawn_falling_rocks__9TBoss6MagFv
   - spawn_faust_explosion__FP11TItemWeaponRC3Vec
-  - spawn_faust_hit_explosion__FlP12ActorBodyHit
-  - spawn_faust_wall_explosion__FlP3Vec
+  - spawn_faust_hit_explosion__FlP12ActorBodyHitP3Vec
+  - spawn_faust_wall_explosion__FlPC3VecP3Vec
   - spawn_fire_explosion__10TObjPlayerFP11TItemWeaponPC3Vec
-  - spawn_fire_explosion_at_item__10TObjPlayerFlP12ActorBodyHit
-  - spawn_fire_explosion_for_item__FlPC3Vec
+  - spawn_fire_explosion_at_item__10TObjPlayerFlP12ActorBodyHitP3Vec
+  - spawn_fire_explosion_for_item__FlPC3VecP3Vec
   - spawn_freeze_shell_effect__9TObjCharaFUll
   - spawn_front_particle__16TObjEneDellBiterFv
   - run_hit_reaction__9TBoss6MagFv

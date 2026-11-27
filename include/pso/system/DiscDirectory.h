@@ -5,8 +5,4 @@
 
 s32 change_disc_directory(const char *dir);
 
-// --- C functions defined in DiscDirectory.cpp ---
-s32 change_disc_directory(const char *dir);
-// --- end of C functions
-
 #endif

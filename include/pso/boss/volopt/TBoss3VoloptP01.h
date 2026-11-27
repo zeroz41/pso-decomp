@@ -89,8 +89,5 @@ struct TBoss3VoloptP01 : public TObjEnemyCustom {
 
 
 LAYOUT_ASSERT(TBoss3VoloptP01_size, sizeof(TBoss3VoloptP01) == 0x418);
-struct TargetCursorList;
-
-void clear_target_cursor_list(TargetCursorList *list);
 
 #endif

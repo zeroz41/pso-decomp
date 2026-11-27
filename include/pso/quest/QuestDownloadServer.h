@@ -92,14 +92,9 @@ extern u8 quest_name_index_table[1024][4] ATTRIBUTE_ALIGN(4);
 void __VIRetraceHandler(void);
 }
 extern s32 quest_download_free_cell_count;
-void free_quest_queue_chain(QuestDownloadQueueNode *p);
-void free_quest_entry_chain(QuestDownloadEntryNode *p);
-void free_quest_segment_chain(QuestDownloadSegment *p);
 extern QuestDownloadFileCache quest_download_slot_table;
-QuestDownloadEntryNode *insert_quest_download_entry(QuestDownloadEntryNode *head, QuestDownloadEntryNode *entry);
 extern s32 quest_download_name_search_lo;
 extern s32 quest_download_name_search_hi;
-QuestDownloadItemNode *alloc_quest_item_node(void);
 void reset_slot(QuestDownloadSlot *slot, s32 mode);
 extern "C" {
 s32 convert_quest_text_u8_to_u16(u16 *, const u8 *, int);
@@ -124,7 +119,6 @@ s32 quest_text_u16_to_u8(u16 *, u8 *, s32);
 }
 extern u16 quest_text_page_buffer[];
 extern u8 *quest_download_text_write_ptr;
-void pack_entry_text_chain(s32 start, QuestDownloadTextNode *node);
 extern u16 quest_text_u8_buffer[];
 extern s32 quest_page_node_index;
 extern QuestDownloadTextNode *quest_page_node_head;
@@ -141,10 +135,7 @@ extern u32 quest_download_aram_priority;
 extern u32 quest_download_aram_owner;
 extern u32 quest_download_aram_dma_pending;
 extern u32 quest_download_aram_base;
-void render_quest_text_page(void);
-void seek_quest_text_page(s32, s32);
 extern s32 quest_page_node_count;
-s32 measure_entry_group_len(QuestDownloadTextNode *quest_download_text_node);
 void release_node_chain(QuestDownloadItemNode *p);
 s32 parse_record_query_entries(u8 *data, QuestDownloadQueryEntry *entries, s32 n, s32 *max);
 s32 query_exact_matches(const char *name, s16 len, QuestDownloadQueryResult *out);
@@ -153,8 +144,6 @@ s32 query_prefix_matches(const char *name, s16 len, QuestDownloadQueryResult *ou
 QuestDownloadSegment *find_segments_at(s32, s32, u8, u8);
 QuestDownloadEntryNode *alloc_quest_entry_node(void);
 QuestDownloadEntryNode *expand_item_entries(s32 start, s32 end, const QuestDownloadItemNode *t);
-QuestDownloadTextNode *alloc_quest_text_node(void);
-QuestDownloadSegment *alloc_quest_segment(void);
 extern QuestDownloadCachePage *file_page_cache_head;
 extern QuestDownloadCachedNameIndex name_cache_index;
 s32 lookup_name_prefix(char *name, s16 name_len, QuestNameLookupResult *out);

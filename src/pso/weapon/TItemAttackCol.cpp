@@ -293,8 +293,8 @@ TItemAttackCol::TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params) 
     } else {
         star_light = NULL;
     }
-    hit_wall = reinterpret_cast<TItemAttackColHitWall>(params->wall_effect);
-    hit_object = reinterpret_cast<TItemAttackColHitObject>(params->hit_effect);
+    hit_wall = params->wall_effect;
+    hit_object = params->hit_effect;
     flags = params->flags;
     if (params->flags & 0x800) {
         check_object_hits();

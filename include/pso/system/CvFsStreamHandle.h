@@ -38,18 +38,14 @@ typedef CvFsDeviceInterface *(*CvFsDeviceFactory)();
 struct CvFsHandle;
 extern CvFsErrorCallback cvfs_completion_callback;
 extern s32 cvfs_completion_context;
-CvFsDeviceInterface *initialize_dvd_file_driver();
 
-CvFsHandle *cvFsOpen(const char *name, s32 mode, s32 extra);
 s32 cvFsGetStat(CvFsHandle *handle);
 void cvFsStopTr(CvFsHandle *handle);
 s32 cvFsReqRd(CvFsHandle *handle, s32 sector_count, void *buffer);
 s32 cvFsSeek(CvFsHandle *handle, s32 sector, s32 origin);
 s32 cvFsTell(CvFsHandle *handle);
 void cvFsClose(CvFsHandle *handle);
-void cvFsSetDefDev(char *name);
 void cvFsAddDev(char *name, CvFsDeviceFactory factory, s32 arg);
-void cvfs_forward_error(s32 context, const char *message, void *detail);
 extern "C" {
 void cvFsEntryErrFunc(CvFsErrorCallback callback, s32 context);
 }

@@ -7,6 +7,7 @@
 #include <dolphin/os/OSInterrupt.h>
 #include "pso/network/TLobby.h"
 #include "pso/system/CvFsStreamHandle.h"
+#include "pso/system/CvFs.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
 #include "pso/audio/LscStream.h"

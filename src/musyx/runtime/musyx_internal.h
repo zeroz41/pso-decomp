@@ -46,12 +46,6 @@ typedef struct SynthInfo {
 /* Runtime-internal MusyX types and prototypes.
  * Note: SND_FVECTOR and SND_FMATRIX are defined in musyx/musyx.h. */
 
-typedef u32 (*SND_STREAM_UPDATE_CALLBACK)(void *buffer1, u32 len1, void *buffer2, u32 len2, u32 user);
-
-typedef struct SND_ADPCMSTREAM_INFO {
-    s16 coefTab[8][2];
-} SND_ADPCMSTREAM_INFO;
-
 typedef struct FX_TAB {
     u16 id;
     u16 macro;
@@ -541,16 +535,6 @@ void streamCorrectLoops(void);
 void streamKill(s32 voice);
 s32 GetPrivateIndex(u32 publicID);
 void CheckOutputMode(s8 *pan, s8 *span);
-u32 sndStreamAllocLength(u32 samples, u32 flags);
-u32 sndStreamAllocEx(u8 prio, void *buffer, u32 samples, u32 frq, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb, u8 studio,
-                     u32 flags, SND_STREAM_UPDATE_CALLBACK updateFunction, u32 user, SND_ADPCMSTREAM_INFO *adpcmInfo);
-void sndStreamARAMUpdate(u32 stid, u32 off1, u32 len1, u32 off2, u32 len2);
-void sndStreamMixParameter(u32 stid, u8 vol, u8 pan, u8 span, u8 fxvol);
-void sndStreamMixParameterEx(u32 stid, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb);
-void sndStreamFrq(u32 stid, u32 frq);
-void sndStreamFree(u32 stid);
-u32 sndStreamActivate(u32 stid);
-void sndStreamDeactivate(u32 stid);
 
 s32 synthFXSetCtrl(u32 vid, u8 ctrl, u8 value);
 s32 synthFXSetCtrl14(u32 vid, u8 ctrl, u16 value);

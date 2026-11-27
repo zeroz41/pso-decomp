@@ -25,7 +25,6 @@ void bswap_enemy_set_row(EnemySetRecord *row);
 void bswap_enemy_set_row_fields(EnemyPlacement *placement);
 void bswap_floor_event_set(s32 idx);
 void bswap_object_row_fields(ObjectSetData *placement);
-void clear_floor_event_flags(void);
 struct SetDestroyEventRecord;
 void create_empty_floor_event(SetDestroyEventRecord *event);
 void spawn_destroy_event(SetDestroyEventRecord *event);

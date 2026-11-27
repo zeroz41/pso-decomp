@@ -8,6 +8,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/GinjaTextureMatrices.h"
+#include "pso/render/GinjaModelQueue.h"
 #include "pso/system/MatrixStack.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx/GXStruct.h>

@@ -15,6 +15,7 @@
 #include "types.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/network/protocol/subcommand_validation.h"
+#include "pso/network/protocol/subcommand_validation_player.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/system/vector.h"
 #include "pso/system/data/FlagWord.h"

@@ -18,8 +18,6 @@ LAYOUT_ASSERT(GslArchiveDecodedSizeOffset, offsetof(GslArchiveEntry, decoded_siz
 
 // The second argument is unused (callers pass 0 and 1).
 GslArchiveEntry *find_gsl_entry(const char *name, s32 unused);
-void open_gsl_archive(char *name);
-void close_gsl_archive(void);
 extern GslArchiveEntry gsl_archive_entries[256];
 extern char gsl_archive_filename[32];
 

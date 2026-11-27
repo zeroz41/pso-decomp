@@ -74,8 +74,8 @@ void TItemWeaponPanzerFaust::transform_model_node() {
 }
 
 void TItemWeaponPanzerFaust::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
-    desc->hit_effect = (void *)spawn_faust_hit_explosion;
-    desc->wall_effect = (void *)spawn_faust_wall_explosion;
+    desc->hit_effect = spawn_faust_hit_explosion;
+    desc->wall_effect = spawn_faust_wall_explosion;
     desc->spin[0] = -0x4000;
     desc->flags |= descriptor_flags;
     desc->particle = 0x1bb;
@@ -97,15 +97,15 @@ void spawn_faust_explosion(TItemWeapon *weapon, const Vec &pos) {
     }
 }
 
-void spawn_faust_hit_explosion(s32 id, ActorBodyHit *hit) {
-    TItem *item = find_item_by_id(id);
+void spawn_faust_hit_explosion(s32 item_id, ActorBodyHit *hit, Vec *velocity) {
+    TItem *item = find_item_by_id(item_id);
     if (item != NULL) {
         spawn_faust_explosion((TItemWeapon *)item, hit->target->bodies[hit->body].center);
     }
 }
 
-void spawn_faust_wall_explosion(s32 id, Vec *pos) {
-    TItem *item = find_item_by_id(id);
+void spawn_faust_wall_explosion(s32 item_id, const Vec *pos, Vec *velocity) {
+    TItem *item = find_item_by_id(item_id);
     if (item != NULL) {
         spawn_faust_explosion((TItemWeapon *)item, *pos);
     }

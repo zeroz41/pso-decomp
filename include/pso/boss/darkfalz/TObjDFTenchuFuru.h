@@ -40,8 +40,4 @@ LAYOUT_ASSERT(TObjDFTenchuFuru_timer_offset, offsetof(TObjDFTenchuFuru, timer) =
 LAYOUT_ASSERT(TObjDFTenchuFuru_effect_offset, offsetof(TObjDFTenchuFuru, effect) == 0x2C);
 LAYOUT_ASSERT(TObjDFTenchuFuru_size, sizeof(TObjDFTenchuFuru) == 0x30);
 
-// Shared by the first and second combat forms.
-void spawn_tenchu_furu(TObject *parent);
-void apply_tenchu_hits(TObject *source);
-
 #endif

@@ -3,6 +3,7 @@
 #include <string.h>
 #include "pso/system/CvFsStreamHandle.h"
 #include "pso/system/CvFs.h"
+#include "pso/system/movie/CvFsErrorBridge.h"
 #include "pso/network/TLobby.h"
 
 
