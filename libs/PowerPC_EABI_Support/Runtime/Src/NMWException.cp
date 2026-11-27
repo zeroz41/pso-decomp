@@ -49,8 +49,6 @@ extern "C" void __destroy_arr(void* block, ConstructorDestructor* dtor, size_t s
     }
 }
 
-extern "C" void mem_free(void*);
-
 extern "C" void __destroy_new_array(void* block, ConstructorDestructor dtor) {
     if (block) {
         if (dtor) {
@@ -67,6 +65,6 @@ extern "C" void __destroy_new_array(void* block, ConstructorDestructor dtor) {
             }
         }
 
-        mem_free((char*)block - ARRAY_HEADER_SIZE);
+        ::operator delete[]((char*)block - ARRAY_HEADER_SIZE);
     }
 }
