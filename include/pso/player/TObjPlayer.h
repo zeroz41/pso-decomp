@@ -834,7 +834,8 @@ struct TObjPlayer : public TObjChara {
     void send_disable_drop_weapon_on_death();
     void send_level_up_all_techniques(u8 num_levels);
     int is_pk_enabled();
-    static void play_phase_transition_sound(NJS_OBJECT *model);
+    // Draws a head, cap or attachment part model (a chunk model) at the current matrix.
+    static void draw_part_model(NJS_OBJECT *model);
     int check_flag_40000();
     s32 is_in_tl03_state();
     void sync_status_effect_flags();

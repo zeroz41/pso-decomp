@@ -304,13 +304,13 @@ void TAdChrSelPlayerGC::update_chara_making() {
     draw_model_with_arg(preview_data->get_body_model());
     push_matrix_from((void *)get_joint_matrix(0x3A));
     set_texture_list(preview_data->get_status_data());
-    TObjPlayer::play_phase_transition_sound(preview_data->get_attachment_model());
+    TObjPlayer::draw_part_model(preview_data->get_attachment_model());
     pop_matrix();
     if (preview_data->get_head_model() != NULL) {
         push_matrix_from((void *)get_joint_matrix(0x3B));
         set_texture_list(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
-        TObjPlayer::play_phase_transition_sound(preview_data->get_head_model());
+        TObjPlayer::draw_part_model(preview_data->get_head_model());
         TCharaMaking::clear_flag_bit0();
         pop_matrix();
     }
@@ -352,7 +352,7 @@ void TAdChrSelPlayerGC::draw_model_tinted(NJS_OBJECT *model, CharacterAppearance
   color.g = 0.003921569f * ((f32) appearance->green);
   color.b = 0.003921569f * ((f32) appearance->blue);
   set_constant_material(&color);
-  TObjPlayer::play_phase_transition_sound(model);
+  TObjPlayer::draw_part_model(model);
   chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
   chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
   model_render_flags = saved_model_render_flags;

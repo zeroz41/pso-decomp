@@ -1403,7 +1403,7 @@ void TObjPlayer::draw_head_attachments() {
         if (this->m_flags & 0x400) {
             set_shadow_material_state();
         }
-        TObjPlayer::play_phase_transition_sound(this->attachment_model);
+        TObjPlayer::draw_part_model(this->attachment_model);
         set_default_alpha_blend();
         pop_matrix();
     }
@@ -5198,7 +5198,7 @@ void TObjPlayer::foreach_player(void (*callback)(TObjPlayer *)) {
 
 s32 TObjPlayer::reset_volopt_state() { return is_item_area_enabled(this->get_area()); }
 
-void TObjPlayer::play_phase_transition_sound(NJS_OBJECT *model) {
+void TObjPlayer::draw_part_model(NJS_OBJECT *model) {
     if (((get_main_phase() == 0xE) || (get_main_phase() == 0xF)) && (TFontSmallLobby::is_lobby_floor_15() != 0)) {
         draw_chunk_object(model);
         return;

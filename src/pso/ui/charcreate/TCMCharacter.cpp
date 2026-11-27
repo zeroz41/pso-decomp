@@ -585,14 +585,14 @@ void TCMCharacter::draw_creation_figure() {
         this->draw_player_model();
         push_matrix_from((void *)get_joint_matrix(0x3A));
         set_texture_list(&char_select_current_entry->head_textures.textures.list);
-        TObjPlayer::play_phase_transition_sound(creation_head_model_parts[char_select_current_entry->head].model);
+        TObjPlayer::draw_part_model(creation_head_model_parts[char_select_current_entry->head].model);
         pop_matrix();
         v = creation_cap_model_parts[char_select_current_entry->hair].model;
         if (v != 0) {
             TCharaMaking::enable_making();
             push_matrix_from((void *)get_joint_matrix(0x3B));
             set_texture_list(&char_select_current_entry->hair_textures.textures.list);
-            TObjPlayer::play_phase_transition_sound(v);
+            TObjPlayer::draw_part_model(v);
             pop_matrix();
             TCharaMaking::clear_flag_bit0();
         }
