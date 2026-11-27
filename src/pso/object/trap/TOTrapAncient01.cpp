@@ -424,4 +424,4 @@ void TOTrapAncient01::apply_saved_state(QuestObjectEntry *state, s32 live) {
 
 void TOTrapAncient01::run_demo() {  }
 
-void TOTrapAncient01::vfunc_86() {  }
+void TOTrapAncient01::debug_draw_trap() {  }

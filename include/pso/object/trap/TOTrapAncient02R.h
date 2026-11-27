@@ -16,7 +16,7 @@ struct TOTrapAncient02R : public TOTrapAncient02 {
     virtual void update_springing();
     virtual void update_holding();
     virtual void run_demo();
-    virtual void vfunc_86();
+    virtual void debug_draw_trap();
     virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
     virtual s32 try_start_action(TObjChara *, s32, f32);
     virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);

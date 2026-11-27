@@ -7,7 +7,7 @@
 
 const char *key_col_name = "TOKeyCol";
 
-void TOKeyCol::vfunc_25() {}
+void TOKeyCol::debug_draw_key_extra() {}
 
 // Pressed while a player stands on it (in once mode, latched once on).
 s32 TOKeyCol::is_confirm_pressed() {

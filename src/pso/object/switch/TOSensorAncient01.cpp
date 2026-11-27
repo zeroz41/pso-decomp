@@ -29,7 +29,7 @@ s32 lbl_805D5A94;
 s32 lbl_805D5A98;
 s32 sensor_texture_table_index;
 
-void TOSensorAncient01::vfunc_25() {}
+void TOSensorAncient01::debug_draw_key_extra() {}
 
 void TOSensorAncient01::update_pulse_value() {
     if (pulse_flags & 1) {

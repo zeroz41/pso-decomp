@@ -41,7 +41,7 @@ const char *key_machine01_class_name = "TOKeyMachine01";
 BmlResource *key_machine01_resource_bundle;
 NJS_TEXLIST **key_machine01_texture_lists;
 
-void TOKeyMachine01::vfunc_25() {}
+void TOKeyMachine01::debug_draw_key_extra() {}
 
 // Pressed while a player stands on it (in once mode, latched once on).
 s32 TOKeyMachine01::is_confirm_pressed() {

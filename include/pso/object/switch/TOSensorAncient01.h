@@ -17,7 +17,7 @@ public:
     virtual void render();
     virtual void update_switch_on();
     virtual void update_switch_off();
-    virtual void vfunc_25();
+    virtual void debug_draw_key_extra();
     // Swings pulse_offset between 0 and 4.
     void update_pulse_value();
     static void *create(ObjectSetData *set_data);

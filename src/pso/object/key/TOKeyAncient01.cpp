@@ -30,7 +30,7 @@ struct NJS_TEXLIST;
 
 NJS_TEXLIST **key_ancient01_texture_lists;
 
-void TOKeyAncient01::vfunc_25() {}
+void TOKeyAncient01::debug_draw_key_extra() {}
 
 void TOKeyAncient01::render() {
     if (update_object_view_visibility(view_range, model_radius) != 0) {

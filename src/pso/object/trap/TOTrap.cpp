@@ -216,6 +216,6 @@ TOTrap::TOTrap(TObject *parent) : TObjChara(parent) {
 
 void TOTrap::update_effects() {}
 
-void TOTrap::vfunc_86() {}
+void TOTrap::debug_draw_trap() {}
 
 void TOTrap::run_demo() {}

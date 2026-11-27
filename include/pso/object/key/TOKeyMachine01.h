@@ -20,7 +20,7 @@ public:
     virtual void update_switch_off();
     virtual void trigger_activate_sound();
     virtual void trigger_deactivate_sound();
-    virtual void vfunc_25();
+    virtual void debug_draw_key_extra();
     void send_switch_changed(s32 flags);
     static void *create(ObjectSetData *set_data);
     static void free_statics();

@@ -49,7 +49,7 @@ BmlResource *key_cave01_resource_bundle;
 NJS_TEXLIST **key_cave01_texture_lists;
 s32 key_cave_render_state;
 
-void TOKeyCave01::vfunc_25() {}
+void TOKeyCave01::debug_draw_key_extra() {}
 
 // Pressed while a player stands on it (in once mode, latched once on).
 s32 TOKeyCave01::is_confirm_pressed() {

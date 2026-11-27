@@ -34,7 +34,7 @@ BmlResource *key_ancient03_model_archive;
 // The panel's own texture list while up, fs_obj_o_doorpanelg.gvm while down.
 NJS_TEXLIST **key_ancient03_texture_variants;
 
-void TOKeyAncient03::vfunc_25() {}
+void TOKeyAncient03::debug_draw_key_extra() {}
 
 // Pressed while a player stands on it (in once mode, latched once on).
 s32 TOKeyAncient03::is_confirm_pressed() {

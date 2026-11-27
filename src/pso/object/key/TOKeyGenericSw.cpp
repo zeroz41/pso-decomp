@@ -49,7 +49,7 @@ struct NJS_TEXLIST;
 
 NJS_TEXLIST **key_generic_sw_texture_lists;
 
-void TOKeyGenericSw::vfunc_25() {}
+void TOKeyGenericSw::debug_draw_key_extra() {}
 
 void TOKeyGenericSw::render() {
     if (update_object_view_visibility(view_range, model_radius) == 0) {

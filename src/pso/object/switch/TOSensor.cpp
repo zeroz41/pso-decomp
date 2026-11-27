@@ -147,4 +147,4 @@ void TOSensor::play_off_loop_sound() {
     }
 }
 
-void TOSensor::vfunc_25() {}
+void TOSensor::debug_draw_key_extra() {}

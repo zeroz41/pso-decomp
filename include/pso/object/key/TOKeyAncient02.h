@@ -13,7 +13,7 @@ public:
     virtual void render();
     virtual void update_switch_on();
     virtual void update_switch_off();
-    virtual void vfunc_25();
+    virtual void debug_draw_key_extra();
     static void *create(ObjectSetData *set_data);
     static void free_static();
     static void load_resources();

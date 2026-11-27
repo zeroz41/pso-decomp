@@ -33,7 +33,7 @@ struct NJS_TEXLIST;
 
 NJS_TEXLIST **key_ancient02_texture_lists;
 
-void TOKeyAncient02::vfunc_25() {}
+void TOKeyAncient02::debug_draw_key_extra() {}
 
 void TOKeyAncient02::render() {
     NJS_OBJECT *object;
