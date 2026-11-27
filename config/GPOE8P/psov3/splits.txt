@@ -4850,11 +4850,8 @@ pso/system/scene/SceneResourceIndex.cpp:
 pso/ui/window/TWindowCtrl_801FBA28.cpp:
 	.text       start:0x801FBA28 end:0x801FBA48
 
-pso/ui/window/TWindowKeyBoardHard_801FBA48.cpp:
-	.text       start:0x801FBA48 end:0x801FBF54
-
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp:
-	.text       start:0x801FBF54 end:0x80202A68
+	.text       start:0x801FBA48 end:0x80202A68
 	.ctors      start:0x80433F9C end:0x80433FA0
 	.rodata     start:0x8044A7D0 end:0x8044A7E8
 	.data       start:0x804C88C0 end:0x804C8B08

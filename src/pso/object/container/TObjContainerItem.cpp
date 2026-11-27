@@ -26,7 +26,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/container/TObjContainerBase.h"
 #include "pso/object/container/TObjContainerItem.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/object/container/TObjContainerNoItem.h"
 #include "pso/object/container/TObjContainerEnemy.h"
 #include "pso/object/base/TObjChara.h"

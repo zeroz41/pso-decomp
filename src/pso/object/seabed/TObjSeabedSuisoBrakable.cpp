@@ -15,7 +15,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/render/psoLoadTexture.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"

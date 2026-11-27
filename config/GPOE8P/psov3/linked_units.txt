@@ -1051,7 +1051,6 @@ pso/ui/window/TWindowKeyBoardBase.cpp
 pso/ui/window/TWindowKeyBoardBase_8008102C.cpp
 pso/ui/window/TWindowKeyBoardHard.cpp
 pso/ui/window/TWindowKeyBoardHard_801A529C.cpp
-pso/ui/window/TWindowKeyBoardHard_801FBA48.cpp
 pso/ui/window/KeyboardTextBuffer.cpp
 pso/ui/window/TWindowKeyBoardSoft_80228BEC.cpp
 pso/ui/window/WindowDrawContext.cpp

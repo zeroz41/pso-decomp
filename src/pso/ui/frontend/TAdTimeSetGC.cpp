@@ -20,7 +20,6 @@
 #include "pso/ui/frontend/TAdTimeSetGC.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
