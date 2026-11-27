@@ -31,11 +31,9 @@ WallRayResult csn_query_map_object;
 extern Vec scratch_vec3;
 extern Vec scratch_vec4;
 extern Vec scratch_vec5;
-extern "C" {
 
-s32 get_csn_group_flags(u8 ch) {
-    return __ctype_map[ch] & __letter;
-}
+int is_alpha(int c) {
+    return __ctype_map[(u8)c] & __letter;
 }
 
 void csn_debug_hook_under_query(void) {  }
