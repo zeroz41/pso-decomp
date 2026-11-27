@@ -10,7 +10,9 @@
 #
 # It also measures source quality (tools/source_quality.py and tools/misowned.py, from master) on the pull
 # request's merge commit, fetched into a bare repository and read as text only. The
-# result is advisory: it is shown in the comment and never fails the pull request.
+# result is advisory: it is shown in the comment and never fails the pull request. The
+# numbered case label report (tools/case_labels.py, from master) is measured the same way
+# and shown after it, also advisory and outside the debt total.
 #
 # workflow_run only fires for workflow files on the default branch, so changes to this
 # file take effect once they are merged.
@@ -54,6 +56,7 @@ jobs:
             tools/ci_comment.py
             tools/source_quality.py
             tools/misowned.py
+            tools/case_labels.py
           sparse-checkout-cone-mode: false
 
       - name: Download results
@@ -97,13 +100,26 @@ jobs:
           python3 tools/source_quality.py --git-dir pr.git --base 'refs/pr/merge^1' --head refs/pr/merge \
             --limit 1000 --json quality.json
 
+      # Reads the merge commit fetched above; skipped the same way when it is missing or moved on.
+      - name: Count numbered case labels
+        if: steps.pr.outputs.number != ''
+        continue-on-error: true
+        timeout-minutes: 3
+        run: |
+          if [ ! -d pr.git ] || [ "$(git --git-dir pr.git rev-parse --verify --quiet 'refs/pr/merge^2')" != "$HEAD_SHA" ]; then
+            echo "No merge commit of $HEAD_SHA was fetched; not measured."
+            exit 0
+          fi
+          python3 tools/case_labels.py --git-dir pr.git --base 'refs/pr/merge^1' --head refs/pr/merge \
+            --json case_labels.json
+
       - name: Post or update the comment
         if: steps.pr.outputs.number != ''
         env:
           PR: ${{ steps.pr.outputs.number }}
         run: |
           python3 tools/ci_comment.py ci-result/result.json --sha "$HEAD_SHA" --run-url "$RUN_URL" \
-            --quality quality.json > comment.md
+            --quality quality.json --case-labels case_labels.json > comment.md
           cat comment.md >> "$GITHUB_STEP_SUMMARY"
           id=$(gh api --paginate "repos/$REPO/issues/$PR/comments" \
                  --jq '.[] | select(.user.login == "github-actions[bot]" and (.body | startswith("<!-- pso-ci -->"))) | .id' \

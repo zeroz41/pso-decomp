@@ -143,7 +143,8 @@ symbols that leave a `force_active` entry in `config.yml` naming nothing are lis
 **Numbered case labels** are listed by `python tools/case_labels.py`, not counted in the total: `switch`
 statements whose labels are bare numbers (`case 3:`), by directory, by what they switch on, and the largest. Where
 the executable names the values (text ids, tables, the code that sends them), write an enum. Most are one class's
-own state machine with no names to give yet; leave those as numbers rather than invent `STATE_3`.
+own state machine with no names to give yet; leave those as numbers rather than invent `STATE_3`. The CI comment
+shows the counts before and after a pull request and lists the switches it adds or changes.
 
 ## Rules
 

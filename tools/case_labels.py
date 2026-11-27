@@ -9,6 +9,7 @@ evidence for names yet, and a count of every label would outweigh every other ch
     python tools/case_labels.py                # totals, by directory, shared subjects, largest switches
     python tools/case_labels.py --list         # also every switch: path:line, subject, numbered labels
     python tools/case_labels.py --min 1        # count switches with one numbered label or more (default 3)
+    python tools/case_labels.py --base master --head my-branch --json out.json   # what a branch changes (CI)
 
 A switch's subject is the last name in what it switches on: `this->state` and `p->state` are `state`, `get_mode()`
 is `get_mode`. Shared subjects are those switched on in more than one file. The name alone does not make them one
@@ -23,11 +24,11 @@ import collections
 import json
 import re
 import sys
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from source_quality import SOURCE_ROOTS, SOURCE_SUFFIXES, blank   # noqa: E402  (tools/, next to this file)
+from source_quality import SOURCE_ROOTS, SOURCE_SUFFIXES, Repo, blank   # noqa: E402  (tools/, next to this file)
 
 ROOT = Path(__file__).resolve().parent.parent   # --root: another checkout
 
@@ -46,6 +47,15 @@ class Switch:
     kind: str           # field, call, name or other
     labels: int         # every case label
     values: list[int]   # the numbered labels' values, sorted
+    numbered_lines: list[int] = field(default_factory=list)   # the line of each numbered label
+
+    def on(self, lines: set[int]) -> int:
+        """Numbered labels on these lines."""
+        return sum(n in lines for n in self.numbered_lines)
+
+    def row(self) -> dict:
+        return {"path": self.path, "line": self.line, "subject": self.subject, "kind": self.kind,
+                "labels": self.labels, "values": self.values, "shape": self.shape}
 
     @property
     def shape(self) -> str:
@@ -123,20 +133,61 @@ def switches(rel: str, text: str) -> list[Switch]:
             if inner_brace >= 0 and not body[inner_close + 1:inner_brace].strip():
                 end = _close(body, inner_brace)
                 body = body[:inner_brace] + " " * (end - inner_brace + 1) + body[end + 1:]
-        labels = [m[1] for m in _CASE.finditer(body)]
-        values = sorted({v for v in map(number, labels) if v is not None})   # once each: #if/#else repeat labels
+        labels = list(_CASE.finditer(body))
+        numbered = [(m, v) for m in labels if (v := number(m[1])) is not None]
+        values = sorted({v for _, v in numbered})   # once each: #if/#else repeat labels
+        lines = [code.count("\n", 0, brace + 1 + m.start()) + 1 for m, _ in numbered]
         kind, name = subject(code[match.end():close])
-        out.append(Switch(rel, code.count("\n", 0, match.start()) + 1, name, kind, len(labels), values))
+        out.append(Switch(rel, code.count("\n", 0, match.start()) + 1, name, kind, len(labels), values, lines))
     return out
+
+
+def _source(rel: str) -> bool:
+    return Path(rel).suffix.lower() in SOURCE_SUFFIXES
 
 
 def scan(root: Path) -> list[Switch]:
     out = []
     for top in SOURCE_ROOTS:
         for path in sorted((root / top).rglob("*")):
-            if path.suffix.lower() in SOURCE_SUFFIXES and path.is_file():
+            if _source(path.name) and path.is_file():
                 out += switches(path.relative_to(root).as_posix(), path.read_text(errors="replace"))
     return out
+
+
+def scan_rev(repo: Repo, rev: str) -> list[Switch]:
+    out = []
+    for rel, text in sorted(repo.files(rev, SOURCE_ROOTS, keep=_source, limit=None)):
+        out += switches(rel, text)
+    return out
+
+
+def totals(found: list[Switch], least: int) -> dict:
+    counted = [s for s in found if len(s.values) >= least]
+    return {"switches": len(found), "labels": sum(s.labels for s in found),
+            "numbered": sum(len(s.values) for s in found),
+            "counted_switches": len(counted), "counted_labels": sum(len(s.values) for s in counted)}
+
+
+def compare(repo: Repo, base: str, head: str, least: int) -> dict:
+    """Tree totals at base and head, and the new or changed counted switches: those whose set of numbered values the
+    tree has more of at head than at base, with a numbered label on a line head adds (a switch that gains or loses
+    a label has a new set). A switch that moves to another file or whose subject is renamed keeps its values and
+    is not listed."""
+    changed, hunks = repo.diff(base, head, SOURCE_ROOTS)
+    new_lines = {rel: {n for _, came in hunks.get(rel, []) for n in came} for rel in changed if _source(rel)}
+    base_found, head_found = scan_rev(repo, base), scan_rev(repo, head)
+    spare = collections.Counter(tuple(s.values) for s in head_found if len(s.values) >= least)
+    spare.subtract(tuple(s.values) for s in base_found if len(s.values) >= least)
+    listed = []
+    for s in head_found:
+        key = tuple(s.values)
+        if len(s.values) >= least and spare[key] > 0 and s.on(new_lines.get(s.path, set())):
+            spare[key] -= 1
+            listed.append(s)
+    return {"min": least, "head_commit": repo.commit(head),
+            "base": totals(base_found, least), "head": totals(head_found, least),
+            "new": [{**s.row(), "added": s.on(new_lines[s.path])} for s in listed]}
 
 
 def _values(values) -> str:
@@ -151,7 +202,25 @@ def main() -> int:
     ap.add_argument("--top", type=int, default=30, help="rows per section (default 30)")
     ap.add_argument("--list", action="store_true", help="also list every counted switch")
     ap.add_argument("--json", type=Path, metavar="PATH", help="also write every counted switch to PATH as JSON")
+    ap.add_argument("--base", help="compare against this revision: totals before and after, and the new or changed "
+                                   "switches (written with --json)")
+    ap.add_argument("--head", default="HEAD", help="the revision to compare (with --base; default HEAD)")
+    ap.add_argument("--git-dir", help="read revisions from this git directory (CI; with --base)")
     args = ap.parse_args()
+
+    if args.base:
+        result = compare(Repo(args.git_dir) if args.git_dir else Repo(None), args.base, args.head, args.min)
+        before, after = result["base"], result["head"]
+        for key, label in (("numbered", "numbered labels"), ("counted_switches", f"switches with {args.min}+"),
+                           ("counted_labels", f"labels in switches with {args.min}+")):
+            print(f"{label}: {before[key]:,} -> {after[key]:,}")
+        print(f"{len(result['new']):,} new or changed switches with {args.min}+ numbered labels")
+        for s in result["new"]:
+            print(f"  {s['path']}:{s['line']}  {s['subject']}  {s['added']} added")
+        if args.json:
+            args.json.parent.mkdir(parents=True, exist_ok=True)
+            args.json.write_text(json.dumps(result, indent=1) + "\n")
+        return 0
 
     found = scan(args.root)
     counted = [s for s in found if len(s.values) >= args.min]
@@ -193,7 +262,7 @@ def main() -> int:
             print(f"  {s.path}:{s.line}  {s.subject}  {len(s.values)}/{s.labels}  {_values(s.values)}")
     if args.json:
         args.json.parent.mkdir(parents=True, exist_ok=True)
-        args.json.write_text(json.dumps([{**asdict(s), "shape": s.shape} for s in counted], indent=1) + "\n")
+        args.json.write_text(json.dumps([s.row() for s in counted], indent=1) + "\n")
     return 0
 
 
