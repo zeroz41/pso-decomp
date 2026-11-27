@@ -149,3 +149,7 @@ TWindowChoiceSetting::TWindowChoiceSetting(void *parent, s32 rows) : TWindowMenu
     m_name = TWindowChoiceSetting::class_name;
     choice_flags = 0;
 }
+
+s16 TWindowChoiceSetting::get_field_74() { return this->index; }
+
+int TWindowMenuInfomation::is_open() { return (this->state_flags >> 1) & 0x1; }

@@ -1110,7 +1110,6 @@ pso/ui/window/TWindowSubComCard_8007A810.cpp
 pso/ui/window/TWindowSubComCard_8007BD24.cpp
 pso/ui/window/ProfanityFilter.cpp
 pso/ui/window/TWindowBase.cpp
-pso/ui/window/TWindowSubComCard_802495FC.cpp
 pso/ui/window/TWindowMenu.cpp
 pso/ui/window/TWindowSubComCard.cpp
 pso/ui/window/TWindowSubCustomEquip.cpp
