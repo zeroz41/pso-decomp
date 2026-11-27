@@ -654,7 +654,7 @@ s32 load_enemy_set_file(s32 idx, const char *filename) {
 s32 load_object_set_file(s32 idx, const char *filename) {
     LoadObjectSetFileName name;
     s32 size;
-    LoadObjectSetFileEntry *p;
+    FloorObjectSetRow *p;
     s32 n;
     s32 i;
     saddr floor;
@@ -666,11 +666,11 @@ s32 load_object_set_file(s32 idx, const char *filename) {
     if (size > map_set_file_buffer_size) {
         return 0;
     }
-    p = (LoadObjectSetFileEntry *)map_set_file_buffer;
-    n = size / sizeof(LoadObjectSetFileEntry);
+    p = (FloorObjectSetRow *)map_set_file_buffer;
+    n = size / sizeof(FloorObjectSetRow);
     for (i = 0; i < n; i++, p++) {
         swap_object_row_endian(p);
-        p->b = 0;
+        p->flags = 0;
     }
     floor = get_floor_area(idx);
     assign_object_ids((FloorObjectSetRow *)map_set_file_buffer, n, floor);
@@ -805,7 +805,7 @@ s32 load_area_object_set(s32 floor, saddr lobby, s32 terrain, s32 entities) {
     MapSetEntry *items;
     const char *filename;
     s32 len;
-    LoadAreaObjectSetRecord *r;
+    FloorObjectSetRow *r;
     s32 n;
     s32 i;
     subs = map_set_areas[lobby].variants;
@@ -841,11 +841,11 @@ s32 load_area_object_set(s32 floor, saddr lobby, s32 terrain, s32 entities) {
     if (len > map_set_file_buffer_size) {
         return 0;
     }
-    r = (LoadAreaObjectSetRecord *)map_set_file_buffer;
-    n = len / sizeof(LoadAreaObjectSetRecord);
+    r = (FloorObjectSetRow *)map_set_file_buffer;
+    n = len / sizeof(FloorObjectSetRow);
     for (i = 0; i < n; i++, r++) {
         swap_object_row_endian(r);
-        r->f2 = 0;
+        r->flags = 0;
     }
     assign_object_ids((FloorObjectSetRow *)map_set_file_buffer, n, lobby);
     TLobby::load_object_set_entries(floor, map_set_file_buffer, len);

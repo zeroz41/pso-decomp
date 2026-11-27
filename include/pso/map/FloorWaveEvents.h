@@ -6,6 +6,7 @@
 struct EnemyPlacement;
 struct EnemySetRecord;
 struct ObjectSetData;
+struct FloorObjectSetRow;
 
 // Where the wave event action stream is read from: its start and the byte the next read takes.
 struct WaveEventContext { u8* stream; s32 cursor; };
@@ -45,7 +46,7 @@ void send_6x67_wave_trigger_event(s32 event_id);
 s32 set_floor_event_flags(s32 floor, s32 id, s32 flags);
 // Wave event opcode 8: spawns the objects of a room's wave.
 s32 wave_event_spawn_objects(s16 room, s16 wave);
-void swap_object_row_endian(void *row_ptr);
+void swap_object_row_endian(FloorObjectSetRow *row);
 
 struct FloorSceneEntry {
     const char **names;

@@ -191,8 +191,7 @@ void bswap_enemy_set_row_fields(EnemyPlacement *placement) {
     bswap_16((u16 *)&placement->state);
 }
 
-void swap_object_row_endian(void *row_ptr) {
-    FloorObjectSetRow *row = (FloorObjectSetRow *)row_ptr;
+void swap_object_row_endian(FloorObjectSetRow *row) {
     bswap_16((u16 *)&row->type);
     bswap_object_row_fields(&row->placement);
 }
