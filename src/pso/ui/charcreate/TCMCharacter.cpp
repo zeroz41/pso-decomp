@@ -923,7 +923,7 @@ void blend_creation_proportion_shapes(f32 *point) {
 }
 #pragma pop
 
-s32 TAdSinglePlyChrSelectGC::count_remaining_slots() {
+s32 count_remaining_slots() {
     CreationTextureCacheEntry *p;
     s32 n;
     n = 2;
@@ -942,7 +942,7 @@ s32 TAdSinglePlyChrSelectGC::count_remaining_slots() {
     }
     return n;
 }
-s32 TAdSinglePlyChrSelectGC::has_matching_entry(CharacterAppearanceFields *character) {
+s32 has_matching_entry(CharacterAppearanceFields *character) {
     CreationTextureCacheEntry *p;
     CreationTextureCacheEntry *end;
     end = creation_texture_cache + CREATION_TEXTURE_CACHE_CAPACITY;
@@ -951,7 +951,7 @@ s32 TAdSinglePlyChrSelectGC::has_matching_entry(CharacterAppearanceFields *chara
     }
     return 0;
 }
-CreationTextureCacheEntry *TAdSinglePlyChrSelectGC::find_free_slot() {
+CreationTextureCacheEntry *find_free_slot() {
     CreationTextureCacheEntry *p;
     for (p = creation_texture_cache; p < creation_texture_cache + CREATION_TEXTURE_CACHE_CAPACITY; p++) {
         if (p->in_use == 0) return p;
@@ -976,7 +976,7 @@ void CreationTextureCacheEntry::request_textures(CharacterAppearanceFields *appe
     in_use = 1;
     copy_slot_data(appearance);
 }
-s32 TAdSinglePlyChrSelectGC::evict_char_entries(s32 limit) {
+s32 evict_char_entries(s32 limit) {
     s32 n;
     s32 k;
     CreationTextureCacheEntry *p;
@@ -1024,7 +1024,7 @@ s32 select_unused_appearance_part(void *appearance, s32 part) {
     } while (v != cur);
     if (v != cur) {
         (&c.costume)[part] = v;
-        if (TAdSinglePlyChrSelectGC::has_matching_entry(&c) == 0) {
+        if (has_matching_entry(&c) == 0) {
             goto ok;
         }
     }
@@ -1036,7 +1036,7 @@ s32 select_unused_appearance_part(void *appearance, s32 part) {
     } while (v != cur);
     if (v != cur) {
         (&c.costume)[part] = v;
-        if (TAdSinglePlyChrSelectGC::has_matching_entry(&c) == 0) {
+        if (has_matching_entry(&c) == 0) {
             goto ok;
         }
     }
@@ -1050,22 +1050,22 @@ ok:
 #pragma fp_contract on
 void prefetch_creation_textures(s32 part) {
     CreationTextureCacheEntry *entry;
-    if (TAdSinglePlyChrSelectGC::count_remaining_slots() > 0) {
+    if (count_remaining_slots() > 0) {
         CharacterAppearanceFields buf = *creation_player_character;
         if ((part < 0) || (part >= 5)) {
-            if (TAdSinglePlyChrSelectGC::has_matching_entry(&buf) != 0) {
+            if (has_matching_entry(&buf) != 0) {
                 return;
             }
             goto load;
         }
-        if ((TAdSinglePlyChrSelectGC::has_matching_entry(&buf) == 0) || (select_unused_appearance_part(&buf, part) != 0)) {
+        if ((has_matching_entry(&buf) == 0) || (select_unused_appearance_part(&buf, part) != 0)) {
 load:
-            entry = TAdSinglePlyChrSelectGC::find_free_slot();
+            entry = find_free_slot();
             if (entry == 0) {
-                if (TAdSinglePlyChrSelectGC::evict_char_entries(1) == 0) {
+                if (evict_char_entries(1) == 0) {
                     return;
                 }
-                entry = TAdSinglePlyChrSelectGC::find_free_slot();
+                entry = find_free_slot();
             }
             entry->request_textures(&buf);
         }

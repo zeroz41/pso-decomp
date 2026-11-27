@@ -65,7 +65,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     TAdGuideTxtGC *guide;                  // 0x34
     static void try_load_system_file();
     static s32 wait_for_card_load(s32 chan);
-    static void free_texture_f256_backtext();
     static s32 check_slot_flags(s32 slot, u32 mask);
     void cleanup();
     virtual void run_task();
@@ -112,11 +111,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 is_active();
     void reset_creation_parts();
     static s32 map_button_code(s32 code);
-    static s32 count_remaining_slots();
-    static s32 has_matching_entry(CharacterAppearanceFields *character);
-    static CreationTextureCacheEntry *find_free_slot();
-    static s32 evict_char_entries(s32 limit);
-    static void free_global();
     static void render(void *self);
     TWindowMenu *create_chr_warp(NJS_POINT2 *pos);
     void close_and_change_scene();

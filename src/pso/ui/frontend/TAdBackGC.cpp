@@ -81,7 +81,7 @@ TAdBackGC::TAdBackGC(TObject *parent) : TObject(parent) {
 
 NJS_TEXLIST *chr_select_ad_pic_texture;
 
-void TAdSinglePlyChrSelectGC::free_global() {
+void free_global() {
     if (chr_select_ad_pic_texture != NULL) {
         release_texture_list(chr_select_ad_pic_texture);
         chr_select_ad_pic_texture = NULL;

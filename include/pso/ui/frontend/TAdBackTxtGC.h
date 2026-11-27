@@ -26,5 +26,5 @@ public:
 LAYOUT_ASSERT(TAdBackTxtGC_size, sizeof(TAdBackTxtGC) == 0x28);
 
 void register_texture_f256_backtext(void);
-
+void free_texture_f256_backtext();
 #endif

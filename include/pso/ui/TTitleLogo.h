@@ -11,6 +11,6 @@ public:
     virtual void run_task();
     TObject *owner;
 };
-LAYOUT_ASSERT(TUnk_804EE470_size, sizeof(TTitleLogo) == 0x20);
+LAYOUT_ASSERT(TTitleLogo_size, sizeof(TTitleLogo) == 0x20);
 
 #endif

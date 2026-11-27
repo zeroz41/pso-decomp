@@ -77,7 +77,7 @@ NJS_TEXNAME TAdBackTxtGC_backtext_tex_names[5] = {
 __declspec(section ".data") NJS_TEXLIST TAdBackTxtGC_backtext_tex_list = { TAdBackTxtGC_backtext_tex_names, 5 };
 const char *TAdBackTxtGC::name = "TAdBackTxtGC";
 
-void TAdSinglePlyChrSelectGC::free_texture_f256_backtext() {
+void free_texture_f256_backtext() {
     if (TAdBackTxtGC::backtext_texture_list != NULL) {
         release_texture_list(TAdBackTxtGC::backtext_texture_list);
         TAdBackTxtGC::backtext_texture_list = NULL;

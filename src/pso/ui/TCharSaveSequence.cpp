@@ -433,7 +433,7 @@ extern ChrSelectSerialSeeds chr_select_serial_seeds;
 
 void *character_select_scene_resource_callbacks[12] = {
     (void *)&TCameraCtrl::reset_view_state, (void *)&TCameraCtrl::reset, (void *)&TCameraCtrl::init_default_view, (void *)&TCameraCtrl::reset_default_view,
-    (void *)&register_texture_f256_ad_pic_2, (void *)&TAdSinglePlyChrSelectGC::free_global, (void *)&register_texture_f256_backtext, (void *)&TAdSinglePlyChrSelectGC::free_texture_f256_backtext,
+    (void *)&register_texture_f256_ad_pic_2, (void *)&free_global, (void *)&register_texture_f256_backtext, (void *)&free_texture_f256_backtext,
     (void *)&TWindowCtrlMain::reset_windows, (void *)&TWindowCtrlMain::free_all_windows, (void *)&update_keyboard_menu, (void *)&free_keyboard_soft_resources,
 };
 
