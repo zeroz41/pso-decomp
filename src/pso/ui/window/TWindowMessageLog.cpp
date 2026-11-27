@@ -26,6 +26,7 @@
 #include "pso/ui/window/TextBuilder.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/chat/ChatLogLines.h"
 
 char *chat_log_lines[30];
 
@@ -313,3 +314,20 @@ TWindowMessageLog::TWindowMessageLog(const NJS_POINT2 *position, s32 client) : T
     this->load_chat_history();
 }
 
+void free_chat_log_lines(void) {
+    s32 i;
+    char *v;
+    for (i = 29; i >= 0; i--) {
+        v = chat_log_lines[i];
+        if (v != 0) {
+            scroll_win_chat_log_heap->heap_free(v);
+            chat_log_lines[i] = 0;
+        }
+    }
+    if (chat_last_line_buffer != NULL) {
+        scroll_win_chat_log_heap->heap_free(chat_last_line_buffer);
+        chat_last_line_buffer = NULL;
+    }
+    delete scroll_win_chat_log_heap;
+    scroll_win_chat_log_heap = NULL;
+}
