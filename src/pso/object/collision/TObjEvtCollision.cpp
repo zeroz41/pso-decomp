@@ -72,7 +72,7 @@ TObjEvtCollision::TObjEvtCollision(TObject *parent, void *set_data) : TObjCollid
     m_name = evt_collision_class_name;
     apply_object_set_data(set_data);
     trigger_radius = scale.x;
-    m_b0 = (s32)set_params[0];
+    event_id = (s32)set_params[0];
     countdown = 3;
     disallow_rendering();
 }

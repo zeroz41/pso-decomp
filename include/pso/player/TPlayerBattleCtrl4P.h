@@ -86,7 +86,7 @@ public:
     s32 player_teams[4];
     s32 battle_ctrl_default;  // quest opcodes enable_win_pfx / disable_win_pfx
     u16 player_order[4];
-    s32 unknown_290;
+    s32 battle_team_report_count;  // only reset here; the online control counts 6x7D reports
     const char** message_table;
     s32 phase;
     s32 phase_state;

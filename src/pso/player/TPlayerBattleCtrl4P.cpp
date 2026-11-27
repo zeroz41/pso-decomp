@@ -1047,7 +1047,7 @@ void TPlayerBattleCtrl4P::record_results() {
     save_active_character_to_card();
 }
 
-void TPlayerBattleCtrl4P::reset_score_counters() { this->timed_event_state = 0; unknown_290 = 0; }
+void TPlayerBattleCtrl4P::reset_score_counters() { this->timed_event_state = 0; battle_team_report_count = 0; }
 
 void TPlayerBattleCtrl4P::notify_lobby(const char *file, saddr duration) {
     play_cue_stream_file(file);

@@ -8,7 +8,7 @@ struct TObjEvtCollision : public TObjCollidable {
     TObjEvtCollision(TObject *parent, void *set_data);
     virtual ~TObjEvtCollision();
     f32 trigger_radius;
-    u32 m_b0;
+    u32 event_id;  // set_params[0], the event run_task sends
     s32 countdown;
     s32 is_any_player_in_range(f32 range_sq);
     virtual void render();
