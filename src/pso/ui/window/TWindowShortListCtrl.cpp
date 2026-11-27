@@ -39,6 +39,17 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 
+void TWindowCtrl::clear_flag_8() {
+    if (instance != NULL) {
+        instance->flags &= ~8;
+    }
+}
+
+void TWindowCtrl::set_flag_active() {
+    if (instance != NULL) {
+        instance->flags |= 8;
+    }
+}
 
 // Compared as a signed word here (cmpwi) while TWindowCtrl.cpp defines it as bool.
 s32 is_com_card_window_open();
