@@ -235,10 +235,10 @@ void TObjEneMoja::load_resources() {
     second.z = 0.0f;
     points->sample_node_offsets(moja_bml_resource->models[1].model,
         (NJS_MOTION *)moja_bml_resource->motions[moja_motion_actions[3].motion].motion, 38, &first, &second);
-    moja_boss_stats_handles = static_cast<player_stats **>(mem_alloc(2 * sizeof(*moja_boss_stats_handles)));
-    moja_attack_params = static_cast<AttackParams **>(mem_alloc(6 * sizeof(*moja_attack_params)));
-    moja_object_handles = static_cast<ActorParamBlock **>(mem_alloc(2 * sizeof(*moja_object_handles)));
-    moja_behavior_params = static_cast<BattleMovementParams **>(mem_alloc(2 * sizeof(*moja_behavior_params)));
+    moja_boss_stats_handles = new player_stats *[2];
+    moja_attack_params = new AttackParams *[6];
+    moja_object_handles = new ActorParamBlock *[2];
+    moja_behavior_params = new BattleMovementParams *[2];
     moja_boss_stats_handles[0] = register_boss(0x49);
     moja_boss_stats_handles[1] = register_boss(0x4A);
     moja_attack_params[0] = dispatch_shared_handler_b(0x48);
@@ -261,19 +261,19 @@ void TObjEneMoja::load_resources() {
 
 void TObjEneMoja::free_resources() {
     if (moja_boss_stats_handles != NULL) {
-        mem_free(moja_boss_stats_handles);
+        delete[] moja_boss_stats_handles;
         moja_boss_stats_handles = NULL;
     }
     if (moja_attack_params != NULL) {
-        mem_free(moja_attack_params);
+        delete[] moja_attack_params;
         moja_attack_params = NULL;
     }
     if (moja_object_handles != NULL) {
-        mem_free(moja_object_handles);
+        delete[] moja_object_handles;
         moja_object_handles = NULL;
     }
     if (moja_behavior_params != NULL) {
-        mem_free(moja_behavior_params);
+        delete[] moja_behavior_params;
         moja_behavior_params = NULL;
     }
     if (moja_punch_points != NULL) {

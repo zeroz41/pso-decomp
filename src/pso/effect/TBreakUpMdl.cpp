@@ -74,7 +74,7 @@ TBreakUpMdlData::TBreakUpMdlData(long model, long motion, f32 frame) {
 void TBreakUpMdlData::alloc_breakup_piece_records(NJS_OBJECT *model) {
     s32 i;
     m_count = count_visible_nodes(model);
-    m_records = (BreakupNodeRecord *)mem_alloc(m_count * sizeof(BreakupNodeRecord));
+    m_records = new BreakupNodeRecord[m_count];
     for (i = 0; i < m_count; i++) {
         m_records[i].model = NULL;
         m_records[i].pos.x = 0.0f;
@@ -84,7 +84,7 @@ void TBreakUpMdlData::alloc_breakup_piece_records(NJS_OBJECT *model) {
 }
 
 TBreakUpMdlData::~TBreakUpMdlData() {
-    mem_free(m_records);
+    delete[] m_records;
     m_records = NULL;
 }
 
@@ -157,7 +157,7 @@ TBreakUpMdl::TBreakUpMdl(TObject *parent, TBreakUpMdlData *model, BreakUpParamRo
     piece_count = this->model->m_count;
     base = this->params.rise_base;
     scale = this->params.rise_scale;
-    pieces = (BreakUpPiece *)mem_alloc(piece_count * sizeof(BreakUpPiece));
+    pieces = new BreakUpPiece[piece_count];
     push_matrix_from(&identity_matrix);
     post_translate_matrix(&position->x);
     rotate_matrix_y(NULL, rotation_y);
@@ -179,7 +179,7 @@ TBreakUpMdl::TBreakUpMdl(TObject *parent, TBreakUpMdlData *model, BreakUpParamRo
 
 #pragma pop
 TBreakUpMdl::~TBreakUpMdl() {
-    mem_free(pieces);
+    delete[] pieces;
     pieces = NULL;
 }
 

@@ -305,19 +305,19 @@ SampledMotionPoints *boss4_type3_instance;
 
 void free_boss4_rock_pool(void) {
     if (ene_beast_boss_id_buffer != NULL) {
-        mem_free(ene_beast_boss_id_buffer);
+        delete[] ene_beast_boss_id_buffer;
         ene_beast_boss_id_buffer = NULL;
     }
     if (beast_boss4_rock_handler_ids != NULL) {
-        mem_free(beast_boss4_rock_handler_ids);
+        delete[] beast_boss4_rock_handler_ids;
         beast_boss4_rock_handler_ids = NULL;
     }
     if (boss4_rock_pool != NULL) {
-        mem_free(boss4_rock_pool);
+        delete[] boss4_rock_pool;
         boss4_rock_pool = NULL;
     }
     if (boss4_rock_shared_handler_ids != NULL) {
-        mem_free(boss4_rock_shared_handler_ids);
+        delete[] boss4_rock_shared_handler_ids;
         boss4_rock_shared_handler_ids = NULL;
     }
     if (boss4_type3_instance != NULL) {
@@ -356,10 +356,10 @@ void TObjEneBeast::load_resources() {
     boss4_type3_instance = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
     beast_claw_trail_instance->sample_two_nodes(ene_beast_bml_resource->models->model, (NJS_MOTION *)ene_beast_bml_resource->motions[beast_action_table[3].motion].motion, 5, 8);
     boss4_type3_instance->sample_two_nodes(ene_beast_bml_resource->models->model, (NJS_MOTION *)ene_beast_bml_resource->motions[beast_action_table[4].motion].motion, 10, 13);
-    ene_beast_boss_id_buffer = static_cast<player_stats **>(mem_alloc(0xC));
-    beast_boss4_rock_handler_ids = static_cast<AttackParams **>(mem_alloc(0xC));
-    boss4_rock_pool = static_cast<ActorParamBlock **>(mem_alloc(0xC));
-    boss4_rock_shared_handler_ids = (f32 **)mem_alloc(0xC);
+    ene_beast_boss_id_buffer = new player_stats *[3];
+    beast_boss4_rock_handler_ids = new AttackParams *[3];
+    boss4_rock_pool = new ActorParamBlock *[3];
+    boss4_rock_shared_handler_ids = new f32 *[3];
     ene_beast_boss_id_buffer[0] = register_boss(0x4B);
     ene_beast_boss_id_buffer[1] = register_boss(0x4C);
     ene_beast_boss_id_buffer[2] = register_boss(0x4D);

@@ -32,7 +32,7 @@ void ModelNodeTables::destroy() {
             items[i] = 0;
         }
     }
-    mem_free(items);
+    delete[] items;
     items = 0;
 }
 
@@ -48,7 +48,7 @@ void ModelNodeTables::init(const ModelNodeSpec *specs, s32 spec_count) {
     }
     count = spec_count;
     items = NULL;
-    items = (StripBufferPair **)mem_alloc(count * 4);
+    items = new StripBufferPair *[count];
     scroll_u = 0;
     scroll_v = 0;
     for (j = 0; j < count; j++) {

@@ -216,10 +216,10 @@ void TObjEneDolmOlm::load_shared_resources() {
     dolm_olm_left_attack_samples->sample_two_nodes(dolm_olm_resource_bundle->models->model, (NJS_MOTION *)dolm_olm_resource_bundle->motions[dolm_olm_param_table[3].motion].motion, 0x1C, 0x1D);
     dolm_olm_right_attack_samples->sample_two_nodes(dolm_olm_resource_bundle->models->model, (NJS_MOTION *)dolm_olm_resource_bundle->motions[dolm_olm_param_table[4].motion].motion, 0x14, 0x15);
     clear_motion_packed_rotation();
-    dolm_olm_combat_stat_id_pair = static_cast<player_stats **>(mem_alloc(8));
-    dolm_olm_shared_handler_ids = static_cast<AttackParams **>(mem_alloc(8));
-    dolm_olm_registered_object_ids = static_cast<ActorParamBlock **>(mem_alloc(8));
-    dolm_olm_behavior_params_by_variant = (DolmOlmBehaviorParams **)mem_alloc(8);
+    dolm_olm_combat_stat_id_pair = new player_stats *[2];
+    dolm_olm_shared_handler_ids = new AttackParams *[2];
+    dolm_olm_registered_object_ids = new ActorParamBlock *[2];
+    dolm_olm_behavior_params_by_variant = new DolmOlmBehaviorParams *[2];
     dolm_olm_combat_stat_id_pair[0] = register_boss(0x4F);
     dolm_olm_combat_stat_id_pair[1] = register_boss(0x50);
     dolm_olm_shared_handler_ids[0] = dispatch_shared_handler_b(0x54);
@@ -240,19 +240,19 @@ void TObjEneDolmOlm::load_shared_resources() {
 }
 void TObjEneDolmOlm::free_shared_resources() {
     if (dolm_olm_combat_stat_id_pair != NULL) {
-        mem_free(dolm_olm_combat_stat_id_pair);
+        delete[] dolm_olm_combat_stat_id_pair;
         dolm_olm_combat_stat_id_pair = NULL;
     }
     if (dolm_olm_shared_handler_ids != NULL) {
-        mem_free(dolm_olm_shared_handler_ids);
+        delete[] dolm_olm_shared_handler_ids;
         dolm_olm_shared_handler_ids = NULL;
     }
     if (dolm_olm_registered_object_ids != NULL) {
-        mem_free(dolm_olm_registered_object_ids);
+        delete[] dolm_olm_registered_object_ids;
         dolm_olm_registered_object_ids = NULL;
     }
     if (dolm_olm_behavior_params_by_variant != NULL) {
-        mem_free(dolm_olm_behavior_params_by_variant);
+        delete[] dolm_olm_behavior_params_by_variant;
         dolm_olm_behavior_params_by_variant = NULL;
     }
     if (dolm_olm_right_attack_samples != NULL) {

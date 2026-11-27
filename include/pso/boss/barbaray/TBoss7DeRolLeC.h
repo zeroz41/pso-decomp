@@ -169,7 +169,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     s32 travel_step_zx;           // step of the moves that run motion_z, then motion_x (update_anim_state)
     s32 motion_y_done;            // set once motion_y finishes the running move
     s32 travel_step_xz;           // step of the moves that run motion_x, then motion_z (update_phase_settling)
-    GC_Mtx *node_matrices;        // 12 matrices, mem_alloc'd by the ctor (freed by the destructor)
+    GC_Mtx *node_matrices;        // 12 matrices, allocated by the ctor (freed by the destructor)
     GC_Mtx *tentacle_matrices;    // 4 matrices, one per tentacle root (freed by the destructor)
     TBoss7Tentacle *tentacles[4]; // released by the destructor
     Vec body_offset;              // added to position for the body's model matrix (run_task)

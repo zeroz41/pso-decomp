@@ -22,7 +22,7 @@ AreaAttackHistory::AreaAttackHistory(s32 capacity) : PointerBuffer(capacity, NUL
 
 PointerBuffer::PointerBuffer(s32 capacity, void *empty) {
     if (capacity > 0) {
-        entries = (void **)mem_alloc(capacity * sizeof(void *));
+        entries = new void *[capacity];
     } else {
         entries = NULL;
     }
@@ -34,7 +34,7 @@ PointerBuffer::PointerBuffer(s32 capacity, void *empty) {
 
 PointerBuffer::~PointerBuffer() {
     if (entries != NULL) {
-        mem_free(entries);
+        delete[] entries;
         entries = NULL;
     }
 }

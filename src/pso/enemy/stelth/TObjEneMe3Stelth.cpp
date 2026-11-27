@@ -191,7 +191,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
     src = me3_stelth_bml_resource->models->texlist;
     n = src->nbTexture;
     me3_stelth_alternate_texture_list.nbTexture = n;
-    me3_stelth_alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));
+    me3_stelth_alternate_texture_list.textures = new NJS_TEXNAME[n];
     for (i = 0; i < n; i++) {
         copy_ginja_texture_entry(&me3_stelth_alternate_texture_list.textures[i], &src->textures[i]);
     }
@@ -282,7 +282,7 @@ void TObjEneMe3Stelth::free_shared_resources() {
         me3_stelth_breakup_model = NULL;
     }
     if (me3_stelth_alternate_texture_list.textures != NULL) {
-        mem_free(me3_stelth_alternate_texture_list.textures);
+        delete[] me3_stelth_alternate_texture_list.textures;
         me3_stelth_alternate_texture_list.textures = NULL;
     }
     if (me3_stelth_bml_resource != NULL) {

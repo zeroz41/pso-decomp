@@ -25,7 +25,7 @@ TObjBoss5PillarCtrl::~TObjBoss5PillarCtrl() {
             this->pillars[i] = NULL;
         }
     }
-    mem_free(this->pillars);
+    delete[] this->pillars;
 }
 
 
@@ -44,7 +44,7 @@ TObjBoss5PillarCtrl::TObjBoss5PillarCtrl(TObject *parent) : TObject(parent) {
         return;
     }
     root = boss5_common_bml_resource->models[2].model;
-    this->pillars = (TObjBoss5Pillar **)mem_alloc(this->count * 4);
+    this->pillars = new TObjBoss5Pillar *[this->count];
     for (i = 0, node = root->child; i < this->count; i++) {
         this->pillars[i] = TObjBoss5Pillar::create((Vec *)node->pos);
         node = node->sibling;

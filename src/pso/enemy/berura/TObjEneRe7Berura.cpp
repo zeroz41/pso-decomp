@@ -174,7 +174,7 @@ void TObjEneRe7Berura::load_static_resources() {
     re7_berura_demo_flag = 0;
     re7_berura_demo_target = 0;
     m = r->models->model;
-    buf = (u8 *)mem_alloc(0x660);
+    buf = new u8[0x660];
     re7_berura_static_buffer = buf;
     re7_berura_detached_part_states[0].node_matrices = reinterpret_cast<GC_Mtx *>(buf);
     re7_berura_detached_part_states[1].node_matrices = reinterpret_cast<GC_Mtx *>(buf) + 17;
@@ -261,7 +261,7 @@ void TObjEneRe7Berura::destroy_children() {
         belra_uv_animation_buffer = NULL;
     }
     if (re7_berura_static_buffer != NULL) {
-        mem_free(re7_berura_static_buffer);
+        delete[] re7_berura_static_buffer;
         re7_berura_static_buffer = NULL;
     }
     if (re7_berura_shared_resource != NULL) {

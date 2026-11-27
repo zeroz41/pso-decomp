@@ -87,8 +87,8 @@ TObjBoss5PillarSmoke::~TObjBoss5PillarSmoke() {
             this->particles_a[i] = NULL;
         }
     }
-    mem_free(this->particles_b);
-    mem_free(this->particles_a);
+    delete[] this->particles_b;
+    delete[] this->particles_a;
 }
 
 TObjBoss5PillarSmoke::TObjBoss5PillarSmoke(TObject *parent, NJS_OBJECT *node) : TObject(parent) {
@@ -108,8 +108,8 @@ TObjBoss5PillarSmoke::TObjBoss5PillarSmoke(TObject *parent, NJS_OBJECT *node) : 
         queue_destruction();
         return;
     }
-    this->particles_a = (TParticleCtrl **)mem_alloc(this->count * 4);
-    this->particles_b = (TParticleCtrl **)mem_alloc(this->count * 4);
+    this->particles_a = new TParticleCtrl *[this->count];
+    this->particles_b = new TParticleCtrl *[this->count];
     for (i = 0; i < this->count; i++) {
         this->particles_a[i] = spawn_continuous_particle_effect_with_flags(&pillar_smoke_parked_position, 0x213, 0x40);
         this->particles_b[i] = spawn_continuous_particle_effect_with_flags(&pillar_smoke_parked_position, 0x214, 0x40);

@@ -224,7 +224,7 @@ void TPhotonBlastSummon::update_photon_blast_attachments() {
     }
 }
 
-void TPhotonBlastSummon::free_photon() { void *m = attachments; if (m) mem_free(m); }
+void TPhotonBlastSummon::free_photon() { void *m = attachments; if (m) ::operator delete[](m); }
 
 void TPhotonBlastSummon::spawn_photon_blast_attachment_effects(s32 kind) {
     PhotonBlastEffectSet *set = &photon_blast_attachment_table[kind];
@@ -235,7 +235,7 @@ void TPhotonBlastSummon::spawn_photon_blast_attachment_effects(s32 kind) {
         PhotonAttachmentDef *def;
         PhotonAttachmentDef *defs;
         u32 i;
-        attachments = (PhotonBlastAttachment *)mem_alloc(attachment_count * sizeof(PhotonBlastAttachment));
+        attachments = new PhotonBlastAttachment[attachment_count];
         defs = set->attachments;
         for (i = 0; i < attachment_count; i++) {
             def = &defs[i];

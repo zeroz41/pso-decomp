@@ -765,7 +765,7 @@ void Boss6ScrollStrips::free_buffer_pairs() {
             items[i] = 0;
         }
     }
-    mem_free(items);
+    delete[] items;
     items = 0;
 }
 
@@ -781,7 +781,7 @@ void Boss6ScrollStrips::build_tables(const Boss6StripDesc *descs, s32 n) {
     }
     count = n;
     items = NULL;
-    items = static_cast<StripBufferPair **>(mem_alloc(count * sizeof(*items)));
+    items = new StripBufferPair *[count];
     u = 0;
     v = 0;
     for (j = 0; j < count; j++) {

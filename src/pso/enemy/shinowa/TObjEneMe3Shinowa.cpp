@@ -160,7 +160,7 @@ void load_shinowa_mirage_resources() {
     src = TObjEneMe3ShinowaMirage::bml_resource->models->texlist;
     n = src->nbTexture;
     TObjEneMe3ShinowaMirage::alternate_texture_list.nbTexture = n;
-    TObjEneMe3ShinowaMirage::alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));
+    TObjEneMe3ShinowaMirage::alternate_texture_list.textures = new NJS_TEXNAME[n];
     for (i = 0; i < n; i++) {
         copy_ginja_texture_entry(&TObjEneMe3ShinowaMirage::alternate_texture_list.textures[i], &src->textures[i]);
     }
@@ -270,7 +270,7 @@ void TObjEneMe3ShinowaMirage::free_shared_resources() {
         TObjEneMe3ShinowaMirage::breakup_model = 0;
     }
     if (TObjEneMe3ShinowaMirage::alternate_texture_list.textures != 0) {
-        mem_free(TObjEneMe3ShinowaMirage::alternate_texture_list.textures);
+        delete[] TObjEneMe3ShinowaMirage::alternate_texture_list.textures;
         TObjEneMe3ShinowaMirage::alternate_texture_list.textures = 0;
     }
     if (TObjEneMe3ShinowaMirage::bml_resource != 0) {

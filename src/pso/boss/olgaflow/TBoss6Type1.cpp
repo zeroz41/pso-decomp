@@ -1400,7 +1400,7 @@ void TBoss6Type1::spawn_mines() {
         step += 3;
         rings++;
     }
-    Vec *points = (Vec *)mem_alloc(total * sizeof(Vec));
+    Vec *points = new Vec[total];
     VecCopy(&points[0], &boss6_type1_zero_offset);
     if (total > 1 && rings > 0) {
         f32 spacing = 95.0f / rings;
@@ -1461,7 +1461,7 @@ void TBoss6Type1::spawn_mines() {
         heading = (i << 16) / count;
         timer_limit++;
     }
-    mem_free(points);
+    delete[] points;
     if (timer_limit > 0) {
         play_sound_effect(0x4003B51B, &position, 0, 0);
     }

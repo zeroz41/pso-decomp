@@ -202,10 +202,10 @@ void TObjEneMerillLia::load_resources() {
     merill_lia_collision_bodies[0].radius = 7.0f;
     merill_lia_collision_bodies[1].radius = 7.0f;
     merill_lia_collision_bodies[2].radius = 8.0f;
-    merill_lia_rock_stats_table = static_cast<player_stats **>(mem_alloc(2 * sizeof(*merill_lia_rock_stats_table)));
-    merill_lia_rock_buffer = static_cast<AttackParams **>(mem_alloc(2 * sizeof(*merill_lia_rock_buffer)));
-    merill_lia_rock_aux_buffer = static_cast<ActorParamBlock **>(mem_alloc(2 * sizeof(*merill_lia_rock_aux_buffer)));
-    merill_lia_behavior_params = (MerillLiaBehaviorParams **)mem_alloc(8);
+    merill_lia_rock_stats_table = new player_stats *[2];
+    merill_lia_rock_buffer = new AttackParams *[2];
+    merill_lia_rock_aux_buffer = new ActorParamBlock *[2];
+    merill_lia_behavior_params = new MerillLiaBehaviorParams *[2];
     merill_lia_rock_stats_table[0] = register_boss(75);
     merill_lia_rock_stats_table[1] = register_boss(76);
     merill_lia_rock_buffer[0] = dispatch_shared_handler_b(78);
@@ -228,19 +228,19 @@ void TObjEneMerillLia::load_resources() {
 
 void TObjEneMerillLia::free_resources() {
     if (merill_lia_rock_stats_table != NULL) {
-        mem_free(merill_lia_rock_stats_table);
+        delete[] merill_lia_rock_stats_table;
         merill_lia_rock_stats_table = NULL;
     }
     if (merill_lia_rock_buffer != NULL) {
-        mem_free(merill_lia_rock_buffer);
+        delete[] merill_lia_rock_buffer;
         merill_lia_rock_buffer = NULL;
     }
     if (merill_lia_rock_aux_buffer != NULL) {
-        mem_free(merill_lia_rock_aux_buffer);
+        delete[] merill_lia_rock_aux_buffer;
         merill_lia_rock_aux_buffer = NULL;
     }
     if (merill_lia_behavior_params != NULL) {
-        mem_free(merill_lia_behavior_params);
+        delete[] merill_lia_behavior_params;
         merill_lia_behavior_params = NULL;
     }
     if (merill_lia_bml_resource != NULL) {
