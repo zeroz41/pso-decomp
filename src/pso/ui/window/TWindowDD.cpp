@@ -56,9 +56,9 @@ TWindowDDStateEntry word_select_state_table[21] = {
 const s32 word_select_numeric_limits[6] = { 999999, 99, 30, 15, 200, 999 };
 
 extern "C" {
-s32 get_word_next_state(TWindowDD *window, s16 id);
-s16 get_word_message_type(TWindowDD *window, s32 id);
-void push_recent_id(s32 id);
+s32 get_word_next_state(TWindowDD *window, s32 id);
+s32 get_word_message_type(TWindowDD *window, s16 id);
+void push_recent_id(s16 id);
 }
 
 
@@ -87,41 +87,6 @@ TWindowDDValueList *TWindowDD::ws_data_table;
 
 s16 *ws_word_string_index;
 const char *TWindowDD::class_name = "TWindowDD";
-extern "C" {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-s32 classify_id__9TWindowDDFs();
-}
 
 
 #pragma push
@@ -763,8 +728,7 @@ void TWindowDD::open_numeric_parameter_input(s32 minimum, s32 maximum, s32 initi
 }
 
 s32 TWindowDD::update_close_flag() {
-    get_current_child_index();
-    if (classify_id__9TWindowDDFs() != 7) {
+    if (classify_id(get_current_child_index()) != 7) {
         dialog_locked = 1;
         return 1;
     }
@@ -778,8 +742,7 @@ s32 TWindowDD::update_numeric_parameter_input() {
     s32 result;
     result = 0;
     if (number_window == NULL) {
-        get_current_child_index();
-        kind = classify_id__9TWindowDDFs();
+        kind = classify_id(get_current_child_index());
         if (kind != 7) {
             open_numeric_parameter_input(0, word_select_numeric_limits[kind], message.get_numeric_parameter());
             return 0;
@@ -809,7 +772,7 @@ s32 TWindowDD::update_numeric_parameter_input() {
 }
 
 void TWindowDD::handle_confirm_input() {
-    s32 id;
+    s16 id;
     refresh_word_select_child_list();
     if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();

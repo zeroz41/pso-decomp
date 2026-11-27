@@ -100,7 +100,7 @@ s32 TWindowDD_WS_Word::get_scroll_top() const {
     return selected_token_index - selected_row;
 }
 
-int TWindowDD_WS_Word::get_selected_id() const {
+s16 TWindowDD_WS_Word::get_selected_id() const {
     if (token_ids != NULL) {
         return token_ids[selected_token_index];
     }
