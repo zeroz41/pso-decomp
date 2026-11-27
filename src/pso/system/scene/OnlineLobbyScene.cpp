@@ -103,18 +103,8 @@
 #include "pso/ui/TCharSaveSequence.h"
 #include "pso/item/FloorItemSync.h"
 #include "pso/item/TItemIdCounters.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
-
-void clear_keyboard_input_flag(void);
-void clear_keyboard_key_state(void);
-extern "C" {
-// The run_*_frame callers test this as an int, while SystemBootInit defines it bool.
-s32 is_keyboard_active();
-}
-void set_fallback_main_phase(s32 phase);
-void request_main_phase(s32 phase);
-void set_queued_main_phase(s32 phase);
-void deactivate_keyboard(void);
 extern "C" {
 void reload_lobby_floor_stub(void);
 }

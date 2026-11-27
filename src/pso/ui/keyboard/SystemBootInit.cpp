@@ -189,8 +189,8 @@ void clear_keyboard_input_flag(void) {
     keyboard_input_flag = 0;
 }
 
-bool is_keyboard_active(void) {
-    return keyboard_active_flag != 0;
+BOOL is_keyboard_active(void) {
+    return keyboard_active_flag ? TRUE : FALSE;
 }
 
 void activate_keyboard(void) {
