@@ -644,7 +644,7 @@ void TPlayerBattleCtrl::apply_game_settings(s32 use_config) {
         }
         lobby_rule_settings.set_section_id(1);
     }
-    if (((u32 (*)(void))get_local_player)() != 0U) {
+    if (get_local_player() != NULL) {
         apply_battle_rules_to_players();
     }
 }

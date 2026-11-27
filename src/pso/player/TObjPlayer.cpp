@@ -2054,7 +2054,7 @@ s32 TObjPlayer::is_target_in_facing_cone(Vec *target) {
     to.y = player_zero;
     to.z = target->z - z;
     normalize_vector_safe(&to);
-    dot = ((f32 (*)(Vec *, Vec *))vec3_dot)(&fwd, &to);
+    dot = vec3_dot(&fwd, &to);
     if (dot < cos_table_lookup(0x1555)) {
         return 0;
     }
@@ -2253,7 +2253,7 @@ void TObjPlayer::request_item_drop(s32 key, s32 count) {
     if (check_player_action_allowed() != 0 &&
         (poll_memcard_result((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0 ||
          TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 1)) {
-        ((void (*)(s32, s32, s32, s32))play_sound_effect)(0x53F06, 0, 0, 0);
+        play_sound_effect(0x53F06, NULL, 0, 0);
         return;
     }
     TItemList *list = this->inventory_objects->start_inventory_update(key);
@@ -3434,16 +3434,16 @@ void TObjPlayer::update_ground_contact() {
 void TObjPlayer::select_contextual_pickup_action() {
     s32 type;
     CursorTarget *cursor;
-    saddr ent;
+    TObjCollidable *ent;
     TLockOnCursor *obj;
     obj = this->lock_on_cursor;
     if (obj != NULL) {
         cursor = &obj->selection.target;
         type = 0;
         if (cursor->get_entity_id() != 0xFFFF) {
-            ent = ((s32 (*)(u16))find_entity_by_id)(cursor->get_entity_id());
+            ent = find_entity_by_id(cursor->get_entity_id());
             if (ent != 0) {
-                type = ((TObjCollidable *)ent)->get_cursor_action();
+                type = ent->get_cursor_action();
                 if (type != 0) {
                     switch (type) {
                     case 4:
@@ -3701,7 +3701,7 @@ void TObjPlayer::init_trait_flags() {
 }
 
 void send_impose_hold(TObjPlayer *player, int frames) {
-    ((s32 (*)(TObjPlayer *, Vec *, s32, s32, f32))send_6x2C_impose_hold)(player, player->get_position_ptr(), frames, 0, player_zero);
+    send_6x2C_impose_hold(player, player->get_position_ptr(), frames, 0, player_zero);
 }
 
 

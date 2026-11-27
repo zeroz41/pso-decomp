@@ -28,7 +28,7 @@ void set_short_mail_text(char *text) {
     u8 *mail_text;
     mail_text = (u8 *)(get_character_save_record((0xFFFFU)) + 0x2050);
     mask_profanity_words(text, get_shared_text_buffer());
-    strncpy((char *)mail_text, (char *)(((saddr (*)(void))get_shared_text_buffer)()), 0xAB);
+    strncpy((char *)mail_text, get_shared_text_buffer(), 0xAB);
     *(s8 *)((s8 *)mail_text + 0xAB) = 0;
     auto_reply_flags |= 4;
     if (is_active() != 0) {

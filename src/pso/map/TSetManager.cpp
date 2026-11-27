@@ -355,7 +355,7 @@ void send_6x76_set_entity_set_flags(TObjBase *object, s16 flags) {
     G_SetEntitySetFlags_6x76 pkt;
     build_6x76_set_entity_set_flags(&pkt);
     pkt.header.entity_id = object->get_entity_id();
-    pkt.floor = ((s16 (*)())get_current_floor)();
+    pkt.floor = get_current_floor();
     pkt.flags = flags;
     pkt.send();
 }
