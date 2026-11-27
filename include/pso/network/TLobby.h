@@ -17,6 +17,7 @@ struct PlayerSyncRecord;
 struct G_ClientIDHeader;
 struct extended_game_command_header;
 struct FloorObjectSetRow;
+struct ObjectSetData;
 class GameListEntry;
 class QuestListEntry;
 template <typename T, int num_entries, int num_pad_entries> class TMenuList;
@@ -339,7 +340,7 @@ void init_fadeout_state(void (*callback)());
 LAYOUT_ASSERT(TLobby_size, sizeof(TLobby) == 0x1C);
 // The object set entry new ground items take their placement from, and
 // whether placing one shows the drop effect.
-extern void *item_object_set_data;
+extern ObjectSetData *item_object_set_data;
 extern s32 item_ground_placement_enabled;
 
 // 1 when the local player stands on another floor than the current one (never in split screen).

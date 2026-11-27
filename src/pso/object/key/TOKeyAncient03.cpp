@@ -159,7 +159,7 @@ void TOKeyAncient03::render() {
     }
 }
 
-void *TOKeyAncient03::create(void *set_data) {
+void *TOKeyAncient03::create(ObjectSetData *set_data) {
     return new TOKeyAncient03(tl_05, set_data);
 }
 
@@ -189,7 +189,7 @@ void TOKeyAncient03::load_resources() {
 
 TOKeyAncient03::~TOKeyAncient03() {}
 
-TOKeyAncient03::TOKeyAncient03(TObject *parent, void *set_data) : TOKey(parent) {
+TOKeyAncient03::TOKeyAncient03(TObject *parent, ObjectSetData *set_data) : TOKey(parent) {
     m_name = key_ancient03_class_name;
     apply_object_set_data(set_data);
     init_switch_id();

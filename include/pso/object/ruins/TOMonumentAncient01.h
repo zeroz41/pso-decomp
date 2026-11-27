@@ -8,12 +8,12 @@
 // The Ruins' stone tablet: the stone, then its crystal and its letters drawn
 // as effects.
 struct TOMonumentAncient01 : public TOQuestTalkBase {
-    TOMonumentAncient01(TObject *parent, void *set_data);
+    TOMonumentAncient01(TObject *parent, ObjectSetData *set_data);
     virtual ~TOMonumentAncient01();
     virtual void update_demo();
     virtual void render();
 
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void unload_resources();
     static void load_resources();
 

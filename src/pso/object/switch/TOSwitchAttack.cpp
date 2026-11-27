@@ -119,7 +119,7 @@ void TOSwitchAttack::run_task() {
 }
 #pragma pop
 
-void *TOSwitchAttack::create(void *set_data) {
+void *TOSwitchAttack::create(ObjectSetData *set_data) {
     return new TOSwitchAttack(tl_05, set_data);
 }
 
@@ -130,7 +130,7 @@ TOSwitchAttack::~TOSwitchAttack() {
 
 }
 
-TOSwitchAttack::TOSwitchAttack(TObject *parent, void *set_data) : TObjBase(parent) {
+TOSwitchAttack::TOSwitchAttack(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = switch_attack_name;
     apply_object_set_data(set_data);
     init_params();

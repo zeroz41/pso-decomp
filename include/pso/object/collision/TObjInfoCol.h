@@ -7,13 +7,13 @@
 
 class TObjInfoCol : public TObjCollidable {
 public:
-    TObjInfoCol(TObject *parent, void *set_data);
+    TObjInfoCol(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjInfoCol();
     f32 interaction_radius;
 
     s32 is_target_in_range(f32 radius_squared);
     void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 #include <stddef.h>

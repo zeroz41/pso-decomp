@@ -53,8 +53,7 @@ s16 TObjBase::get_room() {
     return room;
 }
 
-void TObjBase::apply_object_set_data(void *data) {
-    ObjectSetData *src = (ObjectSetData *)data;
+void TObjBase::apply_object_set_data(ObjectSetData *src) {
     s32 i;
     entity_id = src->entity_id;
     VecCopy(&home_position, VecCopy(&position, &src->position));

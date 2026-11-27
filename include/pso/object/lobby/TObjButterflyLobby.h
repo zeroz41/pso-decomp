@@ -32,7 +32,7 @@ struct TObjButterflyLobby : public TObjBase {
     void update_fade();
     virtual void run_task();
     static void destroy_instance();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjButterflyLobby_hover_origin, offsetof(TObjButterflyLobby, hover_origin) == 0x98);

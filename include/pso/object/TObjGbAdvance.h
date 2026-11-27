@@ -11,7 +11,7 @@ struct TObjGbAdvance : public TObjMesBase {
     static void free_shared_data();
     static void load_resource_instance();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static BmlResource *resource;  // the shared model archive
 };
 

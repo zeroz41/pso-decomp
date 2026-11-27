@@ -49,7 +49,7 @@ TObjParticle::~TObjParticle() {
     mask_object_set_row_flags(-3);
 }
 
-TObjParticle::TObjParticle(TObject *parent, ParticleSetData *set_data) : TObjBase(parent) {
+TObjParticle::TObjParticle(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     u32 i;
     s32 entry;
     u16 flags;
@@ -58,11 +58,11 @@ TObjParticle::TObjParticle(TObject *parent, ParticleSetData *set_data) : TObjBas
     m_name = obj_particle_class_name;
     VecCopy(&position, &set_data->position);
     copy_xyz(&rotation, &set_data->rotation);
-    VecCopy(&scale, &set_data->params);
+    VecCopy(&scale, &set_data->scale);
     for (i = 0; i < 3; i++) {
         set_params[i] = set_data->set_params[i];
     }
-    particle_id = (s32)set_data->params.x;
+    particle_id = (s32)set_data->scale.x;
     emitter = NULL;
     entry = (s32)scale.x;
     if (entry < 0) {
@@ -112,9 +112,9 @@ TObjParticle::TObjParticle(TObject *parent, ParticleSetData *set_data) : TObjBas
     disallow_rendering();
 }
 
-void *TObjParticle::create(void *set_data) {
+void *TObjParticle::create(ObjectSetData *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    return new TObjParticle(tl_05, (ParticleSetData *)set_data);
+    return new TObjParticle(tl_05, set_data);
 }

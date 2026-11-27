@@ -9,12 +9,12 @@
 // The Lab's info capsule: its lid spins and its light node (node 3) shows
 // only while it is active.
 struct TOCapsuleLabo : public TOQuestTalkBase {
-    TOCapsuleLabo(TObject *parent, void *set_data);
+    TOCapsuleLabo(TObject *parent, ObjectSetData *set_data);
     virtual ~TOCapsuleLabo();
     virtual void animate();
     virtual void render();
 
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void unload_resources();
     static void load_resources();
 

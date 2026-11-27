@@ -19,7 +19,7 @@
 // Where the mist sits relative to the camera: straight ahead along its view axis.
 extern Vec mist_camera_forward;
 
-TObjMistCtrl *TObjMistCtrl::create(TObject *parent, void *set_data) {
+TObjMistCtrl *TObjMistCtrl::create(TObject *parent, ObjectSetData *set_data) {
     return new TObjMistCtrl(parent, set_data);
 }
 
@@ -52,7 +52,7 @@ TObjMistCtrl::~TObjMistCtrl() {
     }
 }
 
-TObjMistCtrl::TObjMistCtrl(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjMistCtrl::TObjMistCtrl(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = class_name;
     if (set_data != NULL) {
         apply_object_set_data(set_data);

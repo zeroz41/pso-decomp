@@ -279,8 +279,8 @@ TObjButterflyLobby::TObjButterflyLobby(TObject *parent, ObjectSetData *set_data)
 }
 
 
-void *TObjButterflyLobby::create(void *set_data) {
-    return new TObjButterflyLobby(tl_05, (ObjectSetData *)set_data);
+void *TObjButterflyLobby::create(ObjectSetData *set_data) {
+    return new TObjButterflyLobby(tl_05, set_data);
 }
 
 void TObjButterflyLobby::destroy_instance() {

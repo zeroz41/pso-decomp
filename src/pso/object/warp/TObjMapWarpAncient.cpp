@@ -75,7 +75,7 @@ void TObjMapWarpAncient::free_globals() {
     }
 }
 
-TObjMapWarpAncient::TObjMapWarpAncient(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
+TObjMapWarpAncient::TObjMapWarpAncient(TObject *parent, ObjectSetData *set_data) : TObjMapWarp(parent, set_data) {
     m_name = map_warp_ancient_class_name;
     beam_frame = 0.0f;
     beam_model = get_ancient_warp_model(2);
@@ -131,11 +131,11 @@ void TObjMapWarpAncient::render() {
     }
 }
 
-void *TObjMapWarpAncient::create(void *set_data) {
+void *TObjMapWarpAncient::create(ObjectSetData *set_data) {
     return new TObjMapWarpAncient(tl_05, set_data);
 }
 
-TObjGoalWarpAncient::TObjGoalWarpAncient(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjGoalWarpAncient::TObjGoalWarpAncient(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = goal_warp_ancient_class_name;
     naka_frame = 0.0f;
     beam_frame = 0.0f;
@@ -205,6 +205,6 @@ void TObjGoalWarpAncient::render() {
     }
 }
 
-void *TObjGoalWarpAncient::create(void *set_data) {
+void *TObjGoalWarpAncient::create(ObjectSetData *set_data) {
     return new TObjGoalWarpAncient(tl_05, set_data);
 }

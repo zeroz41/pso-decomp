@@ -9,7 +9,7 @@ struct BmlResource;
 // The lobby red-and-white curtain pillars: grow in while event theme 12 (or
 // 13, clamped to 12) runs and shrink away when it ends.
 struct TObjCurtainLobby : public TObjMapObject {
-    TObjCurtainLobby(TObject *parent, void *set_data);
+    TObjCurtainLobby(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjCurtainLobby();
     s32 state;  // 0 hidden, 2 growing, 3 shown, 1 shrinking
     // The filtered event theme with 13 folded into 12.
@@ -18,7 +18,7 @@ struct TObjCurtainLobby : public TObjMapObject {
     void demo_step();
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_resources();
     static void load_resources();
     f32 scale;  // the scale it grows and shrinks by

@@ -117,7 +117,7 @@ void TODoorMachine02::render() {
     }
 }
 
-void *TODoorMachine02::create(void *set_data) {
+void *TODoorMachine02::create(ObjectSetData *set_data) {
     return new TODoorMachine02(tl_05, set_data);
 }
 
@@ -155,7 +155,7 @@ TODoorMachine02::~TODoorMachine02() {
     free_collision_body_parts(this);
 }
 
-TODoorMachine02::TODoorMachine02(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorMachine02::TODoorMachine02(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = door_machine02_class_name;
     apply_object_set_data(set_data);
     model = bml_resource->models[0].model;

@@ -99,7 +99,7 @@ void TObjSuisouLobby::update_particle() {
 
 void TObjSuisouLobby::init_stub() {}
 
-void *TObjSuisouLobby::create(void *set_data) {
+void *TObjSuisouLobby::create(ObjectSetData *set_data) {
     return new TObjSuisouLobby(tl_05, set_data);
 }
 
@@ -126,7 +126,7 @@ TObjSuisouLobby::~TObjSuisouLobby() {
     }
 }
 
-TObjSuisouLobby::TObjSuisouLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjSuisouLobby::TObjSuisouLobby(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = obj_suisou_lobby_class_name;
     apply_object_set_data(set_data);
     {

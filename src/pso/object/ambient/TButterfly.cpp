@@ -206,8 +206,8 @@ TButterfly::TButterfly(TObject *parent, ObjectSetData *set_data) : TObjBase(pare
 }
 
 
-void *TButterfly::create(void *set_data) {
-    void *o = (void *)new TButterfly(tl_05, (ObjectSetData *)set_data);
+void *TButterfly::create(ObjectSetData *set_data) {
+    void *o = (void *)new TButterfly(tl_05, set_data);
     return o;
 }
 

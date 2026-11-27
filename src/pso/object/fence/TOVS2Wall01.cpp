@@ -272,7 +272,7 @@ int TOVS2Wall01::calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, co
 s32 TOVS2Wall01::select_melee_contact_body(TObjChara *, f32) { return 1; }
 s32 TOVS2Wall01::roll_physical_accuracy(TObjChara *, s32, f32) { return 1; }
 s32 TOVS2Wall01::try_start_action(TObjChara *, s32, f32) { return 1; }
-TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
+TOVS2::TOVS2(ObjectSetData *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     m_name = vs2_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(vs2_wall01_bml_resource, index);
@@ -316,63 +316,63 @@ void TOVS2::render() {
         pop_matrix();
     }
 }
-TOVS2Wreck01::TOVS2Wreck01(void *set_data) : TOVS2(set_data, 0) {
+TOVS2Wreck01::TOVS2Wreck01(ObjectSetData *set_data) : TOVS2(set_data, 0) {
     m_name = vs2_wreck01_class_name;
 }
 
 TOVS2Wreck01::~TOVS2Wreck01() {}
 
-void *TOVS2Wreck01::create(void *set_data) {
+void *TOVS2Wreck01::create(ObjectSetData *set_data) {
     return new TOVS2Wreck01(set_data);
 }
-TOVS2Wreck02::TOVS2Wreck02(void *set_data) : TOVS2(set_data, 1) {
+TOVS2Wreck02::TOVS2Wreck02(ObjectSetData *set_data) : TOVS2(set_data, 1) {
     m_name = vs2_wreck02_class_name;
 }
 
 TOVS2Wreck02::~TOVS2Wreck02() {}
 
-void *TOVS2Wreck02::create(void *set_data) {
+void *TOVS2Wreck02::create(ObjectSetData *set_data) {
     return new TOVS2Wreck02(set_data);
 }
-TOVS2Wreck03::TOVS2Wreck03(void *set_data) : TOVS2(set_data, 2) {
+TOVS2Wreck03::TOVS2Wreck03(ObjectSetData *set_data) : TOVS2(set_data, 2) {
     m_name = vs2_wreck03_class_name;
 }
 
 TOVS2Wreck03::~TOVS2Wreck03() {}
 
-void *TOVS2Wreck03::create(void *set_data) {
+void *TOVS2Wreck03::create(ObjectSetData *set_data) {
     return new TOVS2Wreck03(set_data);
 }
-TOVS2Wreck04::TOVS2Wreck04(void *set_data) : TOVS2(set_data, 3) {
+TOVS2Wreck04::TOVS2Wreck04(ObjectSetData *set_data) : TOVS2(set_data, 3) {
     m_name = vs2_wreck04_class_name;
 }
 
 TOVS2Wreck04::~TOVS2Wreck04() {}
 
-void *TOVS2Wreck04::create(void *set_data) {
+void *TOVS2Wreck04::create(ObjectSetData *set_data) {
     return new TOVS2Wreck04(set_data);
 }
-TOVS2Wreck05::TOVS2Wreck05(void *set_data) : TOVS2(set_data, 4) {
+TOVS2Wreck05::TOVS2Wreck05(ObjectSetData *set_data) : TOVS2(set_data, 4) {
     m_name = vs2_wreck05_class_name;
 }
 
 TOVS2Wreck05::~TOVS2Wreck05() {}
 
-void *TOVS2Wreck05::create(void *set_data) {
+void *TOVS2Wreck05::create(ObjectSetData *set_data) {
     return new TOVS2Wreck05(set_data);
 }
-TOVS2Wreck06::TOVS2Wreck06(void *set_data) : TOVS2(set_data, 5) {
+TOVS2Wreck06::TOVS2Wreck06(ObjectSetData *set_data) : TOVS2(set_data, 5) {
     m_name = vs2_wreck06_class_name;
 }
 
 TOVS2Wreck06::~TOVS2Wreck06() {}
 
-void *TOVS2Wreck06::create(void *set_data) {
+void *TOVS2Wreck06::create(ObjectSetData *set_data) {
     return new TOVS2Wreck06(set_data);
 }
 #pragma push
 #pragma opt_common_subs off
-TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
+TOVS2Wall01::TOVS2Wall01(ObjectSetData *set_data) : TObjChara((TObject *)tl_05) {
     s32 initial_hits;
     m_name = vs2_wall01_class_name;
     apply_object_set_data(set_data);
@@ -397,7 +397,7 @@ TOVS2Wall01::~TOVS2Wall01() {
     free_collision_body_parts(this);
 }
 
-void *TOVS2Wall01::create(void *set_data) {
+void *TOVS2Wall01::create(ObjectSetData *set_data) {
     return new TOVS2Wall01(set_data);
 }
 void TOVS2Wall01::render() {

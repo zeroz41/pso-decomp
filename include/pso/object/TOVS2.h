@@ -9,7 +9,7 @@ struct TObjMapCsn;
 // VS2 resource with its collision body and a map-collision object.
 class TOVS2 : public TObjMapObject {
 public:
-    TOVS2(void *set_data, s32 index);
+    TOVS2(ObjectSetData *set_data, s32 index);
     virtual ~TOVS2();
     virtual void render();
     TObjMapCsn *map_collision;  // the map-collision object TObjMapCsn::create made for it

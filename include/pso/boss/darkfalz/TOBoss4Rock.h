@@ -10,11 +10,11 @@
 // A column of rocks that rise from the floor and respawn once they pass the
 // top of the arena.
 struct TOBoss4Rock : public TOBoss4 {
-    TOBoss4Rock(void *set_data);
+    TOBoss4Rock(ObjectSetData *set_data);
     virtual ~TOBoss4Rock();
     virtual void run_task();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static const char *class_name;
     f32 spread;  // horizontal range the rocks respawn in
     s32 count;   // 1-8, from set param 4

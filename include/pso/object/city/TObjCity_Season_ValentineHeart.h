@@ -8,7 +8,7 @@ class TParticleCtrl;
 
 struct TObjCity_Season_ValentineHeart : public TObjCitySeasonBase {
     static const char *class_name;
-    TObjCity_Season_ValentineHeart(TObject *parent, void *set_data);
+    TObjCity_Season_ValentineHeart(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjCity_Season_ValentineHeart();
     virtual void render();
     virtual void run_task();
@@ -16,7 +16,7 @@ struct TObjCity_Season_ValentineHeart : public TObjCitySeasonBase {
     // Particle emitter created at the decoration (create_particle_emitter id
     // 0x90) and queued for destruction by the destructor (name inferred).
     TParticleCtrl *emitter;
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjCity_Season_ValentineHeart_size, sizeof(TObjCity_Season_ValentineHeart) == 0xB8);

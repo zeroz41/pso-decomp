@@ -8,7 +8,7 @@
 // activate_range (10 plus set param 1).
 class TOKeyCol : public TOKey {
 public:
-    TOKeyCol(TObject *parent, void *set_data);
+    TOKeyCol(TObject *parent, ObjectSetData *set_data);
     virtual ~TOKeyCol();
     virtual void run_task();
     virtual void render();
@@ -19,7 +19,7 @@ public:
     virtual void trigger_deactivate_sound();
     virtual void vfunc_25();
     void send_switch_changed(s32 flags);
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TOKeyCol_size, sizeof(TOKeyCol) == 0xE8);

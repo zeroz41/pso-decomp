@@ -5,9 +5,9 @@
 #include "pso/object/wreck/TOWreckAncientBrakable.h"
 
 struct TOWreckAncientBrakable05 : public TOWreckAncientBrakable {
-    TOWreckAncientBrakable05(void *set_data);
+    TOWreckAncientBrakable05(ObjectSetData *set_data);
     virtual ~TOWreckAncientBrakable05();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TOWreckAncientBrakable05_size, sizeof(TOWreckAncientBrakable05) == 0xBC);

@@ -92,7 +92,7 @@ void TOSparkMachine01::render() {
     }
 }
 
-void *TOSparkMachine01::create(void *set_data) {
+void *TOSparkMachine01::create(ObjectSetData *set_data) {
     return new TOSparkMachine01(set_data);
 }
 
@@ -113,7 +113,7 @@ TOSparkMachine01::~TOSparkMachine01() {
 
 }
 
-TOSparkMachine01::TOSparkMachine01(void *set_data) : TObjBase(tl_05) {
+TOSparkMachine01::TOSparkMachine01(ObjectSetData *set_data) : TObjBase(tl_05) {
     s32 i;
     this->m_name = spark_machine01_name;
     this->apply_object_set_data(set_data);

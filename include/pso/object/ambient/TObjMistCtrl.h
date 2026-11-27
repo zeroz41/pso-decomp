@@ -8,9 +8,9 @@ class TParticleCtrl;
 
 struct TObjMistCtrl : public TObjBase {
     static const char *class_name;
-    TObjMistCtrl(TObject *parent, void *set_data);
+    TObjMistCtrl(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjMistCtrl();
-    static TObjMistCtrl *create(TObject *parent, void *set_data);
+    static TObjMistCtrl *create(TObject *parent, ObjectSetData *set_data);
     void follow_camera();
     void run_task();
     TParticleCtrl *particle;

@@ -6,7 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TOLightMachine01 : public TObjBase {
-    TOLightMachine01(void *set_data);
+    TOLightMachine01(ObjectSetData *set_data);
     virtual ~TOLightMachine01();
     f32 view_range;
     f32 model_radius;
@@ -18,7 +18,7 @@ struct TOLightMachine01 : public TObjBase {
     u32 spin_angle;
     virtual void run_task();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void destroy_instance();
     static void load_assets();
 };

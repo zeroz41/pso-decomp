@@ -215,7 +215,7 @@ TObjDoorKey::~TObjDoorKey() {
         particle = NULL;
     }
 }
-TObjDoorKey::TObjDoorKey(TObject *parent, void *set_entry) : TOKey(parent) {
+TObjDoorKey::TObjDoorKey(TObject *parent, ObjectSetData *set_entry) : TOKey(parent) {
     this->m_name = door_key_class_name;
     init_key(set_entry);
     activated = 0;
@@ -240,7 +240,7 @@ TObjDoorKey::TObjDoorKey(TObject *parent, void *set_entry) : TOKey(parent) {
 }
 
 
-void *TObjDoorKey::create(void *set_entry) {
+void *TObjDoorKey::create(ObjectSetData *set_entry) {
     void *o = (void *)new TObjDoorKey((TObject *)tl_05, set_entry);
     return o;
 }
@@ -267,7 +267,7 @@ void TObjDoorKey::load_resources() {
     beam_uv_scroll_last_tick = 0;
 }
 
-void *TObjEnvSoundGlobal::create(void *rader_map_core) {
+void *TObjEnvSoundGlobal::create(ObjectSetData *rader_map_core) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }

@@ -291,11 +291,11 @@ void TObjLiveMonitor::load_resources() {  }
 
 void TObjLiveMonitor::free_resources() {  }
 
-void *TObjLiveCamera::create(void *set_data) {
+void *TObjLiveCamera::create(ObjectSetData *set_data) {
     return new TObjLiveCamera(tl_05, set_data);
 }
 
-TObjLiveCamera::TObjLiveCamera(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjLiveCamera::TObjLiveCamera(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = live_camera_class_name;
     apply_object_set_data(set_data);
 }

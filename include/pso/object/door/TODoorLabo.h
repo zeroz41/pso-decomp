@@ -5,9 +5,9 @@
 #include "pso/object/door/TODoorFourLightBase.h"
 
 struct TODoorLabo : public TODoorFourLightBase {
-    TODoorLabo(TObject *parent, void *set_data);
+    TODoorLabo(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorLabo();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     virtual s32 get_unlit_textures();
     virtual s32 get_lit_textures();
     void init_model_by_type();

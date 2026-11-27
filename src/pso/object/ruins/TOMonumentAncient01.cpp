@@ -41,7 +41,7 @@ void TOMonumentAncient01::render() {
     }
 }
 
-void *TOMonumentAncient01::create(void *set_data) {
+void *TOMonumentAncient01::create(ObjectSetData *set_data) {
     return new TOMonumentAncient01(tl_05, set_data);
 }
 
@@ -62,7 +62,7 @@ TOMonumentAncient01::~TOMonumentAncient01() {
     free_collision_body_parts(this);
 }
 
-TOMonumentAncient01::TOMonumentAncient01(TObject *parent, void *set_data) : TOQuestTalkBase(parent) {
+TOMonumentAncient01::TOMonumentAncient01(TObject *parent, ObjectSetData *set_data) : TOQuestTalkBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(model_resource, 2);

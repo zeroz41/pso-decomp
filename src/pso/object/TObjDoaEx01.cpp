@@ -233,8 +233,8 @@ TObjDoaEx01::TObjDoaEx01(TObject *parent, ObjectSetData *placement) : TODoorBase
     this->glow_color.b = 1.0f;
 }
 
-void *TObjDoaEx01::create(void *set_data) {
-    return new TObjDoaEx01(tl_05, static_cast<ObjectSetData *>(set_data));
+void *TObjDoaEx01::create(ObjectSetData *set_data) {
+    return new TObjDoaEx01(tl_05, set_data);
 }
 
 void TObjDoaEx01::free_resource() {

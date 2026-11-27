@@ -8,8 +8,8 @@ struct NJS_MOTION;
 
 class TObjLobbyPigeon : public TObjPathObj {
 public:
-    TObjLobbyPigeon(TObject *parent, void *set_data);
-    static void *create(void *set_data);
+    TObjLobbyPigeon(TObject *parent, ObjectSetData *set_data);
+    static void *create(ObjectSetData *set_data);
     static void load_static_resource();
     static void destroy_instance();
     virtual ~TObjLobbyPigeon();

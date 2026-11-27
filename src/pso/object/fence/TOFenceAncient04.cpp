@@ -48,7 +48,7 @@ void TOFenceAncient04::open() {
     }
 }
 
-void *TOFenceAncient04::create(void *set_data) {
+void *TOFenceAncient04::create(ObjectSetData *set_data) {
     return new TOFenceAncient04(tl_05, set_data);
 }
 
@@ -89,7 +89,7 @@ TOFenceAncient04::~TOFenceAncient04() {
     free_collision_body_parts(this);
 }
 
-TOFenceAncient04::TOFenceAncient04(TObject *parent, void *set_data) : TOFenceBase(parent) {
+TOFenceAncient04::TOFenceAncient04(TObject *parent, ObjectSetData *set_data) : TOFenceBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = model_resource->models[0].model;

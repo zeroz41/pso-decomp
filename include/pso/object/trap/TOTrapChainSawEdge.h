@@ -7,7 +7,7 @@
 // One of the two blades a TOTrapChainSawDamage spawns above itself: it starts
 // a run each time its parent queues one.
 struct TOTrapChainSawEdge : public TOTrapChainSaw {
-    TOTrapChainSawEdge(TObject *parent, void *set_data);
+    TOTrapChainSawEdge(TObject *parent, ObjectSetData *set_data);
     virtual ~TOTrapChainSawEdge();
     virtual void update_extension();
     virtual void update_sweep();

@@ -9,7 +9,7 @@ struct BmlResource;
 // XmasTree, 21_21, SonicAdv2); its vtable follows theirs in CitySeason's .data.
 class TObjCitySeasonBase : public TObjCollidable {
 public:
-    TObjCitySeasonBase(TObject *parent, void *set_data, s32 kind, f32 radius);
+    TObjCitySeasonBase(TObject *parent, ObjectSetData *set_data, s32 kind, f32 radius);
     virtual ~TObjCitySeasonBase();
     // The decoration's model resource (city_season_resources[model_index]).
     BmlResource *get_anim_frame();

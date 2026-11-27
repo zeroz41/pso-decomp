@@ -7,7 +7,7 @@
 struct TOSwitchTimer : public TObjBase {
     static void free_resources();
     static void load_resources();
-    TOSwitchTimer(TObject *parent, void *set_data);
+    TOSwitchTimer(TObject *parent, ObjectSetData *set_data);
     virtual ~TOSwitchTimer();
     void init_from_set_data();
     void send_switch_states();
@@ -22,7 +22,7 @@ struct TOSwitchTimer : public TObjBase {
     u8 trigger_state;    // the trigger switch's state last frame
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     u8 pad_B1[0x3];
     s32 floor;
 };

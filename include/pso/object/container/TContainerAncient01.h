@@ -8,7 +8,7 @@
 struct BmlResource;
 
 struct TContainerAncient01 : public TObjChara {
-    TContainerAncient01(TObject *parent, void *set_data);
+    TContainerAncient01(TObject *parent, ObjectSetData *set_data);
     virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
     virtual ~TContainerAncient01();
     virtual int calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float);
@@ -36,7 +36,7 @@ struct TContainerAncient01 : public TObjChara {
     void init_state_vectors();
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void release_static_resource();
     static void load_resources();
     static s32 is_global_state_in_table();

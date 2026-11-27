@@ -81,7 +81,7 @@ NJS_OBJECT *trap_seabed01_ginja_model;
 s32 effect_uv_scroll_last_tick;
 s32 seabed01_ginja_mesh_index;
 
-TOTrapSeabed01::TOTrapSeabed01(TObject *parent, void *set_data) : TOTrap(parent) {
+TOTrapSeabed01::TOTrapSeabed01(TObject *parent, ObjectSetData *set_data) : TOTrap(parent) {
     m_name = TOTrapSeabed01_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(trap_seabed01_bml_resource, 0);
@@ -141,7 +141,7 @@ void TOTrapSeabed01::free_static_resources() {
     }
 }
 
-void *TOTrapSeabed01::create(void *set_data) {
+void *TOTrapSeabed01::create(ObjectSetData *set_data) {
     return new TOTrapSeabed01(tl_05, set_data);
 }
 

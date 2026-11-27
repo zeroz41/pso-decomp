@@ -164,11 +164,11 @@ const char *memcard_file_099_name = "PSO______099";
 
 TObjSinBoard::~TObjSinBoard() {}
 
-TObjSinBoard::TObjSinBoard(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjSinBoard::TObjSinBoard(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = sin_board_class_name;
     apply_object_set_data(set_data);
 }
 
-void *TObjSinBoard::create(void *set_data) {
+void *TObjSinBoard::create(ObjectSetData *set_data) {
     return new TObjSinBoard(tl_05, set_data);
 }

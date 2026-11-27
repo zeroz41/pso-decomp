@@ -71,8 +71,8 @@ TKomorebi::TKomorebi(TObject *parent, ObjectSetData *set_data) : TObjBase(parent
     texlist = get_bml_texlist(komorebi_bml_resource, 0);
 }
 
-void *TKomorebi::create(void *set_data) {
-    return new TKomorebi(tl_05, (ObjectSetData *)set_data);
+void *TKomorebi::create(ObjectSetData *set_data) {
+    return new TKomorebi(tl_05, set_data);
 }
 
 void TKomorebi::free_static() {

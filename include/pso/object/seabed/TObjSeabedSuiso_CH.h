@@ -11,7 +11,7 @@ struct NJS_OBJECT;
 // of floor switches is set.
 class TObjSeabedSuiso_CH : public TObjMapObject {
 public:
-    TObjSeabedSuiso_CH(TObject *parent, void *set_data);
+    TObjSeabedSuiso_CH(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjSeabedSuiso_CH();
     virtual void run_task();
     virtual void render();
@@ -19,7 +19,7 @@ public:
     void update_state();
     void scroll_kind2_uvs();
     void update_switch_lock();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 
     static const char *class_name;
     static s32 last_uv_scroll_tick;

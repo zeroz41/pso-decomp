@@ -2094,7 +2094,7 @@ void TBoss6Type1::clear_map_csn() { map_csn = 0; }
 void TBoss6Type1::destroy_map_csn() { release_map_csn(); }
 
 void TBoss6Type1::spawn_map_csn() {
-    MapCsnSetData data;
+    ObjectSetData data;
     Vec offset;
     VecCopy(&data.position, &position);
     push_matrix();
@@ -2105,12 +2105,12 @@ void TBoss6Type1::spawn_map_csn() {
     data.position.y = 0.0f;
     data.position.z += offset.z;
     pop_matrix();
-    data.rotation_x = 0;
-    data.rotation_y = rotation.y;
-    data.rotation_z = 0;
+    data.rotation[0] = 0;
+    data.rotation[1] = rotation.y;
+    data.rotation[2] = 0;
     VecCopy(&data.scale, &boss6_map_csn_scale);
-    data.params[0] = 2;
-    data.params[1] = 0;
+    data.set_params[0] = 2;
+    data.set_params[1] = 0;
     map_csn = TObjMapCsn::create(&data);
 }
 

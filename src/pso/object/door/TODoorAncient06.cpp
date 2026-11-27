@@ -77,7 +77,7 @@ void TODoorAncient06::update_closed() {
     }
 }
 
-void *TODoorAncient06::create(void *set_data) {
+void *TODoorAncient06::create(ObjectSetData *set_data) {
     return new TODoorAncient06(tl_05, set_data);
 }
 
@@ -122,7 +122,7 @@ TODoorAncient06::~TODoorAncient06() {
     free_collision_body_parts(this);
 }
 
-TODoorAncient06::TODoorAncient06(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorAncient06::TODoorAncient06(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = door_ancient06_class_name;
     apply_object_set_data(set_data);
     model = bml_resource->models[0].model;

@@ -49,7 +49,7 @@ int TEF_LensFlare::is_player_out_of_range(f32 range_sq) {
     }
     return (u32) __cntlzw(horizontal_distance_squared(&player->position, &position) < range_sq) >> 5;
 }
-void *TEF_LensFlare::create(void *set_data) {
+void *TEF_LensFlare::create(ObjectSetData *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }
@@ -254,7 +254,7 @@ void TEF_LensFlare::render() {
 #pragma pop
 
 
-TEF_LensFlare::TEF_LensFlare(TObject *parent, void *set_data) : TObjBase(parent) {
+TEF_LensFlare::TEF_LensFlare(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     elements = lens_flare_reflected_element_descriptors;

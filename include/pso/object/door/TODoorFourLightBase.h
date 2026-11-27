@@ -11,7 +11,7 @@ struct FourLightNodeTable {
 };
 
 struct TODoorFourLightBase : public TODoorBase {
-    TODoorFourLightBase(TObject *parent, void *set_data);
+    TODoorFourLightBase(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorFourLightBase();
     // The texture lists draw_node_tree binds: get_lit_textures (the door's
     // green GVM) for nodes render_lights flags 0x100000, get_unlit_textures

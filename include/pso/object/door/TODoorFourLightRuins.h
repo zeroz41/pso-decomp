@@ -6,7 +6,7 @@
 #include "pso/system/NinjaTypes.h"
 
 struct TODoorFourLightRuins : public TODoorBase {
-    TODoorFourLightRuins(TObject *parent, void *set_data);
+    TODoorFourLightRuins(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorFourLightRuins();
     virtual s32 init_door_switch_binding();
     virtual void update_door_switch_state();
@@ -17,7 +17,7 @@ struct TODoorFourLightRuins : public TODoorBase {
     virtual void render();
     // The model nodes of the four switch lights: the lamps, then their glows.
     NJS_OBJECT *light_nodes[8];
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TODoorFourLightRuins_size, sizeof(TODoorFourLightRuins) == 0xF8);

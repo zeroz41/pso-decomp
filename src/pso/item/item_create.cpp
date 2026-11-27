@@ -210,7 +210,7 @@
 // ---- TLobby_80104374.cpp
 
 // This unit's .sbss, in address order.
-void *item_object_set_data;
+ObjectSetData *item_object_set_data;
 s32 item_ground_placement_enabled;
 FlagWord pioneer2_item_respawn_flags;
 LoadUnloadSet *item_class_load_handle;

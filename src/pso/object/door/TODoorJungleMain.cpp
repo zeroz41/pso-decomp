@@ -97,7 +97,7 @@ BmlResource *TODoorJungleMain::bml_resource;
 
 NJS_TEXLIST *door_jungle_main_gvm_texture;
 
-TODoorJungleMain::TODoorJungleMain(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorJungleMain::TODoorJungleMain(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     motion = (NJS_MOTION *)get_bml_motion(TODoorJungleMain::bml_resource, 0);
@@ -244,7 +244,7 @@ void TODoorJungleMain::free_static_resources() {
     }
 }
 
-void *TODoorJungleMain::create(void *set_data) {
+void *TODoorJungleMain::create(ObjectSetData *set_data) {
     return new TODoorJungleMain(tl_05, set_data);
 }
 

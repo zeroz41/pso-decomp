@@ -72,13 +72,13 @@ void TOKeyCol::run_task() {
 
 void TOKeyCol::render() {}
 
-void *TOKeyCol::create(void *set_data) {
+void *TOKeyCol::create(ObjectSetData *set_data) {
     return new TOKeyCol(tl_05, set_data);
 }
 
 TOKeyCol::~TOKeyCol() {}
 
-TOKeyCol::TOKeyCol(TObject *parent, void *set_data) : TOKey(parent) {
+TOKeyCol::TOKeyCol(TObject *parent, ObjectSetData *set_data) : TOKey(parent) {
     m_name = key_col_name;
     apply_object_set_data(set_data);
     init_switch_id();

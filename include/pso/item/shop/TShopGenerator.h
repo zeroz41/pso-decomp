@@ -18,7 +18,7 @@ struct ShopService {
 };
 
 struct TShopGenerator : public TObjBase {
-    TShopGenerator(void *set_data);
+    TShopGenerator(ObjectSetData *set_data);
     virtual ~TShopGenerator();
     BOOL is_player_in_service_range(TObjBase *player, f32 range);
     virtual void run_task();
@@ -29,7 +29,7 @@ struct TShopGenerator : public TObjBase {
     static void clear_slot_active(u16 client);
     static void run_fn_table_reverse();
     static void run_fn_table_forward();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 
     static ShopService service_dispatch_table[7];
     static const char *class_name;

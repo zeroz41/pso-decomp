@@ -81,7 +81,7 @@ void G_SetBossWarpFlags_6x6A::send() {
     send_subcommand(this);
 }
 
-TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = class_name;
     frame = 0.0f;
     warp_range = 19.0f;

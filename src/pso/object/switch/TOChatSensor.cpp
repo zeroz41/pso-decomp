@@ -85,7 +85,7 @@ void TOChatSensor::destroy_global() {
     }
 }
 
-void *TOChatSensor::create(void *set) {
+void *TOChatSensor::create(ObjectSetData *set) {
     if (chat_sensor_folder_instance == NULL) {
         new TOChatSensorFolder(tl_05);
     }
@@ -106,7 +106,7 @@ void TOChatSensor::dispatch_chat_message_to_children(char *message) {
     }
 }
 
-TOChatSensor::TOChatSensor(TObject *parent, void *set_data) : TObjBase(parent) {
+TOChatSensor::TOChatSensor(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     s32 n;
     char **t;
     m_name = chat_sensor_name;

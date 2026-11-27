@@ -6,7 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TOSparkMachine01 : public TObjBase {
-    TOSparkMachine01(void *set_data);
+    TOSparkMachine01(ObjectSetData *set_data);
     virtual ~TOSparkMachine01();
     f32 spark_timer[4];
     u8 spark_on[4];
@@ -16,7 +16,7 @@ struct TOSparkMachine01 : public TObjBase {
     void update_spark_toggle(s32 i);
     virtual void run_task();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void destroy_static_instance();
     static void load_static_resource();
 };

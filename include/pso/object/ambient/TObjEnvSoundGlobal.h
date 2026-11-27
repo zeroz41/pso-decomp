@@ -6,7 +6,7 @@
 #include "pso/object/ambient/TObjEnvSound.h"
 
 struct TObjEnvSoundGlobal : public TObjBase {
-    TObjEnvSoundGlobal(TObject *parent, void *set_data);
+    TObjEnvSoundGlobal(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjEnvSoundGlobal();
     f32 attenuation;   // set_params[1] clamped to -127..127
     EnvSoundRow sound; // the area's table row, cue -1 for none; mode 1 plays at its position, 2 everywhere with the attenuation
@@ -15,7 +15,7 @@ struct TObjEnvSoundGlobal : public TObjBase {
     static void copy_env_sound_row(EnvSoundRow *dst, EnvSoundRow *src);
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjEnvSoundGlobal_size, sizeof(TObjEnvSoundGlobal) == 0x9C);

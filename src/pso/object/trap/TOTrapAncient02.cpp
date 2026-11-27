@@ -131,7 +131,7 @@ void TOTrapAncient02R::submit_cursor_and_notify() {
     find_target_player();
 }
 
-TOTrapAncient02::TOTrapAncient02(TObject *parent, void *set_data) : TOTrap(parent) {
+TOTrapAncient02::TOTrapAncient02(TObject *parent, ObjectSetData *set_data) : TOTrap(parent) {
     m_name = trap_ancient02_name;
     apply_object_set_data(set_data);
     init_position_vectors();
@@ -211,7 +211,7 @@ void TOTrapAncient02::destroy_instance() {
     }
 }
 
-void *TOTrapAncient02::create(void *set_data) {
+void *TOTrapAncient02::create(ObjectSetData *set_data) {
     return new TOTrapAncient02(tl_05, set_data);
 }
 
@@ -486,7 +486,7 @@ void TOTrapAncient02::run_demo() {}
 
 void TOTrapAncient02::vfunc_86() {}
 
-TOTrapAncient02R::TOTrapAncient02R(TObject *parent, void *set_data) : TOTrapAncient02(parent, set_data) {
+TOTrapAncient02R::TOTrapAncient02R(TObject *parent, ObjectSetData *set_data) : TOTrapAncient02(parent, set_data) {
     m_name = trap_ancient02_r_name;
     apply_object_set_data(set_data);
     init_position_vectors();
@@ -520,7 +520,7 @@ TOTrapAncient02R::TOTrapAncient02R(TObject *parent, void *set_data) : TOTrapAnci
 
 TOTrapAncient02R::~TOTrapAncient02R() {}
 
-void *TOTrapAncient02R::create(void *set_data) {
+void *TOTrapAncient02R::create(ObjectSetData *set_data) {
     return new TOTrapAncient02R(tl_05, set_data);
 }
 

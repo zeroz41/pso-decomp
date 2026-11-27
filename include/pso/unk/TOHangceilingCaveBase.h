@@ -8,7 +8,7 @@ class TObjPlayer;
 
 class TOHangceilingCaveBase : public TObjChara {
 public:
-    TOHangceilingCaveBase(TObject *parent, void *set_data);
+    TOHangceilingCaveBase(TObject *parent, ObjectSetData *set_data);
     virtual ~TOHangceilingCaveBase();
     virtual void run_task();
     virtual void render();

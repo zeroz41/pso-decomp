@@ -13,7 +13,7 @@ const char *TObjPlayerSet::class_name = "TObjPlayerSet";
 void TObjPlayerSet::render() {  }
 void TObjPlayerSet::run_task() {  }
 
-void *TObjPlayerSet::create(void *set_data) {
+void *TObjPlayerSet::create(ObjectSetData *set_data) {
     return new TObjPlayerSet(tl_06, set_data);
 }
 
@@ -24,7 +24,7 @@ TObjPlayerSet::~TObjPlayerSet() {
 #pragma push
 #pragma opt_common_subs off
 #define player_set this
-TObjPlayerSet::TObjPlayerSet(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjPlayerSet::TObjPlayerSet(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     player_set->m_name = class_name;
     ((TObjPlayerSet *)(player_set))->apply_object_set_data(set_data);
     if (player_set->scale.x < 0.0f) {

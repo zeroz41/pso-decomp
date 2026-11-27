@@ -91,7 +91,7 @@ void TOSensorGeneral01::render() {
     }
 }
 
-void *TOSensorGeneral01::create(void *set_data) {
+void *TOSensorGeneral01::create(ObjectSetData *set_data) {
     return new TOSensorGeneral01(tl_05, set_data);
 }
 
@@ -119,7 +119,7 @@ void TOSensorGeneral01::load_assets() {
 
 TOSensorGeneral01::~TOSensorGeneral01() {}
 
-TOSensorGeneral01::TOSensorGeneral01(TObject *parent, void *set_data) : TOSensor(parent) {
+TOSensorGeneral01::TOSensorGeneral01(TObject *parent, ObjectSetData *set_data) : TOSensor(parent) {
     m_name = sensor_general01_class_name;
     apply_object_set_data(set_data);
     init_switch_id();

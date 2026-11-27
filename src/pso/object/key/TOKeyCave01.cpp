@@ -209,7 +209,7 @@ void TOKeyCave01::render() {
     }
 }
 
-void *TOKeyCave01::create(void *set_data) {
+void *TOKeyCave01::create(ObjectSetData *set_data) {
     return new TOKeyCave01(tl_05, set_data);
 }
 
@@ -250,7 +250,7 @@ void TOKeyCave01::load_resources() {
 
 TOKeyCave01::~TOKeyCave01() {}
 
-TOKeyCave01::TOKeyCave01(TObject *parent, void *set_data) : TOKey(parent) {
+TOKeyCave01::TOKeyCave01(TObject *parent, ObjectSetData *set_data) : TOKey(parent) {
     m_name = key_cave01_class_name;
     apply_object_set_data(set_data);
     init_switch_id();

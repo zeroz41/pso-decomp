@@ -303,7 +303,7 @@ void TOKurage::render() {
 }
 
 
-void *TOKurage::create(void *set_data) {
+void *TOKurage::create(ObjectSetData *set_data) {
     return new TOKurage(tl_05, set_data);
 }
 
@@ -321,7 +321,7 @@ void TOKurage::load_static_resource() {
 
 TOKurage::~TOKurage() {}
 
-TOKurage::TOKurage(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TOKurage::TOKurage(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = kurage_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(kurage_bml_resource, 0);

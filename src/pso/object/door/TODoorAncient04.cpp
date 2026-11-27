@@ -46,7 +46,7 @@ const char *TODoorAncient04_name = "TODoorAncient04";
 static BmlResource *door_ancient04_archive;
 static NJS_TEXLIST **door_ancient04_texlists;
 
-TODoorAncient04::TODoorAncient04(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorAncient04::TODoorAncient04(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = TODoorAncient04_name;
     apply_object_set_data(set_data);
     model = door_ancient04_archive->models[0].model;
@@ -88,7 +88,7 @@ void TODoorAncient04::free_resources() {
     }
 }
 
-void *TODoorAncient04::create(void *set_data) {
+void *TODoorAncient04::create(ObjectSetData *set_data) {
     return new TODoorAncient04(tl_05, set_data);
 }
 

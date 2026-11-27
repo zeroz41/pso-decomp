@@ -282,7 +282,7 @@ force_active:
   - on_chr_select_fade_out_done__FP7TObject
   - close_message_window__17TCharSaveSequenceFv
   - enable_prompt__16TCheckMemoryCardFv
-  - __ct__16TBGLightningCtrlFP7TObjectPv
+  - __ct__16TBGLightningCtrlFP7TObjectP13ObjectSetData
   - class_name__16TBGLightningCtrl
   - bind_lightning_texture__Fv
   - class_name__12TBGLightning
@@ -502,9 +502,9 @@ force_active:
   - error_return_text_id__18TCheckRoomSequence
   - add_to_bank_stack__FP9TItemDatall
   - instance__9TCineCtrl
-  - __ct__20TContainerAncient01RFP7TObjectPv
+  - __ct__20TContainerAncient01RFP7TObjectP13ObjectSetData
   - container_ancient01_collision_body_parts
-  - __ct__19TContainerAncient01FP7TObjectPv
+  - __ct__19TContainerAncient01FP7TObjectP13ObjectSetData
   - container_ancient01_resource_descriptor
   - container_ancient01_resource_descriptor_2
   - attack_nearby_players__20TContainerAncient01RFf
@@ -768,7 +768,7 @@ force_active:
   - set_hits_left__15TOAttackableColFl
   - get_hits_left__15TOAttackableColFv
   - TOBarrierEnergy01_name
-  - __ct__6TOBindFPv
+  - __ct__6TOBindFP13ObjectSetData
   - cakeshop_cave01_model_resource
   - TOCakeshopCave01_class_name
   - capsule_machine01_last_update_frame_tick
@@ -776,7 +776,7 @@ force_active:
   - TOCapsuleMachine01_class_name
   - chat_sensor_capture_class_name
   - chat_sensor_capture_instance
-  - __ct__12TOChatSensorFP7TObjectPv
+  - __ct__12TOChatSensorFP7TObjectP13ObjectSetData
   - TOContainerAncientItemCommon__ct
   - TOCtrlDubchik__ct
   - run_demo_task__13TOCtrlDubchikFv
@@ -785,18 +785,18 @@ force_active:
   - TODoorAncient04_name
   - TODoorAncient05_name
   - bml_resource__16TODoorJungleMain
-  - __ct__16TODoorJungleMainFP7TObjectPv
+  - __ct__16TODoorJungleMainFP7TObjectP13ObjectSetData
   - door_four_light_ruins_class_name
   - door_four_light_space_class_name
   - door_four_light_collision_body_params
   - TODoorJungleMain_collision_body_parts
-  - __ct__16TODummyKeyCave01FP7TObjectPv
+  - __ct__16TODummyKeyCave01FP7TObjectP13ObjectSetData
   - explosive_machine01_class_name
   - explosive_machine02_class_name
   - explosive_machine03_class_name
   - explosive_machine_class_name
   - grass_jungle_bml_resource
-  - __ct__13TOGrassJungleFP7TObjectPv
+  - __ct__13TOGrassJungleFP7TObjectP13ObjectSetData
   - grass_jungle_grass_gvm_texture
   - hangceiling_cave01_key_quick_class_name
   - hangceiling_cave01_key_quick_class_name_string
@@ -827,10 +827,10 @@ force_active:
   - key_class_name
   - kurage_bml_resource
   - kurage_class_name
-  - __ct__16TOLightMachine01FPv
-  - __ct__12TOMineIcon01FP7TObjectPv
-  - __ct__12TOMineIcon02FP7TObjectPv
-  - __ct__12TOMineIcon04FP7TObjectPv
+  - __ct__16TOLightMachine01FP13ObjectSetData
+  - __ct__12TOMineIcon01FP7TObjectP13ObjectSetData
+  - __ct__12TOMineIcon02FP7TObjectP13ObjectSetData
+  - __ct__12TOMineIcon04FP7TObjectP13ObjectSetData
   - mine_trap_disp_name
   - monitor_machine01_bml_resource
   - monitor_machine01_class_name
@@ -846,10 +846,10 @@ force_active:
   - rock_cave_sm02_class_name
   - rock_cave_simple_class_name
   - rock_cave_class_name
-  - __ct__15TORockJungleL01FPv
-  - __ct__15TORockJungleM01FPv
+  - __ct__15TORockJungleL01FP13ObjectSetData
+  - __ct__15TORockJungleM01FP13ObjectSetData
   - rock_jungle_s01_bml_resource
-  - __ct__15TORockJungleS01FPv
+  - __ct__15TORockJungleS01FP13ObjectSetData
   - rock_jungle_s01_texture_resource
   - TORockJungleS01_resource_descriptor
   - sensor_ancient01_class_name
@@ -864,24 +864,24 @@ force_active:
   - sign_cave02_class_name
   - sign_cave03_bml_resource
   - sign_cave03_class_name
-  - __ct__16TOSparkMachine01FPv
+  - __ct__16TOSparkMachine01FP13ObjectSetData
   - spark_machine01_static_resource
   - __ct__17TOSwitchAttackSubFP7TObjectllUlf
-  - __ct__14TOSwitchAttackFP7TObjectPv
+  - __ct__14TOSwitchAttackFP7TObjectP13ObjectSetData
   - switch_item_class_name
   - TOSwitchTimer__ct
-  - __ct__16TOTrapAncient02RFP7TObjectPv
+  - __ct__16TOTrapAncient02RFP7TObjectP13ObjectSetData
   - update_state__17TObjEneBm3FlyNestFl
   - update_springing__16TOTrapAncient02RFv
-  - __ct__15TOTrapAncient02FP7TObjectPv
-  - __ct__20TOTrapChainSawDamageFP7TObjectPv
+  - __ct__15TOTrapAncient02FP7TObjectP13ObjectSetData
+  - __ct__20TOTrapChainSawDamageFP7TObjectP13ObjectSetData
   - queue_runs__18TOTrapChainSawEdgeFl
   - select_model__20TOTrapChainSawDamageFv
   - hit_player__20TOTrapChainSawDamageFP10TObjPlayer
   - TOTrapChainSawDamage_class_name
-  - __ct__18TOTrapChainSawEdgeFP7TObjectPv
+  - __ct__18TOTrapChainSawEdgeFP7TObjectP13ObjectSetData
   - TOTrapChainSawEdge_class_name
-  - __ct__17TOTrapChainSawKeyFP7TObjectPv
+  - __ct__17TOTrapChainSawKeyFP7TObjectP13ObjectSetData
   - trap_chain_saw_name
   - trap_seabed01_bml_resource
   - TOTrapSeabed01__ct
@@ -890,27 +890,27 @@ force_active:
   - trap_seabed01_texture_file
   - TOTrapSeabed01__vt20
   - TOTrapSeabed01__vt83
-  - __ct__11TOVS2Wall01FPv
+  - __ct__11TOVS2Wall01FP13ObjectSetData
   - vs2_wreck01_class_name
-  - __ct__12TOVS2Wreck01FPv
+  - __ct__12TOVS2Wreck01FP13ObjectSetData
   - vs2_wreck02_class_name
-  - __ct__12TOVS2Wreck02FPv
+  - __ct__12TOVS2Wreck02FP13ObjectSetData
   - vs2_wreck03_class_name
-  - __ct__12TOVS2Wreck03FPv
+  - __ct__12TOVS2Wreck03FP13ObjectSetData
   - vs2_wreck04_class_name
-  - __ct__12TOVS2Wreck04FPv
+  - __ct__12TOVS2Wreck04FP13ObjectSetData
   - vs2_wreck05_class_name
-  - __ct__12TOVS2Wreck05FPv
+  - __ct__12TOVS2Wreck05FP13ObjectSetData
   - vs2_wreck06_class_name
-  - __ct__12TOVS2Wreck06FPv
+  - __ct__12TOVS2Wreck06FP13ObjectSetData
   - vs2_class_name
   - wreck_ancient_brakable_name
   - run_task_stub__22TOWreckAncientBrakableFv
   - wreck_ancient_resource_descriptor
-  - __ct__22TObjAreaWarpEndingJungFP7TObjectPv
+  - __ct__22TObjAreaWarpEndingJungFP7TObjectP13ObjectSetData
   - bgm_col_ctrl_name
   - bgm_col_name
-  - __ct__14TObjBigTuitateFP7TObjectPv
+  - __ct__14TObjBigTuitateFP7TObjectP13ObjectSetData
   - name__17TObjBoss2CeilJunk
   - __ct__17TObjBoss2DustCtrlFP7TObject
   - TObjBoss2DustCtrl_dust_counter
@@ -945,26 +945,26 @@ force_active:
   - disable_dressing_room_mode__Fv
   - obj_challenge_retry_class_name
   - __ct__18TObjChallengeRetryFP7TObject
-  - __ct__16TObjCityAreaWarpFP7TObjectPv
+  - __ct__16TObjCityAreaWarpFP7TObjectP13ObjectSetData
   - TObjCityDoor_Guild__class_name
-  - __ct__18TObjCityDoor_GuildFP7TObjectPv
+  - __ct__18TObjCityDoor_GuildFP7TObjectP13ObjectSetData
   - class_name__18TObjCityDoor_Guild
   - city_door_guild_params
   - TObjCityDoor_Lobby__class_name
-  - __ct__18TObjCityDoor_LobbyFP7TObjectPv
+  - __ct__18TObjCityDoor_LobbyFP7TObjectP13ObjectSetData
   - class_name__18TObjCityDoor_Lobby
   - TObjCityDoor_Med__class_name
-  - __ct__16TObjCityDoor_MedFP7TObjectPv
+  - __ct__16TObjCityDoor_MedFP7TObjectP13ObjectSetData
   - class_name__16TObjCityDoor_Med
   - TObjCityDoor_Shop__class_name
-  - __ct__17TObjCityDoor_ShopFP7TObjectPv
+  - __ct__17TObjCityDoor_ShopFP7TObjectP13ObjectSetData
   - class_name__17TObjCityDoor_Shop
   - city_door_shop_params
   - TObjCityDoor_Warp__class_name
-  - __ct__17TObjCityDoor_WarpFP7TObjectPv
+  - __ct__17TObjCityDoor_WarpFP7TObjectP13ObjectSetData
   - class_name__17TObjCityDoor_Warp
-  - __ct__16TObjCityMainWarpFP7TObjectPv
-  - __ct__15TObjCityMapWarpFP7TObjectPv
+  - __ct__16TObjCityMainWarpFP7TObjectP13ObjectSetData
+  - __ct__15TObjCityMapWarpFP7TObjectP13ObjectSetData
   - TObjCity_Season_21_21__ct
   - class_name__21TObjCity_Season_21_21
   - TObjCity_Season_Board__ct
@@ -1027,7 +1027,7 @@ force_active:
   - door_key_collision_body_parts
   - door_key_resource_descriptor
   - collision_desc__8TObjDoor
-  - __ct__8TObjDoorFP7TObjectPv
+  - __ct__8TObjDoorFP7TObjectP13ObjectSetData
   - label_color_table__8TObjDoor
   - resource_param__8TObjDoor
   - update_open__8TObjDoorFv
@@ -1360,15 +1360,15 @@ force_active:
   - slime_attack_target_param_table
   - __ct__12TObjEneSlimeFP7TObjectPUc
   - copy_child_slot__FP14SlimeChildSlotP14SlimeChildSlot
-  - __ct__14TObjEnvSoundExFP7TObjectPv
-  - __ct__12TObjEnvSoundFP7TObjectPv
+  - __ct__14TObjEnvSoundExFP7TObjectP13ObjectSetData
+  - __ct__12TObjEnvSoundFP7TObjectP13ObjectSetData
   - TObjEvtCollision__ct
   - __dt__24ModelNodePositionCaptureFv
   - __ct__23TBoss6Demo15_TYPE2_WAITFP14TBoss6PlotFalz
   - model_node_position_capture_state
-  - __ct__22TObjFogCollisionPoisonFP7TObjectPv
+  - __ct__22TObjFogCollisionPoisonFP7TObjectP13ObjectSetData
   - fog_collision_poison_instances
-  - __ct__22TObjFogCollisionSwitchFP7TObjectPv
+  - __ct__22TObjFogCollisionSwitchFP7TObjectP13ObjectSetData
   - debug_draw_enabled__16TObjFogCollisionFv
   - debug_text_enabled__16TObjFogCollisionFv
   - update_hold__12TObjGrassWebFv
@@ -1385,12 +1385,12 @@ force_active:
   - obj_item_name_select_class_name
   - obj_item_ok_window_class_name
   - obj_item_ok_window_text_format
-  - __ct__18TObjLaboDesignBaseFP7TObjectPvl
-  - __ct__15TObjLaboMapWarpFP7TObjectPv
-  - __ct__15TObjLazerFence4FP7TObjectPv
-  - __ct__19TObjLazerFenceExtraFP7TObjectPv
-  - __ct__18TObjLazerFenceNormFP7TObjectPv
-  - __ct__9TObjLightFP7TObjectPUc
+  - __ct__18TObjLaboDesignBaseFP7TObjectP13ObjectSetDatal
+  - __ct__15TObjLaboMapWarpFP7TObjectP13ObjectSetData
+  - __ct__15TObjLazerFence4FP7TObjectP13ObjectSetData
+  - __ct__19TObjLazerFenceExtraFP7TObjectP13ObjectSetData
+  - __ct__18TObjLazerFenceNormFP7TObjectP13ObjectSetData
+  - __ct__9TObjLightFP7TObjectP13ObjectSetData
   - light_slots
   - actor_light_table
   - light_table
@@ -1400,9 +1400,9 @@ force_active:
   - update_stub__22TSceneDirectionalLightFv
   - __ct__22TSceneDirectionalLightFP7TObject
   - TObjLiveCamera__ct
-  - __ct__9TObjLukerFP7TObjectPv
+  - __ct__9TObjLukerFP7TObjectP13ObjectSetData
   - TObjMapCsn__ct
-  - __ct__18TObjMapWarpAncientFP7TObjectPv
+  - __ct__18TObjMapWarpAncientFP7TObjectP13ObjectSetData
   - class_name__11TObjMapWarp
   - class_name__10TObjMotion
   - name__12TObjNpcAHM01
@@ -1486,9 +1486,9 @@ force_active:
   - __ct__23TObjOnlineEndingHexMoveFP7TObject
   - online_ending_hex_move_default_params
   - __ct__16TObjOnlineEndingFP7TObject
-  - __ct__12TObjParticleFP7TObjectP15ParticleSetData
-  - __ct__11TObjPathObjFP7TObjectPv
-  - __ct__13TObjPlayerSetFP7TObjectPv
+  - __ct__12TObjParticleFP7TObjectP13ObjectSetData
+  - __ct__11TObjPathObjFP7TObjectP13ObjectSetData
+  - __ct__13TObjPlayerSetFP7TObjectP13ObjectSetData
   - select_destination_away_from
   - set_status_effect_timer__9TObjCharaFll
   - set_status_effect_type__9TObjCharaFll
@@ -1575,10 +1575,10 @@ force_active:
   - init__14TPlyDispConfigFv
   - clear_indirect_effect_ctrl_table__Fv
   - reset_indirect_effect_ctrl_table__Fv
-  - __ct__16TObjJungleKamomeFP7TObjectPv
-  - __ct__14TObjJungleBirdFP7TObjectPv
-  - __ct__13TObjJungleEbiFP7TObjectPv
-  - __ct__17TObjSeabedDolphinFP7TObjectPv
+  - __ct__16TObjJungleKamomeFP7TObjectP13ObjectSetData
+  - __ct__14TObjJungleBirdFP7TObjectP13ObjectSetData
+  - __ct__13TObjJungleEbiFP7TObjectP13ObjectSetData
+  - __ct__17TObjSeabedDolphinFP7TObjectP13ObjectSetData
   - set_save_time__12TPlyCharDataFUl
   - draw_model_tinted__17TAdChrSelPlayerGCFP10NJS_OBJECTP25CharacterAppearanceFieldsf
   - draw_model_tinted_opaque__17TAdChrSelPlayerGCFP10NJS_OBJECTP25CharacterAppearanceFields
@@ -1610,13 +1610,13 @@ force_active:
   - TObjPlayer__sub_803E5378
   - TObjPlayer__sub_803E53F8
   - TObjPlayer__sub_803E5458
-  - __ct__18TObjQuestColALock2FP7TObjectPv
-  - __ct__13TObjRaderIconFP7TObjectPv
+  - __ct__18TObjQuestColALock2FP7TObjectP13ObjectSetData
+  - __ct__13TObjRaderIconFP7TObjectP13ObjectSetData
   - TObjResultWin_class_name
   - class_name__13TObjResultWin
   - TObjRoomId__ct
   - sin_board_class_name
-  - __ct__12TObjSinBoardFP7TObjectPv
+  - __ct__12TObjSinBoardFP7TObjectP13ObjectSetData
   - sin_board_texture_name
   - sin_board_texture_surface
   - TObjSoloPlayWin_class_name
@@ -1631,17 +1631,17 @@ force_active:
   - TObjTradeCollision__ct
   - collision_parts__11TObjTuitate
   - trade_collision_name
-  - __ct__11TObjTuitateFP7TObjectPv
+  - __ct__11TObjTuitateFP7TObjectP13ObjectSetData
   - hair_model_stub__24TObjWaitEntryHairMoveSimFP10NJS_OBJECT
   - TObjWarnChime_class_name
   - TObjWarnChime_name
-  - __ct__12TObjWarpBaseFP7TObjectPv
-  - __ct__17TObjWarpBossMultiFP7TObjectPv
+  - __ct__12TObjWarpBaseFP7TObjectP13ObjectSetData
+  - __ct__17TObjWarpBossMultiFP7TObjectP13ObjectSetData
   - warp_boss_multi_name
   - find_local_boss_warp_player
-  - __ct__12TObjWarpBossFP7TObjectPv
+  - __ct__12TObjWarpBossFP7TObjectP13ObjectSetData
   - warp_boss_name
-  - __ct__12TObjWarpJungFP7TObjectPv
+  - __ct__12TObjWarpJungFP7TObjectP13ObjectSetData
   - delay_before_fade_out__14TObjWarpStringFv
   - TObject_name
   - particle_entry_path
@@ -1918,16 +1918,16 @@ force_active:
   - __ct__10TBoss6RockFP7TObjectl
   - __ct__10TButterflyFP7TObjectP13ObjectSetData
   - __ct__10TItemMoneyFP7TObjectP9TItemData
-  - __ct__10TObjCameraFP7TObjectPv
+  - __ct__10TObjCameraFP7TObjectP13ObjectSetData
   - __ct__11TBoss4ZanzoFP7TObjectP17TBoss4ZanzoParams
   - __ct__11TMessageBoxFRC11TMessageBox
-  - __ct__11TOBiwaMushiFPv
-  - __ct__11TOBoss4BirdFPv
-  - __ct__11TOBoss4RockFPv
-  - __ct__11TOKeyCave01FP7TObjectPv
+  - __ct__11TOBiwaMushiFP13ObjectSetData
+  - __ct__11TOBoss4BirdFP13ObjectSetData
+  - __ct__11TOBoss4RockFP13ObjectSetData
+  - __ct__11TOKeyCave01FP7TObjectP13ObjectSetData
   - __ct__11TObjDFDemo1FP7TObjectPC3Vecl
   - __ct__11TObjDFDemo5FP7TObjectPC3Vecl
-  - __ct__11TObjDoorKeyFP7TObjectPv
+  - __ct__11TObjDoorKeyFP7TObjectP13ObjectSetData
   - __ct__11TPlayerSoulFP7TObjectUs
   - __ct__12CursorActionFv
   - __ct__12TBGLightningFP7TObjectP3Vecf
@@ -1940,43 +1940,43 @@ force_active:
   - __ct__12TEffCliticalFP3Vec
   - __ct__12TItemProUnitFP7TObjectPUc
   - __ct__12TItemTexLoadFP7TObject
-  - __ct__12TOBoss4TowerFPv
-  - __ct__12TODoorCave01FP7TObjectPv
-  - __ct__12TODoorCave02FP7TObjectPv
-  - __ct__12TODoorCave03FP7TObjectPv
-  - __ct__12TODoorVoShipFP7TObjectPv
-  - __ct__12TOMekaFish00FPv
-  - __ct__12TOMekaFish01FPv
-  - __ct__12TOSignCave01FP7TObjectPv
-  - __ct__12TOSignCave02FP7TObjectPv
-  - __ct__12TOSignCave03FP7TObjectPv
-  - __ct__12TOSwitchItemFP7TObjectPv
+  - __ct__12TOBoss4TowerFP13ObjectSetData
+  - __ct__12TODoorCave01FP7TObjectP13ObjectSetData
+  - __ct__12TODoorCave02FP7TObjectP13ObjectSetData
+  - __ct__12TODoorCave03FP7TObjectP13ObjectSetData
+  - __ct__12TODoorVoShipFP7TObjectP13ObjectSetData
+  - __ct__12TOMekaFish00FP13ObjectSetData
+  - __ct__12TOMekaFish01FP13ObjectSetData
+  - __ct__12TOSignCave01FP7TObjectP13ObjectSetData
+  - __ct__12TOSignCave02FP7TObjectP13ObjectSetData
+  - __ct__12TOSignCave03FP7TObjectP13ObjectSetData
+  - __ct__12TOSwitchItemFP7TObjectP13ObjectSetData
   - __ct__13PointerBufferFlPv
   - __ct__13TItemAttackerFP7TObjectPC3VeclP16DelayedWeaponHit
   - __ct__13TItemEffFlameFP7TObjectP12ActorBodyHit
   - __ct__13TItemEffLavisFPvPC3VecPC3Vecf
-  - __ct__13TLazerFenceSwFP7TObjectPv
-  - __ct__13TOCapsuleLaboFP7TObjectPv
-  - __ct__13TOHealGeneralFPv
-  - __ct__13TORockCaveL01FPv
-  - __ct__13TORockCaveL02FPv
-  - __ct__13TORockCaveL03FPv
-  - __ct__13TORockCaveM01FPv
-  - __ct__13TORockCaveM02FPv
-  - __ct__13TORockCaveM03FPv
-  - __ct__13TORockCaveS01FPv
-  - __ct__13TORockCaveS02FPv
-  - __ct__13TORockCaveS03FPv
+  - __ct__13TLazerFenceSwFP7TObjectP13ObjectSetData
+  - __ct__13TOCapsuleLaboFP7TObjectP13ObjectSetData
+  - __ct__13TOHealGeneralFP13ObjectSetData
+  - __ct__13TORockCaveL01FP13ObjectSetData
+  - __ct__13TORockCaveL02FP13ObjectSetData
+  - __ct__13TORockCaveL03FP13ObjectSetData
+  - __ct__13TORockCaveM01FP13ObjectSetData
+  - __ct__13TORockCaveM02FP13ObjectSetData
+  - __ct__13TORockCaveM03FP13ObjectSetData
+  - __ct__13TORockCaveS01FP13ObjectSetData
+  - __ct__13TORockCaveS02FP13ObjectSetData
+  - __ct__13TORockCaveS03FP13ObjectSetData
   - __ct__13TObjBs4CutAtkFP7TObjectll
   - __ct__13TObjCHTimeWinFP7TObject
   - __ct__13TObjDFRecoverFP7TObjectUsPC3Vec
-  - __ct__13TObjHashiBaseFP7TObjectPv
-  - __ct__13TObjLobbyMainFP7TObjectPv
+  - __ct__13TObjHashiBaseFP7TObjectP13ObjectSetData
+  - __ct__13TObjLobbyMainFP7TObjectP13ObjectSetData
   - __ct__13TObjResultWinFP7TObjectPC21ChallengeResultRecord
   - __ct__13TObjSuisoChipFP8TObjBaseP14TObjChipParams
   - __ct__13TObjTombstoneFP7TObjectlPC17TObjTombstoneSpot
   - __ct__13TObjTombstoneFP7TObjectlPC19TObjTombstoneRecord
-  - __ct__13TObjTreeLobbyFP7TObjectPv
+  - __ct__13TObjTreeLobbyFP7TObjectP13ObjectSetData
   - __ct__13TObjWarnChimeFP7TObject
   - __ct__17TCameraDebugOrbitFv
   - __ct__15TCameraScriptedFv
@@ -2019,20 +2019,20 @@ force_active:
   - __ct__14TItemEffHeavenFP7TObjectP10TObjPlayerUsl
   - __ct__14TItemEffNeedleFP7TObjectP5TItemUsl
   - __ct__14TItemProShieldFP7TObjectPUc
-  - __ct__14TOAirconCave01FP7TObjectPv
-  - __ct__14TOAirconCave02FP7TObjectPv
-  - __ct__14TOKeyAncient01FP7TObjectPv
-  - __ct__14TOKeyAncient02FP7TObjectPv
-  - __ct__14TOKeyAncient03FP7TObjectPv
-  - __ct__14TOKeyGenericSwFP7TObjectPv
-  - __ct__14TOKeyMachine01FP7TObjectPv
-  - __ct__14TORockCaveBL01FPv
-  - __ct__14TORockCaveBL02FPv
-  - __ct__14TORockCaveBL03FPv
-  - __ct__14TORockCaveSL02FPv
-  - __ct__14TORockCaveSM02FPv
-  - __ct__14TORockCaveSS02FPv
-  - __ct__14TOTrapChainSawFP7TObjectPv
+  - __ct__14TOAirconCave01FP7TObjectP13ObjectSetData
+  - __ct__14TOAirconCave02FP7TObjectP13ObjectSetData
+  - __ct__14TOKeyAncient01FP7TObjectP13ObjectSetData
+  - __ct__14TOKeyAncient02FP7TObjectP13ObjectSetData
+  - __ct__14TOKeyAncient03FP7TObjectP13ObjectSetData
+  - __ct__14TOKeyGenericSwFP7TObjectP13ObjectSetData
+  - __ct__14TOKeyMachine01FP7TObjectP13ObjectSetData
+  - __ct__14TORockCaveBL01FP13ObjectSetData
+  - __ct__14TORockCaveBL02FP13ObjectSetData
+  - __ct__14TORockCaveBL03FP13ObjectSetData
+  - __ct__14TORockCaveSL02FP13ObjectSetData
+  - __ct__14TORockCaveSM02FP13ObjectSetData
+  - __ct__14TORockCaveSS02FP13ObjectSetData
+  - __ct__14TOTrapChainSawFP7TObjectP13ObjectSetData
   - __ct__14TObjBgmColCtrlFP7TObject
   - __ct__14TObjEneDolmOlmFP7TObjectPv
   - __ct__14TObjEneIllGillFP7TObjectPv
@@ -2044,59 +2044,59 @@ force_active:
   - __ct__15TBoss6CrushRockFv
   - __ct__15TBoss6SwordWaveFP11TBoss6Type2PC3Vecllf
   - __ct__15TItemEffBringerFPvPC3VecPC3Vecf
-  - __ct__15TODoorAncient01FP7TObjectPv
-  - __ct__15TODoorAncient03FP7TObjectPv
-  - __ct__15TODoorAncient04FP7TObjectPv
-  - __ct__15TODoorAncient05FP7TObjectPv
-  - __ct__15TODoorAncient06FP7TObjectPv
-  - __ct__15TODoorAncient07FP7TObjectPv
-  - __ct__15TODoorAncient08FP7TObjectPv
-  - __ct__15TODoorAncient09FP7TObjectPv
-  - __ct__15TODoorMachine01FP7TObjectPv
-  - __ct__15TODoorMachine02FP7TObjectPv
-  - __ct__15TODoorVS2Door01FP7TObjectPv
-  - __ct__15TORainbowCave01FP7TObjectPv
+  - __ct__15TODoorAncient01FP7TObjectP13ObjectSetData
+  - __ct__15TODoorAncient03FP7TObjectP13ObjectSetData
+  - __ct__15TODoorAncient04FP7TObjectP13ObjectSetData
+  - __ct__15TODoorAncient05FP7TObjectP13ObjectSetData
+  - __ct__15TODoorAncient06FP7TObjectP13ObjectSetData
+  - __ct__15TODoorAncient07FP7TObjectP13ObjectSetData
+  - __ct__15TODoorAncient08FP7TObjectP13ObjectSetData
+  - __ct__15TODoorAncient09FP7TObjectP13ObjectSetData
+  - __ct__15TODoorMachine01FP7TObjectP13ObjectSetData
+  - __ct__15TODoorMachine02FP7TObjectP13ObjectSetData
+  - __ct__15TODoorVS2Door01FP7TObjectP13ObjectSetData
+  - __ct__15TORainbowCave01FP7TObjectP13ObjectSetData
   - __ct__15TObjDeadListWinFP7TObject
   - __ct__15TObjEneDelDepthFP7TObjectPv
   - __ct__15TObjNewFloorWinFP7TObjectl
   - __ct__15TObjSoloPlayWinFP7TObject
-  - __ct__15TObjSuisouLobbyFP7TObjectPv
+  - __ct__15TObjSuisouLobbyFP7TObjectP13ObjectSetData
   - __ct__15TRecvGenerateIDFRC15TRecvGenerateID
   - __ct__16TAdChrSelASlotGCFP7TObjectl
   - __ct__16TAdGuideButtonGCFP7TObject
   - __ct__16TBoss3VoloptCoreFP7TObjectPv
   - __ct__16TGenGuildCardTagFRC16TGenGuildCardTag
   - __ct__16TLobbyEventThemeFv
-  - __ct__16TOCakeshopCave01FPv
-  - __ct__16TOFenceAncient01FP7TObjectPv
-  - __ct__16TOFenceAncient02FP7TObjectPv
-  - __ct__16TOFenceAncient03FP7TObjectPv
-  - __ct__16TOFenceAncient04FP7TObjectPv
-  - __ct__16TORevlightCave01FP7TObjectPv
+  - __ct__16TOCakeshopCave01FP13ObjectSetData
+  - __ct__16TOFenceAncient01FP7TObjectP13ObjectSetData
+  - __ct__16TOFenceAncient02FP7TObjectP13ObjectSetData
+  - __ct__16TOFenceAncient03FP7TObjectP13ObjectSetData
+  - __ct__16TOFenceAncient04FP7TObjectP13ObjectSetData
+  - __ct__16TORevlightCave01FP7TObjectP13ObjectSetData
   - __ct__16TORockCaveSimpleFv
-  - __ct__16TObjCurtainLobbyFP7TObjectPv
+  - __ct__16TObjCurtainLobbyFP7TObjectP13ObjectSetData
   - __ct__16TObjEneDellBiterFP7TObjectPv
   - __ct__16TObjEneNanoDragoFP7TObjectPv
-  - __ct__16TObjHashiVersus1FP7TObjectPv
-  - __ct__16TObjHashiVersus2FP7TObjectPv
+  - __ct__16TObjHashiVersus1FP7TObjectP13ObjectSetData
+  - __ct__16TObjHashiVersus2FP7TObjectP13ObjectSetData
   - __ct__16TObjItemOKWindowFP7TObject
-  - __ct__16TObjKabochaLobbyFP7TObjectPv
-  - __ct__16TObjRainbowLobbyFP7TObjectPv
-  - __ct__16TObjWeddingLobbyFP7TObjectPv
+  - __ct__16TObjKabochaLobbyFP7TObjectP13ObjectSetData
+  - __ct__16TObjRainbowLobbyFP7TObjectP13ObjectSetData
+  - __ct__16TObjWeddingLobbyFP7TObjectP13ObjectSetData
   - __ct__17TAdGameStartSubGCFP7TObjectP21GameStartLetterLayout
   - __ct__17TChCrTagOccHeaderFP7TObjectl
   - __ct__17TChCrTagPlGraphicFP7TObjectl
   - __ct__17TItemEffNeedlePosFP7TObjectP5TItemPC3VecP3Vec
   - __ct__17TMCFormatSequenceFP7TObjectl
-  - __ct__17TOBarrierEnergy01FP7TObjectPv
-  - __ct__17TODragonflyCave01FPv
-  - __ct__17TOHangerMachine01FPv
-  - __ct__17TOSensorAncient01FP7TObjectPv
-  - __ct__17TOSensorGeneral01FP7TObjectPv
-  - __ct__17TOSymbolchatColliFP7TObjectPv
+  - __ct__17TOBarrierEnergy01FP7TObjectP13ObjectSetData
+  - __ct__17TODragonflyCave01FP13ObjectSetData
+  - __ct__17TOHangerMachine01FP13ObjectSetData
+  - __ct__17TOSensorAncient01FP7TObjectP13ObjectSetData
+  - __ct__17TOSensorGeneral01FP7TObjectP13ObjectSetData
+  - __ct__17TOSymbolchatColliFP7TObjectP13ObjectSetData
   - __ct__17TObjEneDf2BringerFP7TObjectPv
   - __ct__17TObjItemNameEntryFP7TObject
-  - __ct__17TObjParticleLobbyFP7TObjectPv
+  - __ct__17TObjParticleLobbyFP7TObjectP13ObjectSetData
   - __ct__17TQuestThreadBoardFP13TQuestManagerl
   - __ct__18G_BuyShopItem_6x5EFv
   - __ct__18TAdLoadQuestCellGCFP7TObjectPv
@@ -2106,32 +2106,32 @@ force_active:
   - __ct__18TEffStarLightChildFP15ColorLineVertexP15ColorLineVertexP7TObjectff
   - __ct__18TItemEffNeedleBaseFP7TObjectP5TItem
   - __ct__18TItemReverseTechBGFP7TObjectP23TItemReverseTechPicture
-  - __ct__18TOCapsuleAncient01FP7TObjectPv
-  - __ct__18TOCapsuleMachine01FPv
+  - __ct__18TOCapsuleAncient01FP7TObjectP13ObjectSetData
+  - __ct__18TOCapsuleMachine01FP13ObjectSetData
   - __ct__18TOExplosiveMachineFv
-  - __ct__18TOMonitorMachine01FPv
+  - __ct__18TOMonitorMachine01FP13ObjectSetData
   - __ct__18TObjEneEpsilonBodyFP7TObjectPv
   - __ct__18TObjItemNameSelectFP7TObject
-  - __ct__18TObjSeabedSuiso_CHFP7TObjectPv
+  - __ct__18TObjSeabedSuiso_CHFP7TObjectP13ObjectSetData
   - __ct__18TObjTailsTailsMoveFP10TObjPlayer
   - __ct__18TPlayerLobbyMarkerFP7TObjectUsUc
   - __ct__18TWindowEffectLightFPvsUl
   - __ct__19TBoss3VoloptMonitorFP7TObjectPv
   - __ct__19TOChatSensorCaptureFP7TObject
-  - __ct__19TOComputerMachine01FPv
-  - __ct__19TOMonumentAncient01FP7TObjectPv
-  - __ct__19TOMonumentAncient02FP7TObjectPv
+  - __ct__19TOComputerMachine01FP13ObjectSetData
+  - __ct__19TOMonumentAncient01FP7TObjectP13ObjectSetData
+  - __ct__19TOMonumentAncient02FP7TObjectP13ObjectSetData
   - __ct__19TObjEZBoneRotPlayerFP10TObjPlayerP10NJS_OBJECTP13EZBoneRotDesc
   - __ct__19TObjEneDelDepthBombFP15TObjEneDelDepthP9TObjCharaPC3Vecl
-  - __ct__19TObjStendGlassLobbyFP7TObjectPv
+  - __ct__19TObjStendGlassLobbyFP7TObjectP13ObjectSetData
   - __ct__20TAdLoadQuestPrtTxtGCFP7TObjectl
   - __ct__20TBoss3VoloptHiraisinFP7TObjectPv
-  - __ct__20TEffStarLight2D_BaseFP7TObjectPv
+  - __ct__20TEffStarLight2D_BaseFP7TObjectP13ObjectSetData
   - __ct__20TItemReverseTechCtrlFP7TObject
-  - __ct__20TODragonflyMachine01FPv
-  - __ct__20TOExplosiveMachine01FPv
-  - __ct__20TOExplosiveMachine02FPv
-  - __ct__20TOExplosiveMachine03FPv
+  - __ct__20TODragonflyMachine01FP13ObjectSetData
+  - __ct__20TOExplosiveMachine01FP13ObjectSetData
+  - __ct__20TOExplosiveMachine02FP13ObjectSetData
+  - __ct__20TOExplosiveMachine03FP13ObjectSetData
   - __ct__20TObjChallenge4PRetryFP7TObject
   - __ct__20TObjLiveMonitorSmallFv
   - __ct__20TPlayerLevelFeedbackFP7TObjectUs
@@ -2142,7 +2142,7 @@ force_active:
   - __ct__22TPlyPtclObjectLeftHandFP8TObjBase
   - __ct__22TQuestVmDownLoadServerFP7TObject
   - __ct__23TObjOnlineEndingHexLineFP7TObjectP14EndingHexPoint
-  - __ct__23TObjSeabedSuisoBrakableFPv
+  - __ct__23TObjSeabedSuisoBrakableFP13ObjectSetData
   - __ct__23TPlyPtclObjectRightHandFP8TObjBase
   - __ct__24G_ActivateMagEffect_6x61Fv
   - __ct__24G_PickUpItemRequest_6x5AFv
@@ -2153,16 +2153,16 @@ force_active:
   - __ct__26TBoss5GryphonLightningHornFP7TObjectP3Vecl
   - __ct__26TBoss5GryphonLightningWingFP7TObjectP3VecP3VecP3Vecll
   - __ct__31G_DropStackedItem_PC_V3_BB_6x5DFv
-  - __ct__5TOVS2FPvl
+  - __ct__5TOVS2FP13ObjectSetDatal
   - __ct__7TOBoss4Fv
   - __ct__8TFogCtrlFP7TObjectl
   - __ct__8TItemMagFP7TObjectPUc
-  - __ct__8TOKeyColFP7TObjectPv
-  - __ct__8TOKurageFP7TObjectPv
+  - __ct__8TOKeyColFP7TObjectP13ObjectSetData
+  - __ct__8TOKurageFP7TObjectP13ObjectSetData
   - __ct__9TBoss6DPBFP7TObjectPC3Vecf
   - __ct__9TEffGuardFPC3Vec
   - __ct__9TMainTaskFv
-  - __ct__9TObjHashiFP7TObjectPv
+  - __ct__9TObjHashiFP7TObjectP13ObjectSetData
   - __ct__9TSaveChCrFP7TObjectl
   - __cvt_sll_dbl
   - __destroy_global_chain_reference
@@ -5264,7 +5264,7 @@ force_active:
   - __ct__13GuildCardListFv
   - __ct__13GuildCardTagsFv
   - __ct__18TObjCityAirCar_CarFP7TObjectllf
-  - __ct__21TObjCityVerticalModelFP7TObjectPv
+  - __ct__21TObjCityVerticalModelFP7TObjectP13ObjectSetData
   - __ct__17TItemWeaponDaggerFP7TObjectPUc
   - __ct__22ChoiceSearchResultListFv
   - __ct__12TPlyJoinGameFv
@@ -5276,7 +5276,7 @@ force_active:
   - __ct__17TItemFollowEffectFP7TObjectP11TItemWeaponll
   - construct_lobby_players__FP16LobbyPlayerEntrylil
   - construct_panzer_faust__FPUcPUcl
-  - __ct__17TLightGlareSwitchFPvP7TObject
+  - __ct__17TLightGlareSwitchFP13ObjectSetDataP7TObject
   - __ct__16TPlacementSearchFP7TObjectP8TObjBasePC3Vecl
   - __ct__23TItemWeaponSRankJCutterFP7TObjectPUc
   - __ct__22TItemWeaponSRankSlicerFP7TObjectPUc
@@ -5419,7 +5419,7 @@ force_active:
   - create__15TObjEneSlimeOneFP12TObjEneSlimePvPC3Vec
   - create__16TItemReverseTechFv
   - create__17TChCrTagPlGraphicFl
-  - create__17TObjWarpBossMultiFPv
+  - create__17TObjWarpBossMultiFP13ObjectSetData
   - create__17TWindowSubComCardFv
   - create__18TChCrTagOccupationFl
   - create__19TChCrTagInformationFl
@@ -6983,7 +6983,7 @@ force_active:
   - add_to_instance_list__16TObjEneBm5GibonUFv
   - add_to_pack_member_list__16TObjEneBm5GibonUFv
   - init_child_params__13TObjEneBm3FlyFv
-  - __ct__16TObjCityDoorBaseFP7TObjectPvPC14CityDoorParams
+  - __ct__16TObjCityDoorBaseFP7TObjectP13ObjectSetDataPC14CityDoorParams
   - init_city_season_object
   - init_collected_entries__11TBoss6Type2Fv
   - init_collision_params__17TOSymbolchatColliFv
@@ -7086,7 +7086,7 @@ force_active:
   - init_params__20TBoss3VoloptHiraisinFv
   - init_behavior_params__16TObjEneMerillLiaFv
   - bind_capture_texture__23TIndirectEffectDrawTaskFv
-  - __ct__11TLightGlareFPvP7TObject
+  - __ct__11TLightGlareFP13ObjectSetDataP7TObject
   - init_parts__11TBoss6Type2Fv
   - init_parts__13TObjTombstoneFv
   - __ct__14TDrawableModelFv

@@ -182,7 +182,7 @@ s32 TODragonfly::pick_random_destination(f32 height) {
 
 void TODragonfly::update_demo() {}
 
-TODragonflyCave01::TODragonflyCave01(void *set_data) {
+TODragonflyCave01::TODragonflyCave01(ObjectSetData *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = model_resource->models->model;
@@ -226,6 +226,6 @@ void TODragonflyCave01::release_static_instance() {
     }
 }
 
-void *TODragonflyCave01::create(void *set_data) {
+void *TODragonflyCave01::create(ObjectSetData *set_data) {
     return new TODragonflyCave01(set_data);
 }

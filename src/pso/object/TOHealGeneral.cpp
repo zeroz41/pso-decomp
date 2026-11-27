@@ -203,7 +203,7 @@ void TOHealGeneral::render() {
     }
 }
 
-void *TOHealGeneral::create(void *set_data) {
+void *TOHealGeneral::create(ObjectSetData *set_data) {
     return new TOHealGeneral(set_data);
 }
 
@@ -245,7 +245,7 @@ TOHealGeneral::~TOHealGeneral() {
     free_collision_body_parts(this);
 }
 
-TOHealGeneral::TOHealGeneral(void *set_data) : TObjMapObject(tl_05) {
+TOHealGeneral::TOHealGeneral(ObjectSetData *set_data) : TObjMapObject(tl_05) {
     s32 i;
     m_name = class_name;
     apply_object_set_data(set_data);

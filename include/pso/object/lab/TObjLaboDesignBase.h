@@ -11,7 +11,7 @@ struct ObjectSetData;
 
 struct TObjLaboDesignBase : public TObjCollidable {
     static const char *class_name;
-    TObjLaboDesignBase(TObject *parent, void *set_data, s32 state);
+    TObjLaboDesignBase(TObject *parent, ObjectSetData *set_data, s32 state);
     virtual ~TObjLaboDesignBase();
     virtual void run_task();
     virtual void render();
@@ -25,12 +25,12 @@ struct TObjLaboDesignBase : public TObjCollidable {
     TObjMapCsn *map_csn;
     // create with state 0, create_stateN with state N: the design the model
     // and collision come from.
-    static void *create(void *set_data);
-    static void *create_state1(void *set_data);
-    static void *create_state2(void *set_data);
-    static void *create_state3(void *set_data);
-    static void *create_state4(void *set_data);
-    static void *create_state5(void *set_data);
+    static void *create(ObjectSetData *set_data);
+    static void *create_state1(ObjectSetData *set_data);
+    static void *create_state2(ObjectSetData *set_data);
+    static void *create_state3(ObjectSetData *set_data);
+    static void *create_state4(ObjectSetData *set_data);
+    static void *create_state5(ObjectSetData *set_data);
 };
 
 // The archives load_labo_design_object_table loads, by design (state).

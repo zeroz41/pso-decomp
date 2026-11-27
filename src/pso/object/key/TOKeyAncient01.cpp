@@ -62,7 +62,7 @@ void TOKeyAncient01::update_switch_on() {
     submit_cursor_target();
 }
 
-void *TOKeyAncient01::create(void *set_data) {
+void *TOKeyAncient01::create(ObjectSetData *set_data) {
     return new TOKeyAncient01(tl_05, set_data);
 }
 
@@ -97,7 +97,7 @@ TOKeyAncient01::~TOKeyAncient01() {
     free_collision_body_parts(this);
 }
 
-TOKeyAncient01::TOKeyAncient01(TObject *parent, void *set_data) : TOKey(parent) {
+TOKeyAncient01::TOKeyAncient01(TObject *parent, ObjectSetData *set_data) : TOKey(parent) {
     m_name = key_ancient01_class_name;
     apply_object_set_data(set_data);
     init_switch_id();

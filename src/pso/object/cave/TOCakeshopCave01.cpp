@@ -86,7 +86,7 @@ void TOCakeshopCave01::render() {
     }
 }
 
-void *TOCakeshopCave01::create(void *set_data) {
+void *TOCakeshopCave01::create(ObjectSetData *set_data) {
     return new TOCakeshopCave01(set_data);
 }
 
@@ -107,7 +107,7 @@ TOCakeshopCave01::~TOCakeshopCave01() {
     unregister_object_by_id();
 }
 
-TOCakeshopCave01::TOCakeshopCave01(void *set_data) : TObjMapObject(tl_05) {
+TOCakeshopCave01::TOCakeshopCave01(ObjectSetData *set_data) : TObjMapObject(tl_05) {
     s32 i;
     m_name = TOCakeshopCave01_class_name;
     apply_object_set_data(set_data);

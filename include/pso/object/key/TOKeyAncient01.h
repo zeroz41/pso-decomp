@@ -9,13 +9,13 @@
 // texture variants.
 class TOKeyAncient01 : public TOKey {
 public:
-    TOKeyAncient01(TObject *parent, void *set_data);
+    TOKeyAncient01(TObject *parent, ObjectSetData *set_data);
     virtual ~TOKeyAncient01();
     virtual void render();
     virtual void update_switch_on();
     virtual void update_switch_off();
     virtual void vfunc_25();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_shared_resources();
     static void load_resources();
 };

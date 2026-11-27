@@ -7,7 +7,7 @@
 struct NJS_OBJECT;
 
 struct TObjContainerJungEnemy : public TObjContainerBase {
-    TObjContainerJungEnemy(TObject *parent, void *set_data);
+    TObjContainerJungEnemy(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjContainerJungEnemy();
     virtual void spawn_break_effects() const;
     virtual void draw_model();
@@ -20,7 +20,7 @@ struct TObjContainerJungEnemy : public TObjContainerBase {
     NJS_OBJECT *small_fragment_model;
     NJS_OBJECT *light_model;
     void load_models();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjContainerJungEnemy_size, sizeof(TObjContainerJungEnemy) == 0x378);

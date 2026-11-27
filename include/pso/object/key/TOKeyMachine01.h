@@ -11,7 +11,7 @@ struct NJS_TEXLIST;
 // player stands on it, glowing red while up.
 class TOKeyMachine01 : public TOKey {
 public:
-    TOKeyMachine01(TObject *parent, void *set_data);
+    TOKeyMachine01(TObject *parent, ObjectSetData *set_data);
     virtual ~TOKeyMachine01();
     virtual void run_task();
     virtual void render();
@@ -22,7 +22,7 @@ public:
     virtual void trigger_deactivate_sound();
     virtual void vfunc_25();
     void send_switch_changed(s32 flags);
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_statics();
     static void load_assets();
 

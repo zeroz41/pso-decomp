@@ -72,7 +72,7 @@ GinjaModel *TObjLobbyMain::computer_screen_model;
 GinjaModel *TObjLobbyMain::computer_screen_model_b;
 s32 TObjLobbyMain::computer_last_frame_tick;
 
-TObjLobbyMain::TObjLobbyMain(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjLobbyMain::TObjLobbyMain(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = obj_lobby_main_class_name;
     apply_object_set_data(set_data);
     emitter0 = create_particle_emitter(&position, 0x222);
@@ -127,7 +127,7 @@ void TObjLobbyMain::free_resources() {
     }
 }
 
-void *TObjLobbyMain::create(void *set_data) {
+void *TObjLobbyMain::create(ObjectSetData *set_data) {
     return new TObjLobbyMain(tl_05, set_data);
 }
 

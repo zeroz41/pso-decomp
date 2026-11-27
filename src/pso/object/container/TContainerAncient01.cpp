@@ -147,7 +147,7 @@ f32 TContainerAncient01R::receive_weapon_special_attack(TObjChara *, CollisionBo
 
 #pragma push
 #pragma fp_contract on
-TContainerAncient01::TContainerAncient01(TObject *parent, void *set_data) : TObjChara(parent) {
+TContainerAncient01::TContainerAncient01(TObject *parent, ObjectSetData *set_data) : TObjChara(parent) {
     m_name = container_ancient01_name;
     this->apply_object_set_data(set_data);
     this->model = get_bml_model(container_ancient01_bml_resource, 0);
@@ -202,7 +202,7 @@ void TContainerAncient01::release_static_resource() {
     }
 }
 
-void *TContainerAncient01::create(void *set_data) {
+void *TContainerAncient01::create(ObjectSetData *set_data) {
     return new TContainerAncient01(tl_05, set_data);
 }
 
@@ -448,7 +448,7 @@ void TContainerAncient01::spawn_effect(const Vec *position, s32 effect_id) {
 }
 #pragma push
 #pragma fp_contract on
-TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TObjChara(parent) {
+TContainerAncient01R::TContainerAncient01R(TObject *parent, ObjectSetData *set_data) : TObjChara(parent) {
     m_name = container_ancient01_r_name;
     apply_object_set_data(set_data);
     model = get_bml_model(container_ancient01_r_bml_resource, 0);
@@ -482,7 +482,7 @@ void TContainerAncient01R::init_table_entries() {
 
 void TContainerAncient01R::free_resources() { container_ancient01_r_bml_resource = NULL; }
 
-void *TContainerAncient01R::create(void *parent) {
+void *TContainerAncient01R::create(ObjectSetData *parent) {
     return new TContainerAncient01R(tl_05, parent);
 }
 

@@ -45,11 +45,11 @@ const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 
 
 // Function definitions in reverse address order (-inline deferred emits them reversed).
-void *TObjFogCollision::create(void *set) {
+void *TObjFogCollision::create(ObjectSetData *set) {
     void *o = (void *)new TObjFogCollision(tl_05, set);
     return o;
 }
-TObjFogCollision::TObjFogCollision(TObject *parent, void *set) : TObjBase(parent) {
+TObjFogCollision::TObjFogCollision(TObject *parent, ObjectSetData *set) : TObjBase(parent) {
     ((TObject *)this)->m_name = fog_collision_name;
     ((TObjFogCollision *)(((u8 *)this)))->apply_object_set_data(set);
     this->debug_state = 0;
@@ -168,11 +168,11 @@ void TObjFogCollision::draw_volume() {
     }
 }
 
-void *TObjFogCollisionSwitch::create(void *set) {
+void *TObjFogCollisionSwitch::create(ObjectSetData *set) {
     return new TObjFogCollisionSwitch(tl_05, set);
 }
 
-TObjFogCollisionSwitch::TObjFogCollisionSwitch(TObject *parent, void *set) : TObjFogCollision(parent, set) {
+TObjFogCollisionSwitch::TObjFogCollisionSwitch(TObject *parent, ObjectSetData *set) : TObjFogCollision(parent, set) {
     m_name = fog_collision_switch_name;
 }
 
@@ -226,11 +226,11 @@ void TObjFogCollisionSwitch::draw_debug_text() {
     debug_printf_at(0x130022, "SwitchID:%3d", this->set_params[2]);
 }
 
-void *TObjFogCollisionPoison::create(void *set) {
+void *TObjFogCollisionPoison::create(ObjectSetData *set) {
     return new TObjFogCollisionPoison(tl_05, set);
 }
 
-TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *parent, void *set) : TObjFogCollisionSwitch(parent, set) {
+TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *parent, ObjectSetData *set) : TObjFogCollisionSwitch(parent, set) {
     u16 i;
     TObject *ticker_parent = this;
     m_name = fog_collision_poison_name;

@@ -389,7 +389,7 @@ TObjLuker::~TObjLuker() {
     }
 }
 
-TObjLuker::TObjLuker(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjLuker::TObjLuker(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     s32 i;
     m_name = luker_name;
     apply_object_set_data(set_data);
@@ -409,7 +409,7 @@ TObjLuker::TObjLuker(TObject *parent, void *set_data) : TObjBase(parent) {
     slots_locked = 0;
 }
 
-void *TObjLuker::create(void *set_data) {
+void *TObjLuker::create(ObjectSetData *set_data) {
     return new TObjLuker((TObject *)tl_05, set_data);
 }
 

@@ -127,7 +127,7 @@ void TOMonitorMachine01::render() {
     }
 }
 
-void *TOMonitorMachine01::create(void *set_data) {
+void *TOMonitorMachine01::create(ObjectSetData *set_data) {
     return new TOMonitorMachine01(set_data);
 }
 
@@ -155,7 +155,7 @@ void TOMonitorMachine01::load_resources() {
 
 TOMonitorMachine01::~TOMonitorMachine01() {}
 
-TOMonitorMachine01::TOMonitorMachine01(void *set_data) : TObjMapObject(tl_05) {
+TOMonitorMachine01::TOMonitorMachine01(ObjectSetData *set_data) : TObjMapObject(tl_05) {
     m_name = monitor_machine01_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(monitor_machine01_bml_resource, 0);

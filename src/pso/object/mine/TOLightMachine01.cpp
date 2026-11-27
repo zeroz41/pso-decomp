@@ -63,7 +63,7 @@ void TOLightMachine01::render() {
     }
 }
 
-void *TOLightMachine01::create(void *set_data) {
+void *TOLightMachine01::create(ObjectSetData *set_data) {
     return new TOLightMachine01(set_data);
 }
 
@@ -89,7 +89,7 @@ TOLightMachine01::~TOLightMachine01() {
 #pragma push
 #pragma fp_contract on
 #define light_machine01 this
-TOLightMachine01::TOLightMachine01(void *set_data) : TObjBase(tl_05) {
+TOLightMachine01::TOLightMachine01(ObjectSetData *set_data) : TObjBase(tl_05) {
     light_machine01->m_name = light_machine01_name;
     ((TOLightMachine01 *)(light_machine01))->apply_object_set_data(set_data);
     light_machine01->model = get_bml_model(light_machine01_shared_bml_archive, 1);

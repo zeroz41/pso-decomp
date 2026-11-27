@@ -67,7 +67,7 @@ void TOComputerMachine01::render() {
     }
 }
 
-void *TOComputerMachine01::create(void *set_data) {
+void *TOComputerMachine01::create(ObjectSetData *set_data) {
     return new TOComputerMachine01(set_data);
 }
 
@@ -100,7 +100,7 @@ TOComputerMachine01::~TOComputerMachine01() {
     unregister_object_by_id();
 }
 
-TOComputerMachine01::TOComputerMachine01(void *set_data) : TOQuestTalkBase(tl_05) {
+TOComputerMachine01::TOComputerMachine01(ObjectSetData *set_data) : TOQuestTalkBase(tl_05) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = model_resource->models->model;

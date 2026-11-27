@@ -20,6 +20,6 @@ struct TMotorcycle : public TObjMesBase {
 
 LAYOUT_ASSERT(TMotorcycle_size, sizeof(TMotorcycle) == 0xC0);
 
-void *create_stage_motorcycle(void *placement);
+void *create_stage_motorcycle(ObjectSetData *placement);
 
 #endif

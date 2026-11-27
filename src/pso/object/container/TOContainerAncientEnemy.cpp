@@ -220,7 +220,7 @@ void free_ancient_container_resources(void) {
 
 #pragma pop
 
-TOContainerAncientItem::TOContainerAncientItem(void *set_data) : TObjContainerBase(tl_05, set_data) {
+TOContainerAncientItem::TOContainerAncientItem(ObjectSetData *set_data) : TObjContainerBase(tl_05, set_data) {
     mode = 0;
     actorFlags |= 0x60000000U;
     init_collision_body_parts(this, &container_ancient_enemy_collision_body_params, 1);
@@ -310,14 +310,14 @@ void TOContainerAncientItem::spawn_break_effects() const {
     play_container_break_sound(this);
 }
 
-TOContainerAncientItemCommon::TOContainerAncientItemCommon(void *set_data) : TOContainerAncientItem(set_data) {
+TOContainerAncientItemCommon::TOContainerAncientItemCommon(ObjectSetData *set_data) : TOContainerAncientItem(set_data) {
     m_name = container_ancient_item_common_name;
 }
 
 TOContainerAncientItemCommon::~TOContainerAncientItemCommon() {
 }
 
-void *TOContainerAncientItemCommon::create(void *set_data) {
+void *TOContainerAncientItemCommon::create(ObjectSetData *set_data) {
     if (((s32) enable_v2_features == 1) && (get_game_play_mode() == 1) && (is_quest_active() == 1)) {
         return new TOContainerAncientItemCommon(set_data);
     }
@@ -336,7 +336,7 @@ void TOContainerAncientItemCommon::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TOContainerAncientItemRare::TOContainerAncientItemRare(void *set_data) : TOContainerAncientItem(set_data) {
+TOContainerAncientItemRare::TOContainerAncientItemRare(ObjectSetData *set_data) : TOContainerAncientItem(set_data) {
     m_name = container_ancient_item_rare_name;
     texlist = ancient_container_fragment_texture_lists[0];
 }
@@ -356,14 +356,14 @@ void TOContainerAncientItemRare::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TOContainerAncientItemNone::TOContainerAncientItemNone(void *set_data) : TOContainerAncientItemRare(set_data) {
+TOContainerAncientItemNone::TOContainerAncientItemNone(ObjectSetData *set_data) : TOContainerAncientItemRare(set_data) {
     m_name = container_ancient_item_none_name;
 }
 
 TOContainerAncientItemNone::~TOContainerAncientItemNone() {
 }
 
-void *TOContainerAncientItemNone::create(void *set_data) {
+void *TOContainerAncientItemNone::create(ObjectSetData *set_data) {
     return new TOContainerAncientItemNone(set_data);
 }
 
@@ -378,7 +378,7 @@ void TOContainerAncientItemNone::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TObjContainerBase(tl_05, set_data) {
+TOContainerAncientEnemy::TOContainerAncientEnemy(ObjectSetData *set_data) : TObjContainerBase(tl_05, set_data) {
     m_name = container_ancient_enemy_name;
     mode = 0;
     actorFlags |= 0x60000000U;
@@ -503,21 +503,21 @@ void TOContainerAncientEnemy::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TOContainerAncientEnemyCommon::TOContainerAncientEnemyCommon(void *set_data) : TOContainerAncientEnemy(set_data) {
+TOContainerAncientEnemyCommon::TOContainerAncientEnemyCommon(ObjectSetData *set_data) : TOContainerAncientEnemy(set_data) {
     m_name = container_ancient_enemy_common_name;
 }
 
 TOContainerAncientEnemyCommon::~TOContainerAncientEnemyCommon() {
 }
 
-void *TOContainerAncientEnemyCommon::create(void *set_data) {
+void *TOContainerAncientEnemyCommon::create(ObjectSetData *set_data) {
     if (((s32) enable_v2_features == 1) && (get_game_play_mode() == 1) && (is_quest_active() == 1)) {
         return new TOContainerAncientEnemyCommon(set_data);
     }
     return new TOContainerAncientEnemyCommon(set_data);
 }
 
-TOContainerAncientEnemyRare::TOContainerAncientEnemyRare(void *set_data) : TOContainerAncientEnemy(set_data) {
+TOContainerAncientEnemyRare::TOContainerAncientEnemyRare(ObjectSetData *set_data) : TOContainerAncientEnemy(set_data) {
     m_name = TOContainerAncientEnemyRare::class_name;
     texlist = *ancient_container_fragment_texture_lists;
 }

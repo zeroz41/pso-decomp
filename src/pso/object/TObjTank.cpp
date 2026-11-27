@@ -63,8 +63,8 @@ TObjTank::TObjTank(TObject *parent, ObjectSetData *placement) : TObjCollidable(p
     register_object_by_id();
 }
 
-void *TObjTank::create(void *set_data) {
-    return new TObjTank(tl_05, static_cast<ObjectSetData *>(set_data));
+void *TObjTank::create(ObjectSetData *set_data) {
+    return new TObjTank(tl_05, set_data);
 }
 
 void TObjTank::free_globals() {

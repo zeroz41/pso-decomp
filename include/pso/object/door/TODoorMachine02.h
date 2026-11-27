@@ -14,13 +14,13 @@ struct BmlResource;
 struct TODoorMachine02 : public TODoorBase {
     enum { PULSE_RISING = 0x10000 };  // door_flags: light_color.r is rising
 
-    TODoorMachine02(TObject *parent, void *set_data);
+    TODoorMachine02(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorMachine02();
     virtual void update_demo();
     virtual void update_open();
     virtual void update_closed();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void destroy();
     static void load_resources();
 

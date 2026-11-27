@@ -12,7 +12,7 @@ struct BmlResource;
 // three after it): one light pair per switch on its frame turns green as the
 // switch is set.
 struct TODoorAncient08 : public TODoorBase {
-    TODoorAncient08(TObject *parent, void *set_data);
+    TODoorAncient08(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorAncient08();
     void door_ancient08_sync_state(void *);
     virtual void update_demo();
@@ -24,7 +24,7 @@ struct TODoorAncient08 : public TODoorBase {
     void play_open_sound();
     void draw_switch_lights();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void destroy();
     static void load_resources();
 

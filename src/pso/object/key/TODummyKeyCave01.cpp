@@ -28,7 +28,7 @@
 
 const char *dummy_key_cave01_class_name = "TODummyKeyCave01";
 const char *dummy_key_cave01_sound_class_name = "TODummyKeyCave01Sound";
-TODummyKeyCave01::TODummyKeyCave01(TObject *parent, void *set_data) : TObjBase(parent) {
+TODummyKeyCave01::TODummyKeyCave01(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = dummy_key_cave01_class_name;
     apply_object_set_data(set_data);
     color.b = 1.0f;
@@ -50,7 +50,7 @@ TODummyKeyCave01::~TODummyKeyCave01() {
 
 void TODummyKeyCave01::load_resources() {  }
 void TODummyKeyCave01::free_resources() {  }
-void *TODummyKeyCave01::create(void *set_data) {
+void *TODummyKeyCave01::create(ObjectSetData *set_data) {
     return new TODummyKeyCave01(tl_05, set_data);
 }
 

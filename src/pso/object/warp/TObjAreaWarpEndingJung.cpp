@@ -195,7 +195,7 @@ void TObjWarpBase::free_globals() {
 s32 quest_warp_enabled = 1;
 const char *TObjWarpBase::class_name = "TObjWarpBase";
 
-TObjWarpBase::TObjWarpBase(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjWarpBase::TObjWarpBase(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     warp_range = 10.0f;
@@ -269,7 +269,7 @@ s32 TObjWarpBase::is_choice_confirmed_by(s32 client_id) {
 const char *TObjMapWarp::class_name = "TObjMapWarp";
 
 // The set entry's scale holds the destination; each player gets a spot at its offset from it.
-TObjMapWarp::TObjMapWarp(TObject *parent, void *set_data) : TObjWarpBase(parent, set_data) {
+TObjMapWarp::TObjMapWarp(TObject *parent, ObjectSetData *set_data) : TObjWarpBase(parent, set_data) {
     s32 i;
     m_name = class_name;
     for (i = 0; i < 4; i++) {
@@ -432,7 +432,7 @@ void TObjMapWarp::draw_debug_destinations() {
 
 const char *TObjMapWarpForest::class_name = "TObjMapWarpForest";
 
-TObjMapWarpForest::TObjMapWarpForest(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
+TObjMapWarpForest::TObjMapWarpForest(TObject *parent, ObjectSetData *set_data) : TObjMapWarp(parent, set_data) {
     m_name = class_name;
     baseModel = get_forest_warp_model(4);
     beamModel = get_forest_warp_model(5);
@@ -463,7 +463,7 @@ void TObjMapWarpForest::render() {
 
 const char *TObjAreaWarp::class_name = "TObjAreaWarp";
 
-TObjAreaWarp::TObjAreaWarp(TObject *parent, void *set_data) : TObjWarpBase(parent, set_data) {
+TObjAreaWarp::TObjAreaWarp(TObject *parent, ObjectSetData *set_data) : TObjWarpBase(parent, set_data) {
     m_name = class_name;
     dest_floor = set_params[0];
     if (lobby_quest_progress_flag != 0) {
@@ -602,7 +602,7 @@ void TObjAreaWarp::debug_print_area_num() {
 
 const char *TObjAreaWarpForest::class_name = "TObjAreaWarpForest";
 
-TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = class_name;
     beam_frame = 0.0f;
     beam_rotation = 0;
@@ -695,7 +695,7 @@ void TObjAreaWarpForest::debug_print_area_num() {
 
 const char *TObjAreaWarpQuest::class_name = "TObjAreaWarpQuest";
 
-TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = class_name;
     beam_frame = 0.0f;
     beam_rotation = 0;
@@ -808,7 +808,7 @@ void TObjAreaWarpQuest::confirm_area_transfer(TObjPlayer *player) {
 
 const char *TObjAreaWarpEnding::class_name = "TObjAreaWarpEnding";
 
-TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = class_name;
     beam_frame = 0.0f;
     beam_rotation = 0;
@@ -932,7 +932,7 @@ void dispatch_select_phase(TObject *) {
 
 const char *TObjMapForceWarp::class_name = "TObjMapForceWarp";
 
-TObjMapForceWarp::TObjMapForceWarp(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
+TObjMapForceWarp::TObjMapForceWarp(TObject *parent, ObjectSetData *set_data) : TObjMapWarp(parent, set_data) {
     m_name = class_name;
     if ((s32) set_params[2] > 0) {
         display_number = 0;
@@ -1107,7 +1107,7 @@ TObjWarpString *create_TObjWarpString(char *text, u16 client_id) {
 
 const char *TObjAreaWarpEndingJung::class_name = "TObjAreaWarpEndingJung";
 
-TObjAreaWarpEndingJung::TObjAreaWarpEndingJung(TObject *parent, void *set_data) : TObjAreaWarpEnding(parent, set_data) {
+TObjAreaWarpEndingJung::TObjAreaWarpEndingJung(TObject *parent, ObjectSetData *set_data) : TObjAreaWarpEnding(parent, set_data) {
     m_name = class_name;
     if (set_params[2] < 0) {
         set_params[2] = 0;
@@ -1167,6 +1167,6 @@ void TObjAreaWarpEndingJung::debug_print_area_num() {
     set_debug_text_color(0xF0F0F0FF);
 }
 
-void *TObjAreaWarpEndingJung::create(void *set_data) {
+void *TObjAreaWarpEndingJung::create(ObjectSetData *set_data) {
     return new TObjAreaWarpEndingJung(tl_05, set_data);
 }

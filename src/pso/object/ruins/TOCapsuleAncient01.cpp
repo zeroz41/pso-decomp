@@ -53,7 +53,7 @@ void TOCapsuleAncient01::render() {
     }
 }
 
-void *TOCapsuleAncient01::create(void *set_data) {
+void *TOCapsuleAncient01::create(ObjectSetData *set_data) {
     return new TOCapsuleAncient01(tl_05, set_data);
 }
 
@@ -75,7 +75,7 @@ TOCapsuleAncient01::~TOCapsuleAncient01() {
 }
 
 // Episode II's online mode and split screen do without the capsule.
-TOCapsuleAncient01::TOCapsuleAncient01(TObject *parent, void *set_data) : TOQuestTalkBase(parent) {
+TOCapsuleAncient01::TOCapsuleAncient01(TObject *parent, ObjectSetData *set_data) : TOQuestTalkBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = model_resource->models->model;

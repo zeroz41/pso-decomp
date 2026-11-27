@@ -116,7 +116,7 @@ NJS_TEXLIST *get_jungle_rock_texture_resource(s32 index) {
     return NULL;
 }
 
-TORockJungleS01::TORockJungleS01(void *set_data) {
+TORockJungleS01::TORockJungleS01(ObjectSetData *set_data) {
     m_name = rock_jungle_s01_name;
     apply_object_set_data(set_data);
     model = get_model(0);
@@ -129,7 +129,7 @@ TORockJungleS01::TORockJungleS01(void *set_data) {
     if (switch_id < 0 || switch_id >= 0x100) {
         switch_id = -1;
     }
-    ObjectSetData csn_data = *(ObjectSetData *)set_data;
+    ObjectSetData csn_data = *set_data;
     VecCopy(&csn_data.scale, &rock_jungle_vec3_table[0]);
     map_csn = TObjMapCsn::create(&csn_data);
 }
@@ -143,7 +143,7 @@ TORockJungleS01::~TORockJungleS01() {
     free_collision_body_parts(this);
 }
 
-void *TORockJungleS01::create(void *set_data) {
+void *TORockJungleS01::create(ObjectSetData *set_data) {
     return new TORockJungleS01(set_data);
 }
 
@@ -209,7 +209,7 @@ void TORockJungleM01::post_draw() {
     set_cull_none();
 }
 
-TORockJungleM01::TORockJungleM01(void *set_data) {
+TORockJungleM01::TORockJungleM01(ObjectSetData *set_data) {
     m_name = TORockJungleM01_name_ref;
     apply_object_set_data(set_data);
     model = TORockJungleS01::get_model(2);
@@ -222,7 +222,7 @@ TORockJungleM01::TORockJungleM01(void *set_data) {
     if (switch_id < 0 || switch_id >= 0x100) {
         switch_id = -1;
     }
-    ObjectSetData csn_data = *(ObjectSetData *)set_data;
+    ObjectSetData csn_data = *set_data;
     VecCopy(&csn_data.scale, &rock_jungle_vec3_table[0]);
     map_csn = TObjMapCsn::create(&csn_data);
     fade.activate_and_dispatch();
@@ -237,7 +237,7 @@ TORockJungleM01::~TORockJungleM01() {
     free_collision_body_parts(this);
 }
 
-void *TORockJungleM01::create(void *set_data) {
+void *TORockJungleM01::create(ObjectSetData *set_data) {
     return new TORockJungleM01(set_data);
 }
 
@@ -280,7 +280,7 @@ void TORockJungleM01::run_task() {
 
 const char *TORockJungleL01_name_ref = "TORockJungleL01";
 
-TORockJungleL01::TORockJungleL01(void *set_data) {
+TORockJungleL01::TORockJungleL01(ObjectSetData *set_data) {
     m_name = TORockJungleL01_name_ref;
     apply_object_set_data(set_data);
     model = TORockJungleS01::get_model(4);
@@ -289,7 +289,7 @@ TORockJungleL01::TORockJungleL01(void *set_data) {
     init_collision_body_parts(this, &rock_jungle_collision_body_parts[2], 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    ObjectSetData csn_data = *(ObjectSetData *)set_data;
+    ObjectSetData csn_data = *set_data;
     VecCopy(&csn_data.scale, &rock_jungle_vec3_table[0]);
     map_csn = TObjMapCsn::create(&csn_data);
     fade.activate_and_dispatch();
@@ -304,7 +304,7 @@ TORockJungleL01::~TORockJungleL01() {
     free_collision_body_parts(this);
 }
 
-void *TORockJungleL01::create(void *set_data) {
+void *TORockJungleL01::create(ObjectSetData *set_data) {
     return new TORockJungleL01(set_data);
 }
 

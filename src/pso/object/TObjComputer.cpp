@@ -125,8 +125,8 @@ void TObjComputer::free_resources() {
     }
 }
 
-void *create_stage_computer(void *placement) {
-    return new TObjComputer(static_cast<TObject *>(tl_05), static_cast<ObjectSetData *>(placement));
+void *create_stage_computer(ObjectSetData *placement) {
+    return new TObjComputer(static_cast<TObject *>(tl_05), placement);
 }
 
 void TObjComputer::update_idle() {
@@ -235,6 +235,6 @@ void TObjGbAdvance::free_shared_data() {
     }
 }
 
-void *TObjGbAdvance::create(void *placement) {
-    return new TObjGbAdvance(static_cast<TObject *>(tl_05), static_cast<ObjectSetData *>(placement));
+void *TObjGbAdvance::create(ObjectSetData *placement) {
+    return new TObjGbAdvance(static_cast<TObject *>(tl_05), placement);
 }

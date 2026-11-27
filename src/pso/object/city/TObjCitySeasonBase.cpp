@@ -60,7 +60,7 @@ const char *TObjCity_Season_FireWork::class_name = "TObjCity_Season_FireWork";
 const NJS_ARGB firework_area_box_color = {0.8f, 0.2f, 1.0f, 0.9f};
 #pragma pop
 
-TObjCitySeasonBase::TObjCitySeasonBase(TObject *parent, void *set_data, s32 kind, f32 radius) : TObjCollidable(parent) {
+TObjCitySeasonBase::TObjCitySeasonBase(TObject *parent, ObjectSetData *set_data, s32 kind, f32 radius) : TObjCollidable(parent) {
     apply_object_set_data(set_data);
     model_index = kind;
     if (get_anim_frame() != NULL) {
@@ -99,7 +99,7 @@ s32 TObjCitySeasonBase::advance_anim_time(s32 motion, f32 step) {
     return 0;
 }
 
-TObjCity_Season_EasterEgg::TObjCity_Season_EasterEgg(TObject *parent, void *set_data)
+TObjCity_Season_EasterEgg::TObjCity_Season_EasterEgg(TObject *parent, ObjectSetData *set_data)
     : TObjCitySeasonBase(parent, set_data, 0, 13.0f) {
     Vec pos;
     m_name = class_name;
@@ -129,7 +129,7 @@ TObjCity_Season_EasterEgg::~TObjCity_Season_EasterEgg() {
 }
 
 
-void *TObjCity_Season_EasterEgg::create(void *set) {
+void *TObjCity_Season_EasterEgg::create(ObjectSetData *set) {
     return new TObjCity_Season_EasterEgg(tl_05, set);
 }
 void TObjCity_Season_EasterEgg::run_task() {
@@ -153,7 +153,7 @@ void TObjCity_Season_EasterEgg::render() {
     }
 }
 
-TObjCity_Season_ValentineHeart::TObjCity_Season_ValentineHeart(TObject *parent, void *set_data)
+TObjCity_Season_ValentineHeart::TObjCity_Season_ValentineHeart(TObject *parent, ObjectSetData *set_data)
     : TObjCitySeasonBase(parent, set_data, 1, 13.0f) {
     Vec pos;
     m_name = class_name;
@@ -174,7 +174,7 @@ TObjCity_Season_ValentineHeart::~TObjCity_Season_ValentineHeart() {
 }
 
 
-void *TObjCity_Season_ValentineHeart::create(void *set) {
+void *TObjCity_Season_ValentineHeart::create(ObjectSetData *set) {
     return new TObjCity_Season_ValentineHeart(tl_05, set);
 }
 void TObjCity_Season_ValentineHeart::run_task() { advance_anim_time(1, 0.2f); }
@@ -190,7 +190,7 @@ void TObjCity_Season_ValentineHeart::render() {
     }
 }
 
-TObjCity_Season_XmasTree::TObjCity_Season_XmasTree(TObject *parent, void *set_data)
+TObjCity_Season_XmasTree::TObjCity_Season_XmasTree(TObject *parent, ObjectSetData *set_data)
     : TObjCitySeasonBase(parent, set_data, 2, 22.5f) {
     Vec pos;
     m_name = class_name;
@@ -211,7 +211,7 @@ TObjCity_Season_XmasTree::~TObjCity_Season_XmasTree() {
 }
 
 
-void *TObjCity_Season_XmasTree::create(void *set) {
+void *TObjCity_Season_XmasTree::create(ObjectSetData *set) {
     return new TObjCity_Season_XmasTree(tl_05, set);
 }
 void TObjCity_Season_XmasTree::run_task() { advance_anim_time(1, 0.2f); }
@@ -231,7 +231,7 @@ void TObjCity_Season_XmasTree::render() {
     }
 }
 
-TObjCity_Season_XmasWreath::TObjCity_Season_XmasWreath(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjCity_Season_XmasWreath::TObjCity_Season_XmasWreath(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
 }
@@ -239,7 +239,7 @@ TObjCity_Season_XmasWreath::TObjCity_Season_XmasWreath(TObject *parent, void *se
 TObjCity_Season_XmasWreath::~TObjCity_Season_XmasWreath() {}
 
 
-void *TObjCity_Season_XmasWreath::create(void *set) {
+void *TObjCity_Season_XmasWreath::create(ObjectSetData *set) {
     return new TObjCity_Season_XmasWreath(tl_05, set);
 }
 void TObjCity_Season_XmasWreath::render() {
@@ -255,7 +255,7 @@ void TObjCity_Season_XmasWreath::render() {
     }
 }
 
-TObjCity_Season_HalloweenPumpkin::TObjCity_Season_HalloweenPumpkin(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjCity_Season_HalloweenPumpkin::TObjCity_Season_HalloweenPumpkin(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
 }
@@ -263,7 +263,7 @@ TObjCity_Season_HalloweenPumpkin::TObjCity_Season_HalloweenPumpkin(TObject *pare
 TObjCity_Season_HalloweenPumpkin::~TObjCity_Season_HalloweenPumpkin() {}
 
 
-void *TObjCity_Season_HalloweenPumpkin::create(void *set) {
+void *TObjCity_Season_HalloweenPumpkin::create(ObjectSetData *set) {
     return new TObjCity_Season_HalloweenPumpkin(tl_05, set);
 }
 void TObjCity_Season_HalloweenPumpkin::run_task() {
@@ -285,7 +285,7 @@ void TObjCity_Season_HalloweenPumpkin::render() {
     }
 }
 
-TObjCity_Season_21_21::TObjCity_Season_21_21(TObject *parent, void *set_data)
+TObjCity_Season_21_21::TObjCity_Season_21_21(TObject *parent, ObjectSetData *set_data)
     : TObjCitySeasonBase(parent, set_data, 4, 23.0f) {
     Vec pos;
     m_name = class_name;
@@ -307,7 +307,7 @@ TObjCity_Season_21_21::~TObjCity_Season_21_21() {
 }
 
 
-void *TObjCity_Season_21_21::create(void *set) {
+void *TObjCity_Season_21_21::create(ObjectSetData *set) {
     return new TObjCity_Season_21_21(tl_05, set);
 }
 void TObjCity_Season_21_21::run_task() {
@@ -334,7 +334,7 @@ void TObjCity_Season_21_21::render() {
     }
 }
 
-TObjCity_Season_SonicAdv2::TObjCity_Season_SonicAdv2(TObject *parent, void *set_data)
+TObjCity_Season_SonicAdv2::TObjCity_Season_SonicAdv2(TObject *parent, ObjectSetData *set_data)
     : TObjCitySeasonBase(parent, set_data, 5, 3.0f) {
     m_name = class_name;
 }
@@ -342,7 +342,7 @@ TObjCity_Season_SonicAdv2::TObjCity_Season_SonicAdv2(TObject *parent, void *set_
 TObjCity_Season_SonicAdv2::~TObjCity_Season_SonicAdv2() {}
 
 
-void *TObjCity_Season_SonicAdv2::create(void *set) {
+void *TObjCity_Season_SonicAdv2::create(ObjectSetData *set) {
     return new TObjCity_Season_SonicAdv2(tl_05, set);
 }
 s32 TObjCity_Season_SonicAdv2::get_model_variant() {
@@ -389,7 +389,7 @@ void TObjCity_Season_SonicAdv2::debug_draw_model_index() {
     set_debug_text_color(0xF0F0F0FF);
 }
 
-TObjCity_Season_Board::TObjCity_Season_Board(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjCity_Season_Board::TObjCity_Season_Board(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     uv_scroll = 0;
@@ -398,7 +398,7 @@ TObjCity_Season_Board::TObjCity_Season_Board(TObject *parent, void *set_data) : 
 TObjCity_Season_Board::~TObjCity_Season_Board() {}
 
 
-void *TObjCity_Season_Board::create(void *set) {
+void *TObjCity_Season_Board::create(ObjectSetData *set) {
     return new TObjCity_Season_Board(tl_05, set);
 }
 void TObjCity_Season_Board::run_task() {
@@ -420,7 +420,7 @@ void TObjCity_Season_Board::render() {
     }
 }
 
-TObjCity_Season_FireWorkCtrl::TObjCity_Season_FireWorkCtrl(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjCity_Season_FireWorkCtrl::TObjCity_Season_FireWorkCtrl(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     spawn_delay = 0;
@@ -429,7 +429,7 @@ TObjCity_Season_FireWorkCtrl::TObjCity_Season_FireWorkCtrl(TObject *parent, void
 TObjCity_Season_FireWorkCtrl::~TObjCity_Season_FireWorkCtrl() {}
 
 
-void *TObjCity_Season_FireWorkCtrl::create(void *set) {
+void *TObjCity_Season_FireWorkCtrl::create(ObjectSetData *set) {
     return new TObjCity_Season_FireWorkCtrl(tl_05, set);
 }
 #pragma push

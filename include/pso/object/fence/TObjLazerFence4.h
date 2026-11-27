@@ -8,7 +8,7 @@
 struct NJS_OBJECT;
 
 struct TObjLazerFence4 : public TObjCollidable {
-    TObjLazerFence4(TObject *parent, void *set_data);
+    TObjLazerFence4(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjLazerFence4();
     void wait_for_switch();
     virtual s32 update_object_view_visibility(f32, f32);
@@ -23,7 +23,7 @@ struct TObjLazerFence4 : public TObjCollidable {
     void draw_model();
     void reset_if_door_closed();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     NJS_OBJECT *beam_model;  // drawn posed by motion
     NJS_OBJECT *post_model;  // the posts, drawn alone when open
     NJS_MOTION *motion;

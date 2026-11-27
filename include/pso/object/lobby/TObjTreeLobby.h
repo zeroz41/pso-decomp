@@ -9,12 +9,12 @@ struct BmlResource;
 // The lobby potted snow-branch tree: shown while a lobby event runs, it
 // fades in when the lobby connects and out when a lobby object takes over.
 struct TObjTreeLobby : public TObjMapObject {
-    TObjTreeLobby(TObject *parent, void *set_data);
+    TObjTreeLobby(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjTreeLobby();
     s32 fade_state;  // 0 hidden, 2 fading in, 3 shown, 1 fading out
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_resources();
     static void load_resources();
     f32 fade_scale;  // 0..1, the xz scale it fades in and out with

@@ -8,7 +8,7 @@
 // emits its vtable).
 class TObjContainerBase : public TObjChara {
 public:
-    TObjContainerBase(TObject *parent, void *set_data);
+    TObjContainerBase(TObject *parent, ObjectSetData *set_data);
     virtual void render();
     virtual void run_task();
     virtual ~TObjContainerBase();

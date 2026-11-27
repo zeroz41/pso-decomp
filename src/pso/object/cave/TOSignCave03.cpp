@@ -97,7 +97,7 @@ void TOSignCave03::render() {
     }
 }
 
-void *TOSignCave03::create(void *set_data) {
+void *TOSignCave03::create(ObjectSetData *set_data) {
     return new TOSignCave03(tl_05, set_data);
 }
 
@@ -115,7 +115,7 @@ void TOSignCave03::load_shared_resource() {
 
 TOSignCave03::~TOSignCave03() {}
 
-TOSignCave03::TOSignCave03(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TOSignCave03::TOSignCave03(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = sign_cave03_class_name;
     apply_object_set_data(set_data);
     model = sign_cave03_bml_resource->models[0].model;

@@ -5,11 +5,11 @@
 #include "pso/object/base/TObjMapObject.h"
 
 struct TOHangerMachine01 : public TObjMapObject {
-    TOHangerMachine01(void *set_data);
+    TOHangerMachine01(ObjectSetData *set_data);
     virtual ~TOHangerMachine01();
     virtual void run_task();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_static_model();
     static void load_shared_resource();
     s32 fan_angle;

@@ -48,7 +48,7 @@ void TOKeyJungleMain::play_activate_sound() {
     play_sound_effect(sound, &position, 0, 0);
 }
 
-void *TOKeyJungleMain::create(void *set_data) {
+void *TOKeyJungleMain::create(ObjectSetData *set_data) {
     return new TOKeyJungleMain(tl_05, set_data);
 }
 
@@ -149,7 +149,7 @@ TOKeyJungleMain::~TOKeyJungleMain() {
     free_collision_body_parts(this);
 }
 
-TOKeyJungleMain::TOKeyJungleMain(TObject *parent, void *set_data) : TOKey(parent) {
+TOKeyJungleMain::TOKeyJungleMain(TObject *parent, ObjectSetData *set_data) : TOKey(parent) {
     m_name = key_jungle_main_class_name;
     apply_object_set_data(set_data);
     init_switch_id();

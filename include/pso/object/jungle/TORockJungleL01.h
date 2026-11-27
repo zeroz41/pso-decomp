@@ -8,7 +8,7 @@
 struct TObjMapCsn;
 
 struct TORockJungleL01 : public TORockCave {
-    TORockJungleL01(void *set_data);
+    TORockJungleL01(ObjectSetData *set_data);
     virtual ~TORockJungleL01();
     virtual void post_draw();
     virtual void pre_draw();
@@ -16,7 +16,7 @@ struct TORockJungleL01 : public TORockCave {
     RenderFadeState fade;
     s32 fade_active;         // fade.isFading() of the last pre_draw, 0 in split screen
     TObjMapCsn *map_csn;     // the rock's map collision
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TORockJungleL01_size, sizeof(TORockJungleL01) == 0xD8);

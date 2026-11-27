@@ -5,7 +5,7 @@
 #include "pso/object/container/TObjContainerBase.h"
 
 struct TObjContainerEnemy : public TObjContainerBase {
-    TObjContainerEnemy(TObject *parent, void *set_data);
+    TObjContainerEnemy(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjContainerEnemy();
     virtual void debug_print_item_box_info();
     virtual void draw_model();
@@ -13,7 +13,7 @@ struct TObjContainerEnemy : public TObjContainerBase {
     virtual void spawn_break_effects() const;
     virtual void apply_saved_state(s16 *, s32);
     virtual f32 receive_physical_attack(TObjChara *, f32);
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjContainerEnemy_size, sizeof(TObjContainerEnemy) == 0x368);

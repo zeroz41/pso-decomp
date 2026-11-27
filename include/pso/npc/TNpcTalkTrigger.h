@@ -12,7 +12,7 @@ struct TObjPlayer;
 // set_params[1] the spawn mode and set_params[2] the id npc_talk_kill names.
 class TNpcTalkTrigger : public TObjCollidable {
 public:
-    TNpcTalkTrigger(TObject *parent, void *set_data);
+    TNpcTalkTrigger(TObject *parent, ObjectSetData *set_data);
     virtual ~TNpcTalkTrigger();
     virtual void render();
     virtual void run_task();
@@ -34,6 +34,6 @@ void set_player_quest_control_flag(TObjPlayer *player);
 // The quest opcodes p_noncol and p_col.
 void clear_hashi_versus2_flag(void);
 void set_hashi_versus2_flag(void);
-void *create_npc(void *set_data);
+void *create_npc(ObjectSetData *set_data);
 
 #endif

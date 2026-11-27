@@ -248,7 +248,7 @@ NJS_MOTION *TObjSeabedSuisoBrakable::get_bml_motion_by_index(s32 index) {
 }
 
 
-TObjSeabedSuiso_CH::TObjSeabedSuiso_CH(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjSeabedSuiso_CH::TObjSeabedSuiso_CH(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     init_kind_params();
@@ -401,7 +401,7 @@ void TObjSeabedSuiso_CH::run_task() {
     }
 }
 
-void *TObjSeabedSuiso_CH::create(void *set_data) {
+void *TObjSeabedSuiso_CH::create(ObjectSetData *set_data) {
     return new TObjSeabedSuiso_CH(tl_05, set_data);
 }
 
@@ -414,7 +414,7 @@ void TObjSeabedSuisoBrakable::notify_break(NJS_OBJECT *node) {
 }
 
 
-TObjSeabedSuisoBrakable::TObjSeabedSuisoBrakable(void *set_data) {
+TObjSeabedSuisoBrakable::TObjSeabedSuisoBrakable(ObjectSetData *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     kind = (s32)fabs_float((f32)set_params[1]);
@@ -435,7 +435,7 @@ TObjSeabedSuisoBrakable::~TObjSeabedSuisoBrakable() {
     free_collision_body_parts(this);
 }
 
-void *TObjSeabedSuisoBrakable::create_instance(void *set_data) {
+void *TObjSeabedSuisoBrakable::create_instance(ObjectSetData *set_data) {
     return new TObjSeabedSuisoBrakable(set_data);
 }
 

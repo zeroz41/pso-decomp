@@ -140,7 +140,7 @@ void TObjWarpJungMain::run_task() {
 
 TObjWarpJungMain::~TObjWarpJungMain() {}
 
-TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjWarpJungMain::TObjWarpJungMain(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = warp_jung_main_name;
     beam_frame = 0.0f;
     set_params[2] = fabs_float(set_params[2] % 2);
@@ -156,7 +156,7 @@ TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWa
     }
 }
 
-void *TObjWarpJung::create(void *set_data) {
+void *TObjWarpJung::create(ObjectSetData *set_data) {
     return new TObjWarpJung(tl_05, set_data);
 }
 
@@ -197,7 +197,7 @@ void TObjWarpJung::run_task() {
 
 TObjWarpJung::~TObjWarpJung() {}
 
-TObjWarpJung::TObjWarpJung(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjWarpJung::TObjWarpJung(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = warp_jung_name;
     beam_frame = 0.0f;
     set_params[2] = fabs_float(set_params[2] % 2);

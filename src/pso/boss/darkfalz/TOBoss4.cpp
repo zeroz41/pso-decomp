@@ -65,7 +65,7 @@ void TOBoss4::free_instance() {
     }
 }
 
-TOBoss4Bird::TOBoss4Bird(void *set_data) {
+TOBoss4Bird::TOBoss4Bird(ObjectSetData *set_data) {
     s32 i;
     m_name = class_name;
     apply_object_set_data(set_data);
@@ -113,7 +113,7 @@ TOBoss4Bird::~TOBoss4Bird() {
     }
 }
 
-void *TOBoss4Bird::create(void *set_data) {
+void *TOBoss4Bird::create(ObjectSetData *set_data) {
     return new TOBoss4Bird(set_data);
 }
 
@@ -176,7 +176,7 @@ void TOBoss4Bird::run_task() {
     }
 }
 
-TOBoss4Tower::TOBoss4Tower(void *set_data) {
+TOBoss4Tower::TOBoss4Tower(ObjectSetData *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(model_resource, 5);
@@ -198,11 +198,11 @@ void TOBoss4Tower::render() {
     }
 }
 
-void *TOBoss4Tower::create(void *set_data) {
+void *TOBoss4Tower::create(ObjectSetData *set_data) {
     return new TOBoss4Tower(set_data);
 }
 
-TOBoss4Rock::TOBoss4Rock(void *set_data) {
+TOBoss4Rock::TOBoss4Rock(ObjectSetData *set_data) {
     s32 i;
     int model;
     f32 base;
@@ -267,7 +267,7 @@ TOBoss4Rock::~TOBoss4Rock() {
     }
 }
 
-void *TOBoss4Rock::create(void *set_data) {
+void *TOBoss4Rock::create(ObjectSetData *set_data) {
     return new TOBoss4Rock(set_data);
 }
 

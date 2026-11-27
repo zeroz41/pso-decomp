@@ -13,7 +13,7 @@ struct NJS_TEXLIST;
 // round), hitting the players it touches; the switch pulls it back home. The
 // saw advances animation_end_frame by animation_step as its motion frame.
 struct TOTrapChainSaw : public TObjMapObject {
-    TOTrapChainSaw(TObject *parent, void *set_data);
+    TOTrapChainSaw(TObject *parent, ObjectSetData *set_data);
     virtual ~TOTrapChainSaw();
     virtual void draw_debug_labels();
     virtual void decode_params();

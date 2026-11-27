@@ -9,9 +9,9 @@ struct TObjLightSceneLightState;
 struct PointLight;
 
 struct TObjLight : public TObjBase {
-    TObjLight(TObject *parent, u8 *set_data);
+    TObjLight(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjLight();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     void *init_from_source(void *, int, int);
     u32 light_room;  // the set entry's room
     s32 oscillation;   // 0x94: the swing of a pulsing light, in degrees

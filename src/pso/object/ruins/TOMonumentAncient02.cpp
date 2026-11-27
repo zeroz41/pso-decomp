@@ -168,7 +168,7 @@ void TOMonumentAncient02::render() {
     }
 }
 
-void *TOMonumentAncient02::create(void *set_data) {
+void *TOMonumentAncient02::create(ObjectSetData *set_data) {
     return new TOMonumentAncient02(tl_05, set_data);
 }
 
@@ -203,7 +203,7 @@ TOMonumentAncient02::~TOMonumentAncient02() {
     free_collision_body_parts(this);
 }
 
-TOMonumentAncient02::TOMonumentAncient02(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TOMonumentAncient02::TOMonumentAncient02(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     s32 area;
     m_name = monument_ancient02_class_name;
     apply_object_set_data(set_data);

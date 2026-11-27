@@ -21,7 +21,7 @@ s32 TItem::is_unit() {
     return result;
 }
 
-TOSwitchItem::TOSwitchItem(TObject *parent, void *set_data) : TOKey(parent) {
+TOSwitchItem::TOSwitchItem(TObject *parent, ObjectSetData *set_data) : TOKey(parent) {
     m_name = switch_item_class_name;
     apply_object_set_data(set_data);
     init_params();
@@ -34,7 +34,7 @@ void TOSwitchItem::load_assets() {}
 
 void TOSwitchItem::free_assets() {}
 
-void *TOSwitchItem::create(void *set_data) {
+void *TOSwitchItem::create(ObjectSetData *set_data) {
     return new TOSwitchItem(tl_05, set_data);
 }
 

@@ -21,12 +21,12 @@ NJS_TEXLIST *get_boss_warp_base_textures(void);
 NJS_TEXLIST *get_boss_warp_effect_textures(void);
 
 struct TObjWarpBossMulti : public TObjAreaWarp {
-    TObjWarpBossMulti(TObject *parent, void *set_data);
+    TObjWarpBossMulti(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjWarpBossMulti();
     virtual void debug_print_area_num();
     void render();
     void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     void init_warp_params();
     void update();
     static s32 is_lobby_active();

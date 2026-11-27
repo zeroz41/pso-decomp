@@ -74,7 +74,7 @@ TOKey::TOKey(TObject *parent) : TObjMapObject(parent) {
 
 TOKey::~TOKey() {}
 
-void TOKey::init_key(void *set_entry) {
+void TOKey::init_key(ObjectSetData *set_entry) {
     apply_object_set_data(set_entry);
     init_switch_id();
     VecCopy(&center, &position);

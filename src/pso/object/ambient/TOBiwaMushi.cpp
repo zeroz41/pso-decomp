@@ -38,7 +38,7 @@ BmlResource *TOMekaFish01::model_resource;
 BmlResource *TOBiwaMushi::model_resource;
 
 
-TOMekaFish00::TOMekaFish00(void *set_data) {
+TOMekaFish00::TOMekaFish00(ObjectSetData *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(model_resource, 0);
@@ -70,11 +70,11 @@ void TOMekaFish00::release_static_instance() {
     }
 }
 
-void *TOMekaFish00::create(void *set_data) {
+void *TOMekaFish00::create(ObjectSetData *set_data) {
     return new TOMekaFish00(set_data);
 }
 
-TOMekaFish01::TOMekaFish01(void *set_data) {
+TOMekaFish01::TOMekaFish01(ObjectSetData *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(model_resource, 0);
@@ -106,11 +106,11 @@ void TOMekaFish01::free_static_data() {
     }
 }
 
-void *TOMekaFish01::create(void *set_data) {
+void *TOMekaFish01::create(ObjectSetData *set_data) {
     return new TOMekaFish01(set_data);
 }
 
-TOBiwaMushi::TOBiwaMushi(void *set_data) {
+TOBiwaMushi::TOBiwaMushi(ObjectSetData *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(model_resource, 0);
@@ -142,6 +142,6 @@ void TOBiwaMushi::free_shared_data() {
     }
 }
 
-void *TOBiwaMushi::create(void *set_data) {
+void *TOBiwaMushi::create(ObjectSetData *set_data) {
     return new TOBiwaMushi(set_data);
 }

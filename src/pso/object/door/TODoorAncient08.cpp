@@ -45,7 +45,7 @@ static CollisionBody door_ancient08_collision_body[1] = {
 BmlResource *TODoorAncient08::bml_resource;
 NJS_TEXLIST **TODoorAncient08::texture_lists;
 
-TODoorAncient08::TODoorAncient08(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorAncient08::TODoorAncient08(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = door_ancient08_class_name;
     apply_object_set_data(set_data);
     texlist = texture_lists[0];
@@ -98,7 +98,7 @@ void TODoorAncient08::destroy() {
     }
 }
 
-void *TODoorAncient08::create(void *set_data) {
+void *TODoorAncient08::create(ObjectSetData *set_data) {
     return new TODoorAncient08(tl_05, set_data);
 }
 

@@ -138,7 +138,7 @@ TObjWarpLobby::~TObjWarpLobby() {
 }
 
 
-TObjWarpLobby::TObjWarpLobby(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjWarpLobby::TObjWarpLobby(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
 
     m_name = class_name;
     this->beam_frame = 0.0f;

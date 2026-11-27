@@ -146,7 +146,7 @@ void TODragonflyMachine01::run_task() {
     }
 }
 
-void *TODragonflyMachine01::create(void *set_data) {
+void *TODragonflyMachine01::create(ObjectSetData *set_data) {
     return new TODragonflyMachine01(set_data);
 }
 
@@ -171,7 +171,7 @@ void TODragonflyMachine01::load_resources() {
 
 TODragonflyMachine01::~TODragonflyMachine01() {}
 
-TODragonflyMachine01::TODragonflyMachine01(void *set_data) {
+TODragonflyMachine01::TODragonflyMachine01(ObjectSetData *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (NJS_OBJECT *)model_resource->models->model;

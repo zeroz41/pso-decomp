@@ -82,7 +82,7 @@ void TOBind::render() {
     }
 }
 
-void *TOBind::create(void *set_data) {
+void *TOBind::create(ObjectSetData *set_data) {
     return new TOBind(set_data);
 }
 
@@ -103,7 +103,7 @@ TOBind::~TOBind() {
     free_collision_body_parts(this);
 }
 
-TOBind::TOBind(void *set_data) : TObjCollidable(tl_05) {
+TOBind::TOBind(ObjectSetData *set_data) : TObjCollidable(tl_05) {
     m_name = class_name;
     apply_object_set_data(set_data);
     triggered = 0;

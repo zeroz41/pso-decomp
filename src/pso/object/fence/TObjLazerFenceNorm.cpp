@@ -122,11 +122,11 @@ void TObjLazerFenceNorm::free_resources() {
 }
 
 
-void *TObjLazerFenceNorm::create(void *set_data) {
+void *TObjLazerFenceNorm::create(ObjectSetData *set_data) {
     return new TObjLazerFenceNorm(tl_05, set_data);
 }
 
-TObjLazerFenceNorm::TObjLazerFenceNorm(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjLazerFenceNorm::TObjLazerFenceNorm(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     m_name = obj_lazer_fence_norm_class_name;
     apply_object_set_data(set_data);
     state = 0;
@@ -249,11 +249,11 @@ void TObjLazerFenceNorm::select_models() {
 }
 
 
-void *TObjLazerFenceExtra::create(void *set_data) {
+void *TObjLazerFenceExtra::create(ObjectSetData *set_data) {
     return new TObjLazerFenceExtra(tl_05, set_data);
 }
 
-TObjLazerFenceExtra::TObjLazerFenceExtra(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjLazerFenceExtra::TObjLazerFenceExtra(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     s32 i;
     m_name = lazer_fence_extra_class_name;
     apply_object_set_data(set_data);

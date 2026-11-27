@@ -50,7 +50,7 @@ const FourLightNodeTable door_four_light_space_index_table = {4, 6, 8, 10, 5, 7,
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-TODoorFourLightRuins::TODoorFourLightRuins(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorFourLightRuins::TODoorFourLightRuins(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     s32 i;
     m_name = door_four_light_ruins_class_name;
     apply_object_set_data(set_data);
@@ -252,7 +252,7 @@ s32 TODoorFourLightRuins::init_door_switch_binding() {
 }
 
 
-TODoorFourLightSpace::TODoorFourLightSpace(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorFourLightSpace::TODoorFourLightSpace(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     s32 i;
     m_name = door_four_light_space_class_name;
     apply_object_set_data(set_data);

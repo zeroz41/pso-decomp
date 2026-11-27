@@ -17,58 +17,58 @@
 #include "pso/object/warp/TObjMapForceWarp.h"
 #include "pso/system/task/TObject.h"
 
-void *TODoorFourLightSeabed::create(void *set_data) {
+void *TODoorFourLightSeabed::create(ObjectSetData *set_data) {
     return new TODoorFourLightSeabed(tl_05, set_data);
 }
 
-void *TODoorFourLightSeabedU::create(void *set_data) {
+void *TODoorFourLightSeabedU::create(ObjectSetData *set_data) {
     return new TODoorFourLightSeabedU(tl_05, set_data);
 }
 
-void *TODoorLabo::create(void *set_data) {
+void *TODoorLabo::create(ObjectSetData *set_data) {
     return new TODoorLabo(tl_05, set_data);
 }
 
-void *TODoorLaboNormal::create(void *set_data) {
+void *TODoorLaboNormal::create(ObjectSetData *set_data) {
     return new TODoorLaboNormal(tl_05, set_data);
 }
 
-void *TODoorFourLightRuins::create(void *set_data) {
+void *TODoorFourLightRuins::create(ObjectSetData *set_data) {
     void *o = (void *)new TODoorFourLightRuins(tl_05, set_data);
     return o;
 }
 
-void *TODoorFourLightSpace::create(void *set_data) {
+void *TODoorFourLightSpace::create(ObjectSetData *set_data) {
     void *o = (void *)new TODoorFourLightSpace(tl_05, set_data);
     return o;
 }
 
-void *TObjInfoCol::create(void *set_data) {
+void *TObjInfoCol::create(ObjectSetData *set_data) {
     void *o = (void *)new TObjInfoCol(tl_05, set_data);
     return o;
 }
 
-void *TObjWarpLobby::create(void *set_data) {
+void *TObjWarpLobby::create(ObjectSetData *set_data) {
     return new TObjWarpLobby(tl_05, set_data);
 }
 
-void *TObjAreaWarpEnding::create(void *set_data) {
+void *TObjAreaWarpEnding::create(ObjectSetData *set_data) {
     return new TObjAreaWarpEnding(tl_05, set_data);
 }
 
-void *TObjAreaWarpQuest::create(void *set_data) {
+void *TObjAreaWarpQuest::create(ObjectSetData *set_data) {
     return new TObjAreaWarpQuest(tl_05, set_data);
 }
 
-void *TObjAreaWarpForest::create(void *set_data) {
+void *TObjAreaWarpForest::create(ObjectSetData *set_data) {
     return new TObjAreaWarpForest(tl_05, set_data);
 }
 
-void *TObjMapWarpForest::create(void *set_data) {
+void *TObjMapWarpForest::create(ObjectSetData *set_data) {
     return new TObjMapWarpForest(tl_05, set_data);
 }
 
-void *TObjMapForceWarp::create(void *set_data) {
+void *TObjMapForceWarp::create(ObjectSetData *set_data) {
     return new TObjMapForceWarp(tl_05, set_data);
 }
 

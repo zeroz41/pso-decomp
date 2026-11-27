@@ -20,14 +20,14 @@ enum SwitchItemFilter {
 // within its radius (scale.x).
 class TOSwitchItem : public TOKey {
 public:
-    TOSwitchItem(TObject *parent, void *set_data);
+    TOSwitchItem(TObject *parent, ObjectSetData *set_data);
     virtual ~TOSwitchItem();
     virtual void run_task();
     virtual void render();
     virtual void send_switch_on();
     virtual void debug_draw_key_id();
     void init_params();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void load_assets();
     static void free_assets();
 

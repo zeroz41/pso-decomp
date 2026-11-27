@@ -144,7 +144,7 @@ void TShopGenerator::run_task() {
 TShopGenerator::~TShopGenerator() {
 }
 
-TShopGenerator::TShopGenerator(void *set_data) : TObjBase(tl_05) {
+TShopGenerator::TShopGenerator(ObjectSetData *set_data) : TObjBase(tl_05) {
     s32 service_index;
     m_name = class_name;
     this->apply_object_set_data(set_data);
@@ -176,7 +176,7 @@ void set_shop_slot_active(u16 client) {
     TShopGenerator::slot_active_table[idx] = 1;
 }
 
-void *TShopGenerator::create(void *set_data) {
+void *TShopGenerator::create(ObjectSetData *set_data) {
     void *o = new TShopGenerator(set_data);
     return o;
 }

@@ -6,7 +6,7 @@
 
 struct TObjAreaWarp : public TObjWarpBase {
     static const char *class_name;
-    TObjAreaWarp(TObject *parent, void *set_data);
+    TObjAreaWarp(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjAreaWarp();
     void handle_area_selection();
     virtual void confirm_area_transfer(TObjPlayer *player);  // player: who confirmed (find_warp_player_in_range)

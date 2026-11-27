@@ -128,7 +128,7 @@ void TODoorVS2Door01::render() {
     }
 }
 
-void *TODoorVS2Door01::create(void *set_data) {
+void *TODoorVS2Door01::create(ObjectSetData *set_data) {
     return new TODoorVS2Door01(tl_05, set_data);
 }
 
@@ -159,7 +159,7 @@ TODoorVS2Door01::~TODoorVS2Door01() {
     free_collision_body_parts(this);
 }
 
-TODoorVS2Door01::TODoorVS2Door01(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorVS2Door01::TODoorVS2Door01(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = door_vs2door01_class_name;
     apply_object_set_data(set_data);
     model = bml_resource->models[0].model;

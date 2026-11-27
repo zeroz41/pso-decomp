@@ -8,7 +8,7 @@
 class TParticleCtrl;
 
 struct TOMonumentAncient02 : public TObjMapObject {
-    TOMonumentAncient02(TObject *parent, void *set_data);
+    TOMonumentAncient02(TObject *parent, ObjectSetData *set_data);
     virtual ~TOMonumentAncient02();
     virtual void apply_saved_state(s16 *, s32);
     virtual void interact(u16 client);
@@ -21,7 +21,7 @@ struct TOMonumentAncient02 : public TObjMapObject {
     s32 in_view;  // 1 while update_object_view_visibility sees it
     virtual void run_task();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_shared_data();
     static void load_resources();
 };

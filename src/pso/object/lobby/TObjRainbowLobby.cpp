@@ -70,7 +70,7 @@ void TObjRainbowLobby::run_task() {
     }
 }
 
-void *TObjRainbowLobby::create(void *set_data) {
+void *TObjRainbowLobby::create(ObjectSetData *set_data) {
     return new TObjRainbowLobby(tl_05, set_data);
 }
 
@@ -87,7 +87,7 @@ void TObjRainbowLobby::load_resources() {
 
 TObjRainbowLobby::~TObjRainbowLobby() {}
 
-TObjRainbowLobby::TObjRainbowLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjRainbowLobby::TObjRainbowLobby(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = obj_rainbow_lobby_class_name;
     apply_object_set_data(set_data);
     if (is_lobby_event_active() != 0) {

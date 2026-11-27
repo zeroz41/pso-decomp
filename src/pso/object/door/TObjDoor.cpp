@@ -67,7 +67,7 @@ s32 door_masterkey_on;
 
 #pragma push
 #pragma fp_contract on
-void *TObjDoorJung::create(void *set_data) {
+void *TObjDoorJung::create(ObjectSetData *set_data) {
     return new TObjDoorJung(tl_05, set_data);
 }
 
@@ -93,11 +93,11 @@ void TObjDoor::free_resources() {
     }
 }
 
-void *TObjDoor::create(void *set_data) {
+void *TObjDoor::create(ObjectSetData *set_data) {
     return new TObjDoor(tl_05, set_data);
 }
 
-TObjDoor::TObjDoor(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjDoor::TObjDoor(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     this->m_name = name;
     apply_object_set_data(set_data);
     this->state = 0;

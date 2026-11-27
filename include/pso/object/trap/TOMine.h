@@ -38,7 +38,7 @@ struct TOMine : public TObjChara {
     virtual s32 select_melee_contact_body(TObjChara *, f32);
     virtual int calc_distance_accuracy_penalty(TObjChara *, CollisionBody *, const Vec *, float);
     virtual const char *get_name();
-    virtual void apply_object_set_data(void *);
+    virtual void apply_object_set_data(ObjectSetData *set_data);
     virtual void apply_knockback_from_attacker(TObjBase *, f32);
     virtual s32 try_start_action(TObjChara *, s32, f32);
     virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);

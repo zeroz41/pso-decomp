@@ -169,7 +169,7 @@ void release_boss_warp_resources(void) {
     }
 }
 
-void *TObjWarpBoss::create(void *set_data) {
+void *TObjWarpBoss::create(ObjectSetData *set_data) {
     if ((TRaderMapCore::is_not_split_screen() == 0) && (get_main_phase() == 0xE)) {
         return TObjWarpBossMulti::create(set_data);
     }
@@ -179,7 +179,7 @@ void *TObjWarpBoss::create(void *set_data) {
     return new TObjWarpBoss(tl_05, set_data);
 }
 
-TObjWarpBoss::TObjWarpBoss(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjWarpBoss::TObjWarpBoss(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     int i;
     m_name = warp_boss_name;
     frame = 0.0f;
@@ -782,7 +782,7 @@ void TObjWarpBoss::update_warp_boss_visibility() {
     }
 }
 
-TObjWarpBossMulti::TObjWarpBossMulti(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjWarpBossMulti::TObjWarpBossMulti(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     int i;
     m_name = warp_boss_multi_name;
     dest_floor = get_boss_warp_destination();
@@ -921,6 +921,6 @@ void TObjWarpBossMulti::init_warp_params() {
     frame_step = 4.0f;
 }
 
-void *TObjWarpBossMulti::create(void *set_data) {
+void *TObjWarpBossMulti::create(ObjectSetData *set_data) {
     return new TObjWarpBossMulti(tl_05, set_data);
 }

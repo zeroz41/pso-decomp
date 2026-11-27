@@ -19,11 +19,11 @@ struct TODoorVoShip : public TObjMapObject {
         FADE_RISING = 0x10   // light_color.a is rising
     };
 
-    TODoorVoShip(TObject *parent, void *set_data);
+    TODoorVoShip(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorVoShip();
     virtual void run_task();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_static_data();
     static void load_shared_resource();
 

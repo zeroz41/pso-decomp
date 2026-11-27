@@ -75,7 +75,7 @@ s32 TObjBgmColCtrl::is_active() {
     return (u8)((u8) (music_state != 0));
 }
 
-TObjBgmCol::TObjBgmCol(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjBgmCol::TObjBgmCol(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     this->m_name = bgm_col_name;
     this->apply_object_set_data(set_data);
     this->outside = 1;

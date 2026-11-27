@@ -20,7 +20,7 @@ struct MapCsnSetData {
 };
 
 struct TObjMapCsn : public TObjCollidable {
-    TObjMapCsn(TObject *parent, void *set_data);
+    TObjMapCsn(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjMapCsn();
     CsnGroup collision_group;
     CsnModel collision_model;
@@ -29,7 +29,7 @@ struct TObjMapCsn : public TObjCollidable {
     virtual void render();
     void update_state();
     s32 build_box_triangles();
-    static TObjMapCsn *create(void *set_data);
+    static TObjMapCsn *create(ObjectSetData *set_data);
     static TMapCsnCtrl *get_collision_controller();
     // Defined by TMapCsnCtrl.cpp, whose .sdata and .rodata it opens.
     static const char *class_name;

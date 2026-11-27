@@ -83,7 +83,7 @@ void TOHangerMachine01::render() {
     }
 }
 
-void *TOHangerMachine01::create(void *set_data) {
+void *TOHangerMachine01::create(ObjectSetData *set_data) {
     return new TOHangerMachine01(set_data);
 }
 
@@ -104,7 +104,7 @@ TOHangerMachine01::~TOHangerMachine01() {
     free_collision_body_parts(this);
 }
 
-TOHangerMachine01::TOHangerMachine01(void *set_data) : TObjMapObject(tl_05) {
+TOHangerMachine01::TOHangerMachine01(ObjectSetData *set_data) : TObjMapObject(tl_05) {
     m_name = hanger_machine01_class_name;
     apply_object_set_data(set_data);
     model = hanger_machine01_bml_resource->models[0].model;

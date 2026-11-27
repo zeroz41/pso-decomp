@@ -9,13 +9,13 @@
 // its set item as TObjContainerItem (0x88) does. Its constructor stores its base's name string
 // ("TObjContainerBase") in m_name, so the game gives it no name of its own.
 struct TObjContainerAbeItem : public TObjContainerBase {
-    TObjContainerAbeItem(TObject *parent, void *set_data);
+    TObjContainerAbeItem(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjContainerAbeItem();
     virtual void spawn_break_effects() const;
     virtual void draw_model();
     virtual void update_state();
     virtual void apply_saved_state(s16 *, s32);
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjContainerAbeItem_size, sizeof(TObjContainerAbeItem) == 0x368);

@@ -62,17 +62,17 @@ void TObjTuitate::free_resources() {
     }
 }
 
-void *TObjTuitate::create(void *set_data) {
+void *TObjTuitate::create(ObjectSetData *set_data) {
     return new TObjTuitate(tl_05, set_data);
 }
 
-TObjTuitate::TObjTuitate(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjTuitate::TObjTuitate(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, collision_parts, 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    ObjectSetData csn_data = *(ObjectSetData *)set_data;
+    ObjectSetData csn_data = *set_data;
     csn_data.scale.x = 32.0f;
     csn_data.scale.y = 20.0f;
     csn_data.scale.z = 12.0f;
@@ -136,17 +136,17 @@ void TObjBigTuitate::free_instance() {
     }
 }
 
-void *TObjBigTuitate::create(void *set_data) {
+void *TObjBigTuitate::create(ObjectSetData *set_data) {
     return new TObjBigTuitate(tl_05, set_data);
 }
 
-TObjBigTuitate::TObjBigTuitate(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjBigTuitate::TObjBigTuitate(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, collision_parts, 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    ObjectSetData csn_data = *(ObjectSetData *)set_data;
+    ObjectSetData csn_data = *set_data;
     csn_data.scale.x = 32.0f;
     csn_data.scale.y = 40.0f;
     csn_data.scale.z = 12.0f;

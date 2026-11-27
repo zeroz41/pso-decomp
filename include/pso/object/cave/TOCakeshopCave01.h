@@ -5,12 +5,12 @@
 #include "pso/object/base/TObjMapObject.h"
 
 struct TOCakeshopCave01 : public TObjMapObject {
-    TOCakeshopCave01(void *set_data);
+    TOCakeshopCave01(ObjectSetData *set_data);
     virtual ~TOCakeshopCave01();
     void update_blink_state(s32 index);
     virtual void run_task();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void release_static_resource();
     static void load_shared_resource();
     u8 pad_c8[4];

@@ -68,7 +68,7 @@ f32 TObjCollidable::get_body_radius(s32 body) {
 
 #pragma push
 #pragma fp_contract on
-TOTrapAncient01::TOTrapAncient01(TObject *parent, void *set_data) : TOTrap(parent) {
+TOTrapAncient01::TOTrapAncient01(TObject *parent, ObjectSetData *set_data) : TOTrap(parent) {
     s32 i;
     m_name = trap_ancient01_class_name;
     apply_object_set_data(set_data);
@@ -135,7 +135,7 @@ void TOTrapAncient01::release_static_resource() {
     }
 }
 
-void *TOTrapAncient01::create(void *set_data) {
+void *TOTrapAncient01::create(ObjectSetData *set_data) {
     return new TOTrapAncient01(tl_05, set_data);
 }
 

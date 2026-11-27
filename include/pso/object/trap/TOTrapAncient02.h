@@ -6,7 +6,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 
 struct TOTrapAncient02 : public TOTrap {
-    TOTrapAncient02(TObject *parent, void *set_data);
+    TOTrapAncient02(TObject *parent, ObjectSetData *set_data);
     virtual ~TOTrapAncient02();
     virtual void update_springing();
     virtual void update_holding();
@@ -23,7 +23,7 @@ struct TOTrapAncient02 : public TOTrap {
 
     void render_particle_chain();
     void draw_effect_chain();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void destroy_instance();
     static void load_resources();
 };

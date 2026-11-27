@@ -54,7 +54,7 @@ struct NJS_TEXLIST;
 static NJS_TEXLIST **barrier_energy_texlists;
 static NJS_OBJECT *barrier_energy_model;
 
-TOBarrierEnergy01::TOBarrierEnergy01(TObject *parent, void *set_data) : TODoorBase(parent) {
+TOBarrierEnergy01::TOBarrierEnergy01(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = TOBarrierEnergy01_name;
     apply_object_set_data(set_data);
     model = get_bml_model(barrier_energy_shared_bml_archive, 1);
@@ -99,7 +99,7 @@ void TOBarrierEnergy01::free_resources() {
     }
 }
 
-void *TOBarrierEnergy01::create(void *set_data) {
+void *TOBarrierEnergy01::create(ObjectSetData *set_data) {
     return new TOBarrierEnergy01(tl_05, set_data);
 }
 

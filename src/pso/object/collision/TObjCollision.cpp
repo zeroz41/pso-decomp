@@ -19,8 +19,8 @@ void TObjCollision::render() {  }
 void TObjCollision::run_task() {  }
 
 
-void *TObjCollision::create(void *set_data) {
-    return new TObjCollision(tl_06, (ObjectSetData *)set_data);
+void *TObjCollision::create(ObjectSetData *set_data) {
+    return new TObjCollision(tl_06, set_data);
 }
 TObjCollision::~TObjCollision() {
     free_collision_body_parts(this);

@@ -197,7 +197,7 @@ void TLazerFenceSw::run_task() {
     uv_scroll += 0.2f;
 }
 
-void *TLazerFenceSw::create(void *set_data) {
+void *TLazerFenceSw::create(ObjectSetData *set_data) {
     return new TLazerFenceSw(tl_05, set_data);
 }
 }
@@ -268,7 +268,7 @@ TLazerFenceSw::~TLazerFenceSw() {
 
 #pragma push
 #pragma opt_common_subs off
-TLazerFenceSw::TLazerFenceSw(TObject *parent, void *set_entry) : TOKey(parent) {
+TLazerFenceSw::TLazerFenceSw(TObject *parent, ObjectSetData *set_entry) : TOKey(parent) {
     m_name = class_name;
     init_key(set_entry);
     if (this->set_params[2] < 0) {

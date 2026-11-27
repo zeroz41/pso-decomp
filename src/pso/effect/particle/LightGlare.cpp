@@ -35,7 +35,7 @@
 
 s32 light_glare_enabled = 1;
 
-TLightGlare::TLightGlare(void *set_data, TObject *parent) : TObjBase(parent) {
+TLightGlare::TLightGlare(ObjectSetData *set_data, TObject *parent) : TObjBase(parent) {
     apply_object_set_data(set_data);
     alpha = 225.0f;
     light_glare_enabled = 1;
@@ -167,21 +167,21 @@ void TLightGlare::render() {
     end_effect_render();
 }
 
-void *TLightGlare::create(void *set_data) {
+void *TLightGlare::create(ObjectSetData *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }
     return new TLightGlare(set_data, tl_particle);
 }
 
-void *TLightGlareSwitch::create(void *set_data) {
+void *TLightGlareSwitch::create(ObjectSetData *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }
     return new TLightGlareSwitch(set_data, tl_particle);
 }
 
-TLightGlareSwitch::TLightGlareSwitch(void *set_data, TObject *parent) : TObjBase(parent) {
+TLightGlareSwitch::TLightGlareSwitch(ObjectSetData *set_data, TObject *parent) : TObjBase(parent) {
     apply_object_set_data(set_data);
 }
 

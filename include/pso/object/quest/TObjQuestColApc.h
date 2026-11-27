@@ -5,7 +5,7 @@
 #include "pso/object/quest/TObjQuestColBase.h"
 
 struct TObjQuestColApc : public TObjQuestColBase {
-    TObjQuestColApc(TObject *parent, void *set_data);
+    TObjQuestColApc(TObject *parent, ObjectSetData *set_data);
     virtual int is_triggered();
     virtual TQuestThread *start_quest_thread();
 };

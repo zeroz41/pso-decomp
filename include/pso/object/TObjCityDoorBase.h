@@ -19,7 +19,7 @@ struct CityDoorParams {
 // center): it opens while a player stands near and closes when they leave.
 class TObjCityDoorBase : public TObjCollidable {
 public:
-    TObjCityDoorBase(TObject *parent, void *set, const CityDoorParams *params);
+    TObjCityDoorBase(TObject *parent, ObjectSetData *set, const CityDoorParams *params);
     virtual ~TObjCityDoorBase();
     virtual s32 check_player_in_range(f32 range_sq);
     s32 is_any_city_player_in_range(const Vec *center, f32 range_squared);

@@ -10,12 +10,12 @@
 struct GinjaModel;
 
 struct TOComputerMachine01 : public TOQuestTalkBase {
-    TOComputerMachine01(void *set_data);
+    TOComputerMachine01(ObjectSetData *set_data);
     virtual ~TOComputerMachine01();
     virtual s32 update_object_view_visibility(f32 range, f32 radius);
     virtual void render();
 
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void unload_resources();
     static void load_resources();
 

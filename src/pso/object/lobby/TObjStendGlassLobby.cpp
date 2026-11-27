@@ -86,7 +86,7 @@ void TObjStendGlassLobby::update_state() {
     fade_state = 0;
 }
 
-void *TObjStendGlassLobby::create(void *set_data) {
+void *TObjStendGlassLobby::create(ObjectSetData *set_data) {
     return new TObjStendGlassLobby(tl_05, set_data);
 }
 
@@ -104,7 +104,7 @@ void TObjStendGlassLobby::load_resources() {
 
 TObjStendGlassLobby::~TObjStendGlassLobby() {}
 
-TObjStendGlassLobby::TObjStendGlassLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjStendGlassLobby::TObjStendGlassLobby(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = obj_stendglass_lobby_class_name;
     apply_object_set_data(set_data);
     update_state();

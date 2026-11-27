@@ -333,14 +333,14 @@ void TBoss6Rock::randomize_motion() {
 
 void TBoss6Rock::create_map_csn() {
     const RockKindParams *e;
-    MapCsnSetData set;
+    ObjectSetData set;
     if (map_csn == 0) {
         VecCopy(&set.position, &rock_point);
-        copy_xyz(&set.rotation_x, (void *)boss6_rock_set_rotation);
+        copy_xyz(set.rotation, (void *)boss6_rock_set_rotation);
         e = boss6_rock_kind_params;
         e += kind_index;
-        set.params[0] = 2;
-        set.params[1] = 0;
+        set.set_params[0] = 2;
+        set.set_params[1] = 0;
         set.scale.z = e->width;
         set.scale.x = e->width;
         set.scale.y = e->height;

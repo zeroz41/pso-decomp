@@ -6,7 +6,7 @@
 #include "pso/object/ambient/TObjEnvSound.h"
 
 struct TObjEnvSoundEx : public TObjBase {
-    TObjEnvSoundEx(TObject *parent, void *set_data);
+    TObjEnvSoundEx(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjEnvSoundEx();
     virtual void run_task();
     s32 max_volume;     // set param 1, clamped to -127..127
@@ -16,7 +16,7 @@ struct TObjEnvSoundEx : public TObjBase {
     f32 range;          // scale.z, 200 when not positive
     s32 init_sound_params();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjEnvSoundEx_size, sizeof(TObjEnvSoundEx) == 0xA8);

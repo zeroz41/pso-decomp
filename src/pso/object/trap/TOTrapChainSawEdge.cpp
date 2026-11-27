@@ -190,7 +190,7 @@ NJS_TEXLIST *TOTrapChainSaw::get_texlist(s32 index) {
     return NULL;
 }
 
-TOTrapChainSaw::TOTrapChainSaw(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TOTrapChainSaw::TOTrapChainSaw(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = trap_chain_saw_name;
     apply_object_set_data(set_data);
     clear_hit_cooldowns();
@@ -415,7 +415,7 @@ s32 TOTrapChainSaw::get_area_sound(s32 index) {
 
 const char *TOTrapChainSawDamage_class_name = "TOTrapChainSawDamage";
 
-TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
+TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, ObjectSetData *set_data) : TOTrapChainSaw(parent, set_data) {
     m_name = TOTrapChainSawDamage_class_name;
     decode_params();
     select_model();
@@ -424,7 +424,7 @@ TOTrapChainSawDamage::TOTrapChainSawDamage(TObject *parent, void *set_data) : TO
     register_object_by_id();
     position.y += 5.0f;
     {
-        ObjectSetData edge_set = *(ObjectSetData *)set_data;
+        ObjectSetData edge_set = *set_data;
         edge_set.position.y += 10.0f;
         edges[0] = new TOTrapChainSawEdge(this, &edge_set);
         edge_set.position.y += 5.0f;
@@ -436,7 +436,7 @@ TOTrapChainSawDamage::~TOTrapChainSawDamage() {
     free_collision_body_parts(this);
 }
 
-void *TOTrapChainSawDamage::create(void *set_data) {
+void *TOTrapChainSawDamage::create(ObjectSetData *set_data) {
     return new TOTrapChainSawDamage(tl_05, set_data);
 }
 
@@ -520,7 +520,7 @@ void TOTrapChainSawDamage::reach_far_end() {
 
 const char *trap_chain_saw_key_name = "TOTrapChainSawKey";
 
-TOTrapChainSawKey::TOTrapChainSawKey(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
+TOTrapChainSawKey::TOTrapChainSawKey(TObject *parent, ObjectSetData *set_data) : TOTrapChainSaw(parent, set_data) {
     m_name = trap_chain_saw_key_name;
     decode_params();
     select_model();
@@ -533,7 +533,7 @@ TOTrapChainSawKey::~TOTrapChainSawKey() {
     free_collision_body_parts(this);
 }
 
-void *TOTrapChainSawKey::create(void *set_data) {
+void *TOTrapChainSawKey::create(ObjectSetData *set_data) {
     return new TOTrapChainSawKey(tl_05, set_data);
 }
 
@@ -635,7 +635,7 @@ void TOTrapChainSawKey::draw_node_callback(NJS_OBJECT *object) {
 
 const char *TOTrapChainSawEdge_class_name = "TOTrapChainSawEdge";
 
-TOTrapChainSawEdge::TOTrapChainSawEdge(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
+TOTrapChainSawEdge::TOTrapChainSawEdge(TObject *parent, ObjectSetData *set_data) : TOTrapChainSaw(parent, set_data) {
     m_name = TOTrapChainSawEdge_class_name;
     decode_params();
     select_model();

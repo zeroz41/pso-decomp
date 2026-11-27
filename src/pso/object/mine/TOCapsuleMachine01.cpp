@@ -50,7 +50,7 @@ void TOCapsuleMachine01::render() {
     }
 }
 
-void *TOCapsuleMachine01::create(void *set_data) {
+void *TOCapsuleMachine01::create(ObjectSetData *set_data) {
     return new TOCapsuleMachine01(set_data);
 }
 
@@ -77,7 +77,7 @@ TOCapsuleMachine01::~TOCapsuleMachine01() {
     unregister_object_by_id();
 }
 
-TOCapsuleMachine01::TOCapsuleMachine01(void *set_data) : TObjMapObject(tl_05) {
+TOCapsuleMachine01::TOCapsuleMachine01(ObjectSetData *set_data) : TObjMapObject(tl_05) {
     m_name = TOCapsuleMachine01_class_name;
     apply_object_set_data(set_data);
     model = capsule_machine01_model_resource->models[0].model;

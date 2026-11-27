@@ -132,7 +132,7 @@ void TOSensorAncient01::render() {
     }
 }
 
-void *TOSensorAncient01::create(void *set_data) {
+void *TOSensorAncient01::create(ObjectSetData *set_data) {
     return new TOSensorAncient01(tl_05, set_data);
 }
 
@@ -168,7 +168,7 @@ void TOSensorAncient01::load_resources() {
 
 TOSensorAncient01::~TOSensorAncient01() {}
 
-TOSensorAncient01::TOSensorAncient01(TObject *parent, void *set_data) : TOSensor(parent) {
+TOSensorAncient01::TOSensorAncient01(TObject *parent, ObjectSetData *set_data) : TOSensor(parent) {
     m_name = sensor_ancient01_class_name;
     apply_object_set_data(set_data);
     init_switch_id();

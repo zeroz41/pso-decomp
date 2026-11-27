@@ -198,7 +198,7 @@ void TOKeyMachine01::render() {
     }
 }
 
-void *TOKeyMachine01::create(void *set_data) {
+void *TOKeyMachine01::create(ObjectSetData *set_data) {
     return new TOKeyMachine01(tl_05, set_data);
 }
 
@@ -227,7 +227,7 @@ void TOKeyMachine01::load_assets() {
 
 TOKeyMachine01::~TOKeyMachine01() {}
 
-TOKeyMachine01::TOKeyMachine01(TObject *parent, void *set_data) : TOKey(parent) {
+TOKeyMachine01::TOKeyMachine01(TObject *parent, ObjectSetData *set_data) : TOKey(parent) {
     m_name = key_machine01_class_name;
     apply_object_set_data(set_data);
     init_switch_id();

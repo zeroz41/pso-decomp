@@ -11,7 +11,7 @@ class TTelepipeSelectField;
 
 struct TObjWarpBase : public TObjCollidable {
     static const char *class_name;
-    TObjWarpBase(TObject *parent, void *set_data);
+    TObjWarpBase(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjWarpBase();
     virtual void close_menu();
     virtual void open_confirm_window(s32) = 0;

@@ -37,7 +37,7 @@ void TOFenceAncient01::open() {
     set_indexed_flags(0, 8);
 }
 
-void *TOFenceAncient01::create(void *set_data) {
+void *TOFenceAncient01::create(ObjectSetData *set_data) {
     return new TOFenceAncient01(tl_05, set_data);
 }
 
@@ -79,7 +79,7 @@ TOFenceAncient01::~TOFenceAncient01() {
     free_collision_body_parts(this);
 }
 
-TOFenceAncient01::TOFenceAncient01(TObject *parent, void *set_data) : TOFenceBase(parent) {
+TOFenceAncient01::TOFenceAncient01(TObject *parent, ObjectSetData *set_data) : TOFenceBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = model_resource->models[0].model;

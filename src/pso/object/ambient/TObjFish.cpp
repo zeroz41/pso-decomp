@@ -397,8 +397,8 @@ TObjFish::~TObjFish() {
 }
 
 
-TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
-    TObjFishSetData *data = (TObjFishSetData *)set_data;
+// The set entry's set_params are the counts of the three kinds of fish in the school.
+TObjFish::TObjFish(TObject *parent, ObjectSetData *data) : TObjBase(parent) {
     f32 y;
     f32 radius_max;
     m_name = fish_class_name;
@@ -416,17 +416,17 @@ TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
         radius_max = y;
     }
     school_radius = radius_max;
-    fish_count = data->counts[0] + data->counts[1] + data->counts[2];
+    fish_count = data->set_params[0] + data->set_params[1] + data->set_params[2];
     frame_counter = 0;
     if ((s32)fish_count < 1) {
         fish_count = 1;
     }
-    if (init_fish_school(&scale, data->counts[0], data->counts[1]) == 0) {
+    if (init_fish_school(&scale, data->set_params[0], data->set_params[1]) == 0) {
         queue_destruction();
     }
 }
 
-void *TObjFish::create(void *set_data) {
+void *TObjFish::create(ObjectSetData *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }

@@ -254,7 +254,7 @@ NJS_OBJECT *get_container_breakup_model(s32 index) {
 
 #pragma push
 #pragma fp_contract on
-TObjContainerBase::TObjContainerBase(TObject *parent, void *set_data) : TObjChara(parent) {
+TObjContainerBase::TObjContainerBase(TObject *parent, ObjectSetData *set_data) : TObjChara(parent) {
     m_name = container_base_name;
     apply_object_set_data(set_data);
     view_range = container_item_view_range;
@@ -402,7 +402,7 @@ void TObjContainerBase::request_configured_item_drop(TObjContainerBase *containe
     container->request_box_item_drop(&position, random_item);
 }
 
-TObjContainerItem::TObjContainerItem(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerItem::TObjContainerItem(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_item_name;
     model = get_forest_box_model(1);
     mode = 0;
@@ -419,7 +419,7 @@ TObjContainerItem::~TObjContainerItem() {
     free_collision_body_parts(this);
 }
 
-void *TObjContainerItem::create(void *set_data) {
+void *TObjContainerItem::create(ObjectSetData *set_data) {
     return new TObjContainerItem(tl_05, set_data);
 }
 
@@ -491,7 +491,7 @@ void TObjContainerItem::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TObjContainerEnemy::TObjContainerEnemy(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerEnemy::TObjContainerEnemy(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_enemy_name;
     model = get_forest_box_model(1);
     mode = 0;
@@ -508,7 +508,7 @@ TObjContainerEnemy::~TObjContainerEnemy() {
     free_collision_body_parts(this);
 }
 
-void *TObjContainerEnemy::create(void *set_data) {
+void *TObjContainerEnemy::create(ObjectSetData *set_data) {
     return new TObjContainerEnemy(tl_05, set_data);
 }
 
@@ -604,7 +604,7 @@ void TObjContainerEnemy::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TObjContainerNoItem::TObjContainerNoItem(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerNoItem::TObjContainerNoItem(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_no_item_name;
     model = get_forest_box_model(1);
     mode = 0;
@@ -621,7 +621,7 @@ TObjContainerNoItem::~TObjContainerNoItem() {
     free_collision_body_parts(this);
 }
 
-void *TObjContainerNoItem::create(void *set_data) {
+void *TObjContainerNoItem::create(ObjectSetData *set_data) {
     return new TObjContainerNoItem(tl_05, set_data);
 }
 
@@ -702,7 +702,7 @@ void TObjContainerNoItem::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TObjContainerAbeItem::TObjContainerAbeItem(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerAbeItem::TObjContainerAbeItem(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_base_name;
     mode = 0;
     actorFlags |= 0x60000000;
@@ -801,11 +801,11 @@ void TObjContainerAbeItem::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-void *TObjContainerAbeItem::create(void *set_data) {
+void *TObjContainerAbeItem::create(ObjectSetData *set_data) {
     return new TObjContainerAbeItem(tl_05, set_data);
 }
 
-TObjContainerAbeEnemy::TObjContainerAbeEnemy(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerAbeEnemy::TObjContainerAbeEnemy(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_abe_enemy_name;
     mode = 0;
     actorFlags |= 0x60000000;

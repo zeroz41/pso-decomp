@@ -6,7 +6,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 
 struct TOContainerAncientEnemy : public TObjContainerBase {
-    TOContainerAncientEnemy(void *set_data);
+    TOContainerAncientEnemy(ObjectSetData *set_data);
     virtual ~TOContainerAncientEnemy();
     virtual void debug_print_item_box_info();
     virtual void draw_model();

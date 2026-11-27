@@ -94,7 +94,7 @@ void handle_6x67_trigger_set_event(game_command_header *command) {
     }
 }
 
-TObjEnvSound::TObjEnvSound(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjEnvSound::TObjEnvSound(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     const EnvSoundRow *table;
     m_name = env_sound_class_name;
     apply_object_set_data(set_data);
@@ -142,7 +142,7 @@ void TObjEnvSound::run_task() {
 
 void TObjEnvSound::render() {  }
 
-void *TObjEnvSound::create(void *set_data) {
+void *TObjEnvSound::create(ObjectSetData *set_data) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }
@@ -164,7 +164,7 @@ s32 TObjEnvSound::is_sound_enabled(s32 cue) {
     return 1;
 }
 
-TObjEnvSoundEx::TObjEnvSoundEx(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjEnvSoundEx::TObjEnvSoundEx(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = env_sound_ex_class_name;
     apply_object_set_data(set_data);
     init_sound_params();
@@ -241,14 +241,14 @@ s32 TObjEnvSoundEx::init_sound_params() {
     return ok;
 }
 
-void *TObjEnvSoundEx::create(void *set_data) {
+void *TObjEnvSoundEx::create(ObjectSetData *set_data) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return NULL;
     }
     return new TObjEnvSoundEx(tl_05, set_data);
 }
 
-TObjEnvSoundGlobal::TObjEnvSoundGlobal(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjEnvSoundGlobal::TObjEnvSoundGlobal(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = env_sound_global_class_name;
     apply_object_set_data(set_data);
     setup_sound();

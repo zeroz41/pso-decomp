@@ -119,7 +119,7 @@ void TOExplosiveMachine::run_task() {
     }
 }
 
-TOExplosiveMachine01::TOExplosiveMachine01(void *set_data) {
+TOExplosiveMachine01::TOExplosiveMachine01(ObjectSetData *set_data) {
     m_name = explosive_machine01_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(explosive_machine_model_archive, 0);
@@ -133,11 +133,11 @@ TOExplosiveMachine01::TOExplosiveMachine01(void *set_data) {
 
 TOExplosiveMachine01::~TOExplosiveMachine01() {}
 
-void *TOExplosiveMachine01::create(void *set_data) {
+void *TOExplosiveMachine01::create(ObjectSetData *set_data) {
     return new TOExplosiveMachine01(set_data);
 }
 
-TOExplosiveMachine02::TOExplosiveMachine02(void *set_data) {
+TOExplosiveMachine02::TOExplosiveMachine02(ObjectSetData *set_data) {
     m_name = explosive_machine02_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(explosive_machine_model_archive, 3);
@@ -151,11 +151,11 @@ TOExplosiveMachine02::TOExplosiveMachine02(void *set_data) {
 
 TOExplosiveMachine02::~TOExplosiveMachine02() {}
 
-void *TOExplosiveMachine02::create(void *set_data) {
+void *TOExplosiveMachine02::create(ObjectSetData *set_data) {
     return new TOExplosiveMachine02(set_data);
 }
 
-TOExplosiveMachine03::TOExplosiveMachine03(void *set_data) {
+TOExplosiveMachine03::TOExplosiveMachine03(ObjectSetData *set_data) {
     m_name = explosive_machine03_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(explosive_machine_model_archive, 6);
@@ -169,7 +169,7 @@ TOExplosiveMachine03::TOExplosiveMachine03(void *set_data) {
 
 TOExplosiveMachine03::~TOExplosiveMachine03() {}
 
-void *TOExplosiveMachine03::create(void *set_data) {
+void *TOExplosiveMachine03::create(ObjectSetData *set_data) {
     return new TOExplosiveMachine03(set_data);
 }
 #pragma pop

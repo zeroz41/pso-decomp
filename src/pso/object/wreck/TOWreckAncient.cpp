@@ -176,7 +176,7 @@ void TOWreckAncient::render() {
 
 // --- TOWreckAncient01 ---
 
-TOWreckAncient01::TOWreckAncient01(void *set_data) : TOWreckAncient(1) {
+TOWreckAncient01::TOWreckAncient01(ObjectSetData *set_data) : TOWreckAncient(1) {
     m_name = wreck_ancient01_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient::collision_body_templates[1], 1);
@@ -186,13 +186,13 @@ TOWreckAncient01::TOWreckAncient01(void *set_data) : TOWreckAncient(1) {
 TOWreckAncient01::~TOWreckAncient01() {
 }
 
-void *TOWreckAncient01::create(void *set_data) {
+void *TOWreckAncient01::create(ObjectSetData *set_data) {
     return new TOWreckAncient01(set_data);
 }
 
 // --- TOWreckAncient04 ---
 
-TOWreckAncient04::TOWreckAncient04(void *set_data) : TOWreckAncient(4) {
+TOWreckAncient04::TOWreckAncient04(ObjectSetData *set_data) : TOWreckAncient(4) {
     m_name = wreck_ancient04_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient::collision_body_templates[4], 1);
@@ -202,13 +202,13 @@ TOWreckAncient04::TOWreckAncient04(void *set_data) : TOWreckAncient(4) {
 TOWreckAncient04::~TOWreckAncient04() {
 }
 
-void *TOWreckAncient04::create(void *set_data) {
+void *TOWreckAncient04::create(ObjectSetData *set_data) {
     return new TOWreckAncient04(set_data);
 }
 
 // --- TOWreckAncient05 ---
 
-TOWreckAncient05::TOWreckAncient05(void *set_data) : TOWreckAncient(3) {
+TOWreckAncient05::TOWreckAncient05(ObjectSetData *set_data) : TOWreckAncient(3) {
     m_name = wreck_ancient05_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient::collision_body_templates[3], 1);
@@ -218,13 +218,13 @@ TOWreckAncient05::TOWreckAncient05(void *set_data) : TOWreckAncient(3) {
 TOWreckAncient05::~TOWreckAncient05() {
 }
 
-void *TOWreckAncient05::create(void *set_data) {
+void *TOWreckAncient05::create(ObjectSetData *set_data) {
     return new TOWreckAncient05(set_data);
 }
 
 // --- TOWreckAncient06 ---
 
-TOWreckAncient06::TOWreckAncient06(void *set_data) : TOWreckAncient(6) {
+TOWreckAncient06::TOWreckAncient06(ObjectSetData *set_data) : TOWreckAncient(6) {
     m_name = wreck_ancient06_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient::collision_body_templates[6], 1);
@@ -234,13 +234,13 @@ TOWreckAncient06::TOWreckAncient06(void *set_data) : TOWreckAncient(6) {
 TOWreckAncient06::~TOWreckAncient06() {
 }
 
-void *TOWreckAncient06::create(void *set_data) {
+void *TOWreckAncient06::create(ObjectSetData *set_data) {
     return new TOWreckAncient06(set_data);
 }
 
 // --- TOWreckAncient07 ---
 
-TOWreckAncient07::TOWreckAncient07(void *set_data) : TOWreckAncient(5) {
+TOWreckAncient07::TOWreckAncient07(ObjectSetData *set_data) : TOWreckAncient(5) {
     m_name = wreck_ancient07_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient::collision_body_templates[5], 1);
@@ -250,7 +250,7 @@ TOWreckAncient07::TOWreckAncient07(void *set_data) : TOWreckAncient(5) {
 TOWreckAncient07::~TOWreckAncient07() {
 }
 
-void *TOWreckAncient07::create(void *set_data) {
+void *TOWreckAncient07::create(ObjectSetData *set_data) {
     return new TOWreckAncient07(set_data);
 }
 
@@ -321,7 +321,7 @@ void TOWreckAncientBrakable::run_task_stub() {  }
 
 // --- TOWreckAncientBrakable05 ---
 
-TOWreckAncientBrakable05::TOWreckAncientBrakable05(void *set_data) : TOWreckAncientBrakable(3) {
+TOWreckAncientBrakable05::TOWreckAncientBrakable05(ObjectSetData *set_data) : TOWreckAncientBrakable(3) {
     m_name = wreck_ancient_brakable05_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient::collision_body_templates[3], 1);
@@ -335,6 +335,6 @@ TOWreckAncientBrakable05::TOWreckAncientBrakable05(void *set_data) : TOWreckAnci
 TOWreckAncientBrakable05::~TOWreckAncientBrakable05() {
 }
 
-void *TOWreckAncientBrakable05::create(void *set_data) {
+void *TOWreckAncientBrakable05::create(ObjectSetData *set_data) {
     return new TOWreckAncientBrakable05(set_data);
 }

@@ -216,7 +216,7 @@ void TObjContainerIdo::run_task() {
 }
 #pragma pop
 
-void *TObjContainerIdo::create(void *set) {
+void *TObjContainerIdo::create(ObjectSetData *set) {
     return new TObjContainerIdo(tl_05, set);
 }
 
@@ -243,7 +243,7 @@ TObjContainerIdo::~TObjContainerIdo() {
     free_collision_body_parts(this);
 }
 
-TObjContainerIdo::TObjContainerIdo(TObject *parent, void *set) : TUnk_804B97C0(parent) {
+TObjContainerIdo::TObjContainerIdo(TObject *parent, ObjectSetData *set) : TUnk_804B97C0(parent) {
     s32 i;
     m_name = obj_container_ido_class_name;
     apply_object_set_data(set);

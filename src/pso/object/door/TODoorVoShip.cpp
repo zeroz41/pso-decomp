@@ -110,7 +110,7 @@ void TODoorVoShip::render() {
     }
 }
 
-void *TODoorVoShip::create(void *set_data) {
+void *TODoorVoShip::create(ObjectSetData *set_data) {
     return new TODoorVoShip(tl_05, set_data);
 }
 
@@ -131,7 +131,7 @@ TODoorVoShip::~TODoorVoShip() {
     free_collision_body_parts(this);
 }
 
-TODoorVoShip::TODoorVoShip(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TODoorVoShip::TODoorVoShip(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = door_vo_ship_class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(bml_resource, 1);

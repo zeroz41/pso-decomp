@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjChara.h"
 
 struct TOAttackableCol : public TObjChara {
-    TOAttackableCol(void *set_data);
+    TOAttackableCol(ObjectSetData *set_data);
     virtual ~TOAttackableCol();
     virtual void apply_saved_state(s16 *, s32);
     virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
@@ -30,7 +30,7 @@ struct TOAttackableCol : public TObjChara {
     s32 get_hits_left();
     virtual void run_task();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     s32 script_kind;  // set_params[1]: 100-999 picks the mission script manager, else the area's
     s32 label;
     s32 done_switch;  // floor switch set when it is destroyed, -1 for none (only used while label is 0)

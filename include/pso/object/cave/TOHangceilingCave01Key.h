@@ -6,7 +6,7 @@
 
 class TOHangceilingCave01Key : public TOHangceilingCaveBase {
 public:
-    TOHangceilingCave01Key(TObject *parent, void *set_data);
+    TOHangceilingCave01Key(TObject *parent, ObjectSetData *set_data);
     virtual ~TOHangceilingCave01Key();
     virtual void begin_wait();
     virtual void update_state();

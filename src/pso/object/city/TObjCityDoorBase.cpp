@@ -103,7 +103,7 @@ s32 get_challenge_state() {
     return challenge_task->state;
 }
 
-TObjCityDoorBase::TObjCityDoorBase(TObject *parent, void *set, const CityDoorParams *params)
+TObjCityDoorBase::TObjCityDoorBase(TObject *parent, ObjectSetData *set, const CityDoorParams *params)
     : TObjCollidable(parent) {
     apply_object_set_data(set);
     phase = 0;
@@ -217,7 +217,7 @@ s32 TObjCityDoorBase::is_in_view() {
     return update_object_view_visibility(params->view_far_depth, params->view_radius);
 }
 
-TObjCityDoor_Shop::TObjCityDoor_Shop(TObject *parent, void *set)
+TObjCityDoor_Shop::TObjCityDoor_Shop(TObject *parent, ObjectSetData *set)
     : TObjCityDoorBase(parent, set, &city_door_shop_params) {
     m_name = class_name;
     end_frame = city_common_model_archive->motions[10].motion->nbFrame - 1;
@@ -226,7 +226,7 @@ TObjCityDoor_Shop::TObjCityDoor_Shop(TObject *parent, void *set)
 TObjCityDoor_Shop::~TObjCityDoor_Shop() {
 }
 
-void *TObjCityDoor_Shop::create(void *set) {
+void *TObjCityDoor_Shop::create(ObjectSetData *set) {
     return new TObjCityDoor_Shop(tl_05, set);
 }
 
@@ -245,7 +245,7 @@ void TObjCityDoor_Shop::render() {
     }
 }
 
-TObjCityDoor_Guild::TObjCityDoor_Guild(TObject *parent, void *set)
+TObjCityDoor_Guild::TObjCityDoor_Guild(TObject *parent, ObjectSetData *set)
     : TObjCityDoorBase(parent, set, &city_door_guild_params) {
     m_name = class_name;
     end_frame = get_city_common_motion(12)->nbFrame - 1;
@@ -254,7 +254,7 @@ TObjCityDoor_Guild::TObjCityDoor_Guild(TObject *parent, void *set)
 TObjCityDoor_Guild::~TObjCityDoor_Guild() {
 }
 
-void *TObjCityDoor_Guild::create(void *set) {
+void *TObjCityDoor_Guild::create(ObjectSetData *set) {
     return new TObjCityDoor_Guild(tl_05, set);
 }
 
@@ -273,7 +273,7 @@ void TObjCityDoor_Guild::render() {
     }
 }
 
-TObjCityDoor_Warp::TObjCityDoor_Warp(TObject *parent, void *set)
+TObjCityDoor_Warp::TObjCityDoor_Warp(TObject *parent, ObjectSetData *set)
     : TObjCityDoorBase(parent, set, &city_door_warp_params) {
     m_name = class_name;
     end_frame = get_city_common_motion(8)->nbFrame - 1;
@@ -282,7 +282,7 @@ TObjCityDoor_Warp::TObjCityDoor_Warp(TObject *parent, void *set)
 TObjCityDoor_Warp::~TObjCityDoor_Warp() {
 }
 
-void *TObjCityDoor_Warp::create(void *set) {
+void *TObjCityDoor_Warp::create(ObjectSetData *set) {
     return new TObjCityDoor_Warp(tl_05, set);
 }
 
@@ -341,7 +341,7 @@ s32 TObjCityDoor_Warp::is_rader_map_active() {
     return 1;
 }
 
-TObjCityDoor_Med::TObjCityDoor_Med(TObject *parent, void *set)
+TObjCityDoor_Med::TObjCityDoor_Med(TObject *parent, ObjectSetData *set)
     : TObjCityDoorBase(parent, set, &city_door_med_params) {
     m_name = class_name;
     end_frame = get_city_common_motion(11)->nbFrame - 1;
@@ -350,7 +350,7 @@ TObjCityDoor_Med::TObjCityDoor_Med(TObject *parent, void *set)
 TObjCityDoor_Med::~TObjCityDoor_Med() {
 }
 
-void *TObjCityDoor_Med::create(void *set) {
+void *TObjCityDoor_Med::create(ObjectSetData *set) {
     return new TObjCityDoor_Med(tl_05, set);
 }
 
@@ -370,7 +370,7 @@ void TObjCityDoor_Med::render() {
     }
 }
 
-TObjCityDoor_Lobby::TObjCityDoor_Lobby(TObject *parent, void *set) : TObjBase(parent) {
+TObjCityDoor_Lobby::TObjCityDoor_Lobby(TObject *parent, ObjectSetData *set) : TObjBase(parent) {
     m_name = class_name;
     apply_object_set_data(set);
     collision_group.model = &collision_model;
@@ -397,7 +397,7 @@ TObjCityDoor_Lobby::~TObjCityDoor_Lobby() {
     }
 }
 
-void *TObjCityDoor_Lobby::create(void *set) {
+void *TObjCityDoor_Lobby::create(ObjectSetData *set) {
     if (is_split_screen() != 0) {
         return NULL;
     }

@@ -120,7 +120,7 @@ void TObjRoomId::run_task() {
 TObjRoomId::~TObjRoomId() {}
 
 
-TObjRoomId::TObjRoomId(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjRoomId::TObjRoomId(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = room_id_name;
     apply_object_set_data(set_data);
     normal.x = 0.0f;
@@ -128,7 +128,7 @@ TObjRoomId::TObjRoomId(TObject *parent, void *set_data) : TObjBase(parent) {
     normal.z = 0.0f;
 }
 
-void *TObjRoomId::create(void *set_data) {
+void *TObjRoomId::create(ObjectSetData *set_data) {
     return new TObjRoomId(tl_05, set_data);
 }
 

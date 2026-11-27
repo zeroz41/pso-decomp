@@ -5,11 +5,11 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjSinBoard : public TObjBase {
-    TObjSinBoard(TObject *parent, void *set_data);
+    TObjSinBoard(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjSinBoard();
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjSinBoard_size, sizeof(TObjSinBoard) == 0x90);

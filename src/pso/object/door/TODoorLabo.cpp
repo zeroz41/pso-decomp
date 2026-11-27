@@ -75,7 +75,7 @@ NJS_TEXLIST *door_labo_normal_red_texture_list;
 const char *door_four_light_base_class_name = "TODoorFourLightBase";
 
 
-TODoorFourLightBase::TODoorFourLightBase(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorFourLightBase::TODoorFourLightBase(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     s32 i;
     m_name = door_four_light_base_class_name;
     apply_object_set_data(set_data);
@@ -334,7 +334,7 @@ void free_seabed_four_light_door_resources() {
 const char *door_four_light_seabed_class_name = "TODoorFourLightSeabed";
 const FourLightNodeTable door_four_light_seabed_index_table = {{2, 4, 9, 11, 3, 5, 10, 12}};
 
-TODoorFourLightSeabed::TODoorFourLightSeabed(TObject *parent, void *set_data) : TODoorFourLightBase(parent, set_data) {
+TODoorFourLightSeabed::TODoorFourLightSeabed(TObject *parent, ObjectSetData *set_data) : TODoorFourLightBase(parent, set_data) {
     s32 i;
     m_name = door_four_light_seabed_class_name;
     init_collision_body_parts(this, labo_door_collision_body_parts, 1);
@@ -404,7 +404,7 @@ void free_seabed_u_four_light_door_resources() {
 const char *odoor_four_light_seabed_u_class_name = "TODoorFourLightSeabedU";
 const FourLightNodeTable door_four_light_seabed_u_table = {{2, 4, 7, 9, 3, 5, 8, 10}};
 
-TODoorFourLightSeabedU::TODoorFourLightSeabedU(TObject *parent, void *set_data) : TODoorFourLightBase(parent, set_data) {
+TODoorFourLightSeabedU::TODoorFourLightSeabedU(TObject *parent, ObjectSetData *set_data) : TODoorFourLightBase(parent, set_data) {
     s32 i;
     m_name = odoor_four_light_seabed_u_class_name;
     init_collision_body_parts(this, labo_door_collision_body_parts, 1);
@@ -465,7 +465,7 @@ void free_labo_door_resources(void) {
     }
 }
 
-TODoorLabo::TODoorLabo(TObject *parent, void *set_data) : TODoorFourLightBase(parent, set_data) {
+TODoorLabo::TODoorLabo(TObject *parent, ObjectSetData *set_data) : TODoorFourLightBase(parent, set_data) {
     FourLightNodeTable tbl;
     s32 i;
 
@@ -537,7 +537,7 @@ void TODoorLabo::free_resources() {
 
 const char *door_labo_normal_class_name = "TODoorLaboNormal";
 
-TODoorLaboNormal::TODoorLaboNormal(TObject *parent, void *set_data) : TODoorFourLightBase(parent, set_data) {
+TODoorLaboNormal::TODoorLaboNormal(TObject *parent, ObjectSetData *set_data) : TODoorFourLightBase(parent, set_data) {
     s32 i;
     m_name = door_labo_normal_class_name;
     init_collision_body_parts(this, labo_door_collision_body_parts, 1);

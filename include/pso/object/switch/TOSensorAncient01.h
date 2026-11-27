@@ -12,7 +12,7 @@ struct NJS_TEXLIST;
 // rises out of the floor.
 class TOSensorAncient01 : public TOSensor {
 public:
-    TOSensorAncient01(TObject *parent, void *set_data);
+    TOSensorAncient01(TObject *parent, ObjectSetData *set_data);
     virtual ~TOSensorAncient01();
     virtual void render();
     virtual void update_switch_on();
@@ -20,7 +20,7 @@ public:
     virtual void vfunc_25();
     // Swings pulse_offset between 0 and 4.
     void update_pulse_value();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void destroy();
     static void load_resources();
 

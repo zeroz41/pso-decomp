@@ -5,7 +5,7 @@
 #include "pso/object/quest/TObjQuestColBase.h"
 
 struct TObjQuestColApcIN : public TObjQuestColBase {
-    TObjQuestColApcIN(TObject *parent, void *set_data);
+    TObjQuestColApcIN(TObject *parent, ObjectSetData *set_data);
     virtual int is_triggered();
     virtual TQuestThread *start_quest_thread();
     f32 party_radius;  // scale.y; every other player must stand this close (inferred name)

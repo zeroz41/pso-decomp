@@ -32,7 +32,7 @@ void TOSignCave01::render() {
 #pragma pop
 #endif
 
-void *TOSignCave01::create(void *set_data) {
+void *TOSignCave01::create(ObjectSetData *set_data) {
     return new TOSignCave01(tl_05, set_data);
 }
 
@@ -50,7 +50,7 @@ void TOSignCave01::load_shared_resource() {
 
 TOSignCave01::~TOSignCave01() {}
 
-TOSignCave01::TOSignCave01(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TOSignCave01::TOSignCave01(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = sign_cave01_class_name;
     apply_object_set_data(set_data);
     model = sign_cave01_bml_resource->models[0].model;

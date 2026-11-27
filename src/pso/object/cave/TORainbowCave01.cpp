@@ -88,7 +88,7 @@ void TORainbowCave01::run_task() {
     TObjMapObject::run_task();
 }
 
-void *TORainbowCave01::create(void *set_data) {
+void *TORainbowCave01::create(ObjectSetData *set_data) {
     return new TORainbowCave01(tl_05, set_data);
 }
 
@@ -106,7 +106,7 @@ void TORainbowCave01::load_resource_instance() {
 
 TORainbowCave01::~TORainbowCave01() {}
 
-TORainbowCave01::TORainbowCave01(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TORainbowCave01::TORainbowCave01(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = rainbow_cave01_class_name;
     apply_object_set_data(set_data);
     model = rainbow_cave01_bml_resource->models[0].model;

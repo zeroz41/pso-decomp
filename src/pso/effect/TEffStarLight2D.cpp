@@ -233,7 +233,7 @@ void TEffStarLight2D::copy_position(const Vec *source) {
     VecCopy(&position, source);
 }
 
-TEffStarLight2D_Base::TEffStarLight2D_Base(TObject *parent, void *set_data) : TObjBase(parent) {
+TEffStarLight2D_Base::TEffStarLight2D_Base(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     StarLightParameters parameters;
     apply_object_set_data(set_data);
     parameters.width = scale.x;
@@ -274,6 +274,6 @@ void TEffStarLight2D_Base::render() {
     debug_draw_sphere(&position, &color, 2.0f);
 }
 
-void *TEffStarLight2D_Base::create(void *set_data) {
+void *TEffStarLight2D_Base::create(ObjectSetData *set_data) {
     return new TEffStarLight2D_Base(tl_particle, set_data);
 }

@@ -101,27 +101,27 @@ CollisionBody labo_design_entry_table[6] = {
     { { 0.0f, 20.0f, 0.0f }, 10.0f, 40.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
-void *TObjLaboDesignBase::create_state5(void *set_data) {
+void *TObjLaboDesignBase::create_state5(ObjectSetData *set_data) {
     return new TObjLaboDesignBase(tl_05, set_data, 5);
 }
 const char *TObjLaboDesignBase::class_name = "TObjLaboDesignBase";
-void *TObjLaboDesignBase::create_state4(void *set_data) {
+void *TObjLaboDesignBase::create_state4(ObjectSetData *set_data) {
     return new TObjLaboDesignBase(tl_05, set_data, 4);
 }
 
-void *TObjLaboDesignBase::create_state3(void *set_data) {
+void *TObjLaboDesignBase::create_state3(ObjectSetData *set_data) {
     return new TObjLaboDesignBase(tl_05, set_data, 3);
 }
 
-void *TObjLaboDesignBase::create_state2(void *set_data) {
+void *TObjLaboDesignBase::create_state2(ObjectSetData *set_data) {
     return new TObjLaboDesignBase(tl_05, set_data, 2);
 }
 
-void *TObjLaboDesignBase::create_state1(void *set_data) {
+void *TObjLaboDesignBase::create_state1(ObjectSetData *set_data) {
     return new TObjLaboDesignBase(tl_05, set_data, 1);
 }
 
-void *TObjLaboDesignBase::create(void *set_data) {
+void *TObjLaboDesignBase::create(ObjectSetData *set_data) {
     return new TObjLaboDesignBase(tl_05, set_data, 0);
 }
 
@@ -209,7 +209,7 @@ TObjLaboDesignBase::~TObjLaboDesignBase() {
     free_collision_body_parts(this);
 }
 
-TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, void *set_data, s32 state) : TObjCollidable(parent) {
+TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, ObjectSetData *set_data, s32 state) : TObjCollidable(parent) {
     s32 design;
     m_name = class_name;
     apply_object_set_data(set_data);
@@ -222,7 +222,7 @@ TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, void *set_data, s32 stat
     map_csn = NULL;
     design = this->state;
     if ((design == 3) || (design == 4)) {
-        ObjectSetData wall_set = *(ObjectSetData *)set_data;
+        ObjectSetData wall_set = *set_data;
         wall_set.scale.x = 40.0f;
         wall_set.scale.y = 20.0f;
         wall_set.scale.z = 10.0f;

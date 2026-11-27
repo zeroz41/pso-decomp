@@ -265,7 +265,7 @@ void TOAttackableCol::run_task() {
 
 void TOAttackableCol::render() {  }
 
-void *TOAttackableCol::create(void *set_data) {
+void *TOAttackableCol::create(ObjectSetData *set_data) {
     void *o;
     o = (void *)new TOAttackableCol(set_data);
     return o;
@@ -278,7 +278,7 @@ TOAttackableCol::~TOAttackableCol() {
 }
 
 
-TOAttackableCol::TOAttackableCol(void *set_data) : TObjChara(tl_05) {
+TOAttackableCol::TOAttackableCol(ObjectSetData *set_data) : TObjChara(tl_05) {
     ((TObject *)this)->m_name = attackable_col_name;
     apply_object_set_data(set_data);
     ((TObjChara *)this)->calc_attach_pos();

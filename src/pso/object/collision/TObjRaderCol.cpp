@@ -33,7 +33,7 @@ TObjRaderCol::~TObjRaderCol() {
 
 }
 
-TObjRaderCol::TObjRaderCol(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjRaderCol::TObjRaderCol(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = rader_col_name;
     apply_object_set_data(set_data);
     radius = scale.x;
@@ -113,7 +113,7 @@ void TObjRaderCol::check_any_player_in_range() {
 
 void TObjRaderCol::render() {  }
 
-TObjRaderHideCol::TObjRaderHideCol(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjRaderHideCol::TObjRaderHideCol(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = rader_hide_col_name;
     apply_object_set_data(set_data);
     hide_radius = scale.x;
@@ -143,7 +143,7 @@ void TObjRaderHideCol::run_task() {
 void TObjRaderHideCol::render() {  }
 
 
-TObjRaderIcon::TObjRaderIcon(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjRaderIcon::TObjRaderIcon(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = rader_icon_name;
     apply_object_set_data(set_data);
     initialize_from_placement();
@@ -214,6 +214,6 @@ void TObjRaderIcon::run_task() {
 void TObjRaderIcon::render() {  }
 
 
-void *TObjRaderIcon::create(void *set_data) {
+void *TObjRaderIcon::create(ObjectSetData *set_data) {
     return new TObjRaderIcon(tl_05, set_data);
 }

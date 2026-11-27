@@ -10,7 +10,7 @@ struct NJS_OBJECT;
 struct NJS_TEXLIST;
 
 struct TObjLazerFenceNorm : public TObjCollidable {
-    TObjLazerFenceNorm(TObject *parent, void *set_data);
+    TObjLazerFenceNorm(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjLazerFenceNorm();
     void update_closed();
     void draw_animated_beam();
@@ -29,7 +29,7 @@ struct TObjLazerFenceNorm : public TObjCollidable {
     NJS_MOTION *beam_motion;
     void *beam_part_models[4];   // models of the beam's child nodes, retextured for scale_level
     void select_models();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjLazerFenceNorm_size, sizeof(TObjLazerFenceNorm) == 0xD8);

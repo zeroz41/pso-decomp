@@ -124,7 +124,7 @@ void TODoorCave02::render() {
         pop_matrix();
     }
 }
-void *TODoorCave02::create(void *set_data) {
+void *TODoorCave02::create(ObjectSetData *set_data) {
     return new TODoorCave02(tl_05, set_data);
 }
 
@@ -162,7 +162,7 @@ TODoorCave02::~TODoorCave02() {
     free_collision_body_parts(this);
 }
 
-TODoorCave02::TODoorCave02(TObject *parent, void *set_data) : TODoorBase(parent) {
+TODoorCave02::TODoorCave02(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     m_name = door_cave02_class_name;
     apply_object_set_data(set_data);
     model = bml_resource->models[0].model;

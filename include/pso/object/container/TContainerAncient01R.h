@@ -6,7 +6,7 @@
 #include "pso/object/base/TObjChara.h"
 
 struct TContainerAncient01R : public TObjChara {
-    TContainerAncient01R(TObject *parent, void *set_data);
+    TContainerAncient01R(TObject *parent, ObjectSetData *set_data);
     virtual s32 roll_physical_accuracy(TObjChara *, s32, f32);
     virtual f32 receive_weapon_special_attack(TObjChara *, CollisionBody *);
     virtual ~TContainerAncient01R();
@@ -38,7 +38,7 @@ struct TContainerAncient01R : public TObjChara {
     s32 opened;
     Vec open_scale;
     u32 spawns_per_second; // set param 2 + 4: the open blast spawns every 30 / this frames
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     // Forgets the archive it shares with TContainerAncient01 (which frees it).
     static void free_resources();
     void attack_nearby_players(f32 range);

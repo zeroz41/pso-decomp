@@ -7,7 +7,7 @@
 class TParticleCtrl;
 
 struct TObjDoorKey : public TOKey {
-    TObjDoorKey(TObject *parent, void *set_entry);
+    TObjDoorKey(TObject *parent, ObjectSetData *set_entry);
     virtual ~TObjDoorKey();
     virtual void trigger_activate_sound();
     virtual void update_armed_switch();
@@ -26,7 +26,7 @@ struct TObjDoorKey : public TOKey {
     s32 spin_angle;  // the badge's y rotation, advanced while the switch is on
     s32 unk_F4;
     TParticleCtrl *particle;  // the continuous glow effect
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjDoorKey_size, sizeof(TObjDoorKey) == 0xFC);

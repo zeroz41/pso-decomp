@@ -100,7 +100,7 @@ void TOKeyGenericSw::update_switch_on() {
     on_state_copy = on_state;
 }
 
-void *TOKeyGenericSw::create(void *set_data) {
+void *TOKeyGenericSw::create(ObjectSetData *set_data) {
     return new TOKeyGenericSw(tl_05, set_data);
 }
 
@@ -152,7 +152,7 @@ TOKeyGenericSw::~TOKeyGenericSw() {
     free_collision_body_parts(this);
 }
 
-TOKeyGenericSw::TOKeyGenericSw(TObject *parent, void *set_data) : TOKey(parent) {
+TOKeyGenericSw::TOKeyGenericSw(TObject *parent, ObjectSetData *set_data) : TOKey(parent) {
     m_name = key_generic_sw_name;
     apply_object_set_data(set_data);
     init_switch_id();

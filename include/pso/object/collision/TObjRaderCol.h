@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjRaderCol : public TObjBase {
-    TObjRaderCol(TObject *parent, void *set_data);
+    TObjRaderCol(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjRaderCol();
     f32 radius;        // scale.x: how near a player must come
     u32 id;            // set_params[0]: the radar region it reveals
@@ -15,7 +15,7 @@ struct TObjRaderCol : public TObjBase {
     void check_local_player_in_range();
     void check_any_player_in_range();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjRaderCol_size, sizeof(TObjRaderCol) == 0xA0);

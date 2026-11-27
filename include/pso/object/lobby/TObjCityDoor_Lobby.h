@@ -7,7 +7,7 @@
 
 struct TObjCityDoor_Lobby : public TObjBase {
     static const char *class_name;
-    TObjCityDoor_Lobby(TObject *parent, void *set);
+    TObjCityDoor_Lobby(TObject *parent, ObjectSetData *set);
     virtual ~TObjCityDoor_Lobby();
     virtual void dispatch_lobby_action();
     void build_door_collision_triangles();
@@ -24,7 +24,7 @@ struct TObjCityDoor_Lobby : public TObjBase {
     Vec collision_vertices[10];
 
     s32 collision_registered;  // collision_group is in the map's collision controller
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjCityDoorLobbyGroupOffset, offsetof(TObjCityDoor_Lobby, collision_group) == 0x90);

@@ -346,7 +346,7 @@ void unlock_main_warp_destination(s32 id) {
     }
 }
 
-TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjCityMainWarp::TObjCityMainWarp(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     s32 i;
     s32 j;
     m_name = class_name;
@@ -374,7 +374,7 @@ TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWa
 
 TObjCityMainWarp::~TObjCityMainWarp() {}
 
-void *TObjCityMainWarp::create(void *set_data) {
+void *TObjCityMainWarp::create(ObjectSetData *set_data) {
     return new TObjCityMainWarp(tl_05, set_data);
 }
 
@@ -521,7 +521,7 @@ void TObjCityMainWarp::debug_print_area_num() {
     set_debug_text_color(0xF0F0F0FF);
 }
 
-TObjCityAreaWarp::TObjCityAreaWarp(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+TObjCityAreaWarp::TObjCityAreaWarp(TObject *parent, ObjectSetData *set_data) : TObjAreaWarp(parent, set_data) {
     this->m_name = class_name;
     warp_range = 23.0f;
     this->frame = 0.0f;
@@ -530,7 +530,7 @@ TObjCityAreaWarp::TObjCityAreaWarp(TObject *parent, void *set_data) : TObjAreaWa
 
 TObjCityAreaWarp::~TObjCityAreaWarp() {}
 
-void *TObjCityAreaWarp::create(void *set_data) {
+void *TObjCityAreaWarp::create(ObjectSetData *set_data) {
     return new TObjCityAreaWarp(tl_05, set_data);
 }
 
@@ -580,7 +580,7 @@ void TObjCityAreaWarp::confirm_area_transfer(TObjPlayer *) {
     lobby_floor_reload_pending = 1;
 }
 
-TObjCityMapWarp::TObjCityMapWarp(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
+TObjCityMapWarp::TObjCityMapWarp(TObject *parent, ObjectSetData *set_data) : TObjMapWarp(parent, set_data) {
     m_name = class_name;
     clamp_destination_index();
     warp_range = 23.0f;
@@ -589,7 +589,7 @@ TObjCityMapWarp::TObjCityMapWarp(TObject *parent, void *set_data) : TObjMapWarp(
 
 TObjCityMapWarp::~TObjCityMapWarp() {}
 
-void *TObjCityMapWarp::create(void *set_data) {
+void *TObjCityMapWarp::create(ObjectSetData *set_data) {
     return new TObjCityMapWarp(tl_05, set_data);
 }
 
@@ -665,7 +665,7 @@ void TObjCityMapWarp::draw_debug_destinations() {
     set_debug_text_color(0xF0F0F0FF);
 }
 
-TObjLaboMapWarp::TObjLaboMapWarp(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
+TObjLaboMapWarp::TObjLaboMapWarp(TObject *parent, ObjectSetData *set_data) : TObjMapWarp(parent, set_data) {
     m_name = class_name;
     clamp_index();
     warp_range = 23.0f;
@@ -674,7 +674,7 @@ TObjLaboMapWarp::TObjLaboMapWarp(TObject *parent, void *set_data) : TObjMapWarp(
 
 TObjLaboMapWarp::~TObjLaboMapWarp() {}
 
-void *TObjLaboMapWarp::create(void *set_data) {
+void *TObjLaboMapWarp::create(ObjectSetData *set_data) {
     return new TObjLaboMapWarp(tl_05, set_data);
 }
 

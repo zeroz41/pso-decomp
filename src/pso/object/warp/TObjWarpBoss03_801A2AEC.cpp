@@ -3,7 +3,7 @@
 #include "pso/system/task/TMainTask.h"
 
 
-void *TObjWarpBoss03::create(void *set_data) {
+void *TObjWarpBoss03::create(ObjectSetData *set_data) {
     return new TObjWarpBoss03(tl_05, set_data);
 }
 

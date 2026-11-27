@@ -139,7 +139,7 @@ NJS_TEXLIST *TObjContainerJungEx::get_textures(s32 index) {
     return 0;
 }
 
-TObjContainerJung::TObjContainerJung(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerJung::TObjContainerJung(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_jung_name;
     mode = 0;
     actorFlags |= 0x60000000;
@@ -257,7 +257,7 @@ void TObjContainerJung::release() {
     jungle_container_textures = NULL;
 }
 
-void *TObjContainerJung::create(void *set_data) {
+void *TObjContainerJung::create(ObjectSetData *set_data) {
     return new TObjContainerJung(tl_05, set_data);
 }
 
@@ -272,7 +272,7 @@ NJS_TEXLIST *TObjContainerJung::get_textures(s32) {
     return jungle_container_textures;
 }
 
-TObjContainerJungEx::TObjContainerJungEx(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerJungEx::TObjContainerJungEx(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_jung_ex_name;
     mode = 0;
     actorFlags |= 0x60000000;
@@ -372,11 +372,11 @@ void TObjContainerJungEx::spawn_break_effects() const {
 }
 #pragma pop
 
-void *TObjContainerJungEx::create(void *set_data) {
+void *TObjContainerJungEx::create(ObjectSetData *set_data) {
     return new TObjContainerJungEx(tl_05, set_data);
 }
 
-TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, ObjectSetData *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_jung_enemy_name;
     load_models();
     mode = 0;
@@ -393,7 +393,7 @@ TObjContainerJungEnemy::~TObjContainerJungEnemy() {
     free_collision_body_parts(this);
 }
 
-void *TObjContainerJungEnemy::create(void *set_data) {
+void *TObjContainerJungEnemy::create(ObjectSetData *set_data) {
     return new TObjContainerJungEnemy(tl_05, set_data);
 }
 

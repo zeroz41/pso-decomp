@@ -182,7 +182,7 @@ TObjDoorJung::~TObjDoorJung() {
     free_collision_body_parts(this);
 }
 
-TObjDoorJung::TObjDoorJung(TObject *parent, void *set_data) : TODoorBase(parent) {
+TObjDoorJung::TObjDoorJung(TObject *parent, ObjectSetData *set_data) : TODoorBase(parent) {
     this->m_name = door_jung_class_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &door_jung_collision_desc, 1);

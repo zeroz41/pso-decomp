@@ -125,7 +125,7 @@ void TObjPathObj::update() {  }
 
 void TObjPathObj::draw() {  }
 
-TObjPathObj::TObjPathObj(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjPathObj::TObjPathObj(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = path_obj_name;
     apply_object_set_data(set_data);
     view_distance = 5e+02f;
@@ -191,7 +191,7 @@ void TObjPathObj::draw_line_strip(NJS_OBJECT *node, NJS_MOTION *motion, f32 step
 
 #pragma push
 #pragma fp_contract on
-TObjSeabedDolphin::TObjSeabedDolphin(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjSeabedDolphin::TObjSeabedDolphin(TObject *parent, ObjectSetData *set_data) : TObjPathObj(parent, set_data) {
   s32 clamped_profile;
   s32 raw_profile;
   model = get_bml_model(seabed_dolphin_bml_archive, 0);
@@ -353,14 +353,14 @@ void TObjSeabedDolphin::destroy_instance() {
     }
 }
 
-void *TObjSeabedDolphin::create(void *set_data) {
+void *TObjSeabedDolphin::create(ObjectSetData *set_data) {
     return new TObjSeabedDolphin(tl_05, set_data);
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-TObjJungleEbi::TObjJungleEbi(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjJungleEbi::TObjJungleEbi(TObject *parent, ObjectSetData *set_data) : TObjPathObj(parent, set_data) {
   s32 clamped_profile;
   s32 raw_profile;
   model = get_bml_model(jungle_ebi_model_resource, 0);
@@ -531,11 +531,11 @@ void TObjJungleEbi::destroy_instance() {
     }
 }
 
-void *TObjJungleEbi::create(void *set_data) {
+void *TObjJungleEbi::create(ObjectSetData *set_data) {
     return new TObjJungleEbi(tl_05, set_data);
 }
 
-TObjJungleBird::TObjJungleBird(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjJungleBird::TObjJungleBird(TObject *parent, ObjectSetData *set_data) : TObjPathObj(parent, set_data) {
   s32 clamped_profile;
   s32 raw_profile;
   model = get_bml_model(jungle_bird_bml_resource, 0);
@@ -686,14 +686,14 @@ void TObjJungleBird::destroy_instance() {
 #pragma push
 #pragma fp_contract on
 
-void *TObjJungleBird::create(void *set_data) {
+void *TObjJungleBird::create(ObjectSetData *set_data) {
     return new TObjJungleBird(tl_05, set_data);
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-TObjJungleKamome::TObjJungleKamome(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjJungleKamome::TObjJungleKamome(TObject *parent, ObjectSetData *set_data) : TObjPathObj(parent, set_data) {
     s32 raw_profile;
     s32 clamped_profile;
 
@@ -847,11 +847,11 @@ void TObjJungleKamome::destroy_instance() {
     }
 }
 
-void *TObjJungleKamome::create(void *set_data) {
+void *TObjJungleKamome::create(ObjectSetData *set_data) {
     return new TObjJungleKamome(tl_05, set_data);
 }
 
-TObjLobbyPigeon::TObjLobbyPigeon(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
+TObjLobbyPigeon::TObjLobbyPigeon(TObject *parent, ObjectSetData *set_data) : TObjPathObj(parent, set_data) {
     s32 movement;
     s32 selector;
     select_lobby_pigeon_model();
@@ -1086,6 +1086,6 @@ void TObjLobbyPigeon::destroy_instance() {
     }
 }
 
-void *TObjLobbyPigeon::create(void *set_data) {
+void *TObjLobbyPigeon::create(ObjectSetData *set_data) {
     return new TObjLobbyPigeon(tl_05, set_data);
 }

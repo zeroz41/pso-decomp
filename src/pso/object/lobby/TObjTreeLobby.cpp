@@ -43,7 +43,7 @@ void TQuestDamageTask::run_task() {
     }
 }
 
-TObjTreeLobby::TObjTreeLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjTreeLobby::TObjTreeLobby(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = obj_tree_lobby_class_name;
     apply_object_set_data(set_data);
     if (is_lobby_event_active() != 0) {
@@ -70,7 +70,7 @@ void TObjTreeLobby::free_resources() {
     }
 }
 
-void *TObjTreeLobby::create(void *set_data) {
+void *TObjTreeLobby::create(ObjectSetData *set_data) {
     return new TObjTreeLobby(tl_05, set_data);
 }
 

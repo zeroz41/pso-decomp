@@ -168,11 +168,11 @@ void TBGLightningCtrl::destroy_instance() {
     }
 }
 
-void *TBGLightningCtrl::create(void *set_data) {
+void *TBGLightningCtrl::create(ObjectSetData *set_data) {
     return new TBGLightningCtrl(tl_05, set_data);
 }
 
-TBGLightningCtrl::TBGLightningCtrl(TObject *parent, void *set_data) : TObjBase(parent) {
+TBGLightningCtrl::TBGLightningCtrl(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     strike_timer = 0;

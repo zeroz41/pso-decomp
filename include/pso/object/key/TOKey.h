@@ -41,7 +41,7 @@ public:
     // The 6x05 switch command for this key arrived.
     virtual void handle_switch_trigger(G_SwitchStateChanged_6x05 *cmd);
     void init_switch_id();
-    void init_key(void *set_entry);
+    void init_key(ObjectSetData *set_entry);
     s32 is_any_player_in_range();
     s32 is_local_player_in_range();
 

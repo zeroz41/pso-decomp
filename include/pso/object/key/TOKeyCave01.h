@@ -13,7 +13,7 @@ struct NJS_TEXLIST;
 // while a player stands on it, glowing red while up.
 class TOKeyCave01 : public TOKey {
 public:
-    TOKeyCave01(TObject *parent, void *set_data);
+    TOKeyCave01(TObject *parent, ObjectSetData *set_data);
     virtual ~TOKeyCave01();
     virtual void run_task();
     virtual void render();
@@ -24,7 +24,7 @@ public:
     virtual void trigger_deactivate_sound();
     virtual void vfunc_25();
     void send_switch_changed(s32 flags);
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_objects();
     static void load_resources();
 

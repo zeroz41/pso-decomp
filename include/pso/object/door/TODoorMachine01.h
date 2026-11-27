@@ -20,7 +20,7 @@ struct TODoorMachine01 : public TODoorBase {
         PULSE_RISING = 0x100000    // light_color.r is rising
     };
 
-    TODoorMachine01(TObject *parent, void *set_data);
+    TODoorMachine01(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorMachine01();
     virtual void update_demo();
     virtual void update_open();
@@ -28,7 +28,7 @@ struct TODoorMachine01 : public TODoorBase {
     virtual void update_door_switch_state();
     void draw_switch_light(NJS_OBJECT *node, s32 lit);
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void destroy();
     static void load_resources();
 

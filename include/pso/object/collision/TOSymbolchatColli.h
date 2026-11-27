@@ -6,14 +6,14 @@
 #include "pso/player/PlayerStats.h"
 
 struct TOSymbolchatColli : public TObjChara {
-    TOSymbolchatColli(TObject *parent, void *set_data);
+    TOSymbolchatColli(TObject *parent, ObjectSetData *set_data);
     virtual ~TOSymbolchatColli();
     virtual void run_task();
     void open_balloon_chat(s32 state, u16 player);  // opens the state's balloon chat over the player
     s32 get_state();
     void init_collision_params();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void free_rock();
     static void load_symbol_chat_data();
     f32 radius_sq;            // scale.x squared

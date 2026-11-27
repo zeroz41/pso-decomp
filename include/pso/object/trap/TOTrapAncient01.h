@@ -6,7 +6,7 @@
 #include "pso/render/RenderFadeState.h"
 
 struct TOTrapAncient01 : public TOTrap {
-    TOTrapAncient01(TObject *parent, void *set_data);
+    TOTrapAncient01(TObject *parent, ObjectSetData *set_data);
     virtual ~TOTrapAncient01();
     virtual void update_holding();
     virtual void update_springing();
@@ -23,7 +23,7 @@ struct TOTrapAncient01 : public TOTrap {
     f32 damage_timer; // name inferred: counts down by 1 per update_holding frame; at < 0 the trap strikes
     RenderFadeState fades[4];
     void release_trapped_player();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void release_static_resource();
     static void load_resources();
 };

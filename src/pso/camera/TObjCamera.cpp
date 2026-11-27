@@ -187,7 +187,7 @@ void TObjCamera::run_task() {
 
 TObjCamera::~TObjCamera() {}
 
-TObjCamera::TObjCamera(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjCamera::TObjCamera(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     s32 i;
     m_name = obj_camera_class_name;
     StarLightParameters params = camera_lamp_params;
@@ -208,7 +208,7 @@ TObjCamera::TObjCamera(TObject *parent, void *set_data) : TObjMapObject(parent) 
     init_sound_events();
 }
 
-void *TObjCamera::create(void *set_data) {
+void *TObjCamera::create(ObjectSetData *set_data) {
     return new TObjCamera(tl_05, set_data);
 }
 

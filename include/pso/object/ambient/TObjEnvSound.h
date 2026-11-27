@@ -12,7 +12,7 @@ struct EnvSoundRow {
 };
 
 struct TObjEnvSound : public TObjBase {
-    TObjEnvSound(TObject *parent, void *set_data);
+    TObjEnvSound(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjEnvSound();
     f32 radius;        // scale.z, or 200 when that is not positive
     s32 attenuation;   // set_params[1] clamped to -127..127
@@ -22,7 +22,7 @@ struct TObjEnvSound : public TObjBase {
     // Whether the camera is within the given squared distance of the object.
     s32 is_within_camera_distance_sq(f32 distance_sq);
     s32 is_sound_enabled(s32 cue);
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjEnvSound_size, sizeof(TObjEnvSound) == 0xA0);

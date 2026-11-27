@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjBgmCol : public TObjBase {
-    TObjBgmCol(TObject *parent, void *set_data);
+    TObjBgmCol(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjBgmCol();
     u32 outside; // 1 while the local player is outside the zone
     u8 pad_94[0x4];
@@ -14,7 +14,7 @@ struct TObjBgmCol : public TObjBase {
     s32 check();
     virtual void run_task();
     s32 is_within_distance(f32 distance_sq);
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
 };
 
 LAYOUT_ASSERT(TObjBgmCol_size, sizeof(TObjBgmCol) == 0xA0);

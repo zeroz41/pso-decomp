@@ -65,13 +65,13 @@ void TObjCityVerticalModel::run_task() {
     }
 }
 
-void *create_city_vertical_model(void *set_data) {
+void *create_city_vertical_model(ObjectSetData *set_data) {
     return new TObjCityVerticalModel(tl_05, set_data);
 }
 
 TObjCityVerticalModel::~TObjCityVerticalModel() {}
 
-TObjCityVerticalModel::TObjCityVerticalModel(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjCityVerticalModel::TObjCityVerticalModel(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     apply_object_set_data(set_data);
     state = 1;
     last_state = 2;

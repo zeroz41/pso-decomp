@@ -29,7 +29,7 @@ struct EbiPathProfile {
 
 // An object flown along a path motion: the path's root node gives its offset from the set position.
 struct TObjPathObj : public TObjBase {
-    TObjPathObj(TObject *parent, void *set_data);
+    TObjPathObj(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjPathObj();
     // run_task's step, every frame.
     virtual void update();

@@ -8,10 +8,10 @@
 // root node drawn in the effect pass.
 class TOSignCave03 : public TObjMapObject {
 public:
-    TOSignCave03(TObject *parent, void *set_data);
+    TOSignCave03(TObject *parent, ObjectSetData *set_data);
     virtual ~TOSignCave03();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void release_static_resource();
     static void load_shared_resource();
 };

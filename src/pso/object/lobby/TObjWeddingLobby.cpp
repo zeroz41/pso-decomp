@@ -83,7 +83,7 @@ void TObjWeddingLobby::run_task() {
     }
 }
 
-void *TObjWeddingLobby::create(void *set_data) {
+void *TObjWeddingLobby::create(ObjectSetData *set_data) {
     return new TObjWeddingLobby(tl_05, set_data);
 }
 
@@ -101,7 +101,7 @@ void TObjWeddingLobby::load_resources() {
 
 TObjWeddingLobby::~TObjWeddingLobby() {}
 
-TObjWeddingLobby::TObjWeddingLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TObjWeddingLobby::TObjWeddingLobby(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = obj_wedding_lobby_class_name;
     apply_object_set_data(set_data);
     if (TLobby::get_filtered_event_theme() == 10) {

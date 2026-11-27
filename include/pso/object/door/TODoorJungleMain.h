@@ -8,7 +8,7 @@ struct TObjMapCsn;
 struct BmlResource;
 
 struct TODoorJungleMain : public TODoorBase {
-    TODoorJungleMain(TObject *parent, void *set_data);
+    TODoorJungleMain(TObject *parent, ObjectSetData *set_data);
     virtual ~TODoorJungleMain();
     virtual s32 update_object_view_visibility(f32, f32);
     virtual void apply_saved_state(s16 *, s32);
@@ -20,7 +20,7 @@ struct TODoorJungleMain : public TODoorBase {
     static void load_resources();
     virtual void render();
     virtual void run_task();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static const char *class_name;
     static BmlResource *bml_resource;
 };

@@ -83,7 +83,7 @@ s32 TOHangceilingCaveBase::select_melee_contact_body(TObjChara *, f32) {
     return 1;
 }
 
-TOHangceilingCaveBase::TOHangceilingCaveBase(TObject *parent, void *set_data) : TObjChara(parent) {
+TOHangceilingCaveBase::TOHangceilingCaveBase(TObject *parent, ObjectSetData *set_data) : TObjChara(parent) {
     apply_object_set_data(set_data);
     model = get_bml_model(hangceiling_cave01_model_archive, turiten_singo_key_model_index);
     current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
@@ -147,9 +147,9 @@ void TOHangceilingCave01::destroy_instance() {
     }
 }
 
-void *TOHangceilingCave01::create(void *set_data) {
+void *TOHangceilingCave01::create(ObjectSetData *set_data) {
     if (set_data != NULL) {
-        switch (*(s32 *)((u8 *)set_data + 0x38)) {
+        switch (set_data->set_params[2]) {
         case 0:
             return new TOHangceilingCave01Normal(tl_05, set_data);
         case 1:
@@ -395,7 +395,7 @@ f32 TOHangceilingCaveBase::calc_damage(f32 power) {
     return power * scale.by_difficulty[game_difficulty_selection];
 }
 
-TOHangceilingCave01Normal::TOHangceilingCave01Normal(TObject *parent, void *set_data)
+TOHangceilingCave01Normal::TOHangceilingCave01Normal(TObject *parent, ObjectSetData *set_data)
     : TOHangceilingCaveBase(parent, set_data) {
     m_name = hangceiling_cave01_normal_class_name;
     init_geometry();
@@ -449,7 +449,7 @@ void TOHangceilingCave01Normal::begin_wait() {
     frame_count = (f32)current_motion->nbFrame - 1.0f;
 }
 
-TOHangceilingCave01Key::TOHangceilingCave01Key(TObject *parent, void *set_data)
+TOHangceilingCave01Key::TOHangceilingCave01Key(TObject *parent, ObjectSetData *set_data)
     : TOHangceilingCaveBase(parent, set_data) {
     m_name = hangceiling_cave01_key_class_name;
     init_geometry();
@@ -499,7 +499,7 @@ void TOHangceilingCave01Key::begin_wait() {
     clear_hit_players();
 }
 
-TOHangceilingCave01KeyQuick::TOHangceilingCave01KeyQuick(TObject *parent, void *set_data)
+TOHangceilingCave01KeyQuick::TOHangceilingCave01KeyQuick(TObject *parent, ObjectSetData *set_data)
     : TOHangceilingCaveBase(parent, set_data) {
     m_name = hangceiling_cave01_key_quick_class_name;
     init_geometry();

@@ -26,7 +26,7 @@ const char *TOCapsuleLabo::class_name = "TOCapsuleLabo";
 BmlResource *TOCapsuleLabo::model_resource;
 NJS_OBJECT *TOCapsuleLabo::light_node;
 
-void *TOCapsuleLabo::create(void *set_data) {
+void *TOCapsuleLabo::create(ObjectSetData *set_data) {
     return new TOCapsuleLabo(tl_05, set_data);
 }
 
@@ -94,7 +94,7 @@ TOCapsuleLabo::~TOCapsuleLabo() {
 }
 
 // Episode II's online mode and split screen do without the capsule.
-TOCapsuleLabo::TOCapsuleLabo(TObject *parent, void *set_data) : TOQuestTalkBase(parent) {
+TOCapsuleLabo::TOCapsuleLabo(TObject *parent, ObjectSetData *set_data) : TOQuestTalkBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = get_bml_model(model_resource, 0);

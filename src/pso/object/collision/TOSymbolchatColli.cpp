@@ -135,7 +135,7 @@ void TOSymbolchatColli::run_task() {
     }
 }
 
-void *TOSymbolchatColli::create(void *set_data) {
+void *TOSymbolchatColli::create(ObjectSetData *set_data) {
     return new TOSymbolchatColli(tl_05, set_data);
 }
 
@@ -162,7 +162,7 @@ TOSymbolchatColli::~TOSymbolchatColli() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-TOSymbolchatColli::TOSymbolchatColli(TObject *parent, void *set_data) : TObjChara(parent) {
+TOSymbolchatColli::TOSymbolchatColli(TObject *parent, ObjectSetData *set_data) : TObjChara(parent) {
     s32 i;
     m_name = symbolchat_colli_name;
     apply_object_set_data(set_data);

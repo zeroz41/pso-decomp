@@ -8,7 +8,7 @@
 struct NJS_MOTION;
 
 struct TOKurage : public TObjMapObject {
-    TOKurage(TObject *parent, void *set_data);
+    TOKurage(TObject *parent, ObjectSetData *set_data);
     virtual ~TOKurage();
     void update_tilt();
     NJS_MOTION *motion2;    // its second motion, drawn blended with motion
@@ -31,7 +31,7 @@ struct TOKurage : public TObjMapObject {
     void init();
     virtual void run_task();
     virtual void render();
-    static void *create(void *set_data);
+    static void *create(ObjectSetData *set_data);
     static void destroy_static_instance();
     static void load_static_resource();
 };

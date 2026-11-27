@@ -177,7 +177,7 @@ void TObjLazerFence4::run_task() {
 
 
 
-void *TObjLazerFence4::create(void *set_data) {
+void *TObjLazerFence4::create(ObjectSetData *set_data) {
     return new TObjLazerFence4((TObject *)tl_05, set_data);
 }
 TObjLazerFence4::~TObjLazerFence4() {
@@ -186,7 +186,7 @@ TObjLazerFence4::~TObjLazerFence4() {
 }
 
 
-TObjLazerFence4::TObjLazerFence4(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TObjLazerFence4::TObjLazerFence4(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     s32 i;
     m_name = lazer_fence4_class_name;
     apply_object_set_data(set_data);

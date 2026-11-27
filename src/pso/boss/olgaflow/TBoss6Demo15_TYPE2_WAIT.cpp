@@ -112,20 +112,20 @@ void TBoss6Demo15_TYPE2_WAIT::destroy_csn_objects() {
 }
 
 void TBoss6Demo15_TYPE2_WAIT::create_csn_objects() {
-    MapCsnSetData set;
+    ObjectSetData set;
     s32 i;
     s32 j;
     for (j = 0; j < 10; j++) {
         csn_objects[j] = NULL;
     }
-    set.params[0] = 2;
-    set.params[1] = 0;
+    set.set_params[0] = 2;
+    set.set_params[1] = 0;
     for (i = 0; i < 10; i++) {
         const WaitDemoCsnEntry *e = &wait_demo_csn_entries[i];
         VecCopy(&set.position, &e->position);
-        set.rotation_x = 0;
-        set.rotation_y = e->rotation_y;
-        set.rotation_z = 0;
+        set.rotation[0] = 0;
+        set.rotation[1] = e->rotation_y;
+        set.rotation[2] = 0;
         VecCopy(&set.scale, &e->scale);
         csn_objects[i] = TObjMapCsn::create(&set);
     }

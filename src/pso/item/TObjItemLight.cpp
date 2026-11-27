@@ -46,7 +46,7 @@ TObjItemLight::~TObjItemLight() {
 
 const char *TObjItemLight::class_name = "TObjItemLight";
 
-TObjItemLight::TObjItemLight(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjItemLight::TObjItemLight(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
     m_name = TObjItemLight::class_name;
     apply_object_set_data(set_data);
     m_particle = 0;

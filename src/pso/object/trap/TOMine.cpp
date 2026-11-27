@@ -488,7 +488,7 @@ void TOMine::update_state() {
 }
 const char *TOMine::get_name() { return get_localized_text_entry(16, 16); }
 void TOMine::vfunc_85() {  }
-void TOMine::apply_object_set_data(void *set_data) {
+void TOMine::apply_object_set_data(ObjectSetData *set_data) {
     TObjBase::apply_object_set_data(set_data);
     this->spawn_disp_objects();
     VecCopy(&float_position, &position);

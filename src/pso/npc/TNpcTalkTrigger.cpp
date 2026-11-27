@@ -39,11 +39,11 @@ void reset_npc_proximity_target_on_floor_load(void) { npc_proximity_target_id = 
 
 void reset_npc_proximity_target_on_floor_free(void) { npc_proximity_target_id = -1; }
 
-void *create_npc(void *set_data) {
+void *create_npc(ObjectSetData *set_data) {
     return new TNpcTalkTrigger(tl_05, set_data);
 }
 
-TNpcTalkTrigger::TNpcTalkTrigger(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TNpcTalkTrigger::TNpcTalkTrigger(TObject *parent, ObjectSetData *set_data) : TObjCollidable(parent) {
     apply_object_set_data(set_data);
     npc_slot = 3;
     record = set_params[0];

@@ -48,7 +48,7 @@ void TORevlightCave01::render() {
     }
 }
 
-void *TORevlightCave01::create(void *set_data) {
+void *TORevlightCave01::create(ObjectSetData *set_data) {
     return new TORevlightCave01(tl_05, set_data);
 }
 
@@ -66,7 +66,7 @@ void TORevlightCave01::load_shared_resource() {
 
 TORevlightCave01::~TORevlightCave01() {}
 
-TORevlightCave01::TORevlightCave01(TObject *parent, void *set_data) : TObjMapObject(parent) {
+TORevlightCave01::TORevlightCave01(TObject *parent, ObjectSetData *set_data) : TObjMapObject(parent) {
     m_name = revlight_cave01_class_name;
     apply_object_set_data(set_data);
     model = revlight_cave01_bml_resource->models[0].model;
