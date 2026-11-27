@@ -23,11 +23,6 @@ const char *TBoss5GryphonLightningWing::name = "TBoss5GryphonLightningWing";
 #pragma opt_lifetimes off
 
 
-extern "C" {
-s32 __ct__22TBoss5GryphonLightningFP7TObjectP3Vecf(f32);
-extern u8 __vt__26TBoss5GryphonLightningWing[];
-}
-
 void TBoss5GryphonLightningWing::apply_lightning_effect() {
     Vec pos;
     TBoss5Gryphon *owner;
@@ -68,34 +63,36 @@ void TBoss5GryphonLightningWing::run_task() {
 
 TBoss5GryphonLightningWing::~TBoss5GryphonLightningWing() {}
 
-// Written out by hand: the C++ constructor addresses the segment loop as this + (i * 16 + 0x48) with stfsx, the
-// original as (this + i * 16) + 0x48.
-saddr __ct__26TBoss5GryphonLightningWingFP7TObjectP3VecP3VecP3Vecll(saddr allocation, TObject *parent, Vec *start,
-                                                                    Vec *mid, Vec *end, s32 grow_frames,
-                                                                    s32 hold_frames) {
-    TBoss5GryphonLightningWing *wing = (TBoss5GryphonLightningWing *)allocation;
-    s32 i;
-    __ct__22TBoss5GryphonLightningFP7TObjectP3Vecf(20.0f);
-    *(void **)((u8 *)wing + 0x18) = __vt__26TBoss5GryphonLightningWing;
-    wing->m_name = TBoss5GryphonLightningWing::name;
-    wing->segment_count = 3;
-    wing->grow_frames = grow_frames;
-    wing->life_frames = grow_frames + hold_frames;
-    VecCopy(&wing->segments[0].pos, start);
-    VecCopy(&wing->segments[wing->segment_count - 1].pos, end);
-    for (i = 1; i < wing->segment_count - 1; i++) {
-        wing->segments[i].pos.x = mid->x;
-        wing->segments[i].pos.y = mid->y;
-        wing->segments[i].pos.z = mid->z;
+TBoss5GryphonLightningWing::TBoss5GryphonLightningWing(TObject *parent, Vec *start, Vec *mid, Vec *end,
+                                                       s32 grow_frames, s32 hold_frames)
+    : TBoss5GryphonLightning(parent, start, 20.0f) {
+    m_name = name;
+    segment_count = 3;
+    this->grow_frames = grow_frames;
+    life_frames = grow_frames + hold_frames;
+    VecCopy(&segments[0].pos, start);
+    VecCopy(&segments[segment_count - 1].pos, end);
+    // CodeWarrior: the original addresses the segments from a copy of this, not as this + (i * 16 + 0x48).
+#ifdef __MWERKS__
+    TBoss5GryphonLightningWing *self = this;
+    for (s32 i = 1; i < segment_count - 1; i++) {
+        self->segments[i].pos.x = mid->x;
+        self->segments[i].pos.y = mid->y;
+        self->segments[i].pos.z = mid->z;
     }
-    return allocation;
+#else
+    for (s32 i = 1; i < segment_count - 1; i++) {
+        segments[i].pos.x = mid->x;
+        segments[i].pos.y = mid->y;
+        segments[i].pos.z = mid->z;
+    }
+#endif
 }
 
 TBoss5GryphonLightningWing *TBoss5GryphonLightningWing::spawn(TObject *parent, Vec *start, Vec *mid, Vec *target,
                                                               s32 grow_frames, s32 hold_frames) {
     Vec end;
     CsnHit *hit;
-    saddr wing;
     VecCopy(&end, target);
     hit = csnVecterUnder(&end, 0x16EF);
     if (hit == NULL) {
@@ -105,12 +102,7 @@ TBoss5GryphonLightningWing *TBoss5GryphonLightningWing::spawn(TObject *parent, V
     } else {
         end.y = hit->contact->point.y;
     }
-    wing = (saddr)operator new(sizeof(TBoss5GryphonLightningWing));
-    if (wing != 0) {
-        wing = __ct__26TBoss5GryphonLightningWingFP7TObjectP3VecP3VecP3Vecll(wing, parent, start, mid, &end, grow_frames,
-                                                                             hold_frames);
-    }
-    return (TBoss5GryphonLightningWing *)wing;
+    return new TBoss5GryphonLightningWing(parent, start, mid, &end, grow_frames, hold_frames);
 }
 
 TBoss5GryphonLightningWing *TBoss5GryphonLightningWing::spawn_corner(TObject *parent, Vec *start, Vec *target,

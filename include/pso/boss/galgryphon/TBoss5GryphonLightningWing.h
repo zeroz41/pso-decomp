@@ -8,6 +8,9 @@ struct Vec;
 
 class TBoss5GryphonLightningWing : public TBoss5GryphonLightning {
 public:
+    // A bolt from start through mid to end: the head reaches end after grow_frames, the tail follows after
+    // grow_frames + hold_frames.
+    TBoss5GryphonLightningWing(TObject *parent, Vec *start, Vec *mid, Vec *end, s32 grow_frames, s32 hold_frames);
     virtual ~TBoss5GryphonLightningWing();
     virtual void run_task();
     virtual void render();
@@ -24,13 +27,5 @@ public:
     s32 life_frames;  // run_task removes the wing once age reaches it
     static const char *name;
 };
-
-extern "C" {
-// The constructor TBoss5GryphonLightningWing(TObject *parent, Vec *start, Vec *mid, Vec *end, s32 grow_frames,
-// s32 hold_frames), written as a function of the allocation.
-saddr __ct__26TBoss5GryphonLightningWingFP7TObjectP3VecP3VecP3Vecll(saddr allocation, TObject *parent, Vec *start,
-                                                                    Vec *mid, Vec *end, s32 grow_frames,
-                                                                    s32 hold_frames);
-}
 
 #endif
