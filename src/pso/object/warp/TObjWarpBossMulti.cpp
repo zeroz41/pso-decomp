@@ -791,13 +791,9 @@ TObjWarpBossMulti::TObjWarpBossMulti(TObject *parent, void *set_data) : TObjArea
     update();
     init_warp_params();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = ::operator new(0x88);
-        if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 19.0f);
-        }
-        vi_config = (TAdVIConfigGC *)p;
+        party_check = new WarpPartyCheck(&position, 19.0f);
     } else {
-        vi_config = NULL;
+        party_check = NULL;
     }
     warp_range = 19.0f;
     for (i = 0; i < 4; i++) {

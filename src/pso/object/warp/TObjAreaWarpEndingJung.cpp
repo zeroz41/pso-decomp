@@ -469,13 +469,13 @@ TObjAreaWarp::TObjAreaWarp(TObject *parent, void *set_data) : TObjWarpBase(paren
     if (lobby_quest_progress_flag != 0) {
         dest_floor = get_current_floor() + 1;
     }
-    vi_config = NULL;
+    party_check = NULL;
 }
 
 TObjAreaWarp::~TObjAreaWarp() {
-    if (vi_config != NULL) {
-        TAdVIConfigGC::destroy(vi_config, 1);
-        vi_config = NULL;
+    if (party_check != NULL) {
+        delete party_check;
+        party_check = NULL;
     }
     close_menu();
 }
@@ -530,9 +530,9 @@ void TObjAreaWarp::handle_area_selection() {
         }
         if (is_split_screen() != 0) {
             found = 0;
-            if (vi_config != NULL) {
-                vi_config->update_visibility();
-                if (vi_config->get_field_14() == 0) {
+            if (party_check != NULL) {
+                party_check->update_visibility();
+                if (party_check->get_all_in_range() == 0) {
                     this->close_menu();
                     return;
                 }
@@ -541,8 +541,8 @@ void TObjAreaWarp::handle_area_selection() {
                 t = find_warp_player_in_range(this, i, warp_range);
                 if (t != NULL) {
                     found = 1;
-                    if (vi_config != NULL) {
-                        this->open_confirm_window(((TObjAreaWarp *)vi_config)->find_active_player());
+                    if (party_check != NULL) {
+                        this->open_confirm_window(party_check->find_active_player());
                     } else {
                         this->open_confirm_window(t->get_entity_id());
                     }
@@ -616,13 +616,9 @@ TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAr
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = ::operator new(0x88);
-        if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
-        }
-        vi_config = (TAdVIConfigGC *)p;
+        party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
-        vi_config = NULL;
+        party_check = NULL;
     }
 }
 
@@ -710,13 +706,9 @@ TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjArea
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = ::operator new(0x88);
-        if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
-        }
-        vi_config = (TAdVIConfigGC *)p;
+        party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
-        vi_config = NULL;
+        party_check = NULL;
     }
 }
 
@@ -826,13 +818,9 @@ TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAr
     beam_motion = get_forest_warp_motion(0);
     textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = ::operator new(0x88);
-        if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
-        }
-        vi_config = (TAdVIConfigGC *)p;
+        party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
-        vi_config = NULL;
+        party_check = NULL;
     }
 }
 

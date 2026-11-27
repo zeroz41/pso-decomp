@@ -13,7 +13,6 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
     TAdVIConfigGC(TObject *parent);
     virtual ~TAdVIConfigGC();
     u32 answered;
-    u8 *init(const Vec *position, f32 radius);
     virtual void render();
     void mark_answered();
     s32 is_answered();
@@ -21,17 +20,20 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
     static void disable_progressive_mode();
     virtual void run_task();
     void set_default_choice(s32 v);
-    void open_player_names_window();
-    s32 get_field_14();
-    void update_visibility();
     virtual void on_accept();
     virtual void on_cancel();
     virtual const char *get_message_text();
-    static void *destroy(void *, s16);
 };
 
-// The block init() fills: who of the party stands within radius of a spot (warps).
+// Who of the party stands within radius of a spot: the split-screen warps wait on it until
+// everyone on the floor has walked in.
 struct WarpPartyCheck {
+    WarpPartyCheck(const Vec *position, f32 radius);
+    ~WarpPartyCheck();
+    s32 find_active_player();
+    void open_player_names_window();
+    s32 get_all_in_range();
+    void update_visibility();
     f32 radius_sq;
     s32 member_count;      // count_members() when the window was last built
     Vec center;

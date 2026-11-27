@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct TAdVIConfigGC;
+struct WarpPartyCheck;
 struct TObjPlayer;
 struct TWindowMenu;
 class TTelepipeSelectField;

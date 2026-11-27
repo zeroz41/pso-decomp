@@ -155,13 +155,9 @@ TObjGoalWarpAncient::TObjGoalWarpAncient(TObject *parent, void *set_data) : TObj
         queue_destruction();
     }
     if (is_split_screen() == 1) {
-        void *p = ::operator new(0x88);
-        if (p != NULL) {
-            p = ((TAdVIConfigGC *)p)->init(&position, 20.0f);
-        }
-        vi_config = (TAdVIConfigGC *)p;
+        party_check = new WarpPartyCheck(&position, 20.0f);
     } else {
-        vi_config = NULL;
+        party_check = NULL;
     }
 }
 
