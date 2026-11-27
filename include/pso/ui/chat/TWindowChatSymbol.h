@@ -8,6 +8,8 @@ struct NJS_POINT2;
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct SymbolChatPreset;
+struct SymbolChatPart;
+struct WindowLayoutEntries;
 
 struct TWindowChatSymbol : public TWindowBase {
     static const char *class_name;
@@ -37,5 +39,6 @@ struct SymbolChatSpriteLayout {
     SpritePartLayoutRecord recs[25];
 };
 
+void apply_part_to_window(WindowLayoutEntries *entries, SymbolChatPart *part, s32 index);
 
 #endif

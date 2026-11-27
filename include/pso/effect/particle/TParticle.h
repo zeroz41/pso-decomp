@@ -62,4 +62,6 @@ public:
     f32 motion_speed;          // 0xC0, motion frames per frame
 };
 
+TParticle *generate_child_default(ParticleParam *param, Vec *pos, TObject *parent);
+
 #endif

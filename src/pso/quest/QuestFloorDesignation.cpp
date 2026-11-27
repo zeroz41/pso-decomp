@@ -27,7 +27,7 @@ void convert_quest_object_rows(struct ConvertQuestObjectRowsQuestObjRow *rows, u
 s16 quest_floor_designations[0x14];
 u8 *quest_dat_buffer;
 
-void TLobby::refresh_quest_list(const char *path) {
+void refresh_quest_list(const char *path) {
     u8 *quest;
     s32 size;
 
@@ -299,7 +299,7 @@ void setup_quest_list() {
     map_set_enemy_id_counter = 0;
     switch ((s32) evt2_random_enemies_mode) {
     case 1:
-        TLobby::open_session(get_offline_quest_filename_buffer_b());
+        open_session(get_offline_quest_filename_buffer_b());
         break;
     case 2:
         TLobby::update_and_reset(TQuestListOnline::get_quest_list_flag());
@@ -311,7 +311,7 @@ void setup_quest_list() {
         TLobby::rebuild_all(TQuestListOnline::get_quest_list_flag());
         break;
     case 5:
-        TLobby::refresh_quest_list(get_offline_quest_filename_buffer_b());
+        refresh_quest_list(get_offline_quest_filename_buffer_b());
         break;
     }
     advance_object_id_counter((u16) map_object_id_counter);
@@ -319,7 +319,7 @@ void setup_quest_list() {
     object_condition_count = map_set_object_id_counter;
     enemy_condition_count = next_enemy_set_actor_id;
     get_total_object_set_count();
-    TLobby::sum_floor_enemy_counts();
+    sum_floor_enemy_counts();
 }
 
 void TLobby::update_and_reset(u8 *quest) {
@@ -332,7 +332,7 @@ void TLobby::update_and_reset(u8 *quest) {
 
 #include "pso/player/TObjPlayer.h"
 
-void TLobby::open_session(const char *path) {
+void open_session(const char *path) {
     u8 *quest;
     s32 size;
 

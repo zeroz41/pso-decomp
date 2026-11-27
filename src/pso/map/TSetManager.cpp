@@ -367,7 +367,7 @@ void apply_floor_set_flags_packet(FloorSetFlagsHeader *buffer, u16) {
 int get_floor_set_flags_size(void) {
     s32 count = 0;
     count += get_total_object_set_count();
-    count += TLobby::sum_floor_enemy_counts();
+    count += sum_floor_enemy_counts();
     return count * 2 + 0x10;
 }
 
@@ -588,7 +588,7 @@ s32 TObjCollidable::set_flag8() {
 }
 
 
-s32 TLobby::spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members) {
+s32 spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members) {
     s16 set_index;
     s16 flags;
     s32 row_count;

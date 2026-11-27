@@ -2623,7 +2623,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_C5_player_challenge_data_packet = TLobby::copy_player_records;
     protocol_instance->m_recv_handlers.handle_D3_execute_trade_packet = handle_trade_received_items;
     protocol_instance->m_recv_handlers.handle_D4_trade_result_packet = (recv_packet_handler_handle_D4_trade_result_packet)handle_reset_choice;
-    protocol_instance->m_recv_handlers.handle_D1_advance_trade_state_packet = (recv_packet_handler_handle_D1_advance_trade_state_packet)TLobby::apply_trade_items;
+    protocol_instance->m_recv_handlers.handle_D1_advance_trade_state_packet = (recv_packet_handler_handle_D1_advance_trade_state_packet)apply_trade_items;
     protocol_instance->m_recv_handlers.handle_D8_infoboard_packet = TLobby::handle_info_board;
     protocol_instance->m_recv_handlers.handle_DA_lobby_event_packet = TLobby::set_lobby_event_theme;
     protocol_instance->m_recv_handlers.handle_AB_quest_stats_response_packet = (recv_packet_handler_handle_AB_quest_stats_response_packet)create_quest_stats_thread;

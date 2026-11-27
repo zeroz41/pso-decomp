@@ -81,6 +81,7 @@ void update_trade_proposal_state();
 
 
 // Trade window steps the lobby and the trade windows run.
+void apply_trade_items();
 void cancel_trade();
 void close_trade_request();
 void reset_trade_state();

@@ -295,7 +295,7 @@ s32 claim_trade_sub_window(TWindowSubTrade *window) {
     return 1;
 }
 
-void TLobby::apply_trade_items() {
+void apply_trade_items() {
     s32 allowed;
     struct TradeItemEntry *list;
     u32 id;
@@ -329,7 +329,7 @@ void TLobby::apply_trade_items() {
                 }
                 if ((flag == 0) || (TAdSinglePlyChrSelectGC::load_character_from_card() == 0)) {
                     trade_proposal_state = 8;
-                    protocol_instance->send_trade_ready();
+                    TLobby::protocol_instance->send_trade_ready();
                 }
             }
         }

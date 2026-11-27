@@ -38,15 +38,15 @@
 
 THeap *TParticleCtrl::heap;
 
-TParticle *TParticleCtrl::generate_child_default(ParticleParam *param, Vec *pos, TObject *parent) {
+TParticle *generate_child_default(ParticleParam *param, Vec *pos, TObject *parent) {
     Angle3 dir = {0, 0, 0};
-    return alloc_child_particle(param, pos, &dir, parent);
+    return TParticleCtrl::alloc_child_particle(param, pos, &dir, parent);
 }
 
 #pragma readonly_strings on
 ParticleGenerator particle_ctrl_generator_table[] = {
     {"EMIT", create_random_spread},
-    {"SPAIRAL", TParticleCtrl::generate_child_default},
+    {"SPAIRAL", generate_child_default},
     {"VACUUM", create_random_particle},
 };
 #pragma readonly_strings reset

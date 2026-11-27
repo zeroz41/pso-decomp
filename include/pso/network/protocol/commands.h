@@ -63,7 +63,7 @@
  *   C0        TRecvChoiceSearchOptions  handle_cmd_C0 -> TLobby::handle_choice_search_options
  *   C4        ChoiceSearchResultList    handle_cmd_C4 -> TLobby::handle_choice_search_results
  *   C5        TRecvChallengeData    handle_cmd_C5 -> TLobby::copy_player_records
- *   D1 D4     packet_header         recv_advance_trade_state, recv_trade_result -> TLobby::apply_trade_items,
+ *   D1 D4     packet_header         recv_advance_trade_state, recv_trade_result -> apply_trade_items,
  *                                   handle_reset_choice (flags)
  *   D3        TTradeList            handle_cmd_D3 -> handle_trade_received_items
  *   D7        packet_header         handle_cmd_D7 (sets lobby_count_value)

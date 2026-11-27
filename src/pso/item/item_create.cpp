@@ -741,7 +741,7 @@ void cleanup_game_objects() {
     area = get_current_floor_area();
     floor = get_current_floor();
     item_ground_placement_enabled = 0;
-    TLobby::clear_object_count();
+    clear_object_count();
     respawn_missing_floor_items(floor);
     if ((area == AREA_PIONEER2_EP1) || (area == AREA_PIONEER2_EP2)) {
         pioneer2_item_respawn_flags.set(1);

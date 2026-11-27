@@ -131,5 +131,6 @@ s32 load_all_floor_enemy_sets();
 s32 load_all_floor_object_sets();
 void free_data_60F0();
 s32 init_handle(s32 size);
+s32 sum_floor_enemy_counts();
 
 #endif

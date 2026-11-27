@@ -9243,7 +9243,7 @@ force_active:
   - open_sell_window__20TShopItemTecSequenceFv
   - open_sell_window__22TShopEquipmentSequenceFv
   - open_sell_window__26TShopEquipmentGearSequenceFv
-  - open_session__6TLobbyFPCc
+  - open_session__FPCc
   - open_ship_block_select_menu__6TLobbyFiP13GameListEntryR13GameListEntry
   - open_status_window__19TWindowSubTradeMainFv
   - open_trade_equip_window__19TWindowSubTradeMainFv
@@ -13961,7 +13961,7 @@ force_active:
   - refresh_names__15TObjDeadListWinFv
   - is_player_lost__13NpcPlayerViewFv
   - refresh_palette_slots__21TWindowSubCustomEquipFv
-  - refresh_quest_list__6TLobbyFPCc
+  - refresh_quest_list__FPCc
   - refresh_alive_flags__19TPlayerBattleCtrl4PFv
   - refresh_submenu__15TWindowMainMenuFP20TWindowMainMenuEntry
   - refresh_target_marker__11TMainCursorFv

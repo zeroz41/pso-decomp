@@ -86,7 +86,6 @@ struct TLobby : public TObject {
     static void send_status_packet();
     void *alloc_download_quest(s32 size, s32 *out_size);
     // Empty free half of set_ending_callback in the scene load/free tables
-    static void clear_object_count();
     static int get_lobby_flag();
     void process_and_dispatch_packet();
     void bswap_6xa2_fields();
@@ -110,8 +109,6 @@ struct TLobby : public TObject {
     void bswap_vec3();
     static int rebuild_entry();
     static int init_sub_state();
-    static s32 sum_floor_enemy_counts();
-    static s32 spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members);
     static void *create_tl05_object(TObjPlayer *player);
     s32 get_id();
     static void clear_flag_bit2();
@@ -141,7 +138,6 @@ struct TLobby : public TObject {
     static void send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty);
     static void send_6x75_quest_flag_cur_difficulty(u16 flag, s16 action);
     void copy_record_entry(saddr src);
-    static void apply_trade_items();
 
     void update_alloc_size();
     static void create_tasks();
@@ -261,14 +257,12 @@ struct TLobby : public TObject {
     static void open_lobby_warp_menu();
     static void open_make_team_window(int);
     static void open_menu_window();
-    static void open_session(const char *path);
     static void open_ship_block_select_menu(int entry_count, GameListEntry *entries, GameListEntry &entry_0);
     static void open_warp_menu();
     static void process_deferred_player_setup();
     static void queue_static_object_destruction();
     static s8 read_byte_advance();
     static void rebuild_all(u8 *quest);
-    static void refresh_quest_list(const char *path);
     static void remove_player(unsigned int, int, int);
     static void request_game_list();
     static void reset(int);

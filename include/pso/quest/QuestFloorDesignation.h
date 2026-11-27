@@ -45,5 +45,7 @@ struct QuestDatRecord {
 };
 
 void setup_quest_list();
+void refresh_quest_list(const char *path);
+void open_session(const char *path);
 
 #endif

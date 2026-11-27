@@ -4,6 +4,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+class TEnemyTaskList;
+
 class TSetManager : public TObject {
 public:
     TSetManager(TObject *parent);
@@ -44,5 +46,6 @@ struct IsRoomFreeOfActiveEnemiesRow { s16 type, flags; u8 u4[8]; s16 room; u8 ue
 s32 link_matching_objects(s16 room, s16 wave);
 s32 find_floor_object_factory(s32 area, s16 *object_type);
 s32 count_quest_enemies_flag8();
+s32 spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members);
 
 #endif

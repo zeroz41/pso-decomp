@@ -4,6 +4,7 @@
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/TSetManager.h"
 #include "pso/system/EventShuffleTable.h"
 
 #include "pso/map/TSetEvtDestroy.h"
@@ -36,7 +37,7 @@ void TSetEvtDestroy::run_task() {
             m_phase = 2;
         }
         if (--m_countdown < 0) {
-            if (TLobby::spawn_matching_objects(m_event_record->spawn_arg0, m_event_record->spawn_arg1, m_enemy_tasks) != 0) {
+            if (spawn_matching_objects(m_event_record->spawn_arg0, m_event_record->spawn_arg1, m_enemy_tasks) != 0) {
                 m_phase = 1;
             } else {
                 m_phase = 2;

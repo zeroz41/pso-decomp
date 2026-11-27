@@ -43,7 +43,6 @@ public:
     static THeap *heap;
     static void free_heap();
     static void init_heap(u32 size);
-    static TParticle *generate_child_default(ParticleParam *param, Vec *pos, TObject *parent);
     static NJS_OBJECT *get_particle_model(s32 model);
     // The particle texture list.
     static NJS_TEXLIST *get_instance();

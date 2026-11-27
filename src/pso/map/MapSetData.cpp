@@ -872,7 +872,7 @@ s32 load_all_floor_enemy_sets() {
     } while (floor < 0x12);
     advance_enemy_id_counter(((u16) map_set_enemy_id_counter));
     enemy_condition_count = next_enemy_set_actor_id;
-    TLobby::sum_floor_enemy_counts();
+    sum_floor_enemy_counts();
     return 1;
 }
 s32 load_all_floor_object_sets() {
@@ -997,7 +997,7 @@ s32 set_room_group_flags(s32 floor, s16 room, s16 group, s32 bits) {
     return n;
 }
 
-s32 TLobby::sum_floor_enemy_counts() {
+s32 sum_floor_enemy_counts() {
     s32 sum = 0;
     s32 i;
     for (i = 0; i < 18; i++) sum += floor_enemy_set_counts[i];

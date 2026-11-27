@@ -351,7 +351,7 @@ s32 insert_item_condition(FloorItem *item) {
     return 0;
 }
 
-void TLobby::clear_object_count() { floor_item_free_id_count = 0; }
+void clear_object_count() { floor_item_free_id_count = 0; }
 
 void reset_floor_items() {
     s32 i;
@@ -373,7 +373,7 @@ void reset_floor_items() {
             floor_item_counts_by_floor[k] = 0;
         }
     }
-    TLobby::clear_object_count();
+    clear_object_count();
 }
 
 void free_boss_rocks() {
