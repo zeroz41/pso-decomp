@@ -18,7 +18,6 @@
 
 
 
-void send_challenge_dead_flag_packet(G_SetChallengeDeadFlag_6x9D *packet);
 void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command) {
     s32 idx;
     if (is_challenge_mode() == 0) {

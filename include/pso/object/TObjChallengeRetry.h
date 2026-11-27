@@ -51,4 +51,7 @@ void build_6x8A_packet(G_ShowChallengeTimeRecordsWindow_6x8A *packet);
 void build_6x95_packet(G_SetChallengeTime_6x95 *packet);
 void build_6x97_packet(u8 *packet);
 void build_6x9D_packet(u8 *packet);
+struct G_SetChallengeDeadFlag_6x9D;
+void send_challenge_dead_flag_packet(G_SetChallengeDeadFlag_6x9D *packet);
+
 #endif

@@ -39,7 +39,6 @@ __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f
 }
 
 const char *obj_challenge_retry_class_name = "TObjChallengeRetry";
-void send_challenge_dead_flag_packet(G_SetChallengeDeadFlag_6x9D *packet);
 void build_6x9D_packet(u8 *packet);
 void build_6x97_packet(u8 *packet);
 
