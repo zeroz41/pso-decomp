@@ -115,13 +115,12 @@ void TItemProShield::perform_action() {
 }
 
 void TItemProShield::on_equip() {
-    u8 index;
     if (is_hidden() == 0) {
         play_sound_effect(0x4000B20A, &owner->position, 0, 0);
     }
     if (effect_objects != NULL) {
-        index = get_item_index();
-        switch ((s32)index) {
+        const u8 index = get_item_index();
+        switch (index) {
         case 39:
             if (effect_objects != NULL) {
                 new TItemTimerEventHpRegen(effect_objects, get_owner_client(), 450);
@@ -135,7 +134,7 @@ void TItemProShield::on_equip() {
             break;
         }
         if ((index >= 0x53U) && (index <= 0x82U)) {
-            new TItemEffShieldPulse(effect_objects, get_owner_client(), (u8)index);
+            new TItemEffShieldPulse(effect_objects, get_owner_client(), index);
         }
     }
 }
