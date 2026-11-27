@@ -103,7 +103,7 @@ s32 set_shared_memory_data(u8 *src, u32 size) {
 #pragma optimize_for_size off
 void launch_iwanaga_dol(DolHeader *dol_image, s32 param) {
     strcpy(launch_dol_context->dol_name, "iwanaga.dol");
-    launch_dol_context->unk_100 = param;
+    launch_dol_context->pad_100 = param;
     launch_dol_context->dol_image = dol_image;
     launch_dol_context->keep_size = sizeof(SharedMemory);
     LaunchDol(launch_dol_context);
@@ -213,7 +213,7 @@ s32 set_disc_messages_byte0(s8 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    shared_memory_disc_messages->unk_000 = value;
+    shared_memory_disc_messages->pad_000 = value;
     shared_memory_block->flags |= SHARED_MEMORY_DISC_MESSAGES_SET;
     return 0;
 }
@@ -264,7 +264,7 @@ s32 set_modem_check_param(s32 value) {
 }
 
 s32 set_connect_param_1C2(s16 value) {
-    shared_memory_connect_param->unk_1C2 = value;
+    shared_memory_connect_param->pad_1C2 = value;
     shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
@@ -282,7 +282,7 @@ s32 set_connect_param_13D(s8 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    shared_memory_connect_param->unk_13D = value;
+    shared_memory_connect_param->pad_13D = value;
     shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
