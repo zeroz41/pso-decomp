@@ -14,13 +14,10 @@
 #include "pso/player/PlayerSlots.h"
 
 
-extern "C" {
 f32 fade_line_depth;
 s8 fade_line_depth_ready;
 extern const char TAdFadeGC_class_name_string[] = "TAdFadeGC";
-}
 const char *TAdFadeGC::name = TAdFadeGC_class_name_string;
-extern "C" {
 
 void TAdFadeGC::draw_fade() {
     ColorLineVertex pos[4];
@@ -140,7 +137,6 @@ void TAdFadeGC::start_fade(s32 mode) {
 }
 
 TAdFadeGC::~TAdFadeGC() {}
-}
 TAdFadeGC::TAdFadeGC(TObject *parent, s32 mode) : TObject(parent) {
     m_name = TAdFadeGC::name;
     elapsed_frames = -1;

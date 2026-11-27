@@ -328,10 +328,8 @@ void THunterGuildSeqOffline::reset_quest_result_callbacks() {
     s32 i;
     for (i = 0; i < 4; i++) quest_result_callbacks[i] = -1;
 }
-extern "C" {
 
 void THunterGuildSeqOffline::unload_quest_result_callbacks() { reset_quest_result_callbacks(); }
-}
 
 void THunterGuildSeqOffline::notify_quest_thread() {
     s32 v = quest_result_callbacks[3];

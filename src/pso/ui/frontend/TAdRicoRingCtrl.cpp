@@ -18,7 +18,6 @@
 #include "pso/system/task/TMainTask.h"
 
 BmlResource *TAdRicoRing::resource_bundle;
-extern "C" {
 f32 rico_ring_quad_x_min;
 s8 rico_ring_quad_x_min_ready;
 f32 rico_ring_quad_x_max;
@@ -32,7 +31,6 @@ s8 rico_ring_quad_z_near_ready;
 f32 rico_ring_quad_z_far;
 s8 rico_ring_quad_z_far_ready;
 s8 rico_ring_quad_vertices_ready;
-}
 
 const char *rico_ring_model_names[2] = { "rico_ring.nj", NULL };
 const char *rico_ring_motion_names[2] = { "rico_ring.njm", NULL };

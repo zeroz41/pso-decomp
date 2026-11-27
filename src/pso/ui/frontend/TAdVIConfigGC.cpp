@@ -86,7 +86,6 @@ void update_players_in_range(WarpPartyCheck *check) {
 
 s32 logo_clear_flag = 1;
 const char *TAdVIConfigGC::class_name = "TAdVIConfigGC";
-extern "C" {
 __declspec(section ".data") NJS_POINT2 player_names_window_pos = {229.0f, 104.0f};
 
 void TAdVIConfigGC::open_player_names_window() {
@@ -137,7 +136,7 @@ void TAdVIConfigGC::update_visibility() {
     }
 }
 
-void *destroy__13TAdVIConfigGCFPvs(void *config, s16 delete_flag) {
+void *TAdVIConfigGC::destroy(void *config, s16 delete_flag) {
     if (config != NULL) {
         if ((u32) *(u32 *)((s8 *)config + 0x24) != 0U) {
             ((TObject *)(*(void **)((s8 *)config + 0x24)))->clear_update_suspension();
@@ -152,7 +151,6 @@ void *destroy__13TAdVIConfigGCFPvs(void *config, s16 delete_flag) {
     return config;
 }
 
-extern "C" {
 
 u8 *TAdVIConfigGC::init(const Vec *position, f32 radius) {
     u8 *base = (u8 *)this;
@@ -168,7 +166,6 @@ u8 *TAdVIConfigGC::init(const Vec *position, f32 radius) {
     return base;
 }
 
-}
 
 void TAdVIConfigGC::render() {
     render_dialog();
@@ -220,7 +217,6 @@ TAdVIConfigGC::TAdVIConfigGC(TObject *parent) : TAdYesNoBaseGC(parent) {
     answered = 0;
 }
 
-}
 
 // Sits between the TAdVIConfigGC constructor and the TAdYesNoBaseGC::on_yes_chosen/9 copies that end this unit.
 s32 TLogo::check_progressive_ready() {

@@ -54,9 +54,7 @@ static const size_t shop_price_offset = shop_items_offset + offsetof(TItemData, 
 // roll_shop_weapon_grind and is_section_favored_weapon.
 s32 section_id_favored_grind_table[10] = {9, 7, 2, 4, 8, 10, -1, 3, -1, 5};
 
-extern "C" {
 const char *shop_item_list_window_class_name = "TShopItemListWindow";
-}
 
 TShopItemListWindow::TShopItemListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     s32 count;

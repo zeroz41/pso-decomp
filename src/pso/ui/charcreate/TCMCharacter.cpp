@@ -222,12 +222,10 @@ TObjMotionAction character_making_action_table[9] = {
 // TCMCharacter class-name pointer, stored as the object name by TCMCharacter__ct (inferred)
 
 const char *TCMCharacter::name = "TCMCharacter";
-extern "C" {
 // empty model part copied into every slot by init_entry_tables (inferred)
 __declspec(section ".rodata") CreationModelPart empty_creation_model_part = {0, 0};
 #pragma pop
 __declspec(section ".data") CreationModelNodeState creation_empty_model_node = {0,0};
-}
 void load_creation_shape_rel(TCMCharacter *character);
 s32 scan_creation_resources(void *context);
 

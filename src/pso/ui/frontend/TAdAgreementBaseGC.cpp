@@ -26,7 +26,6 @@ const char *TAdAgreementBaseGC_class_name = "TAdAgreementBaseGC";
 static const NJS_POINT2 agreement_text_window_pos = {85.0f, 384.0f};
 static const NJS_POINT2 agreement_text_window_size = {470.0f, 60.0f};
 
-extern "C" {
 
 void TAdAgreementBaseGC::check_main_task_state() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -105,7 +104,6 @@ void TAdAgreementBaseGC::update_state() {
     }
 }
 
-}
 TAdAgreementBaseGC::~TAdAgreementBaseGC() {
     if (callback_window != NULL) { ((TObject *)callback_window)->queue_destruction(); callback_window = NULL; }
     if (cursor != NULL) { cursor->queue_destruction(); cursor = NULL; }

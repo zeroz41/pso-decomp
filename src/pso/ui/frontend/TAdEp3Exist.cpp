@@ -35,7 +35,6 @@ void *TAdEp3Exist::create_callback_window() {
     return TAdEnterSerialAccessGC::create_callback(&serial_access_window_pos, &serial_access_window_size, draw_message_window);
 }
 
-extern "C" {
 
 
 void TAdEp3Exist::draw_message_window(void *window, void *frame_context) {
@@ -105,7 +104,6 @@ void TAdEp3Exist::run_task() {
     }
 }
 
-}
 TAdEp3Exist::~TAdEp3Exist() {
     if (callback_window != NULL) { ((TObject *)callback_window)->queue_destruction(); callback_window = NULL; }
     if (cursor != NULL) { cursor->queue_destruction(); cursor = NULL; }

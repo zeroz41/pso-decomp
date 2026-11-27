@@ -37,7 +37,6 @@ struct LobbyOverlayVertices {
     ProjectedStripVertex hud_icon[4];
 };
 
-extern "C" {
 s32 lobby_request_flags;
 int info_icon_texture;
 s32 lobby_pulse_color_phase;
@@ -85,7 +84,6 @@ NJS_SPRITE loading_compass_sprite = {
     { 496.0f, 416.0f, 0.0f }, 1.0f, 1.0f, 0, &loading_texture_list, loading_compass_texanim,
 };
 
-}
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)

@@ -579,7 +579,6 @@ s32 poll_memcard_result(s32 chan) {
     card_result_code = 0;
     return 0;
 }
-extern "C" {
 
 s32 TAdPlayerLoadGC::probe_card_slot(saddr chan) {
     s32 memSize;
@@ -799,7 +798,6 @@ s32 TAdPlayerLoadGC::query_memcard_capacity(s32 channel, s32) {
         card_result_code = -0xFD;
         return -0xFD;
     }
-}
 }
 
 s32 start_memcard_format(s32 chan, s32, s32, s32, s32) {

@@ -15,10 +15,8 @@ struct CreationIconGroup {
     s32 sprite_ids[4];
 };
 
-extern "C" {
 extern CreationIconState creation_icon_states[7];
 extern CreationIconState creation_initial_icon_state;
-}
 
 __declspec(section ".data") extern vec2f cm_icon_screen_position;
 

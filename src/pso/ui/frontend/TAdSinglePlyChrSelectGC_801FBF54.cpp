@@ -271,7 +271,6 @@ u16 TAdSinglePlyChrSelectGC::get_split_third_place_count(int client) {
     }
     return 0U;
 }
-extern "C" {
 
 u16 TAdSinglePlyChrSelectGC::get_split_second_place_count(int client) {
     CharacterSaveRecord *character_save_record;
@@ -343,7 +342,6 @@ u16 TAdSinglePlyChrSelectGC::get_online_first_place_count(int client) {
     return 0U;
 }
 
-}
 
 s32 TPlyInventory::append_item(TItemData *item) {
     u8 n = m_num_items;

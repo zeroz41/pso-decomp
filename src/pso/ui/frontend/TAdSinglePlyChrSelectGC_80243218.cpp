@@ -4,7 +4,6 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-extern "C" {
 
 
 s32 TAdSinglePlyChrSelectGC::draw_window_bg(s32 chan, const char *filename, void *buf, s32 blocks) {
@@ -21,4 +20,3 @@ s32 TAdSinglePlyChrSelectGC::load_player_slot(s32 chan, const char *file_name, v
     return start_memcard_read(chan, file_name, buffer, 0);
 }
 
-}

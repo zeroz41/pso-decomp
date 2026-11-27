@@ -12,7 +12,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/NinjaTypes.h"
 
-extern "C" {
 const char *now_loading_class_name = "TNowLoading";
 
 void TNowLoading::render() {  }
@@ -57,7 +56,6 @@ void TNowLoading::run_task() {
 }
 #pragma pop
 
-}
 TNowLoading::~TNowLoading() {
     if (this->m_particles[0] != NULL) { this->m_particles[0]->queue_destruction(); this->m_particles[0] = NULL; }
     if (this->m_particles[1] != NULL) { this->m_particles[1]->queue_destruction(); this->m_particles[1] = NULL; }

@@ -9,7 +9,6 @@ struct CreationModelPart {
     uaddr model;
 };
 
-extern "C" {
 extern CreationModelPart creation_hair_model_parts[10];
 extern CreationModelPart creation_cap_model_parts[10];
 extern CreationModelPart creation_head_model_parts[5];
@@ -18,7 +17,6 @@ extern uaddr chara_select_hair_node_a;
 extern uaddr chara_select_hair_node_b;
 extern uaddr chara_select_head_node;
 extern saddr chara_select_preview_resource;
-}
 extern CharacterAppearanceFields *creation_player_character;
 
 class TCMCharacter;
