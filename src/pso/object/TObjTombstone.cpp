@@ -42,13 +42,12 @@
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/ui/window/TObjBagWarnWin.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
 
 extern "C" {
 
 
-u32 calc_text_width(const char *);
-void draw_menu_font_string(const char *, u32, s32, f32, f32, f32);
 void set_tombstone_position(s32 i, Vec *pos);
 }
 
@@ -473,8 +472,8 @@ void TObjTombstone::update_render_flags() {
 }
 
 void TObjTombstone::draw_name_labels() {
-    u32 c2;
-    u32 c1;
+    s32 c2;
+    s32 c1;
     NJS_POINT2 screen;
     Vec pos;
     f32 m;
