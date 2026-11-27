@@ -260,7 +260,7 @@ s32 TLobby::handle_msg_type1(s32 floor) {
     s32 next_offset;
     s32 record_floor;
     s32 byte_size;
-    u8 *rows;
+    FloorObjectSetRow *rows;
     QuestDatRecord *record;
 
     if ((record = (QuestDatRecord *)quest_dat_buffer) != NULL) {
@@ -274,10 +274,10 @@ s32 TLobby::handle_msg_type1(s32 floor) {
             bswap_32((u32 *)&record_floor);
             bswap_32((u32 *)&byte_size);
             if ((type == 1) && (record_floor == floor)) {
-                rows = (u8 *)(record + 1);
-                convert_quest_object_rows((FloorObjectSetRow *)rows, byte_size);
-                assign_object_ids((FloorObjectSetRow *)rows, (s32)((u32) byte_size / 68U), get_floor_area(record_floor));
-                TLobby::load_object_set_entries(record_floor, rows, byte_size);
+                rows = (FloorObjectSetRow *)(record + 1);
+                convert_quest_object_rows(rows, byte_size);
+                assign_object_ids(rows, (s32)((u32) byte_size / 68U), get_floor_area(record_floor));
+                TLobby::load_object_set_entries(record_floor, (u8 *)rows, byte_size);
                 return 1;
             }
             if (type == 0) {
