@@ -59,7 +59,7 @@ MfciFileEntry *mfci_open_entry(s32 entry, s32 mode) { // inferred: mfCiOpenEntry
 }
 
 // A file name is "<address>.<size>", two 8-digit hex numbers: returns the address, stores the size.
-static u32 mfci_get_adr_size(char *fname, u32 *size) {
+static u8 *mfci_get_adr_size(char *fname, u32 *size) {
     char *end;
     u32 v;
     if (strlen(fname) != 17) {
@@ -82,7 +82,7 @@ static u32 mfci_get_adr_size(char *fname, u32 *size) {
     if (size != NULL) {
         *size = strtoul(end, &end, 16);
     }
-    return v;
+    return (u8 *)v;
 }
 
 // The five calls below take an MfciFileEntry handle: mfci_callback_table holds them next to
@@ -152,7 +152,7 @@ void mfci_stop_transfer(void *handle) {
 
 s32 mfci_request_read(void *handle, s32 sectors, void *buffer) {
     MfciFileEntry *mfci_file_entry = (MfciFileEntry *)handle;
-    uaddr data;
+    u8 *data;
     u32 size;
     s32 copied;
     s32 bytes;
@@ -196,7 +196,7 @@ s32 mfci_request_read(void *handle, s32 sectors, void *buffer) {
     data = mfci_get_adr_size(mfci_file_entry->name, &size);
     copied = mfci_file_entry->request_size > (s32)(size - mfci_file_entry->read_offset)
         ? (s32)(size - mfci_file_entry->read_offset) : mfci_file_entry->request_size;
-    memcpy(buffer, (void *)(data + mfci_file_entry->read_offset), mfci_file_entry->request_size);
+    memcpy(buffer, data + mfci_file_entry->read_offset, mfci_file_entry->request_size);
     memset((u8 *)buffer + copied, 0, mfci_file_entry->request_size - copied);
     mfci_file_entry->read_bytes = mfci_file_entry->read_sectors * mfci_file_entry->block_size;
     mfci_file_entry->position_sector = mfci_file_entry->position_sector + mfci_file_entry->read_sectors;
