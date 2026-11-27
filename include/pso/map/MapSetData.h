@@ -75,7 +75,8 @@ struct AppendOut {
 
 struct PickWeightedEntryHdr { s32 a; s32 table; s32 c; s32 count; };
 
-struct PickWeightedEntryEntry { u8 b0; u8 b1; u8 weight; u8 pad; };
+// slot_index indexes lobby_random_slot_id_table, record_key is the lookup_item_data_record key.
+struct PickWeightedEntryEntry { u8 slot_index; u8 record_key; u8 weight; u8 pad; };
 
 struct BsearchRecordTmp { u8 pad[0x18]; s16 v; u8 pad2[2]; };
 

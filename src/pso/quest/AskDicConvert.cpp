@@ -544,7 +544,7 @@ inline QuestDownloadTextNode *new_raw_text_node(s32 x) {
         n->flags = 0x80;
         n->data[0] = 0;
         n->len = x;
-        n->pad7 = 0;
+        n->extra = 0;
         n->source = NULL;
         n->key = 0xFFFF;
         n->next = NULL;
@@ -592,7 +592,7 @@ QuestDownloadTextNode *build_text_node_chain(
     rem -= c;
     n->len = length;
     text += c;
-    n->pad7 = record->extra;
+    n->extra = record->extra;
     n->source = source;
     n->key = record->key;
     n->attribute = record->attribute;

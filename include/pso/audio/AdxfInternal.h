@@ -10,7 +10,7 @@ struct SjRingBuffer;
 struct AdxfHandle {
     s8 used;
     s8 state;
-    s8 f2;
+    s8 external_buffer; // non-zero: the read buffer is the caller's, stop and the server keep it
     u8 f3;
     AdxStreamFile *stream;
     SjRingBuffer *buffer;

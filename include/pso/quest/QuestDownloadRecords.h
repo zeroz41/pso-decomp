@@ -27,7 +27,7 @@ struct QuestDownloadTextNode {
     u8 flags;
     u8 data[5];
     u8 len;
-    u8 pad7;
+    u8 extra; // the text record's extra byte
     const QuestDownloadItemNode *source;
     u16 key;
     u16 attribute;

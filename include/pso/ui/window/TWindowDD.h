@@ -265,11 +265,11 @@ void handle_6x74_word_select(G_WordSelect_6x74 *cmd);
 // Recent word-select ids (push_recent_id) and the two ws data tables init_ws_data_tables checked.
 struct WsRecentState {
     s16 ids[16];
-    TWindowDDValueList *a;
-    TWindowDDValueList *b;
-    s16 *a0;
-    s16 *b0;
-    s32 n;
+    TWindowDDValueList *data_base;  // TWindowDD::ws_data_base
+    TWindowDDValueList *data_table; // TWindowDD::ws_data_table
+    s16 *data_base_values;
+    s16 *data_table_values;
+    s32 entry_count; // both lists' count, restored by clear_window_dd_nodes
 };
 
 extern WsRecentState ws_recent_state;

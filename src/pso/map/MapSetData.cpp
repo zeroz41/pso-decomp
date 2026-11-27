@@ -243,8 +243,8 @@ void pick_weighted_entry(s32 *key, s32 *slot) {
     for (i = 0; i < n; i++) {
         if (tbl[i].weight != 0) {
             if (r < tbl[i].weight) {
-                *key = tbl[i].b1;
-                *slot = tbl[i].b0;
+                *key = tbl[i].record_key;
+                *slot = tbl[i].slot_index;
                 return;
             }
             r -= tbl[i].weight;
