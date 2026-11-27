@@ -215,12 +215,12 @@ void SymbolChatPreset::clear_entries() {
 void SavedSymbolChatPresets::load_symbol_chat_data() {
     s32 i;
     SymbolChatPreset *preset;
-    saddr data;
+    u8 *data;
     SymbolChatPreset *e;
     e = entries;
-    data = (saddr)load_disc_file("symbolchat.dat");
-    move_data(e, ((const void *)data), (u32)0x420);
-    safe_free(reinterpret_cast<void *>(data));
+    data = load_disc_file("symbolchat.dat");
+    move_data(e, data, 0x420);
+    safe_free(data);
     for (i = 0; i < 6; i++) {
         e[i].bswap_entry();
         preset = get_symbol_chat_preset(i);

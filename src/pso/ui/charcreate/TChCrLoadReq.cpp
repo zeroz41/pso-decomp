@@ -298,12 +298,12 @@ void TChCrLoadReq::load_preview_models() {
     CharacterPreviewModels models;
     s32 i;
     s32 j;
-    uaddr p;
+    void *p;
     for (i = 0; i < 6; i++) {
         len = 0;
-        p = (uaddr)read_ninja_chunk(static_cast<const u8 *>(sample_loads[i]->get_load_buffer()), &len, &tag, NULL, NULL);
-        if (p == 0 || tag != 0x4E4A544C) return;
-        safe_free(reinterpret_cast<void *>(p));
+        p = read_ninja_chunk(static_cast<const u8 *>(sample_loads[i]->get_load_buffer()), &len, &tag, NULL, NULL);
+        if (p == NULL || tag != 0x4E4A544C) return;
+        safe_free(p);
         bufs[i] = (NJS_OBJECT *)read_ninja_chunk(static_cast<const u8 *>(sample_loads[i]->get_load_buffer()), &len, &tag, NULL, NULL);
         if (bufs[i] == 0 || tag != 0x4E4A434D) {
             for (i = 0; i < 6; i++) safe_free(bufs[i]);
