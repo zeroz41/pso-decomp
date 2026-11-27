@@ -255,7 +255,7 @@ void TRaderMapCore::unload_floor_map() {
         }
     }
     if ((void *) TRaderMapCore::floor_map_resource != NULL) {
-        TLobby::free_nodes_with_id((saddr)TRaderMapCore::floor_map_resource);
+        TLobby::free_nodes_with_id(TRaderMapCore::floor_map_resource);
         TRaderMapCore::floor_map_resource = NULL;
     }
     TRaderMapCore::render_mode = 0;

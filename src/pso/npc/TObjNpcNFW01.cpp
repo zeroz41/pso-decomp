@@ -28,7 +28,7 @@ void TObjNpcNFW01::free_resources() {
         texture_gvm = NULL;
     }
     if (shared_object_resource != NULL) {
-        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(shared_object_resource));
+        TLobby::free_nodes_with_id(shared_object_resource);
         shared_object_resource = NULL;
     }
 }

@@ -72,7 +72,7 @@ struct TLobby : public TObject {
     static s32 get_filtered_event_theme();
     static s32 clear_record_flags_a();
     static s32 clear_record_flags_b();
-    static void free_nodes_with_id(uaddr root);
+    static void free_nodes_with_id(const void *root);
     static void dispatch_by_index(s32 index);
     static void open_scroll_text_window(saddr src);
     void render();

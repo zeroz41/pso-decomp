@@ -480,17 +480,17 @@ void TObjNpcBase::run_task() {
     clear_actor_flags(0x1B3FU);
 }
 
-uaddr npc_town_motion_data;
+BmlMotionEntry **npc_town_motion_data;
 
 void TObjNpcBase::free_static() {
-    if (npc_town_motion_data != 0U) {
+    if (npc_town_motion_data != NULL) {
         TLobby::free_nodes_with_id(npc_town_motion_data);
-        npc_town_motion_data = 0U;
+        npc_town_motion_data = NULL;
     }
 }
 
 void TObjNpcBase::load_resources() {
-    npc_town_motion_data = (uaddr)load_encrypted_archive_data("PlyMotionNpcTown.cpt");
+    npc_town_motion_data = (BmlMotionEntry **)load_encrypted_archive_data("PlyMotionNpcTown.cpt");
 }
 
 TObjNpcBase::~TObjNpcBase() {

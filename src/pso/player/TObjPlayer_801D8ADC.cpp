@@ -289,7 +289,7 @@ PlayerLevelTableRow *get_ply_level_table_row(s32 cls, s32 level) {
     return &table[(s8)clamp_class_index(cls)][TObjPlayer::clamp_index_to_max(level)];
 }
 
-void free_ply_level_tbl() { TLobby::free_nodes_with_id((uaddr)ply_level_table); }
+void free_ply_level_tbl() { TLobby::free_nodes_with_id(ply_level_table); }
 
 void load_ply_level_tbl(void) { ply_level_table = (PlayerLevelTableRow ***)load_encrypted_archive_data("PlyLevelTbl.cpt"); }
 

@@ -123,7 +123,7 @@ void TObjEndingPlayer::render() {
 void TObjEndingPlayer::run_task() {}
 
 void free_player_ending_motion() {
-    TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(player_ending_motion_object));
+    TLobby::free_nodes_with_id(player_ending_motion_object);
     player_ending_motion_object = NULL;
     TObjPlayer::free_shared_data();
 }

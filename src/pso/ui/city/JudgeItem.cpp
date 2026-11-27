@@ -175,7 +175,7 @@ void update_item_appraisal(TItemData *appraisal) {
 
 void free_judge_item() {
     if (item_appraisal_rules != NULL) {
-        TLobby::free_nodes_with_id((uaddr)((void*)item_appraisal_rules));
+        TLobby::free_nodes_with_id(item_appraisal_rules);
         item_appraisal_rules = 0U;
     }
 }

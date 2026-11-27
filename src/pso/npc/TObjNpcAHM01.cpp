@@ -36,7 +36,7 @@ void TObjNpcAHM01::free_resources() {
         texture_handle = NULL;
     }
     if (shared_object != NULL) {
-        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(shared_object));
+        TLobby::free_nodes_with_id(shared_object);
         shared_object = NULL;
     }
 }

@@ -27,6 +27,6 @@ void TObjNpcFemale::load_resources() { shared_resource = town_npc_shared_resourc
 TObjNpcFemale::~TObjNpcFemale() {}
 
 TObjNpcFemale::TObjNpcFemale(TObject *parent) : TObjNpcBase(parent) {
-    init_motion((TObjMotionAction *)action_table, (BmlMotionEntry *)*(uaddr *)npc_town_motion_data, 0);
+    init_motion((TObjMotionAction *)action_table, *npc_town_motion_data, 0);
     set_motion_interpolation_flag();
 }

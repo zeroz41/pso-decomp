@@ -351,7 +351,7 @@ void free_armor_random_table(void) {
         index -= 1;
     } while (i >= 0);
     if (armor_random_rel != NULL) {
-        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(armor_random_rel));
+        TLobby::free_nodes_with_id(armor_random_rel);
         armor_random_rel = NULL;
     }
 }

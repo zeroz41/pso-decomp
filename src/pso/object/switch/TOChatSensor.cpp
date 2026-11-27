@@ -80,7 +80,7 @@ void load_chat_sensor(void) { chat_sensor_table = (ChatSensorTable *)load_encryp
 
 void TOChatSensor::destroy_global() {
     if (chat_sensor_table != NULL) {
-        TLobby::free_nodes_with_id((uaddr)chat_sensor_table);
+        TLobby::free_nodes_with_id(chat_sensor_table);
         chat_sensor_table = NULL;
     }
 }

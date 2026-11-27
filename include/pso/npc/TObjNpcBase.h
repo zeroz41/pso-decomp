@@ -53,7 +53,7 @@ extern player_stats npc_default_battle_stats;
 extern EnemyMoveParams npc_movement_parameters;
 extern CollisionBody npc_base_collision_body_desc;
 // PlyMotionNpcTown.cpt, the walk/talk motions the town NPCs share.
-extern uaddr npc_town_motion_data;
+extern BmlMotionEntry **npc_town_motion_data;
 // The shared resource of the plain town NPCs (TObjNpcFemale, TObjNpcMale, TObjNpcFomarl); nothing assigns it.
 extern u32 town_npc_shared_resource;
 
