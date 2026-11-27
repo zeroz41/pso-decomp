@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "pso/player/TPlayerBattleCtrl4P.h"
-#include "pso/player/BattleRuleConfig.h"
+#include "pso/quest/BattleRules.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TDelayedAreaMusic.h"
 #include "pso/object/trap/TOMineTrap.h"
@@ -95,13 +95,13 @@ const char *TPlayerBattleCtrl4P::english_messages[7] = {
 
 const char *TPlayerBattleCtrl4P::class_name = "TPlayerBattleCtrl4P";
 
-void TPlayerBattleCtrl4P::init_instance_with_text(saddr rules, saddr text) {
+void TPlayerBattleCtrl4P::init_instance_with_text(BattleRules *rules, saddr text) {
     if (instance == NULL) {
         new TPlayerBattleCtrl4P(tl_00);
     }
     if (instance != NULL) {
         strncpy(instance->intro_text, (const char *)text, 0x200);
-        instance->rule_data = (BattleRuleConfig *)rules;
+        instance->rule_data = rules;
     }
 }
 
@@ -676,7 +676,7 @@ void TPlayerBattleCtrl4P::set_split_screen_battle_phase(s32 phase) {
 void TPlayerBattleCtrl4P::set_phase_state(s32 state) { this->phase_state = state; }
 
 s32 TPlayerBattleCtrl4P::get_time_limit() {
-    return rule_data->time_limit_seconds * 60;
+    return rule_data->time_limit * 60;
 }
 
 #pragma push
@@ -693,32 +693,32 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
   lobby_rule_settings.reset_settings_to_default();
   if (use_rules != 0)
   {
-    lobby_rule_settings.set_tech_disk_mode(rule_data->rules[0]);
-    lobby_rule_settings.set_weapon_and_armor_mode(rule_data->rules[1]);
-    lobby_rule_settings.set_mag_mode(rule_data->rules[2]);
-    lobby_rule_settings.set_tool_mode(rule_data->rules[3]);
-    lobby_rule_settings.set_trap_mode(rule_data->rules[4]);
-    lobby_rule_settings.set_unused_F817(rule_data->rules[5]);
-    lobby_rule_settings.set_respawn_mode(rule_data->rules[6]);
-    lobby_rule_settings.set_replace_char(rule_data->rules[7]);
-    lobby_rule_settings.set_drop_weapon(rule_data->rules[8]);
-    lobby_rule_settings.set_hide_target_reticle(rule_data->rules[0xA]);
-    lobby_rule_settings.set_meseta_mode(rule_data->rules[0xB]);
-    lobby_rule_settings.set_death_level_up(rule_data->value_c);
+    lobby_rule_settings.set_tech_disk_mode(rule_data->tech_disk_mode);
+    lobby_rule_settings.set_weapon_and_armor_mode(rule_data->weapon_and_armor_mode);
+    lobby_rule_settings.set_mag_mode(rule_data->mag_mode);
+    lobby_rule_settings.set_tool_mode(rule_data->tool_mode);
+    lobby_rule_settings.set_trap_mode(rule_data->trap_mode);
+    lobby_rule_settings.set_unused_F817(rule_data->unused_F817);
+    lobby_rule_settings.set_respawn_mode(rule_data->respawn_mode);
+    lobby_rule_settings.set_replace_char(rule_data->replace_char);
+    lobby_rule_settings.set_drop_weapon(rule_data->drop_weapon);
+    lobby_rule_settings.set_hide_target_reticle(rule_data->hide_target_reticle);
+    lobby_rule_settings.set_meseta_mode(rule_data->meseta_mode);
+    lobby_rule_settings.set_death_level_up(rule_data->death_level_up);
     for (i = 0; i < 4; i++)
     {
-      lobby_rule_settings.set_rule_slot_clamped(rule_data->slot_rules[i], i);
+      lobby_rule_settings.set_rule_slot_clamped(rule_data->trap_counts[i], i);
     }
-    lobby_rule_settings.set_enable_sonar(rule_data->rule_d);
-    lobby_rule_settings.set_sonar_count(rule_data->level);
-    lobby_rule_settings.set_forbid_scape_dolls(rule_data->rule_e);
-    lobby_rule_settings.set_lives((u8)rule_data->volume);
+    lobby_rule_settings.set_enable_sonar(rule_data->enable_sonar);
+    lobby_rule_settings.set_sonar_count(rule_data->sonar_count);
+    lobby_rule_settings.set_forbid_scape_dolls(rule_data->forbid_scape_dolls);
+    lobby_rule_settings.set_lives((u8)rule_data->lives);
     lobby_rule_settings.set_max_tech_level((u8)rule_data->max_tech_level);
-    lobby_rule_settings.set_char_level((s16)rule_data->clamped_index);
-    lobby_rule_settings.set_time_limit((saddr)rule_data->time_limit_seconds);
-    lobby_rule_settings.set_death_tech_level_up((u8)rule_data->value_28);
+    lobby_rule_settings.set_char_level((s16)rule_data->char_level);
+    lobby_rule_settings.set_time_limit((saddr)rule_data->time_limit);
+    lobby_rule_settings.set_death_tech_level_up((u8)rule_data->death_tech_level_up);
     flag = 0;
-    if ((((s32) rule_data->rules[9]) == 1) && (TLobby::get_game_mode() == 4))
+    if ((((s32) rule_data->is_teams) == 1) && (TLobby::get_game_mode() == 4))
     {
       t = 1;
       for (j = 0; j < 4; j++)

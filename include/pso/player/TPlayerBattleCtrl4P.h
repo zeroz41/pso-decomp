@@ -5,7 +5,7 @@
 
 class TObjPlayer;
 class TWindowBase;
-struct BattleRuleConfig;
+struct BattleRules;
 class TWindowMessage;
 class TWindowMenu;
 
@@ -68,7 +68,7 @@ public:
     void initialize_battle();
     virtual void run_task();
 
-    BattleRuleConfig *rule_data;
+    BattleRules *rule_data;
     TWindowMessage *intro_window;
     TWindowMenu *menu_window;
     TWindowBase *player_windows[4];
@@ -111,7 +111,7 @@ public:
     void update();
 
     static void reset_random_enemies_mode(TObject *fade);
-    static void init_instance_with_text(saddr rules, saddr text);
+    static void init_instance_with_text(BattleRules *rules, saddr text);
 
     static const char *class_name;
     static TPlayerBattleCtrl4P *instance;

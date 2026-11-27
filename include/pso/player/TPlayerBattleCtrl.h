@@ -6,6 +6,7 @@
 #include "pso/player/BattleRanking.h"
 
 struct TWindowMessage;
+struct BattleRules;
 struct G_SetBattleModeData_6x7D;
 struct G_BattleScores_6x7F;
 struct TWindowMenu;
@@ -100,7 +101,7 @@ void send_6x7D_set_battle_mode_data(void *battle_ctrl);
 }
 // Battle-mode setup run outside any battle controller.
 void init_char_slots(void);
-void init_battle_ctrl(s32 config, saddr src);
+void init_battle_ctrl(BattleRules *config, saddr src);
 void init_and_set_flag(void);
 void finish_chr_select_scene_init(void);
 void send_battle_mode_params(s8 command, s32 value, s32 extra);

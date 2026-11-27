@@ -19,7 +19,7 @@
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/player/PlayerCommands.h"
 #include "pso/network/protocol/subcmd_6x.h"
-#include "pso/player/BattleRuleConfig.h"
+#include "pso/quest/BattleRules.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/trap/TOMineTrap.h"
@@ -82,7 +82,7 @@ char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
 
 TPlayerBattleCtrl *battle_mode_data_ptr;
 s32 battle_frame_rate;
-s32 battle_config_ptr;
+BattleRules *battle_config_ptr;
 s32 lbl_805D5DA4;
 s32 lbl_805D5DA8;
 s32 battle_scores_received;      // set when the 6x7F final scores arrive
@@ -125,7 +125,6 @@ extern char battle_intro_message_buffer[];
 void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
 
 
-#define CFG (*(BattleRuleConfig **)&battle_config_ptr)
 
 
 BattleRanking duel_result_table[4];
@@ -559,7 +558,7 @@ void TPlayerBattleCtrl::end_battle_mode_cleanup() {
 }
 
 s32 get_battle_time_limit_frames(void) {
-    return CFG->time_limit_seconds * 0x3C;
+    return battle_config_ptr->time_limit * 0x3C;
 }
 
 void TLobby::close_and_play_effect(int client, s32 local) {
@@ -590,31 +589,31 @@ void TPlayerBattleCtrl::apply_game_settings(s32 use_config) {
     lobby_rule_settings.reset_settings_to_default();
     if (use_config != 0) {
         s32 flag;
-        lobby_rule_settings.set_tech_disk_mode(CFG->rules[0]);
-        lobby_rule_settings.set_weapon_and_armor_mode(CFG->rules[1]);
-        lobby_rule_settings.set_mag_mode(CFG->rules[2]);
-        lobby_rule_settings.set_tool_mode(CFG->rules[3]);
-        lobby_rule_settings.set_trap_mode(CFG->rules[4]);
-        lobby_rule_settings.set_unused_F817(CFG->rules[5]);
-        lobby_rule_settings.set_respawn_mode(CFG->rules[6]);
-        lobby_rule_settings.set_replace_char(CFG->rules[7]);
-        lobby_rule_settings.set_drop_weapon(CFG->rules[8]);
-        lobby_rule_settings.set_hide_target_reticle(CFG->rules[0xA]);
-        lobby_rule_settings.set_meseta_mode(CFG->rules[0xB]);
-        lobby_rule_settings.set_death_level_up(CFG->value_c);
+        lobby_rule_settings.set_tech_disk_mode(battle_config_ptr->tech_disk_mode);
+        lobby_rule_settings.set_weapon_and_armor_mode(battle_config_ptr->weapon_and_armor_mode);
+        lobby_rule_settings.set_mag_mode(battle_config_ptr->mag_mode);
+        lobby_rule_settings.set_tool_mode(battle_config_ptr->tool_mode);
+        lobby_rule_settings.set_trap_mode(battle_config_ptr->trap_mode);
+        lobby_rule_settings.set_unused_F817(battle_config_ptr->unused_F817);
+        lobby_rule_settings.set_respawn_mode(battle_config_ptr->respawn_mode);
+        lobby_rule_settings.set_replace_char(battle_config_ptr->replace_char);
+        lobby_rule_settings.set_drop_weapon(battle_config_ptr->drop_weapon);
+        lobby_rule_settings.set_hide_target_reticle(battle_config_ptr->hide_target_reticle);
+        lobby_rule_settings.set_meseta_mode(battle_config_ptr->meseta_mode);
+        lobby_rule_settings.set_death_level_up(battle_config_ptr->death_level_up);
         for (s32 i = 0; i < 4; i++) {
-            lobby_rule_settings.set_rule_slot_clamped(CFG->slot_rules[i], i);
+            lobby_rule_settings.set_rule_slot_clamped(battle_config_ptr->trap_counts[i], i);
         }
-        lobby_rule_settings.set_enable_sonar(CFG->rule_d);
-        lobby_rule_settings.set_sonar_count(CFG->level);
-        lobby_rule_settings.set_forbid_scape_dolls(CFG->rule_e);
-        lobby_rule_settings.set_lives((u8) CFG->volume);
-        lobby_rule_settings.set_max_tech_level((u8) CFG->max_tech_level);
-        lobby_rule_settings.set_char_level((s16) CFG->clamped_index);
-        lobby_rule_settings.set_time_limit(CFG->time_limit_seconds);
-        lobby_rule_settings.set_death_tech_level_up((u8) CFG->value_28);
+        lobby_rule_settings.set_enable_sonar(battle_config_ptr->enable_sonar);
+        lobby_rule_settings.set_sonar_count(battle_config_ptr->sonar_count);
+        lobby_rule_settings.set_forbid_scape_dolls(battle_config_ptr->forbid_scape_dolls);
+        lobby_rule_settings.set_lives((u8) battle_config_ptr->lives);
+        lobby_rule_settings.set_max_tech_level((u8) battle_config_ptr->max_tech_level);
+        lobby_rule_settings.set_char_level((s16) battle_config_ptr->char_level);
+        lobby_rule_settings.set_time_limit(battle_config_ptr->time_limit);
+        lobby_rule_settings.set_death_tech_level_up((u8) battle_config_ptr->death_tech_level_up);
         flag = 0;
-        if ((s32) CFG->rules[9] == 1 && TLobby::get_game_mode() == 4) {
+        if ((s32) battle_config_ptr->is_teams == 1 && TLobby::get_game_mode() == 4) {
             s32 toggle = 1;
             for (s32 i = 0; i < 4; i++) {
                 TObjPlayer *p = get_player_by_client_id(i);
@@ -744,7 +743,7 @@ void free_char_slots(void) {
     }
 }
 
-void init_battle_ctrl(s32 config, saddr src) {
+void init_battle_ctrl(BattleRules *config, saddr src) {
     if (battle_mode_data_ptr == NULL) {
         battle_mode_data_ptr = new TPlayerBattleCtrl(tl_00);
     }

@@ -3061,10 +3061,10 @@ void qst_op_ba_start(void) {
     s32 src;
     src = qst_args[0].i;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        TPlayerBattleCtrl4P::init_instance_with_text((saddr)&battle_rules, src);
+        TPlayerBattleCtrl4P::init_instance_with_text(&battle_rules, src);
         return;
     }
-    init_battle_ctrl((saddr)&battle_rules, src);
+    init_battle_ctrl(&battle_rules, src);
 }
 
 void qst_op_ba_teams() {
