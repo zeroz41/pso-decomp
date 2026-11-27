@@ -292,7 +292,7 @@ pso/boss/goldragon/TBoss8DragonDemo.cpp
 pso/boss/goldragon/TBoss8DragonEffBreath.cpp
 pso/boss/goldragon/TBoss8DragonEffBullet.cpp
 pso/boss/goldragon/TBoss8DragonEffTail.cpp
-pso/boss/goldragon/TBoss8Dragon_8005D6F4.cpp
+pso/boss/goldragon/TBoss5Gryphon_Flags.cpp
 pso/boss/goldragon/BossAssetVariant.cpp
 pso/boss/goldragon/TBoss8Dragon_80067034.cpp
 pso/boss/goldragon/AreaAttackHistory.cpp
@@ -494,7 +494,7 @@ pso/weapon/TItemWeaponMechgun.cpp
 pso/effect/item/TItemWpnCardEffect.cpp
 pso/object/container/ContainerIdoChild.cpp
 pso/object/container/TObjContainerIdo.cpp
-pso/object/container/TObjContainerIdo_801A0B94.cpp
+pso/object/container/TObjContainerIdoBase.cpp
 pso/object/container/TObjContainerItem.cpp
 pso/object/container/TObjContainerJung.cpp
 pso/item/TObjItemLight.cpp
@@ -680,7 +680,7 @@ pso/system/TLanguageFontPalette.cpp
 pso/object/container/TContainerAncient01R.cpp
 pso/ui/TLevelSelect.cpp
 pso/system/TLoadCtrl.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.cpp
+pso/ui/frontend/TAdSinglePlyChrSelectGC_SelectState.cpp
 pso/audio/SoundPlayback.cpp
 pso/map/FloorTransition.cpp
 pso/system/TTokenListParse.cpp
@@ -950,7 +950,7 @@ pso/quest/TQuestListOnline.cpp
 pso/quest/TQuestThreadBoard.cpp
 pso/quest/TQuestVmDownLoadServer.cpp
 pso/quest/ObjectUpdateSuspension.cpp
-pso/quest/TQuestVmDownLoadServer_801F9010.cpp
+pso/quest/TQuestVmDownLoadServer_Reset.cpp
 pso/quest/QuestDownloadRequests.cpp
 pso/quest/AskDicFile.cpp
 pso/quest/QuestDownloadNameCache.cpp
@@ -1024,8 +1024,8 @@ pso/ui/window/TWindowCost.cpp
 pso/ui/window/TWindowCtrl.cpp
 pso/ui/window/TWindowCtrlMain.cpp
 pso/ui/window/TFontSmallLobby.cpp
-pso/ui/window/TWindowCtrl_801FBA28.cpp
-pso/ui/window/TWindowCtrl_80269FB0.cpp
+pso/ui/window/TWindowCtrl_Flags.cpp
+pso/ui/window/TWindowBase_Position.cpp
 pso/ui/window/WordSelectLayout.cpp
 pso/ui/window/TWindowWordSelectMode.cpp
 pso/ui/window/TWindowDD_WS_ScrollBar.cpp
@@ -1052,8 +1052,8 @@ pso/ui/window/KeyboardTextBuffer.cpp
 pso/ui/window/TWindowKeyBoardSoft_80228BEC.cpp
 pso/ui/window/WindowDrawContext.cpp
 pso/ui/window/TWindowLoadItemTexture.cpp
-pso/ui/window/TWindowLockOn_800F5DD8.cpp
-pso/ui/window/TWindowLockOn_8026CB80.cpp
+pso/ui/window/TObjEnemy_RtIndex.cpp
+pso/ui/window/WindowLayoutY.cpp
 pso/ui/window/TWindowMainMenu.cpp
 pso/ui/window/TWindowMainMenu1P.cpp
 pso/ui/window/TWindowMainMenu4P.cpp
@@ -1069,7 +1069,7 @@ pso/ui/window/TWindowMessageQuest.cpp
 pso/ui/window/TWindowMessageScroll.cpp
 pso/ui/window/TWindowMessageYesNo.cpp
 pso/ui/window/TWindowOptionCtrl.cpp
-pso/ui/window/TWindowOptionCtrl_8026CBA4.cpp
+pso/ui/window/WindowLayoutOrder.cpp
 pso/ui/window/TSnapshotFileSetup.cpp
 pso/ui/window/TWindowPartyStatus.cpp
 pso/ui/window/TWindowQuantity.cpp
@@ -1078,7 +1078,7 @@ pso/ui/window/TWindowSetLevelUp.cpp
 pso/ui/window/WindowScrollBar.cpp
 pso/ui/window/TWindowShop.cpp
 pso/ui/window/TWindowShortCut.cpp
-pso/ui/window/TWindowShortListCtrl_80221828.cpp
+pso/ui/window/MenuEntrySetters.cpp
 pso/ui/window/TWindowShortListCtrl.cpp
 pso/ui/window/TWindowSimpleStatus.cpp
 pso/ui/window/TWindowSnapShot.cpp
@@ -1088,7 +1088,7 @@ pso/ui/window/TWindowSubAreaMap.cpp
 pso/ui/window/TWindowSubAreaMapDisp.cpp
 pso/ui/window/TWindowSubComCardList.cpp
 pso/ui/window/ChallengeWindow.cpp
-pso/ui/window/TWindowSubComCard_80073DB8.cpp
+pso/ui/window/TWindowMenu_Cancelled.cpp
 pso/ui/window/TWindowSubComCard_8007A810.cpp
 pso/ui/window/ProfanityFilter.cpp
 pso/ui/window/TWindowBase.cpp
@@ -1099,13 +1099,13 @@ pso/ui/window/TWindowSubCustomSelect.cpp
 pso/ui/window/TWindowSubEquip.cpp
 pso/ui/window/TWindowSubEquipKind.cpp
 pso/ui/window/TWindowSubEquipList.cpp
-pso/ui/window/TWindowSubEquip_80279044.cpp
+pso/ui/window/TWindowMenuIconLine_Equipment.cpp
 pso/ui/window/TWindowSubGameEnd.cpp
 pso/ui/window/TWindowSubInformationBoard.cpp
-pso/ui/window/TWindowSubInformationBoard_8034C224.cpp
+pso/ui/window/TWindowSubInformationBoard_Response.cpp
 pso/ui/window/TWindowSubItem.cpp
 pso/ui/window/TWindowSubItemList.cpp
-pso/ui/window/TWindowSubItem_801F8FD4.cpp
+pso/ui/window/TWindowMenuIconLine_Decided.cpp
 pso/ui/window/TWindowSubLog.cpp
 pso/ui/window/TWindowSubMag.cpp
 pso/ui/window/TWindowSubMagPhoton.cpp
@@ -1145,7 +1145,7 @@ pso/ui/chat/TWindowSubSymbolChatFaceType.cpp
 pso/ui/chat/TWindowSubSymbolChatHelp.cpp
 pso/ui/chat/TWindowSubSymbolChatPartsSet.cpp
 pso/ui/chat/SymbolChatPreset.cpp
-pso/ui/chat/TWindowSubSymbolChat_802ACF5C.cpp
+pso/ui/chat/ZeroVec2Callback.cpp
 pso/ui/window/TWindowSubTechnique.cpp
 pso/ui/window/TWindowSubTrade.cpp
 pso/ui/window/TWindowSubTradeMain.cpp
@@ -1300,7 +1300,7 @@ pso/object/ambient/TObjRainCtrl.cpp
 pso/object/lobby/TObjRainbowLobby.cpp
 pso/ui/window/TObjResultWin.cpp
 pso/object/TObjRoomId.cpp
-pso/object/TObjRoomId_800FD8C8.cpp
+pso/object/TObjRoomId_Current.cpp
 pso/object/seabed/TObjSeabedSuisoBrakable.cpp
 pso/object/TObjSinBoard.cpp
 pso/ui/window/TObjSoloPlayWin.cpp
@@ -1355,7 +1355,7 @@ pso/player/PlayerAttackController.cpp
 pso/player/TObjPlayer_801D6BC8.cpp
 pso/player/DamageStatSlot.cpp
 pso/player/TObjEndingPlayer.cpp
-pso/player/TObjPlayer_801D8ADC.cpp
+pso/player/PlayerClassParams.cpp
 pso/player/PlayerTechniqueQueries.cpp
 pso/player/TObjPlayerTechniqueLevels.cpp
 pso/player/PlayerTechniqueState.cpp
@@ -1449,7 +1449,7 @@ pso/ui/frontend/TAdEnterBaseGC.cpp
 pso/ui/frontend/TAdEnterPPPPassGC.cpp
 pso/ui/frontend/TAdEnterPasswordGC.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC.cpp
-pso/ui/frontend/TAdEnterSerialAccessGC_802ACF04.cpp
+pso/ui/frontend/TAdEnterSerialAccessGC_Callback.cpp
 pso/ui/frontend/TAdEp3Exist.cpp
 pso/ui/frontend/TAdExNetConfirmGC.cpp
 pso/ui/frontend/TAdFadeGC.cpp
@@ -1498,7 +1498,7 @@ pso/ui/frontend/TAdSEGAlogo.cpp
 pso/ui/frontend/TAdSelectCurGC.cpp
 pso/ui/frontend/TAdSelectTxtGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.cpp
+pso/ui/frontend/TAdSinglePlyChrSelectGC_GlobalState.cpp
 pso/unk/TBattleProximitySound.cpp
 pso/ui/frontend/TTextureWave.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp
@@ -1507,7 +1507,7 @@ pso/ui/city/BankItemRecord.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80243218.cpp
 pso/ui/charcreate/CharacterLoadBuffer.cpp
 pso/ui/charcreate/TCMCharacter.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_802E3AE4.cpp
+pso/ui/frontend/TAdSinglePlyChrSelectGC_BlockCounts.cpp
 pso/ui/frontend/TTitleScene.cpp
 pso/ui/TCharSaveSequence.cpp
 pso/ui/frontend/TAdSnAkPassConfirmGC.cpp
@@ -1520,7 +1520,7 @@ pso/ui/TTitleMenu.cpp
 pso/ui/frontend/TAdTrialModemChkGC.cpp
 pso/ui/frontend/ntUtl.cpp
 pso/ui/frontend/TAdVIConfigGC.cpp
-pso/ui/frontend/TAdVIConfigGC_80308200.cpp
+pso/ui/frontend/TAdVIConfigGC_DefaultChoice.cpp
 pso/ui/frontend/TAdWarningBaseGC.cpp
 pso/ui/frontend/TAdYesNoBaseGC.cpp
 pso/quest/challenge/TChallenge4PItemSelect.cpp

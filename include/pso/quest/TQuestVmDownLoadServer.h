@@ -100,6 +100,8 @@ extern __declspec(section ".data") u32 download_rng_seed_pair[2];
 
 void seed_download_rng(s32 seed);
 
+void reset_download_graph(void);
+
 // One downloaded quest file (begin_file_download fills one per extension: .dat, .bin, .pvr, .gba);
 // the type name is inferred. size is the packet's file size, +8 for .dat/.bin whose buffer starts with a
 // QuestDownloadFile header (receive_file_chunk writes their chunks at data + 8); data is alloc(size).

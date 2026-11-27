@@ -514,7 +514,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -str reuse,readonly: "PlyEndingMotionData.rel" (TObjEndingPlayer) and "PlyLevelTbl.cpt" 0x804492E8
     # (801D8ADC) sit in .rodata.
     "pso/player/TObjEndingPlayer.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/player/TObjPlayer_801D8ADC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/player/PlayerClassParams.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # vtables come out TCameraConversation, TCameraPan then TCameraFixed (the text order of their
     # dtors): written last to first, deferred.
     "pso/camera/TCameraConversation.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

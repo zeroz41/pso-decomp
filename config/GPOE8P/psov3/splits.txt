@@ -108,7 +108,7 @@ pso/ui/frontend/TitleBackground.cpp:
 	.sbss       start:0x805D4A58 end:0x805D4A78
 	.sdata2     start:0x805D7E80 end:0x805D7E8C
 
-pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.cpp:
+pso/ui/frontend/TAdSinglePlyChrSelectGC_SelectState.cpp:
 	.text       start:0x8001C5E8 end:0x8001C5F8
 	.sbss       start:0x805D4A78 end:0x805D4A80
 
@@ -147,7 +147,7 @@ pso/enemy/BattleParamTables.cpp:
 	.sbss       start:0x805D4AA0 end:0x805D4AC8
 	.sdata2     start:0x805D7EC8 end:0x805D7F10
 
-pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.cpp:
+pso/ui/frontend/TAdSinglePlyChrSelectGC_GlobalState.cpp:
 	.text       start:0x8001ED80 end:0x8001ED90
 
 pso/system/BmlResource.cpp:
@@ -598,7 +598,7 @@ pso/boss/darkfalz/TBoss4Zako.cpp:
 	.sbss       start:0x805D4D88 end:0x805D4D90
 	.sdata2     start:0x805D8CB8 end:0x805D8D48
 
-pso/boss/goldragon/TBoss8Dragon_8005D6F4.cpp:
+pso/boss/goldragon/TBoss5Gryphon_Flags.cpp:
 	.text       start:0x8005D6F4 end:0x8005D700
 
 pso/boss/goldragon/BossAssetVariant.cpp:
@@ -839,7 +839,7 @@ pso/ui/window/TObjDeadListWin.cpp:
 pso/quest/QuestActiveFlag.cpp:
 	.text       start:0x80073DAC end:0x80073DB8
 
-pso/ui/window/TWindowSubComCard_80073DB8.cpp:
+pso/ui/window/TWindowMenu_Cancelled.cpp:
 	.text       start:0x80073DB8 end:0x80073DC4
 
 pso/ui/window/TObjNewFloorWin.cpp:
@@ -1728,7 +1728,7 @@ pso/render/ChunkTextureStripCollector.cpp:
 	.text       start:0x800F58A4 end:0x800F5DD8
 	.sbss       start:0x805D5318 end:0x805D5324
 
-pso/ui/window/TWindowLockOn_800F5DD8.cpp:
+pso/ui/window/TObjEnemy_RtIndex.cpp:
 	.text       start:0x800F5DD8 end:0x800F5DE0
 
 pso/object/TObjControl.cpp:
@@ -1817,7 +1817,7 @@ pso/player/LocalClientId.cpp:
 	.text       start:0x800FD78C end:0x800FD8B4
 	.sbss       start:0x805D53A0 end:0x805D53B8
 
-pso/object/TObjRoomId_800FD8C8.cpp:
+pso/object/TObjRoomId_Current.cpp:
 	.text       start:0x800FD8B4 end:0x800FD944
 	.sbss       start:0x805D53B8 end:0x805D53C0
 
@@ -4316,7 +4316,7 @@ pso/object/warp/TObjWarpLobby.cpp:
 	.sbss       start:0x805D5CC8 end:0x805D5CD0
 	.sdata2     start:0x805DC058 end:0x805DC074
 
-pso/object/container/TObjContainerIdo_801A0B94.cpp:
+pso/object/container/TObjContainerIdoBase.cpp:
 	.text       start:0x801A0B94 end:0x801A0C38
 	.data       start:0x804B97C0 end:0x804B9800
 	.sdata2     start:0x805DC078 end:0x805DC080
@@ -4628,7 +4628,7 @@ pso/player/PlayerClassStats.cpp:
 	.rodata     start:0x804471A8 end:0x804492DC
 	.data       start:0x804C4680 end:0x804C46B0
 
-pso/player/TObjPlayer_801D8ADC.cpp:
+pso/player/PlayerClassParams.cpp:
 	.text       start:0x801D8ADC end:0x801D94C8
 	.rodata     start:0x804492E0 end:0x804493E8
 	.data       start:0x804C46B0 end:0x804C4A20
@@ -4818,10 +4818,10 @@ pso/quest/TQuestVmDownLoadServer.cpp:
 	.sbss       start:0x805D5F00 end:0x805D5F28
 	.sdata2     start:0x805DC510 end:0x805DC528
 
-pso/ui/window/TWindowSubItem_801F8FD4.cpp:
+pso/ui/window/TWindowMenuIconLine_Decided.cpp:
 	.text       start:0x801F8FD4 end:0x801F9010
 
-pso/quest/TQuestVmDownLoadServer_801F9010.cpp:
+pso/quest/TQuestVmDownLoadServer_Reset.cpp:
 	.text       start:0x801F9010 end:0x801F9058
 
 pso/ui/hud/TRaderMapCore.cpp:
@@ -4836,7 +4836,7 @@ pso/ui/hud/TRaderMapCore.cpp:
 pso/system/scene/SceneResourceIndex.cpp:
 	.text       start:0x801FBA20 end:0x801FBA28
 
-pso/ui/window/TWindowCtrl_801FBA28.cpp:
+pso/ui/window/TWindowCtrl_Flags.cpp:
 	.text       start:0x801FBA28 end:0x801FBA48
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp:
@@ -5106,7 +5106,7 @@ pso/ui/city/TShopJudgmentItemWindow.cpp:
 pso/ui/city/AppraisalScore.cpp:
 	.text       start:0x80221820 end:0x80221828
 
-pso/ui/window/TWindowShortListCtrl_80221828.cpp:
+pso/ui/window/MenuEntrySetters.cpp:
 	.text       start:0x80221828 end:0x80221844
 
 pso/ui/city/TShopKeepItemWindow.cpp:
@@ -5888,7 +5888,7 @@ pso/ui/window/TWindowMessage.cpp:
 	.sdata      start:0x805D3980 end:0x805D3984
 	.sdata2     start:0x805DD218 end:0x805DD240
 
-pso/ui/window/TWindowCtrl_80269FB0.cpp:
+pso/ui/window/TWindowBase_Position.cpp:
 	.text       start:0x80269FB0 end:0x80269FE8
 
 pso/ui/window/MessageInformationWindow.cpp:
@@ -5944,10 +5944,10 @@ pso/math/Vec2Constants.cpp:
 	.text       start:0x8026CB5C end:0x8026CB80
 	.rodata     start:0x8044F4C8 end:0x8044F4E0
 
-pso/ui/window/TWindowLockOn_8026CB80.cpp:
+pso/ui/window/WindowLayoutY.cpp:
 	.text       start:0x8026CB80 end:0x8026CBA4
 
-pso/ui/window/TWindowOptionCtrl_8026CBA4.cpp:
+pso/ui/window/WindowLayoutOrder.cpp:
 	.text       start:0x8026CBA4 end:0x8026CE44
 	.sdata2     start:0x805DD2C8 end:0x805DD2D0
 
@@ -6088,7 +6088,7 @@ pso/ui/window/TWindowSubEquipKind.cpp:
 	.sdata      start:0x805D3A38 end:0x805D3A40
 	.sdata2     start:0x805DD5F8 end:0x805DD61C
 
-pso/ui/window/TWindowSubEquip_80279044.cpp:
+pso/ui/window/TWindowMenuIconLine_Equipment.cpp:
 	.text       start:0x80279044 end:0x8027929C
 	.sdata2     start:0x805DD620 end:0x805DD628
 
@@ -6841,10 +6841,10 @@ pso/ui/window/TWindowCallBack.cpp:
 	.data       start:0x804DE360 end:0x804DE38C
 	.sdata      start:0x805D3E58 end:0x805D3E60
 
-pso/ui/frontend/TAdEnterSerialAccessGC_802ACF04.cpp:
+pso/ui/frontend/TAdEnterSerialAccessGC_Callback.cpp:
 	.text       start:0x802ACF04 end:0x802ACF5C
 
-pso/ui/chat/TWindowSubSymbolChat_802ACF5C.cpp:
+pso/ui/chat/ZeroVec2Callback.cpp:
 	.text       start:0x802ACF5C end:0x802ACF9C
 
 pso/ui/window/TWindowEffectLight.cpp:
@@ -7205,7 +7205,7 @@ pso/ui/frontend/TAdTimeSetGC.cpp:
 	.sbss       start:0x805D68E0 end:0x805D68E8
 	.sdata2     start:0x805DE8E8 end:0x805DE910
 
-pso/ui/frontend/TAdSinglePlyChrSelectGC_802E3AE4.cpp:
+pso/ui/frontend/TAdSinglePlyChrSelectGC_BlockCounts.cpp:
 	.text       start:0x802E3AE4 end:0x802E3AF4
 
 pso/weapon/TItemAttackCol.cpp:
@@ -7513,7 +7513,7 @@ pso/ui/frontend/TAdVIConfigGC.cpp:
 	.data       start:0x804E71B8 end:0x804E71F8
 	.sdata      start:0x805D4090 end:0x805D4098
 
-pso/ui/frontend/TAdVIConfigGC_80308200.cpp:
+pso/ui/frontend/TAdVIConfigGC_DefaultChoice.cpp:
 	.text       start:0x80308200 end:0x80308208
 
 pso/weapon/TItemWeaponNug2000Bazooka.cpp:
@@ -8365,7 +8365,7 @@ pso/network/InfoBoardState.cpp:
 	.text       start:0x8034C18C end:0x8034C224
 	.sbss       start:0x805D6E98 end:0x805D6EA0
 
-pso/ui/window/TWindowSubInformationBoard_8034C224.cpp:
+pso/ui/window/TWindowSubInformationBoard_Response.cpp:
 	.text       start:0x8034C224 end:0x8034C23C
 
 pso/network/InfoBoardRequests.cpp:
