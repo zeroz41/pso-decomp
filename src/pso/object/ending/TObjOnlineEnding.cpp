@@ -164,8 +164,8 @@ void TBoss4DarkFalz::free_global_instance() {
     }
 }
 
-void *TObjOnlineEnding::create(void *parent) {
-    return new TObjOnlineEnding(static_cast<TObject *>(parent));
+TObjOnlineEnding *TObjOnlineEnding::create(TObject *parent) {
+    return new TObjOnlineEnding(parent);
 }
 
 #pragma push

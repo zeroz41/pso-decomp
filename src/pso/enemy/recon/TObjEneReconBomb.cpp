@@ -194,8 +194,8 @@ const char *recon_bomb_name = "TObjEneReconBomb";
 
 void TObjEneReconBomb::release_resources() {  }
 
-void *TObjEneReconBomb::create(void *parent, void *recon, void *pos) {
-    return new TObjEneReconBomb((TObject *)parent, (TObjEneRecon *)recon, (const Vec *)pos);
+TObjEneReconBomb *TObjEneReconBomb::create(TObject *parent, TObjEneRecon *recon, const Vec *pos) {
+    return new TObjEneReconBomb(parent, recon, pos);
 }
 
 void TObjEneReconBomb::load_resources() { recon_bomb_bml_resource = TObjEneRecobox::get_bml_resource(); }

@@ -758,9 +758,9 @@ s32 TObjBase::is_alive() {
     return (u8)alive;
 }
 
-int is_target_ranger(void* p) { return (((TObjPlayer *)p)->appearance.classFlags & CLASS_FLAG_RANGER) != 0; }
+int is_target_ranger(TObjChara *target) { return (static_cast<TObjPlayer *>(target)->appearance.classFlags & CLASS_FLAG_RANGER) != 0; }
 
-int is_target_android(void* p) { return (((TObjPlayer *)p)->appearance.classFlags & CLASS_FLAG_ANDROID) != 0; }
+int is_target_android(TObjChara *target) { return (static_cast<TObjPlayer *>(target)->appearance.classFlags & CLASS_FLAG_ANDROID) != 0; }
 
 void TObjEneDD::setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *params, AreaAttackHistory *attack_history) {
     obj_ene_dd_instance->set_owner(owner);
@@ -1058,7 +1058,7 @@ void TObjEneDD_ST::enemy_set_target_id(u16 id) {
     }
 }
 
-void TObjEneDD_ST::set_target_player(void *player) {
+void TObjEneDD_ST::set_target_player(TObjChara *player) {
     s32 n;
     s32 i;
     target_id = 0xFFFF;
@@ -1066,8 +1066,8 @@ void TObjEneDD_ST::set_target_player(void *player) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         if (player == TObjPlayer::get_player_data(i)) {
-            target_id = ((TObjBase *)(player))->get_entity_id();
-            current_target = (TObjChara *)player;
+            target_id = player->get_entity_id();
+            current_target = player;
             return;
         }
     }

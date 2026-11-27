@@ -611,7 +611,7 @@ s32 TObjEneDellBiter::acquire_target(f32 distance) {
 void TObjEneDellBiter::retarget_attacker() {
     u16 id = attacker_id;
     if (id < 0x1000U) {
-        void *player = get_player_by_client_id(id);
+        TObjPlayer *player = get_player_by_client_id(id);
         if (player != NULL) {
             set_target_player(player);
         }

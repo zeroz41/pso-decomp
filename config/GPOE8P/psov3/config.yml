@@ -510,7 +510,7 @@ force_active:
   - attack_nearby_players__20TContainerAncient01RFf
   - attack_nearby_players__19TContainerAncient01Ff
   - get_bml_resource__19TContainerAncient01Fv
-  - __ct__10TDPBShowerFP7TObjectPv
+  - __ct__10TDPBShowerFP7TObjectPC3Vec
   - class_name__9TEffGuard
   - class_name__7TEffHit
   - __ct__16TEffIndirectCtrlFlP7TObject
@@ -1240,7 +1240,7 @@ force_active:
   - set_melee_body_flags__13TObjEneMe1GeeFv
   - climb_toward__13TObjEneMe1GeeFf
   - me1_gi_gue_barrier_barrier_resource_object
-  - __ct__22TObjEneMe1GiGueBarrierFP7TObjectPv
+  - __ct__22TObjEneMe1GiGueBarrierFP7TObjectP15TObjEneMe1GiGue
   - __ct__22TObjEneMe1GiGueMissileFP8TObjBaseP3VecP3Vecff
   - __ct__15TObjEneMe1GiGueFP7TObjectPv
   - me1_gi_gue_model_filename_table
@@ -5430,7 +5430,7 @@ force_active:
   - create__22TObjEneSlimeTailAttackFlPC3VeclP15TObjEneSlimeOne
   - create__22TQuestVmDownLoadServerFv
   - create__18T_ATS_DrawCalendarFv
-  - create__23TObjOnlineEndingHexLineFPvPv
+  - create__23TObjOnlineEndingHexLineFP7TObjectP14EndingHexPoint
   - create_action_menu__13TWindowSubMagFl
   - create_back_objects__20TAdSystemFileCheckGCFv
   - create_backgrounds__12TAdTimeSetGCFv
@@ -17734,7 +17734,7 @@ force_active:
   - "adxm_set_error_callback"
   - __ct__10TOMineTrapFP8TObjBasess
   - find_target_in_range__10TOMineTrapFv
-  - is_target_in_list__6TOMineFPv
+  - is_target_in_list__6TOMineFP8TObjBase
   - play_trigger_effects__6TOMineFv
   - sync_position__6TOMineFv
 # --- force_active (END) ---

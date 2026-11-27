@@ -260,9 +260,9 @@ void chat_sensor_on_floor_load(void) {  }
 
 void chat_sensor_on_floor_free(void) {  }
 
-void TOChatSensorCapture::create_instance(void *parent) {
+void TOChatSensorCapture::create_instance(TObject *parent) {
     if (chat_sensor_capture_instance == NULL) {
-        new TOChatSensorCapture((TObject *)parent);
+        new TOChatSensorCapture(parent);
     }
 }
 

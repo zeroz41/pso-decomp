@@ -117,14 +117,14 @@ void TBoss6DPB::spawn_shower() {
 }
 #pragma pop
 
-void* create_TDPBShower(TObject *parent, void* position) {
+TDPBShower *create_TDPBShower(TObject *parent, const Vec *position) {
     return new TDPBShower(parent, position);
 }
 
-TDPBShower::TDPBShower(TObject *parent, void *pos) : TObject(parent) {
+TDPBShower::TDPBShower(TObject *parent, const Vec *pos) : TObject(parent) {
     m_name = TDPBShower::class_name;
     m_countdown = 5;
-    VecCopy(&position, (const Vec *)pos);
+    VecCopy(&position, pos);
     position.y += 300.0f;
     if ((particle_emitter = create_particle_emitter(&position, 0x134)) != NULL) {
         particle_emitter->set_flags(0x40);

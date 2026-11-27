@@ -31,7 +31,7 @@ public:
 
     void step_line();
     static s32 calc_rotated_hex_point(NJS_POINT2 *out, EndingHexPoint *point);
-    static void *create(void *parent, void *start);
+    static TObjOnlineEndingHexLine *create(TObject *parent, EndingHexPoint *start);
 
     // The live line parameters; TObjOnlineEndingHexMove eases them toward
     // online_ending_hex_line_param.

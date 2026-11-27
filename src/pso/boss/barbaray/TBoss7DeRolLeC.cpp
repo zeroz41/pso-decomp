@@ -1191,7 +1191,7 @@ void TBoss7DeRolLeC::turn_off_laser_light() {
 }
 void TBoss7DeRolLeC::pick_random_target() {
     s32 n;
-    u8 *p;
+    TObjPlayer *p;
     s32 idx;
     s32 i;
     n = TLobby::get_game_mode();
@@ -1200,15 +1200,15 @@ void TBoss7DeRolLeC::pick_random_target() {
         return;
     }
     if (n == 1) {
-        p = (u8 *)TObjPlayer::get_player_data(0);
+        p = TObjPlayer::get_player_data(0);
         set_target_player(p);
         return;
     }
     idx = (s32)floor_to_float((f32)n * random_ratio());
     enemy_clear_target();
     for (i = 0; i < n; i++) {
-        p = (u8 *)TObjPlayer::get_player_data(idx);
-        if (((TObjBase *)p)->is_alive() != 0) {
+        p = TObjPlayer::get_player_data(idx);
+        if (p->is_alive() != 0) {
             set_target_player(p);
             return;
         }

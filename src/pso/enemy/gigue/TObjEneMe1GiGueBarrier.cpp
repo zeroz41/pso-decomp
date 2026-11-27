@@ -92,10 +92,10 @@ TObjEneMe1GiGueBarrier::~TObjEneMe1GiGueBarrier() {
     }
 }
 
-TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner_obj) : TObjMotion(parent) {
+TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, TObjEneMe1GiGue *owner_obj) : TObjMotion(parent) {
     BmlModelEntry *models;
     m_name = me1_gi_gue_barrier_name;
-    owner = (TObjEneMe1GiGue *)owner_obj;
+    owner = owner_obj;
     owner_id = owner->get_entity_id();
     VecCopy(&position, owner->update_and_get_pos());
     rotation_y = owner->get_rotation_y();
@@ -114,8 +114,8 @@ TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner_obj)
 
 void TObjEneMe1GiGueBarrier::free_global() {}
 
-void *TObjEneMe1GiGueBarrier::create(void *parent, void *owner) {
-    return new TObjEneMe1GiGueBarrier((TObject *)parent, owner);
+TObjEneMe1GiGueBarrier *TObjEneMe1GiGueBarrier::create(TObject *parent, TObjEneMe1GiGue *owner) {
+    return new TObjEneMe1GiGueBarrier(parent, owner);
 }
 
 void TObjEneMe1GiGueBarrier::init_global() {

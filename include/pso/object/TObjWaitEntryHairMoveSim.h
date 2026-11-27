@@ -7,6 +7,8 @@
 #include "pso/object/TObjEZBoneRotBase.h"
 
 class TObjPlayer;
+struct TObjHMSRopeSpec;
+struct TObjHMSColliderSpec;
 
 // Which hair effect a class gets: the first entry of its class whose hair or head
 // index matches picks the model to swing (bone rotation) or to hang a rope from.
@@ -16,8 +18,8 @@ struct HairEffectEntry {
     s8 hair_model_hair;        // hair index that swings the hair model
     s8 attachment_model_head;  // head index that swings the attachment model
     EZBoneRotDesc *bone_rotation;
-    void *rope_spec;           // TObjPlayer::create_hairmove's specs when there is no bone rotation
-    void *collider_spec;
+    TObjHMSRopeSpec *rope_spec;  // TObjPlayer::create_hairmove's specs when there is no bone rotation
+    TObjHMSColliderSpec *collider_spec;
 };
 LAYOUT_ASSERT(HairEffectEntrySize, sizeof(HairEffectEntry) == 0x10);
 

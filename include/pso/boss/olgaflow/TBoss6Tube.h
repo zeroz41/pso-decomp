@@ -25,7 +25,7 @@ struct TBoss6Tube : public TObject {
     void accelerate_scroll();
     void spawn_trap();
     void update_timer();
-    static TBoss6Tube *create(void *parent);
+    static TBoss6Tube *create(TObject *parent);
     void activate_warp();
     // Puts run_task in state 2 (update_wobble); TBoss6PlotFalz::free_child calls it.
     void start_wobble();

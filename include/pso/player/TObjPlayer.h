@@ -55,6 +55,9 @@ struct TItemWeapon;
 class TItemShoot;
 class TItemShootParticle;
 class TItemList;
+class TObjHMS_EZRope_Player;
+struct TObjHMSRopeSpec;
+struct TObjHMSColliderSpec;
 class TPlayerLobbyMarker;
 class TPlyInventoryItem;
 struct TechniqueContactList;
@@ -396,7 +399,7 @@ struct TObjPlayer : public TObjChara {
     static void init_render_globals();
     // attack_state.get_validated_attack_stage(): the pending stage, 0 when it is not valid.
     s16 get_attack_stage();
-    void *create_hairmove(void *rope_spec, void *collider_spec);
+    TObjHMS_EZRope_Player *create_hairmove(TObjHMSRopeSpec *rope_spec, TObjHMSColliderSpec *collider_spec);
     void set_tp(s16 tp);
     s32 get_tp_bonus();
     s32 get_hp_bonus();

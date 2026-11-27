@@ -148,8 +148,9 @@ int is_enemy_entity_id(u16 id);
 s32 pack_debug_text_position(s32 x, s32 y);
 void project_sound_origin_from_camera(const Vec *source, Vec *out, f32 distance);
 void setup_attack_at_owner(TObjBase *owner, DragonAttackParams *params);
-int is_target_android(void *p);
-int is_target_ranger(void *p);
+// The class flags of a target that is a player.
+int is_target_android(TObjChara *target);
+int is_target_ranger(TObjChara *target);
 void copy_target_candidate(TargetCandidate *dst, TargetCandidate *src);
 
 void set_collider_contact_high(CollisionBody *body);

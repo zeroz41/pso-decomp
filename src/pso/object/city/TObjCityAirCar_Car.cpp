@@ -124,7 +124,7 @@ void free_buffer_pair_table(void) {
     }
 }
 
-s32 sample_aircar_path_position(s32 lane, void *pos, f32 frame) {
+s32 sample_aircar_path_position(s32 lane, Vec *pos, f32 frame) {
     Vec ang;
     Vec sp18;
     f32 quat[4];
@@ -140,7 +140,7 @@ s32 sample_aircar_path_position(s32 lane, void *pos, f32 frame) {
     }
     bind_motion_context(m, frame);
     NJS_OBJECT *t = get_city_common_model(city_aircar_model_indices[lane]);
-    sample_motion_node_transform(t, (f32 *)pos, (s32 *)&ang, &sp18.x, quat);
+    sample_motion_node_transform(t, &pos->x, (s32 *)&ang, &sp18.x, quat);
     return r;
 }
 

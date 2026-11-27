@@ -16,7 +16,7 @@ public:
 
     void update_line_params();
     static EndingHexLineParams *copy_move_params(EndingHexLineParams *dest, const EndingHexLineParams *src);
-    static void *create(void *parent);
+    static TObjOnlineEndingHexMove *create(TObject *parent);
 };
 
 LAYOUT_ASSERT(EndingHexMoveSize, sizeof(TObjOnlineEndingHexMove) == 0x20);
