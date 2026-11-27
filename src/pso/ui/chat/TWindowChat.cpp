@@ -30,6 +30,19 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/chat/ChatShortcuts.h"
 
+void TWindowChat::close_and_clear_flag() {
+    close_all_children();
+    flags &= ~2;
+    open_next_input_window();
+}
+
+void TWindowChat::set_keyboard_flag62_bit4() {
+    TWindowKeyBoardBase *keyboard = static_cast<TWindowKeyBoardBase *>(composer);
+    if (keyboard != NULL) {
+        keyboard->set_flag62_bit4();
+    }
+}
+
 #pragma push
 #pragma readonly_strings on
 const char *TWindowChat::class_name = "TWindowChat";
@@ -459,4 +472,3 @@ s32 TWindowChat::closes_after_send() {
 }
 
 void TWindowKeyBoardSoft::set_flag60_bit1() { state_flags |= 0x2; }
-

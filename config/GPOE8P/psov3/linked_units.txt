@@ -1133,7 +1133,6 @@ pso/ui/window/TWindowSubQuestBoard.cpp
 pso/ui/window/TWindowSubQuestBoardSelect.cpp
 pso/ui/window/TWindowSubShortCut.cpp
 pso/ui/window/TWindowSubShortCutList.cpp
-pso/ui/window/TWindowSubShortCut_80246FB0.cpp
 pso/ui/chat/TWindowSubShortMail_80246CB8.cpp
 pso/ui/chat/TWindowSubShortMail.cpp
 pso/ui/window/WindowArrayEntry.cpp

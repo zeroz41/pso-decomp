@@ -5663,11 +5663,8 @@ pso/ui/window/TWindowChallengeResult.cpp:
 	.sdata      start:0x805D3898 end:0x805D38A0
 	.sdata2     start:0x805DCB60 end:0x805DCB74
 
-pso/ui/window/TWindowSubShortCut_80246FB0.cpp:
-	.text       start:0x80246FB0 end:0x8024701C
-
 pso/ui/chat/TWindowChat.cpp:
-	.text       start:0x8024701C end:0x80247EE8
+	.text       start:0x80246FB0 end:0x80247EE8
 	.rodata     start:0x8044E7C8 end:0x8044E7D8
 	.data       start:0x804CE2D0 end:0x804CE2E8
 	.sdata      start:0x805D38A0 end:0x805D38A8
