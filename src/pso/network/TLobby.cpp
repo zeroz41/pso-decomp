@@ -24,6 +24,7 @@
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
+#include "pso/ui/frontend/TAdDialingMessageWindow.h"
 #include <stddef.h>
 #include <string.h>
 #include "pso/network/TPacket.h"
@@ -389,7 +390,7 @@ void TLobby::update_idle_timeout(TLobbyIdleTimer *t) {
             delete lobby_idle_timeout_window;
             lobby_idle_timeout_window = 0;
             idle_timeout_active = 1;
-            queue_destruction__7TObjectFv(t);
+            t->queue_destruction();
         } else {
             sprintf(lobby_idle_timeout_text_buffer, (const char *)TLobby::get_seq_phase(0x1F), limit - elapsed);
         }
@@ -1063,7 +1064,7 @@ void queue_join_entry_exit_on_input(TObject *task) {
         TAdSinglePlyChrSelectGC::init();
         set_queued_main_phase(2);
         request_main_phase(0x12);
-        queue_destruction__7TObjectFv(task);
+        task->queue_destruction();
     }
 }
 void TLobby::update() {
@@ -2411,7 +2412,7 @@ void TLobby::open_download_list_window(int count, TMenuList<QuestListEntry, 30, 
     const NJS_POINT2 *w;
 
     if (list_window != 0) {
-        queue_destruction__7TObjectFv(list_window);
+        list_window->queue_destruction();
         list_window = 0;
     }
     list_window = (TWindowMenuIconLine *)open_default((const char *)tbl);
@@ -2433,7 +2434,7 @@ void TLobby::open_download_list_window(int count, TMenuList<QuestListEntry, 30, 
     }
     list_window->calc_content_extent();
     if (download_list_window != 0) {
-        queue_destruction__7TObjectFv(download_list_window);
+        download_list_window->queue_destruction();
         download_list_window = 0;
     }
     {
@@ -2453,10 +2454,6 @@ void TLobby::send_logout() {
         protocol_instance->send_logout();
     }
 }
-
-#pragma push
-#pragma inline_depth(4)
-#pragma dont_inline off
 
 #define CONNECT_TO_LOBBY_SERVER(res, s)                                                                   \
     if (get_video_standard() == 0) {                                                    \
@@ -2498,7 +2495,7 @@ void TLobby::run_join_lobby_connect(TObject *parent) {
             break;
         }
         if (win != NULL) {
-            queue_destruction__7TObjectFv(win);
+            win->queue_destruction();
         }
         switch (res) {
         case 0:
@@ -2516,7 +2513,6 @@ void TLobby::run_join_lobby_connect(TObject *parent) {
     }
 }
 
-#pragma pop
 
 TLobby::TLobby(TObject *parent) : TObject(parent) {
     TProtocol *protocol;

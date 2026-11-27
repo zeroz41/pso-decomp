@@ -115,8 +115,7 @@ TBoss2DeRolLeLaserTrail::TBoss2DeRolLeLaserTrail(TObject *parent, s32 limit, s32
 
 TBoss2DeRolLeLaserTrail::~TBoss2DeRolLeLaserTrail() {
     if (m_particle != NULL) {
-        // Called out of line: the inline copy this file emits belongs at its end, after the constructors.
-        queue_destruction__7TObjectFv(m_particle);
+        m_particle->queue_destruction();
         m_particle = NULL;
     }
 }

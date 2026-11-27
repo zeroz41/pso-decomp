@@ -163,9 +163,4 @@ void *__ct__7TObjectFP7TObject(void *object, TObject *parent);
 void __dt__7TObjectFv(void *object, s16 flags);
 }
 
-// TObject::queue_destruction's out-of-line copy, which the lobby and the De Rol Le laser trail call by name.
-extern "C" {
-void queue_destruction__7TObjectFv(void *task);
-}
-
 #endif
