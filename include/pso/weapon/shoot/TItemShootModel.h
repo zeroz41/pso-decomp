@@ -12,8 +12,8 @@ public:
  NJS_OBJECT *model;
  NJS_TEXLIST *texture_list;
  s32   ang;
- s32   m_64;
- s32   m_68;
+ s32   pad_64;
+ s32   pad_68;
 
 public:
     TItemShootModel(void* owner, const Vec* pos, const Vec* dir, f32 life);

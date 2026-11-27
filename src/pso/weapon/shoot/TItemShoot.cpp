@@ -177,8 +177,8 @@ TItemShootModel::TItemShootModel(void *owner, const Vec *pos, const Vec *dir, f3
         rot.z = 0;
         rot.x = 0;
     }
-    m_68 = 0;
-    m_64 = 0;
+    pad_68 = 0;
+    pad_64 = 0;
     ang = 0;
 }
 
