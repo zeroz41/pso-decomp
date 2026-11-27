@@ -44,7 +44,7 @@ public:
 };
 
 s32 is_ready_to_draw();
-void bswap_client_id_packet(void *player);
+void bswap_client_id_packet(G_SelectChallengeModeFailureOption_6x97 *packet);
 void send_and_handle_60_wrapper(G_SelectChallengeModeFailureOption_6x97 *packet);
 
 void build_6x8A_packet(G_ShowChallengeTimeRecordsWindow_6x8A *packet);

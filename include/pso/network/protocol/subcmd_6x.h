@@ -1085,7 +1085,7 @@ LAYOUT_ASSERT(G_RevivePlayer_V3_BB_6xA1Size, sizeof(G_RevivePlayer_V3_BB_6xA1) =
 // and send_challenge_retry_cmd; received by handle_6x97_select_challenge_mode_failure_option. Size
 // checked: build_6x97_packet sets the header size to 5 words.
 struct G_SelectChallengeModeFailureOption_6x97 {
- struct G_UnusedHeader header;
+ struct G_ClientIDHeader header;
  u32 client_id;
  u32 is_retry;
  u32 unused1;

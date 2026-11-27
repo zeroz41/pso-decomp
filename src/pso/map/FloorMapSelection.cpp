@@ -345,16 +345,12 @@ s32 get_floor_map_terrain(s32 floor) {
 }
 
 s32 set_floor_map_selection(s32 floor, s32 area, s32 terrain, s32 entities) {
-    s32 offset;
-    u8 *entry;
     if (floor > 0x11) {
         return 0;
     }
-    offset = floor * 0xC;
-    *(s32 *)((s8 *)((u8 *)&floor_map_registry + offset) + 0) = area;
-    entry = (u8 *)&floor_map_registry + offset;
-    *(s32 *)((s8 *)entry + 4) = terrain;
-    *(s32 *)((s8 *)entry + 8) = entities;
+    floor_map_registry[floor].area = area;
+    floor_map_registry[floor].terrain = terrain;
+    floor_map_registry[floor].entities = entities;
     return 1;
 }
 #pragma pop
@@ -363,16 +359,12 @@ s32 set_floor_map_selection(s32 floor, s32 area, s32 terrain, s32 entities) {
 #pragma opt_common_subs off
 
 s32 get_floor_map_selection(s32 floor, FloorMapSelection *selection) {
-    s32 offset;
-    const u8 *entry;
     if (floor > 0x11) {
         return 0;
     }
-    offset = floor * 0xC;
-    entry = (const u8 *)&floor_map_registry + offset;
-    selection->area = *(const s32 *)((const s8 *)((const u8 *)&floor_map_registry + offset) + 0);
-    selection->terrain = *(const s32 *)((const s8 *)entry + 4);
-    selection->entities = *(const s32 *)((const s8 *)entry + 8);
+    selection->area = floor_map_registry[floor].area;
+    selection->terrain = floor_map_registry[floor].terrain;
+    selection->entities = floor_map_registry[floor].entities;
     return 1;
 }
 #pragma pop

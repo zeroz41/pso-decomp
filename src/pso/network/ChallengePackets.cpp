@@ -56,12 +56,12 @@ void send_challenge_retry_cmd(s32 choice) {
     }
 }
 
-void handle_6x97_select_challenge_mode_failure_option(void *player) {
+void handle_6x97_select_challenge_mode_failure_option(G_SelectChallengeModeFailureOption_6x97 *cmd) {
     s32 choice;
 
     if (is_challenge_mode() != 0) {
-        bswap_client_id_packet(player);
-        choice = *(s32 *)((s8 *)player + 8);
+        bswap_client_id_packet(cmd);
+        choice = cmd->is_retry;
         if ((choice < 0) || (choice > 1)) {
             choice = 0;
         }
