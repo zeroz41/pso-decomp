@@ -115,11 +115,12 @@ ModelNodePositionEntry boss4_type1_core_capture_entries[3] = {
     {-1, {0.0f, 0.0f, 0.0f}},
 };
 Vec boss4_type1_start_position = { 0.0f, 0.0f, -120.0f };
-TBoss4Type1AttackTables boss4_type1_attack_tables = {
-    { 0x0, 0xc000, 0x8000, 0x4000 },
-    { 0.25f, 0.25f, 0.5f }, { 8, 9, 10 },
-    { 0.5f, 0.5f }, { 8, 9 },
-};
+// Stand angle of each slot, then the weighted attack picks of choose_next_attack.
+s32 boss4_type1_slot_angles[4] = { 0x0, 0xc000, 0x8000, 0x4000 };
+f32 boss4_type1_low_hp_attack_weights[3] = { 0.25f, 0.25f, 0.5f };
+s32 boss4_type1_low_hp_attacks[3] = { 8, 9, 10 };
+f32 boss4_type1_attack_weights[2] = { 0.5f, 0.5f };
+s32 boss4_type1_attacks[2] = { 8, 9 };
 Vec boss4_type1_vec_table[4] = {
     { 50.0f, 10.0f, 0.0f }, { -50.0f, 10.0f, 0.0f }, { 0.0f, 10.0f, 50.0f }, { 0.0f, 10.0f, -50.0f },
 };
@@ -541,7 +542,7 @@ void TBoss4Type1::draw_parts() {
 
 #pragma pop
 s32 TBoss4Type1::calc_slot_angle(s32 slot, s32 turn) {
-    return boss4_type1_attack_tables.slot_angles[slot] + (turn - 1) * 0x4000;
+    return boss4_type1_slot_angles[slot] + (turn - 1) * 0x4000;
 }
 
 void TBoss4Type1::set_state(s32 next_state) {
@@ -837,14 +838,11 @@ void TBoss4Type1::update_radar_markers() {
 void TBoss4Type1::choose_next_attack() {
     Vec target;
     s32 r;
-    // The original code addresses the tables relative to the first Type 1 data object.
-    TBoss4Type1AttackTables *tables = reinterpret_cast<TBoss4Type1AttackTables *>(
-        reinterpret_cast<u8 *>(lbl_80485AE0) + 0x67C);
     if (turn == 1) {
         if (hp <= half_hp) {
-            r = TBoss4Type2::pick_weighted_random(3, tables->low_hp_weights, tables->low_hp_attacks);
+            r = TBoss4Type2::pick_weighted_random(3, boss4_type1_low_hp_attack_weights, boss4_type1_low_hp_attacks);
         } else {
-            r = TBoss4Type2::pick_weighted_random(2, tables->weights, tables->attacks);
+            r = TBoss4Type2::pick_weighted_random(2, boss4_type1_attack_weights, boss4_type1_attacks);
         }
         switch (r) {
         case 8:
