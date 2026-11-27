@@ -269,12 +269,15 @@ LAYOUT_ASSERT(TRecvDownloadSize, sizeof(TRecvDownload) == 0x418);
 // 44 and A6: the start of a file download: the file's name and size. TProtocol::recv_download_head and
 // recv_vm_download_head acknowledge it with a TSendDownloadHead of the same command and pass it to
 // begin_file_download and TQuestVmDownLoadServer::begin_file_download.
+// download_kind (A6 only, not byte-swapped) says which files make up the download:
+// 0 = .dat and .bin, 1 = .dat, .bin and .pvr, 2 = .gba.
 class TRecvDownloadHead {
 public:
     packet_header header;
     char path[32];
     u16 unused;
-    u16 flags;
+    char download_kind;
+    u8 pad_27;
     char filename[16];
     u32 file_size;
 public:
