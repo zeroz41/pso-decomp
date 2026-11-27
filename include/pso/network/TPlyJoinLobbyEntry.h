@@ -39,13 +39,14 @@ TPlyDispConfigSmth *copy_disp_config_palette(TPlyDispConfigSmth *dst, TPlyDispCo
 void copy_gc_tag(gc_tag *dst, gc_tag *src);
 
 void show_dialog_value_line(const char *text);
-// The join records' constructors and destructor by symbol, for TLobby's static initializer, which builds
-// lobby_join_entries and game_join_player_records (C++ cannot take a constructor's or destructor's address).
+// The join records' constructors and destructor, for CodeWarrior's hand-written static initializer in TLobby.cpp.
+#ifdef __MWERKS__
 extern "C" {
 void *__ct__17TPlyJoinLobbyDataFv(void *object);
 void *__ct__18TPlyJoinLobbyEntryFv(void *object);
 void __dt__18TPlyJoinLobbyEntryFv(void *object, s16 flags);
 }
+#endif
 void bswap_and_send_extended_subcommand(void *p, u32 size);
 void bswap_extended_subcommand_header(extended_game_command_header *header);
 void handle_6x6F_set_quest_flags_v2(G_SetQuestFlags_V2_V3_6x6F *pkt);

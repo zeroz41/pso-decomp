@@ -171,9 +171,12 @@ LobbyServerAddress join_lobby_ss702_server_table[2] = { { join_lobby_ss702_serve
 LobbyServerAddress join_lobby_ddplanet_server_table[2] = { { join_lobby_ddplanet_server_host, 0x2329 }, { join_lobby_ddplanet_server_host, 0x2329 } };
 void *lobby_idle_timer_vtable[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
 
-// lobby_join_entries and game_join_player_records are built by __sinit_TLobby_cpp, spelled out below because
-// the original's static initializer precedes this file's inline copies.
+// On CodeWarrior lobby_join_entries and game_join_player_records are built by __sinit_TLobby_cpp, spelled out
+// below because the original's static initializer precedes this file's inline copies; other compilers build them.
+// CodeWarrior: the record that links lobby_join_entries' destructor into the global destructor chain.
+#ifdef __MWERKS__
 DestructorChain lobby_join_entries_dtor_chain;
+#endif
 #pragma push
 #pragma suppress_init_code on
 #pragma no_static_dtors on
@@ -2608,6 +2611,8 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
 const char *TLobby::get_seq_phase(int id) { return get_online_message_text(id); }
 void lobby_init_hook(void) {  }
 void lobby_debug_printf_stub(const char *fmt, ...) {}
+// CodeWarrior: the original's static initializer precedes this file's inline copies.
+#ifdef __MWERKS__
 // Destroys lobby_join_entries at exit (the global destructor chain passes no object).
 void destroy_lobby_join_entries(void *, s16);
 
@@ -2617,13 +2622,17 @@ void __sinit_TLobby_cpp() {
     __register_global_object(NULL, destroy_lobby_join_entries, &lobby_join_entries_dtor_chain);
     __construct_array(game_join_player_records, __ct__17TPlyJoinLobbyDataFv, NULL, sizeof(TPlyJoinLobbyData), 4);
 }
+#endif
 
 
 
 TPlyJoinLobbyData::TPlyJoinLobbyData() {}
+// CodeWarrior: the exit-time destructor of lobby_join_entries that __sinit_TLobby_cpp registers.
+#ifdef __MWERKS__
 void destroy_lobby_join_entries(void *, s16) {
     __destroy_arr(lobby_join_entries, __dt__18TPlyJoinLobbyEntryFv, sizeof(TPlyJoinLobbyEntry), 12);
 }
+#endif
 
 
 TPlyJoinLobbyEntry::TPlyJoinLobbyEntry() {}
@@ -2909,7 +2918,10 @@ u8 *get_password_input_buffer(void) {
 
 void *TProtocol::operator new(size_t size) { return obj_heap->heap_alloc(size); }
 
+// CodeWarrior: the .ctors entry of the hand-written static initializer above.
+#ifdef __MWERKS__
 __declspec(section ".ctors") static void *const lobby_global_initializer = (void *)__sinit_TLobby_cpp;
+#endif
 
 // Window positions copied by the message/menu openers above, and the lobby log and
 // menu strings; defined after their users so each is addressed on its own.
