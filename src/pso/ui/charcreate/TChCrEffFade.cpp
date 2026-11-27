@@ -14,21 +14,20 @@
 
 const char *TChCrEffFade::class_name = "TChCrEffFade";
 
-void draw_hexagon(void *context, void *center, u32 color, f32 scale, f32 alpha) {
+void draw_hexagon(void *context, NJS_POINT2 *center, u32 color, f32 scale, f32 alpha) {
     // inferred: the unit hexagon the cells are scaled from
     static const ColorLineVertex hexagon[7] = {
         { 0.5f, -0.865f }, { 1.0f, 0.0f }, { 0.5f, 0.865f }, { -0.5f, 0.865f },
         { -1.0f, 0.0f }, { -0.5f, -0.865f }, { 0.0f, 0.0f },
     };
-    const ColorLineVertex *position = static_cast<const ColorLineVertex *>(center);
     ColorLineList prim;
     u32 colors[6];
     ColorLineVertex pts[6];
     s32 i;
     u32 c;
     for (i = 0; i < 6; i++) {
-        pts[i].x = scale * hexagon[i].x + position->x;
-        pts[i].y = scale * hexagon[i].y + position->y;
+        pts[i].x = scale * hexagon[i].x + center->x;
+        pts[i].y = scale * hexagon[i].y + center->y;
     }
     c = (color & 0x00FFFFFF) | ((u32)(255.0f * alpha) << 24);
     for (i = 0; i < 6; i++) {

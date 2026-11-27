@@ -428,7 +428,7 @@ void TWindowSimpleStatus::draw_background(WindowDrawContext *ctx) {
     ctx->transform_quad(&r);
     draw_textured_quad_at_depth(&r.x0, scale);
     end_screen_draw();
-    if (scanline_crosses_window(ctx, &pos, &size) != 0) {
+    if (scanline_crosses_window(ctx, &pos.x, &size.x) != 0) {
         begin_window_sweep_draw(0xB);
         draw_window_sweep_strip(&r, ctx);
         end_window_sweep_draw(0xB);

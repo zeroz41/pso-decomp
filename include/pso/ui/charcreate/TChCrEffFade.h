@@ -4,6 +4,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct NJS_POINT2;
+
 class TChCrEffFade : public TObject {
 public:
     static const char *class_name;
@@ -26,7 +28,7 @@ LAYOUT_ASSERT(TChCrEffFade_size, sizeof(TChCrEffFade) == 0x30);
 
 void *create_fade_effect(s32 duration, s32 mode);
 
-void draw_hexagon(void *context, void *center, u32 color, f32 scale, f32 alpha);
+void draw_hexagon(void *context, NJS_POINT2 *center, u32 color, f32 scale, f32 alpha);
 void draw_hexagon_grid(void *context, f32 scale);
 
 #endif

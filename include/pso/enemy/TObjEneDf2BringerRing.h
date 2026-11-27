@@ -2,16 +2,13 @@
 #define PSO_ENEMY_TOBJENEDF2BRINGERRING_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/TrailStrip.h"
 #include <dolphin/mtx/GeoTypes.h>
 
 // The Bringer's expanding ring: radius grows from 10 to max_radius, then the ring fades out.
 // Drawn as two 6-vertex strips of (outer, inner) pairs.
 class TObjEneDf2BringerRing : public TObject {
 public:
-    struct Vertex {
-        Vec pos;
-        u32 color;
-    };
     TObjEneDf2BringerRing(TObject *parent, const Vec *pos, f32 max_radius);
     virtual ~TObjEneDf2BringerRing();
     virtual void run_task();
@@ -25,7 +22,7 @@ public:
     s32 angle;
     f32 radius;
     f32 max_radius;
-    Vertex vertices[12];
+    TrailStripVertex vertices[12];
 };
 LAYOUT_ASSERT(TObjEneDf2BringerRing_size, sizeof(TObjEneDf2BringerRing) == 0x100);
 

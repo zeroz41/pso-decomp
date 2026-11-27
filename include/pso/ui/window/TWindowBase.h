@@ -86,7 +86,7 @@ LAYOUT_ASSERT(WindowOpenTickOffset, offsetof(TWindowBase, open_tick) == 0x5C);
 
 struct TWindowSubComCard;
 class TWindowFukidasi;
-BOOL scanline_crosses_window(void *ctx, void *position, void *size);
+BOOL scanline_crosses_window(void *ctx, f32 *position, f32 *size);
 void hide_window(TWindowBase *window);
 int get_area_total(void);
 void draw_selection_bar(WindowDrawContext *context, TWindowLayoutRect *entry, s32 active);

@@ -16,7 +16,7 @@
 
 #pragma readonly_strings on
 
-void * sonic_logo_object;
+NJS_TEXLIST *sonic_logo_object;
 int TAdSoniclogo::state;
 int TLogo::exit_requested_flag;
 const char *TAdSoniclogo::class_name = "TAdSoniclogo";

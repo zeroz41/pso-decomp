@@ -1004,8 +1004,8 @@ void CreationTextureCacheEntry::release_texture_lists() {
 }
 
 
-s32 select_unused_appearance_part(void *appearance, s32 part) {
-    CharacterAppearanceFields c = *(CharacterAppearanceFields *)appearance;
+s32 select_unused_appearance_part(CharacterAppearanceFields *appearance, s32 part) {
+    CharacterAppearanceFields c = *appearance;
     s32 max;
     s32 cur;
     s32 v;

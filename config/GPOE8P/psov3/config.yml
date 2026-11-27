@@ -244,7 +244,7 @@ force_active:
   - __ct__23Pso3CharacterSaveRecordFv
   - item_type_greater__FP14BankItemRecordP14BankItemRecord
   - item_class_greater__FP14BankItemRecordP14BankItemRecord
-  - select_unused_appearance_part__FPvl
+  - select_unused_appearance_part__FP25CharacterAppearanceFieldsl
   - __ct__26TObjEneBm3FlyNest_CarryFlyFP7TObjectP3VecP3VecP3VecPll
   - build_item_list__22TQuestVmDownLoadServerFiPv
   - clear_position
@@ -6360,7 +6360,7 @@ force_active:
   - draw_pan_arrows__21TWindowSubAreaMapDispFP17WindowDrawContext
   - reset_current_char_appearance__Fv
   - enable_item_texture_frame__FP22TWindowLoadItemTexture
-  - draw_hexagon__FPvPvUlff
+  - draw_hexagon__FPvP10NJS_POINT2Ulff
   - draw_bolt__12TBGLightningFP3Vec
   - draw_flash__12TBGLightningFP3Vec
   - get_texlist__14TOTrapChainSawFl

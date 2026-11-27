@@ -152,17 +152,17 @@ void TObjEneDf2BringerRing::update_vertex_positions() {
     f32 outer = 3.0f + radius;
     f32 inner = radius - 3.0f;
     Vec *src = bringer_effect_vec_table;
-    Vertex *dst = vertices;
+    TrailStripVertex *dst = vertices;
     for (i = 0; i < 6; i++) {
         f32 x = src->x;
         f32 z = src->z;
         src++;
-        dst[0].pos.x = x * outer;
-        dst[0].pos.y = 0.0f;
-        dst[0].pos.z = z * outer;
-        dst[1].pos.x = x * inner;
-        dst[1].pos.y = 0.0f;
-        dst[1].pos.z = z * inner;
+        dst[0].x = x * outer;
+        dst[0].y = 0.0f;
+        dst[0].z = z * outer;
+        dst[1].x = x * inner;
+        dst[1].y = 0.0f;
+        dst[1].z = z * inner;
         dst += 2;
     }
 }
@@ -170,7 +170,7 @@ void TObjEneDf2BringerRing::update_vertex_positions() {
 void TObjEneDf2BringerRing::update_vertex_colors() {
     s32 i;
     s32 n;
-    Vertex *p;
+    TrailStripVertex *p;
     u32 c;
     c = (u32)floor_to_float(255.0f * alpha) << 24;
     n = frame;

@@ -8,7 +8,7 @@
 #pragma scheduling off
 
 
-void draw_trail_strip(void *vertices, s32 count, s32 mode) {
+void draw_trail_strip(TrailStripVertex *vertices, s32 count, s32 mode) {
     setup_world_color_draw(mode);
     draw_untextured_trail_strip(vertices, count);
     reset_player_transform();
@@ -21,11 +21,11 @@ void reset_player_transform(void) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void draw_untextured_trail_strip(void *vertices, int count) {
+void draw_untextured_trail_strip(TrailStripVertex *vertices, int count) {
     s32 n;
     TrailStripVertex *v;
     u32 c;
-    v = (TrailStripVertex *)vertices;
+    v = vertices;
     n = (s32)count;
     GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT4, n);
     for (; n != 0; n--) {

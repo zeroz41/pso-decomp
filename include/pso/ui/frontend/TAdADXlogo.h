@@ -3,12 +3,14 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct NJS_TEXLIST;
+
 
 class TAdADXlogo : public TObject {
 public:
     static u32 done;
     static u32 state;
-    static void * texture;
+    static NJS_TEXLIST *texture;
     s32 m_frames;
 
     TAdADXlogo(TObject *parent);
@@ -23,7 +25,6 @@ public:
 void free_adx_logo_texture();
 void load_adx_logo_texture();
 
-struct NJS_TEXLIST;
 NJS_TEXLIST *get_logo_texture_e_handle(void);
 
 #endif

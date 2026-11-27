@@ -438,16 +438,16 @@ void begin_window_sweep_draw(s32 texture) {
 }
 #pragma push
 #pragma fp_contract on
-BOOL scanline_crosses_window(void *ctx, void *position, void *size) {
+BOOL scanline_crosses_window(void *ctx, f32 *position, f32 *size) {
     f32 limit_x;
     f32 start_x;
 
-    start_x = *(f32 *)position;
+    start_x = *position;
     limit_x = (5.0f * (f32) window_scanline_timer) - 100.0f;
     if (limit_x <= start_x) {
         return FALSE;
     }
-    if (limit_x >= (start_x + *(f32 *)size)) {
+    if (limit_x >= (start_x + *size)) {
         return FALSE;
     }
     return TRUE;
