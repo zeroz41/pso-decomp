@@ -95,8 +95,8 @@ NJS_ARGB item_box_secondary_colors[6] = {
 // Counts the model nodes drawn this frame.
 s32 model_node_counter;
 // What the item model draw has switched on and must undo (ITEM_RENDER_*).
-// Its constructor runs from __sinit_TItem_cpp, spelled out below because the
-// original's static initializer precedes this file's inline copies.
+// On CodeWarrior its constructor runs from __sinit_TItem_cpp, spelled out below because the
+// original's static initializer precedes this file's inline copies; other compilers construct it.
 #pragma push
 #pragma suppress_init_code on
 FlagWord item_render_state;
@@ -118,8 +118,10 @@ const u8 item_type_drop_models[5] = {0, 1, 1, 2, 3};
 int item_system_generation;
 
 
+#ifdef __MWERKS__
 void __sinit_TItem_cpp();
 __declspec(section ".ctors") static void *const item_global_initializer = (void *)__sinit_TItem_cpp;
+#endif
 
 void CursorAction::set_pick_up() { kind = CURSOR_ACTION_PICK_UP; }
 
@@ -304,9 +306,11 @@ u8 TItem::get_motion_type() { return 0; }
 // The copies of header inlines this file emits, in the original's order.
 s8 TItem::get_attach_slot() { return 0; }
 
+#ifdef __MWERKS__
 void __sinit_TItem_cpp() {
     __ct__8FlagWordFv(&item_render_state);
 }
+#endif
 
 void init_item_system() {
     item_registry_count = 0;
