@@ -54,7 +54,7 @@ struct TCheckMemoryCard : public TObject {
     s32 card_ready;                  // 0x3C: 1 while the poll state sees a card that passes every check
     s32 prompt;                      // 0x40: failed checks go to the menu state instead of the message state
     s32 prompt_accepted;             // 0x44: menu entry 0 was chosen
-    void *unk_48;                    // 0x48: second constructor argument, only stored
+    void *pad_48;
     s32 use_main_ctrl;               // 0x4C: windows are created under the main window control
     u8 pad_50[0x200];
 };
@@ -73,7 +73,6 @@ LAYOUT_ASSERT(TCheckMemoryCard_close_wait_offset, offsetof(TCheckMemoryCard, clo
 LAYOUT_ASSERT(TCheckMemoryCard_card_ready_offset, offsetof(TCheckMemoryCard, card_ready) == 0x3C);
 LAYOUT_ASSERT(TCheckMemoryCard_prompt_offset, offsetof(TCheckMemoryCard, prompt) == 0x40);
 LAYOUT_ASSERT(TCheckMemoryCard_prompt_accepted_offset, offsetof(TCheckMemoryCard, prompt_accepted) == 0x44);
-LAYOUT_ASSERT(TCheckMemoryCard_unk_48_offset, offsetof(TCheckMemoryCard, unk_48) == 0x48);
 LAYOUT_ASSERT(TCheckMemoryCard_use_main_ctrl_offset, offsetof(TCheckMemoryCard, use_main_ctrl) == 0x4C);
 
 // Text of one card message: the entry is replaced by keyboard_entry while the keyboard controller is in use.
