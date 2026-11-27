@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/chat/ChatLogText.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowMessageLog.h"

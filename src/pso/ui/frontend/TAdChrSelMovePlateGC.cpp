@@ -1,6 +1,6 @@
 #include "pso/ui/frontend/TAdChrSelMovePlateGC.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
 #include "types.h"
 #include "pso/system/task/TMainTask.h"

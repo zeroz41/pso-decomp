@@ -1,6 +1,6 @@
 #include "pso/ui/frontend/TAdGuideButtonGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"

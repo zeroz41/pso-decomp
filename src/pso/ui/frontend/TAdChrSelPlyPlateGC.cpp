@@ -10,7 +10,8 @@
 #include "pso/render/TextureState.h"
 #include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
+#include "pso/ui/frontend/TAdSelectCurGC.h"
+#include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
@@ -71,6 +72,17 @@ int multi_ply_chr_select_active_player;
 s32 TAdMultiPlyChrSelectGC::select_mode;
 s32 TAdMultiPlyChrSelectGC::selected_slot;
 TAdChrSelPlyPlateGC *ad_chr_sel_ply_plate_instance;
+
+NJS_TEXLIST *get_player_tex_texture_list(void) { return player_tex_texture_list_ptr; }
+
+int TAdChrSelPlyPlateGC::get_cursor_texture_list() { return (saddr)menu_selection_cursor_texture_list; }
+
+saddr TAdMultiPlyChrSelectGC::get_selected_slot() { return plyplt_anim_ctrl_instance; }
+
+TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::get_state() { return TAdMultiPlyChrSelectGC::instance; }
+
+s32 TAdMultiPlyChrSelectGC::get_current_state() { return state; }
+
 TAdChrSelPlyPlateGC *TAdChrSelPlyPlateGC::create_singleton(TObject *parent, vec2f *pos) {
     if (ad_chr_sel_ply_plate_instance != NULL) {
         return NULL;
@@ -84,7 +96,7 @@ TAdChrSelPlyPlateGC::TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos) : TObject(
     u32 j;
     m_name = TAdChrSelPlyPlateGC::name;
     chr_sel_plate_texlist = get_player_tex_texture_list();
-    chr_sel_plate_cursor_texture_list = TAdMultiPlyChrSelectGC::get_global_6700();
+    chr_sel_plate_cursor_texture_list = get_cursor_texture_list();
     TAdMultiPlyChrSelectGC::select_mode = 0;
     copy_vec2(&this->pos, pos);
     frame_counter = -1;

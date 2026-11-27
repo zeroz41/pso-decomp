@@ -1,7 +1,6 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/enemy/BattleParamTables.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/TAdMultiPlyChrSelectTransitionGC.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -9,20 +8,6 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
-#include "pso/ui/frontend/TAdSelectCurGC.h"
-#include "pso/ui/frontend/TAdTitleTexGC.h"
-
-
-s32 TAdMultiPlyChrSelectGC::get_current_state() { return state; }
-
-TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::get_state() {  return TAdMultiPlyChrSelectGC::instance; }
-
-    extern int plyplt_anim_ctrl_instance;
-saddr TAdMultiPlyChrSelectGC::get_selected_slot() {  return plyplt_anim_ctrl_instance; }
-
-int TAdMultiPlyChrSelectGC::get_global_6700() {  return (saddr)menu_selection_cursor_texture_list; }
-
-NJS_TEXLIST *get_player_tex_texture_list(void) {  return player_tex_texture_list_ptr; }
 
 
 TAdMultiPlyChrSelectTransitionGC *multi_chr_select_transition_instance;

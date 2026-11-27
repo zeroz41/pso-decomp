@@ -78,7 +78,6 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     static TAdMultiPlyChrSelectGC *get_state();
     static TAdMultiPlyChrSelectGC *get_or_create(TObject *parent, s32 mode);
     static saddr get_selected_slot();
-    static int get_global_6700();
     static void render(void *self);
     TWindowMessageYesNo *create_confirm_window(s32 slot);
     TWindowMenu *create_choice_menu();
