@@ -293,7 +293,7 @@ void sample_shape_node_vertices(void **src, void **dst) {
 
 #pragma push
 #pragma use_lmw_stmw off
-void draw_chunk_color_tex_strips(s16 *p, ChunkColorVertex *verts, u32 flags, s32 big) {
+void draw_chunk_color_tex_strips(s16 *p, ChunkCachedVertex *verts, u32 flags, s32 big) {
     s32 draw;
     u32 count;
     s32 extra;
@@ -330,7 +330,7 @@ void draw_chunk_color_tex_strips(s16 *p, ChunkColorVertex *verts, u32 flags, s32
             GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT0, n);
         }
         do {
-            ChunkColorVertex *v = &verts[p[0]];
+            ChunkCachedVertex *v = &verts[p[0]];
             u32 c;
             s16 s = p[1];
             s16 t = p[2];
@@ -339,9 +339,9 @@ void draw_chunk_color_tex_strips(s16 *p, ChunkColorVertex *verts, u32 flags, s32
                 f32 x;
                 f32 y;
                 f32 z;
-                z = v->z;
-                y = v->y;
-                x = v->x;
+                z = v->pos.z;
+                y = v->pos.y;
+                x = v->pos.x;
                 GXWGFifo.f32 = x;
                 GXWGFifo.f32 = y;
                 GXWGFifo.f32 = z;
