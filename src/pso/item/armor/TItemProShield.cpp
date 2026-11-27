@@ -29,8 +29,6 @@
 const char *TItemProShield::name = "TItemProShield";
 extern "C" {
 const char *shield_entry_filename = "ItemShieldEntry.dat";
-// Called with the item index widened to int.
-void __ct__19TItemEffShieldPulseFP7TObjectUsUc(void *object, TItemHeapObject *parent, u16 client, int index);
 }
 
 ShieldEffectEntry *TItemProShield::shield_table;
@@ -118,7 +116,6 @@ void TItemProShield::perform_action() {
 
 void TItemProShield::on_equip() {
     u8 index;
-    void *event;
     if (is_hidden() == 0) {
         play_sound_effect(0x4000B20A, &owner->position, 0, 0);
     }
@@ -138,10 +135,7 @@ void TItemProShield::on_equip() {
             break;
         }
         if ((index >= 0x53U) && (index <= 0x82U)) {
-            event = TObject::operator new(0x30);
-            if (event != NULL) {
-                __ct__19TItemEffShieldPulseFP7TObjectUsUc(event, effect_objects, get_owner_client(), index);
-            }
+            new TItemEffShieldPulse(effect_objects, get_owner_client(), (u8)index);
         }
     }
 }
