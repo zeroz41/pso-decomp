@@ -234,9 +234,9 @@ void TPhotonPilla::apply_photon_blast_effects() {
     if (bodies->flags & 0x100000) {
         index = 0;
         do {
-            saddr player = TObjPlayer::get_battle_param(index);
-            if (player != 0U) {
-                queue_photon_blast_hit(((TObjBase *)player)->get_entity_id(), 2, 0, power);
+            TObjCollidable *player = TObjPlayer::get_battle_param(index);
+            if (player != NULL) {
+                queue_photon_blast_hit(player->get_entity_id(), 2, 0, power);
             }
             index += 1;
         } while (index < 0x10);

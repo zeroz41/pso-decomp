@@ -74,7 +74,7 @@ void TObjEnemyCustom::update_if_active(s32 action) {
     }
 }
 
-saddr TObjPlayer::get_battle_param(int index) {
+TObjCollidable *TObjPlayer::get_battle_param(int index) {
     return player_battle_param_table[index];
 }
 

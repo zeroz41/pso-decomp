@@ -1543,7 +1543,7 @@ force_active:
   - __ct__23TItemWeaponSealedJSwordFP7TObjectPUc
   - copy_disp_config_palette__FP18TPlyDispConfigSmthP18TPlyDispConfigSmth
   - collect_body_contacts__FP16CollisionBodySetll
-  - set_battle_param_slot__Fii
+  - set_battle_param_slot__FiP14TObjCollidable
   - copy_collision_box__FP12CollisionBoxPC12CollisionBox
   - copy_collision_sphere__FP15CollisionSphereP15CollisionSphere
   - __dt__16TObjCityDoorBaseFv
@@ -6167,7 +6167,7 @@ force_active:
   - refresh_target__12TObjEneSaverFv
   - find_open_direction__15TObjEneMe1GiGueFP3Vec
   - find_open_direction__16TObjEneNanoDragoFP3Vec
-  - find_or_alloc_battle_param_slot__FUl
+  - find_or_alloc_battle_param_slot__FP14TObjCollidable
   - find_pack_leader__14TObjEneBm5WolfFi
   - find_parts_in_range__10TNpcPlayerFPvPvif
   - find_obstruction__16TPlacementSearchFP16CollisionBodySet

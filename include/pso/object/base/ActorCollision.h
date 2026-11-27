@@ -17,7 +17,7 @@ struct G_UpdateObjectState_6x0B;
 extern ActorBodyHit player_unique_pair_entries[16];
 extern int player_unique_pair_entry_count;
 // The actors find_or_alloc_battle_param_slot gave a slot, 0 for a free one.
-extern saddr player_battle_param_table[16];
+extern TObjCollidable *player_battle_param_table[16];
 
 // Places the set's bodies at its position and adds every registered actor body
 // they touch to player_unique_pair_entries: the players', the enemies' or the
@@ -36,8 +36,8 @@ void clear_entity_table();
 // Frees every battle param slot.
 void clear_battle_param_slots();
 // The slot the actor has, else a free one given to it; -1 when all are taken.
-s32 find_or_alloc_battle_param_slot(uaddr actor);
-int set_battle_param_slot(int slot, int actor);
+s32 find_or_alloc_battle_param_slot(TObjCollidable *actor);
+int set_battle_param_slot(int slot, TObjCollidable *actor);
 CollisionBox *copy_collision_box(CollisionBox *dst, const CollisionBox *src);
 void copy_collision_sphere(CollisionSphere *dst, CollisionSphere *src);
 // The sphere of a body on the ground plane (y 0); 1 when written to *out.

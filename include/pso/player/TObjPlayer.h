@@ -370,7 +370,7 @@ struct TObjPlayer : public TObjChara {
     s32 is_on_current_floor();
     s32 get_area();
     static s32 get_player_count();
-    static saddr get_battle_param(int index);
+    static TObjCollidable *get_battle_param(int index);
     s32 check_player_flag1();
     s32 check_flag(s32 flag);
     // Set while a menu window holds the player's input, with the action buttons masked.

@@ -75,7 +75,7 @@ s32 TAttackCollider::area_attack_deliver_physical(const AreaAttackContact *conta
     }
     if (bodies->flags & mask) {
         for (i = 0; i < 0x10; i++) {
-            t = reinterpret_cast<TObjChara *>(TObjPlayer::get_battle_param(i));
+            t = static_cast<TObjChara *>(TObjPlayer::get_battle_param(i));
             if (t == NULL) {
                 break;
             }
@@ -131,7 +131,7 @@ s32 TAttackCollider::area_attack_deliver_direct(const AreaAttackContact *contact
     }
     if (bodies->flags & mask) {
         for (i = 0; i < 0x10; i++) {
-            t = reinterpret_cast<TObjChara *>(TObjPlayer::get_battle_param(i));
+            t = static_cast<TObjChara *>(TObjPlayer::get_battle_param(i));
             if (t == NULL) {
                 break;
             }

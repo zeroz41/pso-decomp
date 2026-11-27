@@ -1032,7 +1032,7 @@ bool TObjEneGibbles::attack_from_joint_53(s32 trigger_hit_reaction, f32 power) {
     this->attack_colliders[0]->check_object_collisions();
     if (this->attack_colliders[0]->bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
-            candidate = (TObjCollidable *)TObjPlayer::get_battle_param(i);
+            candidate = TObjPlayer::get_battle_param(i);
             if (candidate == NULL) {
                 break;
             }
@@ -1078,7 +1078,7 @@ bool TObjEneGibbles::attack_from_joint_31(s32 trigger_hit_reaction, f32 power) {
     this->attack_colliders[0]->check_object_collisions();
     if (this->attack_colliders[0]->bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
-            candidate = (TObjCollidable *)TObjPlayer::get_battle_param(i);
+            candidate = TObjPlayer::get_battle_param(i);
             if (candidate == NULL) {
                 break;
             }
