@@ -4,6 +4,7 @@
 #include "types.h"
 
 struct NJS_POINT2;
+class TWindowCheckBox;
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 
@@ -27,6 +28,19 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
     virtual void on_cancel();
     virtual const char *get_message_text();
     static void *destroy(void *, s16);
+};
+
+// The block init() fills: who of the party stands within radius of a spot (warps).
+struct WarpPartyCheck {
+    f32 radius_sq;
+    s32 member_count;      // count_members() when the window was last built
+    Vec center;
+    s32 all_in_range;
+    s32 any_in_range;
+    s32 confirmed_mask;    // in_range_mask of the last pass that left someone out
+    s32 in_range_mask;     // bit per client
+    TWindowCheckBox *win;  // the player-name check boxes
+    char names[4][0x18];
 };
 
 LAYOUT_ASSERT(TAdVIConfigGC_size, sizeof(TAdVIConfigGC) == 0x4C);

@@ -239,10 +239,6 @@ void THunterGuildSeqOffline::handle_window_input() {
 
 #pragma defer_codegen on
 
-struct GuildMenuCallbackView : GuildMenuCallbackBase {
-    virtual void m0(); virtual void m1();
-};
-
 #pragma readonly_strings on
 s32 quest_result_callbacks[4];
 s32 THunterGuildSeqOffline::instance_table[4];
@@ -334,9 +330,9 @@ void THunterGuildSeqOffline::unload_quest_result_callbacks() { reset_quest_resul
 void THunterGuildSeqOffline::notify_quest_thread() {
     s32 v = quest_result_callbacks[3];
     if (v != -1) {
-        GuildMenuCallbackView *obj = (GuildMenuCallbackView *)TQuestThread::create(v);
-        if (obj != NULL) {
-            obj->m1();
+        TQuestThread *thread = TQuestThread::create(v);
+        if (thread != NULL) {
+            thread->run_task();
         }
     }
 }

@@ -9,7 +9,6 @@ struct BmlResource;
 struct AsyncFileReadRequest;
 struct EnemySetRecord;
 struct TChallenge;
-struct LobbyPlayerEntry;
 class TLobbyIdleTimer;
 class TEnemyTaskList;
 template <size_t size> struct TPlyText;
@@ -386,6 +385,15 @@ void queue_join_entry_exit_on_input(TObject *task);
 void show_card_list_message(TPlyText<288> &info);
 void show_join_entry_message(s32 id);
 void handle_game_list(int entry_count, GameListEntry *entries, GameListEntry &entry_0);
+
+// One player record of a lobby join (construct_lobby_players builds the players from them).
+struct LobbyPlayerEntry {
+    u8 tag[8];
+    u32 ip_addr;
+    saddr client_id;
+    char name[16];
+    u8 char_data[0x41C];
+};
 void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, s32 unused);
 
 class TPlyCharData;

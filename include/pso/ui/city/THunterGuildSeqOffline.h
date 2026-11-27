@@ -67,6 +67,4 @@ s32 get_online_server_instance(s32 client_id);
 s32 get_offline_instance(s32 client_id);
 s32 is_near_designated_player(void);
 
-struct GuildMenuCallbackBase { char pad[0x18]; };
-
 #endif

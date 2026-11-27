@@ -27,20 +27,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/NinjaUtil.h"
 
-// The block init() fills: who of the party stands within radius of a spot (warps; the
-// name WarpPartyCheck is inferred).
-struct WarpPartyCheck {
-    f32 radius_sq;
-    s32 member_count;      // count_members() when the window was last built
-    Vec center;
-    s32 all_in_range;
-    s32 any_in_range;
-    s32 confirmed_mask;    // in_range_mask of the last pass that left someone out
-    s32 in_range_mask;     // bit per client
-    TWindowCheckBox *win;  // the player-name check boxes
-    char names[4][0x18];
-};
-
 // Ticks the names of the players on this floor within the radius init() set (in the
 // window open_player_names_window made) and records which of them are in range.
 #pragma push
