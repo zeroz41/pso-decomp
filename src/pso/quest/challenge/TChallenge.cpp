@@ -745,7 +745,7 @@ void TChallenge::restore_challenge_from_save() {
     own = &challenge_mode_state.client_records[local_client_id];
     if (get_character_save_record(0xFFFF) != 0U) {
         own->present = 1;
-        own->records = *(ChallengeRecord *)(get_character_save_record(0xFFFF) + 0x21C4);
+        own->records = ((CharacterSaveRecord *)get_character_save_record(0xFFFF))->challenge;
     }
 }
 

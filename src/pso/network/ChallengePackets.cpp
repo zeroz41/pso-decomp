@@ -151,7 +151,7 @@ void send_own_challenge_records(void) {
     if (is_challenge_mode() != 0) {
         own = &challenge_mode_state.client_records[local_client_id];
         if (((u32)get_character_save_record(0xFFFF)) != 0) {
-            own->records = *(ChallengeRecord *)(get_character_save_record(0xFFFF) + 0x21C4);
+            own->records = ((CharacterSaveRecord *)get_character_save_record(0xFFFF))->challenge;
             if (challenge_task != NULL) {
                 TLobby::send_challenge_records(challenge_task);
             }
@@ -162,6 +162,6 @@ void send_own_challenge_records(void) {
 void TLobby::send_challenge_records(TChallenge *challenge) {
     G_SetChallengeRecords_V3_6x7C packet;
     packet.__base_G_SetChallengeRecordsBase_6x7C.client_id = (s16) local_client_id;
-    packet.records = *(ChallengeRecord *)(get_character_save_record(0xFFFF) + 0x21C4);
+    packet.records = ((CharacterSaveRecord *)get_character_save_record(0xFFFF))->challenge;
     packet.send();
 }

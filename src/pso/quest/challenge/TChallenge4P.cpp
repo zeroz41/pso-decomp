@@ -442,7 +442,7 @@ s32 get_challenge_award_rank(s32 total, u16 card, s32 slot) {
     ChallengeStageRank *rank;
     s32 i;
     ChallengeRankThreshold *e;
-    saddr w;
+    ChallengeRecord *record;
     lo = challenge_set_min_time(slot);
     hi = challenge_set_max_time(slot);
     if (reinterpret_cast<const void *>(get_character_save_record(card)) == NULL) {
@@ -451,8 +451,8 @@ s32 get_challenge_award_rank(s32 total, u16 card, s32 slot) {
     if (total < lo || total > hi) {
         return -4;
     }
-    w = get_character_save_record(card) + 0x21C4;
-    rank = challenge_set_rank((ChallengeRecord *)w, slot);
+    record = &((CharacterSaveRecord *)get_character_save_record(card))->challenge;
+    rank = challenge_set_rank(record, slot);
     e = &challenge4p_mode_state.rank_thresholds[2];
     for (i = 2; i >= 0; i--, e--) {
         if (e->time != 0 && e->time >= total) {
@@ -471,7 +471,7 @@ s32 get_challenge_award_rank(s32 total, u16 card, s32 slot) {
 }
 
 s32 record_challenge_stage_time(s32 seed, u16 card, s32 id) {
-    u8 *win = (u8 *)get_character_save_record(card);
+    CharacterSaveRecord *win = (CharacterSaveRecord *)get_character_save_record(card);
     s32 layout = challenge_set_stage_count(id);
     s32 *arr;
     s32 idx;
@@ -480,7 +480,7 @@ s32 record_challenge_stage_time(s32 seed, u16 card, s32 id) {
     if (win == NULL || challenge4p_mode_state.stage < 0 || challenge4p_mode_state.stage >= layout) {
         return 0;
     }
-    arr = challenge_set_stage_times((ChallengeRecord *)(win + 0x21C4), id);
+    arr = challenge_set_stage_times(&win->challenge, id);
     ok = 0;
     idx = challenge4p_mode_state.stage * 4;
     if (*(s32 *)((u8 *)arr + idx) == 0) {
@@ -503,7 +503,7 @@ s32 record_challenge_stage_time(s32 seed, u16 card, s32 id) {
 }
 
 s32 count_card_layout_entries(s32 client) {
-    u8 *win = (u8 *)get_character_save_record(client);
+    CharacterSaveRecord *win = (CharacterSaveRecord *)get_character_save_record(client);
     s32 layout;
     s32 id;
     s32 *arr;
@@ -513,7 +513,7 @@ s32 count_card_layout_entries(s32 client) {
         return 0;
     }
     id = resolve_challenge_record_set(-1);
-    arr = challenge_set_stage_times((ChallengeRecord *)(win + 0x21C4), id);
+    arr = challenge_set_stage_times(&win->challenge, id);
     layout = challenge_set_stage_count(id);
     n = 0;
     for (i = 0; i < layout; i++) {
@@ -557,7 +557,7 @@ s32 record_challenge_stage_clear(s32 seed, u16 card) {
     record_challenge_stage_time(seed, card, id);
     total = get_challenge_set_time(card, id);
     if (total != 0) {
-        record = (ChallengeRecord *)(get_character_save_record(card) + 0x21C4);
+        record = &((CharacterSaveRecord *)get_character_save_record(card))->challenge;
         total -= decode_challenge_time(challenge_set_stage_times(record, id)[challenge4p_mode_state.stage]);
         total += seed;
         result = get_challenge_award_rank(total, card, id);
@@ -718,8 +718,8 @@ void save_challenge_tombstone_spot(s32 client) {
             spot->layout = challenge4p_mode_state.stage;
             spot->floor = challenge4p_mode_state.current_floor;
             VecCopy(&spot->position, &p->position);
-            u8 *w = reinterpret_cast<u8 *>(get_character_save_record(client)) + 0x2274;
-            copy_tombstone_spot(reinterpret_cast<TObjTombstoneSpot *>(w), spot);
+            TObjTombstoneSpot *saved = &((CharacterSaveRecord *)get_character_save_record(client))->challenge.tombstone_spot;
+            copy_tombstone_spot(saved, spot);
         }
     }
 }
@@ -815,7 +815,7 @@ void TChallenge4P::restore_challenge_from_save() {
         if (get_player_by_client_id(i) != NULL && (u8 *)get_character_save_record(i) != NULL) {
             ChallengeClientRecords *r = &challenge4p_mode_state.client_records[i];
             r->present = 1;
-            r->records = *(ChallengeRecord *)(get_character_save_record(i) + 0x21C4);
+            r->records = ((CharacterSaveRecord *)get_character_save_record(i))->challenge;
         }
     }
 }
