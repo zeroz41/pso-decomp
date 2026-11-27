@@ -73,7 +73,6 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
   {
     case 0:
       TWindowSubStatusDisp::reset_gauge(0);
-      context = context;
       break;
     case 1:
       begin_screen_draw(1);
@@ -90,16 +89,13 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
     d = n % 10;
     switch (mode)
     {
-      if (1)
-      {
-        case 0:
-          r = bind_menu_font_glyph(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->color);
-          pos.y0 = y;
-          x -= r;
-          pos.x0 = x;
-          set_glyph_quad_extents(r, &pos);
-          break;
-      }
+      case 0:
+        r = bind_menu_font_glyph(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->color);
+        pos.y0 = y;
+        x -= r;
+        pos.x0 = x;
+        set_glyph_quad_extents(r, &pos);
+        break;
       case 1:
         g = get_small_font_glyph_id(d + 0x30);
         x -= get_small_font_glyph_width();

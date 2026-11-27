@@ -99,9 +99,6 @@
 #include "pso/quest/QuestStoryFlags.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/BattleParamTables.h"
-// TObjCharaHelpers.h declares these too, but its calc_random_ratio prototype takes no rng.
-extern "C" {
-}
 const char *bm_modelparticle_gryphon_model_names[4] = {
     "boss_rock.gj", "fe_obj001_iwaware_01.gj", "fe_obj001_iwaware_02.gj", NULL,
 };

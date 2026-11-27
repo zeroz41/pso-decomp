@@ -102,6 +102,8 @@ struct TObjEneGibbles : public TObjEnemy {
     void run_task_stub();
     void attack_stub();
     void render_and_get_joint_pos(Vec *out, s32 node);
+    // hit the players touching attack_colliders[0] (moved to joint 0x1F / 0x35);
+    // arg 1 grows armor by the damage dealt
     bool attack_from_joint_31(s32 trigger_hit_reaction, f32 power);
     bool attack_from_joint_53(s32 trigger_hit_reaction, f32 power);
     void state_punch();
@@ -111,9 +113,5 @@ struct TObjEneGibbles : public TObjEnemy {
 LAYOUT_ASSERT(TObjEneGibbles_size, sizeof(TObjEneGibbles) ==0x44C);
 
 void gibbles_render_node_callback(NJS_OBJECT *);
-// hit the players touching attack_colliders[0] (moved to joint 0x1F / 0x35);
-// arg 1 grows armor by the damage dealt
-extern "C" {
-}
 
 #endif

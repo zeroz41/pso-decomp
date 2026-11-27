@@ -110,7 +110,6 @@ void TBoss4Thanks::render() {
   f32 fade;
   int hidden;
   fade = fade_amount;
-  fade = fade;
   hidden = 0.0f == fade;
   if (hidden)
   {
