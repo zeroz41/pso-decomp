@@ -132,10 +132,17 @@ __declspec(section ".data") AttackParams *gibon_stat_handle_a_table[2];
 __declspec(section ".data") ActorParamBlock *gibon_stat_handle_b_table[2];
 __declspec(section ".data") u8 *gibon_param_table[2];
 __declspec(section ".data") f32 bm5_gibon_u_zero_vector[3];  // zeroed by the resource loader, never read
-__declspec(section ".data") u32 lbl_80500EA4[3];
-__declspec(section ".data") u32 bm5_gibon_u_pack_member_list[5];
-__declspec(section ".data") u32 bm5_gibon_u_instance_list[3];
 }
+
+// On CodeWarrior the hand-written __sinit below constructs the lists and registers their destructors.
+#pragma suppress_init_code on
+#pragma no_static_dtors on
+__declspec(section ".data") DestructorChain bm5_gibon_u_pack_member_list_dtor_chain;
+__declspec(section ".data") TObjEneBm5GibonUList bm5_gibon_u_pack_member_list;
+__declspec(section ".data") DestructorChain bm5_gibon_u_instance_list_dtor_chain;
+__declspec(section ".data") TObjEneBm5GibonUList bm5_gibon_u_instance_list;
+#pragma no_static_dtors reset
+#pragma suppress_init_code reset
 
 #pragma pop
 #pragma push
@@ -691,7 +698,7 @@ void TObjEneBm5GibonU::update_dying_state(s32 msg) {
         this->wall_reach = 0.0f;
         if (this->is_leader != 0) {
             k = 50.0f;
-            for (n = ((TObjEneBm5GibonUList *)bm5_gibon_u_pack_member_list)->head; n != NULL; n = n->next) {
+            for (n = bm5_gibon_u_pack_member_list.head; n != NULL; n = n->next) {
                 o = n->get_owner();
                 if (o != NULL && o->group_id == this->group_id) {
                     o->schedule_pack_reaction((s32)(k * this->random_ratio()) + 0x14, this->attacker_id);
@@ -1596,7 +1603,7 @@ void TObjEneBm5GibonU::howling_state(s32 msg) {
             play_sound_effect(this->remap_sound_for_area(0x3A523), &this->position, 0, 0);
         }
         if (this->substate == 0x3C) {
-            for (n = ((TObjEneBm5GibonUList *)bm5_gibon_u_instance_list)->head; n != NULL; n = n->next) {
+            for (n = bm5_gibon_u_instance_list.head; n != NULL; n = n->next) {
                 o = n->get_owner();
                 if (this->group_id == o->get_group_id()) {
                     o->set_flag();
@@ -1865,14 +1872,13 @@ s32 TObjEneBm5GibonU::get_group_id() { return this->group_id; }
 
 #pragma push
 #pragma opt_propagation off
-// CodeWarrior: builds the two global lists after bm5_gibon_u_stat_params and registers their destructors, spelled
-// out because the original's static initializer precedes this file's inline copies. Elsewhere the lists start
-// zeroed, which is what their constructor sets, and their destructor does nothing.
+// CodeWarrior: the original's static initializer precedes this file's inline copies, so it is spelled out.
 #ifdef __MWERKS__
 void __sinit_TObjEneBm5GibonU_cpp() {
-    TObjEneBm5GibonUStaticData *data = (TObjEneBm5GibonUStaticData *)bm5_gibon_u_stat_params;
-    __register_global_object(data->node_list.reset(), __dt__20TObjEneBm5GibonUListFv, &data->node_list_chain);
-    __register_global_object(data->enemy_list.reset(), __dt__20TObjEneBm5GibonUListFv, &data->enemy_list_chain);
+    __register_global_object(__ct__20TObjEneBm5GibonUListFv(&bm5_gibon_u_pack_member_list),
+        __dt__20TObjEneBm5GibonUListFv, &bm5_gibon_u_pack_member_list_dtor_chain);
+    __register_global_object(__ct__20TObjEneBm5GibonUListFv(&bm5_gibon_u_instance_list),
+        __dt__20TObjEneBm5GibonUListFv, &bm5_gibon_u_instance_list_dtor_chain);
 }
 #endif
 #pragma pop
@@ -1919,9 +1925,8 @@ TObjEneBm5GibonU *TObjEneBm5GibonUNode::get_owner() {
     return (TObjEneBm5GibonU *)find_entity_by_id(entity_id);
 }
 
-TObjEneBm5GibonUList *TObjEneBm5GibonUList::reset() {
+TObjEneBm5GibonUList::TObjEneBm5GibonUList() {
     clear();
-    return this;
 }
 
 TObjEneBm5GibonUList::~TObjEneBm5GibonUList() {}
@@ -1949,8 +1954,8 @@ void TObjEneBm5GibonU::load_resources() {
         m = load_enemy_bml_resource(&bm_ene_bm5_gibon_u_resource_descriptor);
     }
     bm5_gibon_u_model_archive = m;
-    ((TObjEneBm5GibonUList *)bm5_gibon_u_pack_member_list)->clear();
-    ((TObjEneBm5GibonUList *)bm5_gibon_u_instance_list)->clear();
+    bm5_gibon_u_pack_member_list.clear();
+    bm5_gibon_u_instance_list.clear();
     bm5_gibon_u_render_node_index = 0;
     bm5_gibon_u_render_joint_y_rotation = 0;
     v = bm5_gibon_u_zero_vector;
@@ -1982,24 +1987,24 @@ void TObjEneBm5GibonU::release_static_resource() {
 }
 
 void TObjEneBm5GibonU::add_to_pack_member_list() {
-    ((TObjEneBm5GibonUList *)bm5_gibon_u_pack_member_list)->append(&pack_node);
+    bm5_gibon_u_pack_member_list.append(&pack_node);
 }
 
 void TObjEneBm5GibonU::remove_from_pack_member_list() {
-    ((TObjEneBm5GibonUList *)bm5_gibon_u_pack_member_list)->remove(&pack_node);
+    bm5_gibon_u_pack_member_list.remove(&pack_node);
 }
 
 void TObjEneBm5GibonU::add_to_instance_list() {
-    ((TObjEneBm5GibonUList *)bm5_gibon_u_instance_list)->append(&instance_node);
+    bm5_gibon_u_instance_list.append(&instance_node);
 }
 
 void TObjEneBm5GibonU::remove_from_instance_list() {
-    ((TObjEneBm5GibonUList *)bm5_gibon_u_instance_list)->remove(&instance_node);
+    bm5_gibon_u_instance_list.remove(&instance_node);
 }
 
 TObjEneBm5GibonU *TObjEneBm5GibonU::find_pack_leader(s32 id) {
     TObjEneBm5GibonUNode *n;
-    for (n = ((TObjEneBm5GibonUList *)bm5_gibon_u_instance_list)->head; n != 0; n = n->next) {
+    for (n = bm5_gibon_u_instance_list.head; n != 0; n = n->next) {
         TObjEneBm5GibonU *e = n->get_owner();
         if (e != 0 && e->group_id == id) {
             return e;

@@ -29,7 +29,7 @@ struct TObjEneBm5GibonUNode {
 };
 
 struct TObjEneBm5GibonUList {
-    TObjEneBm5GibonUList *reset();
+    TObjEneBm5GibonUList();
     ~TObjEneBm5GibonUList();
     void clear();
     void append(TObjEneBm5GibonUNode *node);
@@ -40,9 +40,12 @@ struct TObjEneBm5GibonUList {
 };
 
 #ifdef __MWERKS__
-// The list's destructor by symbol, for CodeWarrior's hand-written static initializer that registers the global
-// lists (C++ cannot take a destructor's address).
-extern "C" void __dt__20TObjEneBm5GibonUListFv(void *object, s16 flags);
+// The list's constructor and destructor by symbol, for CodeWarrior's hand-written static initializer that builds
+// and registers the global lists (C++ cannot take a constructor's or destructor's address).
+extern "C" {
+TObjEneBm5GibonUList *__ct__20TObjEneBm5GibonUListFv(void *object);
+void __dt__20TObjEneBm5GibonUListFv(void *object, s16 flags);
+}
 #endif
 
 struct TObjEneBm5GibonU : public TObjEneDD_ST {
@@ -174,15 +177,5 @@ LAYOUT_ASSERT(TObjEneBm5GibonU_pack_node, offsetof(TObjEneBm5GibonU, pack_node) 
 LAYOUT_ASSERT(TObjEneBm5GibonU_appear_fade, offsetof(TObjEneBm5GibonU, appear_fade) == 0x3D8);
 LAYOUT_ASSERT(TObjEneBm5GibonU_is_leader, offsetof(TObjEneBm5GibonU, is_leader) == 0x464);
 LAYOUT_ASSERT(TObjEneBm5GibonU_near_target, offsetof(TObjEneBm5GibonU, near_target) == 0x564);
-
-// The Gibbon's static data from bm5_gibon_u_stat_params on: the parameter tables, then
-// the two lists, each after the destructor-chain record __register_global_object fills in.
-struct TObjEneBm5GibonUStaticData {
-    u8 tables[0x2c];
-    DestructorChain node_list_chain;
-    TObjEneBm5GibonUList node_list;
-    DestructorChain enemy_list_chain;
-    TObjEneBm5GibonUList enemy_list;
-};
 
 #endif

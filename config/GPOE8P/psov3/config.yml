@@ -8117,13 +8117,15 @@ force_active:
   - fly_nest_vertex_list
   - wolf_param_table
   - bm5_wolf_zero_vector
-  - lbl_80500B6C
+  - bm5_wolf_pack_member_list_dtor_chain
+  - bm5_wolf_instance_list_dtor_chain
   - player_render_texlist
   - gibon_stat_handle_a_table
   - gibon_stat_handle_b_table
   - gibon_param_table
   - bm5_gibon_u_zero_vector
-  - lbl_80500EA4
+  - bm5_gibon_u_pack_member_list_dtor_chain
+  - bm5_gibon_u_instance_list_dtor_chain
   - slime_tail_node_capture
   - TObjEneRe4Bit_attack_handles
   - TObjEneRe4Bit_resistance_handles
@@ -14499,8 +14501,8 @@ force_active:
   - reset__11TItemMagSubFv
   - reset__14TBoss2TentacleFv
   - reset__14TItemEquipBaseFv
-  - reset__18TObjEneBm5WolfListFv
-  - reset__20TObjEneBm5GibonUListFv
+  - __ct__18TObjEneBm5WolfListFv
+  - __ct__20TObjEneBm5GibonUListFv
   - reset__21TObjEneRe7BeruraPunchFv
   - reset_trade_session__FPCc
   - reset__8TGStreamFv
