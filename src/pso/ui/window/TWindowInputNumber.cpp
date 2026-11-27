@@ -91,11 +91,11 @@ void TWindowInputNumber::handle_decrement() {
 }
 
 void TWindowInputNumber::move_cursor_next() {
-    u8 digits;
+    s8 digits;
 
     play_sound_effect(0x54100, 0, 0, 0);
     this->selectedDigit = (u8) (this->selectedDigit + 1);
-    if ((s8) this->selectedDigit >= (s8) (digits = *(u8 *)&this->digitCount)) {
+    if (this->selectedDigit >= (digits = this->digitCount)) {
         if (this->inputFlags & 1) {
             this->selectedDigit = (digits - 1);
             return;
