@@ -1236,9 +1236,9 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
         return 0;
     }
     if (is_online_ready() != 0) {
-        replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_online);
+        replace_file_extension(path, (char *)r->decoration_set_name, decoration_file_suffix_online);
     } else {
-        replace_file_extension(path, (char *)r->decoration_set_name, (char *)decoration_file_suffix_offline);
+        replace_file_extension(path, (char *)r->decoration_set_name, decoration_file_suffix_offline);
     }
     size = get_resource_file_size(path);
     if (size < 0) {

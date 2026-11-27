@@ -19,6 +19,10 @@ void reset_floor_map_registry(void);
 extern s32 story_select_pending_state;
 // The episode select_episode last picked.
 extern int selected_episode;
+// The model file suffixes TSceneSora::load_sky_resources puts on a floor's sky name.
+extern const char sky_model_ext_s_njm[];
+extern const char sky_model_ext_sm_gj[];
+extern const char sky_model_ext_s_gj[];
 // Picks episode 0 or 1 and resets the floor map registry for it.
 void select_episode(s32 episode);
 // Copies the game variations' (terrain, entities) pairs into the floor map registry.

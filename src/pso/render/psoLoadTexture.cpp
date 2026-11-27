@@ -45,7 +45,7 @@ s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
     pump_frames();
     strncpy(path, name, 0x40);
     if (compare_file_extension(path, "gvm") != 0) {
-        change_file_extension(0, path, (char *)"gvm");
+        change_file_extension(0, path, "gvm");
     }
     size = TGStream::get_resource_file_size(path);
     if (size <= 0) {

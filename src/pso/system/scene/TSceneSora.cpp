@@ -37,12 +37,6 @@ TSceneSora *TSceneSora::instance;
 BmlResource *TSceneSora::sky_bml_resource;
 s32 TSceneSora::has_sky_motion;
 
-extern "C" {
-extern char sky_model_ext_s_njm[];
-extern char sky_model_ext_sm_gj[];
-extern char sky_model_ext_s_gj[];
-}
-
 
 void TSceneSora::render() {
     if ((s32) TSceneSora::sky_active_flag != 0) {

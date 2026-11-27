@@ -126,7 +126,7 @@ void *BmlResource::allocate_bml_chunk(u8 *file, u32 *offset, u32 *tag) {
 void BmlResource::LoadTextureSub(const char *filename, s32 index) {
     char buf[0x20];
     s32 size;
-    change_file_extension(buf, const_cast<char *>(filename), const_cast<char *>("gvm"));
+    change_file_extension(buf, const_cast<char *>(filename), "gvm");
     size = TGStream::gsSctLoadFile(buf, lobby_download_buffer);
     if (size > 0x40000) {
         file_debug_printf("LoadTextureSub: %s too large.", buf);
@@ -303,7 +303,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             }
         }
         if (bml_load_entry_index < bml->model_count) {
-            change_file_extension(NULL, bml_header_record_ptr->name, (char *)"gvm");
+            change_file_extension(NULL, bml_header_record_ptr->name, "gvm");
             lobby_bml_file_handle = ADXF_Open(bml_header_record_ptr->name, 0);
             if (lobby_bml_file_handle != 0) {
                 n = ADXF_GetFsizeSct(lobby_bml_file_handle);
@@ -429,7 +429,7 @@ void LoadBinModelCallBack(BmlModelLoadRequest *self) {
             *slot = (NJS_TEXLIST *)data;
             params.resource = self->resource;
             params.entry = self->entry;
-            change_file_extension(name, (char *)self->name, (char *)"gvm");
+            change_file_extension(name, (char *)self->name, "gvm");
             r = create_file_load_entry(name, *slot, increment_ref_and_set_flag, &params, &handle);
             if (r >= 0) {
                 self->resource->add_resource_handle(handle);

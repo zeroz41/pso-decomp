@@ -228,7 +228,7 @@ void close_gsl_archive(void) {
     } else {
         n = strlen(gsl_archive_path_buffer_ptr);
         if (n > 0) {
-            change_file_extension(buf, gsl_archive_filename, (char *)"txt");
+            change_file_extension(buf, gsl_archive_filename, "txt");
             on_gsl_archive_close(buf, gsl_archive_entries, n);
         }
         gsl_archive_write_started = 0;
