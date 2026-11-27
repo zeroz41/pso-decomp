@@ -1009,7 +1009,7 @@ TOMineDisp::TOMineDisp(TObject *parent, u16 client) : TObjBase(parent) {
     color.g = 0.0f;
     color.b = 0.0f;
     state = 0;
-    m_90 = 0;
+    pad_90 = 0;
 }
 
 TOMineDisp::~TOMineDisp() {

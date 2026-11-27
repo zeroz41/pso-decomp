@@ -14,7 +14,7 @@ struct TOMineDisp : public TObjBase {
     virtual void run_task();
     // Whether this is player `id`'s view of the mine and that view has not gone (state 2).
     s32 matches_id(u16 id);
-    u32 m_90;
+    u32 pad_90;
     NJS_ARGB color;  // the constant material colour render draws it with
     s32 state;
     u16 client_id;
