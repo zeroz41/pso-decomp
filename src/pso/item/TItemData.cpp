@@ -145,7 +145,7 @@ void TItemData::apply_bonuses(TObjPlayer *player, AttackParams *attack, ActorPar
             attack->add_atp_max(boost->amount);
             break;
         case 2:
-            attack->add_ata((s16)(boost->amount * 10));
+            attack->add_ata(boost->amount * 10);
             break;
         case 3:
             params->add_evp(boost->amount);
@@ -165,7 +165,7 @@ void TItemData::apply_bonuses(TObjPlayer *player, AttackParams *attack, ActorPar
         case 8:
             attack->add_atp_min(boost->amount);
             attack->add_atp_max(boost->amount);
-            attack->add_ata((s16)(boost->amount * 10));
+            attack->add_ata(boost->amount * 10);
             params->add_evp(boost->amount);
             params->add_dfp(boost->amount);
             stats->mst += boost->amount;
@@ -176,7 +176,7 @@ void TItemData::apply_bonuses(TObjPlayer *player, AttackParams *attack, ActorPar
             attack->sub_atp_max(boost->amount);
             break;
         case 10:
-            attack->sub_ata((s16)(boost->amount * 10));
+            attack->sub_ata(boost->amount * 10);
             break;
         case 11:
             params->sub_evp(boost->amount);
@@ -196,7 +196,7 @@ void TItemData::apply_bonuses(TObjPlayer *player, AttackParams *attack, ActorPar
         case 16:
             attack->sub_atp_min(boost->amount);
             attack->sub_atp_max(boost->amount);
-            attack->sub_ata((s16)(boost->amount * 10));
+            attack->sub_ata(boost->amount * 10);
             params->sub_evp(boost->amount);
             params->sub_dfp(boost->amount);
             stats->mst -= boost->amount;
@@ -349,7 +349,7 @@ void TItemData::add_armor_stat_contribution(TObjPlayer *player, AttackParams *at
 #pragma fp_contract on
 void TItemData::add_weapon_stat_bonuses(TObjPlayer *player, AttackParams *attack, ActorParamBlock *params,
                                         EquipStatBonus *stats, EquipHpTpBonus *hp_tp) {
-  s16 hi;
+  s32 hi;
   s32 i;
   WeaponParams *parm;
   f32 mult = get_set_bonus_multiplier(player);
@@ -360,16 +360,16 @@ void TItemData::add_weapon_stat_bonuses(TObjPlayer *player, AttackParams *attack
     if (attack != 0)
     {
       s16 grind = ((u8) (hi = data1.data_s8[3])) * 2;
-      s16 lo = (mult * ((f32) (parm->atp_min + grind))) + add;
+      s32 lo = (mult * ((f32) (parm->atp_min + grind))) + add;
       hi = (mult * ((f32) (parm->atp_max + grind))) + add;
       attack->add_atp_min(lo);
       attack->add_atp_max(hi);
-      attack->add_ata((s16) (parm->ata * 10));
+      attack->add_ata(parm->ata * 10);
       for (i = 0; i != 3; i++)
       {
         if (data1.data_u8[6 + (i * 2)] == 5)
         {
-          attack->add_ata((s16) (data1.data_s8[7 + (i * 2)] * 10));
+          attack->add_ata(data1.data_s8[7 + (i * 2)] * 10);
         }
       }
     }
