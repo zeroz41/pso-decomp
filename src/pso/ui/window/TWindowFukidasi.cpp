@@ -35,6 +35,8 @@
 #include "pso/ui/chat/TWindowChatSymbol.h"
 #include <stdlib.h>
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/render/DebugFont.h"
+#include "pso/render/GinjaDrawUtil.h"
 #define PSO_SDK_COMPACT_MATH
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
@@ -46,13 +48,6 @@
 
 
 extern "C" {
-f32 xyz_distance(void *, void *);
-
-}
-
-
-extern "C" {
-f32 vec3_dot(void *, void *);
 __declspec(section ".rodata") extern const char window_fukidasi_class_name_string[] = "TWindowFukidasi";
 }
 
@@ -289,7 +284,7 @@ void TWindowFukidasi::draw_body_row(RotatedQuadSpriteRect *slice, WindowDrawCont
 
 void TWindowFukidasi::draw_tail(WindowDrawContext *context, u32 color, f32 *off, f32 depth) {
     NJS_POINT2 verts[3];
-    f32 pos[3];
+    Vec pos;
     NJS_POINT2COL prim;
     NJS_COLOR colors[3];
     f32 scr[2];
@@ -300,11 +295,11 @@ void TWindowFukidasi::draw_tail(WindowDrawContext *context, u32 color, f32 *off,
     f32 y0;
     s32 angle;
     if (this->is_balloon_visible() != 0) {
-        this->project_anchor(pos, scr);
+        this->project_anchor(&pos, scr);
         cx = balloon_center[0];
         cy = balloon_center[1];
         angle = 10430.38043493439 * atan2_float(cy - scr[1], cx - scr[0]);
-        s = 1000.0f / xyz_distance(&camera_ctrl_instance->pos, pos);
+        s = 1000.0f / xyz_distance(&camera_ctrl_instance->pos, &pos);
         x0 = s * cos_table_lookup(angle) + scr[0];
         y0 = s * sin_table_lookup(angle) + scr[1];
         prim.p = verts;
@@ -695,14 +690,14 @@ void TWindowFukidasi::follow_anchor() {
 }
 
 s32 TWindowFukidasi::is_speaker_far_or_offscreen() {
-    f32 pos[3];
+    Vec pos;
     f32 scr[2];
     f32 m;
     f32 xx;
     f32 yy;
     f32 zz;
     clear_flag_20();
-    if (project_anchor(pos, scr) == 0) {
+    if (project_anchor(&pos, scr) == 0) {
         return 1;
     }
     if (this->is_flag_set() != 0) {
@@ -723,22 +718,22 @@ s32 TWindowFukidasi::is_speaker_far_or_offscreen() {
         return 1;
     }
     Vec v = fukidasi_forward_vec;
-    f32 d[3];
+    Vec d;
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     rotate_matrix_x(0, camera_ctrl_instance->pitch);
     rotate_matrix_z(0, camera_ctrl_instance->roll);
     rotate_vector_by_matrix(0, &v, &v);
     pop_matrix();
-    d[0] = pos[0] - camera_ctrl_instance->pos.x;
-    d[1] = pos[1] - camera_ctrl_instance->pos.y;
-    d[2] = pos[2] - camera_ctrl_instance->pos.z;
-    if (vec3_dot(&v, d) <= 0.0f) {
+    d.x = pos.x - camera_ctrl_instance->pos.x;
+    d.y = pos.y - camera_ctrl_instance->pos.y;
+    d.z = pos.z - camera_ctrl_instance->pos.z;
+    if (vec3_dot(&v, &d) <= 0.0f) {
         return 1;
     }
-    xx = d[0] * d[0];
-    yy = d[1] * d[1];
-    zz = d[2] * d[2];
+    xx = d.x * d.x;
+    yy = d.y * d.y;
+    zz = d.z * d.z;
     if (zz + (xx + yy) > 40.0f * m + 14400.0f) {
         return 1;
     }
@@ -747,9 +742,9 @@ s32 TWindowFukidasi::is_speaker_far_or_offscreen() {
 }
 
 #pragma pop
-s32 TWindowFukidasi::project_anchor(f32 *pos, f32 *out) {
+s32 TWindowFukidasi::project_anchor(Vec *pos, f32 *out) {
     TObjCollidable *e;
-    f32 tmp[3];
+    Vec tmp;
 
     if (speaker_id == 0xFFFF) {
         return 0;
@@ -762,16 +757,16 @@ s32 TWindowFukidasi::project_anchor(f32 *pos, f32 *out) {
         return 0;
     }
     if (pos == NULL) {
-        pos = tmp;
+        pos = &tmp;
     }
-    pos[0] = e->position.x;
-    pos[1] = e->position.y + scale;
-    pos[2] = e->position.z;
+    pos->x = e->position.x;
+    pos->y = e->position.y + scale;
+    pos->z = e->position.z;
     if (out == NULL) {
         return 1;
     }
     push_matrix();
-    project_world_to_screen(0, (const Vec *)pos, out);
+    project_world_to_screen(0, pos, out);
     pop_matrix();
     if (is_split_screen() != 0) {
         out[0] -= (f32)TCameraCtrl::get_viewport_x();
@@ -865,7 +860,7 @@ s32 TWindowFukidasi::shift_rect_with_head(f32 *rect, f32 *out) {
 #pragma fp_contract on
 s32 TWindowFukidasi::rest_balloon(f32 *rect, f32 *out) {
     NJS_POINT2 *o = (NJS_POINT2 *)out;
-    f32 world[3];
+    Vec world;
     f32 edge[2];
     f32 dist;
     f32 dx;
@@ -874,8 +869,8 @@ s32 TWindowFukidasi::rest_balloon(f32 *rect, f32 *out) {
     f32 t;
     s32 a;
     s32 angle;
-    project_anchor(world, NULL);
-    reach = 1000.0f / xyz_distance(&camera_ctrl_instance->pos, world);
+    project_anchor(&world, NULL);
+    reach = 1000.0f / xyz_distance(&camera_ctrl_instance->pos, &world);
     dx = (0.5f * frame_size[0] + rect[0]) - head_position[0];
     dy = (0.5f * frame_size[1] + rect[1]) - head_position[1];
     dist = newton_sqrtf(dx * dx + dy * dy);
@@ -941,15 +936,15 @@ s32 TWindowFukidasi::rest_balloon(f32 *rect, f32 *out) {
 #pragma push
 #pragma fp_contract on
 s32 TWindowFukidasi::try_place_bubble(f32 *rect, f32 *o) {
-    f32 world[3];
+    Vec world;
     f32 edge[2];
     f32 dx;
     f32 dy;
     f32 reach;
     s32 a;
     s32 angle;
-    project_anchor(world, NULL);
-    reach = 1000.0f / xyz_distance(&camera_ctrl_instance->pos, world);
+    project_anchor(&world, NULL);
+    reach = 1000.0f / xyz_distance(&camera_ctrl_instance->pos, &world);
     dx = (0.5f * frame_size[0] + rect[0]) - head_position[0];
     dy = (0.5f * frame_size[1] + rect[1]) - head_position[1];
     a = (s32) (10430.38043493439 * ((f64)atan2_float(dy, dx)));
@@ -1018,7 +1013,7 @@ void TWindowFukidasi::place_rect_at_head_or_slot() {
             clear_flag2c_bit200();
             TWindowCtrl::release_slot(&slot);
         }
-        project_anchor((f32 *)(0), p);
+        project_anchor(NULL, p);
         target_position[0] = p[0] - 0.5f * target_size[0];
         target_position[1] = p[1] - 0.5f * target_size[1];
     }
@@ -1031,7 +1026,7 @@ void TWindowFukidasi::place_rect_at_head_or_slot() {
 // middle of the 19-unit name plate draw_name_plate puts on the balloon's top edge at
 // the tail tip draw_tail places 1000/distance short of the speaker, with the
 // same atan2 scale.
-s32 TWindowFukidasi::calc_name_plate_angle(f32 *world, f32 *scr, f32 *rect, f32 *size) {
+s32 TWindowFukidasi::calc_name_plate_angle(Vec *world, f32 *scr, f32 *rect, f32 *size) {
     f32 reach = 1000.0f / xyz_distance(&camera_ctrl_instance->pos, world);
     f32 dx = (0.5f * size[0] + rect[0]) - scr[0];
     f32 dy = ((0.5f * size[1] + rect[1]) - 19.0f) - (scr[1] - reach);

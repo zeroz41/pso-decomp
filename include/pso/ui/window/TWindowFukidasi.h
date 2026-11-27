@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 
 class WindowTextEntry;
+struct Vec;
 
 struct RotatedQuadSpriteRect;
 
@@ -24,11 +25,11 @@ public:
     void set_color(u16);
     void follow_anchor();
     s32 is_speaker_far_or_offscreen();
-    s32 project_anchor(f32 *, f32 *);
+    s32 project_anchor(Vec *pos, f32 *out);
     void place_rect_at_head_or_slot();
     void request_balloon_hide();
     void calc_text_size(f32 *);
-    s32 calc_name_plate_angle(f32 *, f32 *, f32 *, f32 *);  // dead-stripped
+    s32 calc_name_plate_angle(Vec *world, f32 *scr, f32 *rect, f32 *size);  // dead-stripped
     void clear_width();  // dead-stripped
     void measure_text_unbounded(WindowTextEntry *entry);  // dead-stripped
     virtual void render();
