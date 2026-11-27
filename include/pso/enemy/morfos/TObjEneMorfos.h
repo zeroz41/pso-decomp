@@ -73,7 +73,6 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     void init_instance();
     static void unload_static_data();
     static void *create(void *set_data);
-    static s32 snap_to_ground(s32 arg0, saddr origin);
     // The state handlers dispatch_action picks (names from the motions they request).
     void state_damage(s32 ev);    // 10: damage_kabe_body
     void state_attack(s32 ev);    // 5: attack_kabe_body, spawns the arm

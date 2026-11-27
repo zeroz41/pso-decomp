@@ -21,7 +21,7 @@ struct TBoss3VoloptActionPacket {
     s16 action;
     u16 target_id;
     s16 param;
-    s16 param2;
+    s16 moves;
 
     void init();
     void swap();

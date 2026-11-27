@@ -21,11 +21,11 @@ DelDepthMotion::DelDepthMotion(TObjMotion *owner) : actor(owner), motion(-1) {}
 
 DelDepthMotion::~DelDepthMotion() {}
 
-void DelDepthMotion::set_motion(s32 arg1) {
+void DelDepthMotion::set_motion(s32 motion_id) {
     s32 flag;
     s32 id;
     flag = motion;
-    motion = arg1 & ~0x1000;
+    motion = motion_id & ~0x1000;
     flag &= 0x1000;
     id = motion;
     if (id == -1) {

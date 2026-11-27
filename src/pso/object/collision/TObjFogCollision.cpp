@@ -229,17 +229,17 @@ void *TObjFogCollisionPoison::create(void *set) {
     return new TObjFogCollisionPoison(tl_05, set);
 }
 
-TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *arg1, void *set) : TObjFogCollisionSwitch(arg1, set) {
+TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *parent, void *set) : TObjFogCollisionSwitch(parent, set) {
     u16 i;
-    TObject *parent = this;
+    TObject *ticker_parent = this;
     m_name = fog_collision_poison_name;
     init_params();
     if (is_split_screen() != 0) {
         for (i = 0; i != 4; i++) {
-            new TObjFogCollisionPoison_Ticker(parent, i);
+            new TObjFogCollisionPoison_Ticker(ticker_parent, i);
         }
     } else {
-        new TObjFogCollisionPoison_Ticker(parent, local_client_id);
+        new TObjFogCollisionPoison_Ticker(ticker_parent, local_client_id);
     }
 }
 

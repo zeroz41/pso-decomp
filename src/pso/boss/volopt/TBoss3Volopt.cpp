@@ -304,7 +304,7 @@ void TBoss3VoloptActionPacket::swap() {
     bswap_16((u16 *)&action);
     bswap_16(&target_id);
     bswap_16((u16 *)&param);
-    bswap_16((u16 *)&param2);
+    bswap_16((u16 *)&moves);
 }
 
 void TBoss3VoloptTargetsPacket::swap() {
@@ -575,7 +575,7 @@ void TBoss3Volopt::select_phase1_attack() {
                     move_core.header.entity_id = entity_id;
                     move_core.action = 0;
                     move_core.param = core_slot;
-                    move_core.param2 = moves;
+                    move_core.moves = moves;
                     move_core.send();
                     core_slot -= moves;
                     if (core_slot < 0) {
@@ -639,7 +639,7 @@ void TBoss3Volopt::select_phase1_attack() {
                     move_core_v1.header.entity_id = entity_id;
                     move_core_v1.action = 0;
                     move_core_v1.param = core_slot;
-                    move_core_v1.param2 = moves;
+                    move_core_v1.moves = moves;
                     move_core_v1.send();
                     core_slot -= moves;
                     if (core_slot < 0) {
@@ -1329,7 +1329,7 @@ void handle_6x15_vol_opt_boss_actions(TBoss3VoloptActionPacket *packet) {
     case 0: {
         TBoss3VoloptCore *core = (TBoss3VoloptCore *)find_entity_by_id(volopt_core_id);
         if (core != NULL) {
-            core->set_boss_target_pos(packet->param, packet->param2, 0x258);
+            core->set_boss_target_pos(packet->param, packet->moves, 0x258);
         }
         break;
     }
