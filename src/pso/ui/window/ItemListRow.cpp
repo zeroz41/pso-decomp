@@ -25,6 +25,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/enemy/BattleParamTables.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
 #pragma readonly_strings on
 
@@ -521,9 +522,6 @@ void ItemListRow::set_item_info(TItemData *item, s32 index, s32 count) {
 
 
 
-extern "C" {
-u32 calc_text_width(char *s);
-}
 
 void ItemListRow::set_ground_item(TItemData *item, s32 index) {
     s32 item_data;

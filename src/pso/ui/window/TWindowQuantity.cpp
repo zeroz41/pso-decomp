@@ -15,6 +15,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
 QuantityWindowLayout quantity_window_layout_entries = {
     2, 1,
@@ -26,9 +27,6 @@ WindowDescriptor quantity_window_layout = {
     {160.0f, 27.0f}, 50100.0f, &quantity_window_layout_entries, 0x82B,
 };
 
-extern "C" {
-u32 calc_text_width(void);
-}
 const char *TWindowQuantity::class_name = "TWindowQuantity";
 void TWindowQuantity::set_position(WindowDrawContext *context) {
     draw_window_tab(context, &context->inner_x, width, 3);
@@ -54,7 +52,7 @@ TWindowQuantity::TWindowQuantity(s32 client) : TWindowBase((u8 *)&quantity_windo
     f32 n;
     m_name = TWindowQuantity::class_name;
     id = get_message_text(1);
-    n = (f32)calc_text_width();
+    n = (f32)calc_text_width(id);
     width = calc_title_overflow_width(24.0f + (12.0f + n));
     e0 = (WindowTextEntry *)this->get_array_entry(0);
     e1 = (u8 *)this->get_array_entry(1);

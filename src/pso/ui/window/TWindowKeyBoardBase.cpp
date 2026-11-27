@@ -26,6 +26,7 @@
 #include "pso/system/AramPool.h"
 #include <string.h>
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 
 #pragma push
@@ -48,8 +49,6 @@ extern "C" {
 s32 map_char_to_font_code(u16);
 u8 get_font_char_advance(s32);
 extern "C" u8 bind_menu_font_glyph(s32 glyph, TexturedQuad *quad, s32 color);
-
-void draw_textured_quad_at_depth(void *, f32);
 
 
 void TWindowKeyBoardBase::init_keyboard_text_field(u32 width, u32 lines) {
@@ -779,7 +778,7 @@ void TWindowKeyBoardBase::draw_wrapped_text(WindowDrawContext *context, NJS_POIN
                 q.y0 = cursor->y;
                 set_glyph_quad_extents(adv, &q);
                 context->transform_quad(&q);
-                draw_textured_quad_at_depth(&q, scale);
+                draw_textured_quad_at_depth(&q.x0, scale);
                 cursor->x += (f32)(s32)adv;
             }
         }
@@ -814,7 +813,7 @@ void TWindowKeyBoardBase::layout_wrapped_glyphs(WindowDrawContext *box, NJS_POIN
                 q.y0 = cursor->y;
                 set_glyph_quad_extents(adv, &q);
                 box->transform_quad(&q);
-                draw_textured_quad_at_depth(&q, depth);
+                draw_textured_quad_at_depth(&q.x0, depth);
             }
             cursor->x += (f32)adv;
         }
