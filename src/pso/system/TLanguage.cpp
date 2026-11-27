@@ -120,19 +120,19 @@ void TLanguage::load_fonts(s32 language) {
 void TLanguage::load_text_resources(s32 language) {
     switch (language) {
     case LANGUAGE_JAPANESE:
-        text_resource = (void **)load_text_resource_pair((saddr)TextJapanese);
+        text_resource = load_text_resource_pair(TextJapanese);
         break;
     case LANGUAGE_GERMAN:
-        text_resource = (void **)load_text_resource_pair((saddr)TextGerman);
+        text_resource = load_text_resource_pair(TextGerman);
         break;
     case LANGUAGE_FRENCH:
-        text_resource = (void **)load_text_resource_pair((saddr)TextFrench);
+        text_resource = load_text_resource_pair(TextFrench);
         break;
     case LANGUAGE_SPANISH:
-        text_resource = (void **)load_text_resource_pair((saddr)TextSpanish);
+        text_resource = load_text_resource_pair(TextSpanish);
         break;
     default:
-        text_resource = (void **)load_text_resource_pair((saddr)TextEnglish);
+        text_resource = load_text_resource_pair(TextEnglish);
         break;
     }
     soft_keyboard_layouts = (u8 *)text_resource[0];

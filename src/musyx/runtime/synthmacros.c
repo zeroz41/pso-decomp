@@ -864,7 +864,7 @@ static inline void mcmdIfKey(SynthVoice *svoice, SynthMacroStep *step) {
     if (svoice->curNote < ((u8)(step->para[0] >> 8))) {
         return;
     }
-    if ((addr = (SynthMacroStep *)dataGetMacro((step->para[0] >> 0x10))) != 0) {
+    if ((addr = dataGetMacro((step->para[0] >> 0x10))) != NULL) {
         svoice->addr = addr;
         svoice->curAddr = addr + (u16)step->para[1];
     }
@@ -875,7 +875,7 @@ static inline void mcmdIfVelocity(SynthVoice *svoice, SynthMacroStep *step) {
     if (((u8)(svoice->volume >> 0x10)) < (u8)(step->para[0] >> 8)) {
         return;
     }
-    if ((addr = (SynthMacroStep *)dataGetMacro(step->para[0] >> 0x10))) {
+    if ((addr = dataGetMacro(step->para[0] >> 0x10))) {
         svoice->addr = addr;
         svoice->curAddr = addr + (u16)step->para[1];
     }
@@ -891,7 +891,7 @@ static inline void mcmdIfModulation(SynthVoice *svoice, SynthMacroStep *step) {
     if (mod < (u8)(step->para[0] >> 8)) {
         return;
     }
-    if ((addr = (SynthMacroStep *)dataGetMacro(step->para[0] >> 0x10))) {
+    if ((addr = dataGetMacro(step->para[0] >> 0x10))) {
         svoice->addr = addr;
         svoice->curAddr = addr + (u16)(step->para[1]);
     }
@@ -902,7 +902,7 @@ static inline void mcmdIfRandom(SynthVoice *svoice, SynthMacroStep *step) {
     if ((u8)sndRand() < (u8)(step->para[0] >> 8)) {
         return;
     }
-    if ((addr = (SynthMacroStep *)dataGetMacro(step->para[0] >> 0x10))) {
+    if ((addr = dataGetMacro(step->para[0] >> 0x10))) {
         svoice->addr = addr;
         svoice->curAddr = addr + (u16)step->para[1];
     }
@@ -910,7 +910,7 @@ static inline void mcmdIfRandom(SynthVoice *svoice, SynthMacroStep *step) {
 
 static inline u32 mcmdGoto(SynthVoice *svoice, SynthMacroStep *step) {
     SynthMacroStep *addr;
-    if ((addr = (SynthMacroStep *)dataGetMacro(step->para[0] >> 0x10)) != 0) {
+    if ((addr = dataGetMacro(step->para[0] >> 0x10)) != NULL) {
         svoice->addr = addr;
         svoice->curAddr = addr + (u16)step->para[1];
         return 0;
@@ -920,7 +920,7 @@ static inline u32 mcmdGoto(SynthVoice *svoice, SynthMacroStep *step) {
 
 static inline u32 mcmdGosub(SynthVoice *svoice, SynthMacroStep *step) {
     SynthMacroStep *addr;
-    if ((addr = (SynthMacroStep *)dataGetMacro((u16)(step->para[0] >> 0x10))) != 0) {
+    if ((addr = dataGetMacro((u16)(step->para[0] >> 0x10))) != NULL) {
         svoice->callStackIndex = (svoice->callStackIndex + 1) & 3;
         svoice->callStack[svoice->callStackIndex].addr = svoice->addr;
         svoice->callStack[svoice->callStackIndex].curAddr = svoice->curAddr;
@@ -937,7 +937,7 @@ static inline u32 mcmdGosub(SynthVoice *svoice, SynthMacroStep *step) {
 static inline void mcmdTrapEvent(SynthVoice *svoice, SynthMacroStep *step) {
     SynthMacroStep *addr;
     u8 t;
-    if ((addr = (SynthMacroStep *)dataGetMacro(step->para[0] >> 0x10)) != 0) {
+    if ((addr = dataGetMacro(step->para[0] >> 0x10)) != NULL) {
         t = (u8)(step->para[0] >> 8);
         svoice->trapEventAddr[t] = addr;
         svoice->trapEventCurAddr[t] = addr + (u16)step->para[1];
@@ -1907,7 +1907,7 @@ void macMakeInactive(SynthVoice *svoice, s32 state) {
 
 u32 macStart(u16 macid, u8 priority, u8 maxVoices, u16 allocId, u8 key, u8 vol, u8 panning, u8 midi,
              u8 midiSet, u8 section, u16 step, u16 trackid, u8 new_vid, u8 vGroup, u8 studio, u32 itd) {
-    uaddr macro;
+    SynthMacroStep *macro;
     s32 flag;
     u16 r;
     u32 id;
@@ -1915,7 +1915,7 @@ u32 macStart(u16 macid, u8 priority, u8 maxVoices, u16 allocId, u8 key, u8 vol, 
     u32 vid;
 
     macro = dataGetMacro(macid);
-    if (macro != 0) {
+    if (macro != NULL) {
         flag = key & 0x80;
         if (flag == 0) {
             r = seqGetMIDIPriority(midiSet, midi);
@@ -1964,8 +1964,8 @@ u32 macStart(u16 macid, u8 priority, u8 maxVoices, u16 allocId, u8 key, u8 vol, 
             v->allocId = allocId;
             v->age = 0x75300000;
             v->ageSpeed = 0x400;
-            v->addr = (SynthMacroStep *)macro;
-            v->curAddr = (SynthMacroStep *)macro + step;
+            v->addr = macro;
+            v->curAddr = macro + step;
             v->orgNote = key;
             v->curNote = key;
             v->curDetune = 0;

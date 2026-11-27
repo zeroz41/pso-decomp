@@ -1243,18 +1243,18 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
     return ret;
 }
 
-saddr load_text_resource_pair(saddr name) {
+void **load_text_resource_pair(const char *name) {
     s32 size;
     char path[0x40];
     u8 *data;
     RelFileTrailer *relocs;
-    s32 root;
+    void **root;
 
     sprintf(path, "%s.pr2", name);
     data = (u8 *)load_encrypted_text_archive(path, &size);
     sprintf(path, "%s.pr3", name);
     relocs = (RelFileTrailer *)load_encrypted_text_archive(path, &size);
-    root = (saddr)alloc_named_object((const char *)name, data, size, relocs);
+    root = (void **)alloc_named_object(name, data, size, relocs);
     safe_free(relocs);
     return root;
 }

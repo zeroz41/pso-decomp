@@ -627,24 +627,24 @@ s32 maccmp(void *key, void *entry) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-uaddr dataGetMacro(u16 mid) {
+SynthMacroStep *dataGetMacro(u16 mid) {
     static s32 base;
     static s32 i;
     static SynthMacSubTab key;
-    static s32 *result;
+    static SynthMacSubTab *result;
 
     i = (mid >> 6) & 0x3fff;
 
     if (dataMacMainTab[i].num != 0) {
         base = dataMacMainTab[i].subTabIndex;
         key.id = mid;
-        if ((result = (s32 *)sndBSearch(&key, &dataMacSubTabmem[base], dataMacMainTab[i].num,
+        if ((result = (SynthMacSubTab *)sndBSearch(&key, &dataMacSubTabmem[base], dataMacMainTab[i].num,
                                               sizeof(SynthMacSubTab), maccmp)) != NULL) {
-            return *result;
+            return (SynthMacroStep *)result->data;
         }
     }
 
-    return 0;
+    return NULL;
 }
 
 #pragma pop

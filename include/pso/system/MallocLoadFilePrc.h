@@ -31,7 +31,7 @@ void on_gsl_archive_close(char *filename, GslArchiveEntry *entries, s32 count);
 // Reads and decrypts an encrypted archive; size receives its decompressed size.
 void *load_encrypted_text_archive(char *name, s32 *size);
 // Loads name.pr2 and its relocations name.pr3 as one named resource file; returns its root.
-saddr load_text_resource_pair(saddr name);
+void **load_text_resource_pair(const char *name);
 // The named resource files: load, relocate and register under resource_load_task_root.
 void *load_encrypted_archive_data(const char *name);
 void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *relocs);
