@@ -78,7 +78,7 @@ struct TWindowCtrl : public TObject {
     static void set_timer_window_time(u32 secs);
     static void close_timer_window();
     static void create_alt_timer();
-    static char *skip_name_prefix(void *self, char *s);
+    char *skip_name_prefix(char *s);
     void get_speaker_balloon_anchor(u16 speaker, f32 *height, char **name);
     s32 find_farthest_balloon_slot(u16 speaker);
     f32 get_squared_distance_to_entity(TObjBase *from, u16 id);

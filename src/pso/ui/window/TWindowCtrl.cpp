@@ -936,7 +936,7 @@ void TWindowCtrl::handle_recv_chat(TPlyGuildCardTag &tag, char *message) {
     char *v;
     TObjPlayer *p;
     if (TWindowCtrl::instance != NULL) {
-        v = TWindowCtrl::skip_name_prefix(TWindowCtrl::instance, message);
+        v = TWindowCtrl::instance->skip_name_prefix(message);
         key = tag.m_guildcard_number;
         for (i = 0; i < 12; i++) {
             p = get_player_by_client_id(i);
@@ -1111,7 +1111,7 @@ void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, char **name) {
 
 
 
-char *TWindowCtrl::skip_name_prefix(void *self, char *s) {
+char *TWindowCtrl::skip_name_prefix(char *s) {
     char *p;
     for (p = s; *p != '\0'; p++) {
         if (*p == '\t') break;
