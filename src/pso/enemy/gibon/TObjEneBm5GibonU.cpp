@@ -1860,11 +1860,6 @@ void TObjEneBm5GibonU::handle_state(s32 msg) {
 
 #pragma pop
 
-extern "C" {
-void __register_global_object(void *obj, void (*dtor)(), void *chain);
-void __dt__20TObjEneBm5GibonUListFv();
-}
-
 #pragma defer_codegen on
 
 Vec *TObjEneBm5GibonU::get_spawn_position() { return &this->spawn_position; }
@@ -1873,10 +1868,12 @@ s32 TObjEneBm5GibonU::get_group_id() { return this->group_id; }
 
 #pragma push
 #pragma opt_propagation off
-void TObjEneBm5GibonU::register_global_objects() {
+// Builds the two global lists after bm5_gibon_u_stat_params and registers their destructors, spelled out because
+// the original's static initializer precedes this file's inline copies.
+void __sinit_TObjEneBm5GibonU_cpp() {
     TObjEneBm5GibonUStaticData *data = (TObjEneBm5GibonUStaticData *)bm5_gibon_u_stat_params;
-    __register_global_object(data->node_list.reset(), __dt__20TObjEneBm5GibonUListFv, data->node_list_chain);
-    __register_global_object(data->enemy_list.reset(), __dt__20TObjEneBm5GibonUListFv, data->enemy_list_chain);
+    __register_global_object(data->node_list.reset(), __dt__20TObjEneBm5GibonUListFv, &data->node_list_chain);
+    __register_global_object(data->enemy_list.reset(), __dt__20TObjEneBm5GibonUListFv, &data->enemy_list_chain);
 }
 #pragma pop
 
@@ -2466,4 +2463,4 @@ void TObjEneBm5GibonU::dispatch_action(u32 state, s32 reason) {
     }
 }
 
-__declspec(section ".ctors") static void *const __sinit_TObjEneBm5GibonU_cpp_ref = (void *)TObjEneBm5GibonU::register_global_objects;
+__declspec(section ".ctors") static void *const bm5_gibon_u_global_initializer = (void *)__sinit_TObjEneBm5GibonU_cpp;

@@ -123,11 +123,10 @@ Vec bm5_wolf_zero_vector;  // zeroed by the resource loader, never read
 u32 lbl_80500B6C[3];
 u32 bm5_wolf_pack_member_list[5];
 u32 bm5_wolf_instance_list[3];
-void __register_global_object(void *obj, void (*dtor)(), void *chain);
-void __dt__18TObjEneBm5WolfListFv();
 }
 
-__declspec(section ".ctors") static void *const __sinit_TObjEneBm5Wolf_cpp_ref = (void *)TObjEneBm5Wolf::register_global_objects;
+void __sinit_TObjEneBm5Wolf_cpp();
+__declspec(section ".ctors") static void *const bm5_wolf_global_initializer = (void *)__sinit_TObjEneBm5Wolf_cpp;
 
 s32 TObjEneBm5Wolf::get_group_id() { return this->group_id; }
 
@@ -135,10 +134,12 @@ s32 actor_rand_int(TObjChara *actor, s32 range) {
     return (s32) ((f32) range * actor->random_ratio());
 }
 
-void TObjEneBm5Wolf::register_global_objects() {
+// Builds the two global lists after bm5_wolf_stat_params and registers their destructors, spelled out because
+// the original's static initializer precedes this file's inline copies.
+void __sinit_TObjEneBm5Wolf_cpp() {
     WolfGlobalObjects *g = (WolfGlobalObjects *)bm5_wolf_stat_params;
-    __register_global_object(g->list0.reset(), __dt__18TObjEneBm5WolfListFv, g->chain0);
-    __register_global_object(g->list1.reset(), __dt__18TObjEneBm5WolfListFv, g->chain1);
+    __register_global_object(g->list0.reset(), __dt__18TObjEneBm5WolfListFv, &g->chain0);
+    __register_global_object(g->list1.reset(), __dt__18TObjEneBm5WolfListFv, &g->chain1);
 }
 
 TObjEneBm5WolfNode::TObjEneBm5WolfNode() {

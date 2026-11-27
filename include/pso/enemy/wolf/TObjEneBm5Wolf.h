@@ -9,6 +9,7 @@ struct NJS_OBJECT;
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
+#include "pso/system/CxxRuntime.h"
 
 struct TObjEneBm5Wolf;
 
@@ -35,6 +36,10 @@ struct TObjEneBm5WolfList {
     void append(TObjEneBm5WolfNode *node);
     void remove(TObjEneBm5WolfNode *node);
 };
+
+// The list's destructor by symbol, for the static initializer that registers the global lists (C++ cannot take a
+// destructor's address).
+extern "C" void __dt__18TObjEneBm5WolfListFv(void *object, s16 flags);
 
 struct TObjEneBm5Wolf : public TObjEneDD_ST {
     TObjEneBm5Wolf(TObject *parent, EnemyPlacement *set_data);
@@ -111,7 +116,6 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     static void free_resources();
     static void *create(EnemyPlacement *set_data);
     static void load_resources();
-    static void register_global_objects();
     void flanking_state(s32 event);
     void howling_state(s32 event);
     void anchor_state(s32 event);
@@ -167,9 +171,9 @@ s32 actor_rand_int(TObjChara *actor, s32 range);
 
 struct WolfGlobalObjects {
     u8 pad[0x2c];
-    u8 chain0[0xc];
+    DestructorChain chain0;
     TObjEneBm5WolfList list0;
-    u8 chain1[0xc];
+    DestructorChain chain1;
     TObjEneBm5WolfList list1;
 };
 

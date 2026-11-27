@@ -256,8 +256,6 @@ static const NJS_POINT2 chr_select_save_message_window_pos = { 46.0f, 131.0f };
 static const NJS_POINT2 chr_select_save_message_window_size = { 548.0f, 220.0f };
 // Game code written over the memory card disk ID.
 static const char card_disk_game_code[] = "GPSE";
-
-void __construct_array(void*, void*, void*, int, int);
 }
 
 

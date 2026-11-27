@@ -1,15 +1,16 @@
 #include "types.h"
 #include "pso/unk/text_801D34E0.h"
 #include "pso/render/render_util.h"
-extern "C" {
-void *__register_global_object(void *, void *, void *);
+#include "pso/system/CxxRuntime.h"
+
 u8 lbl_805D5DD8[8];
-extern u8 lbl_80511DD8[];
-void __sinit_text_801D34E0_cpp(void) {
-    __register_global_object(clear_first_word(lbl_805D5DD8), delete_object_if_delete_flag, lbl_80511DD8);
+DestructorChain lbl_80511DD8;
+
+// Builds the global object above and registers its destructor, spelled out because the object's class (built by
+// clear_first_word, destroyed by delete_object_if_delete_flag) is not known.
+void __sinit_text_801D34E0_cpp() {
+    __register_global_object(clear_first_word(lbl_805D5DD8), (ObjectDestructor)delete_object_if_delete_flag,
+        &lbl_80511DD8);
 }
 
-u8 lbl_80511DD8[0xC];
-}
-
-__declspec(section ".ctors") static void *const __sinit_text_801D34E0_cpp_ref = (void *)__sinit_text_801D34E0_cpp;
+__declspec(section ".ctors") static void *const text_801D34E0_global_initializer = (void *)__sinit_text_801D34E0_cpp;

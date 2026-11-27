@@ -6306,7 +6306,7 @@ force_active:
   - state_action_noop__13TBoss5GryphonFv
   - set_tombstone_position
   - __as__22ChoiceSearchResultListFRC22ChoiceSearchResultList
-  - __sinit_text_8007A6C8_cpp
+  - __sinit_CsnQuery_cpp__Fv
   - copy_graph_sample__FP14TDLGraphSampleP14TDLGraphSample
   - draw_digit_quad__17TDuelEffectNumberFP14QuadSpriteRectPffff
   - canadin_capture_node_points__FP10NJS_OBJECT
@@ -6335,7 +6335,7 @@ force_active:
   - set_bank__18TPlyDispConfigSmthFv
   - decrement_state__19PhotonBlastDonationFv
   - initialize_battle__17TPlayerBattleCtrlFv
-  - __sinit_text_801D34E0_cpp
+  - __sinit_text_801D34E0_cpp__Fv
   - fn_801D371C
   - fn_801D6AB4
   - copy_arrow_color_entry__FP16TArrowColorEntryP16TArrowColorEntry
@@ -13967,8 +13967,8 @@ force_active:
   - refresh_target_marker__11TMainCursorFv
   - refresh_target_periodically__13TBoss5GryphonFv
   - register_global_instance_dtor__22TQuestVmDownLoadServerFv
-  - register_global_objects__14TObjEneBm5WolfFv
-  - register_global_objects__16TObjEneBm5GibonUFv
+  - __sinit_TObjEneBm5Wolf_cpp__Fv
+  - __sinit_TObjEneBm5GibonU_cpp__Fv
   - register_in_world__5TItemFl
   - register_photon_blasts__8TItemMagFv
   - release__11TOVS2Wall01Fv

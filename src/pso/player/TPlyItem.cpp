@@ -38,10 +38,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
-
-extern "C" {
-void *__construct_new_array(void *block, void (*ctor)(void *), void (*dtor)(void *), u32 size, u32 n);
-}
+#include "pso/system/CxxRuntime.h"
 
 const char *TItemList::class_name = "TItemList";
 const char *TPlyItem::class_name = "TPlyItem";
@@ -574,13 +571,11 @@ InventorySortEntry::InventorySortEntry() {
     val = NULL;
 }
 
-extern "C" void __ct__18InventorySortEntryFv(void *entry);
-
 InventorySortBuffer::InventorySortBuffer(s32 n) {
     count = n;
     // The runtime stores a 0x10-byte array cookie before the records.
     items = reinterpret_cast<InventorySortEntry *>(__construct_new_array(
-        mem_alloc(count * sizeof(*items) + 0x10), __ct__18InventorySortEntryFv, 0, sizeof(*items), count));
+        mem_alloc(count * sizeof(*items) + 0x10), __ct__18InventorySortEntryFv, NULL, sizeof(*items), count));
 }
 
 InventorySortBuffer::~InventorySortBuffer() {

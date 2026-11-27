@@ -13,6 +13,7 @@
 #include "pso/math/ScratchVectors.h"
 #include "pso/render/DebugFont.h"
 #include "pso/map/MapCollisionSetup.h"
+#include "pso/system/CxxRuntime.h"
 
 #pragma inline_depth(1)
 #pragma dont_inline off
@@ -811,20 +812,15 @@ void free_wall_query_buffer(void) {
 
 void alloc_wall_query_buffer(void) { wall_query_scene_buffer = (WallPolygon *)mem_alloc(0x200 * sizeof(WallPolygon)); }
 
-extern "C" {
-void __construct_array(void *, CsnContact *(*)(CsnContact *), s32, s32, s32);
-}
-extern "C" {
-
-void __sinit_CsnQuery_cpp(void) {
-    __construct_array(csn_query_contacts, init_csn_contact, 0, sizeof(CsnContact), 0x20);
+// Builds the query buffers, spelled out because the original's static initializer precedes this file's inline
+// copies.
+void __sinit_CsnQuery_cpp() {
+    __construct_array(csn_query_contacts, (ObjectConstructor)init_csn_contact, NULL, sizeof(CsnContact), 0x20);
     csn_hit_storage.init_and_return();
     csn_query_map_object.init();
 }
 
-}
-
-__declspec(section ".ctors") static void *const __sinit_CsnQuery_cpp_ref = (void *)__sinit_CsnQuery_cpp;
+__declspec(section ".ctors") static void *const csn_query_global_initializer = (void *)__sinit_CsnQuery_cpp;
 
 
 CsnGroup **TMapCsnCtrl::get_collision_groups() { return groups; }

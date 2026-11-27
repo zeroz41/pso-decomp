@@ -9,6 +9,7 @@ struct NJS_OBJECT;
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/TObjEnemyColorFade.h"
 #include "pso/player/TargetCursorList.h"
+#include "pso/system/CxxRuntime.h"
 
 struct TObjPlayer;
 struct TObjEneBm5GibonU;
@@ -37,6 +38,10 @@ struct TObjEneBm5GibonUList {
     TObjEneBm5GibonUNode *head;
     TObjEneBm5GibonUNode *tail;
 };
+
+// The list's destructor by symbol, for the static initializer that registers the global lists (C++ cannot take a
+// destructor's address).
+extern "C" void __dt__20TObjEneBm5GibonUListFv(void *object, s16 flags);
 
 struct TObjEneBm5GibonU : public TObjEneDD_ST {
     TObjEneBm5GibonU(TObject *parent, EnemyPlacement *set_data);
@@ -100,7 +105,6 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     static void release_static_resource();
     static void *create(EnemyPlacement *set_data);
     static void load_resources();
-    static void register_global_objects();
     s32 get_clamped_level();
     s32 check_hit_sphere(int angle, f32 scale);
     void get_attack_state(Vec *pos);
@@ -173,9 +177,9 @@ LAYOUT_ASSERT(TObjEneBm5GibonU_near_target, offsetof(TObjEneBm5GibonU, near_targ
 // the two lists, each after the destructor-chain record __register_global_object fills in.
 struct TObjEneBm5GibonUStaticData {
     u8 tables[0x2c];
-    u8 node_list_chain[0xc];
+    DestructorChain node_list_chain;
     TObjEneBm5GibonUList node_list;
-    u8 enemy_list_chain[0xc];
+    DestructorChain enemy_list_chain;
     TObjEneBm5GibonUList enemy_list;
 };
 

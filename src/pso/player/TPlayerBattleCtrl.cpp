@@ -70,6 +70,8 @@
 #include "pso/item/FloorItemSync.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 #include "pso/player/PlayerBattleScore.h"
+#include "pso/player/PlayerCharDataEntry.h"
+#include "pso/system/CxxRuntime.h"
 
 void PlayerSubObjectSlots::set_score(s32 v) { score = v; }
 
@@ -88,7 +90,7 @@ s32 lbl_805D5DA8;
 s32 battle_scores_received;      // set when the 6x7F final scores arrive
 s32 battle_team_report_count;   // 6x7D score reports since reset_score_counters
 s32 battle_fadeout_done;         // set by the fade-out callback init_and_set_flag
-void *lobby_char_slot_array;
+PlayerCharDataEntry *lobby_char_slot_array;
 u8 battle_player_ready_flags[4];
 s32 battle_ctrl_default_value;
 f32 battle_enemy_take_damage_score;
@@ -110,14 +112,6 @@ const char *player_battle_ctrl_name = "TPlayerBattleCtrl";
 
 
 
-extern "C" {
-
-
-void __destroy_new_array(void *, void *);
-void *__construct_new_array(void *, void *, void *, s32, s32);
-void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
-void __ct__19PlayerCharDataEntryFv(void);
-}
 
 extern s32 battle_intro_value_table[];
 
@@ -729,7 +723,9 @@ void TPlayerBattleCtrl::show_lobby_transport_notice() {
 void init_char_slots(void) {
     battle_mode_data_ptr = 0;
     battle_frame_rate = get_video_standard() == 1 ? 0x19 : 0x1E;
-    lobby_char_slot_array = __construct_new_array(mem_alloc(0x3220), (void *)__ct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
+    // The runtime stores a 0x10-byte array cookie before the 12 slots.
+    lobby_char_slot_array = (PlayerCharDataEntry *)__construct_new_array(mem_alloc(0x10 + 12 * sizeof(PlayerCharDataEntry)),
+        __ct__19PlayerCharDataEntryFv, __dt__19PlayerCharDataEntryFv, sizeof(PlayerCharDataEntry), 12);
     TBattleProximitySound::clear_battle_proximity_sound();
     clear_battle_player_ready_flags();
     battle_ctrl_default_value = 1;

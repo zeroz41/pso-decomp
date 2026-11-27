@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
-void __sinit_text_801D34E0_cpp(void);
-}
+void __sinit_text_801D34E0_cpp();
 
 #endif
