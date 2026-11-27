@@ -33,6 +33,7 @@
 #include "pso/technique/TechniqueRingwaveList.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/render/GinjaMaterial.h"
 #include "pso/technique/TTecCircle.h"
 #include <stddef.h>
 #include "pso/technique/TTecLuker.h"
@@ -40,12 +41,6 @@
 
 struct Quad_80232934 { u32 a; u32 b; u32 c; u32 d; };
 
-
-extern "C" {
-
-void draw_ginja_object(void);
-
-}
 
 // One-texture list that render() fills with a copy of the ring-wave frame and draws with; same shape as
 // TEffClitical's clitical_texture_list (the 8-byte list is placed in .data, its name in .bss).
@@ -308,8 +303,7 @@ void TTecGrantsFlash::render() {
     scale_matrix(0, scale.x, scale.y, scale.z);
     translate_matrix(0, 0.0f, 1e+01f, 0.0f);
     set_texture_list(&grants_ring_texlist);
-    get_bml_model(technique_effect_bml, 10);
-    draw_ginja_object();
+    draw_ginja_object(get_bml_model(technique_effect_bml, 10));
     pop_matrix();
     copy_slot_to_anim_frame(&ctx);
     restore_draw_list_mask();

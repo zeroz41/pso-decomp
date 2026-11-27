@@ -137,11 +137,8 @@ void TTecRaFoie::spawn_effects(Vec *) {
 #include "pso/render/model_render_state.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/render/GinjaMaterial.h"
 
-
-extern "C" {
-void draw_ginja_object(void);
-}
 
 #pragma push
 #pragma opt_common_subs off
@@ -197,8 +194,7 @@ void TFireExplosion::render() {
     set_texture_list(reinterpret_cast<NJS_TEXLIST *>(technique_texture_list));
     set_cull_back();
     set_draw_list_mask(3);
-    get_bml_model(technique_effect_bml, 0xB);
-    draw_ginja_object();
+    draw_ginja_object(get_bml_model(technique_effect_bml, 0xB));
     restore_draw_list_mask();
     set_cull_none();
     pop_matrix();

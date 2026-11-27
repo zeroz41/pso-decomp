@@ -1,5 +1,6 @@
 #include "pso/animation/MotionContext.h"
 #include "types.h"
+#include "pso/math/QuaternionBlend.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
@@ -8,7 +9,6 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixStack.h"
 
-extern "C" void blend_quaternions_nlerp(const f32 *a, const f32 *b, f32 rate, f32 *out);
 
 // How far bind_motion_blend_channels' second motion weighs in.
 f32 motion_blend_factor;
