@@ -1787,7 +1787,6 @@ pso/map/area/AreaVersus01.cpp
 pso/map/area/AreaVersus02.cpp
 
 pso/quest/QuestOpcodeHandlersData.cpp
-pso/quest/challenge/ChallengeModeData.cpp
 pso/ui/window/TWindowMainMenuData.cpp
 pso/system/prs.cpp
 pso/system/AramPool.cpp

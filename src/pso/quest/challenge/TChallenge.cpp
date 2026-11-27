@@ -3,7 +3,6 @@
 #include "pso/ui/window/TObjCHTimeWin.h"
 #include "pso/object/TObjWarnChime.h"
 #include "pso/network/client_id.h"
-#include "pso/quest/challenge/ChallengeModeData.h"
 #include "pso/ui/chat/ChatLogLastLine.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_MemCard.h"
 #include "pso/system/task/TMainTask.h"
@@ -40,6 +39,19 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/network/LobbyName.h"
 #include "pso/ui/city/THunterGuildWarning.h"
+
+static const char challenge_label_N[] = "N";
+static const char challenge_label_C[] = "C";
+static const char challenge_label_0[] = "0";
+static const char challenge_label_1[] = "1";
+static const char challenge_label_2[] = "2";
+static const char challenge_label_3[] = "3";
+static const char challenge_label_4[] = "4";
+static const char challenge_label_5[] = "5";
+static const char challenge_label_6[] = "6";
+static const char challenge_label_7[] = "7";
+static const char challenge_label_8[] = "8";
+static const char challenge_label_E[] = "E";
 
 extern const char TChallenge_name_text[] = "TChallenge";
 const char *TChallenge::class_name = TChallenge_name_text;
