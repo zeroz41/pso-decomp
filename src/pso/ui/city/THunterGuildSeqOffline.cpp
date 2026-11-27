@@ -254,7 +254,7 @@ const char *hunter_guild_seq_offline_class_name = "THunterGuildSeqOffline";
 
 void THunterGuildSeqOnline_Client::open_judgment_item_window() {
     if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
-        choice_menu = create_yes_no_window(get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)player))->get_entity_id(), NULL, NULL);
+        choice_menu = create_yes_no_window(get_window_layout_position(0x2B), (u16)player->get_entity_id(), NULL, NULL);
         choice_menu->set_selected_index(1);
         choice_menu->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);
@@ -304,7 +304,7 @@ void THunterGuildSeqOnline_Client::close_window() {
         switch (exit_action) {
         case 1: {
             new TScreenFadeOut(tl_00, reset_random_enemies_mode);
-            set_shop_slot_active(((TObjBase *)((saddr)player))->get_entity_id());
+            set_shop_slot_active(player->get_entity_id());
             break;
         }
         case 0:
@@ -441,7 +441,7 @@ void THunterGuildSeqOffline::open_judgment_window() {
 
     if ((this->is_message_ready() != 0)
         && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
-        this->choice_menu = (TWindowMenu *)create_yes_no_window(get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)this->player))->get_entity_id(), NULL, NULL);
+        this->choice_menu = (TWindowMenu *)create_yes_no_window(get_window_layout_position(0x2B), (u16)this->player->get_entity_id(), NULL, NULL);
         this->choice_menu->set_selected_index(1);
         this->choice_menu->set_position_xy(get_scale(), get_scale());
         this->display_guild_message(8, 1);

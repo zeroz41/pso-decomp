@@ -46,7 +46,7 @@ void TShopSequence::close_message_window() {
 u32 TShopSequence::create_message_window(const NJS_POINT2 *position, const NJS_POINT2 *extent) {
     if (message_window != NULL) {
         if (player != NULL) {
-            return (uaddr)message_window->create_message_window(position, extent, (u16)((TObjBase *)((uaddr)player))->get_entity_id());
+            return (uaddr)message_window->create_message_window(position, extent, (u16)player->get_entity_id());
         }
         return (uaddr)message_window->create_window(position, extent);
     }
