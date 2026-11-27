@@ -266,10 +266,11 @@ s32 run_load_callback_table(void *table, u32 size) {
         if (is_area_transfer_pending() != 0) {
             return 0;
         }
-        if (static_cast<LoadFrameEntry *>(table)->fn != NULL) {
-            static_cast<LoadFrameEntry *>(table)->fn();
+        LoadFrameEntry *entry = static_cast<LoadFrameEntry *>(table);
+        if (entry->fn != NULL) {
+            entry->fn();
         }
-        table = static_cast<LoadFrameEntry *>(table) + 1;
+        table = entry + 1;
         n--;
     }
     return 1;

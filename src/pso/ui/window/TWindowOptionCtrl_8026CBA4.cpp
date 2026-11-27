@@ -64,11 +64,12 @@ void TWindowBase::resort_window_order() {
     scale = this->get_scale();
     window_depth_order_cursor += -0.3f;
     for (n = g->m_down; n != NULL; n = n->m_next) {
+        TWindowBase *window = (TWindowBase *)n;
         last = n;
-        if (!(scale < ((TWindowBase *)n)->get_scale())) {
+        if (!(scale < window->get_scale())) {
             break;
         }
-        ((TWindowBase *)n)->draw_depth += -0.3f;
+        window->draw_depth += -0.3f;
     }
     if (n == NULL) {
         g->m_down->m_prev = this;
