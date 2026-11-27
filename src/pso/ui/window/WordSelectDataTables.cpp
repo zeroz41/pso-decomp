@@ -24,9 +24,6 @@ void clear_window_dd_nodes(void) {
     ws_recent_state.data_table_values = 0;
 }
 
-// lookup_item_category's id lists: an id found in a list gives that entry's category.
-struct ItemCategoryIds { const s32 *ids; s32 count; s32 category; };
-
 // Indexed [category][column] by get_word_select_type_state.
 static const s32 word_select_type_state_table[6][2] = {
     { 2, 5 }, { 3, 7 }, { 4, 12 }, { 6, 2 }, { 1, 3 }, { 1, 1 },

@@ -357,6 +357,13 @@ extern const f32 mode_window_depth;
 
 void init_ws_data_tables();
 
+// lookup_item_category's id lists: an id found in a list gives that entry's category.
+struct ItemCategoryIds {
+    const s32 *ids;
+    s32 count;
+    s32 category;
+};
+
 s32 lookup_item_category(s32 item);
 
 #endif

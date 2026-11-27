@@ -35,7 +35,7 @@ void resolve_chat_balloon_overlaps(void) {
                         q->mark_overlapped();
                     } else if (q->get_visible_flag() != 0) {
                         p->mark_overlapped();
-                    } else if (p->m_58 > q->m_58) {
+                    } else if (p->display_age > q->display_age) {
                         p->mark_overlapped();
                     } else {
                         q->mark_overlapped();

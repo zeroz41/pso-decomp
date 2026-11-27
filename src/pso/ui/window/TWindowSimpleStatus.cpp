@@ -469,7 +469,7 @@ TWindowSimpleStatus::TWindowSimpleStatus(const NJS_POINT2 *position, s32 client,
     m_name = TWindowSimpleStatus::class_name;
     client_index = (s16)client;
     shake_ticks = 0;
-    m_58 = -1.0f;
+    display_age = -1.0f;
     for (s32 i = 0; i < 5; i++) {
         w[i] = NULL;
     }

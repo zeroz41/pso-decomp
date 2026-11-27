@@ -113,7 +113,7 @@ void TWindowFukidasi::run_task() {
       if (balloon_flags & 8)
     {
       hide_ticks = (s16) ((hide_ticks) - 1);
-      m_58 += 0.1f;
+      display_age += 0.1f;
       this->sort_depth += 0.1f;
       if ((hide_ticks) < 0)
       {
@@ -440,7 +440,7 @@ void TWindowFukidasi::init_balloon(u16 speaker, const char *str, s32 client, f32
 }
 
 void TWindowFukidasi::init_flags(s32 flags) {
-    this->m_58 = 0.0f;
+    this->display_age = 0.0f;
     this->set_depth(60000.0f);
     if (this->is_closed() != 0) {
         this->window_flags = (s32) (this->window_flags | 1);

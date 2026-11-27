@@ -66,7 +66,7 @@ public:
     f32 frame_size[2];
     u32 tween_ticks;
     f32 draw_depth;
-    f32 m_58;
+    f32 display_age;  // grows 0.1 a tick while a timed chat balloon shows; the older of two overlapping balloons hides
     s32 open_tick;
 };
 

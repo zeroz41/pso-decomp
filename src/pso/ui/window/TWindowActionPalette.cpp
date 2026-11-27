@@ -123,7 +123,7 @@ TWindowActionPalette::TWindowActionPalette(s32 slot) : TWindowBase((u8 *)&twindo
         this->scale.x = 1.0f;
         this->scale.y = 1.0f;
     }
-    this->m_58 = -1.0f;
+    this->display_age = -1.0f;
     this->state = 0;
     this->client_index = slot;
     for (i = 0; i < 3; i++) {
