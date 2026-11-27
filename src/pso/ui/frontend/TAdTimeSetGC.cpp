@@ -872,7 +872,7 @@ void TAdTimeSetGC::close_and_next(s32 entry, s32 sel, s32 first_entry, s32 secon
 }
 
 void TAdTimeSetGC::apply_settings() {
-    SystemSaveData *state = (SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state();
+    SystemSaveData *state = TAdSinglePlyChrSelectGC::get_global_state();
 
     if (state == NULL) {
         change_state(1);

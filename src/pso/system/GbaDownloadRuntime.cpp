@@ -150,7 +150,7 @@ void stamp_joyboot_image(s32 unused, s32 stamp_enabled) {
     Rec_8032C9A8 rec;
     DayMinuteTicks ds;
     u8 *obj;
-    u8 *st;
+    SystemSaveData *st;
     memset(&rec, 0, 0xC);
     obj = gba_joyboot_send_buffer;
     st = TAdSinglePlyChrSelectGC::get_global_state();
@@ -159,7 +159,7 @@ void stamp_joyboot_image(s32 unused, s32 stamp_enabled) {
             getDateStamp((DateStamp *)&ds);
             DateToSeconds((DateStamp *)&ds, (int *)&secs);
             secs = 100.0f * (3.0517578e-05f * rand()) + secs;
-            memmove(&rec.a, st + 0x118, 4);
+            memmove(&rec.a, &st->serial_seed, 4);
             memmove(&rec.b, &secs, 4);
             memmove(obj + 0x2C0, &rec, 8);
         }

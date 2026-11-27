@@ -1814,7 +1814,7 @@ void qst_op_set_chat_callback_no_filter(u8 i) {
 
 void qst_op_write_flag_buf_to_event_flags(u8 reg) {
     s32 idx = qst_registers[reg].i;
-    QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
+    SystemSaveData *w = TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && idx >= 0 && idx < 0xFD) {
         move_data(((&w->event_flags[idx])), (&qst_flag_buf), 4);
     }
@@ -1949,7 +1949,7 @@ void qst_op_shift_left(s32 dst, s32 src) {
 void qst_op_get_eventflag32(u8 a0, u8 a1) {
     s32 v;
     qst_registers[a1].i = 0;
-    QuestEventFlagRecord *w = ((QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state());
+    SystemSaveData *w = TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL) {
         s32 i = qst_registers[a0].i;
         if (i >= 0 && i < 0xFD) {
@@ -1962,7 +1962,7 @@ void qst_op_get_eventflag32(u8 a0, u8 a1) {
 void qst_op_get_eventflag16(u8 a0, u8 a1) {
     s16 v;
     qst_registers[a1].i = 0;
-    QuestEventFlagRecord *w = ((QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state());
+    SystemSaveData *w = TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL) {
         s32 i = qst_registers[a0].i;
         if (i >= 0 && i < 0xFF) {
@@ -2201,7 +2201,7 @@ void qst_op_ba_get_place(u8 a0, u8 a1) {
 void qst_op_set_eventflag32() {
     u32 i = (u32)qst_args[0].i;
     s32 v = qst_args[1].i;
-    QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
+    SystemSaveData *w = TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && i < 0xFD) {
         move_data(((&w->event_flags[i])), (&v), 4);
     }
@@ -2235,7 +2235,7 @@ void qst_op_animation_check(s32 slot_reg, s32 dst) {
 void qst_op_set_eventflag16() {
     u32 i = (u32)qst_args[0].i;
     s16 v = qst_args[1].i;
-    QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
+    SystemSaveData *w = TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && i < 0xFF) {
         move_data(((&w->event_flags[i])), (&v), 2);
     }
@@ -2271,15 +2271,15 @@ void qst_op_set_trap_damage(s32 i) {
 }
 
 void qst_op_get_eventflag(s32 index_reg, s32 dst) {
-    u8 *flags;
+    SystemSaveData *flags;
     QuestValue *regs;
     s32 index;
-    flags = (u8 *)TAdSinglePlyChrSelectGC::get_global_state();
+    flags = TAdSinglePlyChrSelectGC::get_global_state();
     if (flags != NULL) {
         regs = qst_registers;
         index = regs[(u8)index_reg].i;
         if (index >= 0 && index < 0x100) {
-            regs[(u8)dst].i = flags[index + 0x10];
+            regs[(u8)dst].i = flags->event_flags[index];
         }
     }
 }
@@ -3319,18 +3319,18 @@ void qst_op_sync_register(void) {
 void qst_op_set_eventflag2(void) {
     u32 x = (u32)qst_args[0].i;
     u32 y = (u32)qst_args[1].i;
-    u8* s = TAdSinglePlyChrSelectGC::get_global_state();
+    SystemSaveData *s = TAdSinglePlyChrSelectGC::get_global_state();
     if (s != 0 && x < 0x100) {
-        s[x + 0x10] = y;
+        s->event_flags[x] = y;
     }
 }
 
 void qst_op_set_eventflag(void) {
     u32 x = (u32)qst_args[0].i;
     u32 y = (u32)qst_args[1].i;
-    u8* s = TAdSinglePlyChrSelectGC::get_global_state();
+    SystemSaveData *s = TAdSinglePlyChrSelectGC::get_global_state();
     if (s != 0 && x < 0x100) {
-        s[x + 0x10] = y;
+        s->event_flags[x] = y;
     }
 }
 

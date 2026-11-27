@@ -41,8 +41,8 @@ struct SystemSaveData {
     s8 language;
     s32 clock_offset_frames;
     s16 udp_option; // option menu "UDP Option": 0 auto, 1 on, 2 off
-    s16 field_e;
-    u8 data_10[0x110 - 0x10];
+    s16 surround_sound; // non-zero: sound output mode 2 over the OS stereo mode
+    u8 event_flags[0x100]; // quest opcodes get_eventflag / set_eventflag
     u8 serial_number[8];
     s32 serial_seed;
 };
@@ -71,7 +71,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void cleanup();
     virtual void run_task();
     static s32 get_chr_select_state();
-    static u8 *get_global_state();
+    static SystemSaveData *get_global_state();
     static int get_state();
     static int get_game_mode();
     static void copy_name(s32 chan);

@@ -2522,7 +2522,7 @@ void TAdSinglePlyChrSelectGC::reset_save_header() {
   system_save_payload->language = TLanguage::get_default_language();
   system_save_payload->clock_offset_frames = default_clock_offset_frames();
   system_save_payload->udp_option = 0;
-  system_save_payload->field_e = 0;
+  system_save_payload->surround_sound = 0;
   TAdPlayerLoadGC::reset_load_state(0, &serial_number);
   memmove(&system_save_payload->serial_number, &serial_number, sizeof(serial_number));
   getDateStamp((DateStamp *)(&now));

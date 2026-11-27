@@ -126,7 +126,7 @@ void stop_sound_request(s32 idx) {
 int init_sound_output_mode(void) { return init_sound_mode(); }
 
 int init_sound_mode() {
-    u8 *p;
+    SystemSaveData *p;
     if (OSGetSoundMode() == 0U) {
         sound_mode_value = 1;
         apply_sound_output_mode(0);
@@ -134,7 +134,7 @@ int init_sound_mode() {
         apply_sound_output_mode(1);
         sound_mode_value = 0;
         p = TAdSinglePlyChrSelectGC::get_global_state();
-        if (p != NULL && p != NULL && *(s16 *)((s8 *)p + 0xE) != 0) {
+        if (p != NULL && p != NULL && p->surround_sound != 0) {
             sound_mode_value = 2;
             apply_sound_output_mode(2);
         }
@@ -144,10 +144,10 @@ int init_sound_mode() {
 
 void set_sound_output_mode(s32 mode) {
     s32 mode_id;
-    u8 *global_state;
+    SystemSaveData *global_state;
     global_state = TAdSinglePlyChrSelectGC::get_global_state();
     if (global_state != NULL) {
-        *(s16 *)((s8 *)global_state + 0xE) = 0;
+        global_state->surround_sound = 0;
     }
     switch (mode) {
     case 0:
@@ -157,7 +157,7 @@ void set_sound_output_mode(s32 mode) {
     case 2:
         OSSetSoundMode(1);
         if (global_state != NULL) {
-            *(s16 *)((s8 *)global_state + 0xE) = 1;
+            global_state->surround_sound = 1;
         }
         mode_id = 2;
         break;

@@ -170,7 +170,7 @@ TWindowSoundBalance::~TWindowSoundBalance() {}
 TWindowSoundBalance::TWindowSoundBalance(const NJS_POINT2 *position)
     : TWindowBase((u8 *)&window_sound_balance_settings, 4, (u8 *)position) {
     WindowTextEntry *e;
-    SoundBalanceSettings *st;
+    SystemSaveData *st;
 
     this->m_name = TWindowSoundBalance::class_name;
     this->result_flags = 0;
@@ -185,13 +185,13 @@ TWindowSoundBalance::TWindowSoundBalance(const NJS_POINT2 *position)
     label = e->get_text();
     e->x = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);
-    st = (SoundBalanceSettings *)TAdSinglePlyChrSelectGC::get_global_state();
+    st = TAdSinglePlyChrSelectGC::get_global_state();
     if (st == 0) {
         this->set_music_gain(0);
         this->set_sound_effect_gain(0);
     } else {
-        this->set_music_gain(st->music_gain);
-        this->set_sound_effect_gain(st->sound_effect_gain);
+        this->set_music_gain(st->music_stream_gain);
+        this->set_sound_effect_gain(st->cue_stream_gain);
     }
 }
 

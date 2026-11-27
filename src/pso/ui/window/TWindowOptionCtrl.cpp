@@ -565,7 +565,7 @@ void TWindowOptionCtrl::apply_selection_change() {
 void TWindowOptionCtrl::set_sound_balance(s16 music_gain, s16 sound_effect_gain) {
     SystemSaveData *save;
 
-    save = (SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state();
+    save = TAdSinglePlyChrSelectGC::get_global_state();
     if (save != NULL) {
         save->music_stream_gain = music_gain;
         save->cue_stream_gain = sound_effect_gain;
@@ -573,9 +573,9 @@ void TWindowOptionCtrl::set_sound_balance(s16 music_gain, s16 sound_effect_gain)
 }
 
 s32 TWindowOptionCtrl::get_udp_option() {
-    return ((SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state())->udp_option;
+    return TAdSinglePlyChrSelectGC::get_global_state()->udp_option;
 }
 
 void TWindowOptionCtrl::set_udp_option(s32 unused, s16 option) {
-    ((SystemSaveData *)TAdSinglePlyChrSelectGC::get_global_state())->udp_option = option;
+    TAdSinglePlyChrSelectGC::get_global_state()->udp_option = option;
 }

@@ -384,13 +384,13 @@ s32 TLobby::get_instance() {
 }
 
 void set_clock_offset_from_server_time(char *time) {
-    u8 *save;
+    SystemSaveData *save;
     DateStamp date;
     s32 minutes;
     s32 local_time;
     s32 offset;
 
-    save = (u8 *)TAdSinglePlyChrSelectGC::get_global_state();
+    save = TAdSinglePlyChrSelectGC::get_global_state();
     if (save != 0) {
         getDateStamp(&date);
         minutes = date.hour * 60;
@@ -402,7 +402,7 @@ void set_clock_offset_from_server_time(char *time) {
         while (offset < 0) {
             offset += 2592000.0f;
         }
-        *(s32 *)(save + 8) = offset;
+        save->clock_offset_frames = offset;
     }
 }
 
@@ -470,7 +470,7 @@ s32 get_internet_beat() {
 typedef struct GetInternetBeatDateStamp GetInternetBeatDateStamp;
 s32 get_clock_frames() {
   u8 *hour;
-  u8 *g;
+  SystemSaveData *g;
   s32 base;
   GetInternetBeatDateStamp d;
   hour = &d.h;
@@ -481,7 +481,7 @@ s32 get_clock_frames() {
   }
   else
   {
-    base = *((s32 *)(g + 8));
+    base = g->clock_offset_frames;
   }
   getDateStamp((DateStamp *)&d);
   s32 secs = (*hour) * 60;
