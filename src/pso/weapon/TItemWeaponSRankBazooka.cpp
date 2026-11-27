@@ -47,7 +47,7 @@ void TItemWeaponSRankBazooka::update_weapon() {
 
 TItemWeaponSRankBazooka::TItemWeaponSRankBazooka(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     barrel_offset = 0.0f;
-    impact_callback = (WeaponHitCallback)spawn_flame_wall_impact;
+    impact_callback = spawn_flame_wall_impact;
     recoil_state = 0;
     hit_callback = (WeaponHitCallback)play_target_impact_effect;
     shot_callback = create_shoot_model_with_particles;

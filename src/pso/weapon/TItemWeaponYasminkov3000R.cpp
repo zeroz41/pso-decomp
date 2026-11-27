@@ -64,7 +64,7 @@ TItemWeaponYasminkov3000R::~TItemWeaponYasminkov3000R() {}
 
 TItemWeaponYasminkov3000R::TItemWeaponYasminkov3000R(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     shot_callback = NULL;
-    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+    impact_callback = spawn_weapon_impact_effect;
     shot_speed = 20.0f;
     slide.x = slide.y = slide.z = 0.0f;
     slide_state = 0;

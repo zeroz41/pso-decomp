@@ -43,7 +43,7 @@ void TItemWeaponMechgun::draw_held_model() {
 
 TItemWeaponMechgun::TItemWeaponMechgun(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     this->set_weapon_flags(0x203);
-    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+    impact_callback = spawn_weapon_impact_effect;
     this->effectJoint = -1;
     this->effectAngle = 0;
     this->effectScaleJoint = -1;

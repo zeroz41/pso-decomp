@@ -68,7 +68,7 @@ TItemWeaponYasminkov7000V::~TItemWeaponYasminkov7000V() {
 
 TItemWeaponYasminkov7000V::TItemWeaponYasminkov7000V(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     shot_callback = NULL;
-    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+    impact_callback = spawn_weapon_impact_effect;
     shot_speed = 20.0f;
     state = 0;
     model_offset.z = 0.0f;

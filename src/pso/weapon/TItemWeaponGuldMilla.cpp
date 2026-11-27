@@ -13,7 +13,7 @@ void TItemWeaponGuldMilla::emit_marker_effects() {
         impact_callback = NULL;
     } else {
         shot_callback = create_gun_shot;
-        impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+        impact_callback = spawn_weapon_impact_effect;
     }
     if (launch_shot(&gun_point, 0, 0, 1) != 0) {
         launch_shot(&second_gun_point, 0, 0, 0);
@@ -38,7 +38,7 @@ TItemWeaponGuldMilla::~TItemWeaponGuldMilla() {}
 
 TItemWeaponGuldMilla::TItemWeaponGuldMilla(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(515);
-    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+    impact_callback = spawn_weapon_impact_effect;
 }
 
 TItem *TItemWeaponGuldMilla::create(u8 *item) {

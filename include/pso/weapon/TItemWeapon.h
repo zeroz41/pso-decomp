@@ -39,10 +39,13 @@ struct WeaponParams {
     u8 flags;                      // 1, 2, 4: effect flag 0x20, weapon flags 0x40000, 0x80000
 };
 
-// impact_callback / hit_callback: (task layer, weapon, target, extra).
-typedef s32 (*WeaponHitCallback)(s32 layer, void *weapon, u16 target, s32 extra);
-// shot_callback: draws a shot from origin to end over frames.
 struct TItemWeapon;
+
+// hit_callback: (task layer, weapon, target, extra).
+typedef s32 (*WeaponHitCallback)(s32 layer, void *weapon, u16 target, s32 extra);
+// impact_callback: (task layer, weapon, shot start, wall hit point).
+typedef void (*WeaponImpactCallback)(TObject *layer, TItemEquipBase *weapon, const Vec *start, Vec *end);
+// shot_callback: draws a shot from origin to end over frames.
 class TItemShoot;
 typedef TItemShoot *(*WeaponShotCallback)(TItemWeapon *weapon, const Vec *origin, const Vec *end, f32 frames);
 
@@ -123,7 +126,7 @@ struct TItemWeapon : public TItemEquipBase {
     // Timer callback of on_equip: sets flag 8 on the weapon unless it is on the ground.
     static void set_flag_8_unless_on_ground(TObject *object);
     // Calls impact_callback (if set) with the task layer, this, and both arguments.
-    void call_impact_callback(saddr start, saddr end);
+    void call_impact_callback(const Vec *start, Vec *end);
     void set_model_node_callback(void (*callback)(NJS_OBJECT *));
     void advance_weapon_photon_phase();
     // The photon colour (blended by photon_phase), white when the weapon has none.
@@ -172,7 +175,7 @@ struct TItemWeapon : public TItemEquipBase {
     f32 shot_speed;                // distance a shot covers per frame
     s16 photon_color_id;           // get_photon_color_record, -1 for none
     u8 pad_1ea[0x1EC - 0x1EA];
-    WeaponHitCallback impact_callback;  // when a shot hits a wall (spawn_land_hit_effect)
+    WeaponImpactCallback impact_callback;  // when a shot hits a wall (spawn_land_hit_effect)
     WeaponShotCallback shot_callback;   // draws the shot (create_gun_shot)
     WeaponHitCallback hit_callback;     // deliver_hit, on the target hit
 };

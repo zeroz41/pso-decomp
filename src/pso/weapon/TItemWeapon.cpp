@@ -172,9 +172,9 @@ Vec *TItemWeapon::get_center() {
     return &held_position;
 }
 
-void TItemWeapon::call_impact_callback(saddr start, saddr end) {
+void TItemWeapon::call_impact_callback(const Vec *start, Vec *end) {
     if (impact_callback != NULL) {
-        ((s32 (*)(s32, void *, s32, s32))impact_callback)((saddr)tl_05, this, start, end);
+        impact_callback(tl_05, this, start, end);
     }
 }
 

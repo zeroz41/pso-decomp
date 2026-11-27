@@ -26,6 +26,7 @@ void s_rank_punch_hit_effect(s32 layer, TObject *player, s32 target_id, s32 body
 TItemShoot *spawn_shot_effect(TItemWeapon *owner, const Vec *origin, const Vec *end, f32 frames);
 
 void debug_weapon_attack_hook(void);
-void notify_hit_target(u32 layer, uaddr player, u32 target, uaddr pos);
+// The weapon's wall impact callback (impact_callback).
+void notify_hit_target(TObject *layer, TItemEquipBase *weapon, const Vec *start, Vec *end);
 
 #endif

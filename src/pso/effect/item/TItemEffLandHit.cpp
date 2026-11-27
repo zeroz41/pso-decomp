@@ -36,7 +36,7 @@ void spawn_wall_hit_particles(s32 layer, Vec *pos) {
     spawn_hit_particle_trio(pos);
 }
 
-void spawn_weapon_impact_effect(s32 layer, TItemWeapon *weapon, Vec *start, Vec *end) {
+void spawn_weapon_impact_effect(TObject *layer, TItemEquipBase *weapon, const Vec *start, Vec *end) {
     spawn_hit_particle_trio(end);
 }
 
@@ -44,7 +44,7 @@ void TItemEffLandHit::trigger_impact() {
     TItem *item;
     item = find_item_by_id(item_id);
     if (item != NULL) {
-        ((TItemWeapon *)item)->call_impact_callback((saddr)&start, (saddr)&end);
+        ((TItemWeapon *)item)->call_impact_callback(&start, &end);
     }
     finished = 1;
 }

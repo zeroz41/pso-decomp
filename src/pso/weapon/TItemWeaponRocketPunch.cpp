@@ -143,7 +143,7 @@ TItemWeaponRocketPunch::~TItemWeaponRocketPunch() {
 TItemWeaponRocketPunch::TItemWeaponRocketPunch(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     effect_flags.set(32);
     set_weapon_flags(515);
-    impact_callback = (WeaponHitCallback)rocket_punch_wall_impact;
+    impact_callback = (WeaponImpactCallback)rocket_punch_wall_impact;
     hit_callback = (WeaponHitCallback)rocket_punch_target_impact;
     shot_callback = rocket_punch_create_shot;
     shot_speed = 8.0f;

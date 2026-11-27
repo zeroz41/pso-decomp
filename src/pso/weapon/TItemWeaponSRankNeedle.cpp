@@ -29,7 +29,7 @@ void TItemWeaponSRankNeedle::emit_marker_effects() {
 TItemWeaponSRankNeedle::TItemWeaponSRankNeedle(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     set_weapon_flags(2);
     hit_callback = (WeaponHitCallback)spawn_target_needle;
-    impact_callback = (WeaponHitCallback)spawn_needle_wall_impact;
+    impact_callback = spawn_needle_wall_impact;
     shot_callback = TItemShootModel::create_shoot_model;
 }
 

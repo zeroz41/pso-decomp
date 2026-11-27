@@ -31,7 +31,7 @@ void TItemWeaponRifle::update_attack() {
 }
 
 TItemWeaponRifle::TItemWeaponRifle(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+    impact_callback = spawn_weapon_impact_effect;
     barrel_scale = 1.0f;
     if (item[2] >= 5U) {
         set_color_node(-1);
