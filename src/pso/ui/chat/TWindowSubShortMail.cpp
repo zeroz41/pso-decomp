@@ -502,7 +502,7 @@ TWindowMenu *TWindowSubShortMail::create_window(void) {
         add_gray_text_entry(list, (const char *)(get_card_window_area()), 0, 0);
     }
     list->disable_input();
-    TQuestThread::set_status_flag_80(list);
+    list->set_status_flag_80();
     list->set_scroll_target(206.0f, 140.0f);
     return list;
 }

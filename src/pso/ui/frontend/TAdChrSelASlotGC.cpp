@@ -102,7 +102,7 @@ TWindowBase *TAdChrSelASlotGC::create_format_failed_window(s32 kind) {
     w = create_window_menu_default(&pos, 1);
     w->add_text_entry(get_localized_text_entry(0x16, kind + 0x2B), 0x20, 0);
     w->disable_input();
-    TQuestThread::set_status_flag_80(w);
+    w->set_status_flag_80();
     w->calc_layout_height(190.0f);
     return w;
 }
@@ -121,7 +121,7 @@ TWindowBase *TAdChrSelASlotGC::create_not_formatted_window(s32 kind) {
     w = create_window_menu_default(&pos, 1);
     w->add_text_entry(get_localized_text_entry(0x16, kind + 0x29), 0x20, 0);
     w->disable_input();
-    TQuestThread::set_status_flag_80(w);
+    w->set_status_flag_80();
     w->calc_layout_height(190.0f);
     return w;
 }
@@ -140,7 +140,7 @@ TWindowBase *TAdChrSelASlotGC::create_formatted_window(s32 kind) {
     w = create_window_menu_default(&pos, 1);
     w->add_text_entry(get_localized_text_entry(0x16, kind + 0x27), 0x20, 0);
     w->disable_input();
-    TQuestThread::set_status_flag_80(w);
+    w->set_status_flag_80();
     w->calc_layout_height(190.0f);
     return w;
 }
@@ -235,7 +235,7 @@ TWindowBase *TAdChrSelASlotGC::create_slot_message_window(s32 kind, s32 text) {
     w = create_window_menu_default(&pos, 1);
     w->add_text_entry(get_localized_text_entry(0x16, text), 0x21, 0);
     w->disable_input();
-    TQuestThread::set_status_flag_80(w);
+    w->set_status_flag_80();
     w->calc_layout_height(190.0f);
     return w;
 }

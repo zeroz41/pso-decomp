@@ -49,6 +49,8 @@ struct TWindowMenu : public TWindowAddition {
     void enable_input();
     // Clears menu flag 0x80, which hides the selected entry's highlight.
     void show_selection_highlight();
+    // Sets menu flag 0x80, the inverse of show_selection_highlight.
+    void set_status_flag_80();
     s32 add_text_entry(const char *text, s32 flags, s32 id, s32 color);
     s32 add_text_entry(const char *text, s32 flags, s32 id);
     virtual void render();

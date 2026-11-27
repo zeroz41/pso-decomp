@@ -110,7 +110,7 @@ void TQuestThread::queue_destruction(TObject *obj) { obj->queue_destruction(); }
 
 void TObjItemNameSelect::set_selection_index(int index) { item_name_selection_index = index; }
 
-void TQuestThread::set_status_flag_80(void *window) { *(u16 *)((u8 *)window + 0x70) |= 0x80; }
+void TWindowMenu::set_status_flag_80() { menu_flags |= 0x80; }
 
 TQuestManager::TQuestManager(TObject *parent, const char *filename) : TObject(parent) {
     s32 size;
@@ -677,7 +677,7 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
     }
     prompt_menu->set_scroll_target(442.0f, 64.0f);
     align_menu_entry_positions(prompt_menu);
-    TQuestThread::set_status_flag_80(prompt_menu);
+    prompt_menu->set_status_flag_80();
 }
 
 TObjItemNameEntry::~TObjItemNameEntry() {
@@ -792,7 +792,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     }
     name_menu->set_scroll_target(442.0f, 64.0f);
     align_menu_entry_positions(name_menu);
-    TQuestThread::set_status_flag_80(name_menu);
+    name_menu->set_status_flag_80();
     pos.x = 332.0f;
     pos.y = 80.0f;
     message_window = (void *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x55), &pos);

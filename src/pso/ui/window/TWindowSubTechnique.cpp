@@ -224,7 +224,7 @@ void TWindowSubTechnique::run_task() {
             technique_menu = create_title_window(category_menu->get_selected_value());
         }
         technique_menu->disable_input();
-        TQuestThread::set_status_flag_80(technique_menu);
+        technique_menu->set_status_flag_80();
         TWindowSubTechnique::get_current_selection(&shown_tp, &shown_hold_status, playerIndex);
         category_menu->clear_flag_and_release();
         state = 2;
