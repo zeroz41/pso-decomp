@@ -421,7 +421,7 @@ ItemCreateFunction item_tool_factory_table[24] = {
     TItemObject::create,
     TItemObject::create,
     TItemObject::create,
-    TUnk_804F112C::create,
+    TItemToolUseEffect::create,
     TItemToolRandomItem::create,
     TItemToolQuestBgm::create,
     TItemToolKillCounter::create,
