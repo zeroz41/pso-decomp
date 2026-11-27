@@ -70,7 +70,6 @@
 #include "pso/ui/window/TWindowComCardFollower.h"
 #include "pso/player/PlayerBattleScore.h"
 #include "pso/player/PlayerCharDataEntry.h"
-#include "pso/system/CxxRuntime.h"
 #include "pso/ui/hud/SplitScreenQuery.h"
 
 void PlayerSubObjectSlots::set_score(s32 v) { score = v; }
@@ -723,9 +722,7 @@ void TPlayerBattleCtrl::show_lobby_transport_notice() {
 void init_char_slots(void) {
     battle_mode_data_ptr = 0;
     battle_frame_rate = get_video_standard() == 1 ? 0x19 : 0x1E;
-    // The runtime stores a 0x10-byte array cookie before the 12 slots.
-    lobby_char_slot_array = (PlayerCharDataEntry *)__construct_new_array(::operator new[](0x10 + 12 * sizeof(PlayerCharDataEntry)),
-        __ct__19PlayerCharDataEntryFv, __dt__19PlayerCharDataEntryFv, sizeof(PlayerCharDataEntry), 12);
+    lobby_char_slot_array = new PlayerCharDataEntry[12];
     TBattleProximitySound::clear_battle_proximity_sound();
     clear_battle_player_ready_flags();
     battle_ctrl_default_value = 1;
@@ -734,7 +731,7 @@ void init_char_slots(void) {
 
 void free_char_slots(void) {
     if (lobby_char_slot_array != 0) {
-        __destroy_new_array(lobby_char_slot_array, __dt__19PlayerCharDataEntryFv);
+        delete[] lobby_char_slot_array;
         lobby_char_slot_array = 0;
     }
 }
