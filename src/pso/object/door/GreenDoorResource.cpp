@@ -14,9 +14,9 @@
 #include "pso/boss/galgryphon/Boss5CommonResource.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
-u8 *get_green_door_motion(s32 index) {
+AnimationMotion *get_green_door_motion(s32 index) {
     if (green_door_bml_resource != NULL) {
-        return (u8 *)get_bml_motion(green_door_bml_resource, index);
+        return get_bml_motion(green_door_bml_resource, index);
     }
     return NULL;
 }
@@ -26,9 +26,9 @@ NJS_TEXLIST *get_green_door_texlist(s32 index) {
     }
     return NULL;
 }
-u8 *get_green_door_model(s32 index) {
+NJS_OBJECT *get_green_door_model(s32 index) {
     if (green_door_bml_resource != NULL) {
-        return (u8 *)get_bml_model(green_door_bml_resource, index);
+        return get_bml_model(green_door_bml_resource, index);
     }
     return NULL;
 }
@@ -48,8 +48,6 @@ void free_green_door_resources() {
     }
 }
 
-extern BmlResourceDescriptor bm_obj_door_ruins_resource_descriptor;
-extern BmlResourceDescriptor bm_obj_door_space_resource_descriptor;
 void load_green_door_resources(void) {
     BmlResource *resource;
     green_door_bml_resource = 0;
@@ -57,13 +55,13 @@ void load_green_door_resources(void) {
     switch (get_current_floor_area()) {
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        resource = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_door_ruins_resource_descriptor, 0, 0, NULL);
+        resource = new BmlResource(5, &bm_obj_door_ruins_resource_descriptor, 0, 0, NULL);
         green_door_bml_resource = resource;
         green_door_texture_handle = LoadPvmFileTls("obj_door_ruins_green.gvm");
         break;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        resource = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_door_space_resource_descriptor, 0, 0, NULL);
+        resource = new BmlResource(5, &bm_obj_door_space_resource_descriptor, 0, 0, NULL);
         green_door_bml_resource = resource;
         green_door_texture_handle = LoadPvmFileTls("obj_door_space_green.gvm");
         break;
