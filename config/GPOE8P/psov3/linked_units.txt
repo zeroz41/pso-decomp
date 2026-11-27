@@ -1498,7 +1498,7 @@ pso/ui/frontend/TAdSystemFileCheckGC.cpp
 pso/ui/frontend/TAdMultiConfirmGC.cpp
 pso/ui/frontend/TAdMultiPlayerNoGC.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC.cpp
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.cpp
+pso/ui/frontend/TAdMultiPlyChrSelectTransitionGC.cpp
 pso/ui/frontend/TAdMultiSaveGC.cpp
 pso/ui/frontend/TAdMultiSelGameModeGC.cpp
 pso/ui/frontend/TAdPlayerLoadGC.cpp
