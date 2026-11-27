@@ -30,8 +30,6 @@ CsnContact csn_query_contacts[0x20];
 CsnGroup *csn_query_groups[0x100];
 __declspec(section ".data") CsnHit csn_hit_storage;
 WallRayResult csn_query_map_object;
-extern Vec scratch_vec3;
-extern Vec scratch_vec4;
 extern Vec scratch_vec5;
 
 void csn_debug_hook_under_query(void) {  }

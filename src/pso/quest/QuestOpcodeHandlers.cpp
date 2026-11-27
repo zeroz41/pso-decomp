@@ -605,7 +605,6 @@ void qst_op_va_call(s32 label) {
 
 int quest_active_flag;
 int evt2_random_enemies_mode;
-extern VaCallPair qb_message_window_size[];
 
 void qst_op_va_end() {
     qst_op_stack_popm(1, 7);
@@ -4475,12 +4474,12 @@ void qst_op_close_msg_qb(void) {
 
 void qst_op_disp_msg_qb(void) {
     s32 t = qst_args[0].i;
-    VaCallPair pr = qb_message_window_size[0];
+    NJS_POINT2 size = qb_message_window_size[0];
     if (qst_message_window_qb != 0) {
         qst_message_window_qb->close();
         qst_message_window_qb = 0;
     }
-    qst_message_window_qb = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x71), (NJS_POINT2 *)&pr);
+    qst_message_window_qb = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x71), &size);
     (qst_message_window_qb)->append_line((const char *)t, 3);
     ((TWindowBase *)qst_message_window_qb)->set_depth(50030.0f);
     qst_suspend_reason = QST_WAIT_MESSAGE_QB;

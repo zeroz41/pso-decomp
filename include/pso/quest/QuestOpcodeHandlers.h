@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/quest/QuestVm.h"
+#include "pso/system/NinjaTypes.h"
 
 struct TItemData;
 struct TObjPlayer;
@@ -86,6 +87,9 @@ struct SetQuestBoardHandlerEntry {
 };
 
 struct VaCallPair { s32 a; s32 b; };
+
+// Size of the window disp_msg_qb opens.
+extern NJS_POINT2 qb_message_window_size[];
 
 struct QuestNpcVisualRecord { s32 value; u8 remaining[0x4C]; };
 

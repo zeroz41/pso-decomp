@@ -824,7 +824,6 @@ s32 get_class_max_exp(void *, void *);
 
 extern const f32 player_front_distance;
 extern Vec scratch_vec5;
-extern PlayerCharDataEntry *lobby_char_slot_array;
 extern const char status_line_break[];
 extern f32 player_angle_per_degree;
 extern f32 player_degrees_per_turn;

@@ -120,6 +120,10 @@ void play_duel_result_stream(const char *file, saddr duration);
 
 extern s32 battle_ctrl_default_value;
 
+// The 12 saved character slots (init_char_slots); a battle copies each player into its slot and recreates
+// the players from them.
+extern struct PlayerCharDataEntry *lobby_char_slot_array;
+
 // Battle event times in seconds; start_duel_battle arms one pending event per non-zero entry.
 extern s16 battle_event_second_table[8];
 
