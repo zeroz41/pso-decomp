@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/berura/BeruraData.h"
 #include "pso/system/memory.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/EnemyBmlResource.h"
@@ -95,13 +96,6 @@ extern const NpcAnimationBinding ene_re7_berura_attack_def;
 const s32 berura_base_stat_ids[1] = {14};
 const s32 berura_resist_stat_ids[1] = {14};
 const s32 berura_lobby_param_ids[1] = {14};
-// BeruraData.cpp: the attack-stat ids (dispatch_shared_handler_b) and, per
-// stat set (0 normal, 1 reload_stats_from_tables), the row of each handle
-// table reset_hp/reload_stats_keep_hp_tp take. Names inferred.
-extern const s32 berura_attack_stat_ids[];
-extern const s32 re7_berura_base_stat_rows[];
-extern const s32 re7_berura_attack_stat_rows[];
-extern const s32 re7_berura_resist_stat_rows[];
 
 
 EnemyMoveParams berura_init_params = {225.0f, 0.0f, 0x600, {0, 0, 0, 0}};
