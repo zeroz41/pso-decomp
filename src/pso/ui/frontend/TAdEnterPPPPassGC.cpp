@@ -130,10 +130,7 @@ void TAdEnterPPPPassGC::open_keyboard_window(void *arg) {
     password_entry_dispatch_state = 1;
 }
 
-void *ppp_password_buffer[8] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-};
+char ppp_password_buffer[0x20] = "";
 
 void TAdEnterPPPPassGC::run_task() {
     this->get_title_position(password_screen_status_line_position);
@@ -157,7 +154,7 @@ void TAdEnterPPPPassGC::set_password(const char *password) {
         return;
     }
     memset(ppp_password_buffer, 0, 0x20);
-    strncpy((char *)ppp_password_buffer, password, 0x1F);
+    strncpy(ppp_password_buffer, password, 0x1F);
 }
 
 TAdEnterPPPPassGC::~TAdEnterPPPPassGC() {}
