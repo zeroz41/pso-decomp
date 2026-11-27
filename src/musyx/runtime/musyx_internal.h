@@ -9,6 +9,9 @@
 extern "C" {
 #endif
 
+extern u8 dspSlave[];
+extern u16 dspSlaveLength;
+
 struct SoundReverb;
 void ReverbHICallback(void *left, void *right, void *surround, SoundReverb *rv);
 

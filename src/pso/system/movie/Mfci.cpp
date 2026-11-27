@@ -4,12 +4,11 @@
 // returns it.
 #include "types.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "pso/audio/CriSvm.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/movie/Mfci.h"
-
-extern "C" unsigned long strtoul(const char *, char **, int);
 
 
 // inferred: named after gcrna_version_pointer, the same banner pointer in GCRNA.

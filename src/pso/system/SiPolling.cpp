@@ -1,22 +1,21 @@
 #include "types.h"
+#include <dolphin/os/OSInterrupt.h>
+#include <dolphin/os/OSTime.h>
+#include <dolphin/os/OSSerial.h>
 #include "pso/system/SiPolling.h"
 
 extern "C" {
-s32 SIRegisterPollingHandler(void *);
-s32 SIUnregisterPollingHandler(void *);
 uaddr si_polling_callback;
 s32 key_board_control_polling_channel_mask;
-void OSClearContext(void *);
-void OSSetCurrentContext(void *);
 }
 
-void call_si_polling_callback(s32 unused, void *saved_context) {
-    u8 ctx[0x2C8];
+void call_si_polling_callback(__OSInterrupt interrupt, OSContext *saved_context) {
+    OSContext ctx;
     if (si_polling_callback != 0) {
-        OSClearContext(ctx);
-        OSSetCurrentContext(ctx);
+        OSClearContext(&ctx);
+        OSSetCurrentContext(&ctx);
         ((void (*)(void))si_polling_callback)();
-        OSClearContext(ctx);
+        OSClearContext(&ctx);
         OSSetCurrentContext(saved_context);
     }
 }

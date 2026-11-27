@@ -77,10 +77,6 @@ __declspec(section ".data") u32 download_rng_seed_pair[2];
 s32 calc_download_crc32(void *data, s32 size);
 extern TObject *tl_03;
 
-extern "C" {
-char *strtok(char *, const char *);
-}
-
 void TQuestVmDownLoadServer::reset_download_state() {
     quest_dat_download_complete = 0;
     quest_bin_download_complete = 0;

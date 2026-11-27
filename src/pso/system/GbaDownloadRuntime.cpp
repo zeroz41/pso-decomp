@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <dolphin/gba.h>
+#include <dolphin/os/OSInterrupt.h>
+#include <dolphin/os/OSTime.h>
+#include <dolphin/os/OSSerial.h>
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/GbaJoybootState.h"
@@ -26,11 +29,6 @@ unsigned char gba_identifier_value;
 short gba_identifier_slot_plus_1;
 // The game code the GBA program header carries at 0xAC (gba_calc_joyboot_checksum copies it in).
 const u8 joyboot_game_code[4] = {'G', 'P', 'O', 'E'};
-extern "C" {
-
-u32 SIProbe(s32);
-
-}
 
 void gba_download_destroy_graph() {
     if ((u32) gba_download_graph != 0U) {

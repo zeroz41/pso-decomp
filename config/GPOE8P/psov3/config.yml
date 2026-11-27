@@ -6405,7 +6405,7 @@ force_active:
   - get_flag_word_mask__FlPUl
   - get_texture_buffer_size__FP18GinjaTextureHeader
   - fn_803DD3C8
-  - call_si_polling_callback__FlPv
+  - call_si_polling_callback__FsP9OSContext
   - update_crc32__FUlPUcl
   - spawn_particle_f3__11TObjDFJisinFPC3Vec
   - forest_box_collision_body_parts
