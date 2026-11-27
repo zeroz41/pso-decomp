@@ -47,7 +47,7 @@ struct TWindowOptionCtrl : public TObject {
     s32 handle_input(s32 language);
     s32 get_dial_selection();
     int is_finished();
-    static void set_udp_option(s32 unused, s16 option);
+    void set_udp_option(s32 option);
     static s32 get_udp_option(); // 0 auto, 1 UDP on, 2 UDP off
     static const char *text_or_default(const char *text);
     static TWindowMessage *create_serial_info_window(const NJS_POINT2 *pos, s32 kind);
