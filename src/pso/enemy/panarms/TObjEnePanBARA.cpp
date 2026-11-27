@@ -701,7 +701,7 @@ void TObjEnePanBARA::attack_target_player(s32 id) {
         }
         roll = random_ratio();
         if (roll <= jelin_chance) {
-            level = ((PanBARATechniqueLevels *)dispatch_shared_handler_a(0x33))->jelin_level;
+            level = dispatch_shared_handler_a(0x33)->values.integers[1]; // Jelin level
             if (level < 0 || level > 0xE) {
                 level = 0;
             }
@@ -709,7 +709,7 @@ void TObjEnePanBARA::attack_target_player(s32 id) {
             return;
         }
         if (roll <= jelin_chance + zalure_chance) {
-            level = ((PanBARATechniqueLevels *)dispatch_shared_handler_a(0x33))->zalure_level;
+            level = dispatch_shared_handler_a(0x33)->values.integers[2]; // Zalure level
             if (level < 0 || level > 0xE) {
                 level = 0;
             }
@@ -1302,7 +1302,7 @@ void TObjEnePanBARA::update_heal() {
         set_requested_action(4);
     }
     if (-15.0f == (f32) this->action_timer) {
-        level = ((PanBARATechniqueLevels *)dispatch_shared_handler_a(0x33))->resta_level;
+        level = dispatch_shared_handler_a(0x33)->values.integers[0]; // Resta level
         if (level < 0 || level > 0xE) {
             level = 0;
         }
