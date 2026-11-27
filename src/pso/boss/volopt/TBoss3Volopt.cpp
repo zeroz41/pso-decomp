@@ -365,7 +365,7 @@ TBoss3Volopt::TBoss3Volopt(EnemyPlacement *set_data) : TObjEnemyCustom(tl_04) {
     volopt_cage_group = get_part_group(0x20);
     next_action = 0;
     mode = 0;
-    m_3bc = 0;
+    pad_3bc = 0;
     set_story_flag_or_send_quest_flag(0x29);
     volopt_camera_focus = NULL;
     volopt_p01_tech = -1;
