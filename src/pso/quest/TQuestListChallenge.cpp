@@ -29,7 +29,7 @@ extern __declspec(section ".rodata") const QuestListStageEntry TQuestListChallen
 extern __declspec(section ".rodata") const QuestListStageEntry quest_list_challenge_stage_table[9];
 extern __declspec(section ".rodata") const QuestListStageEntry quest_list_battle_stage_table[8];
 extern const char *quest_list_challenge_name;
-extern __declspec(section ".rodata") const ChallengeWindowExtentResource lbl_80450AB4[1];
+extern __declspec(section ".rodata") const ChallengeWindowExtentResource challenge_detail_window_extent[1];
 }
 
 #pragma push
@@ -154,7 +154,7 @@ void TQuestListChallenge::update_selection() {
     if (list_window != NULL && list_window->is_decided() == 1) {
         sel = list_window->get_cursor_value();
         if (info_window == NULL) {
-            ChallengeWindowExtent p = lbl_80450AB4[0].extent;
+            ChallengeWindowExtent p = challenge_detail_window_extent[0].extent;
             id = (u16)player->get_entity_id();
             info_window = create_quest_detail_window(get_window_layout_position(0x2E), p.dimensions, 1, id);
             text2 = get_quest_list_text(text_group, entries[sel].confirm_text);
@@ -325,4 +325,4 @@ extern "C" const QuestListStageEntry quest_list_battle_stage_table[8] = {
 extern "C" const char quest_list_challenge_class_name_string[] = "TQuestListChallenge";
 extern "C" const char *quest_list_challenge_name = quest_list_challenge_class_name_string;
 
-extern "C" const ChallengeWindowExtentResource lbl_80450AB4[1] = {{{{332.0f, 210.0f}}, 0}};
+extern "C" const ChallengeWindowExtentResource challenge_detail_window_extent[1] = {{{{332.0f, 210.0f}}, 0}};

@@ -78,8 +78,8 @@ public:
     void close_message();
     void check_cancel_input();
     static void create();
-    static s32 get_field230();
-    static void clear_field2A0(TMCFormatSequence *sequence);
+    static s32 get_total_blocks();
+    static void reset_state_on_format_error(TMCFormatSequence *sequence);
     static void *alloc(u32 size);
     static s32 is_ready();
     static s32 get_serial_access();

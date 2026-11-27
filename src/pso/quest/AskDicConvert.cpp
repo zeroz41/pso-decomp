@@ -42,7 +42,7 @@ saddr quest_text_cursor_pos;
 s32 quest_download_server_state;
 saddr ask_dictionary_open_mode;
 s32 number_format_mode;
-s32 lbl_805D7900;
+s32 ask_learning_enabled;
 s32 quest_download_file_handle;  // what the quest-file open returns; -1 = closed (named from use)
 
 LAYOUT_ASSERT(QuestDownloadRequestStorageSize, sizeof(QuestDownloadRequestStorage) == 0x28);
@@ -2461,7 +2461,7 @@ s32 format_number_current_mode(const u8 *input, s32 length, QuestDownloadTextRec
 #pragma pop
 
 s32 get_download_state() {
-    return lbl_805D7900;
+    return ask_learning_enabled;
 }
 
 s32 release_slot_entry(u32 index) {
@@ -2502,7 +2502,7 @@ inline s32 is_digit_string(u8 *s) {
 s32 store_learned_name(QuestDownloadRequest *req, s32 *ids, s32 n) {
     char buf[0x50];
     s32 v;
-    if (lbl_805D7900 == 0) {
+    if (ask_learning_enabled == 0) {
         return 3;
     }
     if (quest_download_file_handle == -1) {
@@ -2526,7 +2526,7 @@ s32 store_learned_name(QuestDownloadRequest *req, s32 *ids, s32 n) {
 
 s32 store_name_entry(QuestDownloadRequest *req) {
     char buf[0x50];
-    if (lbl_805D7900 == 0) {
+    if (ask_learning_enabled == 0) {
         return 3;
     }
     if (quest_download_file_handle == -1) {
@@ -2771,7 +2771,7 @@ s32 update_entry_frequency(u32 id, u16 key, s32 *ids, s32 n) {
     u8 *base;
     u8 *p;
     u16 off;
-    if (lbl_805D7900 == 0) {
+    if (ask_learning_enabled == 0) {
         return 3;
     }
     if (quest_download_file_handle == -1) {

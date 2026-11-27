@@ -35,7 +35,7 @@ void TMessageWindowController::append_title_string() {
 }
 void TMessageWindowController::append_block_space() {
     char buf[0x20];
-    s32 value = TQuestVmDownLoadServer::get_field230();
+    s32 value = TQuestVmDownLoadServer::get_total_blocks();
     memset(buf, 0, 0x20);
     sprintf(buf, "%d", value);
     append_text(buf);

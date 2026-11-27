@@ -246,7 +246,7 @@ s32 quest_download_request_open(saddr *args) {
     allowed_char_bitmap = ask_header_buffer + 0x4E;
     quest_download_file_handle = -1;
     ask_header_dirty = 0;
-    lbl_805D7900 = 0;
+    ask_learning_enabled = 0;
     number_format_mode = 0;
     ask_dictionary_open_mode = 0x8002;
     ask_convert_mode = 0;

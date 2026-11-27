@@ -283,7 +283,7 @@ void send_and_handle() { blocking_vsync(); }
 void blocking_vsync() {
     TLoadCtrl::set_field1C(0);
     begin_gx_frame();
-    if ((s32) lbl_805D5718 != 0) {
+    if ((s32) blocking_vsync_render_only != 0) {
         main_task.begin_frame();
         main_task.run_tl_camera_tasks();
         main_task.render();

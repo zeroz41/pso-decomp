@@ -45,7 +45,7 @@ int phone_number_index;
 s32 dns_initialized;
 s32 lobby_connect_active_flag;
 s32 lbl_805D5714;
-s32 lbl_805D5718;
+s32 blocking_vsync_render_only;
 
 extern "C" {
 s16 if_config(s16, void *);

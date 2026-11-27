@@ -291,7 +291,6 @@ struct TLobby : public TObject {
     static void destroy_join_entries();
     static void destroy_lobby_ui();
     static void disable_window_flags(void*);
-    static void get_menu_field_280();
     static s32 get_progress_info(void *, void *, void *, void *);
     static const char *get_seq_phase(int);
     static void handle_com_card();

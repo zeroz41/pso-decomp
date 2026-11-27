@@ -950,8 +950,8 @@ s32 write_ask_header(void) {
     }
     p[0] = name_cache_page_index % 256;
     p[1] = name_cache_page_index / 256;
-    p[2] = lbl_805D7900 % 256;
-    p[3] = lbl_805D7900 / 256;
+    p[2] = ask_learning_enabled % 256;
+    p[3] = ask_learning_enabled / 256;
     p[4] = number_format_mode % 256;
     p[5] = number_format_mode / 256;
     if (seek_dictionary(0) == -1) {

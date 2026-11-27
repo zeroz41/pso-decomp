@@ -106,7 +106,7 @@ s32 convert_quest_text_u8_to_u16(u16 *, const u8 *, int);
 }
 s32 write_entry_group_text(s32 start, s32 count, QuestDownloadTextNode *node, u16 *buf);
 s32 store_name_record(char *, QuestDownloadRequest *, s32);
-extern s32 lbl_805D7900;
+extern s32 ask_learning_enabled;
 s32 store_name_entry(QuestDownloadRequest *req);
 void relocate_name_record(s32 id);
 void clear_record_values(u8 *p);

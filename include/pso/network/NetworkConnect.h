@@ -85,5 +85,5 @@ char *get_ppp_password_buffer(void);
 
 extern s32 net_session_mode;
 
-extern s32 lbl_805D5718;
+extern s32 blocking_vsync_render_only;
 #endif

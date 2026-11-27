@@ -1103,7 +1103,7 @@ void TLobby::update() {
     reset_controller_input_state();
 }
 // The create-game call uses the low byte of the team's word result in r3.
-extern "C" u8 get_field_20__15TWindowMakeTeamFv(TWindowMakeTeam *window);
+extern "C" u8 get_kind__15TWindowMakeTeamFv(TWindowMakeTeam *window);
 
 void TLobby::handle_create_game_window() {
     const char *name;
@@ -1121,7 +1121,7 @@ void TLobby::handle_create_game_window() {
                 battle_mode = (s8)lobby_make_team_window->read_mode() == 2;
                 difficulty = lobby_make_team_window->is_enabled();
                 challenge_mode = (s8)lobby_make_team_window->get_mode() == 1;
-                episode = get_field_20__15TWindowMakeTeamFv(lobby_make_team_window);
+                episode = get_kind__15TWindowMakeTeamFv(lobby_make_team_window);
                 protocol_instance->send_create_game((char *)name, (char *)password, difficulty, battle_mode, challenge_mode, episode);
                 TLobby::destroy_lobby_ui();
                 return;
@@ -2906,7 +2906,7 @@ void TWindowMenu::set_ready_flag() { menu_flags |= 0x1; }
 int TWindowMenuIconLine::is_decided() { return (this->state_flags >> 1) & 0x1; }
 int TWindowMenuIconLine::is_cancelled() { return (this->state_flags >> 2) & 0x1; }
 int TWindowMakeTeam::test_flag_1d_bit1() { return (flags >> 1) & 1; }
-s32 TWindowMakeTeam::get_field_20() { return kind; }
+s32 TWindowMakeTeam::get_kind() { return kind; }
 u8 TWindowMakeTeam::get_mode() { return mode; }
 u8 TWindowMakeTeam::read_mode() { return mode; }
 int TWindowMakeTeam::test_flag_1d_bit0() { return flags & 1; }

@@ -673,7 +673,7 @@ void TQuestVmDownLoadServer::check_memcard_slot() {
         case -0xFD:
             seq = new TMCFormatSequence(this, slot);
             seq->done_callback = reset_state_on_format_done;
-            seq->error_callback = TQuestVmDownLoadServer::clear_field2A0;
+            seq->error_callback = TQuestVmDownLoadServer::reset_state_on_format_error;
             this->state = 0x16;
             break;
         case -1:
@@ -1100,7 +1100,7 @@ void TQuestVmDownLoadServer::create() {
         new TQuestVmDownLoadServer(tl_00);
     }
 }
-s32 TQuestVmDownLoadServer::get_field230() {
+s32 TQuestVmDownLoadServer::get_total_blocks() {
     if (quest_vm_download_server_instance != NULL) {
         return quest_vm_download_server_instance->total_blocks;
     }
@@ -1111,7 +1111,7 @@ void reset_state_on_format_done(TMCFormatSequence *) {
         quest_vm_download_server_instance->state = 0;
     }
 }
-void TQuestVmDownLoadServer::clear_field2A0(TMCFormatSequence *) {
+void TQuestVmDownLoadServer::reset_state_on_format_error(TMCFormatSequence *) {
     if (quest_vm_download_server_instance != NULL) {
         quest_vm_download_server_instance->state = 0;
     }
