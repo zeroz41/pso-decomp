@@ -119,7 +119,7 @@ saddr get_floor_scene_table(s32 area) {
 }
 
 
-void TLobby::reset_story_select(void* p) { TLobby::reset_story_select(); }
+void reset_reload_story_select(void) { TLobby::reset_story_select(); }
 void reset_online_story_select(void) { TLobby::reset_story_select(); }
 
 s32 init_object_set_data(ObjectSetData *set) {

@@ -113,9 +113,6 @@ void reload_lobby_floor_stub(void);
 extern "C" {
 void online_lobby_frame_stub(void);
 }
-extern "C" {
-s32 reset_story_select__6TLobbyFPv();
-}
 
 // Load and release hooks of the online lobby scene, in pairs: run_online_lobby_scene runs
 // each load front to back (run_load_callback_table), cleanup_online_lobby_scene each release
@@ -244,7 +241,7 @@ void reload_lobby_floor_scene(void) {
     main_task.resume_layers();
     promote_area_floor(&floor_transition_state);
     TLobby::reset_counter();
-    reset_story_select__6TLobbyFPv();
+    reset_reload_story_select();
     free_area_event_sets();
     clear_floor_population();
     TKeyBoardControl::update();

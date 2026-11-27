@@ -166,7 +166,6 @@ struct TLobby : public TObject {
     static void init_id_tables();
     static s32 is_scene_ready();
     static void reset_story_select();
-    static void reset_story_select(void* p);
     static s32 update_key_machine();
     static void free_global_buffers();
     static void clear_flag400();
