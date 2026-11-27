@@ -9,7 +9,7 @@
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffDischarge.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffLine.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffLineFade.h"
-#include "pso/boss/TBoss3VoloptSweepLine.h"
+#include "pso/boss/volopt/TBoss3VoloptSweepLine.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/math/MatrixTransforms.h"

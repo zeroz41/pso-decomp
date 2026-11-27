@@ -5,7 +5,7 @@
 struct NJS_POINT2;
 
 struct TItemData;
-#include "pso/unk/TWindowLayoutRect.h"
+#include "pso/ui/window/TWindowLayoutRect.h"
 
 struct TItem;
 

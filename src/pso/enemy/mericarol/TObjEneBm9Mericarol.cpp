@@ -32,7 +32,7 @@
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/AngleUnits.h"
-#include "pso/unk/SampledMotionPoints.h"
+#include "pso/animation/SampledMotionPoints.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol_EffCurse3.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"

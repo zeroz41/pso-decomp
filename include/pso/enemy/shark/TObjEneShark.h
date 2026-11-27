@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/beast/TObjEneBeastBase.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/render/RenderFadeState.h"
 
 class TAttackTraceStrip;

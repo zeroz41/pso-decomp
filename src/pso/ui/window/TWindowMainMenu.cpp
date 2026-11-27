@@ -28,7 +28,7 @@ struct TWindowSubItem;
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
-#include "pso/unk/TWindowStatusCategoryMenu.h"
+#include "pso/ui/window/TWindowStatusCategoryMenu.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/HelpWindowToggle.h"
 #include "pso/player/TObjPlayer.h"

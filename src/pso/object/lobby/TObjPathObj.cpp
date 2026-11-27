@@ -14,7 +14,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobbyEventTheme.h"
+#include "pso/object/lobby/TLobbyEventTheme.h"
 #include "pso/render/TextureState.h"
 #include "pso/object/lobby/TObjPathObj.h"
 #include "pso/player/TObjPlayer.h"

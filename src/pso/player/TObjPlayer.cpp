@@ -125,7 +125,7 @@
 #include "pso/object/ambient/TObjLight_SceneLights.h"
 #include "pso/render/DebugFont.h"
 #include "pso/player/TPlayerBattleCtrl.h"
-#include "pso/unk/TBattleMusicGainTask.h"
+#include "pso/player/TBattleMusicGainTask.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/network/protocol/subcommand_validation_player.h"

@@ -2,7 +2,7 @@
 #define PSO_UI_WINDOW_TWINDOWLAYOUTNUMBER_H
 
 #include "types.h"
-#include "pso/unk/TWindowLayoutRect.h"
+#include "pso/ui/window/TWindowLayoutRect.h"
 #include "pso/ui/window/WindowLayoutRecord.h"
 
 // A window part that draws a number right-aligned (case 4 of init_window_layout_entries).

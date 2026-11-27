@@ -32,7 +32,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/HeadingEntry.h"
-#include "pso/unk/TWindowLayoutRect.h"
+#include "pso/ui/window/TWindowLayoutRect.h"
 
 #pragma readonly_strings on
 

@@ -31,13 +31,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TBattleProximitySound.h"
+#include "pso/player/TBattleProximitySound.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/unk/TBattleMusicGainTask.h"
+#include "pso/player/TBattleMusicGainTask.h"
 #include "pso/audio/SoundRequests.h"
 #include "pso/network/LegacyEnemyKill.h"
 #include <string.h>

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TWindowLayoutRect.h"
+#include "pso/ui/window/TWindowLayoutRect.h"
 #include "pso/ui/window/WindowTextDraw.h"
 #include "pso/ui/window/LabelValueRow.h"
 #include "pso/ui/font/MenuFontGlyphs.h"

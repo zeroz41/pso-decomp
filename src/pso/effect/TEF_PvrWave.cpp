@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/effect/TEF_PvrWave.h"
-#include "pso/unk/TTextureWave.h"
+#include "pso/render/TTextureWave.h"
 #include "pso/system/scene/TSceneMaterial.h"
 
 TEF_PvrWave::~TEF_PvrWave() {

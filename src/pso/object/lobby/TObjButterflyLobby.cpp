@@ -11,7 +11,7 @@
 #include "pso/render/TextureState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/TLobbyEventTheme.h"
+#include "pso/object/lobby/TLobbyEventTheme.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/math/AngleLookup.h"

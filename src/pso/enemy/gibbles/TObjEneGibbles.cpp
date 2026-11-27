@@ -30,7 +30,7 @@ struct NJS_OBJECT;
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/vector.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include <stddef.h>
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"

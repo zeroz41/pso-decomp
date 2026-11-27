@@ -17,7 +17,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/model_render_state.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"

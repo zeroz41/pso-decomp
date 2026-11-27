@@ -28,7 +28,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TBattleProximitySound.h"
+#include "pso/player/TBattleProximitySound.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/system/ControllerInput.h"

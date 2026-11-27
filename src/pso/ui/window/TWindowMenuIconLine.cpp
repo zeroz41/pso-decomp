@@ -46,7 +46,7 @@
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowMenuInfomation.h"
 #include "pso/ui/window/LabelValueRow.h"
-#include "pso/unk/TWindowLayoutRect.h"
+#include "pso/ui/window/TWindowLayoutRect.h"
 
 const char *TWindowMenuIconLine::class_name = "TWindowMenuIconLine";
 

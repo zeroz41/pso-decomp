@@ -24,7 +24,7 @@
 #include "pso/technique/TTecGiFoie.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/TDeferredRenderQueue.h"
+#include "pso/render/TDeferredRenderQueue.h"
 #include "pso/network/TLobby.h"
 #include "pso/math/MatrixReflect.h"
 #include "pso/system/MatrixStack.h"

@@ -5,7 +5,7 @@
 #include "dolphin/mtx.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 
 struct BmlResource;
 

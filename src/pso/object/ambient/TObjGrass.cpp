@@ -9,7 +9,7 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/system/BmlResourceLoad.h"
-#include "pso/unk/SampledMotionPoints.h"
+#include "pso/animation/SampledMotionPoints.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/enemy/berura/ChunkModelNodeCallback.h"
@@ -28,7 +28,7 @@
 #include "pso/render/DebugFont.h"
 
 #include "pso/object/ambient/TObjGrass.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/map/FloorArea.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"

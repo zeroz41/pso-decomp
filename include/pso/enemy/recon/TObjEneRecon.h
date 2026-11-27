@@ -7,7 +7,7 @@ struct NJS_OBJECT;
 struct TObjEneRecobox;
 class TParticleCtrl;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 
 // The Recon parameter block dispatch_shared_handler_a(0x42) hands out (recon_behavior_params).
 struct ReconParams {

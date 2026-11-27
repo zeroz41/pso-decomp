@@ -2,7 +2,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/TObjControl.h"
-#include "pso/unk/SampledMotionPoints.h"
+#include "pso/animation/SampledMotionPoints.h"
 #include "pso/boss/darkfalz/TObjBs4CutAtk.h"
 #include "pso/effect/TAttackTrace.h"
 #include "pso/render/ChunkModelDraw.h"

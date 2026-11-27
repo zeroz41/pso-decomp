@@ -32,7 +32,7 @@
 #include "pso/network/TGameProtocol.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/AreaEventSet.h"
-#include "pso/unk/TLobbyAutoReply.h"
+#include "pso/network/TLobbyAutoReply.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/map/FloorPopulation.h"
 #include "pso/network/LegacyEnemyKill.h"

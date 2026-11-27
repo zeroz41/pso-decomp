@@ -7,7 +7,7 @@ struct TObjPlayer;
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 
 // gibbles_ai_parameters, dispatch_shared_handler_a(0x3D) (names inferred)
 struct GibblesAiParams {

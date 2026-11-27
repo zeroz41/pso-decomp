@@ -5,7 +5,7 @@
 
 struct NJS_OBJECT;
 #include "pso/enemy/beast/TObjEneBeastBase.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 
 class TAttackTraceStrip;
 

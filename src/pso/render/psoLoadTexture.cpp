@@ -13,7 +13,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/system/TGStream.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TTextureWave.h"
+#include "pso/render/TTextureWave.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"

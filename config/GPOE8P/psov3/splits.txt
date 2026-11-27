@@ -137,7 +137,7 @@ pso/system/AramPool.cpp:
 	.text       start:0x8001D4D8 end:0x8001DA00
 	.sbss       start:0x805D4A90 end:0x805D4A98
 
-pso/unk/TLobbyAutoReply.cpp:
+pso/network/TLobbyAutoReply.cpp:
 	.text       start:0x8001DA00 end:0x8001DC24
 	.sbss       start:0x805D4A98 end:0x805D4AA0
 
@@ -415,25 +415,25 @@ pso/boss/volopt/TBoss3VoloptP02.cpp:
 	.sbss       start:0x805D4CD0 end:0x805D4D0C
 	.sdata2     start:0x805D87A0 end:0x805D8824
 
-pso/boss/TBoss3VoloptSweepLine.cpp:
+pso/boss/volopt/TBoss3VoloptSweepLine.cpp:
 	.text       start:0x80048260 end:0x80048560
 	.rodata     start:0x804366B8 end:0x804366D0
 	.data       start:0x80484828 end:0x80484858
 	.bss        start:0x804FF1B8 end:0x804FF1D0
 	.sdata2     start:0x805D8828 end:0x805D8838
 
-pso/boss/TBoss3VoloptLine.cpp:
+pso/boss/volopt/TBoss3VoloptLine.cpp:
 	.text       start:0x80048560 end:0x80048674
 	.data       start:0x80484858 end:0x80484888
 	.bss        start:0x804FF1D0 end:0x804FF1E8
 
-pso/boss/TBoss3VoloptParticleSpray.cpp:
+pso/boss/volopt/TBoss3VoloptParticleSpray.cpp:
 	.text       start:0x80048674 end:0x80048920
 	.rodata     start:0x804366D0 end:0x804366D8
 	.data       start:0x80484888 end:0x804848A0
 	.sdata2     start:0x805D8838 end:0x805D884C
 
-pso/boss/TBoss3VoloptFadeIn.cpp:
+pso/boss/volopt/TBoss3VoloptFadeIn.cpp:
 	.text       start:0x80048920 end:0x80048C04
 	.data       start:0x804848A0 end:0x804848D0
 	.sbss       start:0x805D4D10 end:0x805D4D18
@@ -447,13 +447,13 @@ pso/boss/volopt/TObjVoloptCage.cpp:
 	.sbss       start:0x805D4D18 end:0x805D4D2C
 	.sdata2     start:0x805D8860 end:0x805D888C
 
-pso/boss/TBoss3VoloptCageShot.cpp:
+pso/boss/volopt/TBoss3VoloptCageShot.cpp:
 	.text       start:0x800495F8 end:0x80049A1C
 	.rodata     start:0x804366F8 end:0x8043670C
 	.data       start:0x80484A68 end:0x80484AD0
 	.sdata2     start:0x805D8890 end:0x805D8894
 
-pso/boss/TBoss3VoloptMissile.cpp:
+pso/boss/volopt/TBoss3VoloptMissile.cpp:
 	.text       start:0x80049A1C end:0x80049FD8
 	.rodata     start:0x80436710 end:0x80436720
 	.data       start:0x80484AD0 end:0x80484B38
@@ -598,7 +598,7 @@ pso/boss/darkfalz/TBoss4Zako.cpp:
 	.sbss       start:0x805D4D88 end:0x805D4D90
 	.sdata2     start:0x805D8CB8 end:0x805D8D48
 
-pso/boss/goldragon/TBoss5Gryphon_Flags.cpp:
+pso/boss/galgryphon/TBoss5Gryphon_Flags.cpp:
 	.text       start:0x8005D6F4 end:0x8005D700
 
 pso/boss/goldragon/BossAssetVariant.cpp:
@@ -949,7 +949,7 @@ pso/ui/window/TWindowSubComCard_CardSlots.cpp:
 	.bss        start:0x80500158 end:0x80500398
 	.sbss       start:0x805D4E80 end:0x805D4E84
 
-pso/unk/TLobby_Session.cpp:
+pso/network/TLobby_Session.cpp:
 	.text       start:0x8007B6D8 end:0x8007BF8C
 	.data       start:0x8048D4C0 end:0x8048D5C8
 
@@ -1034,7 +1034,7 @@ pso/effect/TEF_PvrWave.cpp:
 	.data       start:0x8048E168 end:0x8048E180
 	.sdata      start:0x805D28F8 end:0x805D28FC
 
-pso/unk/TObjFreezeShell.cpp:
+pso/effect/TObjFreezeShell.cpp:
 	.text       start:0x80081B2C end:0x80082308
 	.rodata     start:0x80438E60 end:0x80438EA8
 	.data       start:0x8048E180 end:0x8048E2E0
@@ -1276,7 +1276,7 @@ pso/enemy/darkgunner/TObjEneDarkGunner.cpp:
 	.sbss       start:0x805D4FF8 end:0x805D5030
 	.sdata2     start:0x805D9978 end:0x805D99D0
 
-pso/enemy/TObjEneDarkGunnerShot.cpp:
+pso/enemy/darkgunner/TObjEneDarkGunnerShot.cpp:
 	.text       start:0x800A3290 end:0x800A36A8
 	.rodata     start:0x8043A6E8 end:0x8043A700
 	.data       start:0x80490998 end:0x804909FC
@@ -1537,7 +1537,7 @@ pso/enemy/merilllia/TObjEneMerillLia.cpp:
 	.sbss       start:0x805D5210 end:0x805D5228
 	.sdata2     start:0x805DA2E8 end:0x805DA348
 
-pso/enemy/sinowzoa/TObjEnemyColorFade.cpp:
+pso/enemy/TObjEnemyColorFade.cpp:
 	.text       start:0x800D72A4 end:0x800D7690
 	.rodata     start:0x8043C6F8 end:0x8043C700
 	.data       start:0x80494938 end:0x80494964
@@ -1586,7 +1586,7 @@ pso/render/MaterialColorFade.cpp:
 	.data       start:0x80494AE0 end:0x80494B0C
 	.sdata2     start:0x805DA3D8 end:0x805DA3E8
 
-pso/unk/SampledMotionPoints.cpp:
+pso/animation/SampledMotionPoints.cpp:
 	.text       start:0x800D9768 end:0x800D9BBC
 	.bss        start:0x80500F80 end:0x80500FB0
 	.sbss       start:0x805D5230 end:0x805D5248
@@ -1794,7 +1794,7 @@ pso/ui/font/TFontSmallHelp.cpp:
 	.sdata      start:0x805D2B20 end:0x805D2B24
 	.sdata2     start:0x805DA9C0 end:0x805DA9E0
 
-pso/ui/window/TFontSmallLobby.cpp:
+pso/ui/font/TFontSmallLobby.cpp:
 	.text       start:0x800FC91C end:0x800FCCC8
 	.rodata     start:0x8043DAB0 end:0x8043DAC0
 	.data       start:0x8049CA40 end:0x8049CA6C
@@ -2004,7 +2004,7 @@ pso/item/TItemData.cpp:
 	.data       start:0x8049F248 end:0x8049F3A0
 	.sdata2     start:0x805DAB68 end:0x805DAB90
 
-pso/unk/LoadUnloadSet.cpp:
+pso/item/LoadUnloadSet.cpp:
 	.text       start:0x8010EF14 end:0x8010F2AC
 	.rodata     start:0x8043E3A0 end:0x8043E3A8
 	.sdata2     start:0x805DAB90 end:0x805DAB94
@@ -4368,7 +4368,7 @@ pso/system/scene/OnlineLobbyScene.cpp:
 	.data       start:0x804C20E8 end:0x804C22B0
 	.sbss       start:0x805D5CE8 end:0x805D5CF8
 
-pso/unk/TAdDialingSelectGC.cpp:
+pso/ui/frontend/TAdDialingSelectGC.cpp:
 	.text       start:0x801A4D30 end:0x801A529C
 	.rodata     start:0x80446940 end:0x80446998
 	.data       start:0x804C22B0 end:0x804C22D8
@@ -4522,7 +4522,7 @@ pso/player/TObjPlayerAccessors.cpp:
 	.text       start:0x801BE210 end:0x801C23A8
 	.data       start:0x804C3E38 end:0x804C3E60
 
-pso/unk/TBattleMusicGainTask.cpp:
+pso/player/TBattleMusicGainTask.cpp:
 	.text       start:0x801C23A8 end:0x801C25B4
 	.rodata     start:0x80446F78 end:0x80446F80
 	.data       start:0x804C3E60 end:0x804C3E78
@@ -4542,7 +4542,7 @@ pso/network/BattleModeDataCmd.cpp:
 	.text       start:0x801C4F80 end:0x801C50A8
 	.sdata2     start:0x805DC300 end:0x805DC304
 
-pso/unk/TBattleProximitySound.cpp:
+pso/player/TBattleProximitySound.cpp:
 	.text       start:0x801C50A8 end:0x801C53D4
 	.data       start:0x804C3F48 end:0x804C3F60
 	.sbss       start:0x805D5DD0 end:0x805D5DD8
@@ -4568,7 +4568,7 @@ pso/player/PlayerAttackController.cpp:
 	.text       start:0x801D2E20 end:0x801D34E0
 	.sdata2     start:0x805DC3B8 end:0x805DC3C8
 
-pso/unk/ZeroedGlobalObject.cpp:
+pso/player/ZeroedGlobalObject.cpp:
 	.text       start:0x801D34E0 end:0x801D3518
 	.ctors      start:0x80433F90 end:0x80433F94
 	.bss        start:0x80511DD8 end:0x80511DE8
@@ -4701,7 +4701,7 @@ pso/render/psoLoadTexture.cpp:
 	.sbss       start:0x805D5E58 end:0x805D5E5C
 	.sdata2     start:0x805DC448 end:0x805DC44C
 
-pso/ui/frontend/TTextureWave.cpp:
+pso/render/TTextureWave.cpp:
 	.text       start:0x801E4CF0 end:0x801E4E7C
 	.data       start:0x804C57E0 end:0x804C57F0
 
@@ -5734,7 +5734,7 @@ pso/ui/window/WindowLayoutEntries.cpp:
 	.data       start:0x804CF960 end:0x804CF998
 	.sdata2     start:0x805DCEF0 end:0x805DCEF4
 
-pso/unk/TWindowLayoutRect.cpp:
+pso/ui/window/TWindowLayoutRect.cpp:
 	.text       start:0x80258050 end:0x80258164
 	.data       start:0x804CF998 end:0x804CF9B0
 	.sdata2     start:0x805DCEF8 end:0x805DCEFC
@@ -6171,7 +6171,7 @@ pso/ui/chat/TWindowSubShortMail.cpp:
 	.sdata      start:0x805D3A98 end:0x805D3AA0
 	.sdata2     start:0x805DD6C8 end:0x805DD6D8
 
-pso/unk/TWindowStatusCategoryMenu.cpp:
+pso/ui/window/TWindowStatusCategoryMenu.cpp:
 	.text       start:0x8027FB00 end:0x8027FD88
 	.data       start:0x804D1AD0 end:0x804D1AE8
 	.sdata2     start:0x805DD6D8 end:0x805DD6E0
@@ -6613,7 +6613,7 @@ pso/render/reflection.cpp:
 	.sdata2     start:0x805DDD88 end:0x805DDDB8
 	.sbss2      start:0x805E1220 end:0x805E1224
 
-pso/player/GinjaRenderTarget.cpp:
+pso/render/GinjaRenderTarget.cpp:
 	.text       start:0x8029F694 end:0x8029F730
 
 pso/object/door/TODoorLabo.cpp:
@@ -7935,7 +7935,7 @@ pso/ui/frontend/TAdEnterPasswordGC.cpp:
 	.sbss       start:0x805D6CB0 end:0x805D6CB8
 	.sdata2     start:0x805DF780 end:0x805DF788
 
-pso/unk/TDeferredRenderQueue.cpp:
+pso/render/TDeferredRenderQueue.cpp:
 	.text       start:0x8032BBF0 end:0x8032BE50
 	.data       start:0x804EDAC0 end:0x804EDAD8
 	.sbss       start:0x805D6CB8 end:0x805D6CBC
@@ -8449,7 +8449,7 @@ pso/boss/galgryphon/TBoss5GryphonLightningWing.cpp:
 	.sdata      start:0x805D4368 end:0x805D4370
 	.sdata2     start:0x805DFED0 end:0x805DFEE0
 
-pso/unk/TLobbyEventTheme.cpp:
+pso/object/lobby/TLobbyEventTheme.cpp:
 	.text       start:0x80351DF8 end:0x803520D8
 	.rodata     start:0x80478E20 end:0x80478E38
 	.data       start:0x804F0EA8 end:0x804F0EC0
@@ -10244,7 +10244,7 @@ pso/render/TexturedVertexDraw.cpp:
 pso/effect/particle/ParticleStrip.cpp:
 	.text       start:0x803E29B0 end:0x803E2BAC
 
-pso/boss/derolle/ProjectedColorDraw.cpp:
+pso/render/ProjectedColorDraw.cpp:
 	.text       start:0x803E2BAC end:0x803E2D50
 	.sdata2     start:0x805E1080 end:0x805E1084
 

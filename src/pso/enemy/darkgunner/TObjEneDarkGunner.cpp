@@ -18,7 +18,7 @@
 
 #include "types.h"
 
-#include "pso/enemy/TObjEneDarkGunnerShot.h"
+#include "pso/enemy/darkgunner/TObjEneDarkGunnerShot.h"
 
 #include "pso/render/NinjaUtil.h"
 

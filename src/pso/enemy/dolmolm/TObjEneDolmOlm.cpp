@@ -6,7 +6,7 @@
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/unk/SampledMotionPoints.h"
+#include "pso/animation/SampledMotionPoints.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/render/reflection.h"
 #include "pso/enemy/berura/ChunkModelNodeCallback.h"
@@ -31,7 +31,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #include <stddef.h>

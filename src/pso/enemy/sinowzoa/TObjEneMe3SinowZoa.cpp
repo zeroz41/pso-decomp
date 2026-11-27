@@ -34,7 +34,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjChara.h"

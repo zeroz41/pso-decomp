@@ -4,7 +4,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowStatusGauge.h"
-#include "pso/unk/TWindowLayoutRect.h"
+#include "pso/ui/window/TWindowLayoutRect.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

@@ -128,7 +128,7 @@
 #include "pso/weapon/TItemWeaponRikasClaw.h"
 #include "pso/weapon/TItemWeaponSRankKnuckle.h"
 #include "pso/item/ItemChunkBuffers.h"
-#include "pso/unk/LoadUnloadSet.h"
+#include "pso/item/LoadUnloadSet.h"
 #include "pso/item/TItemBuff.h"
 #include "pso/item/item_pmt.h"
 #include "pso/item/TItemLockCountCtrl.h"

@@ -5,7 +5,7 @@
 
 struct NJS_OBJECT;
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx/GeoTypes.h>
 

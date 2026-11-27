@@ -51,7 +51,7 @@ struct NJS_OBJECT;
 #include "pso/technique/TTecMegid.h"
 #include "pso/render/TextureState.h"
 
-#include "pso/render/TObjEnemyColorFade.h"
+#include "pso/enemy/TObjEnemyColorFade.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/TLevelSelect.h"

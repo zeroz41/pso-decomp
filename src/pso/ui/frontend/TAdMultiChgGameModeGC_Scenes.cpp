@@ -33,7 +33,7 @@
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
-#include "pso/unk/TAdDialingSelectGC.h"
+#include "pso/ui/frontend/TAdDialingSelectGC.h"
 #include "pso/ui/frontend/DrawLineResource.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"

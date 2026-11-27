@@ -5,7 +5,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowStatusGaugeFeedback.h"
-#include "pso/unk/TWindowLayoutRect.h"
+#include "pso/ui/window/TWindowLayoutRect.h"
 #include "pso/ui/window/TWindowLayoutNumber.h"
 #include "pso/ui/window/TGameListRow.h"
 #include "pso/system/memory.h"
