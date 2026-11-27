@@ -42,7 +42,7 @@ public:
     virtual void run_task();
     virtual void render();
     static TObjEndingPlayer *create(TPlyCharData *data);
-    int set_position_from(void *pos);
+    Vec *set_position_from(const Vec *pos);
     void set_animation_default(s16 index);
     void set_animation_from_data(s32 picture);
     void assign_lobby_slot_if_flagged(TPlyInventoryItem *item);

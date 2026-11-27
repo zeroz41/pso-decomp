@@ -163,7 +163,7 @@
 
 extern "C" {
 TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot);
-void *consume_telepipe_arrival(u16, void *);
+const Vec *consume_telepipe_arrival(u16 slot, s32 *heading);
 void copy_player_visual_record(void *dst, void *src);
 void init_from_sync_record_stub(TObjPlayer *player, PlayerSyncRecord *record);
 }
@@ -744,7 +744,7 @@ s32 TObjPlayer::has_active_camera_event() {
 }
 
 void TObjPlayer::place_on_area_entry() {
-    void *p;
+    const Vec *p;
     ArrivalOverride *e;
     TObjPlayerSet *other;
 
@@ -758,7 +758,7 @@ void TObjPlayer::place_on_area_entry() {
         TObjPlayer::set_camera_mode(3);
         new TForceOperate(tl_02, get_entity_id());
     } else if (this->obj_isState2_324() == 0) {
-        p = consume_telepipe_arrival(get_entity_id(), (u8 *)&this->rotation.y);
+        p = consume_telepipe_arrival(get_entity_id(), &this->rotation.y);
         if (p != NULL) {
             this->set_position_from(p);
         } else {

@@ -77,8 +77,8 @@ s32 TObjPlayer::get_lobby_entry_yaw() {
     return *(s32 *)((s8 *)lobby_entry_yaw_by_episode + (TLobby::get_instance() * 4));
 }
 
-u8 *TObjPlayer::get_lobby_entry_ptr() {
-    return (u8 *)lobby_entry_table + (TLobby::get_instance() * 0xC);
+const Vec *TObjPlayer::get_lobby_entry_ptr() {
+    return &lobby_entry_table[TLobby::get_instance()];
 }
 
 s32 TObjPlayer::get_guild_return_yaw() {

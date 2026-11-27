@@ -78,8 +78,8 @@ void TObjBase::save_previous_position() {
     VecCopy(&prev_position, &position);
 }
 
-int TObjBase::set_position_from(void *pos) {
-    return reinterpret_cast<saddr>(VecCopy(&position, static_cast<const Vec *>(pos)));
+Vec *TObjBase::set_position_from(const Vec *pos) {
+    return VecCopy(&position, pos);
 }
 
 void G_DarkFalzActions_6x19::send() { bswap(); send_subcommand(this); }

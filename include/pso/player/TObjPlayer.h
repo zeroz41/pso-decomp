@@ -691,7 +691,7 @@ struct TObjPlayer : public TObjChara {
     static void reset_particle_ctrl(s32 *ctrl);
     s32 get_getup_protection_ticks();
     s32 get_hurt_protection_ticks();
-    u8 *get_lobby_entry_ptr();
+    const Vec *get_lobby_entry_ptr();
     s32 get_guild_return_yaw();
     s32 get_hospital_yaw();
     u8 *get_hospital_position();

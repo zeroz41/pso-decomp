@@ -81,7 +81,7 @@ void TObjPlayer::trade_item_by_group_kind(s16 group, s16 kind) {
 }
 
 BmlMotionEntry **player_ending_motion_object;
-int TObjEndingPlayer::set_position_from(void *pos) { return TObjBase::set_position_from(pos); }
+Vec *TObjEndingPlayer::set_position_from(const Vec *pos) { return TObjBase::set_position_from(pos); }
 void TObjEndingPlayer::set_animation_default(s16 index) { set_animation(index); }
 
 TObjEndingPlayer *TObjEndingPlayer::create(TPlyCharData *data) {
