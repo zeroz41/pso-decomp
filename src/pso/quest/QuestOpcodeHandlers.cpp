@@ -1219,7 +1219,7 @@ void qst_op_check_npc_straggle_ex(u8 i, u8 slot) {
     s.scale.x = qst_registers[i++].i;
     s.set_params[0] = qst_registers[i++].i;
     s.scale.y = qst_registers[i++].i;
-    obj = create_quest_col_apc_inw__6TLobbyFPvPv(&s, &qst_registers[start].i);
+    obj = create_quest_col_apc_inw(&s, &qst_registers[start].i);
     if (obj != NULL) {
         v.x = qst_registers[i++].i;
         v.y = qst_registers[i++].i;
@@ -3795,7 +3795,7 @@ void qst_op_check_npc_straggle(u8 i) {
     s.scale.x = qst_registers[i++].i;
     s.set_params[0] = qst_registers[i++].i;
     s.scale.y = qst_registers[i++].i;
-    obj = create_quest_col_apc_inw__6TLobbyFPvPv(&s, &qst_registers[start].i);
+    obj = create_quest_col_apc_inw(&s, &qst_registers[start].i);
     if (obj != NULL) {
         v.x = qst_registers[i++].i;
         v.y = qst_registers[i++].i;

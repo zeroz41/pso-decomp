@@ -170,25 +170,25 @@ void TQuestListOnline::handle_quest_ready() {
     }
     TWindowCtrl::unsuppress_slot(local_client_id);
 }
-void TLobby::handle_quest_download_chunk() {
-    OnlineQuestFileChunk *p = (OnlineQuestFileChunk *)this;
+void TLobby::handle_quest_download_chunk(TRecvDownload &download) {
+    TRecvDownload *p = &download;
     int *flag;
     u8 *buf;
     if (p != NULL) {
-        if (strncmp(quest_list_online_dat_download_state.name, p->name, 0x10) == 0) {
+        if (strncmp(quest_list_online_dat_download_state.name, p->filename, 0x10) == 0) {
             flag = &online_quest_dat_download_complete;
             buf = quest_list_online_dat_download_state.buffer;
-        } else if (strncmp(quest_list_online_bin_download_state.name, p->name, 0x10) == 0) {
+        } else if (strncmp(quest_list_online_bin_download_state.name, p->filename, 0x10) == 0) {
             flag = &online_quest_bin_download_complete;
             buf = quest_list_online_bin_download_state.buffer;
         } else {
             return;
         }
         if (buf != NULL) {
-            memcpy(buf + (p->chunk << 10), p->data, p->size);
-            quest_download_graph_current_bytes += p->size;
+            memcpy(buf + (p->header.flags << 10), p->data, p->data_size);
+            quest_download_graph_current_bytes += p->data_size;
             TDLGraph::update_graph(quest_download_graph_current_bytes, quest_download_received_bytes);
-            if (p->size < 0x400) {
+            if (p->data_size < 0x400) {
                 *flag = 1;
             }
         } else {

@@ -22,13 +22,4 @@ void handle_6x73_exit_quest(void);
 // Clears the online quest download windows and download state.
 void reset_globals(void);
 
-struct OnlineQuestFileChunk {
-    u8 f0;
-    u8 chunk;
-    u8 pad2[2];
-    char name[0x10];
-    u8 data[0x400];
-    u32 size;
-};
-
 #endif

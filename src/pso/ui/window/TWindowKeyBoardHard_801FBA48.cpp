@@ -21,7 +21,6 @@
 #include <string.h>
 
 extern "C" {
-void copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 extern s32 chr_select_serial_seeds[];
 }
 s32 TWindowKeyBoardHard::is_card_flag_set(s32 client_id) { return test_card_flag(client_id, 1); }
@@ -94,11 +93,11 @@ void decrypt_character_save(Pso3CharacterFile *save_data) {
     Pso3CharacterFile *unshuffled;
     plain = new Pso3CharacterFile;
     unshuffled = new Pso3CharacterFile;
-    copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(plain, save_data);
+    TAdSinglePlyChrSelectGC::copy_save_data(plain, save_data);
     chr_select_rng_state.set_seed(chr_select_serial_seeds[1]);
     chr_select_rng_state.make_shuffle();
     chr_select_rng_state.unshuffle((const u8 *)plain, (u8 *)unshuffled, (u32)(0x194B0));
-    copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(save_data, unshuffled);
+    TAdSinglePlyChrSelectGC::copy_save_data(save_data, unshuffled);
     delete unshuffled;
     delete plain;
     chr_select_rng_state.set_seed(chr_select_serial_seeds[0]);

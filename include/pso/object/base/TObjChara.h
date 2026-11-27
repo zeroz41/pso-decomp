@@ -276,8 +276,6 @@ public:
     u32 low_game_flags;  // the enemy's status effect bits (actorFlags & 0x3F) the 6x9C packet last sent
 };
 
-extern "C" void *__dt__9TObjCharaFv(void *, s16);
-
 LAYOUT_ASSERT(TObjCharaHpMaxOffset, offsetof(TObjChara, hpmax) == 0x2B8);
 LAYOUT_ASSERT(TObjCharaTpMaxOffset, offsetof(TObjChara, tpmax) == 0x2BA);
 LAYOUT_ASSERT(TObjCharaHpBonusOffset, offsetof(TObjChara, hp_bonus) == 0x2BC);

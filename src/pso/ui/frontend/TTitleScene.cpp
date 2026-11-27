@@ -213,10 +213,6 @@ TTitleScene *title_scene_instance;
 int lobby_game_mode_state;
 NJS_TEXLIST *lobby_title_texture_list;
 
-extern "C" {
-u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
-}
-
 // Read as const here: Language.h's non-const declaration changes the load scheduling.
 extern const s32 current_language;
 
@@ -375,8 +371,7 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
 }
 
 void TLobby::destroy_global_object() {
-    u32 value;
-    value = (u32) call_funcs_reverse__6TLobbyFPvUi(lobby_load_callback_table, sizeof(lobby_load_callback_table));
+    TLobby::call_funcs_reverse(lobby_load_callback_table, sizeof(lobby_load_callback_table));
     if (lobby_title_texture_list != NULL) {
         release_texture_list(lobby_title_texture_list);
         lobby_title_texture_list = NULL;

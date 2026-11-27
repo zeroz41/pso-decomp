@@ -41,6 +41,7 @@ class TWindowMenuIconLine;
 struct TWindowMessage;
 struct TPlyChallenge;
 struct TRecvInfoBoard;
+class TRecvDownload;
 struct TRecvChoiceSearchOptions;
 struct ChoiceSearchResultList;
 s32 LoadBmlExec(BmlResource *bml, const char *name);
@@ -153,7 +154,8 @@ struct TLobby : public TObject {
     static void make_players();
     static void drain_deferred_packets();
     void add_status_disp_entry(s32 name, s32 id);
-    void handle_quest_download_chunk();
+    // Takes one 13 download chunk of the quest .dat/.bin being downloaded.
+    static void handle_quest_download_chunk(TRecvDownload &download);
     static void close_trade_request();
     static void reset_trade_state();
     static void read_data_sync(saddr handle, s32 sector_count, saddr destination);

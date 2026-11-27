@@ -1014,8 +1014,8 @@ void TObjEnePanBARA::enter_dead() {
         }
     }
     set_requested_action(motion);
-    static s32 TObjEnePanarms__sound_ids[2] = { remap_sound_for_area(0x4003B836), remap_sound_for_area(0x4003BB35) };
-    play_sound_effect(TObjEnePanarms__sound_ids[this->half_index], &position, 0, 0);
+    static s32 sound_ids[2] = { remap_sound_for_area(0x4003B836), remap_sound_for_area(0x4003BB35) };
+    play_sound_effect(sound_ids[this->half_index], &position, 0, 0);
     this->action_timer = 0xA4;
 }
 #pragma pop

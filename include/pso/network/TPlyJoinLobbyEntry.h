@@ -45,7 +45,6 @@ void show_join_entry_message(s32 id);
 void show_dialog_value_line(const char *text);
 extern "C" {
 void *__ct__17TPlyJoinLobbyDataFv(void *self);
-void *__ct__13GameListEntryFv(void *entry);
 void *__ct__18TPlyJoinLobbyEntryFv(void *self);
 void *__dt__18TPlyJoinLobbyEntryFv(void *self, s16 del);
 }

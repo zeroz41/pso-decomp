@@ -666,12 +666,12 @@ void *__register_global_object(void *object, void (*destructor)(TPlyCharData *, 
 #pragma suppress_init_code on
 #pragma no_static_dtors on
 static DestructorChain global_character_data_dtor_chain;
-TPlyCharData TPlyCharData__global_character_data;
+TPlyCharData global_character_data;
 #pragma pop
 __declspec(section ".ctors") static void *const offline_game_scene_initializer = (void *)__sinit_OfflineGameScene_cpp;
 
 static void __sinit_OfflineGameScene_cpp() {
-    __register_global_object(__ct__12TPlyCharDataFv(&TPlyCharData__global_character_data),
+    __register_global_object(__ct__12TPlyCharDataFv(&global_character_data),
         __dt__12TPlyCharDataFv, &global_character_data_dtor_chain);
 }
 

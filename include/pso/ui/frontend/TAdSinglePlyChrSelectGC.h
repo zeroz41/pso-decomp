@@ -12,6 +12,7 @@ struct OSContext;
 class TAdGuideTxtGC;
 class TAdChrSelPlayerGC;
 class TPlyCharData;
+struct Pso3CharacterFile;
 struct CharacterFile;
 struct CharacterSaveRecord;
 struct TItemData;
@@ -66,6 +67,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void try_load_system_file();
     static s32 wait_for_card_load(s32 chan);
     static s32 check_slot_flags(s32 slot, u32 mask);
+    static Pso3CharacterFile *copy_save_data(Pso3CharacterFile *to, Pso3CharacterFile *from);
     void cleanup();
     virtual void run_task();
     static s32 get_chr_select_state();

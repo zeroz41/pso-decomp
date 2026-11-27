@@ -120,9 +120,6 @@ struct ByteBlock_50 { u8 bytes[0x50]; };
 struct ByteBlock_348 { u8 bytes[0x348]; };
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
-extern "C" {
-void handle_quest_download_chunk__6TLobbyFv();
-}
 void lobby_debug_printf_stub(const char *fmt, ...);
 extern "C" {
 s32 online_lobby_check_stub();
@@ -2614,7 +2611,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_A2_recv_quest_menu_list = copy_quest_list_data;
     protocol_instance->m_recv_handlers.handle_A3_recv_quest_menu_info = TQuestListOnline::receive_quest_info;
     protocol_instance->m_recv_handlers.handle_44_recv_download_head = TQuestListOnline::begin_file_download;
-    protocol_instance->m_recv_handlers.handle_13_recv_download = (recv_packet_handler_handle_13_recv_download)handle_quest_download_chunk__6TLobbyFv;
+    protocol_instance->m_recv_handlers.handle_13_recv_download = TLobby::handle_quest_download_chunk;
     protocol_instance->m_recv_handlers.handle_A4_recv_quest_list = (recv_packet_handler_handle_A4_recv_quest_list)TLobby::open_download_list_window;
     protocol_instance->m_recv_handlers.handle_A5_recv_quest_info = show_card_list_message;
     protocol_instance->m_recv_handlers.handle_A6_recv_vm_download_head = TQuestVmDownLoadServer::begin_file_download;

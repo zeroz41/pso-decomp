@@ -99,9 +99,7 @@ void CharacterSelectionRequest::reset_slot_lists() {
         player_ids[i] = -1;
     }
 }
-extern "C" {
-
-Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterFile *to, Pso3CharacterFile *from) {
+Pso3CharacterFile *TAdSinglePlyChrSelectGC::copy_save_data(Pso3CharacterFile *to, Pso3CharacterFile *from) {
     Pso3CharacterFileSlot *d;
     Pso3CharacterFileSlot *s;
     to->checksum = from->checksum;
@@ -116,7 +114,6 @@ Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterF
     to->blk = from->blk;
     to->cipher_seed = from->cipher_seed;
     return to;
-}
 }
 
 #define dst ((P_801FDFB8 *)a0)
