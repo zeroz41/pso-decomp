@@ -1,7 +1,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -11,7 +11,6 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/WindowTextEntry.h"
 
 RoomWindowLayout room_window_layout_entries = {
     1, 1,

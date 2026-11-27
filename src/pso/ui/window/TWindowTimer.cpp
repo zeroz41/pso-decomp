@@ -5,7 +5,7 @@
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
 #include "pso/math/Vec2Constants.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -18,7 +18,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/ui/window/WindowTextEntry.h"
 
 #pragma readonly_strings on
 

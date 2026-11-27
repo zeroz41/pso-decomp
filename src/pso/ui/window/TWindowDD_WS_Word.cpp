@@ -3,7 +3,7 @@
 
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/WindowVertexBufferAbi.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
@@ -13,7 +13,6 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/math/BinomialCoefficient.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 

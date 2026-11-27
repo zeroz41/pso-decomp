@@ -184,7 +184,6 @@ void *TWindowSubStatusDisp::window_layout[5] = {
 extern "C" {
 s32 is_battle_mode_running();
 }
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 extern "C" {
 const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 }

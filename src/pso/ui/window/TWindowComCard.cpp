@@ -22,10 +22,8 @@
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TextBuilder.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/network/client_id.h"
-#include "pso/ui/window/WindowTextEntry.h"
 
 
 ComCardLayout com_card_layout_entries = {

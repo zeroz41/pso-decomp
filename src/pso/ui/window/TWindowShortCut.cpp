@@ -8,7 +8,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/HeadingEntry.h"
@@ -23,7 +23,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/network/client_id.h"
-#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/ItemListRow.h"
 
 const char *TWindowShortCut::class_name = "TWindowShortCut";

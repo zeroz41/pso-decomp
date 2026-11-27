@@ -8,7 +8,7 @@
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -17,7 +17,6 @@
 #include "pso/ui/window/TWindowDD.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/BattleParamTables.h"

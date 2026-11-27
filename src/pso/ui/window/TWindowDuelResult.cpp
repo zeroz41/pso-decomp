@@ -17,7 +17,6 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/map/area/AreaScene.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowTextEntry.h"
 
 

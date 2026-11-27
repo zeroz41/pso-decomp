@@ -32,7 +32,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/HeadingEntry.h"
 #include "pso/unk/TWindowLayoutRect.h"
 
