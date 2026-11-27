@@ -248,7 +248,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, EnemyPlacement *set_da
     enemy_init_acquire_period(0x1E);
     enemy_init_validate_period(0x1E);
     draw_offset_y = 0.0f;
-    m_44c = 0;
+    pad_44c = 0;
     retarget_counter = 0;
     hit_cooldown = 0;
     blink_level = 0;
@@ -259,7 +259,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, EnemyPlacement *set_da
     state_step = 0;
     state_timer = 0;
     rush_delay = 0;
-    m_49c = 0;
+    pad_49c = 0;
     target_angle = 0;
     slide_speed = 0.0f;
     charge_effect = 0;

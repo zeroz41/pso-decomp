@@ -91,7 +91,7 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
     f32 rush_chance;                   // chance to rush (state 6) when hurt
     f32 rush_speed;
     f32 technique_chance;              // chance to cast (state 9) instead of swiping
-    s32 m_44c;
+    s32 pad_44c;
     s32 retarget_counter;              // tick_period_counter of the chase's target search
     s32 hit_cooldown;                  // only zeroed here; the Re2 Flower twin's hit cooldown
     s32 blink_level;                   // only zeroed here; the Re2 Flower twin's blink level
@@ -103,7 +103,7 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
     s32 state_step;                    // step inside the current state
     s32 state_timer;                   // frame counter of the current state
     s32 rush_delay;                    // frames before the rush starts
-    s32 m_49c;
+    s32 pad_49c;
     s32 target_angle;                  // rotation_y turns toward it
     f32 slide_speed;                   // the rush's slowing speed; the death sink depth
     f32 rush_distance;                 // the rush stops at 200
