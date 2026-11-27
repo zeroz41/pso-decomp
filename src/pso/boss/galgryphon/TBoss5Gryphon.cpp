@@ -6,7 +6,6 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/enemy/AttackTargetHistory.h"

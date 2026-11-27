@@ -12,7 +12,7 @@
 #include "types.h"
 #include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/item/TItem.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"

@@ -3,7 +3,7 @@
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/EnemyBmlResource.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/effect/particle/ParticleFactory.h"

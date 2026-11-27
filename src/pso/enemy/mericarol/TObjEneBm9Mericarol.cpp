@@ -7,7 +7,7 @@
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/effect/GroundContactSound.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/TObjMotion.h"

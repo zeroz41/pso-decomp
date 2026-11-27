@@ -11,7 +11,7 @@
 #include "pso/boss/barbaray/TBoss7Joint.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/math/MatrixReflect.h"

@@ -9,6 +9,8 @@
 #include <stddef.h>
 
 struct NJS_OBJECT;
+struct NJS_TEXLIST;
+struct NJS_MOTION;
 
 class AreaAttackHistory;
 class TParticleCtrl;
@@ -251,4 +253,7 @@ LAYOUT_ASSERT(TBoss5Gryphon_work, offsetof(TBoss5Gryphon, work) == 0x6DC);
 LAYOUT_ASSERT(TBoss5Gryphon_particles, offsetof(TBoss5Gryphon, particles) == 0x724);
 
 void load_boss5_gryphon_resources(void);
+const Vec *get_arena_center(void);
+void attach_particle_model(TParticleCtrl *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist,
+                           NJS_MOTION *motion, s32 loop, f32 frame);
 #endif
