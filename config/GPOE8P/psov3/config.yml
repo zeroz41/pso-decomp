@@ -8438,7 +8438,7 @@ force_active:
   - adxf_init_count
   - adxf_load_partition_buffer
   - gcci_init_guard
-  - lbl_805D76A8
+  - fractional_part_whole
   - debug_text_pool_size
   - debug_text_record_count
   - debug_text_pool
