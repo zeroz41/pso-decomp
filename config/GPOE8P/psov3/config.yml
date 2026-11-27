@@ -7574,9 +7574,9 @@ force_active:
   - battle_ctrl_music_name_lose
   - indirect_sampler_table
   - indirect_scale_table
-  - lbl_8044A840
-  - lbl_8044A84C
-  - lbl_8044A858
+  - map_radius_cull_view_axis
+  - section_cull_view_axis
+  - room_visibility_view_axis
   - rabarta_band_emitters_0
   - rabarta_band_emitters_1
   - rabarta_band_emitters_2

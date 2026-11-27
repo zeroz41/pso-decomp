@@ -70,9 +70,10 @@ __declspec(section ".rodata") s32 boss_area_id_table[] = {
     AREA_GAL_GRYPHON, AREA_OLGA_FLOW, AREA_BARBA_RAY, AREA_GOL_DRAGON, -1,
 };
 const char *TScene::class_name = "TScene";
-__declspec(section ".rodata") Vec lbl_8044A840[1] = {{0.0f, 0.0f, -1.0f}};
-__declspec(section ".rodata") Vec lbl_8044A84C[1] = {{0.0f, 0.0f, -1.0f}};
-__declspec(section ".rodata") Vec lbl_8044A858[1] = {{0.0f, 0.0f, -1.0f}};
+// The unrotated view axis of each culling pass; the camera yaw turns it into the view direction.
+__declspec(section ".rodata") Vec map_radius_cull_view_axis = {0.0f, 0.0f, -1.0f};
+__declspec(section ".rodata") Vec section_cull_view_axis = {0.0f, 0.0f, -1.0f};
+__declspec(section ".rodata") Vec room_visibility_view_axis = {0.0f, 0.0f, -1.0f};
 __declspec(section ".rodata") s32 item_disabled_area_table[] = {AREA_PIONEER2_EP1, AREA_LOBBY, AREA_PIONEER2_EP2, -1};
 __declspec(section ".rodata") GroupSelectionAreaList group_selection_area_id_table = {{
     AREA_CENTRAL_CONTROL_AREA, AREA_JUNGLE_NORTH, AREA_JUNGLE_EAST, AREA_MOUNTAIN,
@@ -1454,7 +1455,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
 void TScene::cull_sections_within_map_radius() {
     Vec dir;
     Vec d;
-    Vec up = lbl_8044A840[0];
+    Vec up = map_radius_cull_view_axis;
     Vec p;
     f32 far2;
     SceneMaterialSection *sec;
@@ -1607,7 +1608,7 @@ void TScene::cull_sections() {
     static f32 s_pad = 80.0f;
     Vec dir;
     Vec d;
-    Vec up = lbl_8044A84C[0];
+    Vec up = section_cull_view_axis;
     Vec p;
     Vec v;
     s32 i;
@@ -1795,7 +1796,7 @@ void TScene::update_room_visibility_from_camera() {
         }
     }
     {
-        Vec w = lbl_8044A858[0];
+        Vec w = room_visibility_view_axis;
         Vec out2;
         SceneMaterialSection *s;
         s32 k;
