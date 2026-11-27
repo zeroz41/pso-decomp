@@ -19,7 +19,7 @@ public:
     static void queue_destruction();
     static void create_instance(s32 mode);
     static s32 is_active();
-    static s32 get_party_not_ready_reason(s32 client_id);
+    static s32 get_party_not_ready_reason(u16 client_id);
     void close_windows();
     void open_warning_windows(s32 unused);
 
