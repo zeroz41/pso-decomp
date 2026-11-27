@@ -251,5 +251,5 @@ void TTextureWave::distort_image() {
             out[calc_gx_tile_index(x, y, width)] = color;
         }
     }
-    reload_texture_num(0, (saddr)output->texels, NJD_TEXATTR_TYPE_MEMORY, 0);
+    reload_texture_num(0, output->texels, NJD_TEXATTR_TYPE_MEMORY, 0);
 }
