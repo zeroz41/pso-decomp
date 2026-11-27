@@ -917,12 +917,9 @@ pso/ui/chat/SymbolChatCommand.cpp:
 	.bss        start:0x804FF968 end:0x804FF9C0
 
 pso/ui/chat/SymbolChatPreset.cpp:
-	.text       start:0x80076F88 end:0x80077760
+	.text       start:0x80076F88 end:0x80077788
 	.rodata     start:0x80438830 end:0x80438868
 	.sbss       start:0x805D4E50 end:0x805D4E58
-
-pso/ui/window/TWindowSubStatusDisp_80077760.cpp:
-	.text       start:0x80077760 end:0x80077788
 
 pso/network/protocol/choice_search.cpp:
 	.text       start:0x80077788 end:0x80077BC0

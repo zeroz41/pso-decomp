@@ -19,6 +19,8 @@
 #include "pso/system/byteswap.h"
 #include "pso/system/MemoryMove.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/keyboard/KeyBoardMenu.h"
+
 static const s32 symbol_chat_sound_ids[9] = {
     0x53507, 0x52608, 0x52A09, 0x5250A, 0x5230B, 0x5250C, 0x5280D, 0x5250E, 0x53719,
 };
@@ -258,3 +260,4 @@ saddr TWindowSubSymbolChat::get_instance() {  return selected_symbol_chat_preset
 int SymbolChatPreset::is_initialized() { return flags & 1; }
 void SymbolChatPreset::bswap_entry() { bswap_32(&flags); payload.byteswap_entry(); }
 
+const char *TWindowSubStatusDisp::get_message_10(s32 index) { return get_localized_text_entry(10, index); }

@@ -1136,7 +1136,6 @@ pso/ui/chat/TWindowSubShortMail_80246CB8.cpp
 pso/ui/chat/TWindowSubShortMail.cpp
 pso/ui/window/WindowArrayEntry.cpp
 pso/ui/window/ChallengeRank.cpp
-pso/ui/window/TWindowSubStatusDisp_80077760.cpp
 pso/ui/window/SmallFontText.cpp
 pso/ui/window/TWindowSubStatusDisp_8010EEF0.cpp
 pso/ui/window/TWindowSubStatusDisp_80228C30.cpp
