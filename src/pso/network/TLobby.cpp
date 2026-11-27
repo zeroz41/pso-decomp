@@ -117,11 +117,6 @@ extern const NJS_POINT2 card_list_message_window_size[1];
 extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
 }
-extern "C" {
-void __register_global_object(int, void *, void *);
-void __construct_array(void *, void *, void *, int, int);
-void __destroy_arr(void *block, void *dtor, u32 size, u32 n);
-}
 
 
 LAYOUT_ASSERT(ProtocolGameEntriesOffset, offsetof(TProtocol, m_game_entries) == 0x1DA8);
@@ -174,22 +169,14 @@ LobbyServerAddress join_lobby_ss702_server_table[2] = { { join_lobby_ss702_serve
 LobbyServerAddress join_lobby_ddplanet_server_table[2] = { { join_lobby_ddplanet_server_host, 0x2329 }, { join_lobby_ddplanet_server_host, 0x2329 } };
 void *lbl_804A7008[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
 
-u32 TLobby::join_entries_dtor_registration[3];
-#pragma push
-#pragma suppress_init_code on
-#pragma no_static_dtors on
 TPlyJoinLobbyEntry lobby_join_entries[12];
-#pragma pop
 char lobby_room_title[0x20];
 TPlyChallenge lobby_player_status_records[12];
 char lobby_ship_name[0x28];
 char selected_game_name[0x14];
 LobbyPlayerName lobby_player_names[12];
 s32 game_join_pending_clients[4];
-#pragma push
-#pragma suppress_init_code on
 TPlyJoinLobbyData game_join_player_records[4];
-#pragma pop
 u32 lobby_join_message_buffer[64];
 char player_joined_message[0x80];
 char lobby_idle_timeout_text_buffer[0x100];
@@ -2618,23 +2605,6 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
 const char *TLobby::get_seq_phase(int id) { return get_online_message_text(id); }
 void lobby_init_hook(void) {  }
 void lobby_debug_printf_stub(const char *fmt, ...) {}
-void TLobby::construct_global_arrays() {
-    __construct_array(lobby_join_entries, __ct__18TPlyJoinLobbyEntryFv, __dt__18TPlyJoinLobbyEntryFv, 0x43C, 0xC);
-    __register_global_object(0, TLobby::destroy_join_entries, join_entries_dtor_registration);
-    __construct_array(game_join_player_records, __ct__17TPlyJoinLobbyDataFv, 0, 0x20, 4);
-}
-
-
-
-TPlyJoinLobbyData::TPlyJoinLobbyData() {}
-void TLobby::destroy_join_entries() {
-    __destroy_arr(lobby_join_entries, __dt__18TPlyJoinLobbyEntryFv, 0x43c, 0xc);
-}
-
-
-TPlyJoinLobbyEntry::TPlyJoinLobbyEntry() {}
-
-__declspec(section ".ctors") static void *const __sinit_TPlyJoinLobbyEntry_cpp_ref = (void *)TLobby::construct_global_arrays;
 
 // Window positions copied by the message/menu openers above, and the lobby log and
 // menu strings; defined after their users so each is addressed on its own.

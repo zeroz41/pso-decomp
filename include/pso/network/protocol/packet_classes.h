@@ -155,7 +155,7 @@ LAYOUT_ASSERT(TPlyText4096Size, sizeof(TPlyText<0x1000>) == 0x1004);
 // One player of a 0E or 64 game join: the guild card tag, address, client id and name.
 class TPlyJoinLobbyData {
 public:
-    TPlyJoinLobbyData();
+    TPlyJoinLobbyData() {}
     TPlyJoinLobbyData(const TPlyJoinLobbyData &other);
 
     TPlyGuildCardTag tag;
@@ -170,7 +170,7 @@ LAYOUT_ASSERT(TPlyJoinLobbyDataSize, sizeof(TPlyJoinLobbyData) == 0x20);
 // One player of a 65, 67 or 68 join: the TPlyJoinLobbyData fields and the character.
 class TPlyJoinLobbyEntry {
 public:
-    TPlyJoinLobbyEntry();
+    TPlyJoinLobbyEntry() {}
     ~TPlyJoinLobbyEntry();
 
     TPlyGuildCardTag tag;

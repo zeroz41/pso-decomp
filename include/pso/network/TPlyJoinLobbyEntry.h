@@ -42,11 +42,6 @@ u8 *init_idle_timeout_timer(u8 *timer, TObject *parent);
 void queue_join_entry_exit_on_input(TObject *task);
 void show_join_entry_message(s32 id);
 void show_dialog_value_line(const char *text);
-extern "C" {
-void *__ct__17TPlyJoinLobbyDataFv(void *self);
-void *__ct__18TPlyJoinLobbyEntryFv(void *self);
-void *__dt__18TPlyJoinLobbyEntryFv(void *self, s16 del);
-}
 void bswap_and_send_extended_subcommand(void *p, u32 size);
 void bswap_extended_subcommand_header(extended_game_command_header *header);
 void bswap_and_handle_packet(void *packet, int client_id);
