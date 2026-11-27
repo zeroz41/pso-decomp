@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TLOBBY_8007B858_H
-#define PSO_UNK_TLOBBY_8007B858_H
+#ifndef PSO_UNK_TLOBBY_SESSION_H
+#define PSO_UNK_TLOBBY_SESSION_H
 
 #include "types.h"
 

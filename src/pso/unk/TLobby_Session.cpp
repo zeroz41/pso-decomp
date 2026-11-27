@@ -1,6 +1,6 @@
 #include "pso/player/GuildCardEntry.h"
 #include "pso/map/FloorResourceCallbacks.h"
-#include "pso/unk/TLobby_8007B858.h"
+#include "pso/unk/TLobby_Session.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/TScreenFadeController.h"

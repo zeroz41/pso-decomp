@@ -234,7 +234,7 @@ pso/unk/SampledMotionPoints.cpp
 pso/boss/darkfalz/ModelNodeTables.cpp
 pso/boss/darkfalz/TBoss4CheckEmpty.cpp
 pso/boss/darkfalz/TBoss4DarkFalz_States.cpp
-pso/boss/darkfalz/TBoss4DarkFalz_8004D8C8.cpp
+pso/boss/darkfalz/DarkFalzAccessors.cpp
 pso/boss/darkfalz/TBoss4Fade.cpp
 pso/boss/darkfalz/TBoss4Thanks.cpp
 pso/boss/darkfalz/TBoss4Type1.cpp
@@ -699,7 +699,7 @@ pso/quest/challenge/ChallengeModeQuest.cpp
 pso/object/TObjChallengeRetry.cpp
 pso/ui/window/TWindowMenuLossFlag.cpp
 pso/quest/QuestActiveFlag.cpp
-pso/unk/TLobby_8007B858.cpp
+pso/unk/TLobby_Session.cpp
 pso/unk/TObjFreezeShell.cpp
 pso/enemy/EnemyStateSync.cpp
 pso/system/MallocLoadFilePrc.cpp
@@ -1505,7 +1505,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.cpp
 pso/unk/TBattleProximitySound.cpp
 pso/ui/frontend/TTextureWave.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.cpp
+pso/ui/frontend/TAdSinglePlyChrSelectGC_Accessors.cpp
 pso/ui/city/BankItemRecord.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80243218.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.cpp

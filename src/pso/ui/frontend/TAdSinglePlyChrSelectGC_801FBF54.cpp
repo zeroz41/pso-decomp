@@ -51,7 +51,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/GameModeQueries.h"
 #include "pso/player/StartingInventory.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_Accessors.h"
 #include "pso/ui/chat/ChatShortcuts.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
 #include "pso/ui/charcreate/TCharaMaking.h"

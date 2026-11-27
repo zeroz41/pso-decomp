@@ -5,7 +5,7 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/network/TProtocol.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_Accessors.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/item/TItemData.h"
