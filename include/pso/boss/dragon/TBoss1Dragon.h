@@ -311,7 +311,6 @@ DRAGON_OFFSET(facingAngle, 0x76C);
 LAYOUT_ASSERT(DragonSize, sizeof(TBoss1Dragon) == 0x8BC);
 #undef DRAGON_OFFSET
 
-struct ByteBlock_C { u8 bytes[0xC]; };
 struct DragonCaptureVectors { Vec vectors[3]; };
 // The Dragon's block from dispatch_shared_handler_a (boss1_dragon_behavior_param_ids): the powers and the
 // landing radius its attacks put in their DragonAttackParams copies, the V2 speeds, and the body parts' defenses.

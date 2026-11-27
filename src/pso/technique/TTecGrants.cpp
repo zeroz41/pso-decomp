@@ -39,8 +39,6 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TargetCursorList.h"
 
-struct Quad_80232934 { u32 a; u32 b; u32 c; u32 d; };
-
 
 // One-texture list that render() fills with a copy of the ring-wave frame and draws with; same shape as
 // TEffClitical's clitical_texture_list (the 8-byte list is placed in .data, its name in .bss).
@@ -288,8 +286,8 @@ void TTecGrantsFlash::render() {
     }
     init_texture_copy_rect(&ctx, &grants_ring_texlist, &technique_ringwave_texture_list, 0, frame + 1);
     Vec v = { 1.2f, 1.2f, 1.2f };
-    Quad_80232934 q = { 0, 0, 0, 0 };
-    approach_alpha_clamped(&color.a, (const f32 *)&q, 0.1f);
+    NJS_ARGB clear = { 0.0f, 0.0f, 0.0f, 0.0f };
+    approach_alpha_clamped(&color.a, &clear.a, 0.1f);
     approach_position_if_far(&scale, &v, scale_rate);
     copy_anim_frame_to_slot(&ctx);
     id = model_render_flags;

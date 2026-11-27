@@ -1131,9 +1131,6 @@ void TObjEneDarkGunner::load_params() {
 extern "C" {
 void TObjEneDarkGunner::step_along_ground() {
     Vec pos;
-    Raw_800A10A0 vel;
-    Vec dir;
-    Vec v;
     s32 ang;
     s32 sign;
     s32 b;
@@ -1144,9 +1141,9 @@ void TObjEneDarkGunner::step_along_ground() {
 
     VecCopy(&prev_position, &position);
     VecCopy(&pos, &body_center);
-    vel = *(Raw_800A10A0 *)&velocity;
-    vec_set_length((Vec *)&vel, 10.0f + get_float_parameter(0));
-    vec3_add_to(&pos, (Vec *)&vel);
+    Vec vel = velocity;
+    vec_set_length(&vel, 10.0f + get_float_parameter(0));
+    vec3_add_to(&pos, &vel);
     hit = csnVector(&body_center, &pos, -1);
     if (hit != NULL) {
         a = 10430.38043493439 * atan2_float(velocity.x, velocity.z);
@@ -1159,6 +1156,8 @@ void TObjEneDarkGunner::step_along_ground() {
     } else {
         sign = 1;
     }
+    Vec dir;
+    Vec v;
     for (i = 0, ang = 0; i < 15; i++, ang += 0x1000) {
         if (i == 0) {
             VecCopy(&dir, &velocity);

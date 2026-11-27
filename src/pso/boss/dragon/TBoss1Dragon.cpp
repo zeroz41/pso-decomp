@@ -389,16 +389,7 @@ s32 TBoss1Dragon::countModelNodes(NJS_OBJECT* source) {
 
 #pragma push
 #pragma scheduling off
-void copy_model_node(NJS_OBJECT *dst, const NJS_OBJECT *src) {
-    dst->evalflags = src->evalflags;
-    dst->model = src->model;
-    *reinterpret_cast<ByteBlock_C *>(dst->pos) = *reinterpret_cast<const ByteBlock_C *>(src->pos);
-    *reinterpret_cast<ByteBlock_C *>(dst->ang) = *reinterpret_cast<const ByteBlock_C *>(src->ang);
-    *reinterpret_cast<ByteBlock_C *>(dst->scl) = *reinterpret_cast<const ByteBlock_C *>(src->scl);
-    dst->child = src->child;
-    dst->sibling = src->sibling;
-    dst->quat_w = src->quat_w;
-}
+void copy_model_node(NJS_OBJECT *dst, const NJS_OBJECT *src) { *dst = *src; }
 #pragma pop
 
 NJS_OBJECT* TBoss1Dragon::cloneModelHierarchy(NJS_OBJECT* source, NJS_OBJECT* output, void* model) {
