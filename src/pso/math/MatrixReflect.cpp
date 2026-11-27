@@ -12,7 +12,8 @@ extern "C" {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-static inline f32 sqrtf_803D8F74(f32 x) {
+// MSL math.h's inline square root, three Newton steps from __frsqrte.
+static inline f32 sqrtf(f32 x) {
     if (x > (0.0f)) {
         f64 guess = __frsqrte((f64)x);
         guess = (0.5) * guess * ((3.0) - guess * guess * x);
@@ -30,8 +31,8 @@ static inline f32 acosf_inline(f32 v) {
 
 void reflect_matrix_in_plane(MtxP matrix, const ReflectionPlane *plane)
 {
-    f32 xz = sqrtf_803D8F74(plane->normal.x * plane->normal.x + plane->normal.z * plane->normal.z);
-    f32 len = sqrtf_803D8F74(plane->normal.y * plane->normal.y + xz * xz);
+    f32 xz = sqrtf(plane->normal.x * plane->normal.x + plane->normal.z * plane->normal.z);
+    f32 len = sqrtf(plane->normal.y * plane->normal.y + xz * xz);
     s32 rx;
     s32 ry;
     if (plane->normal.y >= (0.0f)) {

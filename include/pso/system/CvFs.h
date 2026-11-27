@@ -32,7 +32,6 @@ void *cvfs_alloc_handle(void);
 void cvfs_error(const char *msg);
 char *cvfs_get_default_device(char *dev);
 void cvfs_split_path(char *dev, char *file, char *path);
-s32 find_803CF958(char *s, s32 len);
 }
 
 void cvFsSetDefDev(char *src);
