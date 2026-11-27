@@ -14,7 +14,7 @@ struct TPlyPhotonChair : public TObjBase {
     virtual ~TPlyPhotonChair();
     u16 get_owner_id();
     u16 owner_id;  // client id of the seated player
-    u16 m_92;
+    u16 pad_92;
     u32 owner_dismounted;  // set once the owner stands up; the seat then folds away
     TMotionModel lobby_seat;  // fs_obj_lobby_isu, drawn in the second render pass
     TMotionModel meka_seat;   // fs_obj_isu_meka, drawn at half colour otherwise

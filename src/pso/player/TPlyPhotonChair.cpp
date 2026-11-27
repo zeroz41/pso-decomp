@@ -138,7 +138,7 @@ TPlyPhotonChair::TPlyPhotonChair(s32 owner_id, TObject *parent) : TObjBase(paren
     TObjPlayer *player;
     m_name = class_name;
     set_owner_id(owner_id);
-    m_92 = 0;
+    pad_92 = 0;
     owner_dismounted = 0;
     player = get_player_by_client_id((u16)owner_id);
     if (player == NULL) {
