@@ -32,10 +32,6 @@ extern Vec scratch_vec3;
 extern Vec scratch_vec4;
 extern Vec scratch_vec5;
 
-int is_alpha(int c) {
-    return __ctype_map[(u8)c] & __letter;
-}
-
 void csn_debug_hook_under_query(void) {  }
 void csn_debug_hook_contact_color(CsnContact *contact, NJS_ARGB *color) {  }
 void csn_debug_hook_hit_record(CsnHit *hit) {  }

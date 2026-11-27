@@ -940,12 +940,12 @@ pso/network/TUdpSocket.cpp:
 	.sdata      start:0x805D28B0 end:0x805D28B8
 
 pso/network/TTcpSocket.cpp:
-	.text       start:0x80078490 end:0x800790F0
+	.text       start:0x80078490 end:0x80079108
 	.rodata     start:0x80438978 end:0x80438984
 	.data       start:0x8048D468 end:0x8048D4C0
 
 pso/map/CsnQuery.cpp:
-	.text       start:0x800790F0 end:0x8007A810
+	.text       start:0x80079108 end:0x8007A810
 	.ctors      start:0x80433F4C end:0x80433F50
 	.rodata     start:0x80438988 end:0x80438A08
 	.bss        start:0x804FF9C0 end:0x80500158

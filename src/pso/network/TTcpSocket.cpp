@@ -21,7 +21,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/render/gjSystem.h"
 #include "pso/network/TTcpSocketTypes.h"
-#include "pso/map/CsnQuery.h"
+#include "libc/ctype.h"
 
 // Game code; structure adapted from pso-gc-reference, verified against PsoV3.dol.
 
@@ -419,4 +419,8 @@ u16 to_le_uint16_t(u16 val) {
 
 TSocket::~TSocket() {
 
+}
+
+int is_alpha(int c) {
+    return __ctype_map[(u8)c] & __letter;
 }
