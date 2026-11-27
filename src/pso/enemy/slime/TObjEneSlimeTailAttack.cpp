@@ -57,7 +57,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/EnemyPlacement.h"
 
 extern "C" {
-extern void *slime_model_index_by_type[2];
+extern s32 slime_model_index_by_type[2];
 extern TObjMotionAction slime_motion_action_table[7];
 
 
@@ -129,11 +129,11 @@ const char *bm4_ps_ma_body_motion_names[15] = {
 BmlResourceDescriptor slime_pair_resource_descriptor = {
     bm4_ps_ma_body_bml_filename, slime_model_name_ptr_table, bm4_ps_ma_body_motion_names, 6, 14,
 };
-__declspec(section ".data") void *slime_debug_label_table[2] = {
-    (void *)&slime_type_label_blue, (void *)slime_type_label_red,
+__declspec(section ".data") const char *slime_debug_label_table[2] = {
+    slime_type_label_blue, slime_type_label_red,
 };
-__declspec(section ".data") void *slime_model_index_by_type[2] = {
-    (void *)0x4, (void *)0x5,
+__declspec(section ".data") s32 slime_model_index_by_type[2] = {
+    4, 5,
 };
 CollisionBody slime_one_collision_body[1] = {
     { { 0.0f, 15.0f, 0.0f }, 7.5f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -165,14 +165,14 @@ static SlimeOneState slime_one_state_table[15] = {
     { &TObjEneSlimeOne::enter_death, &TObjEneSlimeOne::update_effect_fade_lifetime },
     { &TObjEneSlimeOne::enter_launched, &TObjEneSlimeOne::update_launched },
 };
-__declspec(section ".data") void *slime_one_model_by_variant[2] = {
-    (void *)0x0, (void *)0x2,
+__declspec(section ".data") s32 slime_one_model_by_variant[2] = {
+    0, 2,
 };
-__declspec(section ".data") void *slime_tail_attack_id_pair[2] = {
-    (void *)0x4, (void *)0x5,
+__declspec(section ".data") s32 slime_tail_attack_id_pair[2] = {
+    4, 5,
 };
-__declspec(section ".data") void *slime_attack_target_param_table[2] = {
-    (void *)0x30, (void *)0x34,
+__declspec(section ".data") s32 slime_attack_target_param_table[2] = {
+    0x30, 0x34,
 };
 __declspec(section ".data") s32 slime_tail_model_by_target[2] = {
     1, 3,
@@ -182,8 +182,6 @@ __declspec(section ".data") s32 slime_tail_attack_param_ids[2] = {
 };
 Vec slime_tail_attack_zero_vec = {0.0f, 0.0f, 0.0f};
 Vec slime_tail_attack_transform = {0.0f, 0.0f, 0.0f};
-#define slime_tail_attack_id_pair ((s32 *)slime_tail_attack_id_pair)
-#define slime_attack_target_param_table ((s32 *)slime_attack_target_param_table)
 
 
 extern const char slime_tail_attack_class_name_string[];
@@ -502,7 +500,7 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
     }
 
     s32 *variant = &this->variant;
-    s32 id = ((s32 *)slime_one_model_by_variant)[*variant];
+    s32 id = slime_one_model_by_variant[*variant];
     this->texlist = get_bml_texlist(this->model_archive, id);
     this->model = get_bml_model(this->model_archive, id);
     VecCopy(&this->prev_position, VecCopy(&this->home_position, VecCopy(&this->center, &this->position)));
@@ -1642,5 +1640,3 @@ void get_slime_tail_pose(SlimeTailPose *dst) {
     copy_slime_tail_pose(dst, &slime_tail_node_capture.pose);
 }
 
-#undef slime_tail_attack_id_pair
-#undef slime_attack_target_param_table

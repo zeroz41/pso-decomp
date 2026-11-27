@@ -39,7 +39,7 @@
 
 
 extern "C" {
-void transform_chunk_object_tree(void *object, s32 (*draw)(void *model));
+void transform_chunk_object_tree(NJS_OBJECT *object, s32 (*draw)(void *model));
 void draw_strip_list_pos_nrm(s16 *list, ChunkCachedVertex *verts, u32 info);
 void draw_strip_pos_normal(s16 *list, ChunkCachedVertex *verts, u32 info);
 void draw_triangle_strips(s16 *list, ChunkCachedVertex *verts, u32 info);
@@ -83,53 +83,51 @@ void copy_matrix3x3_for_chunk_tree(const GC_Mtx *src) {
 }
 #pragma pop
 
-#define node ((NJS_OBJECT *)object)
-void transform_chunk_object_tree(void *object, s32 (*draw)(void *model)) {
+void transform_chunk_object_tree(NJS_OBJECT *object, s32 (*draw)(void *model)) {
     u32 flags;
     s32 r;
 
     do {
-        flags = node->evalflags;
+        flags = object->evalflags;
         r = 0;
         if (flags & 0x800) {
             get_current_matrix(&chunk_object_current_matrix);
         }
         if ((flags & 7) == 7) {
             if (!(flags & 8)) {
-                r = draw(node->model);
+                r = draw(object->model);
             }
             if (!(flags & 0x10) && (!(flags & 0x100) || r == 0)) {
-                transform_chunk_object_tree(node->child, draw);
+                transform_chunk_object_tree(object->child, draw);
             }
         } else {
             push_matrix();
             if (!(flags & 1)) {
-                post_translate_matrix(node->pos);
+                post_translate_matrix(object->pos);
             }
             if (!(flags & 2)) {
                 if (flags & 0x1000) {
                     copy_matrix3x3_for_chunk_tree(&chunk_object_current_matrix);
                 } else if (flags & 0x400) {
-                    apply_quat_rotation(node->quat_w, node->quat_xyz);
+                    apply_quat_rotation(object->quat_w, object->quat_xyz);
                 } else {
-                    rotate_matrix_by_node_angles(node->ang, flags & 0x20);
+                    rotate_matrix_by_node_angles(object->ang, flags & 0x20);
                 }
             }
             if (!(flags & 4)) {
-                scale_current_matrix(node->scl);
+                scale_current_matrix(object->scl);
             }
             if (!(flags & 8)) {
-                r = draw(node->model);
+                r = draw(object->model);
             }
             if (!(flags & 0x10) && (!(flags & 0x100) || r == 0)) {
-                transform_chunk_object_tree(node->child, draw);
+                transform_chunk_object_tree(object->child, draw);
             }
             pop_matrix();
         }
-        object = node->sibling;
+        object = object->sibling;
     } while (object != NULL);
 }
-#undef node
 }
 
 extern "C" {
