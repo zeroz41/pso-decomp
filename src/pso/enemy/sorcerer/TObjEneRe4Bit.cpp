@@ -137,7 +137,7 @@ TObjEneRe4Bit::~TObjEneRe4Bit() {
 }
 
 void TObjEneRe4Bit::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -513,7 +513,7 @@ void TObjEneRe4Bit::render() {
     s32 saved;
     s32 draw;
     NJS_TEXNAME *textures;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         render_demo();
         return;
     }

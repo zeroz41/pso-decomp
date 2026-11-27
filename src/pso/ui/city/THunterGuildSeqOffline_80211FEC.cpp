@@ -59,10 +59,10 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
     TObjPlayer *me;
     f32 lim;
     TObjPlayer *p;
-    if (TObjPlayer::get_player_count() != 0 && TLobby::count_members() == 1) {
+    if (TObjPlayer::get_player_count() != 0 && count_members() == 1) {
         return 2;
     }
-    if (is_challenge_mode() != 0 && TLobby::count_members() == 1) {
+    if (is_challenge_mode() != 0 && count_members() == 1) {
         return 2;
     }
     for (i = 0; i < 4; i++) {

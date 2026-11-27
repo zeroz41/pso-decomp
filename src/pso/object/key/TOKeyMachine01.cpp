@@ -204,7 +204,7 @@ void *TOKeyMachine01::create(void *set_data) {
 
 void TOKeyMachine01::free_statics() {
     if (key_machine01_texture_lists != NULL) {
-        TObjPlayer::free_if_valid(key_machine01_texture_lists[0]);
+        free_if_valid(key_machine01_texture_lists[0]);
         key_machine01_texture_lists[0] = 0;
         if (key_machine01_texture_lists != NULL) {
             mem_free(key_machine01_texture_lists);

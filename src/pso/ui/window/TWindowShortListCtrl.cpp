@@ -437,7 +437,7 @@ s32 TWindowShortListCtrl::is_technique_usable() {
     if (appearance == NULL) {
         return 0;
     }
-    if (TTecCtrl::is_technique_ready() != 0) {
+    if (is_technique_ready() != 0) {
         return 1;
     }
     return (appearance->classFlags >> 4) & 1;

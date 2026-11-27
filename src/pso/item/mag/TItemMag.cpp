@@ -1068,7 +1068,7 @@ void TItemMag::evolve_by_level() {
 void TItemMag::on_form_changed() {
     MagPmtRecord *record;
 
-    record = (MagPmtRecord *)TObjPlayer::get_pmt_record(get_item_group());
+    record = (MagPmtRecord *)get_pmt_record(get_item_group());
     if (record != NULL) {
         stats.add_photon_blast(record->photon_blast);
     }
@@ -1759,7 +1759,7 @@ void TItemMag::register_photon_blasts() {
 void TItemMag::load_param_record() {
     MagPmtRecord *record;
 
-    record = (MagPmtRecord *)TObjPlayer::get_pmt_record(get_item_group());
+    record = (MagPmtRecord *)get_pmt_record(get_item_group());
     if (record != NULL) {
         feed_table = record->feed_table;
         activation_rate = record->activation_rate;

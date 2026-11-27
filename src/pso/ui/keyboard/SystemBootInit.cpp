@@ -76,6 +76,7 @@
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/system/MallocLoadFilePrc.h"
 #include "pso/audio/MusicControl.h"
+#include "pso/render/CameraCapture.h"
 
 GXLightObj gx_default_light_obj[4];
 MainPhaseState main_phase_state;
@@ -99,7 +100,7 @@ void poll_input_devices_frame(void) {
 }
 
 void run_tasks() {
-    TObjPlayer::clear_shadow_pass_request();
+    clear_shadow_pass_request();
     update_global_sound_frame();
     if (sound_requests_enabled != 0) {
         update_music_sequencer();
@@ -128,8 +129,8 @@ void shutdown_and_reset_system(void) {
     init_depth_alpha_state();
     release_blob_shadow_texture();
     free_banner_buffers();
-    TParticleCtrl::free_system();
-    TParticleCtrl::reset_emitter_table();
+    free_system();
+    reset_emitter_table();
     free_effect_resources();
     free_menu_font();
     free_ply_level_tbl();
@@ -176,7 +177,7 @@ s32 switch_to_fallback_main_phase(void) {
     return main_phase_state.next = main_phase_state.fallback;
 }
 
-s32 TKeyBoardControl::get_input() {
+s32 get_input() {
     return keyboard_input_flag;
 }
 
@@ -200,7 +201,7 @@ void deactivate_keyboard(void) {
     keyboard_active_flag = 0;
 }
 
-s32 TKeyBoardControl::get_key_state() {
+s32 get_key_state() {
     return keyboard_key_state;
 }
 
@@ -300,7 +301,7 @@ void init_game_systems(void) {
     set_debug_text_scale(0xC);
     init_gx_lighting_defaults();
     install_depth_alpha_state();
-    TKeyBoardControl::alloc_buffer();
+    alloc_buffer();
     reset_main_phase_state();
     hardware_keyboard_state.reset_input();
     init_buffers();
@@ -322,7 +323,7 @@ void init_game_systems(void) {
     request_chara_making_archives();
     load_effect_resources();
     init_particle_sprite_atlas();
-    TParticleCtrl::init_particle_buffer();
+    init_particle_buffer();
     GXSetPixelFmt(GX_PF_RGBA6_Z24, GX_ZC_LINEAR);
     init_disc_error_messages();
     init_keyboard_buffer();
@@ -341,19 +342,19 @@ void init_game_systems(void) {
 MainPhaseEntry main_phase_table[] = {
     { NULL, NULL, NULL },
     { TLogo::init_logo_scene, TLogo::run_frame, TLogo::exit_logo_scene },
-    { TAdMultiChgGameModeGC::init_title_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC::init_title_phase, run_game_mode_select_frame, release_scene_resources },
     { init_movie_phase, update_movie_phase, exit_movie_phase },
-    { TAdMultiChgGameModeGC::init_dialing_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC::init_dialing_select_phase, run_game_mode_select_frame, release_scene_resources },
     { TKeyBoardControl::update_main_menu_scene, run_main_frame, exit_main_menu_scene },
-    { TAdMultiChgGameModeGC::init_story_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { TAdMultiChgGameModeGC::init_multi_save_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC::init_story_select_phase, run_game_mode_select_frame, release_scene_resources },
+    { TAdMultiChgGameModeGC::init_multi_save_phase, run_game_mode_select_frame, release_scene_resources },
     { start_ending_sequence, TKeyBoardControl::run_main_frame, TAdEndText::cleanup },
-    { TAdMultiChgGameModeGC::init_time_set_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { TAdMultiChgGameModeGC::init_trial_agreement_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { TAdMultiChgGameModeGC::init_enter_password_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC::init_time_set_phase, run_game_mode_select_frame, release_scene_resources },
+    { TAdMultiChgGameModeGC::init_trial_agreement_phase, run_game_mode_select_frame, release_scene_resources },
+    { TAdMultiChgGameModeGC::init_enter_password_phase, run_game_mode_select_frame, release_scene_resources },
     { TEnding::set_flag_and_advance, run_game_frame, release_ending_scene },
-    { TAdMultiChgGameModeGC::init_level_select_phase, run_game_mode_select_frame, TLobby::release_scene_resources },
-    { init_offline_game_scene, dispatch_offline_main_frame, TLobby::teardown_scene },
+    { TAdMultiChgGameModeGC::init_level_select_phase, run_game_mode_select_frame, release_scene_resources },
+    { init_offline_game_scene, dispatch_offline_main_frame, teardown_scene },
     { run_online_lobby_scene, update_camera_state, cleanup_online_lobby_scene },
     { TEnding::start_ending_scene, run_game_frame, release_ending_scene },
     { NULL, NULL, NULL },

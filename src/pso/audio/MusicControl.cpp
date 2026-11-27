@@ -477,7 +477,7 @@ void stop_audio_streams() {
 
 void play_area_music(char *name) {
     s32 flag;
-    TObjBgmColCtrl::update_all_zones(name);
+    update_all_zones(name);
     release_bgm_resource();
     flag = 1;
     if (music_state != 0) {

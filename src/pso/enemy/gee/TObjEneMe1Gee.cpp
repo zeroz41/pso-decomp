@@ -291,7 +291,7 @@ TObjEneMe1Gee::~TObjEneMe1Gee() {
 }
 
 void TObjEneMe1Gee::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }
@@ -1746,7 +1746,7 @@ void TObjEneMe1Gee::render() {
     s32 detail;
     s32 draw_now;
 
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->render_demo();
         return;
     }
@@ -1861,7 +1861,7 @@ void TObjEneMe1Gee::render_demo() {
 TObjEneMe1GeeLeader::~TObjEneMe1GeeLeader() {}
 
 void TObjEneMe1GeeLeader::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }

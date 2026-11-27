@@ -265,7 +265,7 @@ void TObjEneGibbles::init_params() {
 
 void TObjEneGibbles::run_task() {
     TObjChara *chased;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_task_stub();
         return;
     }

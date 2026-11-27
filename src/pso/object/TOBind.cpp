@@ -45,7 +45,7 @@ void TOBind::update_motion() {
 }
 
 void TOBind::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_task_stub();
         return;
     }

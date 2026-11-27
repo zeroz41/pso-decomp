@@ -687,7 +687,7 @@ void TBoss4DarkFalz::update_roar_sound_timer() {
 void TBoss4DarkFalz::render() {  }
 
 void TBoss4DarkFalz::run_task() {
-    if ((state_index != 0) && (TObjPlayer::check_demo_mode() != 0)) {
+    if ((state_index != 0) && (check_demo_mode() != 0)) {
         change_state(0);
     }
     if (TObjEneDD::query_teammate_state() == 0) {

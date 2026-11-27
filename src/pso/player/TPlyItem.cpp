@@ -749,7 +749,7 @@ void remove_list_entry_by_id(s32 id) {
 }
 
 s32 check_player_action_allowed() {
-    if ((get_main_phase() == 0xE) || (TTecCtrl::is_technique_ready() != 0) || ((is_quest_active() == 1) && (get_game_play_mode() == 1))) {
+    if ((get_main_phase() == 0xE) || (is_technique_ready() != 0) || ((is_quest_active() == 1) && (get_game_play_mode() == 1))) {
         return 0;
     }
     return TAdSinglePlyChrSelectGC::get_game_mode();

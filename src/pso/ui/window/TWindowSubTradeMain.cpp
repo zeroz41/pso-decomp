@@ -93,7 +93,7 @@ TWindowSubTradeMain::~TWindowSubTradeMain() {
     TObjPlayer *player;
 
     release_trade_main_window(this);
-    TLobby::check_flags_and_proceed();
+    check_flags_and_proceed();
     if ((player = get_player_by_client_id(this->client_id)) != NULL) {
         player->end_camera_pan();
     }
@@ -450,7 +450,7 @@ void TWindowSubTradeMain::run_task() {
         if (this->menu != NULL) {
             this->menu->request_close();
         }
-        if ((error_text = TLobby::check_trade_items_and_show_error()) != 0) {
+        if ((error_text = check_trade_items_and_show_error()) != 0) {
             if (this->dialog == NULL) {
                 this->dialog = open_option_dialog_thunk(error_text);
             }

@@ -57,7 +57,7 @@ void *TODummyKeyCave01::create(void *set_data) {
 void TODummyKeyCave01::run_task() {
     u32 st;
     u8 skip;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         clear_actor_flags(0x08000000);
     }
     if (this->id < 0x100) {

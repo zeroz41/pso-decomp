@@ -103,10 +103,11 @@
 #include "pso/audio/SoundRequests.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/map/FloorMapSelection.h"
+#include "pso/ui/TCharSaveSequence.h"
 
 
-void TLobby::reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
-void TLobby::shutdown_keyboard_control() { clear_controller_reset_request(); TLobby::reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
+void reset_keyboard_input() { clear_controller_reset_request(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
+void shutdown_keyboard_control() { clear_controller_reset_request(); TLobby::reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
 void offline_scene_init_stub_a(void) {  }
 void offline_scene_init_stub_b(void) {  }
 void offline_scene_init_stub_c(void) {  }
@@ -188,7 +189,7 @@ s32 TCameraCtrl::get_camera_no() {
 
 
 // Load and release hooks of the offline game scene, in pairs: init_offline_game_scene runs
-// each load front to back (run_load_callback_table), TLobby::teardown_scene each release
+// each load front to back (run_load_callback_table), teardown_scene each release
 // back to front (TLobby::call_funcs_reverse).
 FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TAdSelectGameModeGC::setup_views, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
@@ -210,7 +211,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {init_entity_tables, clear_entity_tables},
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},
-    {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
+    {alloc_quest_download_buffer, free_chr_select_singleton},
     {load_item_data, free_forest_rel_work_buffer},
     {init_item_drop_tables, free_item_drop_tables},
     {init_item_system, free_item_system},
@@ -243,7 +244,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
 
 s32 lbl_805D5CE0;
 
-void TLobby::reload_offline_area() {
+void reload_offline_area() {
     TObject holder;
     TObjPlayer *p;
     s32 i;
@@ -279,7 +280,7 @@ void TLobby::reload_offline_area() {
     clear_floor_population();
     randomize_offline_maps();
     create_map_csn_ctrl();
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     apply_phase_keyboard_mode();
     TLoadCtrl::start_loading(1);
     reset_enemy_and_object_ids();
@@ -310,7 +311,7 @@ void TLobby::reload_offline_area() {
     update_main_warp_visible_mask(0);
 }
 
-void TLobby::rebuild_area_keep_players() {
+void rebuild_area_keep_players() {
     TObject holder;
     s32 i;
     s32 j;
@@ -337,7 +338,7 @@ void TLobby::rebuild_area_keep_players() {
     clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
     create_map_csn_ctrl();
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     if (TRaderMapCore::is_not_split_screen() == 1) {
         switch (get_game_play_mode()) {
         case 0:
@@ -401,7 +402,7 @@ void run_offline_area_transfer(void) {
     promote_area_floor(&floor_transition_state);
     TKeyBoardControl::update();
     create_map_csn_ctrl();
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     TLoadCtrl::start_loading(2);
     leader_selection.find_leader_section_id(designated_client_id);
     load_area_scene_and_init(&floor_transition_state);
@@ -423,7 +424,7 @@ void run_offline_area_transfer(void) {
     }
 }
 
-void TLobby::teardown_scene() {
+void teardown_scene() {
     if (is_split_screen() != 0) {
         TCameraCtrl::set_fullscreen_viewport();
     }
@@ -458,17 +459,17 @@ void run_offline_game_frame(void) {
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     take_snapshot();
     if (static_cast<s8>(poll_reset_request()) != 0) {
-        TLobby::shutdown_keyboard_control();
+        shutdown_keyboard_control();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         request_main_phase(0);
     }
-    if (TKeyBoardControl::get_key_state() != 0) {
+    if (get_key_state() != 0) {
         run_offline_area_transfer();
         clear_keyboard_key_state();
     }
-    if (TKeyBoardControl::get_input() != 0) {
-        TLobby::reload_offline_area();
+    if (get_input() != 0) {
+        reload_offline_area();
         clear_keyboard_input_flag();
     }
     render_tick();
@@ -488,20 +489,20 @@ void run_offline_transfer_frame(void) {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
-    TAdSinglePlyChrSelectGC::noop();
+    noop();
     take_snapshot();
     run_challenge_frame();
     if (static_cast<s8>(poll_reset_request()) != 0) {
-        TLobby::reset_keyboard_input();
+        reset_keyboard_input();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         request_main_phase(0);
     }
-    if (TKeyBoardControl::get_input() != 0) {
-        TLobby::rebuild_area_keep_players();
+    if (get_input() != 0) {
+        rebuild_area_keep_players();
         clear_keyboard_input_flag();
     }
-    if (TKeyBoardControl::get_key_state() != 0) {
+    if (get_key_state() != 0) {
         run_offline_area_transfer();
         clear_keyboard_key_state();
     }
@@ -585,7 +586,7 @@ void init_offline_game_scene(void) {
     clear_keyboard_key_state();
     clear_resource_load_tasks();
     create_map_csn_ctrl();
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     TLoadCtrl::poll_default();
     TObjPlayer::send_local_player_invisible();
     set_current_floor_area(0);
@@ -630,9 +631,9 @@ void init_offline_game_scene(void) {
     }
     if (TAdSinglePlyChrSelectGC::save_character_to_card() == 0) {
         if (is_quest_active() != 0) {
-            TLobby::shutdown_keyboard_control();
+            shutdown_keyboard_control();
         } else {
-            TLobby::reset_keyboard_input();
+            reset_keyboard_input();
         }
     }
     set_fallback_main_phase(2);

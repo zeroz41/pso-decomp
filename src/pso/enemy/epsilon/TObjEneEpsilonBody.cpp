@@ -179,7 +179,7 @@ void *create_TObjEneEpsilonBody(void *set_data) {
 }
 
 void TObjEneEpsilonBody::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -878,7 +878,7 @@ void TObjEneEpsilonBody::action_destroy(s32 reason) {
 void TObjEneEpsilonBody::render() {
     s32 detail;
     s32 i;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->render_demo();
         return;
     }

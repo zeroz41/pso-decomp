@@ -1092,7 +1092,7 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
     u8 special;
     set_attach_slot(6);
     parameters = (WeaponParams *)lookup_item_pmt_record(item);
-    technique_boosts = (const TechniqueBoostParam *)TObjPlayer::get_shield_pmt_entry(parameters->technique_boost);
+    technique_boosts = (const TechniqueBoostParam *)get_shield_pmt_entry(parameters->technique_boost);
     photon_color_id = (s16) (s8) parameters->photon_color;
     grind = item[3];
     identified = ((TItemData *)item)->check_item_flags();

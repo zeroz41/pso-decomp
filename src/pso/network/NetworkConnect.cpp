@@ -717,7 +717,7 @@ s32 connect_modem(s32 idx, s16 id) {
     cfg.transport_settings[2] = 0;
     cfg.transport_settings[3] = 3;
     cfg.transport_settings[4] = 1;
-    if (TLobby::is_tone_dialing() != 0) {
+    if (is_tone_dialing() != 0) {
         cfg.modem.type = 0;
     } else {
         cfg.modem.type = 1;

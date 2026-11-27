@@ -56,7 +56,7 @@ void TOFenceAncient03::unload_resources() {
     s32 i;
     if (texlists != NULL) {
         for (i = 1; i < 4; i++) {
-            TObjPlayer::free_if_valid(texlists[i]);
+            free_if_valid(texlists[i]);
         }
         if (texlists != NULL) {
             mem_free(texlists);

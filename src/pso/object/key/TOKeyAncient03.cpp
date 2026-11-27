@@ -165,7 +165,7 @@ void *TOKeyAncient03::create(void *set_data) {
 
 void TOKeyAncient03::cleanup_refs() {
     if (key_ancient03_texture_variants != NULL) {
-        TObjPlayer::free_if_valid(key_ancient03_texture_variants[1]);
+        free_if_valid(key_ancient03_texture_variants[1]);
         if (key_ancient03_texture_variants != NULL) {
             mem_free(key_ancient03_texture_variants);
             key_ancient03_texture_variants = NULL;

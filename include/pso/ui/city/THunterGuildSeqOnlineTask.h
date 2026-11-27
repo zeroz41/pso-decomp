@@ -22,4 +22,8 @@ void handle_6x73_exit_quest(void);
 // Clears the online quest download windows and download state.
 void reset_globals(void);
 
+
+void close_windows_and_reset();
+void release_resources();
+
 #endif

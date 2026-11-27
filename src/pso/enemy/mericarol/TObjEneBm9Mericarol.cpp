@@ -301,7 +301,7 @@ TObjEneBm9Mericarol::~TObjEneBm9Mericarol() {
 void TObjEneBm9Mericarol::run_task() {
     s16 state;
     s32 current;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -1163,7 +1163,7 @@ void TObjEneBm9Mericarol::render() {
     GinjaTextureState *s1;
     GinjaTextureState *s2;
     s16 *plist;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         draw_color_variant();
         return;
     }

@@ -291,7 +291,7 @@ TObjEneDellBiter::~TObjEneDellBiter() {
 }
 
 void TObjEneDellBiter::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }
@@ -1445,7 +1445,7 @@ void TObjEneDellBiter::render() {
     s32 draw;
     s32 i;
 
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         render_demo();
         return;
     }

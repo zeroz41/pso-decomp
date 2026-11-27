@@ -34,7 +34,7 @@ void TWindowTradeRequest::run_task() {
         if (dialog->is_child_visible() != 0) {
             slot = dialog->get_selected_value();
             if (slot == 0) {
-                TLobby::send_trade_proposal_modify();
+                send_trade_proposal_modify();
                 TWindowTradeRequest::close_request_window();
                 state = 2;
             }

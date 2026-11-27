@@ -38,5 +38,7 @@ s32 is_in_hunter_guild(s32 client_id);
 
 void *create_lobby_object_05(TObjPlayer *player);
 void *handle_main_phase(TObjPlayer *player);
+int get_selected_quest_id();
+void update_guild_or_quest_phase();
 
 #endif

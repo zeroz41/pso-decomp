@@ -52,6 +52,7 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/quest/QuestFlagCommand.h"
+#include "pso/system/TScreenFadeController.h"
 
 
 #pragma readonly_strings on
@@ -406,7 +407,7 @@ void TQuestThread::run_task() {
         }
         break;
     case QST_WAIT_FADE:
-        if (TLobby::get_quest_thread_state() == 0) {
+        if (get_quest_thread_state() == 0) {
             state = QST_RUNNING;
         }
         break;
@@ -602,7 +603,7 @@ void TQuestThreadBoard::run_task() {
         }
         break;
     case QST_WAIT_FADE:
-        if (TLobby::get_quest_thread_state() == 0) {
+        if (get_quest_thread_state() == 0) {
             state = QST_RUNNING;
         }
         break;

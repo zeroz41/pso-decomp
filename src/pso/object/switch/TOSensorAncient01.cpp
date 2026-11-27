@@ -138,9 +138,9 @@ void *TOSensorAncient01::create(void *set_data) {
 
 void TOSensorAncient01::destroy() {
     if (ancient_sensor_resource_pair_table != NULL) {
-        TObjPlayer::free_if_valid(ancient_sensor_resource_pair_table[0].red);
-        TObjPlayer::free_if_valid(ancient_sensor_resource_pair_table[1].plain);
-        TObjPlayer::free_if_valid(ancient_sensor_resource_pair_table[1].red);
+        free_if_valid(ancient_sensor_resource_pair_table[0].red);
+        free_if_valid(ancient_sensor_resource_pair_table[1].plain);
+        free_if_valid(ancient_sensor_resource_pair_table[1].red);
         if (ancient_sensor_resource_pair_table != NULL) {
             mem_free(ancient_sensor_resource_pair_table);
             ancient_sensor_resource_pair_table = NULL;

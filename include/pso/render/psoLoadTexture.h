@@ -31,5 +31,6 @@ struct NJS_TEXLIST;
 s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist);
 s32 psoLoadTexture(NJS_TEXLIST *texlist);
 NJS_TEXLIST *LoadPvmFileTls(const char *filename);
+void free_if_valid(NJS_TEXLIST *texlist);
 
 #endif

@@ -47,6 +47,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/SubtractiveRng.h"
 #include "pso/system/BmlResource.h"
+#include "pso/system/scene/OfflineGameScene.h"
 
 const char *empty_string = "";
 
@@ -829,9 +830,9 @@ void apply_phase_keyboard_mode() {
         break;
     case 14:
         if (is_quest_active() != 0) {
-            TLobby::set_keyboard_mode((saddr)(TLobby::shutdown_keyboard_control));
+            TLobby::set_keyboard_mode((saddr)(shutdown_keyboard_control));
         } else {
-            TLobby::set_keyboard_mode((saddr)(TLobby::reset_keyboard_input));
+            TLobby::set_keyboard_mode((saddr)(reset_keyboard_input));
         }
         break;
     case 1:

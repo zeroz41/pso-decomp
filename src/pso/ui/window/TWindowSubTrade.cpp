@@ -51,7 +51,7 @@ TWindowSubTrade::TWindowSubTrade(TWindowMainMenu *parent, s32 client) : TObject(
 
 TWindowSubTrade::~TWindowSubTrade() {
     release_trade_sub_window(this);
-    TLobby::check_flags_and_proceed();
+    check_flags_and_proceed();
     if (this->m_confirm_prompt != NULL) {
         this->m_confirm_prompt->close();
         this->m_confirm_prompt = NULL;

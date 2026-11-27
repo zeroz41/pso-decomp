@@ -27,7 +27,7 @@ TODoorBase::TODoorBase(TObject *parent) : TObjMapObject(parent) {
 TODoorBase::~TODoorBase() {}
 
 void TODoorBase::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         update_demo();
         return;
     }

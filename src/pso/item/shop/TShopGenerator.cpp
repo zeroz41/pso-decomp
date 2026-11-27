@@ -42,7 +42,7 @@ ShopService TShopGenerator::service_dispatch_table[7] = {
     {"ITEM STORE", TShopItemTecSequence::init_slot_table, TShopItemTecSequence::release_slot_table,
      create_shop_item_tec_sequence, get_item_technique_shop_slot},
     // is_in_hunter_guild still carries a recovered s32 prototype; the table proves int(int).
-    {"HUNTER GUILD", TLobby::update_guild_or_quest_phase, update_hunter_guild_phase,
+    {"HUNTER GUILD", update_guild_or_quest_phase, update_hunter_guild_phase,
      handle_main_phase, (int (*)(int))is_in_hunter_guild},
     {"CHECK ROOM", TCheckRoomSequence::reset_slots, TCheckRoomSequence::reset_slot_state,
      TCheckRoomSequence::create, get_check_room_slot_active_flag},

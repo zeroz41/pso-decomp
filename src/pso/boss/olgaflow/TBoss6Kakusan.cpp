@@ -104,7 +104,7 @@ void TBoss6Kakusan::run_task() {
     Vec step;
     f32 speed;
     TObjPlayer *player;
-    if (TObjPlayer::check_demo_mode() != 0) return;
+    if (check_demo_mode() != 0) return;
     if (TObjEneDD::query_teammate_state() != 0) return;
     VecCopy(&prev_position, &position);
     if ((s8)boss6_kakusan_homing_start_initialized == 0) {

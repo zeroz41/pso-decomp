@@ -358,7 +358,7 @@ void TObjEneBm5Wolf::run_task() {
     s16 cur_mode;
     s16 idle_mode;
     s32 delay;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->update_state();
         return;
     }
@@ -1833,7 +1833,7 @@ void TObjEneBm5Wolf::advance_spawn_timer(NJS_OBJECT *) {
 void TObjEneBm5Wolf::render() {
     s32 rot[3];
     s32 detail;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->render_debug();
         return;
     }

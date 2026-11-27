@@ -223,7 +223,7 @@ TObjWarpBoss::~TObjWarpBoss() {
 }
 
 void TObjWarpBoss::run_task() {
-    if (TObjPlayer::check_demo_mode() != 1) {
+    if (check_demo_mode() != 1) {
         if (!(state_flags & 1) && (state != next_state)) {
             if (state_step != -1) {
                 state_step = -1;
@@ -409,11 +409,11 @@ void TObjWarpBoss::update_warp_occupants() {
     pl2 = get_player_by_client_id(local_client_id);
     if (pl2 != NULL && pl2->get_floor() == get_current_floor()) {
         if (xz_distance_squared(&pl2->position, &position) <= (25.0f + warp_range) * (25.0f + warp_range)) {
-            if (TObjWarpBossMulti::is_flag_clear(pl2) != 0) {
+            if (is_flag_clear(pl2) != 0) {
                 local_player_in_range = 1;
                 pl2->set_flag_4096();
             }
-        } else if (TObjWarpBossMulti::is_flag_clear(pl2) == 0 && local_player_in_range != 0) {
+        } else if (is_flag_clear(pl2) == 0 && local_player_in_range != 0) {
             local_player_in_range = 0;
             pl2->clear_flag_4096();
         }
@@ -819,11 +819,11 @@ void TObjWarpBossMulti::run_task() {
         if (pl != NULL && pl->is_locally_controlled() != 0) {
             if (pl->get_floor() == get_current_floor()) {
                 if (xz_distance_squared(&pl->position, &position) <= (r = 25.0f + warp_range) * r) {
-                    if (TObjWarpBossMulti::is_flag_clear(pl) != 0) {
+                    if (is_flag_clear(pl) != 0) {
                         player_in_range[i] = 1;
                         pl->set_flag_4096();
                     }
-                } else if (TObjWarpBossMulti::is_flag_clear(pl) == 0) {
+                } else if (is_flag_clear(pl) == 0) {
                     if (player_in_range[i] != 0) {
                         player_in_range[i] = 0;
                         pl->clear_flag_4096();

@@ -22,12 +22,12 @@ const char *TTecZonde_class_name = "TTecZonde"; // TTecZonde__name
 void TTecZonde::init_parameters() {
     TechniqueParams *scaled = calc_technique_parameters(6, level, 0xFFFF);
     params.copy(scaled);
-    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+    if (level >= 15 && is_technique_ready() == 0) {
         params.power = (f32)(tech_high_level_linear_power_table[6].base + tech_high_level_linear_power_table[6].per_level * level);
         return;
     }
     params.power = params.power + (f32)(params.power_per_level * level);
-    if (TTecCtrl::is_technique_ready()) {
+    if (is_technique_ready()) {
         params.power = params.power * technique_scale_table[6].power;
     }
 

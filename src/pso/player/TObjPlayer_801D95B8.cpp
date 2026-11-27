@@ -37,7 +37,7 @@ u8 PlayerTechniqueState::get_valid_technique() {
     u8 technique;
 
     technique = this->level_override;
-    if (TObjPlayer::is_valid_technique_slot(technique) == 0) {
+    if (is_valid_technique_slot(technique) == 0) {
         technique = 0;
     }
     return technique;

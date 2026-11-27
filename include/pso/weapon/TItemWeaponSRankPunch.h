@@ -22,5 +22,6 @@ public:
 void s_rank_punch_hit_effect(s32 layer, TObject *player, s32 target_id, s32 body);
 
 void debug_weapon_attack_hook(void);
+void notify_hit_target(u32 layer, uaddr player, u32 target, uaddr pos);
 
 #endif

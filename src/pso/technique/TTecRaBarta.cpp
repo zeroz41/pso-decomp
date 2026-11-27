@@ -133,12 +133,12 @@ void TTecRaBarta::play_cast_sound() {
 void TTecRaBarta::calc_parameters() {
     TechniqueParams *scaled = calc_technique_parameters(5, level, 0xFFFF);
     params.copy(scaled);
-    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+    if (level >= 15 && is_technique_ready() == 0) {
         params.power = tech_high_level_linear_power_table[5].base + tech_high_level_linear_power_table[5].per_level * level;
         return;
     }
     params.power = params.power + (f32)(params.power_per_level * level);
-    if (TTecCtrl::is_technique_ready() != 0) {
+    if (is_technique_ready() != 0) {
         params.power = params.power * technique_scale_table[5].power;
     }
 }

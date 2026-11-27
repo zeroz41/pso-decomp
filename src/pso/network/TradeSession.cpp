@@ -42,7 +42,7 @@ void TWindowTradeRequest::reset_trade() {
 }
 
 
-void TLobby::send_trade_proposal_modify() {
+void send_trade_proposal_modify() {
   G_ModifyTradeProposal_6xA6 packet;
   TObjPlayer *player;
   player_stats *stats;
@@ -145,7 +145,7 @@ const char *build_trade_partner_status_text(void) {
 }
 #pragma pop
 
-const char *TLobby::check_trade_items_and_show_error() {
+const char *check_trade_items_and_show_error() {
     s32 code;
     TradeSide buf;
     s32 r;
@@ -336,7 +336,7 @@ void TLobby::apply_trade_items() {
     }
 }
 
-void TLobby::handle_reset_choice(s32 choice) {
+void handle_reset_choice(s32 choice) {
     if ((s8) trade_proposal_state != 0) {
         switch (choice) {
         case 0:
@@ -393,7 +393,7 @@ void TLobby::clear_flag400() {
 }
 
 
-void TLobby::check_flags_and_proceed() {
+void check_flags_and_proceed() {
     if ((trade_sub_window == NULL) && (trade_main_window == NULL) && (trade_message_controller == NULL)) {
         TLobby::cancel_trade();
     }
@@ -590,7 +590,7 @@ void send_6xA6_modify_trade_proposal(saddr client_id) {
         if ((s32) (u8)trade_partner_client_id != 4) {
             TWindowTradeRequest::close_request_window();
             if (trade_partner_client_id == client_id) {
-                TLobby::send_trade_proposal_modify();
+                send_trade_proposal_modify();
                 TWindowCtrl::replace_submenu(local_client_id, 0x1D);
                 return;
             }
@@ -810,7 +810,7 @@ void update_trade_partner() {
 }
 
 void TLobby::close_trade_request() { trade_protocol_flags = 0; TWindowTradeRequest::close_request_window(); }
-void TLobby::reset_trade_state() {
+void reset_trade_state() {
     s32 i;
     trade_partner_client_id = 4;
     trade_proposal_state = 0;

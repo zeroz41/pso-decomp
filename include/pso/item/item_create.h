@@ -51,5 +51,11 @@ void handle_player_event(s32 client, s32 slot);
 struct FloorItem;
 // Creates the item a 6x5D/6x5F drop describes and puts it on the floor.
 TItem *spawn_dropped_item_from_msg(FloorItem *drop, s32 quiet);
+s32 calc_price_of(TItemData *data);
+u8 find_adjacent_matching_slot(u8 slot);
+u8 get_next_matching_special_index(u8 slot);
+void cleanup_game_objects();
+void free_item_globals();
+void init_game_resources();
 
 #endif

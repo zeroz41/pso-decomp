@@ -26,7 +26,6 @@ struct TAdDialingGC : public TObject {
     s32 status_code;
     u32 wait_frames;
     u32 dial_flags;
-    static void select_dial_image(s32, s32 x);
     virtual void render();
     virtual void run_task();
     void update_dial_state();

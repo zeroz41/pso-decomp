@@ -100,6 +100,7 @@
 #include "pso/audio/SoundRequests.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/map/FloorMapSelection.h"
+#include "pso/ui/TCharSaveSequence.h"
 
 
 void clear_keyboard_input_flag(void);
@@ -141,7 +142,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {init_entity_tables, clear_entity_tables},
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},
-    {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
+    {alloc_quest_download_buffer, free_chr_select_singleton},
     {init_item_system, free_item_system},
     {load_item_data, free_forest_rel_work_buffer},
     {init_item_drop_tables, free_item_drop_tables},
@@ -254,7 +255,7 @@ void reload_lobby_floor_scene(void) {
     clear_floor_population();
     TKeyBoardControl::update();
     create_map_csn_ctrl();
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     TLoadCtrl::start_loading(2);
     load_floor_object_set(0xF);
     initialize_floor_transition(&floor_transition_state, 0xF, TLobby::lobby_number);
@@ -299,7 +300,7 @@ void blocking_vsync() {
         process_async_file_reads();
         update_sound_request_slots();
         TAdSinglePlyChrSelectGC::run_save_load_sequence();
-        TAdSinglePlyChrSelectGC::noop();
+        noop();
     }
     TLoadCtrl::set_poll_input(1);
     render_tick();
@@ -327,7 +328,7 @@ void reload_floor_scene() {
     main_task.delete_layer_children();
     TKeyBoardControl::update();
     create_map_csn_ctrl();
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     TLoadCtrl::poll_default();
     load_floor_scene();
     init_area_lights();
@@ -402,7 +403,7 @@ void start_quest_mission(void) {
     clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
     create_map_csn_ctrl();
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     TLoadCtrl::start_loading(1);
     TQuestThread::create_by_mode();
     clear_quest_floor_designations();
@@ -457,7 +458,7 @@ void change_floor_reload_area(void) {
     floor_transition_state.clear_ready_flag_unless_locked();
     TKeyBoardControl::update();
     create_map_csn_ctrl();
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     TLoadCtrl::start_loading(2);
     if (new_game_setup_flags & 1) {
         new_game_setup_flags &= ~1;
@@ -520,7 +521,7 @@ void cleanup_online_lobby_scene(void) {
     if (online_lobby_scene_handle == 0) {
         run_area_scene_cleanup(&floor_transition_state);
     }
-    TLobby::free_single_player_chr_select();
+    free_single_player_chr_select();
     release_lobby_player_actions();
     TLobby::call_funcs_reverse(lobby_area_reload_callbacks, sizeof(lobby_area_reload_callbacks));
     TLobby::call_funcs_reverse(online_lobby_scene_callback_table, sizeof(online_lobby_scene_callback_table));
@@ -544,7 +545,7 @@ void run_lobby_frame() {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
-    TAdSinglePlyChrSelectGC::noop();
+    noop();
     take_snapshot();
     if ((TLobby::connection_lost == 0) && (poll_memcard_result((int) ((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) != -1)) {
         if (TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
@@ -565,7 +566,7 @@ void run_lobby_frame() {
         TLobby::send_logout();
         request_main_phase(0);
     }
-    if (TKeyBoardControl::get_key_state() != 0) {
+    if (get_key_state() != 0) {
         change_floor_reload_area();
         clear_keyboard_key_state();
     }
@@ -573,7 +574,7 @@ void run_lobby_frame() {
         reload_floor_scene();
         deactivate_keyboard();
     }
-    if (TKeyBoardControl::get_input() != 0) {
+    if (get_input() != 0) {
         reload_lobby_floor_scene();
         clear_keyboard_input_flag();
     }
@@ -593,7 +594,7 @@ void run_main_frame() {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
-    TAdSinglePlyChrSelectGC::noop();
+    noop();
     take_snapshot();
     run_challenge_frame();
     if ((TLobby::connection_lost == 0) && (poll_memcard_result((int) ((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) != -1)) {
@@ -608,11 +609,11 @@ void run_main_frame() {
         }
     }
     update_periodic_tick();
-    if (TKeyBoardControl::get_input() != 0) {
+    if (get_input() != 0) {
         start_quest_mission();
         clear_keyboard_input_flag();
     }
-    if (TKeyBoardControl::get_key_state() != 0) {
+    if (get_key_state() != 0) {
         change_floor_reload_area();
         clear_keyboard_key_state();
     }
@@ -654,7 +655,7 @@ void run_online_lobby_scene(void) {
     set_queued_main_phase(0xF);
     clear_resource_load_tasks();
     create_map_csn_ctrl();
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     TLoadCtrl::poll_default();
     TLobby::reset_keyboard_state();
     apply_phase_keyboard_mode();

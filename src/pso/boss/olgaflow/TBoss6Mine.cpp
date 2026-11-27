@@ -283,7 +283,7 @@ void TBoss6Mine::state_0() {
 
 void TBoss6Mine::run_task() {
     u32 color;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         return;
     }
     if (TBoss6PlotFalz::is_type1_active() == 0) {

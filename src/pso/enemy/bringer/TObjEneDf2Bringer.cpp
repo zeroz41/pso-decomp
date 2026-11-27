@@ -360,7 +360,7 @@ TObjEneDf2Bringer::~TObjEneDf2Bringer() {
 
 void TObjEneDf2Bringer::run_task() {
     s32 hits;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -1295,7 +1295,7 @@ void TObjEneDf2Bringer::render() {
     GinjaTextureState *saved_texture;
     s32 view;
     s32 i;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         render_demo();
         return;
     }

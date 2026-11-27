@@ -57,5 +57,10 @@ LAYOUT_ASSERT(TItemWpnCardModelEffect_size, sizeof(TItemWpnCardModelEffect) == 0
 void start_guardianna_wall_card(s32 item_id, f32 *position, f32 *direction);
 void start_red_wall_card(s32 item_id, f32 *position, f32 *direction);
 void start_wall_card(s32 item_id, saddr position, saddr direction);
+void alloc_and_init(s32 item_id, f32 *position, f32 *direction);
+void create_and_init_effect(s32 item_id, u32 *hit, f32 *direction);
+void start_guardianna_hit_card(s32 item_id, u32 *hit, f32 *direction);
+void create_aux_object(s32 item_id, u32 *hit, f32 *direction);
+void create_network_object(s32 item_id, u32 *hit, saddr direction);
 
 #endif

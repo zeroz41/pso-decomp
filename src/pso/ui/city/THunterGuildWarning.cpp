@@ -193,7 +193,7 @@ s32 THunterGuildWarning::get_party_not_ready_reason(s32 id) {
 #include "pso/quest/TQuestListOnline.h"
 
 
-int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_quest_id(); }
+int get_selected_quest_id() { return TQuestListOnline::get_selected_quest_id(); }
 
 
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -297,6 +297,7 @@ s32 is_in_hunter_guild(s32 client_id) {
 
 
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 
 
 void update_hunter_guild_phase(void) {
@@ -307,11 +308,11 @@ void update_hunter_guild_phase(void) {
     if (get_main_phase() == 0xF) {
         clear_slots();
         clear_slot_flags();
-        TQuestListOnline::release_resources();
+        release_resources();
     }
 }
 
-void TLobby::update_guild_or_quest_phase() {
+void update_guild_or_quest_phase() {
     if (get_main_phase() == 0xE) {
         clear_offline_instance_table();
         clear_guild_warning_on_quest_exit();

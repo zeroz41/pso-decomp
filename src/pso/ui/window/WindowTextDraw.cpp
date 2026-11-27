@@ -114,7 +114,7 @@ s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width) {
     if (mode == 1) {
         col = color;
     }
-    TWindowSubStatusDisp::reset_gauge(0);
+    reset_gauge(0);
     while (*s != 0) {
         s = parse_text_control_codes(s, &flag, &col);
         if (mode == 1) {
@@ -177,7 +177,7 @@ s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width) {
         x += (f32)(u8)adv;
         width -= (f32)(u8)adv;
     }
-    TWindowSubStatusDisp::end_render_forward();
+    end_render_forward();
     return ok;
 }
 

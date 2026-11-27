@@ -6,6 +6,7 @@
 struct TObjPlayer;
 class TObjChara;
 struct TItem;
+struct TItemData;
 
 // What the item sound players read: the item's group and index, the player
 // using it and, for a hit, what it hit and which of its colliders.
@@ -213,5 +214,16 @@ struct ItemPmt {
 extern ItemPmt *item_pmt_tbl;
 
 WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode);
+saddr get_item_pmt_entry(u8 index);
+saddr get_shield_pmt_entry(u8 index);
+f32 get_drop_random_float(u32 channel);
+void drop_item_from_slot(s32 area, s32 slot, TItemData *item);
+void drop_item(s32 slot, TItemData *item);
+void drop_meseta_from_slot(s32 slot, TItemData *item);
+saddr get_item_by_slot_flag(u8 flags);
+void *get_pmt_record(int i);
+void *get_item_pmt_record(int type, int id);
+void *get_pmt_record_by_type_id(int type, int id);
+void *get_pmt_record_by_index(int i);
 
 #endif

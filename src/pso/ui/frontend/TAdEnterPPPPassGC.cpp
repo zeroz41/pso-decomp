@@ -119,7 +119,7 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
 }
 
 void TAdEnterPPPPassGC::open_keyboard_window(void *arg) {
-    prompt_window = TAdEnterSerialAccessGC::show_message_window(this, 3);
+    prompt_window = show_message_window(this, 3);
     callback_window = create_default_callback();
     if (select_cursor != NULL) {
         select_cursor->reset_entries();

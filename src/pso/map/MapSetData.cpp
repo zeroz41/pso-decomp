@@ -735,7 +735,7 @@ void assign_object_ids(FloorObjectSetRow *rows, s32 count, s32 area) {
     for (i = 0; i < count; i++) {
         rows[i].placement.entity_id = map_object_id_counter++ + 0x4000;
         rows[i].placement.set_index = map_set_object_id_counter++;
-        r = TLobby::find_floor_object_factory(area, &rows[i].type);
+        r = find_floor_object_factory(area, &rows[i].type);
         if (r >= 0) {
             map_set_object_id_counter += r;
             map_object_id_counter += r;

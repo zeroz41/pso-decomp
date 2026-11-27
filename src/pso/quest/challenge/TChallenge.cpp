@@ -40,6 +40,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/network/LobbyName.h"
+#include "pso/ui/city/THunterGuildWarning.h"
 
 extern const char TChallenge_name_text[] = "TChallenge";
 const char *TChallenge::class_name = TChallenge_name_text;
@@ -824,14 +825,14 @@ void TChallenge::update_quest_challenge_state() {
         case 1:
             break;
         case 2:
-            id = TLobby::get_selected_quest_id();
+            id = get_selected_quest_id();
             n = 1;
             if (id >= 0x33 && id <= 0x3B) {
                 n = id - 0x30;
             }
             break;
         case 3:
-            id = TLobby::get_selected_quest_id();
+            id = get_selected_quest_id();
             n = 2;
             if (id >= 0x3D && id <= 0x41) {
                 n = id - 0x31;
@@ -846,7 +847,7 @@ void TChallenge::update_quest_challenge_state() {
             quest_send_timer = 30;
         }
         if ((quest_send_timer <= 0 || n != 0) && n != challenge_mode_state.record_window_mode) {
-            TLobby::send_challenge_with_value(this, n);
+            send_challenge_with_value(this, n);
         }
     }
 }

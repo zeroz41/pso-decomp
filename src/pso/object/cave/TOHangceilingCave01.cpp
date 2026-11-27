@@ -134,8 +134,8 @@ void load_turiten_singo_resources(void) {
 
 void TOHangceilingCave01::destroy_instance() {
     if (turiten_singo_texture_lists != NULL) {
-        TObjPlayer::free_if_valid(turiten_singo_texture_lists[1]);
-        TObjPlayer::free_if_valid(turiten_singo_texture_lists[0]);
+        free_if_valid(turiten_singo_texture_lists[1]);
+        free_if_valid(turiten_singo_texture_lists[0]);
         if (turiten_singo_texture_lists != NULL) {
             mem_free(turiten_singo_texture_lists);
             turiten_singo_texture_lists = NULL;
@@ -179,7 +179,7 @@ s32 TOHangceilingCaveBase::is_in_view() {
 }
 
 void TOHangceilingCaveBase::run_task() {
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         update_state();
         play_mode_sound();
         if (is_in_view() != 0 && mode != 3 && is_passing_frame(8.0f) != 0) {
@@ -195,7 +195,7 @@ void TOHangceilingCaveBase::render() {
     s32 lit1;
     s32 lit2;
 
-    if (is_in_view() != 0 || TObjPlayer::check_demo_mode() == 1) {
+    if (is_in_view() != 0 || check_demo_mode() == 1) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

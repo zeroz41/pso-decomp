@@ -54,4 +54,6 @@ struct LengthLimits { u32 n[4]; };
 
 struct KeyboardModes { u8 b[4]; };
 
+TWindowBase *show_message_window(void *owner, s32 message_index);
+
 #endif

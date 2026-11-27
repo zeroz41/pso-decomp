@@ -25,7 +25,7 @@ struct ShieldPmtEntry {
     u8 evp_range;        // the largest EVP bonus the item keeps
     u8 dfp_range;        // the largest DFP bonus the item keeps
     u8 pad_18;
-    u8 technique_boost;  // TObjPlayer::get_shield_pmt_entry's index
+    u8 technique_boost;  // get_shield_pmt_entry's index
     u8 model_type;       // 1 refreshes the owner's stats, 3 draws two models
 };
 

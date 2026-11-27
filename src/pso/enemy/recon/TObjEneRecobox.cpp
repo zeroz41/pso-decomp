@@ -281,7 +281,7 @@ TObjEneRecobox::~TObjEneRecobox() {
 }
 
 void TObjEneRecobox::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->update_demo_mode();
         return;
     }
@@ -736,7 +736,7 @@ void TObjEneRecobox::render() {
     s32 camera_mode;
     s32 view_detail;
     s32 fading_in;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         draw_with_debug_info();
         return;
     }

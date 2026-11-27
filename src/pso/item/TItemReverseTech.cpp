@@ -38,6 +38,8 @@
 #include "pso/system/AsyncFileRead.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/ui/frontend/TTitleBackground.h"
+#include "pso/ui/TCharSaveSequence.h"
 
 
 
@@ -72,8 +74,8 @@ TItemReverseTechSceneHook TItemReverseTech::cleanup_callback_table[7] = {
 
 
 void activate_uraending_code(void) {  }
-void activate_reverse_rotation_code(void) { TLobby::set_global_flags(1); }
-void activate_fast_rotation_code(void) { TLobby::set_global_flags(2); }
+void activate_reverse_rotation_code(void) { set_global_flags(1); }
+void activate_fast_rotation_code(void) { set_global_flags(2); }
 
 TItemReverseTechPicture::TItemReverseTechPicture() {
     u1 = 1.0f;
@@ -104,7 +106,7 @@ void TItemReverseTech::init_scene() {
     set_active_camera_pose(&eye, &at);
     set_fallback_main_phase(2);
     set_queued_main_phase(2);
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     TItemReverseTech::create();
     render_tick();
 }
@@ -136,7 +138,7 @@ void TItemReverseTech::run_frame() {
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
-    TAdSinglePlyChrSelectGC::noop();
+    noop();
     if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }

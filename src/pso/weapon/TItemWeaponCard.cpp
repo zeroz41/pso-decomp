@@ -78,7 +78,7 @@ TItemWeaponCard::TItemWeaponCard(TObject *parent, u8 *item) : TItemWeapon(parent
     fan_flags = 0;
     effect_id = 445;
     wall_effect = (void *)start_wall_card;
-    hit_effect = (void *)TObjPlayer::create_network_object;
+    hit_effect = (void *)create_network_object;
     effect_scale = 4.0f;
 }
 
@@ -193,13 +193,13 @@ TItemWeaponTalis::TItemWeaponTalis(TObject *parent, u8 *item) : TItemWeaponCard(
 TItemWeaponMahu::TItemWeaponMahu(TObject *parent, u8 *item) : TItemWeaponCard(parent, item) {
     effect_id = 341;
     wall_effect = (void *)start_red_wall_card;
-    hit_effect = (void *)TObjPlayer::create_aux_object;
+    hit_effect = (void *)create_aux_object;
 }
 
 TItemWeaponHitogata::TItemWeaponHitogata(TObject *parent, u8 *item) : TItemWeaponCard(parent, item) {
     effect_id = 447;
-    wall_effect = (void *)TObjPlayer::alloc_and_init;
-    hit_effect = (void *)TObjPlayer::create_and_init_effect;
+    wall_effect = (void *)alloc_and_init;
+    hit_effect = (void *)create_and_init_effect;
 }
 
 void TItemWeaponHitogata::spawn_throw_effect(Vec *pos) {
@@ -218,8 +218,8 @@ TItemWeaponDancingHitogata::TItemWeaponDancingHitogata(TObject *parent, u8 *item
         origin->z = 0.0f;
         origin++;
     }
-    wall_effect = (void *)TObjPlayer::alloc_and_init;
-    hit_effect = (void *)TObjPlayer::create_and_init_effect;
+    wall_effect = (void *)alloc_and_init;
+    hit_effect = (void *)create_and_init_effect;
 }
 
 void TItemWeaponDancingHitogata::on_equipped() {

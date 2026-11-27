@@ -56,7 +56,7 @@ void TOFenceBase::run_task() {
     f32 frame;
     f32 end_frame;
 
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         update_demo();
         return;
     }

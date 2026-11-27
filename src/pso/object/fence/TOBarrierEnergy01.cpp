@@ -87,7 +87,7 @@ void TOBarrierEnergy01::load_resources() {
 
 void TOBarrierEnergy01::free_resources() {
     if (barrier_energy_texlists != NULL) {
-        TObjPlayer::free_if_valid(barrier_energy_texlists[0]);
+        free_if_valid(barrier_energy_texlists[0]);
         if (barrier_energy_texlists != NULL) {
             mem_free(barrier_energy_texlists);
             barrier_energy_texlists = NULL;

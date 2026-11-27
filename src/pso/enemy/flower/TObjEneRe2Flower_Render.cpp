@@ -75,7 +75,7 @@ void TObjEneRe2Flower::render() {
     s32 visible;
     s32 save8;
     s32 save14;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         render_demo();
         return;
     }

@@ -106,7 +106,7 @@ void TOSwitchItem::run_task() {
 void TOSwitchItem::debug_draw_key_id() {}
 
 void TOSwitchItem::render() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         NJS_ARGB color;
         color.a = 0.3f;
         color.r = 0.3f;

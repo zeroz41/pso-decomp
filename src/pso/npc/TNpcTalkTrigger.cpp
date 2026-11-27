@@ -39,7 +39,7 @@ void reset_npc_proximity_target_on_floor_load(void) { npc_proximity_target_id = 
 
 void reset_npc_proximity_target_on_floor_free(void) { npc_proximity_target_id = -1; }
 
-void *TLobby::create_npc(void *set_data) {
+void *create_npc(void *set_data) {
     return new TNpcTalkTrigger(tl_05, set_data);
 }
 

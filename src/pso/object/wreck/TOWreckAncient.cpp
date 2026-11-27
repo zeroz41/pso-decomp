@@ -269,7 +269,7 @@ TOWreckAncientBrakable::~TOWreckAncientBrakable() {
 void TOWreckAncientBrakable::run_task() {
     s32 id;
 
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_task_stub();
         return;
     }

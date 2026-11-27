@@ -54,9 +54,9 @@ void *TOFenceAncient04::create(void *set_data) {
 
 void TOFenceAncient04::unload_resources() {
     if (texlists != NULL) {
-        TObjPlayer::free_if_valid(texlists[1]);
-        TObjPlayer::free_if_valid(texlists[2]);
-        TObjPlayer::free_if_valid(texlists[3]);
+        free_if_valid(texlists[1]);
+        free_if_valid(texlists[2]);
+        free_if_valid(texlists[3]);
         if (texlists != NULL) {
             mem_free(texlists);
             texlists = NULL;

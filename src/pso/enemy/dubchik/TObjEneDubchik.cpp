@@ -350,7 +350,7 @@ void TObjEneDubchik::free_resources() {
     }
     dubchik_texlist = NULL;
     if (dubchik_variant_texlist != NULL) {
-        TObjPlayer::free_if_valid(dubchik_variant_texlist);
+        free_if_valid(dubchik_variant_texlist);
         dubchik_variant_texlist = NULL;
     }
     reset_effect_count();
@@ -378,7 +378,7 @@ void *TObjEneDubchik::create(void *set_data) {
 }
 
 void TObjEneDubchik::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_demo_task();
         return;
     }
@@ -441,7 +441,7 @@ void TObjEneDubchik::render() {
             rotate_matrix_y(0, rotation_y);
             scale_matrix(0, 1.3f, 1.3f, 1.3f);
             model_render_flags &= 0xFFFFFBFF;
-            if (TObjPlayer::check_demo_mode() == 1) {
+            if (check_demo_mode() == 1) {
                 draw_chunk_object(model);
             } else if (behavior_flags & 4) {
                 if (fade.has_visible_opacity() != 0) {

@@ -30,7 +30,7 @@ TBoss7LaserImpact::TBoss7LaserImpact(TObject *parent, const Vec *origin) : TObje
 }
 
 void TBoss7LaserImpact::destroy_instance() {  }
-void TBoss7LaserImpact::load_static_resource() {  }
+void load_static_resource() {  }
 void PhotonChairSeat::update() {}
 
 

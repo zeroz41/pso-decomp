@@ -274,7 +274,7 @@ void *TObjEneDolmOlm::create(void *set_data) {
     return new TObjEneDolmOlm(control, set_data);
 }
 void TObjEneDolmOlm::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_demo_task();
         return;
     }
@@ -346,7 +346,7 @@ void TObjEneDolmOlm::render() {
     translate_matrix(0, 0.0f, corpse_offset_y, 0.0f);
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         draw_chunk_object(model);
     } else {
         switch (mode) {

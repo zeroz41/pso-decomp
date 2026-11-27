@@ -5,7 +5,7 @@
 
 struct TObjPlayer;
 
-// The NPC placed by the quest opcode npc_talk_pl (TLobby::create_npc): while
+// The NPC placed by the quest opcode npc_talk_pl (create_npc): while
 // the local player is within scale.x of it, a TNpcPlayerSpawner brings the
 // NPC player into npc_slot; once that player is inactive again and the local
 // player has left, the NPC player is removed. set_params[0] is the NPC record,
@@ -34,5 +34,6 @@ void set_player_quest_control_flag(TObjPlayer *player);
 // The quest opcodes p_noncol and p_col.
 void clear_hashi_versus2_flag(void);
 void set_hashi_versus2_flag(void);
+void *create_npc(void *set_data);
 
 #endif

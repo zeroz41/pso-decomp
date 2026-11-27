@@ -546,7 +546,7 @@ void TWindowKeyBoardSoft::draw_key_labels(WindowDrawContext *ctx) {
     depth = -1.0f / (0.1196f + ctx->depth);
     cursor = this->get_cursor_key();
     keys = layout->pages[layout_page];
-    TWindowSubStatusDisp::reset_gauge(NULL);
+    reset_gauge(NULL);
     for (row = 0; row < 7; row++) {
         for (col = 0; col < 16; col++) {
             u16 code = *keys++;
@@ -579,7 +579,7 @@ void TWindowKeyBoardSoft::draw_key_labels(WindowDrawContext *ctx) {
             }
         }
     }
-    TWindowSubStatusDisp::end_render_forward();
+    end_render_forward();
     begin_screen_draw(1);
     TWindowSubStatusDisp::render_forward();
     set_draw_texture_and_color(0, 0xFF999999);

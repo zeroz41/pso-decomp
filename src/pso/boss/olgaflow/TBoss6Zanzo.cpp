@@ -130,7 +130,7 @@ void TBoss6Zanzo::render() {
 void TBoss6Zanzo::run_task() {
     Boss6TrailFrame *base;
     Boss6TrailFrame *p;
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         base = frames;
         for (p = base + frame_count - 1; p > base; p--) copy_trail_buffer(p, p - 1);
         copy_trail_buffer(p, current);

@@ -276,7 +276,7 @@ void TObjEneIllGill::render() {
         scale_matrix(0, this->scale.x, this->scale.y, this->scale.z);
         illGillModelNodeIndex = 0;
         set_chunk_model_node_callback(TObjEneIllGill::capture_effect_positions);
-        if (this->fadingIn != 0 && TObjPlayer::check_demo_mode() == 0) {
+        if (this->fadingIn != 0 && check_demo_mode() == 0) {
             if (fade.has_visible_opacity() != 0) {
                 saved_model_render_flags = model_render_flags;
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;

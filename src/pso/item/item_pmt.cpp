@@ -38,7 +38,7 @@ typedef struct Ent_8011C59C { s32 a; s32 b; } Ent_8011C59C;
 typedef struct Pmt_8011C59C { u8 pad[4]; Sub_8011C59C *sub; u8 pad2[0x34]; Ent_8011C59C *tbl; } Pmt_8011C59C;
 
 
-saddr TObjPlayer::get_item_pmt_entry(u8 index) {
+saddr get_item_pmt_entry(u8 index) {
     ItemChoiceListTable *table = item_pmt_tbl->random_items;
 
     if (table->count > index) {
@@ -60,7 +60,7 @@ s32 is_unsealable_item(u8 *id) {
     return 0;
 }
 
-saddr TObjPlayer::get_shield_pmt_entry(u8 index) {
+saddr get_shield_pmt_entry(u8 index) {
     if (index == 0) {
         return 0;
     }
@@ -122,7 +122,7 @@ void find_tool_pmt_base_id(s32 tool_id, u8 *item) {
     }
 }
 
-f32 TObjPlayer::get_drop_random_float(u32 channel) {
+f32 get_drop_random_float(u32 channel) {
     if (item_mgr != NULL) {
         return item_mgr->roll_table_ratio(channel);
     }
@@ -133,10 +133,10 @@ u32 roll_item_channel_below(u32 count, s32 channel) {
     if (item_mgr != NULL) {
         return item_mgr->roll_channel_below(count, channel);
     }
-    return (u32)((f32) count * TObjPlayer::get_drop_random_float(channel));
+    return (u32)((f32) count * get_drop_random_float(channel));
 }
 
-void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, TItemData *item) {
+void drop_item_from_slot(s32 area, s32 slot, TItemData *item) {
     s32 floor_slot;
     s32 idx;
     floor_slot = slot;
@@ -147,7 +147,7 @@ void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, TItemData *item) {
         item_mgr->select_enemy_drop(area, idx, item);
     }
 }
-void TObjPlayer::drop_item(s32 slot, TItemData *item) {
+void drop_item(s32 slot, TItemData *item) {
     s32 floor_slot;
     s32 off;
     floor_slot = slot;
@@ -158,7 +158,7 @@ void TObjPlayer::drop_item(s32 slot, TItemData *item) {
         item_mgr->select_box_item(off, item);
     }
 }
-void TObjPlayer::drop_meseta_from_slot(s32 slot, TItemData *item) {
+void drop_meseta_from_slot(s32 slot, TItemData *item) {
     s32 floor_slot;
     s32 idx;
     floor_slot = slot;
@@ -176,7 +176,7 @@ ItemStatBoost *get_item_stat_boost_record(s32 item_type, s32 type, s32 id) {
     idx = 0;
     switch ((u8) item_type) {
     case 0:
-        rec = (u8 *)TObjPlayer::get_item_pmt_record((u8)type, (u8)id);
+        rec = (u8 *)get_item_pmt_record((u8)type, (u8)id);
         if (rec != NULL) {
             idx = rec[0x1A];
         }
@@ -395,7 +395,7 @@ u8 get_weapon_class_motion_type(u8 group) {
     return 0U;
 }
 
-saddr TObjPlayer::get_item_by_slot_flag(u8 flags) {
+saddr get_item_by_slot_flag(u8 flags) {
     if (flags & 0x3F) {
         if (flags & 0x80) {
             return (saddr)get_text_collection(0x1F4);
@@ -429,7 +429,7 @@ WeaponRangeRecord *get_weapon_range_record(TItem *item, s16 mode) {
 }
 
 
-void*TObjPlayer::get_pmt_record(int i) {
+void*get_pmt_record(int i) {
     ItemPmtList *c = item_pmt_tbl->mags;
     if (i < c->count) {
         return &c->records[i * 24];
@@ -437,7 +437,7 @@ void*TObjPlayer::get_pmt_record(int i) {
     return &c->records[c->count * 24];
 }
 
-void*TObjPlayer::get_item_pmt_record(int type, int id) {
+void*get_item_pmt_record(int type, int id) {
     if (type > 0) {
         ItemPmtList *lists = item_pmt_tbl->weapons;
         if (type < 170) {
@@ -451,7 +451,7 @@ void*TObjPlayer::get_item_pmt_record(int type, int id) {
     return NULL;
 }
 
-void*TObjPlayer::get_pmt_record_by_type_id(int type, int id) {
+void*get_pmt_record_by_type_id(int type, int id) {
     ItemPmtToolList *lists = item_pmt_tbl->tools;
     if (type < 24) {
         ItemPmtToolList *s = &lists[type];
@@ -462,7 +462,7 @@ void*TObjPlayer::get_pmt_record_by_type_id(int type, int id) {
     return lists[24].records;
 }
 
-void*TObjPlayer::get_pmt_record_by_index(int i) {
+void*get_pmt_record_by_index(int i) {
     ItemPmtList *c = item_pmt_tbl->units;
     if (i < c->count) {
         return &c->records[i * 0x10];

@@ -297,7 +297,7 @@ void TObjEneMoja::run_task() {
     u16 id;
     TObjPlayer *player;
     TObjChara *t;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         moja_run_task_stub(this);
         return;
     }
@@ -404,7 +404,7 @@ void TObjEneMoja::render() {
         translate_matrix(0, 0.0f, sinkOffset, 0.0f);
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        if (TObjPlayer::check_demo_mode() == 1) {
+        if (check_demo_mode() == 1) {
             draw_chunk_object(model);
         } else {
             toggle_particle_effect();

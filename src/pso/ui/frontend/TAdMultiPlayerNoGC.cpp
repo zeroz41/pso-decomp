@@ -26,7 +26,7 @@ NJS_TEXLIST *player_ad_texture_list_ptr;
 // their address order.
 #pragma fp_contract on
 
-void TLobby::update_menu_cursor_selection() {
+void update_menu_cursor_selection() {
     update_menu_cursor();
     const char *names[5] = {
         "f128_player_ad", "f128_player_ad_eng", "f128_player_ad_eng",
@@ -41,7 +41,7 @@ void TLobby::update_menu_cursor_selection() {
     load_streamed_prs_texture(names[current_language], list);
 }
 
-void TLobby::free_global_object() {
+void free_global_object() {
     if (player_ad_texture_list_ptr != NULL) {
         release_texture_list(player_ad_texture_list_ptr);
         player_ad_texture_list_ptr = NULL;

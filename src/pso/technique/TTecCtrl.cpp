@@ -242,7 +242,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
     switch (technique) {
     case 0:
         calculated_technique_params.range += calculated_technique_params.range_step * clamp_nonnegative_int(level - 4);
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -252,7 +252,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 1:
         calculated_technique_params.range += calculated_technique_params.range_step * clamp_nonnegative_int(level - 4);
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -261,7 +261,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 2:
         calculated_technique_params.range += calculated_technique_params.range_step * (level / 5);
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -271,7 +271,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 3:
         calculated_technique_params.range += calculated_technique_params.range_step * (level / 5);
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -282,7 +282,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 4:
         calculated_technique_params.range += calculated_technique_params.range_step * (level / 5);
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -292,7 +292,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 5:
         calculated_technique_params.range += calculated_technique_params.range_step * clamp_nonnegative_int(level - 4);
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -301,7 +301,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 6:
         calculated_technique_params.range += calculated_technique_params.range_step * clamp_nonnegative_int(level - 4);
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -310,7 +310,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 7:
         calculated_technique_params.range += calculated_technique_params.range_step * (level / 5);
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -319,7 +319,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 8:
         calculated_technique_params.range += calculated_technique_params.range_step * (level / 5);
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -328,7 +328,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 9:
         calculated_technique_params.range += calculated_technique_params.range_step * (level / 5);
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -337,7 +337,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 10:
         calculated_technique_params.range = calculated_technique_params.range * (1.0f + calc_technique_boost(10, client));
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -349,7 +349,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 11:
         calculated_technique_params.range += calculated_technique_params.range_step * clamp_nonnegative_int(level - 4);
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -358,7 +358,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 12:
         calculated_technique_params.range += calculated_technique_params.range_step * clamp_nonnegative_int(level - 4);
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -367,7 +367,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 13:
         calculated_technique_params.range = calculated_technique_params.range * (1.0f + calc_technique_boost(13, client));
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -379,7 +379,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 15:
         calculated_technique_params.range = calculated_technique_params.range * (1.0f + calc_technique_boost(15, client));
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -391,7 +391,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 16:
         calculated_technique_params.range = calculated_technique_params.range * (1.0f + calc_technique_boost(16, client));
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);
@@ -403,7 +403,7 @@ TechniqueParams *calc_technique_parameters(int technique, s32 level, u16 client)
         break;
     case 18:
         calculated_technique_params.range += calculated_technique_params.range_step * (level / 5);
-        if (TTecCtrl::is_technique_ready()) {
+        if (is_technique_ready()) {
             calculated_technique_params.tp_cost = calculated_technique_params.tp_cost * technique_scale_table[technique].tp_cost;
         }
         calculated_technique_params.charge_speed = lowered_charge_speed(level);

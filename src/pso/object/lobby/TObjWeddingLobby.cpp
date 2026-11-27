@@ -46,7 +46,7 @@ void TObjWeddingLobby::render() {
 
 void TObjWeddingLobby::run_task() {
     f32 last;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         demo_step();
     }
     switch (fade_state) {

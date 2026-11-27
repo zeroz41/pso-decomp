@@ -253,7 +253,7 @@ void *TObjEneMe1GiGue::create(void *set_data) {
 }
 
 void TObjEneMe1GiGue::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         load_params();
         run_demo_task();
         return;
@@ -358,7 +358,7 @@ void TObjEneMe1GiGue::render() {
     if (vis == 0) {
         return;
     }
-    if (TObjPlayer::check_demo_mode() != 1 && (behavior_flags & 0x40000)) {
+    if (check_demo_mode() != 1 && (behavior_flags & 0x40000)) {
         return;
     }
     saved_model_render_flags = model_render_flags;
@@ -377,7 +377,7 @@ void TObjEneMe1GiGue::render() {
     translate_matrix(0, position.x, flightHeight + (position.y + sinkingOffset), position.z);
     rotate_matrix_y(NULL, rotation_y);
     model_render_flags &= ~0x400;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         draw_chunk_object(model);
     } else if (behavior_flags & 4) {
         if (appearFade.has_visible_opacity() != 0) {

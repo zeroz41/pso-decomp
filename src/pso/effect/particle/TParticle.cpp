@@ -34,6 +34,7 @@
 #include "pso/effect/sprite/TQuadSpriteSclColRot.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/TextureState.h"
+#include "pso/effect/particle/ParticleBallistic.h"
 
 THeap *TParticleCtrl::heap;
 
@@ -44,7 +45,7 @@ TParticle *TParticleCtrl::generate_child_default(ParticleParam *param, Vec *pos,
 
 #pragma readonly_strings on
 ParticleGenerator particle_ctrl_generator_table[] = {
-    {"EMIT", TParticleCtrl::create_random_spread},
+    {"EMIT", create_random_spread},
     {"SPAIRAL", TParticleCtrl::generate_child_default},
     {"VACUUM", create_random_particle},
 };

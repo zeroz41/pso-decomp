@@ -162,7 +162,7 @@ void *TObjEneBalClawBody::create(void *set_data) {
 
 void TObjEneBalClawBody::run_task() {
     scroll_part_uvs();
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         load_params();
         run_demo_task();
         return;
@@ -826,7 +826,7 @@ void TObjEneBalClawBody::render() {
             toggle_particle_effect();
             push_matrix();
             model_render_flags &= 0xFFFFFBFF;
-            if (TObjPlayer::check_demo_mode() == 1) {
+            if (check_demo_mode() == 1) {
                 show_claw_arms(4);
                 post_translate_matrix(&position.x);
                 rotate_matrix_x(0, rotation_x);

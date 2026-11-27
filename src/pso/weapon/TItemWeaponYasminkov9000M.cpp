@@ -7,6 +7,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/weapon/TItemWeaponInfernoBazooka.h"
 
 void TItemWeaponYasminkov9000M::draw_held_model() {
     draw_weapon_model();
@@ -71,7 +72,7 @@ void TItemWeaponYasminkov9000M::yasminkov_9000m_eject_casing(Vec *pos, s32 angle
         angle[0] = 0x4000;
         angle[1] = owner->rotation_y;
         angle[2] = 0;
-        TObjPlayer::spawn_weapon_casing(tl_05, this, pos, &dir, angle);
+        spawn_weapon_casing(tl_05, this, pos, &dir, angle);
     }
 }
 

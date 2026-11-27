@@ -246,7 +246,7 @@ void TOAttackableCol::check_door_trigger() {
 }
 
 void TOAttackableCol::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_task_stub();
         return;
     }

@@ -319,7 +319,7 @@ TObjEneMe3SinowZoa::~TObjEneMe3SinowZoa() {
 
 void TObjEneMe3SinowZoa::run_task() {
     s32 flags;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->setup_move();
         return;
     }
@@ -1682,7 +1682,7 @@ void TObjEneMe3SinowZoa::render() {
     s32 draw;
     s32 i;
 
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->render_demo();
         return;
     }

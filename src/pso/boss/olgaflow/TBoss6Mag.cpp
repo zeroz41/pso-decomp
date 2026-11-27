@@ -155,7 +155,7 @@ TBoss6Mag::~TBoss6Mag() {
 void TBoss6Mag::run_task() {
     s32 marker_color;
 
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         if (TBoss6PlotFalz::is_boss_active() == 0) {
             owner = NULL;
             queue_destruction();

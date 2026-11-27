@@ -134,7 +134,7 @@ TBoss2Mine::~TBoss2Mine() {
 }
 
 void TBoss2Mine::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -349,7 +349,7 @@ void TBoss2Mine::state_destroyed(s32 reason) {
 }
 
 void TBoss2Mine::render() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         render_demo();
         return;
     }

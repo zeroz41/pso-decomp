@@ -214,7 +214,7 @@ void TBoss6MagMine::state_0() {
 
 void TBoss6MagMine::run_task() {
     s32 color;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         return;
     }
     if (TBoss6PlotFalz::is_boss_active() == 0) {

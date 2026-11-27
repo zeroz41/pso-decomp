@@ -20,5 +20,8 @@ LAYOUT_ASSERT(CharacterCreationEffectsSize, sizeof(CharacterCreationEffects) == 
 extern CharacterCreationEffects character_creation_effects;
 
 void check_load_buffer_slot_stub(s32 i);
+void free_single_player_chr_select();
+void alloc_download_server();
+void free_chr_select_singleton();
 
 #endif

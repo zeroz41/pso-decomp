@@ -513,7 +513,7 @@ struct G_DropItem_DC_6x5F {
 };
 LAYOUT_ASSERT(G_DropItem_DC_6x5FSize, sizeof(G_DropItem_DC_6x5F) == 0x28);
 
-// 6x5F: An item drops on the floor from an enemy or a box. Sent by TLobby::drop_item_from_source
+// 6x5F: An item drops on the floor from an enemy or a box. Sent by drop_item_from_source
 // and process_enemy_drop_request. Size checked: its constructor sets the header size to 11 words.
 struct G_DropItem_PC_V3_BB_6x5F {
  G_DropItem_DC_6x5F __base_G_DropItem_DC_6x5F;
@@ -865,7 +865,7 @@ struct G_MedicalCenterReviveAllPlayers_6x32 {
 };
 LAYOUT_ASSERT(G_MedicalCenterReviveAllPlayers_6x32Size, sizeof(G_MedicalCenterReviveAllPlayers_6x32) == 0x4);
 
-// 6xA6: Changes a trade proposal between two players. Sent by TLobby::send_trade_proposal_modify,
+// 6xA6: Changes a trade proposal between two players. Sent by send_trade_proposal_modify,
 // cancel_trade_for_member_out_of_range, send_trade_busy_reply, TLobby::send_modify_trade_proposal
 // and 2 more; received by handle_6xA6_modify_trade_proposal. Size checked:
 // build_6xA6_modify_trade_proposal sets the header size to 4 words.
@@ -1443,7 +1443,7 @@ struct G_ShieldAttack_6x4A {
 };
 LAYOUT_ASSERT(G_ShieldAttack_6x4ASize, sizeof(G_ShieldAttack_6x4A) == 0x4);
 
-// 6x8A: Shows the challenge mode time records window. Sent by TLobby::send_challenge_with_value;
+// 6x8A: Shows the challenge mode time records window. Sent by send_challenge_with_value;
 // received by handle_6x8A_show_challenge_time_records_window. Size checked: build_6x8A_packet sets
 // the header size to 2 words.
 struct G_ShowChallengeTimeRecordsWindow_6x8A {

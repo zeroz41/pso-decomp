@@ -20,4 +20,7 @@ public:
     void render_status();
 };
 
+void free_global_object();
+void update_menu_cursor_selection();
+
 #endif

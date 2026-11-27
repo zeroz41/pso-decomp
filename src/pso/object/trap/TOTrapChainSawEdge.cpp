@@ -379,7 +379,7 @@ void TOTrapChainSaw::draw_debug_labels() {  }
 void TOTrapChainSaw::update_demo() {
     s32 base_yaw;
 
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         base_yaw = rotation_y;
         rotation_y = base_yaw + yaw_offset;
         collision_update_stub();

@@ -64,7 +64,7 @@ void TItemWeaponInfernoBazooka::update_weapon() {
             rotation[0] = 0x4000;
             rotation[1] = owner->rotation_y;
             rotation[2] = 0;
-            TObjPlayer::launch_weapon_casing(tl_05, this, 3, &v, rotation);
+            launch_weapon_casing(tl_05, this, 3, &v, rotation);
         }
     } else if (this->recoil_state == 2) {
         ::approach_value(&barrel_offset, 0.2f, 0.0f);
@@ -126,7 +126,7 @@ void TWeaponCasing::render() {
 }
 
 
-void TObjPlayer::launch_weapon_casing(TObject *parent, TItemWeapon *item, s32 joint, Vec *velocity, s32 *angle) {
+void launch_weapon_casing(TObject *parent, TItemWeapon *item, s32 joint, Vec *velocity, s32 *angle) {
     Vec joint_pos;
     TObject *object;
     if ((parent != 0) && (item != 0U) && (velocity != 0U) && (angle != 0U) && (item->get_joint_position(joint, &joint_pos) != 0)) {
@@ -135,7 +135,7 @@ void TObjPlayer::launch_weapon_casing(TObject *parent, TItemWeapon *item, s32 jo
     }
 }
 
-void TObjPlayer::spawn_weapon_casing(TObject *parent, TItem *item, Vec *pos, Vec *velocity, s32 *angle) {
+void spawn_weapon_casing(TObject *parent, TItem *item, Vec *pos, Vec *velocity, s32 *angle) {
     TObject *p;
     if ((parent != 0) && (item != 0U) && (pos != 0U) && (velocity != 0U) && (angle != 0U)) {
         p = new TWeaponCasing(parent, item, pos, velocity, angle);

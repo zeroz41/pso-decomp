@@ -135,7 +135,7 @@ extern "C" {
 void TObjEneRecon::render() {
     s32 draw_now;
     s32 view_detail;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         render_demo();
         return;
     }
@@ -1222,7 +1222,7 @@ void TObjEneRecon::run_task() {
     s16 m;
     TObjEneRecobox *owner;
     TParticleCtrl *e;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }

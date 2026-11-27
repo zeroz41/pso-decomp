@@ -31,7 +31,7 @@
 // name WarpPartyCheck is inferred).
 struct WarpPartyCheck {
     f32 radius_sq;
-    s32 member_count;      // TLobby::count_members() when the window was last built
+    s32 member_count;      // count_members() when the window was last built
     Vec center;
     s32 all_in_range;
     s32 any_in_range;
@@ -116,7 +116,7 @@ s32 TAdVIConfigGC::get_field_14() { return *(s32 *)&this->m_down; }
 void TAdVIConfigGC::update_visibility() {
     s32 flags;
     u8 *quest_vm_down_load_server;
-    flags = TLobby::count_members();
+    flags = count_members();
     if ((s32) *(s32 *)&this->m_flags != flags) {
         *(s32 *)&this->m_flags = flags;
         open_player_names_window();
@@ -156,7 +156,7 @@ u8 *TAdVIConfigGC::init(const Vec *position, f32 radius) {
     *(f32 *)&this->m_name = (f32) (radius * radius);
     this->exit_state = 0;
     memset((u8 *)&this->state_frames, 0, 0x60);
-    *(s32 *)&this->m_flags = TLobby::count_members();
+    *(s32 *)&this->m_flags = count_members();
     this->m_down = 0;
     *(s32 *)((s8 *)base + 0x18) = 0;
     ((TAdVIConfigGC *)base)->open_player_names_window();

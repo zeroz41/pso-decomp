@@ -123,7 +123,7 @@ void TODragonflyMachine01::render() {
 void TODragonflyMachine01::run_task() {
     bob_angle = (s32) (bob_angle + bob_angle_step);
     bob_offset = (f32) (bob_height * sin_table_lookup(bob_angle));
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         update_demo();
         return;
     }

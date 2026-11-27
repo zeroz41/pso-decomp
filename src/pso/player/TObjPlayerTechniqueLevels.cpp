@@ -46,7 +46,7 @@ s32 PlayerTechniqueState::is_valid_technique_id(s16 technique) {
     return (u8)((u8)valid);
 }
 
-s32 TObjPlayer::is_valid_technique_slot(u8 slot) {
+s32 is_valid_technique_slot(u8 slot) {
     return (u8)((u8)(slot <= 0xFU));
 }
 

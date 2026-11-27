@@ -377,7 +377,7 @@ Boss7LoadCallback boss7_derolle_c_load_callbacks[6] = {
     {TBoss7BodyBreakUp::load_static_resource, TBoss7BodyBreakUp::destroy_instance},
     {TBoss7Crawfish::load_static_resource, TBoss7Crawfish::destroy_instance},
     {TBoss7TentacleNeedle::load_static_resource, TBoss7TentacleNeedle::destroy_instance},
-    {TBoss7LaserImpact::load_static_resource, TBoss7LaserImpact::destroy_instance},
+    {load_static_resource, TBoss7LaserImpact::destroy_instance},
 };
 
 EnemyMoveParams boss7_derolle_c_movement = {225.0f, 0.0f, 0x600, {0, 0, 0, 0}};

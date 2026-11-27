@@ -611,7 +611,7 @@ void TLockOnCursor::set_display_flags(TObjPlayer *player, LockOnActionSlot *main
     main_cursor->set_body_include_mask(0x2000);
     main_cursor->set_actor_include_mask(0x10000000);
     main_cursor->set_actor_exclude_mask(0xE0000800);
-    if (TTecCtrl::is_technique_ready() == 0) {
+    if (is_technique_ready() == 0) {
         main_cursor->set_body_exclude_mask(0x30000);
         return;
     }
@@ -830,7 +830,7 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, TObjCollidabl
     if ((u16)owner->get_entity_id() == (u16)candidate->get_entity_id()) {
         return 0;
     }
-    if (TTecCtrl::is_technique_ready() == 0) {
+    if (is_technique_ready() == 0) {
         if (owner->get_room() != (stat = candidate->get_room()) && (candidate->actorFlags & 0x60000000) == 0x20000000 && stat != -1) {
             return 0;
         }
@@ -874,7 +874,7 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, TObjCollidabl
                 continue;
             }
         }
-        if (TTecCtrl::is_technique_ready() != 0 && (c->flags & 0xA000) &&
+        if (is_technique_ready() != 0 && (c->flags & 0xA000) &&
             is_target_obstructed(entry, &c->center, &owner->bodies->center) != NULL) {
             continue;
         }

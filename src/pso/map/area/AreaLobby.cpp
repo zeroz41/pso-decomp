@@ -15,11 +15,12 @@
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/audio/MusicControl.h"
 #include "pso/map/FloorWaveEvents.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*lobby_floor_scene_callbacks[12])(void) = {
     init_lobby_player_actions, release_lobby_player_actions,
-    TLobby::alloc_download_server, TLobby::free_single_player_chr_select,
+    alloc_download_server, free_single_player_chr_select,
     register_texture_f256_ad_pic_2, free_global,
     register_texture_f256_backtext, free_texture_f256_backtext,
     load_title_midashi_texture, free_title_midashi_texture,

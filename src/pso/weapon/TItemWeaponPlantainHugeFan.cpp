@@ -31,7 +31,7 @@ TItemShootPlantainHugeFan::TItemShootPlantainHugeFan(void *owner, const Vec *pos
     rot.z = 0;
 }
 
-TItemShoot *TObjPlayer::create_item_shoot_model(TItemWeapon *weapon, const Vec *origin, const Vec *end, f32 frames) {
+TItemShoot *create_item_shoot_model(TItemWeapon *weapon, const Vec *origin, const Vec *end, f32 frames) {
     TItemShootPlantainHugeFan *model = NULL;
     if (weapon != NULL) {
         model = new TItemShootPlantainHugeFan(weapon, origin, end, frames);
@@ -51,7 +51,7 @@ TItemWeaponPlantainHugeFan::~TItemWeaponPlantainHugeFan() {}
 
 TItemWeaponPlantainHugeFan::TItemWeaponPlantainHugeFan(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(34);
-    shot_callback = TObjPlayer::create_item_shoot_model;
+    shot_callback = create_item_shoot_model;
     shot_speed = 10.0f;
 }
 

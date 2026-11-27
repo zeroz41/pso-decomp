@@ -207,7 +207,7 @@ void free_lazer_fence_switch_resources() {
         delete (BmlResource *)lazer_fence_switch_bml_resource;
         lazer_fence_switch_bml_resource = NULL;
     }
-    TObjPlayer::free_if_valid(lazer_fence_sw_texture_list);
+    free_if_valid(lazer_fence_sw_texture_list);
     lazer_fence_sw_texture_list = NULL;
 }
 

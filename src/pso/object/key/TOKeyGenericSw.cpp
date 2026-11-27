@@ -106,7 +106,7 @@ void *TOKeyGenericSw::create(void *set_data) {
 
 void TOKeyGenericSw::free_shared_resources() {
     if (key_generic_sw_texture_lists != NULL) {
-        TObjPlayer::free_if_valid(key_generic_sw_texture_lists[2]);
+        free_if_valid(key_generic_sw_texture_lists[2]);
         if (key_generic_sw_texture_lists != NULL) {
             mem_free(key_generic_sw_texture_lists);
             key_generic_sw_texture_lists = NULL;

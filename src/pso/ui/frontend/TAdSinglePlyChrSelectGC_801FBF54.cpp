@@ -609,7 +609,7 @@ s32 save_active_character_to_card(void) {
     s32 ret;
     uaddr obj;
     u8 *buf;
-    if (get_main_phase() == 0xE || TLobby::connection_lost == 1 || TTecCtrl::is_technique_ready() == 0) {
+    if (get_main_phase() == 0xE || TLobby::connection_lost == 1 || is_technique_ready() == 0) {
         return 0xFFFF0000;
     }
     stop_pad_rumble();
@@ -724,7 +724,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
     s32 ret;
     uaddr obj;
     u8 *buf;
-    if (get_main_phase() == 0xE || TLobby::connection_lost == 1 || TTecCtrl::is_technique_ready() != 0 ||
+    if (get_main_phase() == 0xE || TLobby::connection_lost == 1 || is_technique_ready() != 0 ||
         is_challenge_task_running() == 1 || TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
         return 0xFFFF0000;
     }
@@ -1708,7 +1708,7 @@ s32 TAdSinglePlyChrSelectGC::load_player_and_wait() {
 s32 TAdSinglePlyChrSelectGC::init(void) {
     stop_pad_rumble();
     if ((selected_character_data != NULL) && (active_character_save_record != NULL) && (card_character_save_buffer != 0)) {
-        if ((get_player_by_client_id(local_client_id) != NULL) && (TTecCtrl::is_technique_ready() == 0) && (is_challenge_task_running() != 1)) {
+        if ((get_player_by_client_id(local_client_id) != NULL) && (is_technique_ready() == 0) && (is_challenge_task_running() != 1)) {
             TObjPlayer::init_battle_selection();
             char_select_check_stub();
         }
@@ -1730,7 +1730,7 @@ s32 TAdSinglePlyChrSelectGC::setup_player_battle_ctrls(void) {
   i = 0;
   do
   {
-    if (((get_player_by_client_id((s32)((int) i)) != NULL) && (((volatile long)TTecCtrl::is_technique_ready()) == 0)) && (is_challenge_quest_active() == 0))
+    if (((get_player_by_client_id((s32)((int) i)) != NULL) && (((volatile long)is_technique_ready()) == 0)) && (is_challenge_quest_active() == 0))
     {
       char_data = TAdSinglePlyChrSelectGC::get_char_index(i);
       if (char_data != NULL)
@@ -1767,7 +1767,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
     TPlyInventoryItem *p;
     u32 size;
     if (get_main_phase() == 0xE || (get_current_floor_area() == AREA_LOBBY && card_file != 1) ||
-        TLobby::connection_lost == 1 || TTecCtrl::is_technique_ready() != 0 || is_challenge_task_running() == 1) {
+        TLobby::connection_lost == 1 || is_technique_ready() != 0 || is_challenge_task_running() == 1) {
         return 0xFFFF0000;
     }
     stop_pad_rumble();

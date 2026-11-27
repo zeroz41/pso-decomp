@@ -14,6 +14,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/TLogo.h"
+#include "pso/ui/TCharSaveSequence.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -88,11 +89,11 @@ TAdSEGAlogo::TAdSEGAlogo(TObject *parent) : TObject(parent) {
     m_wait_frames = 0;
     TAdSEGAlogo::state = 0;
     sega_logo_done_flag = 0;
-    TAdSinglePlyChrSelectGC::init_logo_state(0);
+    init_logo_state(0);
     new TScreenFadeIn(tl_00, request_destroy);
 }
 
-void TLogo::free_held_object() {
+void free_held_object() {
     if (logo_texture_e_handle != NULL) {
         release_texture_list(logo_texture_e_handle);
         logo_texture_e_handle = NULL;

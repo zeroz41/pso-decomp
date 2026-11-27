@@ -102,6 +102,7 @@
 #include "pso/ui/city/THunterGuildSeqOnline.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
+#include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 
 
 #pragma readonly_strings on
@@ -879,7 +880,7 @@ void TLobby::run_task() {
     r = query_task_active();
     if (protocol_instance->m_is_invalid_packet != 0 || get_link_status() == 0 || r < 0) {
         protocol_instance->m_is_invalid_packet = 0;
-        TQuestListOnline::close_windows_and_reset();
+        close_windows_and_reset();
         if (r < 0) {
             TLobby::update_state();
             return;
@@ -2036,7 +2037,7 @@ void TLobby::open_ship_block_select_menu(int count, GameListEntry *list, GameLis
         list_window->queue_destruction();
         list_window = 0;
     }
-    list_window = (TWindowMenuIconLine *)TShopJudgmentItemWindow::open_default((const char *)tbl);
+    list_window = (TWindowMenuIconLine *)open_default((const char *)tbl);
     for (i = 0; i < count; i++) {
         list_window->add_text_entry(list[i].name, i);
     }
@@ -2059,7 +2060,7 @@ void TLobby::open_information_list(int count, GameListEntry *list, GameListEntry
         old->queue_destruction();
         list_window = 0;
     }
-    list_window = (TWindowMenuIconLine *)TShopJudgmentItemWindow::open_default((const char *)w);
+    list_window = (TWindowMenuIconLine *)open_default((const char *)w);
     for (i = 0; i < count; i++) {
         list_window->add_text_entry(list[i].name, i);
     }
@@ -2428,7 +2429,7 @@ void TLobby::open_download_list_window(int count, TMenuList<QuestListEntry, 30, 
         queue_destruction__7TObjectFv(list_window);
         list_window = 0;
     }
-    list_window = (TWindowMenuIconLine *)TShopJudgmentItemWindow::open_default((const char *)tbl);
+    list_window = (TWindowMenuIconLine *)open_default((const char *)tbl);
     for (i = 0; i < count; i++) {
         switch (list.entries[i].tag.m_tag1) {
         case 0:
@@ -2620,7 +2621,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_88_player_arrow_color_list_packet = apply_arrow_colors;
     protocol_instance->m_recv_handlers.handle_C5_player_challenge_data_packet = TLobby::copy_player_records;
     protocol_instance->m_recv_handlers.handle_D3_execute_trade_packet = handle_trade_received_items;
-    protocol_instance->m_recv_handlers.handle_D4_trade_result_packet = (recv_packet_handler_handle_D4_trade_result_packet)TLobby::handle_reset_choice;
+    protocol_instance->m_recv_handlers.handle_D4_trade_result_packet = (recv_packet_handler_handle_D4_trade_result_packet)handle_reset_choice;
     protocol_instance->m_recv_handlers.handle_D1_advance_trade_state_packet = (recv_packet_handler_handle_D1_advance_trade_state_packet)TLobby::apply_trade_items;
     protocol_instance->m_recv_handlers.handle_D8_infoboard_packet = TLobby::handle_info_board;
     protocol_instance->m_recv_handlers.handle_DA_lobby_event_packet = TLobby::set_lobby_event_theme;

@@ -317,7 +317,7 @@ void TObjEnePanarms::destroy_handles() {
 
 void TObjEnePanarms::run_task() {
     PanarmsStateFn update;
-    if (this->state != 0 && TObjPlayer::check_demo_mode() != 0) {
+    if (this->state != 0 && check_demo_mode() != 0) {
         set_state(0);
     }
     check_half_dying();
@@ -690,7 +690,7 @@ void TObjEnePanarms::run_miss_reaction() { this->actorFlags &= 0xfffffeff; }
 
 void TObjEnePanarms::enter_idle() { this->shadow_visible = 1; this->visible = 1; }
 
-void TObjEnePanarms::try_activate() { if (TObjPlayer::check_demo_mode() == 0) { set_state(1); } }
+void TObjEnePanarms::try_activate() { if (check_demo_mode() == 0) { set_state(1); } }
 
 void TObjEnePanarms::enter_wait_hidden() {
     VecCopy(&this->position, &this->home_position);

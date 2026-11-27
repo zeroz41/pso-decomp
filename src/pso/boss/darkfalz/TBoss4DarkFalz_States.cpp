@@ -486,7 +486,7 @@ void TBoss4DarkFalz::check_players_near_center() {
     }
 }
 
-void TBoss4DarkFalz::update_leader_editor() { if (TObjPlayer::check_demo_mode() == 0) { change_state(1); } }
+void TBoss4DarkFalz::update_leader_editor() { if (check_demo_mode() == 0) { change_state(1); } }
 
 
 TBoss4DarkFalzState dark_falz_state_table[16] = {

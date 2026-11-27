@@ -155,7 +155,7 @@ void TOHealGeneral::find_heal_target() {
 #pragma pop
 
 void TOHealGeneral::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         update_demo();
         return;
     }

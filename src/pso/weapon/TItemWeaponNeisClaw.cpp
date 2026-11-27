@@ -111,7 +111,7 @@ void TItemWeaponGiGueBazooka::transform_model_node() {
 
 void TItemWeaponGiGueBazooka::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->hit_effect = (void *)TObjPlayer::spawn_fire_explosion_at_item;
-    desc->wall_effect = (void *)TObjPlayer::spawn_fire_explosion_for_item;
+    desc->wall_effect = (void *)spawn_fire_explosion_for_item;
     desc->flags |= 0x80;
 }
 
@@ -132,7 +132,7 @@ void TObjPlayer::spawn_fire_explosion_at_item(s32 id, ActorBodyHit *hit) {
     }
 }
 
-void TObjPlayer::spawn_fire_explosion_for_item(s32 id, const Vec *position) {
+void spawn_fire_explosion_for_item(s32 id, const Vec *position) {
     TItemWeapon *weapon = (TItemWeapon *)find_item_by_id(id);
     if (weapon != NULL) {
         TObjPlayer::spawn_fire_explosion(weapon, position);

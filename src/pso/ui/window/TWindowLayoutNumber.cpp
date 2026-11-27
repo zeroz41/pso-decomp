@@ -72,7 +72,7 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
   switch (mode)
   {
     case 0:
-      TWindowSubStatusDisp::reset_gauge(0);
+      reset_gauge(0);
       break;
     case 1:
       begin_screen_draw(1);
@@ -113,7 +113,7 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
   switch (mode)
   {
     case 0:
-      TWindowSubStatusDisp::end_render_forward();
+      end_render_forward();
       break;
     case 1:
       end_screen_draw();

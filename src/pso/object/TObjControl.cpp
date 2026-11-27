@@ -778,7 +778,7 @@ void TObjControl::run_task() {
         queue_destruction();
         return;
     }
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         if (enemy->is_actor_dead() != 0) {
             enemy->resume_update();
             enemy->run_death_reaction();

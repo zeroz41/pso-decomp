@@ -16,6 +16,6 @@ void free_player_data_load_buffer(void) {
 }
 
 
-void TKeyBoardControl::alloc_buffer() {
+void alloc_buffer() {
     player_data_load_buffer = (u8 *)xmalloc(0x14000);
 }

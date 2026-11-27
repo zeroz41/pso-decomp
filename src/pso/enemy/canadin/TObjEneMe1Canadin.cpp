@@ -309,7 +309,7 @@ TObjEneMe1Canadin::~TObjEneMe1Canadin() {
 }
 
 void TObjEneMe1Canadin::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -1770,7 +1770,7 @@ void canadin_capture_node_points(NJS_OBJECT *) {
 void TObjEneMe1Canadin::render() {
     s32 detail;
     s32 draw_now;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         render_demo();
         return;
     }
@@ -1897,7 +1897,7 @@ TObjEneMe1CanadinLeader::~TObjEneMe1CanadinLeader() {
 }
 
 void TObjEneMe1CanadinLeader::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }

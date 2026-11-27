@@ -840,7 +840,7 @@ void TBoss1Dragon::run_task() {
     s32 state;
     s32 old_state;
     s32 teammate_state;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }
@@ -5051,7 +5051,7 @@ void TBoss1Dragon::render() {
     s32 hit;
     f32 dist;
     view = 0;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->render_low_detail();
         return;
     }
@@ -5197,7 +5197,7 @@ void TBoss1Dragon::render_shadows() {
     s32 view;
 
     view = 0;
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         if (is_split_screen() != 0) {
             view = TCameraCtrl::get_camera_mode();
         }

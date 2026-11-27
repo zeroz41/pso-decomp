@@ -81,7 +81,7 @@ TItemProShield::TItemProShield(TObject *parent, u8 *item) : TItemEquipBase(paren
     set_attach_slot(3);
     pmt = (ShieldPmtEntry *)lookup_item_pmt_record(item);
     effect_entry = &shield_table[pmt->block_effect];
-    technique_boosts = (const TechniqueBoostParam *)TObjPlayer::get_shield_pmt_entry(pmt->technique_boost);
+    technique_boosts = (const TechniqueBoostParam *)get_shield_pmt_entry(pmt->technique_boost);
     dfp_range = pmt->dfp_range;
     evp_range = pmt->evp_range;
     dfp_bonus = TItemData::get_dfp_bonus(item);

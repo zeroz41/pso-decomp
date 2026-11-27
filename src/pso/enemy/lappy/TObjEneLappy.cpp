@@ -823,7 +823,7 @@ void TObjEneLappy::refresh_target() {
 
 void TObjEneLappy::run_task() {
     set_flag_1();
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         apply_variant_speeds();
         run_task_stub();
         return;

@@ -760,7 +760,7 @@ void TObjEneSaver::run_task() {
         saver_scroll_tick = actor_frame_tick;
         scroll_chunk_plist_uvs(saver_scroll_polygons, 0xE, 0, 0);
     }
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_demo_task();
         return;
     }

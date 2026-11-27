@@ -702,7 +702,7 @@ TObjEneBeastBase::TObjEneBeastBase(TObject *parent) : TObjEnemy(parent) {
 TObjEneBeastBase::~TObjEneBeastBase() {}
 
 void TObjEneBeastBase::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_demo_task();
         return;
     }

@@ -44,7 +44,7 @@ s8 lobby_server_choice_stub(void) { return 0; }
 
 s32 TTitleScene::start_offline_seq() {
     if (!(transition_flags & 2)) {
-        new TScreenFadeOut(tl_fade, TLobby::queue_destruction_and_cleanup);
+        new TScreenFadeOut(tl_fade, queue_destruction_and_cleanup);
         transition_flags |= 2;
     }
     return transition_flags & 4;
@@ -216,14 +216,14 @@ NJS_TEXLIST *lobby_title_texture_list;
 // Read as const here: Language.h's non-const declaration changes the load scheduling.
 extern const s32 current_language;
 
-void TLobby::queue_destruction_and_cleanup(TObject *fade) {
+void queue_destruction_and_cleanup(TObject *fade) {
     fade->queue_destruction();
     if (title_scene_instance != NULL) {
         hide_title_layers_and_release(title_scene_instance);
     }
 }
 
-void TLobby::destroy_download_server(TObject *fade) {
+void destroy_download_server(TObject *fade) {
     fade->queue_destruction();
     if (title_scene_instance != NULL) {
         title_scene_instance->set_flag_and_clear_download();
@@ -366,11 +366,11 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
         transition_children[1] = create_particle_controller(&v, 0x1E4, 1);
         transition_children[2] = create_particle_controller(&v, 0x1E5, 1);
     }
-    new TScreenFadeIn(tl_fade, TLobby::destroy_download_server);
+    new TScreenFadeIn(tl_fade, destroy_download_server);
     TItemReverseTechCtrl::create(this);
 }
 
-void TLobby::destroy_global_object() {
+void destroy_global_object() {
     TLobby::call_funcs_reverse(lobby_load_callback_table, sizeof(lobby_load_callback_table));
     if (lobby_title_texture_list != NULL) {
         release_texture_list(lobby_title_texture_list);

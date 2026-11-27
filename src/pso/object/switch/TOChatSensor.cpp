@@ -150,7 +150,7 @@ void TOChatSensor::run_task() {
 }
 
 void TOChatSensor::render() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         NJS_ARGB color;
         color.a = 0.3f;
         color.r = 0.3f;

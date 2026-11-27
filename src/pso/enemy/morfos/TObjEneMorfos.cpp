@@ -251,7 +251,7 @@ TObjEneMorfos::~TObjEneMorfos() {
 }
 
 void TObjEneMorfos::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }
@@ -1200,7 +1200,7 @@ static const Vec morfos_render_shadow_scale = {2.0f, 1.0f, 2.0f};
 void TObjEneMorfos::render() {
     s32 cam;
     s32 vis;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         render_demo();
         return;
     }

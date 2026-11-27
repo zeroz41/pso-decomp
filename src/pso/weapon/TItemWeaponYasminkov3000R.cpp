@@ -7,6 +7,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/weapon/TItemWeaponInfernoBazooka.h"
 
 void TItemWeaponYasminkov3000R::transform_model_node() {
     if (get_model_node_counter() == 1) {
@@ -28,7 +29,7 @@ void TItemWeaponYasminkov3000R::emit_marker_effects() {
     angle[0] = 0x4000;
     angle[1] = owner->rotation_y;
     angle[2] = 0;
-    TObjPlayer::launch_weapon_casing(tl_05, this, 3, &dir, angle);
+    launch_weapon_casing(tl_05, this, 3, &dir, angle);
     get_joint_position(2, &muzzle);
     spawn_particle_effect(&muzzle, 9);
 }

@@ -16,7 +16,7 @@ NJS_TEXLIST *particle_texture_lists[2] = { &shared_effect_texture_list, 0 };
 extern f32 particle_sprite_atlas_uv_rects[0x10][4];
 extern f32 particle_full_texture_uv[1][4];
 
-void TParticleCtrl::reset_emitter_table() {
+void reset_emitter_table() {
     s32 i;
     for (i = 0; i < 0x6C; i++) {
         particle_definitions[i].texlist = NULL;
@@ -27,7 +27,7 @@ void TParticleCtrl::reset_emitter_table() {
     }
 }
 
-void TParticleCtrl::create_quad_sprites() {
+void create_quad_sprites() {
     s32 index = 0;
     ParticleDefinition *definitions = particle_definitions;
     TQuadSprite **sprites = particle_sprites;

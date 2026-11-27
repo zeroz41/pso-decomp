@@ -3200,7 +3200,7 @@ void qst_op_get_coord_of_player(s32 a, s32 b) {
     }
 }
 
-void qst_op_get_number_of_players(int a0) { qst_registers[(unsigned char)(a0)].i = TLobby::count_members(); }
+void qst_op_get_number_of_players(int a0) { qst_registers[(unsigned char)(a0)].i = count_members(); }
 
 void qst_op_get_difficulty_level_v2(s32 reg) {
     s32 difficulty;
@@ -3727,7 +3727,7 @@ void qst_op_npc_talk_pl(u8 regs) {
     set.set_params[0] = qst_registers[i++].i;
     set.set_params[1] = qst_registers[i++].i;
     set.set_params[2] = qst_registers[i].i;
-    TLobby::create_npc(&set);
+    create_npc(&set);
 }
 
 void qst_op_p_talk_guild(void) {
@@ -3898,7 +3898,7 @@ void qst_op_unhide_obj(s32 regs) {
     unhide_room_set_objects(v0, (s16)v1, (s16)v2);
 }
 
-void qst_op_chk_ene_num(int a0) { qst_registers[(unsigned char)(a0)].i = TLobby::count_quest_enemies_flag8(); }
+void qst_op_chk_ene_num(int a0) { qst_registers[(unsigned char)(a0)].i = count_quest_enemies_flag8(); }
 
 void qst_op_if_zone_clear(s32 dst, s32 regs) {
     if (is_room_enemy_set_cleared(qst_registers[(u8)regs].i, qst_registers[(u8)(regs + 1)].i) != 0) {

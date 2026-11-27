@@ -147,7 +147,7 @@ s32 TWindowShortListCtrl::get_card_window_flags(s32 client_id) {
 }
 
 // Bits 13-15 of the client's character save record word at +0x10.
-s32 TWindowShortListCtrl::get_card_status_bits(s32 client_id) {
+s32 get_card_status_bits(s32 client_id) {
     u32 *record = (u32 *)get_character_save_record(client_id);
     if (record == NULL) {
         return 0;

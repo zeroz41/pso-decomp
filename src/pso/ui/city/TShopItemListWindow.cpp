@@ -42,6 +42,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/CounterTextLookup.h"
 #include "pso/system/GameModeQueries.h"
+#include "pso/item/item_create.h"
 
 
 #pragma readonly_strings on
@@ -136,7 +137,7 @@ void TShopItemListWindow::build_item_list() {
     r = shop_items;
     for (j = 0; j < item_count; j++, r++) {
         if ((s32)r->data2.data_u32 != -1) {
-            r->data2.data_u32 = TItemData::calc_price_of(r);
+            r->data2.data_u32 = calc_price_of(r);
         }
     }
     if (item_list == NULL) {

@@ -678,7 +678,7 @@ void free_lobby_textures() {
     delete gogo_ball_bml_resource;
     gogo_ball_bml_resource = NULL;
     for (i = 0; i < 9; i++) {
-        TObjPlayer::free_if_valid(lobby_gvm_texture_handles[i]);
+        free_if_valid(lobby_gvm_texture_handles[i]);
         lobby_gvm_texture_handles[i] = NULL;
     }
 }

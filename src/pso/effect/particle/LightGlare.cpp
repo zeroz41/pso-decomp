@@ -201,7 +201,7 @@ void TLightGlareSwitch::run_task() {
 }
 
 void TLightGlareSwitch::render() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         NJS_ARGB color = { 0.5f, 0.0f, 1.0f, 1.0f };
         debug_draw_sphere(&position, &color, 40.0f);
     }

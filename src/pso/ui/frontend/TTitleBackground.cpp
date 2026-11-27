@@ -150,7 +150,7 @@ TTitleBackground::TTitleBackground(TTitleScene *scene) : TObject((TObject *)scen
 void free_lobby_global_flags() {}
 void clear_lobby_global_flags(void) { lobby_global_flags = 0; }
 
-void TLobby::set_global_flags(s32 global_flags) {
+void set_global_flags(s32 global_flags) {
     lobby_global_flags |= global_flags;
 }
 void free_title_background_resources() {}

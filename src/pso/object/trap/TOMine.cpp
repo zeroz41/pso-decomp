@@ -207,7 +207,7 @@ void TOMine::draw_light() {
 void TOMine::run_task() {
     s32 countdown;
 
-    if (TObjPlayer::check_demo_mode() != 1) {
+    if (check_demo_mode() != 1) {
         this->vfunc_79();
         update_float_height();
         switch (this->mode) {
@@ -962,7 +962,7 @@ const char *TOMineTrap::get_name() {
 s32 TOMineTrap::show_owner_message(TObjChara *player) {
     const char *name;
     TObjPlayer *p;
-    if (player != NULL && TTecCtrl::is_technique_ready() != 0) {
+    if (player != NULL && is_technique_ready() != 0) {
         p = get_player_by_client_id(get_trap_type());
         if (p != NULL) {
             name = p->get_name();
@@ -1091,7 +1091,7 @@ void TOMineTrapDisp::run_task() {
                 pl = get_player_by_client_id(i);
                 if (pl != 0 && pl->is_locally_controlled() != 0) {
                     if (can_see_traps(pl) != 0 ||
-                        (TTecCtrl::is_technique_ready() != 0 && owner_id == (u16)pl->get_entity_id())) {
+                        (is_technique_ready() != 0 && owner_id == (u16)pl->get_entity_id())) {
                         if (!(horizontal_distance_squared(&position, &pl->position) <= 40000.0f)) {
                             if ((s16)pl->get_room() != (s16)this->get_room()) {
                                 continue;

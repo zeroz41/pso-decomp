@@ -83,7 +83,7 @@ void TOKurage::init() {
 void TOKurage::run_task() {
     f32 y;
     VecCopy(&prev_position, &position);
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         debug_print_ranges();
         return;
     }

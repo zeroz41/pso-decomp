@@ -189,7 +189,7 @@ TScreenFadeController::~TScreenFadeController() {
     screen_fade_controller = NULL;
 }
 
-s32 TLobby::get_quest_thread_state() {
+s32 get_quest_thread_state() {
     if (screen_fade_controller != NULL) {
         return screen_fade_controller->mode;
     }

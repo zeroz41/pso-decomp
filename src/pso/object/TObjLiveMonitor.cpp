@@ -32,6 +32,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/render/CameraCapture.h"
 
 #pragma defer_codegen on
 
@@ -333,7 +334,7 @@ void TObjLiveMonitor::render() {
     if (camera != NULL && camera->is_enabled() != 0) {
         camera->load_view_texture();
     } else if (is_split_screen() == 0) {
-        TObjPlayer::load_capture_texture();
+        load_capture_texture();
     } else {
         render_live_monitor_screen();
     }
@@ -370,7 +371,7 @@ int TObjLiveMonitor::render_live_monitor_screen() {
         if (camera != NULL && camera->is_enabled() != 0) {
             camera->load_view_texture();
         } else if (is_split_screen() == 0) {
-            TObjPlayer::load_capture_texture();
+            load_capture_texture();
         } else {
             set_texlist(texlist);
         }
@@ -392,7 +393,7 @@ int TObjLiveMonitor::render_live_monitor_screen() {
         break;
     case 4:
         if (is_split_screen() == 0) {
-            TObjPlayer::load_capture_texture();
+            load_capture_texture();
         }
         slot = 0;
         break;

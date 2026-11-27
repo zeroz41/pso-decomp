@@ -133,7 +133,7 @@ s32 TItemAttackColBase::try_add_hit_target(const ActorBodyHit *hit) {
         return 0;
     }
     ok = 1;
-    if (TTecCtrl::is_technique_ready() == 0 && ((TObjCollidable *)hit->target)->test_actor_flags(0x60000000) == 0x20000000
+    if (is_technique_ready() == 0 && ((TObjCollidable *)hit->target)->test_actor_flags(0x60000000) == 0x20000000
         && this->room != ((TObjBase *)(hit->target))->get_room()) {
         ok = 0;
     }

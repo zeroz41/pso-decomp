@@ -87,7 +87,7 @@ void TODoorAncient05::free_resources() {
         model_nodes = NULL;
     }
     if (texture_lists != NULL) {
-        TObjPlayer::free_if_valid(texture_lists[1]);
+        free_if_valid(texture_lists[1]);
         if (texture_lists != NULL) {
             mem_free(texture_lists);
             texture_lists = NULL;

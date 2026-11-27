@@ -139,7 +139,7 @@ void TShopEquipmentListWindow::create_buy_list_windows() {
     r = this->stock;
     for (j = 0; j < this->item_count; j++, r++) {
         if (r->data2.price != -1) {
-            r->data2.price = TItemData::calc_price_of(r);
+            r->data2.price = calc_price_of(r);
         }
     }
     if (this->item_list == NULL) {

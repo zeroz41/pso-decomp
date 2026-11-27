@@ -177,7 +177,7 @@ void TOCtrlDubchik::render() {
 }
 
 void TOCtrlDubchik::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         run_demo_task();
         return;
     }

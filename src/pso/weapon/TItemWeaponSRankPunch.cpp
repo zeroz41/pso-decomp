@@ -35,7 +35,7 @@ void s_rank_punch_hit_effect(s32 layer, TObject *player, s32 target_id, s32 body
     }
 }
 
-void TObjPlayer::notify_hit_target(u32 layer, uaddr player, u32 target, uaddr pos) {
+void notify_hit_target(u32 layer, uaddr player, u32 target, uaddr pos) {
     if ((player != 0U) && (pos != 0U)) {
         TItemWeaponSRankPunch::clear_rico_ring_flag((TObject *)player);
         spawn_particle_effect((const Vec *)pos, 0x45);
@@ -144,7 +144,7 @@ TItemWeaponSRankPunch::~TItemWeaponSRankPunch() {}
 TItemWeaponSRankPunch::TItemWeaponSRankPunch(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     this->effect_flags.set(32);
     set_weapon_flags(515);
-    impact_callback = (WeaponHitCallback)TObjPlayer::notify_hit_target;
+    impact_callback = (WeaponHitCallback)notify_hit_target;
     hit_callback = (WeaponHitCallback)s_rank_punch_hit_effect;
     shot_callback = TObjPlayer::spawn_shot_effect;
     shot_speed = 10.0f;

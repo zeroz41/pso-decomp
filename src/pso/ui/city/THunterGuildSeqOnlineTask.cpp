@@ -73,9 +73,9 @@ void handle_6x73_exit_quest(void) {
     new TScreenFadeOut(tl_00, reset_random_enemies_mode);
 }
 
-void TQuestListOnline::close_windows_and_reset() {
+void close_windows_and_reset() {
     OnlineQuestDownloadState *q;
-    if (TKeyBoardControl::get_input() == 0) {
+    if (get_input() == 0) {
         TLobby::clear_counter();
         evt2_random_enemies_mode = 0;
         clear_keyboard_input_flag();
@@ -302,7 +302,7 @@ void copy_quest_list_data(OnlineQuestMenu &menu) {
     }
 }
 
-void TQuestListOnline::release_resources() {
+void release_resources() {
     if (quest_list_online_bin_download_state.buffer != NULL) {
         mem_free(quest_list_online_bin_download_state.buffer);
         quest_list_online_bin_download_state.buffer = NULL;

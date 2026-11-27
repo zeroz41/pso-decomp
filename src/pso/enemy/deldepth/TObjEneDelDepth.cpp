@@ -240,7 +240,7 @@ TObjEneDelDepth::~TObjEneDelDepth() {
 
 void TObjEneDelDepth::run_task() {
     TObjEneDelDepth::Action fn;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         update_target_depth();
         return;
     }
@@ -262,7 +262,7 @@ void TObjEneDelDepth::run_task() {
 }
 
 void TObjEneDelDepth::render() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->render_in_demo();
         return;
     }

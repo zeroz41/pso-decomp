@@ -209,7 +209,7 @@ void *TContainerAncient01::create(void *set_data) {
 void TContainerAncient01::run_task() {
     f32 frame_timer;
     f32 y;
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         if ((s32) this->opened == 0) {
             switch (this->mode) {
             case 0:
@@ -261,7 +261,7 @@ void TContainerAncient01::render() {
         if ((s32) this->opened != 0) {
             scale_current_matrix(&this->open_scale.x);
         }
-        if (TObjPlayer::check_demo_mode() == 1) {
+        if (check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
             draw_ginja_model_with_motion((this->model), (this->current_motion), this->frame);
@@ -489,7 +489,7 @@ void *TContainerAncient01R::create(void *parent) {
 void TContainerAncient01R::run_task() {
     f32 frame_timer;
     f32 y;
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         if ((s32) this->opened == 0) {
             switch (this->mode) {
             case 0:
@@ -541,7 +541,7 @@ void TContainerAncient01R::render() {
         if ((s32) this->opened != 0) {
             scale_current_matrix(&this->open_scale.x);
         }
-        if (TObjPlayer::check_demo_mode() == 1) {
+        if (check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
             draw_ginja_model_with_motion((this->model), (this->current_motion), this->frame);

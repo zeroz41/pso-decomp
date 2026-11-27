@@ -322,7 +322,7 @@ void TObjEnePanBARA::run_task() {
     Vec a;
     f32 s;
 
-    if (state != 0 && TObjPlayer::check_demo_mode() != 0) {
+    if (state != 0 && check_demo_mode() != 0) {
         set_state(0);
     }
     partner_delta.x = partner->position.x - position.x;

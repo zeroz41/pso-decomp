@@ -59,4 +59,7 @@ struct ChrSelectSerialSeeds {
     u8 remaining[0x8];
 };
 
+void init_logo_state(s32 state);
+void noop();
+
 #endif

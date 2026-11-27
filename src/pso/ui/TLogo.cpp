@@ -44,7 +44,7 @@ void (*logo_load_callback_table[18])(void) = {
     update_keyboard_menu, free_keyboard_soft_resources,
     register_texture_f256_ad_pic_2, free_global,
     register_texture_f256_backtext, free_texture_f256_backtext,
-    register_texture_logo_e, TLogo::free_held_object,
+    register_texture_logo_e, free_held_object,
     load_sonic_logo_texture, free_sonic_logo_texture,
     TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows,
     load_adx_logo_texture, free_adx_logo_texture,
@@ -87,7 +87,7 @@ void TLogo::init_logo_scene() {
         return;
     }
     TLobby::clear_callback_and_reset_keyboard();
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     new TLogo(tl_01);
     new TWindowCtrlMain();
 }

@@ -332,7 +332,7 @@ void TObjEneBm5GibonU::render() {
     s32 cam;
     s32 vis;
     s32 fade;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         render_debug();
         return;
     }
@@ -2103,7 +2103,7 @@ TObjEneBm5GibonU::~TObjEneBm5GibonU() {
 
 void TObjEneBm5GibonU::run_task() {
     TObject *partner;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }

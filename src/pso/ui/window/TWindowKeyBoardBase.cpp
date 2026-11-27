@@ -563,7 +563,7 @@ void TWindowKeyBoardBase::convert_trailing_romaji(s32 finalize) {
     lim = cnt;
     n = 0;
     if ((s32)cnt > 4) lim = 4;
-    while (TWindowSubStatusDisp::is_alpha_char(*p) != 0) { lim--; p--; n++; if (lim <= 0) break; }
+    while (is_alpha_char(*p) != 0) { lim--; p--; n++; if (lim <= 0) break; }
     p++; j = 0;
     while (j < n) { out[j] = (u8)*p; j++; p++; }
     out[j] = 0;
@@ -845,7 +845,7 @@ void TWindowKeyBoardBase::draw_input_text(WindowDrawContext *ctx) {
                 draw_composition_background(ctx, &stack.cursor, this->m_text2.buffer, this->m_text2.length);
             }
         }
-        TWindowSubStatusDisp::reset_gauge(0);
+        reset_gauge(0);
         stack.cursor.x = ctx->inner_x;
         stack.cursor.y = ctx->inner_y;
         layout_wrapped_glyphs(ctx, &stack.cursor, this->m_text.buffer, this->m_text.cursor, 1);
@@ -872,7 +872,7 @@ void TWindowKeyBoardBase::draw_input_text(WindowDrawContext *ctx) {
         if (text_remaining != 0) {
             layout_wrapped_glyphs(ctx, &stack.cursor, this->m_text.buffer + text_cursor, text_remaining, 1);
         }
-        TWindowSubStatusDisp::end_render_forward();
+        end_render_forward();
         if ((draw_caret != 0) && !(this->window_flags & 2)) {
             draw_text_cursor(ctx, &stack.caret);
         }

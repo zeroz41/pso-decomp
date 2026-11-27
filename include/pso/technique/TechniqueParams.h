@@ -28,14 +28,14 @@ struct TechniqueParams {
 };
 
 // Per technique: the factors applied to a cast's power and to tp_cost while
-// TTecCtrl::is_technique_ready().
+// is_technique_ready().
 struct TechniqueCostScale {
     f32 power;
     f32 tp_cost;
 };
 
 // Per technique: the power of a cast at level 15 and up while not
-// TTecCtrl::is_technique_ready(), base + per_level * level.
+// is_technique_ready(), base + per_level * level.
 struct TechniqueLinearPower {
     s16 base;
     s16 per_level;

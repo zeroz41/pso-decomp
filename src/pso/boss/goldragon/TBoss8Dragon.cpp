@@ -608,7 +608,7 @@ void TBoss8Dragon::run_task() {
     s32 old_state;
     s32 teammate_state;
     s32 i;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }
@@ -4612,7 +4612,7 @@ void TBoss8Dragon::copy_vectors() {
 void TBoss8Dragon::render() {
     s32 view = 0;
     Vec pos;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         draw_motion_model();
         return;
     }
@@ -4636,7 +4636,7 @@ void TBoss8Dragon::render() {
 
 int TBoss8Dragon::run_demo_task() { return get_target_info(); }
 
-void TBoss8Dragon::render_shadows() { if (TObjPlayer::check_demo_mode() == 0) { draw(); } }
+void TBoss8Dragon::render_shadows() { if (check_demo_mode() == 0) { draw(); } }
 
 void TBoss8Dragon::draw() {
     NJS_OBJECT *saved_model;

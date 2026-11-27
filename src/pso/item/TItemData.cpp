@@ -837,7 +837,7 @@ s32 TItemData::calc_action_flags(s32 mask, TObjPlayer *player) {
       }
         break;
       case 7:
-        if (TObjWarpBossMulti::is_flag_clear(player) == 0)
+        if (is_flag_clear(player) == 0)
       {
         result |= 1;
       }
@@ -1509,7 +1509,7 @@ void TItemData::format_item_name(char *buf) {
             }
             return;
         }
-        slot = (s8 *)TObjPlayer::get_item_by_slot_flag(data1.data_u8[4]);
+        slot = (s8 *)get_item_by_slot_flag(data1.data_u8[4]);
         if (is_rare_item() != 0) {
             if (check_item_flags() == 1) {
                 if (data1.data_u8[3] != 0) {
@@ -1586,7 +1586,7 @@ void *lookup_item_pmt_record(u8 *item) {
     void *r = 0;
     switch (item[0]) {
     case 0:
-        r = TObjPlayer::get_item_pmt_record(item[1], item[2]);
+        r = get_item_pmt_record(item[1], item[2]);
         break;
     case 1:
         switch (item[1]) {
@@ -1595,20 +1595,20 @@ void *lookup_item_pmt_record(u8 *item) {
             r = get_armor_pmt_record(item[1], item[2]);
             break;
         case 3:
-            r = TObjPlayer::get_pmt_record_by_index(item[2]);
+            r = get_pmt_record_by_index(item[2]);
             break;
         }
         break;
     case 2:
-        r = TObjPlayer::get_pmt_record(item[1]);
+        r = get_pmt_record(item[1]);
         break;
     case 3:
         if (item[1] == 2) {
             if (item[2] <= 0x1D) {
-                r = TObjPlayer::get_pmt_record_by_type_id(item[1], item[4]);
+                r = get_pmt_record_by_type_id(item[1], item[4]);
             }
         } else {
-            r = TObjPlayer::get_pmt_record_by_type_id(item[1], item[2]);
+            r = get_pmt_record_by_type_id(item[1], item[2]);
         }
         break;
     }

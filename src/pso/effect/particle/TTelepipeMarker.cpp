@@ -39,7 +39,7 @@ void TEffIndirectSampler::enable_indirect_tev(s32, s16 kind) {
     if (kind < 0) {
         kind = this->kind;
     }
-    TObjPlayer::play_particle_at_active_slot((u8)kind, (u8)sampler, 0, 0, 0, 1);
+    play_particle_at_active_slot((u8)kind, (u8)sampler, 0, 0, 0, 1);
 }
 
 void TEffIndirectSampler::disable_indirect_tev() {
@@ -51,7 +51,7 @@ void TEffIndirectSampler::disable_indirect_tev() {
 void request_indirect_effect(s32 kind) { register_indirect_effect_ctrl(kind); }
 
 void play_indirect_effect_recipe(u8 kind, u16 sampler, s32 second_stage) {
-    TObjPlayer::play_particle_at_active_slot(kind, sampler, 0, 0, 0, second_stage);
+    play_particle_at_active_slot(kind, sampler, 0, 0, 0, second_stage);
 }
 
 void reset_indirect_tev(s32 second_stage) {

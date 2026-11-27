@@ -61,22 +61,26 @@ struct TWindowSubStatusDisp : public TWindowBase {
 
     static const char *get_message_10(s32 index);
     static void render_forward();
-    static void end_render_forward();
     static void begin_render();
     static const char *get_meseta_unit();
     static u32 calc_text_width(const char *s);
-    static s32 is_alpha_char(u16 code);
     static s32 upload_glyph_if_needed(u16 code, u8 *free_slot, void **pending_slot);
     static void set_gauge_param(s32 gauge_param);
-    static void reset_gauge(void* p);
     static f32 get_card_window_scale(s32 client_id);
     static s32 get_card_window_flags(s32 client_id);
     static void append_play_time(u32 time);
 
     void set_entry_display_value(const char *str);
     s32 get_display_mode();
-    static void *find_cached_glyph(u16 code);
 };
+
+void reset_gauge(void* p);
+
+void end_render_forward();
+
+void *find_cached_glyph(u16 code);
+
+s32 is_alpha_char(u16 code);
 
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_page, offsetof(TWindowSubStatusDisp, page) == 0x60);
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_requested_page, offsetof(TWindowSubStatusDisp, requested_page) == 0x62);

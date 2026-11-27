@@ -353,7 +353,7 @@ void TBoss6GravBall::update_state() {
 }
 
 void TBoss6GravBall::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         return;
     }
     if (TObjEneDD::query_teammate_state() != 0) {

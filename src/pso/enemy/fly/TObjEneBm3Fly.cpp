@@ -184,7 +184,7 @@ void TObjEneBm3Fly::run_task() {
     f32 side;
     TObject *nest;
     TParticleCtrl *effect;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }
@@ -1082,7 +1082,7 @@ void TObjEneBm3Fly::run_demo_task() {  }
 
 void TObjEneBm3Fly::render() {
     s32 kind;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->render_demo();
         return;
     }

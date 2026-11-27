@@ -1551,7 +1551,7 @@ void TObjPlayer::enter_death_state() {
         this->set_action_state(0xF, this->get_model_field_m25());
     }
     this->photon_blast_gauge.clear_photon_blast_state();
-    if (TTecCtrl::is_technique_ready() != 0) {
+    if (is_technique_ready() != 0) {
         entity = reinterpret_cast<TObjCollidable *>(find_entity_by_id(this->get_attacker_id()));
         if (entity != NULL) {
             if (entity->check_value_equals(TObjPlayer_name) != 0) {
@@ -1576,7 +1576,7 @@ void TObjPlayer::enter_death_state() {
             play_duel_result_stream("death.adx", 0x96);
         }
     }
-    if ((this->is_locally_controlled() != 0) && (TObjPlayer::is_camera_mode_active() == 0) && (TTecCtrl::is_technique_ready() == 0)) {
+    if ((this->is_locally_controlled() != 0) && (TObjPlayer::is_camera_mode_active() == 0) && (is_technique_ready() == 0)) {
         if (TObjPlayer::is_single_screen() != 0) {
             character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)(this->get_entity_id()));
             character_save_record->death_count += 1;
@@ -1658,7 +1658,7 @@ void TObjPlayer::check_reopen_return_city_window() {
   {
     this->return_city_window = 0U;
   }
-  if (((((pad_binding.is_button_pressed(4) != 0) && (TObjPlayer::is_camera_mode_active() == 0)) && (TTecCtrl::is_technique_ready() == 0)) && ((TObjPlayer::check_camera_mode() == 0) || ((TObjPlayer::check_camera_mode() != 0) && (get_main_phase() == 0xF)))) && (is_controls_locked() == 0))
+  if (((((pad_binding.is_button_pressed(4) != 0) && (TObjPlayer::is_camera_mode_active() == 0)) && (is_technique_ready() == 0)) && ((TObjPlayer::check_camera_mode() == 0) || ((TObjPlayer::check_camera_mode() != 0) && (get_main_phase() == 0xF)))) && (is_controls_locked() == 0))
   {
     this->create_return_city_window();
   }
@@ -1874,7 +1874,7 @@ void TObjPlayer::end_freeze_action() {
     this->action_state = 0xD;
     this->run_action_state_phase(this->mode, 6);
     VecCopy(&this->velocity, &saved_velocity);
-    if (TTecCtrl::is_technique_ready() != 0) {
+    if (is_technique_ready() != 0) {
         this->protection.set_frames(0x1E);
     } else {
         this->protection.set_frames(this->get_hurt_protection_ticks());
@@ -2817,7 +2817,7 @@ s32 TObjPlayer::can_start_technique(s32 tech) {
         this->test_actor_flags(0x20006) != 0 ||
         this->test_actor_flags(0x2000000) != 0 ||
         this->test_action_mask(0x11E) == 0 ||
-        (tech == 0xE && TObjWarpBossMulti::is_flag_clear(this) == 0) ||
+        (tech == 0xE && is_flag_clear(this) == 0) ||
         (tech == 0x11 && TObjPlayer::is_camera_mode_active() != 0) ||
         TObjPlayer::validate_and_clear_slot(&this->technique_state, tech) != 0 ||
         this->reset_volopt_state() == 0) {
@@ -2956,7 +2956,7 @@ void handle_6x47_cast_technique(G_CastTechnique_6x47 *command) {
     p->technique_state.set_technique_id(technique);
     e = cmd.params.level;
     n = p->technique_state.get_valid_technique();
-    if (TObjPlayer::is_valid_technique_slot((u8)n) == 0) {
+    if (is_valid_technique_slot((u8)n) == 0) {
         n = 0;
     }
     if (e == 14) {

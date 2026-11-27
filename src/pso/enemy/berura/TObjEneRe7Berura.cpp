@@ -356,7 +356,7 @@ TObjEneRe7Berura::~TObjEneRe7Berura() {
 }
 
 void TObjEneRe7Berura::run_task() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -1370,7 +1370,7 @@ void TObjEneRe7Berura::render() {
     s32 draw_body;
     s32 arm;
     s32 hand;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         render_demo();
         return;
     }

@@ -213,7 +213,7 @@ void TAdPlyStatusGC::update_hidden() {
             guide_button->allow_rendering();
             guide_button->setup_button(&buttons[1]);
         }
-        port = TAdMultiPlyChrSelectGC::get_status();
+        port = get_status();
         if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[port], 0x400) != 0) {
             state = 1;
         }
@@ -233,7 +233,7 @@ void TAdPlyStatusGC::update_shown() {
             guide_button->allow_rendering();
             guide_button->setup_button(&buttons[0]);
         }
-        port = TAdMultiPlyChrSelectGC::get_status();
+        port = get_status();
         if (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[port], 0x400) != 0) {
             state = 2;
         }

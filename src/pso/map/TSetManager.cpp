@@ -386,7 +386,7 @@ s32 get_enemy_factory_child_count(s32 area, s16 *enemy_type) {
     return 0;
 }
 
-s32 TLobby::find_floor_object_factory(s32 area, s16 *object_type) {
+s32 find_floor_object_factory(s32 area, s16 *object_type) {
     ObjectFactoryEntry *base = floor_object_factory_tables[area];
     ObjectFactoryEntry *p = base;
     for (; base != 0 && p->type != -1; p++) {
@@ -410,7 +410,7 @@ void set_wave_object_flags(s32 pl, s16 b, s16 a, s32 mask, s32 set) {
     }
 }
 
-s32 TLobby::count_quest_enemies_flag8() {
+s32 count_quest_enemies_flag8() {
     s32 n = 0;
     s32 i;
     s32 j;

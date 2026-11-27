@@ -195,7 +195,7 @@ s32 has_network_adapter(s32 mode) {
 
 int is_network_info_loaded(void) {  return (network_info_flags & 0x1); }
 
-s32 TLobby::is_tone_dialing() {
+s32 is_tone_dialing() {
     u8 status;
 
     if ((get_network_config_dial_type(&status) == 0) && (status == 0)) {

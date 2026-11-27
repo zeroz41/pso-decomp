@@ -69,6 +69,7 @@
 #include "pso/map/FloorWaveEvents.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/quest/TObjQuestCol.h"
+#include "pso/item/item_create.h"
 
 // The tail of the guild card code: it follows TWindowSubComCard_8007A810.cpp's static
 // initialiser, which CW emits last in its file, so it opens this file.
@@ -179,7 +180,7 @@ void TLobby::create_tasks() {
         new TDeferredRenderQueue(tl_particlemodel);
         new TIndirectEffectDrawTask(tl_particlemodel);
     }
-    TMainTask::cleanup_game_objects();
+    cleanup_game_objects();
     TScene::create();
     TSceneSora::create_instance();
     TSetManager::create();

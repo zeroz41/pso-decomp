@@ -559,7 +559,7 @@ s32 TShopEquipmentSellWindow::get_item_data_value(TItem *item) {
     }
     return 0;
 }
-s32 TItemData::calc_price_of(TItemData *data) {
+s32 calc_price_of(TItemData *data) {
     if (data != NULL) {
         return data->calc_price();
     }
@@ -596,7 +596,7 @@ s32 is_local_player_off_current_floor() {
 }
 
 
-u8 TObjPlayer::find_adjacent_matching_slot(u8 slot) {
+u8 find_adjacent_matching_slot(u8 slot) {
     s16 prev_type;
     s16 type;
     s16 amount;
@@ -614,7 +614,7 @@ u8 TObjPlayer::find_adjacent_matching_slot(u8 slot) {
     return slot;
 }
 
-u8 TObjPlayer::get_next_matching_special_index(u8 slot) {
+u8 get_next_matching_special_index(u8 slot) {
     s16 type;
     s16 next_type;
     s16 amount;
@@ -728,7 +728,7 @@ s32 compare_item_data_masked(void *item, void *other, s32 mode) {
 
 // ---- TMainTask_80104C40.cpp
 
-void TMainTask::cleanup_game_objects() {
+void cleanup_game_objects() {
     s32 floor;
     s32 main_phase;
     s32 area;
@@ -1268,9 +1268,9 @@ TItem *spawn_dropped_item_from_msg(FloorItem *drop, s32 quiet) {
     return item;
 }
 
-void TObjPlayer::free_item_globals() { delete item_class_load_handle; item_class_load_handle = 0; TItemLoad::free_all(); TItemBuff::free_all_and_init(); }
+void free_item_globals() { delete item_class_load_handle; item_class_load_handle = 0; TItemLoad::free_all(); TItemBuff::free_all_and_init(); }
 
-void TObjPlayer::init_game_resources() {
+void init_game_resources() {
     init_item_chunk_buffers();
     TItemLoad::init_resources();
     item_class_load_handle = create_load_unload_set(item_class_load_unload_table);

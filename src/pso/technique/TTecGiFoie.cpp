@@ -323,12 +323,12 @@ void TTecGiFoieFlame::run_task() {
 void TTecGiFoie::calc_params() {
     TechniqueParams *scaled = calc_technique_parameters(1, level, 0xFFFF);
     params.copy(scaled);
-    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+    if (level >= 15 && is_technique_ready() == 0) {
         params.power = (f32)(tech_high_level_linear_power_table[1].base + tech_high_level_linear_power_table[1].per_level * level);
         return;
     }
     params.power = params.power + (f32)(params.power_per_level * level);
-    if (TTecCtrl::is_technique_ready()) {
+    if (is_technique_ready()) {
         params.power = params.power * technique_scale_table[1].power;
     }
 }

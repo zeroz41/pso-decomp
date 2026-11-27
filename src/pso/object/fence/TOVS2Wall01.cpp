@@ -431,7 +431,7 @@ void TOVS2Wall01::render() {
     }
 }
 void TOVS2Wall01::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         vs2_wall_run_task_stub((u8 *)this);
         return;
     }

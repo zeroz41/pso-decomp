@@ -316,12 +316,12 @@ void init_item_system() {
     item_id_counters = new TItemIdCounters;
     TEquippedWeaponDrawTask::create_queue();
     TEquippedItemDrawTask::create_queue();
-    TObjPlayer::init_game_resources();
+    init_game_resources();
     advance_item_system_generation();
 }
 
 void free_item_system() {
-    TObjPlayer::free_item_globals();
+    free_item_globals();
     TEquippedItemDrawTask::destroy_queue();
     TEquippedWeaponDrawTask::destroy_queue();
     if (item_id_counters != NULL) {
@@ -969,7 +969,7 @@ u32 TItem::get_usable_action_flags(u32 mask, TObjPlayer *player) {
 s32 TItem::calc_price() {
     TItemData data;
     copy_to_item_data(&data);
-    return TItemData::calc_price_of(&data);
+    return calc_price_of(&data);
 }
 
 void TItem::destroy() {

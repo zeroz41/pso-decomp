@@ -16,6 +16,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/BattleParamTables.h"
 #include "pso/network/TLobby.h"
+#include "pso/unk/TAdDialingSelectGC.h"
 
 const char *TFontSmallLobby_class_name = "TFontSmallLobby";
 
@@ -27,7 +28,7 @@ saddr TWindowCtrlMain::get_instance() {  return (saddr)instance; }
 void advance_card_status(s32 local_client_id) {
     s32 card_status_bits;
 
-    card_status_bits = TWindowShortListCtrl::get_card_status_bits(local_client_id) + 1;
+    card_status_bits = get_card_status_bits(local_client_id) + 1;
     if (card_status_bits >= 5) {
         card_status_bits = 0;
     }
@@ -40,7 +41,7 @@ char *build_status_text(s32 client_id) {
     s32 idx;
     s32 lvl;
     TObjPlayer *p;
-    mode = TWindowShortListCtrl::get_card_status_bits(client_id);
+    mode = get_card_status_bits(client_id);
     p = get_player_by_client_id(client_id);
     if (p == NULL) {
         return 0;
@@ -99,7 +100,7 @@ void TFontPlayerStatusHelp::run_task() {
         queue_destruction();
         return;
     }
-    status_bits = TWindowShortListCtrl::get_card_status_bits((s32)this->player_id);
+    status_bits = get_card_status_bits((s32)this->player_id);
     if (this->card_status_bits != status_bits) {
         this->card_status_bits = status_bits;
         text_source = build_status_text((s32)this->player_id);

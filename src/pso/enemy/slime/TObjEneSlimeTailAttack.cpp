@@ -273,7 +273,7 @@ TObjEneSlime::TObjEneSlime(TObject *parent, u8 *set_data) : TObjEnemy(parent) {
     copy_set_entry(&spawn_template, set_data);
     child_limit = ((EnemyPlacement *)set_data)->child_count;
     if (child_limit < 1) {
-        if (TObjPlayer::check_demo_mode() != 0) {
+        if (check_demo_mode() != 0) {
             child_limit = 3;
         }
     } else if (child_limit > 4) {
@@ -292,7 +292,7 @@ void TObjEneSlime::run_death_reaction() { this->release_split_slimes(); }
 void TObjEneSlime::run_task() {
     s32 enemy_state;
 
-    if ((TObjPlayer::check_demo_mode() == 0) && (has_no_active_slot() != 0)) {
+    if ((check_demo_mode() == 0) && (has_no_active_slot() != 0)) {
         enemy_state = 0x800;
         send_6x0A_enemy_state(&enemy_state);
         exchange_object_state(&enemy_state, (s16)0);
@@ -307,7 +307,7 @@ void TObjEneSlime::render() {
     s32 model_index;
     s32 deferred;
     deferred = this->defer_render();
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         type_offset = (this->state36C * 4) & 4;
         debug_printf_at(0x130020, "TYPE [0/1] : %s", (int) (*(s32 *)((s8 *)((u8 *)slime_debug_label_table + type_offset) + 0)));
         toggle_particle_effect();
@@ -549,7 +549,7 @@ TObjEneSlimeOne::~TObjEneSlimeOne() {
 }
 
 void TObjEneSlimeOne::run_task() {
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         if ((s32)this->state != 13 && (this->parent_slime == 0 || parent_slime->all_parents_unqueued_for_destruction() == 0)) {
             set_state(13);
         }
@@ -576,7 +576,7 @@ void TObjEneSlimeOne::run_task() {
 }
 void TObjEneSlimeOne::render() {
     s32 deferred;
-    if ((TObjPlayer::check_demo_mode() == 0) && !(this->alpha <= 0.0f) && (this->update_object_view_visibility(500.0f, 20.0f) != 0)) {
+    if ((check_demo_mode() == 0) && !(this->alpha <= 0.0f) && (this->update_object_view_visibility(500.0f, 20.0f) != 0)) {
         deferred = this->defer_render();
         if (this->alpha < 1.0f) {
             push_material_fade(this->alpha);

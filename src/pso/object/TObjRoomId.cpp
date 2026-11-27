@@ -40,7 +40,7 @@ s32 TObjRoomId::is_player_in_range(u16 id, f32 range_squared) {
 #pragma push
 #pragma fp_contract on
 void TObjRoomId::render() {
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         NJS_ARGB c1 = { 0.5f, 1.0f, 1.0f, 0.0f };
         NJS_ARGB c2 = { 0.5f, 0.0f, 1.0f, 1.0f };
         Vec end;
@@ -69,7 +69,7 @@ void TObjRoomId::run_task() {
     f32 r;
 
     absent = 1;
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         for (s32 i = 0; i < 4; i++) {
             if (get_player_by_client_id(i) != NULL) {
                 r = 10.0f * this->scale.x + 30.0f;
@@ -79,7 +79,7 @@ void TObjRoomId::run_task() {
             }
         }
     }
-    if (TObjPlayer::check_demo_mode() == 0 && absent != 0) {
+    if (check_demo_mode() == 0 && absent != 0) {
         return;
     }
     push_matrix_from(identity_matrix);

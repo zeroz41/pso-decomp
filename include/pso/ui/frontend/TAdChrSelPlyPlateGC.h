@@ -98,4 +98,8 @@ typedef struct CursorJump {
     s32 v[4];
 } CursorJump;
 
+s32 get_status();
+s32 is_selection_confirmed();
+void add_selected_slot();
+
 #endif

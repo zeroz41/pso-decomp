@@ -13,4 +13,6 @@ struct Vec;
 TParticle *create_ballistic_particle(ParticleParam *entry, Vec *position, Angle3 *direction,
                                          TObject *parent, u16 flags, u16 target_id);
 
+TParticle *create_random_spread(ParticleParam *param, Vec *pos, TObject *parent);
+
 #endif

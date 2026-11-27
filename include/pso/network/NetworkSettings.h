@@ -66,4 +66,6 @@ struct LoadNetworkInfoIds { s32 v[2]; };
 
 struct LoadNetworkInfoBuf { s32 hdr; char name[0xA0]; s8 x[0x270 - 0xA4]; };
 
+s32 is_tone_dialing();
+
 #endif

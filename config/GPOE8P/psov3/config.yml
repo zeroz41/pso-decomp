@@ -1497,8 +1497,8 @@ force_active:
   - clear_immunity_flags__9TObjCharaFv
   - spread_piece_velocities__13TBoss2BreakUpFP15TBreakUpMdlDatal
   - scale_piece_positions__13TBoss2BreakUpFP15TBreakUpMdlDatal
-  - draw_capture_caption_bar__10TObjPlayerFv
-  - is_shadow_pass_requested__10TObjPlayerFv
+  - draw_capture_caption_bar__Fv
+  - is_shadow_pass_requested__Fv
   - request_shadow_pass__10TObjPlayerFv
   - summon_claws__18TObjEneBalClawBodyFv
   - __dt__12TObjEneBeastFv
@@ -5620,7 +5620,7 @@ force_active:
   - __dt__18TPlyDispConfigSmthFv
   - destroy_children__15TBoss3VoloptP02Fv
   - __dt__21TObjCityVerticalModelFv
-  - destroy_download_server__6TLobbyFP7TObject
+  - destroy_download_server__FP7TObject
   - destroy_effect_objects__10TObjPlayerFv
   - destroy_effects__12TBoss4ThanksFv
   - destroy_effects__12TBoss6ThanksFv
@@ -6147,7 +6147,7 @@ force_active:
   - find_archive_entry__FP7SjChunkPCcPCcP7SjChunk
   - find_area_technique_contact__10TTecCircleFP14TObjCollidableP13CollisionBodyP8TObjBase
   - find_attack_target__13TObjEneMe1GeeFPff
-  - find_cached_glyph__20TWindowSubStatusDispFUs
+  - find_cached_glyph__FUs
   - find_chain_targets__11TTecGiZondeFv
   - find_enemy_by_id__16TObjEneBm5GibonUFi
   - find_option_text__17TWindowSubComCardFP21ChoiceSearchSelectionl
@@ -6575,7 +6575,7 @@ force_active:
   - get_dominant_stats__8TItemMagFv
   - get_download_seed__12TQuestListVMFv
   - get_drop_item_mode__Fv
-  - get_drop_random_float__10TObjPlayerFUl
+  - get_drop_random_float__FUl
   - get_drop_table_mode_flags
   - get_ending_ab_wall_texture_list__Fv
   - get_squared_distance_to_entity__11TWindowCtrlFP8TObjBaseUs
@@ -13860,7 +13860,7 @@ force_active:
   - read_be_u32__Fv
   - read_byte__24TMessageWindowControllerFv
   - read_byte_advance__6TLobbyFv
-  - read_data_sync__6TLobbyFlll
+  - read_data_sync__Flll
   - read_file_header__9TLanguageFPUcP13GvmFileHeader
   - read_into_buffer__9TLanguageFPvl
   - read_stream_u16__Fv
@@ -13869,7 +13869,7 @@ force_active:
   - read_u32_le__9TLanguageFv
   - rebuildTechniqueList__19TWindowSubTechniqueFll
   - rebuild_all__6TLobbyFPUc
-  - rebuild_area_keep_players__6TLobbyFv
+  - rebuild_area_keep_players__Fv
   - rebuild_item_list__18TShopGetItemWindowFv
   - rebuild_parts__15TBoss3VoloptP02Fv
   - receive_direct_attack__15TObjEneMe1GiGueFP8TObjBase19DirectAttackPayloadP13CollisionBodyll
@@ -13985,7 +13985,7 @@ force_active:
   - reload_floor_scene__Fv
   - reload_impact_stats__12TBoss1DragonFv
   - reload_lobby_floor_scene__Fv
-  - reload_offline_area__6TLobbyFv
+  - reload_offline_area__Fv
   - reload_stats_for_phase__12TBoss1DragonFi
   - reload_stats_for_phase__13TBoss5GryphonFPv
   - reload_stats_for_type__13TBoss5GryphonFv
@@ -15892,7 +15892,7 @@ force_active:
   - spawn_faust_wall_explosion__FlP3Vec
   - spawn_fire_explosion__10TObjPlayerFP11TItemWeaponPC3Vec
   - spawn_fire_explosion_at_item__10TObjPlayerFlP12ActorBodyHit
-  - spawn_fire_explosion_for_item__10TObjPlayerFlPC3Vec
+  - spawn_fire_explosion_for_item__FlPC3Vec
   - spawn_freeze_shell_effect__9TObjCharaFUll
   - spawn_front_particle__16TObjEneDellBiterFv
   - run_hit_reaction__9TBoss6MagFv

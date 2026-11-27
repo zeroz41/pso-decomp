@@ -214,7 +214,7 @@ TObjEneRe2Flower::~TObjEneRe2Flower() {
 
 void TObjEneRe2Flower::run_task() {
     s16 mode;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->run_demo_task();
         return;
     }

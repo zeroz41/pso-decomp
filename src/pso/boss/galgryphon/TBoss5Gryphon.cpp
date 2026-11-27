@@ -644,7 +644,7 @@ void TBoss5Gryphon::run_task() {
     s32 run_mode;
     s32 teammate_state;
     s32 i;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -3563,7 +3563,7 @@ void TBoss5Gryphon::snap_to_ground_height() {
 
 void TBoss5Gryphon::render() {
     s32 view = 0;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         this->render_demo();
         return;
     }
@@ -3583,7 +3583,7 @@ void TBoss5Gryphon::render() {
     }
 }
 
-void TBoss5Gryphon::render_shadows() { if (TObjPlayer::check_demo_mode() == 0) { render_model(); } }
+void TBoss5Gryphon::render_shadows() { if (check_demo_mode() == 0) { render_model(); } }
 
 void TBoss5Gryphon::render_model() {
     NJS_OBJECT *body_model;

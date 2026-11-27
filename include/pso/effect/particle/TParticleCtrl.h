@@ -39,7 +39,6 @@ public:
     void set_owner_id(u16 id);
     void set_tint_color(s32 tint);
     void clear_active_flag();
-    static TParticle *create_random_spread(ParticleParam *param, Vec *pos, TObject *parent);
     // The fallback pool particles are allocated from when the alt heap is full.
     static THeap *heap;
     static void free_heap();
@@ -52,14 +51,10 @@ public:
     void destroy_particle();
     static void begin_effect_render();
     static void end_effect_render();
-    static void reset_emitter_table();
-    static void create_quad_sprites();
 public:
     static TParticle *alloc_child_particle(ParticleParam *param, Vec *pos, Angle3 *dir, TObject *parent);
     void enable();
-    static void free_system();
     static void free_all();
-    static void init_particle_buffer();
     static ParticleParam *get_particle_by_index(s32 particle_index);
 
     void set_scale(f32 x, f32 y);
@@ -93,6 +88,14 @@ public:
     Vec position;                 // 0x60
     Angle3 direction;     // 0x6C
 };
+
+void create_quad_sprites();
+
+void reset_emitter_table();
+
+void init_particle_buffer();
+
+void free_system();
 
 LAYOUT_ASSERT(TParticleCtrl_size, sizeof(TParticleCtrl) == 0x78);
 

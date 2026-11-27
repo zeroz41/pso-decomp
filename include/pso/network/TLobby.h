@@ -95,12 +95,8 @@ struct TLobby : public TObject {
     static void clear_counters();
     static void disconnect_protocol();
     static char *init_serial_access();
-    static s32 is_tone_dialing();
 
-    static void *create_npc(void *set_data);
     static s32 is_idle();
-    static void reset_keyboard_input();
-    static void shutdown_keyboard_control();
     static void reset_quest_state();
     static void clear_counter();
     static void clear_quest_state();
@@ -121,30 +117,19 @@ struct TLobby : public TObject {
     static void load_set_gsl_files();
     static s32 sum_floor_enemy_counts();
     static s32 spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members);
-    static int get_selected_quest_id();
     static void *create_tl05_object(TObjPlayer *player);
-    static void free_singleton();
-    static void create_named_lobby_object();
     s32 get_id();
     static void clear_flag_bit2();
     static int get_com_card_data();
-    static void free_single_player_chr_select();
-    static void alloc_download_server();
-    static void free_chr_select_singleton();
     static s32 get_clamped_time_limit();
     static s32 is_value_out_of_range(s32 seed);
     static void destroy_global();
     static void free_chr_select_slots();
-    static void queue_destruction_and_cleanup(TObject *fade);
     void set_flag_and_clear_download();
     void open_keyboard();
     void request_change_game_mode();
     void enter_game_mode_change();
     void enter_chg_game_mode();
-    static void destroy_global_object();
-    static void set_global_flags(s32 global_flags);
-    static void free_global_object();
-    static void update_menu_cursor_selection();
     static void init_once(TRecvInfoBoard *info_board);
     static char *get_info_board_text();  // the player's own info board text (CharacterSaveRecord)
     static TAdDialingMessageWindow *create_dialing_message_window(const char *message, u32 delay);
@@ -158,28 +143,15 @@ struct TLobby : public TObject {
     // Takes one 13 download chunk of the quest .dat/.bin being downloaded.
     static void handle_quest_download_chunk(TRecvDownload &download);
     static void close_trade_request();
-    static void reset_trade_state();
-    static void read_data_sync(saddr handle, s32 sector_count, saddr destination);
-    static void send_challenge_with_value(TChallenge *challenge, s32 window_mode);
     static void send_challenge_records(TChallenge *challenge);
     static void init_fadeout_state(void (*callback)());
     static void set_fade_params(void (*callback)());
-    static s32 get_quest_thread_state();
-    static void drop_item_from_source(s16 source, int client, s16 room, int slot, f32 x, f32 z);
     static void reset_item_id_counters();
-    static void reload_offline_area();
-    static void rebuild_area_keep_players();
-    static void teardown_scene();
     static void send_6x75_quest_flag(u16 flag, s16 action, s32 difficulty);
     static void send_6x75_quest_flag_cur_difficulty(u16 flag, s16 action);
     void copy_record_entry(saddr src);
     static s32 load_all_floor_enemy_sets();
     static s32 load_all_floor_object_sets();
-    static s32 find_floor_object_factory(s32 area, s16 *object_type);
-    static s32 count_quest_enemies_flag8();
-    static void release_scene_resources();
-    static void send_trade_proposal_modify();
-    static const char *check_trade_items_and_show_error();
     static void apply_trade_items();
 
     void update_alloc_size();
@@ -219,12 +191,8 @@ struct TLobby : public TObject {
     static s32 update_key_machine();
     static void free_data_60F0();
     static s32 init_handle(s32 size);
-    static void update_guild_or_quest_phase();
     static void free_global_buffers();
-    static s32 count_members();
-    static void handle_reset_choice(s32 choice);
     static void clear_flag400();
-    static void check_flags_and_proceed();
     static void cancel_trade();
     static const char *show_event_message(s32 client_id, s32 result, s32 item_id);
     void build_trade_item_list();
@@ -240,7 +208,6 @@ struct TLobby : public TObject {
     static void append_color_code(s32 color);
     static s32 parse_color_code(char *s);
     void destroy_matching_children();
-    static void destroy_download_server(TObject *fade);
     static void send_compressed_packet_6c(s32 client_id);
     static void send_cmd_6B(s32 client_id);
     u8 *create_new_floor_windows();
@@ -390,6 +357,26 @@ struct TLobby : public TObject {
     static s32 lobby_block_high;  // high byte of the 0x67 lobby join packet's block number; never read
     static u32 join_entries_dtor_registration[3];
 };
+
+void destroy_global_object();
+
+void destroy_download_server(TObject *fade);
+
+void queue_destruction_and_cleanup(TObject *fade);
+
+void reset_trade_state();
+
+void check_flags_and_proceed();
+
+void handle_reset_choice(s32 choice);
+
+const char *check_trade_items_and_show_error();
+
+void send_trade_proposal_modify();
+
+void release_scene_resources();
+
+void send_challenge_with_value(TChallenge *challenge, s32 window_mode);
 
 LAYOUT_ASSERT(TLobby_size, sizeof(TLobby) == 0x1C);
 // The object set entry new ground items take their placement from, and

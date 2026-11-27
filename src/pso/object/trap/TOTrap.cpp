@@ -146,7 +146,7 @@ f32 TOTrap::receive_physical_attack(TObjChara *source, f32) {
 }
 
 void TOTrap::run_task() {
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         this->run_demo();
         return;
     }
@@ -192,7 +192,7 @@ void TOTrap::render() {
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             set_texture_list(this->texlist);
-            if (TObjPlayer::check_demo_mode() == 1) {
+            if (check_demo_mode() == 1) {
                 draw_chunk_object(this->model);
             } else {
                 draw_model_motion(this->model, this->current_motion, this->frame);

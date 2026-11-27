@@ -255,7 +255,7 @@ void *TObjEneNanoDrago::create(void *setData) {
 void TObjEneNanoDrago::run_task() {
     s32 cooldown;
 
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         update_attack_parameters();
         run_demo_task();
         return;
@@ -357,7 +357,7 @@ void TObjEneNanoDrago::render() {
     if (is_split_screen() != 0) {
         cameraIndex = TCameraCtrl::get_camera_mode();
     }
-    if (!(actorFlags & 0x02000000) && (viewDetail = classify_actor_view_detail(150.0f, 400.0f, 20.0f), viewDetail != 0) && ((TObjPlayer::check_demo_mode() == 1) || !(behavior_flags & 0x40000))) {
+    if (!(actorFlags & 0x02000000) && (viewDetail = classify_actor_view_detail(150.0f, 400.0f, 20.0f), viewDetail != 0) && ((check_demo_mode() == 1) || !(behavior_flags & 0x40000))) {
         saved_model_render_flags = model_render_flags;
         fade = &cameraFades[cameraIndex];
         fade->update();
@@ -378,7 +378,7 @@ void TObjEneNanoDrago::render() {
         modelScale = scale.x;
         scale_matrix(0, modelScale, modelScale, modelScale);
         model_render_flags &= 0xFFFFFBFF;
-        if (TObjPlayer::check_demo_mode() == 1) {
+        if (check_demo_mode() == 1) {
             draw_chunk_object(model);
         } else if (behavior_flags & 4) {
             if (appearFade.has_visible_opacity() != 0) {

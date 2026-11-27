@@ -77,6 +77,8 @@
 #include "pso/render/GinjaView.h"
 #include "pso/ui/window/SmallFontText.h"
 #include "pso/ui/keyboard/KeyBoardMenu.h"
+#include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
+#include "pso/ui/TCharSaveSequence.h"
 
 
 // The mode the scene machine shows (create_mode_scene picks the scene object by it) and the one
@@ -96,7 +98,7 @@ static const Vec game_mode_scene_camera_eye = {0.0f, 0.0f, 0.0f};
 static const Vec game_mode_scene_camera_target = {0.0f, 0.0f, -100.0f};
 
 // Load and release hooks of the scene, in pairs: init_game_mode_select_scene runs each load
-// front to back (run_load_callback_table), TLobby::release_scene_resources each release back
+// front to back (run_load_callback_table), release_scene_resources each release back
 // to front (TLobby::call_funcs_reverse).
 FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
@@ -111,7 +113,7 @@ FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {TAdSinglePlyChrSelectGC::alloc_char_buffers, TAdSinglePlyChrSelectGC::free_callbacks},
     {TAdMultiChgGameModeGC::load_scene_resources, TAdMultiChgGameModeGC::free_scene_resources},
     {load_multi_confirm_textures, free_multi_confirm_textures},
-    {register_texture_logo_e, TLogo::free_held_object},
+    {register_texture_logo_e, free_held_object},
     {load_sonic_logo_texture, free_sonic_logo_texture},
     {init_chat_log_heap, free_chat_log_lines},
     {register_player_prate, free_player_prate},
@@ -120,19 +122,19 @@ FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {TWindowCtrlMain::reset_windows, TWindowCtrlMain::free_all_windows},
     {set_ending_callback, free_ending_callback},
     {load_keyboard_resources, free_keyboard_resources},
-    {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
+    {alloc_quest_download_buffer, free_chr_select_singleton},
     {load_draw_line_task_resource, free_draw_line_task_resource},
 };
 
 // The front-end screens' hooks, run after the table above and released before it.
 FloorResourceCallbacks lobby_scene_release_callback_table[7] = {
-    {initialize_lobby_title_scene, TLobby::destroy_global_object},
+    {initialize_lobby_title_scene, destroy_global_object},
     {load_title_midashi_texture, free_title_midashi_texture},
     {load_player_tex_texture, free_player_tex_texture},
     {load_select_gamen_texture, free_select_gamen_texture},
     {load_select_cursor_texture, free_select_cursor_texture},
     {load_chr_sel_slot_texture, free_chr_sel_slot_texture},
-    {TLobby::update_menu_cursor_selection, TLobby::free_global_object},
+    {update_menu_cursor_selection, free_global_object},
 };
 
 s32 TAdMultiChgGameModeGC::is_input_phase_active() {
@@ -427,7 +429,7 @@ void load_lobby_scene_resources(void) {
     run_load_callback_table(lobby_scene_release_callback_table, sizeof(lobby_scene_release_callback_table));
 }
 
-void TLobby::release_scene_resources() {
+void release_scene_resources() {
     refresh_render_state();
     stop_audio_streams();
     if (game_mode_scene_instance != NULL) {
@@ -481,7 +483,7 @@ void init_game_mode_select_scene(void) {
         TCameraCtrl::select_active_controller(9);
         set_active_camera_pose(&eye, &at);
     }
-    TParticleCtrl::create_quad_sprites();
+    create_quad_sprites();
     p = (void *)new TWindowCtrlMain();
     game_mode_scene_instance = 0;
     load_floor_sound_bank(0);
@@ -513,7 +515,7 @@ void run_game_mode_select_frame(void) {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
-    TAdSinglePlyChrSelectGC::noop();
+    noop();
     if (TAdPlayerLoadGC::get_instance() == 0) {
         if (static_cast<s8>(poll_reset_request()) != 0) {
             switch_to_fallback_main_phase();

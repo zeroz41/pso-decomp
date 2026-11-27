@@ -249,7 +249,7 @@ void TObjGrass::run_task() {
     u16 client;
     TObjPlayer *player;
     TObjChara *target;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         update_demo();
         return;
     }
@@ -331,7 +331,7 @@ void TObjGrass::render() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, rotation_y);
     scale_matrix(0, (1.3f), scale.y, (1.3f));
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         draw_chunk_object(model);
     } else {
         toggle_particle_effect();

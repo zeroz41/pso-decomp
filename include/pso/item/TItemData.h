@@ -139,7 +139,6 @@ struct TItemData {
     s32 calc_action_flags(s32 mask, TObjPlayer *player);
     s32 calc_price();
     // calc_price, or 0 without an item.
-    static s32 calc_price_of(TItemData *data);
     u16 get_packed_value();
     void decode_packed_name_chars(s8 *out);
     void add_mag_stat_bonuses(TObjPlayer *player, AttackParams *attack, ActorParamBlock *params, EquipStatBonus *stats,

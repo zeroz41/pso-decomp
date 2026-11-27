@@ -306,7 +306,7 @@ TObjEneRe4Sorcerer::~TObjEneRe4Sorcerer() {
 void TObjEneRe4Sorcerer::run_task() {
     s32 i;
     TObjCollidable *p;
-    if (TObjPlayer::check_demo_mode() != 0) {
+    if (check_demo_mode() != 0) {
         run_demo_task();
         return;
     }
@@ -1305,7 +1305,7 @@ void TObjEneRe4Sorcerer::render() {
     s32 fading;
     s32 detail;
     s32 draw_model;
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         render_demo();
         return;
     }

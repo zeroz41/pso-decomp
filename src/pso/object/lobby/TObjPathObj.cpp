@@ -234,7 +234,7 @@ void TObjSeabedDolphin::update() {
 }
 
 void TObjSeabedDolphin::draw() {
-    if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
+    if ((check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
     set_texture_list(seabed_dolphin_texture_handle);
@@ -402,7 +402,7 @@ void TObjJungleEbi::update() {
 }
 
 void TObjJungleEbi::draw() {
-    if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
+    if ((check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
     set_texture_list(jungle_ebi_texture_gvm_handle);
@@ -574,7 +574,7 @@ void TObjJungleBird::update() {
 }
 
 void TObjJungleBird::draw() {
-    if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
+    if ((check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
     set_texture_list(lobby_pigeon_texture_gvm);
@@ -739,7 +739,7 @@ void TObjJungleKamome::update() {
 }
 
 void TObjJungleKamome::draw() {
-    if ((TObjPlayer::check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
+    if ((check_demo_mode() == 1) && (TMainTask::get_render_pass() == 0)) {
         draw_line_strip(this->model, this->path, (1.0f));
     }
     set_texture_list(lobby_kamome_texture_gvm_handle);
@@ -937,7 +937,7 @@ void TObjLobbyPigeon::update() {
 }
 
 void TObjLobbyPigeon::draw() {
-  if (TObjPlayer::check_demo_mode() == 1 &&
+  if (check_demo_mode() == 1 &&
       TMainTask::get_render_pass() == 0)
     draw_line_strip(this->model, this->path, (1.0f));
   if (this->phase == 0 || lobby_pigeon_lobby_type == NULL)

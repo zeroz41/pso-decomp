@@ -53,7 +53,7 @@ TParticle *create_ballistic_particle(ParticleParam *entry, Vec *position, Angle3
     return new TParticleBallistic(entry, position, direction, parent, flags, target_id);
 }
 
-TParticle *TParticleCtrl::create_random_spread(ParticleParam *param, Vec *pos, TObject *parent) {
+TParticle *create_random_spread(ParticleParam *param, Vec *pos, TObject *parent) {
     return new TParticleBallistic(param, pos, parent);
 }
 

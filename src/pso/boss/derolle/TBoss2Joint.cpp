@@ -159,7 +159,7 @@ void TBoss2Joint::run_death_reaction() { actorFlags &= 0xfffff7ff; }
 void TBoss2Joint::refresh_target() {}
 
 void TBoss2Joint::run_task() {
-    if (TObjPlayer::check_demo_mode() == 0) {
+    if (check_demo_mode() == 0) {
         VecCopy(&position, anchor);
         update_status_effects();
         if (has_action_state_changed() == 0) {

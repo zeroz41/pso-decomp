@@ -9,6 +9,7 @@
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/weapon/TItemWeaponInfernoBazooka.h"
 
 // Slides the barrel back by barrel_offset (the name s_rank_bazooka_slide_barrel was inferred).
 void TItemWeaponSRankBazooka::transform_model_node() {
@@ -34,7 +35,7 @@ void TItemWeaponSRankBazooka::update_weapon() {
             a[0] = 0x4000;
             a[1] = owner->rotation_y;
             a[2] = 0;
-            TObjPlayer::launch_weapon_casing(tl_05, this, 3, &v, a);
+            launch_weapon_casing(tl_05, this, 3, &v, a);
         }
     } else if (recoil_state == 2) {
         ::approach_value(&barrel_offset, 0.2f, 0.0f);

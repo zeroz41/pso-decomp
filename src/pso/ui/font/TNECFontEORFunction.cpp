@@ -243,7 +243,7 @@ u8 get_font_char_advance(u16 c) {
     return menu_font_char_advance_table[(u16)(c - 0x21)];
 }
 
-s32 TWindowSubStatusDisp::is_alpha_char(u16 code) {
+s32 is_alpha_char(u16 code) {
     if (code < 0x41U) {
         return 0;
     }
@@ -350,7 +350,7 @@ s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 code, u8 *free_slot, void *
     return 0;
 }
 
-void *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
+void *find_cached_glyph(u16 code) {
     void *free_slot;
     MenuGlyphEntry *g;
     MenuGlyphEntry *p;
@@ -401,7 +401,7 @@ void *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
 extern "C" u8 bind_menu_font_glyph(u16 glyph, TexturedQuad *pos, s32 color) {
     void *cached_glyph;
 
-    cached_glyph = TWindowSubStatusDisp::find_cached_glyph(glyph);
+    cached_glyph = find_cached_glyph(glyph);
     MenuGlyphEntry *entry = (MenuGlyphEntry *)cached_glyph;
     entry->epoch = menu_font_upload_epoch;
     set_draw_texture_and_color(entry->page, color);
@@ -414,8 +414,8 @@ void TWindowSubStatusDisp::set_gauge_param(s32 gauge_param) {
     set_texture_list(menu_font_texture_list);
 }
 
-void TWindowSubStatusDisp::end_render_forward() { end_screen_draw(); }
-void TWindowSubStatusDisp::reset_gauge(void* p) { begin_screen_draw((saddr)((void*)1)); TWindowSubStatusDisp::set_gauge_param((saddr)p); set_draw_texture_and_color((saddr)((void*)0), (saddr)((void*)-1)); }
+void end_render_forward() { end_screen_draw(); }
+void reset_gauge(void* p) { begin_screen_draw((saddr)((void*)1)); TWindowSubStatusDisp::set_gauge_param((saddr)p); set_draw_texture_and_color((saddr)((void*)0), (saddr)((void*)-1)); }
 void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f32 scale) {
   s32 mb = 0;
   TexturedQuad quad;
@@ -435,7 +435,7 @@ void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f3
   quad.x0 = x;
   quad.y0 = y;
   set_default_alpha_blend();
-  TWindowSubStatusDisp::reset_gauge((0));
+  reset_gauge((0));
   flags &= 1;
   while ((*s) != 0)
   {
@@ -484,7 +484,7 @@ void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f3
       quad.x0 += (f32) w;
     }
   }
-  TWindowSubStatusDisp::end_render_forward();
+  end_render_forward();
 }
 
 void draw_menu_text_scaled(f32 x, f32 y, f32 scale, const char *text, u32 color) {

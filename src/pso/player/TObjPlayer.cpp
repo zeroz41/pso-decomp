@@ -2364,7 +2364,7 @@ void TObjPlayer::drop_items_on_death() {
     }
     PendingItemDrop records[9];
     count=0;
-    if (TTecCtrl::is_technique_ready()!=0) {
+    if (is_technique_ready()!=0) {
         if (this->is_drop_weapon_on_death_disabled() == 0) {
             count=this->inventory_objects->set_globals_and_notify(this, records);
         }
@@ -4148,7 +4148,7 @@ void TObjPlayer::revive() {
 }
 
 void TObjPlayer::update_rotation() {
-    if ((TObjPlayer::check_camera_mode() == 0) && (this->reset_volopt_state() != 0) && (TTecCtrl::is_technique_ready() == 0) && (obj_isState3_324() == 0)) {
+    if ((TObjPlayer::check_camera_mode() == 0) && (this->reset_volopt_state() != 0) && (is_technique_ready() == 0) && (obj_isState3_324() == 0)) {
         set_hp_clamped((s16) ((s16) this->hpmax / 2));
         return;
     }
@@ -4379,7 +4379,7 @@ s32 TObjPlayer::can_use_camera_field() {
 
 s32 TObjPlayer::can_use_item(TItem *item) {
     LockOnActionSlot *slot;
-    if (TTecCtrl::is_technique_ready() != 0 && lobby_rule_settings.get_tool_mode() == 2) {
+    if (is_technique_ready() != 0 && lobby_rule_settings.get_tool_mode() == 2) {
         return 0;
     }
     switch (item->get_item_type()) {
@@ -4426,7 +4426,7 @@ s32 TObjPlayer::can_use_item(TItem *item) {
             }
             break;
         case 7:
-            if (TObjWarpBossMulti::is_flag_clear(this) == 0) {
+            if (is_flag_clear(this) == 0) {
                 return 0;
             }
             break;
@@ -4504,7 +4504,7 @@ void TObjPlayer::set_flag_4096() { this->set_state_flags(4096); }
 
 void TObjPlayer::clear_flag_4096() { this->clear_state_flags(4096); }
 
-int TObjWarpBossMulti::is_flag_clear(void* p) { return (((TObjPlayer *)p)->check_flag(4096)) == 0; }
+int is_flag_clear(void* p) { return (((TObjPlayer *)p)->check_flag(4096)) == 0; }
 
 s32 TObjPlayer::create_return_city_window() {
     if ((this->is_locally_controlled() != 0) && ((u32) this->return_city_window == 0U) && (this->death_fade != NULL)) {
@@ -4529,7 +4529,7 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
     if (p->try_pickup_item() != 0) {
         return;
     }
-    if (TTecCtrl::is_technique_ready() != 0) {
+    if (is_technique_ready() != 0) {
         if (lobby_rule_settings.get_respawn_mode() == 1) {
             p->send_6x4E_player_revivable();
             return;
@@ -5499,7 +5499,7 @@ s32 TObjPlayer::add_actor_exp(s32 amount) {
     return 1;
 }
 
-s32 TTecCtrl::is_technique_ready() {
+s32 is_technique_ready() {
     int result;
 
     result = 0;
@@ -5607,7 +5607,7 @@ void apply_battle_rules_to_players() {
 }
 
 s32 TObjPlayer::check_switch_available(s32 item_id) {
-    if (TTecCtrl::is_technique_ready() != 0) {
+    if (is_technique_ready() != 0) {
         if (lobby_rule_settings.get_weapon_and_armor_mode() == 2) {
             TItemList *slot = static_cast<TItemList *>(inventory_objects->start_inventory_update(item_id));
             if (slot == NULL) {
@@ -5662,7 +5662,7 @@ void recreate_all_players(void) {
     shared_state_flags[0] &= ~1;
 }
 
-s32 TLobby::count_members() {
+s32 count_members() {
     TObjPlayer **p = player_slot_table;
     s32 n = 0;
     s32 i;
@@ -5818,7 +5818,7 @@ void record_damage_stats(uaddr mine_trap, u32 att, s16 damage) {
   G_AddBattleDamageScores_6x8F pkt;
   u32 player;
   uaddr obj;
-  if (TTecCtrl::is_technique_ready() != 0)
+  if (is_technique_ready() != 0)
   {
     obj = att;
     if ((reinterpret_cast<TObject *>(obj)->check_value_equals(TOMineTrap::class_name) != 0) && (((TOMineTrap *)obj)->get_trap_type() != 0xFFFF))
@@ -5860,7 +5860,7 @@ void record_damage_stats(uaddr mine_trap, u32 att, s16 damage) {
 void handle_6x8E(void) {  }
 
 void TObjPlayer::apply_camera_shake(TObjCollidable *target, s32 damage) {
-    if ((TTecCtrl::is_technique_ready() != 0) && (target->test_actor_flags(0x10000000) == 0) && (is_locally_controlled() != 0)) {
+    if ((is_technique_ready() != 0) && (target->test_actor_flags(0x10000000) == 0) && (is_locally_controlled() != 0)) {
         accumulate_damage_stats(&battle_score.damage_given, target, damage);
     }
 }
@@ -5897,7 +5897,7 @@ void handle_6x8F_add_battle_damage_scores(G_AddBattleDamageScores_6x8F *command)
 extern "C" {
 
 void TObjPlayer::record_meseta_pickup(s32 amount) {
-    if (this->is_locally_controlled() == 0 || lobby_rule_settings.get_meseta_mode() != 2 || TTecCtrl::is_technique_ready() == 0) {
+    if (this->is_locally_controlled() == 0 || lobby_rule_settings.get_meseta_mode() != 2 || is_technique_ready() == 0) {
         return;
     }
     battle_score.meseta.set_total((f32) amount);
@@ -5957,7 +5957,7 @@ s32 TObjPlayer::is_key_machine_ready(void) {
 s32 TObjPlayer::check_technique_castable(TObjPlayer *player) {
     s32 area;
 
-    if ((TTecCtrl::is_technique_ready() != 0) || (TObjPlayer::is_camera_mode_active() != 0) || (is_boss_area() != 0)) {
+    if ((is_technique_ready() != 0) || (TObjPlayer::is_camera_mode_active() != 0) || (is_boss_area() != 0)) {
         player->set_flag_4096();
         return 0;
     }
@@ -6179,7 +6179,7 @@ void TObjPlayer::refill_traps() {
 }
 
 s32 TObjPlayer::is_alive_and_ready() {
-    if ((TTecCtrl::is_technique_ready() == 0) && (this->is_android() != 0)) {
+    if ((is_technique_ready() == 0) && (this->is_android() != 0)) {
         return 1;
     }
     return 0;
@@ -6299,7 +6299,7 @@ s32 TObjPlayer::tick_regen_timer() {
 int TObjPlayer::get_max_level() { return 199; }
 
 void TObjPlayer::update_movement_effects() {
-    if (TTecCtrl::is_technique_ready() != 0 && get_battle_place() == 0 && update_movement_by_screen() != 0 &&
+    if (is_technique_ready() != 0 && get_battle_place() == 0 && update_movement_by_screen() != 0 &&
         test_action_mask(0x408000) == 0 && is_body_collision_inactive() == 0 &&
         check_flag_800000() == 0) {
         follow_particles.emit_movement_effect();

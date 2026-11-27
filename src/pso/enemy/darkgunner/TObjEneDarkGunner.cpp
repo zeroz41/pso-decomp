@@ -395,7 +395,7 @@ void TObjEneDarkGunner::cleanup_effects() {
         TObjEneDarkGunner::bml_resource = NULL;
     }
     if (dark_gunner_effect_resource != NULL) {
-        TObjPlayer::free_if_valid(dark_gunner_effect_resource);
+        free_if_valid(dark_gunner_effect_resource);
         dark_gunner_effect_resource = NULL;
     }
     reset_effect_count();
@@ -416,7 +416,7 @@ void TObjEneDarkGunner::run_task() {
         scroll_chunk_plist_uvs(dark_gunner_body_child_polygons, 8, 0, 1);
         scroll_chunk_plist_uvs(dark_gunner_cly_line_polygons, 8, 0, 0);
     }
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         load_params();
         run_demo_task();
         return;

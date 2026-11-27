@@ -25,10 +25,11 @@
 #include "pso/object/city/CitySeasonResources.h"
 #include "pso/ui/city/JudgeItem.h"
 #include "pso/audio/MusicControl.h"
+#include "pso/ui/CounterTextLookup.h"
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*TLobby_scene_load_callback_table[24])(void) = {
-    TLobby::create_named_lobby_object, TLobby::free_singleton,
+    create_named_lobby_object, free_singleton,
     load_weapon_random_tables, free_weapon_random_tables,
     load_armor_random_table, free_armor_random_table,
     load_tool_random_rel, free_tool_random_rel,

@@ -89,14 +89,14 @@ void check_load_buffer_slot_stub(s32 i) {
     if (i >= n) return;
 }
 
-void TLobby::free_single_player_chr_select() {
+void free_single_player_chr_select() {
     if ((chr_select_load_buffer_base != NULL) && (chr_select_load_buffer != NULL)) {
         safe_free(chr_select_load_buffer);
         chr_select_load_buffer = NULL;
     }
 }
 
-void TLobby::alloc_download_server() {
+void alloc_download_server() {
     if ((chr_select_load_buffer_base != NULL) && (chr_select_load_buffer == NULL)) {
         chr_select_load_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(0x50000));
         if (chr_select_load_buffer == NULL) {
@@ -105,7 +105,7 @@ void TLobby::alloc_download_server() {
     }
 }
 
-void TLobby::free_chr_select_singleton() {
+void free_chr_select_singleton() {
     if (chr_select_load_buffer_base != NULL) {
         safe_free(chr_select_load_buffer_base);
         chr_select_load_buffer_base = NULL;

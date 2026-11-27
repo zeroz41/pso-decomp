@@ -164,7 +164,7 @@ void TOTrapAncient01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        if (TObjPlayer::check_demo_mode() != 1 && scale.y <= 0.0f) {
+        if (check_demo_mode() != 1 && scale.y <= 0.0f) {
             v.x = 0.1f * (3.0517578125e-05f * (f32)rand()) - 0.05f;
             v.y = 0.0f;
             v.z = 0.1f * (3.0517578125e-05f * (f32)rand()) - 0.05f;

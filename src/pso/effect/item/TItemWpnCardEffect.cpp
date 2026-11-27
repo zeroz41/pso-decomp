@@ -35,7 +35,7 @@ const char *TItemWpnCardEffect::class_name = "TItemWpnCardEffect";
 
 #pragma fp_contract on
 
-void TObjPlayer::create_network_object(s32 item_id, u32 *hit, saddr direction) {
+void create_network_object(s32 item_id, u32 *hit, saddr direction) {
     if ((hit != NULL) && ((u32) *hit != 0U)) {
         new TItemWpnCardEffect(tl_05, (ActorBodyHit *)hit, (f32 *)direction, 0, item_id);
     }
@@ -45,7 +45,7 @@ void start_wall_card(s32 item_id, saddr position, saddr direction) {
     new TItemWpnCardEffect(tl_05, (f32 *)position, (f32 *)direction, 0, item_id);
 }
 
-void TObjPlayer::create_aux_object(s32 item_id, u32 *hit, f32 *direction) {
+void create_aux_object(s32 item_id, u32 *hit, f32 *direction) {
     if ((hit != NULL) && ((u32) *hit != 0U)) {
         new TItemWpnCardEffect(tl_05, (ActorBodyHit *)hit, direction, 0xFFFF0000, item_id);
     }
@@ -55,7 +55,7 @@ void start_red_wall_card(s32 item_id, f32 *position, f32 *direction) {
     new TItemWpnCardEffect(tl_05, position, direction, 0xFFFF0000, item_id);
 }
 
-void TObjPlayer::start_guardianna_hit_card(s32 item_id, u32 *hit, f32 *direction) {
+void start_guardianna_hit_card(s32 item_id, u32 *hit, f32 *direction) {
     if ((hit != NULL) && ((u32) *hit != 0U)) {
         new TItemWpnCardEffect(tl_05, (ActorBodyHit *)hit, direction, -0x100, item_id);
     }
@@ -189,12 +189,12 @@ void TItemWpnCardEffect::anchor_card_effect() {
         }
     }
 }
-void TObjPlayer::create_and_init_effect(s32 item_id, u32 *hit, f32 *direction) {
+void create_and_init_effect(s32 item_id, u32 *hit, f32 *direction) {
     if ((hit != NULL) && ((u32) *hit != 0U)) {
         new TItemWpnCardModelEffect(tl_05, (ActorBodyHit *)hit, direction, 0, item_id);
     }
 }
-void TObjPlayer::alloc_and_init(s32 item_id, f32 *position, f32 *direction) {
+void alloc_and_init(s32 item_id, f32 *position, f32 *direction) {
     new TItemWpnCardModelEffect(tl_05, position, direction, 0, item_id);
 }
 TItemWpnCardModelEffect::TItemWpnCardModelEffect(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id)
@@ -291,6 +291,6 @@ void TItemWeaponGuardianna::emit_marker_effects() {
 }
 void TItemWeaponGuardianna::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->particle = 0x176;
-    desc->hit_effect = (void *)TObjPlayer::start_guardianna_hit_card;
+    desc->hit_effect = (void *)start_guardianna_hit_card;
     desc->wall_effect = (void *)start_guardianna_wall_card;
 }

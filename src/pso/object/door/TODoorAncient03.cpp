@@ -76,7 +76,7 @@ void TODoorAncient03::load_resources() {
 
 void TODoorAncient03::free_resources() {
     if (door_ancient03_texlists != NULL) {
-        TObjPlayer::free_if_valid(door_ancient03_texlists[1]);
+        free_if_valid(door_ancient03_texlists[1]);
         if (door_ancient03_texlists != NULL) {
             mem_free(door_ancient03_texlists);
             door_ancient03_texlists = NULL;

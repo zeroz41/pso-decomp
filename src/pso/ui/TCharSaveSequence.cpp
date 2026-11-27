@@ -70,13 +70,13 @@ void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
 }
 void TAdSinglePlyChrSelectGC::set_quest_download_server(int quest_download_server) { single_ply_quest_download_server = quest_download_server; }
-void TAdSinglePlyChrSelectGC::init_logo_state(s32 state) {
+void init_logo_state(s32 state) {
     lbl_805D6D88 = 0;
     lbl_805D6D84 = 0;
     chr_select_logo_state = state;
     single_ply_quest_download_server = 0xFFFF;
 }
-void TAdSinglePlyChrSelectGC::noop() {  }
+void noop() {  }
 void TCharSaveSequence::free_buffer() {
     if (download_buffer != NULL) {
         safe_free(download_buffer);
@@ -360,7 +360,7 @@ void TAdSinglePlyChrSelectGC::run_frame() {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
-    TAdSinglePlyChrSelectGC::noop();
+    noop();
     if (!(char_save_message_flags & 1)) {
         if (static_cast<s8>(poll_reset_request()) != 0) {
             switch_to_fallback_main_phase();

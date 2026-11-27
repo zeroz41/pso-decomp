@@ -270,7 +270,7 @@ void open_gsl_archive(char *name) {
     }
 }
 
-void TLobby::read_data_sync(saddr handle, s32 sector_count, saddr destination) {
+void read_data_sync(saddr handle, s32 sector_count, saddr destination) {
     AdxfHandle *handle_addr;
 
     handle_addr = (AdxfHandle *)handle;
@@ -333,7 +333,7 @@ s32 refill_gstream_buffer(saddr handle) {
         if (chunk_size > 0) {
             gstream_buffer_valid_size = chunk_size;
             gstream_buffer_read_offset = 0;
-            TLobby::read_data_sync(handle, (chunk_size + 0x7FF) / 2048, gstream_tmp_buffer);
+            read_data_sync(handle, (chunk_size + 0x7FF) / 2048, gstream_tmp_buffer);
         }
     }
     return get_gstream_buffered_bytes();

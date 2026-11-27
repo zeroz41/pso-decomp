@@ -321,7 +321,7 @@ void TBoss3VoloptP02::run_task() {
     node_44_color[5] = (s8)fabs_float(wave * pulse_color[1]);
     node_44_color[4] = (s8)fabs_float(wave * pulse_color[2]);
     pulse_angle += pulse_speed;
-    if (TObjPlayer::check_demo_mode() != 1) {
+    if (check_demo_mode() != 1) {
         if (is_actor_dead() != 0) {
             run_death_reaction();
         } else if (test_flag30_512() != 0) {
@@ -392,7 +392,7 @@ void TBoss3VoloptP02::render() {
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        if (TObjPlayer::check_demo_mode() == 1) {
+        if (check_demo_mode() == 1) {
             draw_chunk_object(model);
         } else {
             draw();

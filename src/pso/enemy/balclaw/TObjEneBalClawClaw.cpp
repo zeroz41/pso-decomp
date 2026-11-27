@@ -139,7 +139,7 @@ void TObjEneBalClawClaw::run_task() {
     u32 flags;
     TObjBase *parent;
     scroll_part_uvs();
-    if (TObjPlayer::check_demo_mode() == 1) {
+    if (check_demo_mode() == 1) {
         load_params();
         run_demo_task();
         return;
@@ -507,7 +507,7 @@ void TObjEneBalClawClaw::render() {
             toggle_particle_effect();
             push_matrix();
             model_render_flags &= 0xFFFFFBFF;
-            if (TObjPlayer::check_demo_mode() == 1) {
+            if (check_demo_mode() == 1) {
                 post_translate_matrix(&position.x);
                 rotate_matrix_x(0, rotation_x);
                 rotate_matrix_y(0, rotation_y);

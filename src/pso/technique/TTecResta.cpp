@@ -204,7 +204,7 @@ void TTecResta::init_parameters() {
     res = calc_technique_parameters(0xF, level, 0xFFFF);
     params.copy(res);
     params.power = params.power + (f32)(params.power_per_level * level);
-    if (TTecCtrl::is_technique_ready() != 0) {
+    if (is_technique_ready() != 0) {
         params.power *= technique_scale_table[15].power;
     }
 }
@@ -213,7 +213,7 @@ f32 TTecResta::calc_heal_amount(s32 level) {
     f32 amount;
     amount = calc_technique_parameters(0xF, level, 0xFFFF)->power;
     amount = amount + (f32)(level * 5);
-    if (TTecCtrl::is_technique_ready() != 0) {
+    if (is_technique_ready() != 0) {
         amount *= technique_scale_table[15].power;
     }
     return amount;

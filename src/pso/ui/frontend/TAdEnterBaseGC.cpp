@@ -259,7 +259,7 @@ u8 *TAdEnterSerialAccessGC::get_serial_text(TObject *owner, s32 field) {
     return (u8 *)"";
 }
 
-TWindowBase *TAdEnterSerialAccessGC::show_message_window(void *owner, s32 message_index) {
+TWindowBase *show_message_window(void *owner, s32 message_index) {
     TWindowMessage *window = create_message_window_for_size((NJS_POINT2 *)enter_base_message_window_position, (NJS_POINT2 *)enter_base_message_window_size);
     window->append_line(get_localized_text_entry(0x17, message_index), 1);
     return window;

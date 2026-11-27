@@ -24,6 +24,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/item/item_create.h"
+#include "pso/item/item_pmt.h"
 
 
 
@@ -88,7 +89,7 @@ void handle_box_drop_directive(G_SpecializableItemDropRequest_6xA2 *request) {
                 item.init();
                 item.data1.data_u8[0] = data0;
                 item.data1.data_u8[1] = data1;
-                TObjPlayer::drop_meseta_from_slot(extended.effective_area, &item);
+                drop_meseta_from_slot(extended.effective_area, &item);
             }
             item.id = id;
             if (item.isValidGroundDrop() != 0) {
@@ -129,7 +130,7 @@ void remove_item_condition_at(s16 floor, s32 item_id) {
     remove_item_condition(floor, item_id);
 }
 
-void TLobby::drop_item_from_source(s16 source, int client, s16 room, int slot, f32 x, f32 z) {
+void drop_item_from_source(s16 source, int client, s16 room, int slot, f32 x, f32 z) {
     TItemData item;
     u32 id;
     if (source != -1) {
@@ -139,7 +140,7 @@ void TLobby::drop_item_from_source(s16 source, int client, s16 room, int slot, f
             row.drop_id_base = 0xFFFF;
             set_quest_object_entry(source, &row);
             item.init();
-            TObjPlayer::drop_item(slot, &item);
+            drop_item(slot, &item);
             item.id = id;
             if (item.isValidGroundDrop() != 0) {
                 item.encode_for_network();
@@ -168,7 +169,7 @@ void process_enemy_drop_request(s32 area, s16 source, int client, s16 room, int 
             row.drop_id = 0xFFFF;
             TObjEnemy::apply_by_index(source, &row);
             item.init();
-            TObjPlayer::drop_item_from_slot(area, slot, &item);
+            drop_item_from_slot(area, slot, &item);
             item.id = id;
             if (item.isValidGroundDrop() != 0) {
                 item.encode_for_network();
@@ -198,7 +199,7 @@ void handle_6xA2_specializable_item_drop_request(G_SpecializableItemDropRequest_
     area = static_cast<s8>(drop.rt_index);
     if (area == 0x30) {
         if (drop.ignore_def != 0) {
-            TLobby::drop_item_from_source(drop.entity_index, drop.floor, drop.room, extended.effective_area,
+            drop_item_from_source(drop.entity_index, drop.floor, drop.room, extended.effective_area,
                                          drop.pos.x, drop.pos.z);
             return;
         }
@@ -226,10 +227,10 @@ void handle_6x60_standard_drop_item_request(G_StandardDropItemRequest_PC_V3_BB_6
     area = (s8)drop.rt_index;
     if (area == 0x30) {
         if (drop.ignore_def != 0) {
-            TLobby::drop_item_from_source(drop.entity_index, client, drop.room, slot, drop.pos.x, drop.pos.z);
+            drop_item_from_source(drop.entity_index, client, drop.room, slot, drop.pos.x, drop.pos.z);
             return;
         }
-        TLobby::drop_item_from_source(drop.entity_index, client, drop.room, slot, drop.pos.x, drop.pos.z);
+        drop_item_from_source(drop.entity_index, client, drop.room, slot, drop.pos.x, drop.pos.z);
         return;
     }
     process_enemy_drop_request(area, drop.entity_index, client, drop.room, slot, drop.pos.x, drop.pos.z);

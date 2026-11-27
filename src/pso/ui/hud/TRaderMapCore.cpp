@@ -1333,7 +1333,7 @@ s32 TRaderMapCore::should_show_map(void) {
     if ((TRaderMapCore::is_not_split_screen() == 1) && (is_game_quest_active() == 0)) {
         return 0;
     }
-    return TTecCtrl::is_technique_ready();
+    return is_technique_ready();
 }
 
 s32 TRaderMapCore::is_active() {
