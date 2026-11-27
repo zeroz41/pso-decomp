@@ -87,7 +87,7 @@ void TWindowGetComCard::run_task() {
         break;
     case 4:
         if (TAdPlayerLoadGC::get_instance() == 0) {
-            TWindowSubComCard::start_player_data_load((saddr)get_received_guild_card_tags());
+            TWindowSubComCard::start_player_data_load(get_received_guild_card_tags());
             remove_first_received_card();
             queue_destruction();
             state = 6;

@@ -82,11 +82,11 @@ struct TWindowSubComCard : public TObject {
     TKeyBoardControl *create_keyboard(s32 card_index);
     static s32 init_card();
     static void remove_entry(s32 index);
-    static s32 scroll_list(s32 ply_guild_card_tag);
+    static s32 scroll_list(GuildCardEntry *card);
     static void init_and_press_a(s32 id);
     static void init_and_press_b(s32 client_id);
     static void update_press(s32 index);
-    static void select_card_entry(saddr ply_guild_card_tag);
+    static void select_card_entry(GuildCardEntry *card);
     static TWindowSubComCardList *create_card_list(const NJS_POINT2 *position, s32 card_slot, s32 count, s32 empty_message);
     // Opens the list over every stored guild card (create_card_list's all-cards form).
     static TWindowSubComCardList *create_all_cards_list(const NJS_POINT2 *position);
@@ -95,11 +95,11 @@ struct TWindowSubComCard : public TObject {
     static void swap_cards(s32 first_index, s32 second_index);
     static s32 init_com_card();
     static void remove_card_at(s32 i);
-    static void start_player_data_load(s32 ply_guild_card_tag);
+    static void start_player_data_load(GuildCardEntry *card);
     static s32 count_active_cards();
     static s32 count_leading_active(GuildCardEntry *cards, s32 count);
-    static void handle_press_a(saddr ply_guild_card_tag, s32 id);
-    static void handle_press_b(saddr ply_guild_card_tag, s32 client_id);
+    static void handle_press_a(GuildCardEntry *card, s32 id);
+    static void handle_press_b(GuildCardEntry *card, s32 client_id);
 
     void set_card_index(s32 card_index);
     void set_selected_card(s32 card_index);

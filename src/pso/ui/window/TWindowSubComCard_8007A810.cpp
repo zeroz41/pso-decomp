@@ -152,11 +152,11 @@ void copy_card_to_matching_slot(GuildCardSlotBase *card, GuildCardSlot *slots, s
     }
 }
 
-void TWindowSubComCard::start_player_data_load(s32 ply_guild_card_tag) {
+void TWindowSubComCard::start_player_data_load(GuildCardEntry *card) {
     GuildCardSlot *slots;
-    if (is_guild_card_invalid((GuildCardEntry *)ply_guild_card_tag) == 0) {
+    if (is_guild_card_invalid(card) == 0) {
         slots = TWindowSubComCard::get_card_entry(0);
-        copy_card_to_matching_slot((GuildCardSlotBase *)ply_guild_card_tag, slots, 0xD2);
+        copy_card_to_matching_slot(static_cast<GuildCardSlotBase *>(card), slots, 0xD2);
         TAdSinglePlyChrSelectGC::load_player_data();
     }
 }
@@ -285,12 +285,9 @@ void GuildCardEntry::set_text(const char *src) {
 void clear_entry_active_flag(GuildCardEntry *entry) {
     entry->flags &= ~1;
 }
-extern "C" {
+void GuildCardEntry::clear() { memset(this, 0, sizeof(GuildCardEntry)); }
 
-int clear(void* p) { return (saddr)memset(p, 0, 144); }
-
-void GuildCardEntry::clear_and_fill_from_char(s32 index) { clear(this); fill_from_char(index); }
-}
+void GuildCardEntry::clear_and_fill_from_char(s32 index) { clear(); fill_from_char(index); }
 s32 fill_guild_card_from_short_mail(GuildCardEntry *card, s32 id) {
     ShortMailEntry *mail;
     mail = find_short_mail_by_id(id);

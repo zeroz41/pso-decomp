@@ -12,10 +12,6 @@ void replace_matching_card(GuildCardSlotBase *card, GuildCardSlotBase *entries, 
 s32 fill_guild_card_from_short_mail(GuildCardEntry *card, s32 id);
 s32 has_inactive_card(GuildCardSlot *cards, s32 count);
 void copy_card_to_matching_slot(GuildCardSlotBase *card, GuildCardSlot *slots, s32 count);
-extern "C" {
-int clear(void *p);
-
-}
 
 
 void remove_first_received_card(void);
