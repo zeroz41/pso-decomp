@@ -2016,12 +2016,12 @@ void TWindowDD::take_word_select_word(TWindowDD_WS_Word *word_window) {
         message.push_token(id);
         refresh_word_select_message(&message);
         token_pushed = 1;
-        last_selected_id = (s16) id;
+        last_selected_id = id;
         return;
     }
     update_word_select_child_position(3);
     token_pushed = 0;
-    last_selected_id = (s16) id;
+    last_selected_id = id;
 }
 
 TWindowDD_WS_Word *TWindowDD::get_or_create_word_select_child(s32 offset, s32 id) {

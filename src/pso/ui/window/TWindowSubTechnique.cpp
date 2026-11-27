@@ -124,18 +124,19 @@ void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, saddr list) {
 #include "pso/ui/chat/SymbolChatCommand.h"
 
 void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, saddr list) {
+    TWindowMenu *menu = (TWindowMenu *)list;
     const char *technique_name;
 
     technique_name = get_technique_name(id);
     if (TWindowSubTechnique::lookup_technique(id, client) == 0) {
-        add_gray_text_entry((TWindowMenu *)list, technique_name, 6, id);
+        add_gray_text_entry(menu, technique_name, 6, id);
         return;
     }
     if (TWindowSubTechnique::is_technique_available(id, client) == 0) {
-        ((TWindowMenu *)list)->add_text_entry(technique_name, 0x16, id, 0xFFFD3901);
+        menu->add_text_entry(technique_name, 0x16, id, 0xFFFD3901);
         return;
     }
-    ((TWindowMenu *)list)->add_text_entry(technique_name, 6, id);
+    menu->add_text_entry(technique_name, 6, id);
 }
 #endif
 #pragma fp_contract on
