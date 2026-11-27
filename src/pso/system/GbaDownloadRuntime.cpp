@@ -21,7 +21,7 @@
 u8 *gba_download_data_buffer;
 uaddr gba_download_graph;
 u32 gba_download_data_size;
-s32 gba_download_state;
+volatile s32 gba_download_state;
 s32 gba_joyboot_send_length;
 u8 *gba_joyboot_send_buffer;
 u8 gba_joyboot_status;
@@ -200,11 +200,11 @@ void probe_gba_device(void) {
         gba_joyboot_states[0].device_present = 1;
     } else {
         if (gba_joyboot_states[0].probe_counter >= 120.0f) {
-            *(volatile u16 *)&gba_joyboot_states[0].probe_counter = 0x78;
-            *(volatile s8 *)&gba_joyboot_states[0].device_present = 0;
-            *(volatile s32 *)&gba_download_state = 2;
+            gba_joyboot_states[0].probe_counter = 120;
+            gba_joyboot_states[0].device_present = 0;
+            gba_download_state = 2;
         } else {
-            *&gba_download_state = 1;
+            gba_download_state = 1;
         }
     }
 }

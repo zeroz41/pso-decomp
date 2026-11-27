@@ -5,7 +5,7 @@
 
 extern u8 *gba_download_data_buffer;
 extern u32 gba_download_data_size;
-extern s32 gba_download_state;
+extern volatile s32 gba_download_state;
 extern u8 gba_identifier_value;
 extern u16 gba_identifier_slot_plus_1;
 
