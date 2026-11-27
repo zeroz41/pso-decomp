@@ -106,7 +106,6 @@ struct TLobby : public TObject {
     static void set_cleanup_flag();
     static void reset_door_state();
     static void set_flag_and_update();
-    void bswap_udp_test_header();
     static void free_objects();
     static void reset_counter();
     static void backup_story_select();

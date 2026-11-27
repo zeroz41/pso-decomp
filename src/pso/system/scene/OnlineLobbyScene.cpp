@@ -200,8 +200,8 @@ void reset_to_chr_select() { reset_controller_input_state(); TLobby::send_logout
 void online_lobby_frame_stub(void) {  }
 
 void start_udp_test_game() {
-    ((TLobby *)((u8 *)&lobby_udp_test_game_entries[0]))->bswap_udp_test_header();
-    ((TLobby *)((u8 *)&lobby_udp_test_game_entries[1]))->bswap_udp_test_header();
+    lobby_udp_test_game_entries[0].bswap_udp_test_header();
+    lobby_udp_test_game_entries[1].bswap_udp_test_header();
     TPlyJoinGame msg;
     memset(&msg, 0, sizeof(msg));
     msg.client_id = local_client_id;
@@ -209,12 +209,12 @@ void start_udp_test_game() {
     msg.disable_udp = 0;
     msg.lobby_data[0].tag.m_tag2 = 1;
     msg.lobby_data[0].tag.m_guildcard_number = 0x013158B7;
-    msg.lobby_data[0].ip_addr = lobby_udp_test_game_entries[0].f4;
+    msg.lobby_data[0].ip_addr = lobby_udp_test_game_entries[0].ip_addr;
     msg.lobby_data[0].client_id = 0;
     strcpy(msg.lobby_data[0].name, "UDPTEST-1");
     msg.lobby_data[1].tag.m_tag2 = 1;
     msg.lobby_data[1].tag.m_guildcard_number = 0x013158B8;
-    msg.lobby_data[1].ip_addr = lobby_udp_test_game_entries[1].f4;
+    msg.lobby_data[1].ip_addr = lobby_udp_test_game_entries[1].ip_addr;
     msg.lobby_data[1].client_id = 1;
     strcpy(msg.lobby_data[1].name, "UDPTEST-2");
     TLobby::handle_game_join(&msg);
@@ -224,10 +224,10 @@ void start_udp_test_game() {
 
 TPlyJoinGame::TPlyJoinGame() {}
 
-void TLobby::bswap_udp_test_header() {
-    u8 *bytes = (u8 *)this;
-    *(u32 *)(bytes + 4) = bytes[0] + (bytes[1] << 8) + (bytes[2] << 16) + (bytes[3] << 24);
-    bswap_32((u32 *)(&this->m_flags));
+void UdpTestGameEntry::bswap_udp_test_header() {
+    u8 *bytes = (u8 *)&address;
+    ip_addr = bytes[0] + (bytes[1] << 8) + (bytes[2] << 16) + (bytes[3] << 24);
+    bswap_32(&ip_addr);
 }
 
 int online_lobby_check_stub(void) { return 0; }

@@ -4681,7 +4681,7 @@ force_active:
   - bswap__31G_UpdateAttackableColState_6x91Fv
   - bswap_6x10__29G_DragonBossActions_6x10_6x11Fv
   - bswap_u32
-  - bswap_udp_test_header__6TLobbyFv
+  - bswap_udp_test_header__16UdpTestGameEntryFv
   - buffer_init__Fv
   - build_6x05_write_switch_flag__FPv
   - init__17G_NPCControl_6x69Fv
