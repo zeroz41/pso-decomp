@@ -326,16 +326,16 @@ s32 ADXB_DecodeHeaderAdx(AdxbDecoder *adxb, u8 *hdr, s32 size) {
         adx_parse_header_loop(hdr, size, &adxb->loop_enabled, &adxb->loop_type, &adxb->loop_count, &adxb->loop_start_sample, &adxb->loop_start_byte, &adxb->loop_end_sample, &adxb->loop_end_byte);
         adxb->format = 0;
     }
-    buffer = adxb->m_4C;
+    buffer = adxb->pad_4C;
     adxb->stream_channels = adxb->channels;
     adxb->stream_block_bytes = adxb->block_bytes;
     adxb->stream_block_samples = adxb->block_samples;
     adxb->buf = adxb->output_buffer;
     adxb->bufLen = adxb->wrap_len;
     adxb->rOff = adxb->wrap_offset;
-    adxb->m_7C = adxb->m_48;
-    adxb->m_7E = adxb->m_4A;
-    adxb->m_80 = buffer;
+    adxb->pad_7C = adxb->pad_48;
+    adxb->pad_7E = adxb->pad_4A;
+    adxb->pad_80 = buffer;
     adxb->write_pos = 0;
     memset(buffer, 0, 4);
     return header_size;

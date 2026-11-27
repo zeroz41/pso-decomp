@@ -31,9 +31,9 @@ struct AdxbDecoder {
     s16 *output_buffer;
     s32 wrap_len;    // samples; data past it is copied back to the buffer start
     s32 wrap_offset; // second channel's offset for that copy
-    s16 m_48;
-    s16 m_4A;
-    u8 m_4C[0x4];
+    s16 pad_48;
+    s16 pad_4A;
+    u8 pad_4C[0x4];
     u8 *src;
     s32 maxLen;
     s32 stream_channels; // 2 = two channel buffers, rOff apart
@@ -45,9 +45,9 @@ struct AdxbDecoder {
     s32 pos;
     s32 avail;
     s32 remaining; // samples still wanted, as the read callback last reported
-    s16 m_7C;
-    s16 m_7E;
-    u8 *m_80;
+    s16 pad_7C;
+    s16 pad_7E;
+    u8 *pad_80;
     s32 source_offset; // never read here, zeroed with n and bytes by set_source
     // Asks where the next samples go: position and room in the output buffer, samples
     // still wanted; returns the output buffer.
