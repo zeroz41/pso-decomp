@@ -11,10 +11,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/item/TItemEffLandHit.h"
 
-extern "C" {
-void get_weapon_color__11TItemWeaponFv(void *, void *);
-}
-
 void TItemWeaponPhotonLauncher::transform_model_node() {
     if (get_model_node_counter() == 1) {
         translate_matrix(0, 0.0f, muzzle_offset, 0.0f);
@@ -22,10 +18,15 @@ void TItemWeaponPhotonLauncher::transform_model_node() {
 }
 
 void TItemWeaponPhotonLauncher::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
-    u8 color[16];
+    NJS_ARGB color;
     desc->flags |= 0x11C;
-    get_weapon_color__11TItemWeaponFv(color, this);
-    copy_argb(&desc->color, (NJS_ARGB *)color);
+    // CodeWarrior: the original passes get_weapon_color's temporary straight to copy_argb.
+#ifdef __MWERKS__
+    get_weapon_color__11TItemWeaponFv(&color, this);
+#else
+    color = get_weapon_color();
+#endif
+    copy_argb(&desc->color, &color);
     desc->model = second_model;
     desc->hits = 4;
     desc->scale = 2.0f;

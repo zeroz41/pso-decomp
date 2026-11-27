@@ -12,14 +12,17 @@
 #include "pso/effect/item/TItemWpnCardEffect.h"
 #include "pso/effect/item/TItemEffCane.h"
 
-extern "C" void get_weapon_color__11TItemWeaponFv(void *, void *);
-
 void TItemWeaponSRankCard::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     NJS_ARGB color;
     desc->scale = 5.0f;
     desc->spin[2] = 0xC000;
     desc->flags |= 0x282;
+    // CodeWarrior: the original passes get_weapon_color's temporary straight to copy_argb.
+#ifdef __MWERKS__
     get_weapon_color__11TItemWeaponFv(&color, this);
+#else
+    color = get_weapon_color();
+#endif
     copy_argb(&desc->color, &color);
     desc->hit_effect = create_network_object;
     desc->wall_effect = start_wall_card;
