@@ -3439,7 +3439,7 @@ void TObjPlayer::select_contextual_pickup_action() {
                             } else {
                                 type = 0;
                                 if (is_controls_locked() == 0 && pad_binding.is_button_pressed(4) != 0) {
-                                    play_sound_effect(0x3816, ((TObjPlayer *)ent)->get_position_ptr(), 0, 1);
+                                    play_sound_effect(0x3816, ent->get_position_ptr(), 0, 1);
                                 }
                             }
                         }

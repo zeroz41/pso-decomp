@@ -1099,7 +1099,7 @@ void TBoss4Zanzo::render() {
 }
 #pragma pop
 
-Vec *TObjPlayer::get_position_ptr() { return &this->position; }
+Vec *TObjBase::get_position_ptr() { return &this->position; }
 
 // Dark Falz's first form ignores every status ailment.
 void TBoss4Type1::clear_harmful_statuses() {}
