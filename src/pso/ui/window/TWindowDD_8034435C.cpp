@@ -32,10 +32,9 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/system/byteswap.h"
+#include "pso/system/ToUpperLatin1.h"
 
 
-
-extern "C" char to_upper_latin1(char);
 s32 TWindowDD::get_entry_value_french(u32 mode, s32 entry_id, s32 value_index) {
     s32 v;
     switch (mode) {
