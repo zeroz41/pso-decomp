@@ -18,7 +18,7 @@
     if (flags != old_flags) { \
         TMainTask *child; \
         u32 bit = 1; \
-        FOREACH_NODE_NODECL_MULTI_ITER(TMainTask, main_task.m_down, child, bit <<= 1) { \
+        for (child = (TMainTask *)main_task.m_down; child != NULL; child = (TMainTask *)child->m_next, bit <<= 1) { \
             if (flags & bit) { \
                 child->one_prefix##_##suffix(); \
             } else { \
