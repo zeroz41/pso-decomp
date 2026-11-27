@@ -25,7 +25,7 @@ struct TCheckRoomSequence : public TShopSequence {
 
     static int get_room_data(int slot);
     static int get_room_table_entry(int slot);
-    static void *create(void *player);
+    static void *create(TObjPlayer *player);
     static void reset_slot_state();
     static void reset_slots();
     // States of the update_state table, in table order.

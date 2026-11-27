@@ -41,10 +41,9 @@ ShopService TShopGenerator::service_dispatch_table[7] = {
      TShopEquipmentGearSequence::create_instance, get_equipment_gear_shop_window_slot},
     {"ITEM STORE", TShopItemTecSequence::init_slot_table, TShopItemTecSequence::release_slot_table,
      create_shop_item_tec_sequence, get_item_technique_shop_slot},
-    // handle_main_phase and is_in_hunter_guild still carry recovered s32 prototypes; the table
-    // proves create(void *) / int(int) (follow-up: retype them with their callers).
+    // is_in_hunter_guild still carries a recovered s32 prototype; the table proves int(int).
     {"HUNTER GUILD", TLobby::update_guild_or_quest_phase, update_hunter_guild_phase,
-     (void *(*)(void *))handle_main_phase, (int (*)(int))is_in_hunter_guild},
+     handle_main_phase, (int (*)(int))is_in_hunter_guild},
     {"CHECK ROOM", TCheckRoomSequence::reset_slots, TCheckRoomSequence::reset_slot_state,
      TCheckRoomSequence::create, get_check_room_slot_active_flag},
     {"JUDGMENT", TJudgmentSequence::init_slot_flags, TJudgmentSequence::release_slot_flags,
@@ -220,38 +219,38 @@ void TShopGenerator::run_fn_table_forward() {
     }
 }
 
-void *TShopEquipmentSequence::create_instance(void *player) {
-    return new TShopEquipmentSequence(tl_05, (TObjPlayer *)player);
+void *TShopEquipmentSequence::create_instance(TObjPlayer *player) {
+    return new TShopEquipmentSequence(tl_05, player);
 }
 
 int get_equipment_shop_slot_active_flag(int slot) { return TShopEquipmentSequence::slot_active_flags[slot]; }
 
-void *create_medical_center_sequence(void *player) {
-    return new TMedicalCenterSequence(tl_05, (TObjPlayer *)player);
+void *create_medical_center_sequence(TObjPlayer *player) {
+    return new TMedicalCenterSequence(tl_05, player);
 }
 
 int get_medical_center_slot_active_flag(int slot) { return medical_center_slot_active_flags[slot]; }
 
-void *TShopEquipmentGearSequence::create_instance(void *player) {
-    return new TShopEquipmentGearSequence(tl_05, (TObjPlayer *)player);
+void *TShopEquipmentGearSequence::create_instance(TObjPlayer *player) {
+    return new TShopEquipmentGearSequence(tl_05, player);
 }
 
 int get_equipment_gear_shop_window_slot(int slot) { return TShopEquipmentGearSequence::window_slot_table[slot]; }
 
-void *create_shop_item_tec_sequence(void *player) {
-    return new TShopItemTecSequence(tl_05, (TObjPlayer *)player);
+void *create_shop_item_tec_sequence(TObjPlayer *player) {
+    return new TShopItemTecSequence(tl_05, player);
 }
 
 int get_item_technique_shop_slot(int slot) { return TShopItemTecSequence::slot_table[slot]; }
 
-void *TCheckRoomSequence::create(void *player) {
-    return new TCheckRoomSequence(tl_05, (TObjPlayer *)player);
+void *TCheckRoomSequence::create(TObjPlayer *player) {
+    return new TCheckRoomSequence(tl_05, player);
 }
 
 int get_check_room_slot_active_flag(int slot) { return TCheckRoomSequence::slot_active_flags[slot]; }
 
-void *TJudgmentSequence::create(void *player) {
-    return new TJudgmentSequence(tl_05, (TObjPlayer *)player);
+void *TJudgmentSequence::create(TObjPlayer *player) {
+    return new TJudgmentSequence(tl_05, player);
 }
 
 int get_judgment_shop_slot_flags(int slot) { return TJudgmentSequence::slot_flags[slot]; }

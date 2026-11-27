@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct TObjPlayer;
+
 // One shop counter of the generator's set (set_params[0] picks it). Field names follow the targets and the
 // callers: run_fn_table_forward/run_fn_table_reverse call the two hooks, run_task opens the counter's sequence
 // through create and checks the per-client flag through get_slot_flag.
@@ -11,7 +13,7 @@ struct ShopService {
     const char *name;
     void (*forward_fn)();
     void (*reverse_fn)();
-    void *(*create)(void *player);
+    void *(*create)(TObjPlayer *player);
     int (*get_slot_flag)(int slot);
 };
 
@@ -40,8 +42,8 @@ LAYOUT_ASSERT(TShopGenerator_size, sizeof(TShopGenerator) == 0x98);
 void set_shop_slot_active(u16 client);
 
 // The service_dispatch_table entries: a counter's sequence factory and its per-slot active flag.
-void *create_medical_center_sequence(void *player);
-void *create_shop_item_tec_sequence(void *player);
+void *create_medical_center_sequence(TObjPlayer *player);
+void *create_shop_item_tec_sequence(TObjPlayer *player);
 int get_equipment_shop_slot_active_flag(int slot);
 int get_medical_center_slot_active_flag(int slot);
 int get_equipment_gear_shop_window_slot(int slot);

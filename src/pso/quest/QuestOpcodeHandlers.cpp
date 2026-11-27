@@ -2633,8 +2633,8 @@ void qst_op_set_allow_item_flags(void) {
 }
 
 void qst_op_p_talk_guild_local(int _w0, int _w1) {
-    u32 player = ((uaddr)get_player_by_client_id((int)(local_client_id)));
-    if (player != 0U) {
+    TObjPlayer *player = get_player_by_client_id((int)(local_client_id));
+    if (player != NULL) {
         handle_main_phase(player);
     }
 }
@@ -3734,7 +3734,7 @@ void qst_op_npc_talk_pl(u8 regs) {
 void qst_op_p_talk_guild(void) {
     TObjPlayer *player = get_player_by_client_id(qst_args[0].i);
     if (player != NULL) {
-        handle_main_phase((saddr)player);
+        handle_main_phase(player);
     }
 }
 

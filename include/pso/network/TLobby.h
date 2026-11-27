@@ -120,7 +120,7 @@ struct TLobby : public TObject {
     static s32 sum_floor_enemy_counts();
     static s32 spawn_matching_objects(s16 room, s16 wave, TEnemyTaskList *wave_members);
     static int get_selected_quest_id();
-    static void *create_tl05_object(void *player);
+    static void *create_tl05_object(TObjPlayer *player);
     static void free_singleton();
     static void create_named_lobby_object();
     s32 get_id();

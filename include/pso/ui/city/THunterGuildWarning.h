@@ -4,6 +4,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct TObjPlayer;
+
 struct TWindowMessage;
 
 class THunterGuildWarning : public TObject {
@@ -34,7 +36,7 @@ void clear_guild_warning_on_quest_exit(void);
 s32 get_guild_quest_list_stage(void);
 s32 is_in_hunter_guild(s32 client_id);
 
-void *create_lobby_object_05(void *player);
-s32 handle_main_phase(saddr player);
+void *create_lobby_object_05(TObjPlayer *player);
+void *handle_main_phase(TObjPlayer *player);
 
 #endif
